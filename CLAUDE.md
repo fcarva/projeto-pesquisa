@@ -14,7 +14,7 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 **Parâmetro-alvo.** ATT dose-resposta: como o efeito do ban varia com a **intensidade pré-ban de exposição** à pulverização aérea entre municípios. O tratamento é **contínuo (dose)**, não binário.
 
 **Estimador primário.** Callaway, Goodman-Bacon & Sant'Anna (2024, NBER WP 32117 / arXiv:2107.02637) — DiD com **tratamento contínuo**.
-- ⚠️ **Não** é DiD escalonado. O ban é **estadual e simultâneo** (jun/2019): não há variação de *timing*. Callaway–Sant'Anna (2021), de Chaisemartin–D'Haultfœuille (2020) e Goodman-Bacon (2021) tratam variação de *timing*, não de dose — são referência conceitual, **não** os estimadores principais.
+- ⚠️ **Não** é DiD escalonado. O ban é **estadual e simultâneo** (Lei 16.820/2019, art. 28-B, **08/01/2019**): não há variação de *timing*. **Marco de antecipação:** a ALECE aprovou o PL 18/2015 por unanimidade em **18/12/2018**, após quatro anos de tramitação — é aí, não na sanção, que o resultado deixa de ser incerto para o produtor, e os *leads* do event study precisam cobrir esse ponto. Fonte: petição da ADI 7794 citando o texto da lei; cronologia e transcrição em `docs/legislacao/`. Callaway–Sant'Anna (2021), de Chaisemartin–D'Haultfœuille (2020) e Goodman-Bacon (2021) tratam variação de *timing*, não de dose — são referência conceitual, **não** os estimadores principais.
 
 **Variável de dose.** Intensidade agrícola pré-ban (PAM/IBGE, média 2015–2018) de culturas dependentes de pulverização. ⚠️ **A cultura-âncora ainda não está fixada — ver "Flags de auditoria".** Não hard-codar "algodão" nem "fruticultura" antes de verificar a dispersão empírica.
 

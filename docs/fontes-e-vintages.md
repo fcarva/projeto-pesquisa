@@ -16,10 +16,31 @@ diferentes conforme a revisão. Preencher ao baixar, não depois.
 
 ## Documentos legais para `docs/`
 
-- Lei Estadual 16.820/2019 (CE) — "Lei Zé Maria do Tomé"
-- ADI 6137/STF
-- Lei 19.135/2024 (CE) — exceção para drones
-- ADI 7794
+Cronologia estabelecida, transcrição dos dispositivos e status de download em
+**`docs/legislacao/README.md`**. Resumo do que está pendente:
+
+- Lei Estadual 16.820/2019 (CE) — "Lei Zé Maria do Tomé" — ❌ download bloqueado pelo proxy
+- Lei Estadual 12.228/1993 (CE) — norma-mãe — ❌ idem
+- ADI 6137/STF (acórdão) — ❌ não baixado
+- Lei 19.135/2024 (CE) — exceção para drones — ✅ texto integral transcrito na ADI 7794
+- ADI 7794 (petição inicial, PSOL) — ✅ na pasta do Drive
+
+## Data do tratamento — proveniência
+
+**08/01/2019.** A petição inicial da ADI 7794 cita o texto da lei: "Em 08 de
+janeiro de 2019, foi acrescentado à referida norma o artigo 28-B, pela Lei nº
+16.820/2019 do Estado do Ceará", com nota de rodapé apontando para o repositório
+oficial da ADAGRI-CE. O `CLAUDE.md` dizia "jun/2019" até 2026-08-23; corrigido.
+
+**18/12/2018 — antecipação.** A mesma petição registra que o PL 18/2015 foi
+aprovado por unanimidade na ALECE em 18/12/2018, após quatro anos de tramitação.
+A janela de antecipação começa aí, no mínimo — e possivelmente antes, já que
+quatro anos de tramitação com debate público são quatro anos de sinal.
+Consequência para o desenho: 2019 é ano de transição, e os *leads* do event study
+têm que alcançar 2018.
+
+⚠️ **Conferir ao baixar.** A data acima vem da citação da ADI, não do texto
+oficial. Se o DOE divergir, o oficial manda e o `CLAUDE.md` volta a mudar.
 
 ## Nota sobre a checagem de dose
 
