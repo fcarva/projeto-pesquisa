@@ -1,0 +1,38 @@
+# --- Dados sensíveis: microdado só vive em data/, e data/ não é versionado ---
+# Padrão "dir/*" (e não "dir/"): o Git desce no diretório, então a exceção do
+# .gitkeep abaixo funciona. Com "dir/" o diretório inteiro é podado e nenhuma
+# negação consegue reincluir arquivo nenhum.
+data/raw/*
+data/processed/*
+data/geo/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/geo/.gitkeep
+
+# --- Binários de microdado/geo em qualquer lugar (defesa em profundidade) ---
+*.dbc
+*.dbf
+*.shp
+*.shx
+*.prj
+*.cpg
+*.tif
+*.tiff
+*.parquet
+
+# --- Ambientes ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.Rproj.user/
+renv/library/
+renv/staging/
+.Renviron
+.Rhistory
+
+# --- Sistema / editores ---
+.DS_Store
+.ipynb_checkpoints/
+.vscode/

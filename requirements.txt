@@ -1,0 +1,10 @@
+pandas
+numpy
+pyarrow
+pyfixest
+sidrapy
+pysus
+geopandas
+matplotlib
+basedosdados
+pytest
