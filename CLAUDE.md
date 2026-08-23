@@ -12,6 +12,8 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 
 ## Estratégia de identificação (forward engineering)
 **Parâmetro-alvo.** ATT dose-resposta: como o efeito do ban varia com a **intensidade pré-ban de exposição** à pulverização aérea entre municípios. O tratamento é **contínuo (dose)**, não binário.
+- ⚠️ **A curva custa mais caro que o nível.** CGS separam dois parâmetros: `ATT(d|d)` (nível) sai sob paralelismo tradicional; a **curva** — `ATE(d)`/`ACR(d)` — exige **strong parallel trends** (Assumption 5), que exclui *selection-on-gains*. Placebo pré-tratamento **não testa** essa hipótese. Decisão tomada: a curva é o resultado principal, **acompanhada dos limites da §5.1** sob hipótese de direção do viés. Ver `docs/ars/03-modelagem-ensaio1.md`.
+- **Janela principal:** 2015 → 19/12/2024, cortada na Lei 19.135/2024 (exceção de drones) para preservar a cota zero. O segundo evento também é estadual e simultâneo — não é adoção escalonada.
 
 **Estimador primário.** Callaway, Goodman-Bacon & Sant'Anna (2024, NBER WP 32117 / arXiv:2107.02637) — DiD com **tratamento contínuo**.
 - ⚠️ **Não** é DiD escalonado. O ban é **estadual e simultâneo** (Lei 16.820/2019, art. 28-B, **08/01/2019**): não há variação de *timing*. **Marco de antecipação:** a ALECE aprovou o PL 18/2015 por unanimidade em **18/12/2018**, após quatro anos de tramitação — é aí, não na sanção, que o resultado deixa de ser incerto para o produtor, e os *leads* do event study precisam cobrir esse ponto. Fonte: petição da ADI 7794 citando o texto da lei; cronologia e transcrição em `docs/legislacao/`. Callaway–Sant'Anna (2021), de Chaisemartin–D'Haultfœuille (2020) e Goodman-Bacon (2021) tratam variação de *timing*, não de dose — são referência conceitual, **não** os estimadores principais.
@@ -36,7 +38,13 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 - **FAO-GAEZ** (aptidão agroclimática) — raster → `data/geo/`.
 - **ANA** (bacias) — shapefiles → `data/geo/`.
 - **IBAMA** (vendas de agrotóxicos) — contexto.
-- Documentos legais (Lei 16.820/2019; ADI 6137/STF; Lei 19.135/2024 — exceção drones; ADI 7794) → `docs/`.
+- **SIH/DATASUS** (internações por intoxicação aguda) — canal de substituição aéreo→terrestre.
+- **CAGED/RAIS** e **PIB agropecuário municipal** (IBGE) — canal de renda; insumo do Ensaio 2.
+- **MapBiomas** (polígonos de cultivo) — fonte da deriva no canal-ar. ⚠️ Verificar se separa banana/melão ou só classes genéricas.
+- **INMET / FUNCEME** (vento diário) — vetor a favor/contra no canal-ar.
+- **CPRM/SGB** (vulnerabilidade cárstica, Aquífero Jandaíra) — heterogeneidade do canal-água. ⚠️ Confirmar se o mapa é público.
+- **ANAC / MAPA / SINDAG** (cadastro aeroagrícola e pistas) — define o `d = 0` que mede o **método**, não a cultura.
+- Documentos legais (Lei 16.820/2019; ADI 6137/STF; Lei 19.135/2024 — exceção drones; ADI 7794) → `docs/legislacao/`.
 
 ## Convenções do repositório
 - Estrutura: `data/{raw,processed,geo}`, `notebooks/`, `scripts/`, `paper/`, `docs/`.
@@ -51,6 +59,8 @@ Ao escrever código de análise, **explicitar estas como hipóteses a checar**, 
 2. **Descasamento tratamento/químico.** O ban proíbe o **método aéreo**, não moléculas; glifosato é frequentemente terrestre. O efeito detectável pode se restringir a químicos/culturas de aplicação aérea.
 3. **Lacuna de *enforcement*.** Proibir método ≠ proibir molécula.
 4. **Poder estatístico.** Poucos municípios tratados + desfechos raros → usar Conley–Taber / wild bootstrap; não exagerar precisão.
+5. **O `d = 0` não é zero de tratamento.** Área nula na PAM é zero de *proxy*. E o §2º do art. 28-B alcança **dispersão aérea para controle vetorial**: município sem agricultura pulverizada mas com controle aéreo de dengue **é tratado** — e esses tendem a ser os maiores, então a contaminação correlaciona com porte, que correlaciona com desfecho. Quatro construções de zero em `docs/ars/03-modelagem-ensaio1.md` §5.3.
+6. **Seleção para nascimento vivo.** Se o ban reduz óbito fetal, fetos marginais passam a nascer e entram na cauda de baixo peso — o efeito sobre peso médio vem atenuado ou invertido. Por isso o **SIM** é fonte de primeira linha, não acessório.
 
 ## Plugin ARS (repositório separado)
 O suite **Academic Research Skills** (fork `Imbad0202/academic-research-skills`) é instalado como plugin do Claude Code:
