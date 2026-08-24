@@ -7,8 +7,8 @@ diferentes conforme a revisão. Preencher ao baixar, não depois.
 | Base | Recorte | Data da extração | Como foi obtida | Arquivo em `data/raw/` |
 |---|---|---|---|---|
 | PAM/IBGE (tab. 1612, 1613) | CE, municípios, 2015–2018 | *(preencher)* | `scripts/data_prep/01_check_dose_variation.py --fonte sidra` | *(preencher)* |
-| SINASC | CE, 2015–2022 | *(preencher)* | pysus / Base dos Dados | *(preencher)* |
-| SIM | CE, 2015–2022 | *(preencher)* | pysus / Base dos Dados | *(preencher)* |
+| SINASC | CE, 2015–2022 | *(preencher)* | `scripts/data_prep/02_clean_births.py` (pysus / Base dos Dados) | *(preencher)* |
+| SIM — DO (óbito fetal) | CE, 2015–2022 | *(preencher)* | `scripts/data_prep/03_clean_fetal_deaths.py` (pysus, grupo CID10) | *(preencher)* |
 | SISAGUA | CE | *(preencher)* | Base dos Dados / MS | *(preencher)* |
 | FAO-GAEZ | CE | *(preencher)* | raster → `data/geo/` | *(preencher)* |
 | ANA (bacias) | CE | *(preencher)* | shapefile → `data/geo/` | *(preencher)* |
@@ -42,6 +42,31 @@ têm que alcançar 2018.
 ✅ **Conferido contra o texto oficial** (AL-CE) em 2026-08-23. Ressalva que a
 própria fonte traz: "O texto desta Lei não substitui o publicado no Diário
 Oficial" — para citação final, conferir o DOE.
+
+## Nota sobre o SIM — duas armadilhas de extração
+
+**1. Óbito fetal não é arquivo separado.** No SIM moderno ele vem dentro do DO
+(`DO<UF><ano>`, grupo `CID10` no pysus), identificado por **TIPOBITO: 1 = fetal,
+2 = não fetal**. Baixar o DO e esquecer o filtro mistura óbito infantil com óbito
+fetal — populações e desfechos diferentes. O script 03 filtra por TIPOBITO antes
+de qualquer outra coisa, e o teste `test_tipobito_nao_fetal_e_descartado` existe
+para isso não regredir em silêncio.
+
+**2. ⚠️ Subnotificação é heterogênea entre municípios — e isso é confundidor,
+não ruído.** A notificação compulsória alcança perdas de **≥ 22 semanas OU
+≥ 500 g** (é "ou", não "e"); abaixo desse limiar o registro é irregular e varia
+por município e por ano. Como a variação entre municípios é justamente o que o
+desenho usa para identificar, um padrão espúrio de registro entra direto no
+estimador. Daí o script emitir a série restrita (`n_obito_fetal_22sem`) ao lado
+do total: **rodar o teste de seleção nas duas.** Se divergirem, a divergência é o
+achado — subnotificação diferencial —, não um detalhe a escolher entre.
+
+Vale registrar o que a rodada simulada já mostrou sobre o desfecho, e que vale
+para o dado real: **no nível município×mês, óbito fetal é raro a ponto de a taxa
+quase não existir** (≈ 1% das gestações registradas; a esmagadora maioria das
+células fica abaixo de 5 óbitos). O teste vai precisar de agregação mais grossa —
+município×ano, ou faixas de dose empilhadas. É propriedade do desfecho, não
+defeito de limpeza.
 
 ## Nota sobre a checagem de dose
 

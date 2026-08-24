@@ -47,9 +47,25 @@ encorpar o grupo tratado": **o alvo é dez.**
 **Regra de bolso:** a meia-largura do IC é 0,70 × MDE. O desenho falsifica 15 g
 sempre que o **MDE ficar abaixo de 21,4 g**.
 
-**Próxima ação:** nenhuma decisão pendente aqui. O gate da E1.5 já cobre —
-acrescentar à saída do script a coluna "o IC exclui o efeito esperado?", que é o
-MDE multiplicado por 0,70 comparado ao piso de 15 g.
+**Próxima ação: ✅ construída** (2026-08-24). O script 01 passou a emitir
+`ic_meia_largura_g` e `falsifica`, com o piso como parâmetro de linha de comando:
+
+```bash
+python scripts/data_prep/01_check_dose_variation.py \
+    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet \
+    --efeito-esperado-g 15
+```
+
+A meia-largura sai de `Z_IC / Z_PODER = 1,96/2,8`, nunca de um 0,70 hard-codado —
+mexer no poder move a conta junto. O relatório imprime ✔/✘ por cultura, ao lado
+de `n_muni_dose_alta`, que é o número que a tabela acima lê. Sem MDE agrupado o
+veredito sai **ausente**, não `False`: "não falsifica" seria afirmação, e sem DP
+das tendências não se sabe.
+
+⚠️ **`falsifica` é conta ex-ante de desenho, não teste de hipótese.** Um ✘ não
+diz que o ban funcionou; diz que este desenho não distinguiria as duas coisas. O
+script imprime essa ressalva junto da tabela, e o CSV carrega o piso usado no
+cabeçalho — a coluna sozinha, desgarrada do piso, não significa nada.
 
 ⚠️ **O que continua sendo pergunta sua, e que eu não respondo:** o piso de 15 g é
 o *seu* efeito esperado. Se você mudar de ideia sobre a magnitude, a tabela muda
@@ -84,8 +100,35 @@ escolha é sua:
 | **Desfecho composto** | nascidos vivos + óbitos fetais como uma coorte só, com o óbito entrando como caso extremo | resolve a seleção por construção; exige justificar a composição, e o desfecho deixa de ser "peso ao nascer" |
 | **Limites de seleção amostral** | estimar o intervalo que o efeito ocuparia sob os cenários extremos de quem entrou na amostra | não exige escolha substantiva; entrega faixa, não ponto, e some com a precisão que já é escassa |
 
-**Próxima ação:** incluir óbito fetal do SIM na aquisição A1 e rodar o teste
-junto do desfecho principal. Nada a decidir agora.
+**Próxima ação: ✅ o insumo está construído** (2026-08-24) —
+`scripts/data_prep/03_clean_fetal_deaths.py`. Ele prepara a série; o teste roda
+quando houver SIM real.
+
+```bash
+python scripts/data_prep/03_clean_fetal_deaths.py \
+    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet
+```
+
+Três decisões que o script embute, e por quê:
+
+- **TIPOBITO == 1.** Óbito fetal não é arquivo separado — vem dentro do DO. O
+  filtro é a primeira coisa que o script faz.
+- **Denominador = nascidos vivos + óbitos fetais.** Dividir só por nascidos vivos
+  poria a própria seleção dentro do denominador.
+- **Série restrita ao limiar de notificação** (≥ 22 semanas OU ≥ 500 g) ao lado
+  do total. ⚠️ Subnotificação de óbito fetal varia por município — e variação
+  entre municípios é exatamente o que o desenho usa como identificação. **Rodar o
+  teste nas duas séries.** Se divergirem, a divergência é o achado.
+
+⚠️ **O que a rodada simulada já ensinou, e vale para o dado real:** no nível
+município×mês, óbito fetal é raro a ponto de a taxa quase não existir (≈ 1% das
+gestações; quase toda célula abaixo de 5 óbitos). O teste vai precisar de
+agregação mais grossa — município×ano, ou faixas de dose empilhadas. É
+propriedade do desfecho, não defeito de limpeza, e é bom saber disso antes de
+montar o teste, não depois.
+
+**Continua sem decidir:** a rota, caso o teste acuse movimento. O menu acima
+segue menu.
 
 ---
 
@@ -140,9 +183,20 @@ decisão de renomear é sua.
 
 | Pergunta | Estado | Próxima ação | Depende de decisão sua? |
 |---|---|---|---|
-| 2 — falsificação | **destravada por lógica** | coluna no script; alvo de ~10 municípios tratados | só o piso de 15 g, que já é seu |
-| 1 — seleção | **destravada por teste barato** | rodar óbito fetal do SIM contra a dose | só **depois** do teste, se ele acusar |
+| 2 — falsificação | **destravada por lógica; instrumentada** | rodar o 01 contra PAM+SINASC reais; alvo de ~10 municípios tratados | só o piso de 15 g, que já é seu |
+| 1 — seleção | **destravada por teste barato; insumo pronto** | baixar o SIM e rodar o 03 contra a dose | só **depois** do teste, se ele acusar |
 | 3 — enforcement | **destravada por ofício** | protocolar LAI na SEMACE | não, até a resposta chegar |
+
+**O que mudou em 2026-08-24.** As duas primeiras próximas ações eram código, e o
+código existe agora: a coluna de falsificação no script 01 e o script 03 para
+óbito fetal, ambos testados contra dado simulado (26 testes em `tests/`). Isso
+**não responde** nenhuma das perguntas — nenhuma fonte externa respondeu nesta
+sessão (`ftp.datasus.gov.br`, `apisidra.ibge.gov.br`, `gaez.fao.org` e
+`basedosdados.org` todos em HTTP 000). O que ficou pronto é a instrumentação: no
+minuto em que o DATASUS voltar, os dois testes rodam sem escrever código.
+
+Das três, a **única que depende só de você e tem prazo externo continua sendo a
+3** — a LAI demora, o resto não.
 
 A Layer 4 continua **aberta**. Ela fecha quando você responder o que sobrou de
 substantivo: o piso de falsificação, a rota de seleção caso o teste acuse, e o

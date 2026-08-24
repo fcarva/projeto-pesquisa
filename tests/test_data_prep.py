@@ -29,6 +29,35 @@ def _carrega(nome: str):
 
 dose = _carrega("01_check_dose_variation.py")
 nasc = _carrega("02_clean_births.py")
+fetal = _carrega("03_clean_fetal_deaths.py")
+
+
+def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
+    """Fixture compartilhada: dose de uma cultura + painel de nascimentos.
+
+    Um município com dose alta (500 ha), nove com dose baixa, dez com zero.
+    """
+    medias = pd.DataFrame(
+        {
+            "cod_ibge": [f"239{i:03d}0" for i in range(n_muni)],
+            "cod_ibge6": [f"239{i:03d}" for i in range(n_muni)],
+            "cultura": ["Melão"] * n_muni,
+            "area_ha_media": [500.0] + [10.0] * 9 + [0.0] * (n_muni - 10),
+        }
+    )
+    rng = np.random.default_rng(seed)
+    linhas = [
+        {
+            "cod_ibge6": cod,
+            "ano": ano,
+            "mes": 6,
+            "n_nascimentos": 200,
+            "peso_medio": 3200 + rng.normal(0, sd_ruido),
+        }
+        for cod in medias["cod_ibge6"]
+        for ano in (2015, 2016, 2017, 2018)
+    ]
+    return medias, pd.DataFrame(linhas)
 
 
 # --------------------------------------------------------------------------
@@ -177,29 +206,7 @@ def test_mde_agrupado_e_maior_que_o_ingenuo():
     É o argumento inteiro para Conley–Taber: se o agrupado saísse menor, a
     inferência com poucos clusters seria um detalhe, e não é.
     """
-    medias = pd.DataFrame(
-        {
-            "cod_ibge": [f"239{i:03d}0" for i in range(20)],
-            "cod_ibge6": [f"239{i:03d}" for i in range(20)],
-            "cultura": ["Melão"] * 20,
-            "area_ha_media": [500.0] + [10.0] * 9 + [0.0] * 10,
-        }
-    )
-    rng = np.random.default_rng(7)
-    linhas = []
-    for cod in medias["cod_ibge6"]:
-        for ano in (2015, 2016, 2017, 2018):
-            linhas.append(
-                {
-                    "cod_ibge6": cod,
-                    "ano": ano,
-                    "mes": 6,
-                    "n_nascimentos": 200,
-                    "peso_medio": 3200 + rng.normal(0, 30),
-                }
-            )
-    painel = pd.DataFrame(linhas)
-
+    medias, painel = _medias_e_painel()
     tabela = dose.recomenda_especificacao(dose.dispersao_por_cultura(medias))
     saida = dose.acrescenta_mde(tabela, medias, painel)
     ingenuo = saida["mde_ingenuo_g"].iloc[0]
@@ -207,6 +214,54 @@ def test_mde_agrupado_e_maior_que_o_ingenuo():
     assert ingenuo > 0 and agrupado > 0
     assert agrupado > ingenuo
     assert saida["n_nascimentos_dose_alta"].iloc[0] > 0
+    assert saida["n_muni_dose_alta"].iloc[0] > 0
+
+
+def test_meia_largura_do_ic_e_a_razao_dos_z_vezes_o_mde_agrupado():
+    """A meia-largura sai de Z_IC/Z_PODER, nunca de um 0,70 hard-codado.
+
+    Se alguém mexer no poder e a constante ficar para trás, esta conta acusa —
+    é o ponto do docs/ars/07-*.md §Pergunta 2 virando código.
+    """
+    medias, painel = _medias_e_painel()
+    tabela = dose.recomenda_especificacao(dose.dispersao_por_cultura(medias))
+    saida = dose.acrescenta_mde(tabela, medias, painel)
+
+    esperado = (dose.Z_IC / dose.Z_PODER) * saida["mde_agrupado_g"].iloc[0]
+    assert saida["ic_meia_largura_g"].iloc[0] == pytest.approx(esperado)
+    assert dose.Z_IC / dose.Z_PODER == pytest.approx(0.70, abs=0.01)
+
+
+def test_falsifica_vira_quando_o_piso_cruza_a_meia_largura():
+    """A coluna tem de responder ao piso — e o piso é do pesquisador.
+
+    Com o piso logo ABAIXO da meia-largura, um nulo é ilegível (False); logo
+    ACIMA, é legível (True). Se não virasse, a coluna estaria medindo outra
+    coisa.
+    """
+    medias, painel = _medias_e_painel()
+    tabela = dose.recomenda_especificacao(dose.dispersao_por_cultura(medias))
+    base = dose.acrescenta_mde(tabela, medias, painel)
+    meia = float(base["ic_meia_largura_g"].iloc[0])
+
+    apertado = dose.acrescenta_mde(tabela, medias, painel, efeito_esperado_g=meia - 1)
+    folgado = dose.acrescenta_mde(tabela, medias, painel, efeito_esperado_g=meia + 1)
+    assert not bool(apertado["falsifica"].iloc[0])
+    assert bool(folgado["falsifica"].iloc[0])
+    assert folgado.attrs["efeito_esperado_g"] == pytest.approx(meia + 1)
+
+
+def test_sem_mde_agrupado_o_veredito_e_ausente_e_nao_falso():
+    """NaN propaga. False leria como 'não falsifica', que é afirmação — e sem
+    DP das tendências não se sabe. Ausente é a única resposta honesta."""
+    medias, painel = _medias_e_painel()
+    painel = painel[painel["ano"] == 2015]  # sem segunda metade: DP indefinida
+    tabela = dose.recomenda_especificacao(dose.dispersao_por_cultura(medias))
+    saida = dose.acrescenta_mde(tabela, medias, painel)
+
+    assert saida["mde_agrupado_g"].isna().all()
+    assert saida["ic_meia_largura_g"].isna().all()
+    assert saida["falsifica"].isna().all()
 
 
 # --------------------------------------------------------------------------
@@ -295,3 +350,117 @@ def test_simulacao_bate_os_alvos_do_enunciado():
     assert individual["baixo_peso"].mean() == pytest.approx(0.09, abs=0.015)
     assert individual["prematuro"].mean() == pytest.approx(0.11, abs=0.015)
     assert individual["cod_ibge6"].str.startswith("23").all()  # filtro de UF pegou tudo
+
+
+# --------------------------------------------------------------------------
+# 03 — óbito fetal (SIM)
+# --------------------------------------------------------------------------
+
+def _do_bruto(**over) -> pd.DataFrame:
+    """DO com uma linha fetal e uma não fetal, ambas no Ceará."""
+    base = {
+        "TIPOBITO": [1, 2],
+        "DTOBITO": ["15032017", "15032017"],
+        "CODMUNRES": ["230440", "230440"],
+        "PESO": ["1200", "3100"],
+        "SEMAGESTAC": [30, 39],
+        "GESTACAO": [3, 5],
+        "OBITOPARTO": [1, 3],
+        "IDADEMAE": [28, 31],
+    }
+    base.update(over)
+    return pd.DataFrame(base)
+
+
+def test_tipobito_nao_fetal_e_descartado():
+    """O filtro que define a série. Deixar TIPOBITO==2 entrar misturaria óbito
+    infantil com óbito fetal — populações e desfechos diferentes."""
+    individual = fetal.prepara_obitos(_do_bruto())
+    assert len(individual) == 1
+    assert pd.to_numeric(individual["TIPOBITO"]).iloc[0] == fetal.TIPOBITO_FETAL
+
+    # TIPOBITO ausente também sai: é campo obrigatório na DO, NaN é erro de leitura
+    assert fetal.prepara_obitos(_do_bruto(TIPOBITO=[np.nan, 2])).empty
+
+
+def test_limiar_de_notificacao_e_OU_e_nao_E():
+    """≥ 22 semanas OU ≥ 500 g. Tratar como 'e' descartaria registro válido.
+
+    Linha 1: 20 semanas, 520 g -> entra pelo peso.
+    Linha 2: 23 semanas, 400 g -> entra pelas semanas.
+    Linha 3: 20 semanas, 300 g -> fica de fora.
+    Linha 4: nada conhecido    -> AUSENTE, não 'fora'.
+    """
+    saida = fetal.deriva_acima_limiar(
+        pd.Series([20.0, 23.0, 20.0, np.nan]),
+        pd.Series([np.nan, np.nan, np.nan, 9]),
+        pd.Series([520.0, 400.0, 300.0, np.nan]),
+    )
+    assert saida["acima_limiar"].tolist()[:3] == [1.0, 1.0, 0.0]
+    assert pd.isna(saida["acima_limiar"].iloc[3])
+
+
+def test_limiar_usa_gestacao_so_quando_semagestac_falta():
+    """Fallback categórico, como no script 02 — e marcado, para que um salto de
+    cobertura em torno de 2019 apareça como ameaça de mensuração."""
+    saida = fetal.deriva_acima_limiar(
+        pd.Series([np.nan, 30.0]),
+        pd.Series([2, 1]),          # 2 = 22–27 sem (acima); 1 = <22 (abaixo)
+        pd.Series([np.nan, np.nan]),
+    )
+    assert saida["acima_limiar"].tolist() == [1.0, 1.0]   # a 2ª vem de SEMAGESTAC
+    assert saida["limiar_por_faixa"].tolist() == [1.0, 0.0]
+
+
+def test_serie_restrita_nunca_excede_o_total():
+    """n_obito_fetal_22sem <= n_obito_fetal, sempre. A restrita é subconjunto."""
+    bruto = fetal.simula_sim(anos=(2018,), seed=3, n_por_muni_mes=12)
+    painel = fetal.colapsa_muni_mes(fetal.prepara_obitos(bruto))
+    assert (painel["n_obito_fetal_22sem"] <= painel["n_obito_fetal"]).all()
+    assert (painel["n_limiar_valido"] <= painel["n_obito_fetal"]).all()
+    assert painel["n_obito_fetal_22sem"].sum() > 0   # a fixture tem o que contar
+
+
+def test_denominador_inclui_os_obitos_fetais():
+    """Dividir só por nascidos vivos poria a própria seleção no denominador.
+
+    2 óbitos fetais e 98 nascidos vivos dão taxa de 2/100, não 2/98.
+    """
+    painel_fetal = pd.DataFrame(
+        {
+            "cod_ibge6": ["230440"], "ano": [2017], "mes": [3],
+            "n_obito_fetal": [2], "n_obito_fetal_22sem": [2], "n_limiar_valido": [2],
+            "n_peso_valido": [2], "peso_medio_fetal": [1200.0],
+            "n_gest_valido": [2], "semanas_media": [30.0],
+            "share_gest_por_faixa": [0.0], "idade_mae_media": [28.0],
+            "celula_pequena": [True],
+        }
+    )
+    painel_nasc = pd.DataFrame(
+        {"cod_ibge6": ["230440"], "ano": [2017], "mes": [3], "n_nascimentos": [98]}
+    )
+    junto = fetal.junta_denominador(painel_fetal, painel_nasc)
+    assert junto["coorte_registrada"].iloc[0] == 100
+    assert junto["taxa_obito_fetal"].iloc[0] == pytest.approx(0.02)
+    assert junto["taxa_obito_fetal"].iloc[0] != pytest.approx(2 / 98)
+
+
+def test_juncao_preserva_toda_a_chave_do_painel_de_nascimentos():
+    """Município-mês com nascimento e sem óbito fetal é taxa ZERO, não ausência.
+
+    Uma junção interna o perderia — e perder as células de taxa zero enviesaria
+    o teste de seleção exatamente onde ele precisa de contraste.
+    """
+    bruto_nasc = nasc.simula_sinasc(anos=(2018,), seed=5, n_por_muni_mes=10)
+    painel_nasc = nasc.colapsa_muni_mes(nasc.prepara_nascimentos(bruto_nasc))
+    bruto_fetal = fetal.simula_sim(anos=(2018,), seed=5, n_por_muni_mes=10)
+    painel_fetal = fetal.colapsa_muni_mes(fetal.prepara_obitos(bruto_fetal))
+
+    junto = fetal.junta_denominador(painel_fetal, painel_nasc)
+    chave = ["cod_ibge6", "ano", "mes"]
+    assert painel_nasc.set_index(chave).index.isin(junto.set_index(chave).index).all()
+    assert len(junto) >= len(painel_nasc)
+    # células só de nascimento sobrevivem com contagem zero, não NaN
+    so_nasc = junto[junto["n_obito_fetal"] == 0]
+    assert len(so_nasc) > 0
+    assert (so_nasc["taxa_obito_fetal"] == 0).all()

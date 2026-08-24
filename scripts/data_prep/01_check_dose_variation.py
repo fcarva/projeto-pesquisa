@@ -123,6 +123,22 @@ MIN_MUNI_DECIL_SUPERIOR = 5    # suporte no topo, onde a hipótese de limiar põ
 # --- Poder ------------------------------------------------------------------
 SD_PESO_G = 500.0  # DP individual do peso ao nascer; trocar pela do SINASC real
 Z_PODER = 2.8      # 80% de poder, 5% bilateral (1.96 + 0.84)
+Z_IC = 1.96        # IC de 95% bilateral
+
+# --- Falsificação -----------------------------------------------------------
+# Um resultado nulo só é ilegível se o intervalo de confiança for largo. Se o IC
+# vier estreito o bastante para EXCLUIR o efeito que a literatura levaria a
+# esperar, um nulo é evidência de que o ban não produziu esse efeito — o desenho
+# falsifica. Ver docs/ars/07-layer4-perguntas-abertas.md §Pergunta 2.
+#
+# MDE = Z_PODER × SE e meia-largura do IC = Z_IC × SE, então a meia-largura é
+# (Z_IC / Z_PODER) × MDE ≈ 0,70 × MDE. O fator sai da razão, nunca hard-codado:
+# mexer no poder tem de mover a conta junto.
+#
+# O piso é do PESQUISADOR, não do script. 15 g é o extremo inferior da faixa de
+# 15–25 g que ele declarou esperar na Layer 3 (Reynier & Rubin acham 23–32 g num
+# contexto diferente). Trocá-lo é parâmetro de linha de comando.
+EFEITO_ESPERADO_PADRAO_G = 15.0
 
 
 # --------------------------------------------------------------------------
@@ -492,7 +508,11 @@ def recomenda_especificacao(tabela: pd.DataFrame) -> pd.DataFrame:
 # --------------------------------------------------------------------------
 
 def acrescenta_mde(
-    tabela: pd.DataFrame, medias: pd.DataFrame, painel: pd.DataFrame, anos_pre=ANOS_PRE_BAN
+    tabela: pd.DataFrame,
+    medias: pd.DataFrame,
+    painel: pd.DataFrame,
+    anos_pre=ANOS_PRE_BAN,
+    efeito_esperado_g: float = EFEITO_ESPERADO_PADRAO_G,
 ) -> pd.DataFrame:
     """Efeito mínimo detectável para peso ao nascer, nas duas contabilidades.
 
@@ -505,6 +525,20 @@ def acrescenta_mde(
     A DP das tendências é estimada dentro do pré-período: parte-se a janela ao
     meio e mede-se, por município, a variação do peso médio. É um placebo — no
     pré-período não há tratamento, então essa variação é ruído puro.
+
+    Acrescenta também a conta de falsificação: `ic_meia_largura_g` e `falsifica`.
+
+    ⚠️ **`falsifica` é conta ex-ante de DESENHO, não teste de hipótese.** Ela
+    responde "se a estimativa vier zero, o IC seria estreito o bastante para
+    excluir o efeito esperado?" — uma propriedade da amostra e do agrupamento,
+    calculável antes de estimar qualquer coisa. Ela **não** diz que o ban
+    funcionou nem que deixou de funcionar; nenhuma coluna deste script diz. Um
+    ✔ significa apenas que um eventual nulo seria legível; um ✘, que seria
+    ilegível. Confundir os dois é exatamente o erro que este script existe para
+    não deixar acontecer.
+
+    Deriva do MDE **agrupado**, nunca do ingênuo — a mesma regra que o relatório
+    já manda seguir na leitura do poder.
     """
     nasc = painel.copy()
     nasc["cod_ibge6"] = nasc["cod_ibge6"].astype(str)
@@ -523,7 +557,7 @@ def acrescenta_mde(
         dose = bloco.set_index("cod_ibge6")["area_ha_media"]
         positivos = dose[dose > 0]
         if positivos.empty:
-            linhas.append((0, np.nan, np.nan))
+            linhas.append((0, 0, np.nan, np.nan))
             continue
         corte = float(np.percentile(positivos, 90))
         altos = dose.index[dose >= corte]
@@ -540,13 +574,29 @@ def acrescenta_mde(
             if g1 > 0 and g0 > 0 and not np.isnan(sd_tendencia)
             else np.nan
         )
-        linhas.append((n1, ingenuo, agrupado))
+        linhas.append((g1, n1, ingenuo, agrupado))
 
     saida = tabela.copy()
-    saida[["n_nascimentos_dose_alta", "mde_ingenuo_g", "mde_agrupado_g"]] = pd.DataFrame(
-        linhas, index=saida.index
-    )
+    saida[
+        ["n_muni_dose_alta", "n_nascimentos_dose_alta", "mde_ingenuo_g", "mde_agrupado_g"]
+    ] = pd.DataFrame(linhas, index=saida.index)
+
+    # A conta de falsificação. NaN propaga: sem MDE agrupado não há veredito, e
+    # `falsifica` fica ausente em vez de virar False silenciosamente — False
+    # leria como "não falsifica", que é afirmação, e aqui não se sabe.
+    saida["ic_meia_largura_g"] = (Z_IC / Z_PODER) * saida["mde_agrupado_g"]
+    saida["falsifica"] = pd.Series(
+        np.where(
+            saida["ic_meia_largura_g"].isna(),
+            np.nan,
+            saida["ic_meia_largura_g"] < efeito_esperado_g,
+        ),
+        index=saida.index,
+        dtype="object",
+    ).astype("boolean")
+
     saida.attrs["sd_tendencia_g"] = sd_tendencia
+    saida.attrs["efeito_esperado_g"] = float(efeito_esperado_g)
     return saida
 
 
@@ -571,7 +621,10 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
     ]
     tem_mde = "mde_agrupado_g" in tabela.columns
     if tem_mde:
-        colunas = colunas[:-1] + ["mde_ingenuo_g", "mde_agrupado_g", "especificacao"]
+        colunas = colunas[:-1] + [
+            "n_muni_dose_alta", "mde_ingenuo_g", "mde_agrupado_g",
+            "ic_meia_largura_g", "falsifica", "especificacao",
+        ]
 
     exibe = tabela[colunas].copy()
     exibe["share_area_decil_superior"] = exibe["share_area_decil_superior"].map(
@@ -580,8 +633,11 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
     for col in ("gini_dose", "cv_todos"):
         exibe[col] = exibe[col].map(lambda v: "—" if pd.isna(v) else f"{v:.2f}")
     if tem_mde:
-        for col in ("mde_ingenuo_g", "mde_agrupado_g"):
+        for col in ("mde_ingenuo_g", "mde_agrupado_g", "ic_meia_largura_g"):
             exibe[col] = exibe[col].map(lambda v: "—" if pd.isna(v) else f"{v:.1f}")
+        exibe["falsifica"] = exibe["falsifica"].map(
+            lambda v: "—" if pd.isna(v) else ("✔" if v else "✘")
+        )
     print(exibe.to_string(index=False))
     print(barra)
     print("Como ler (ordenado por nº de municípios com dose > 0):")
@@ -595,12 +651,22 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
     print("    formato, menos municípios carregam o efeito e maior o MDE.")
     if tem_mde:
         sd = tabela.attrs.get("sd_tendencia_g")
+        piso = tabela.attrs.get("efeito_esperado_g", EFEITO_ESPERADO_PADRAO_G)
         print(f"  • MDE ingênuo conta bebês; MDE agrupado conta municípios (DP das")
         print(f"    tendências municipais no pré-período = {sd:.1f} g). A distância entre")
         print("    os dois é o argumento para Conley–Taber. Compare o efeito esperado")
         print("    com o AGRUPADO, nunca com o ingênuo.")
+        print(f"  • 'falsifica' responde: se a estimativa vier ZERO, o IC de 95% exclui")
+        print(f"    o efeito esperado de {piso:.0f} g? A meia-largura é {Z_IC/Z_PODER:.2f} × MDE agrupado.")
+        print(f"    ✔ = um nulo seria LEGÍVEL (evidência contra o efeito esperado).")
+        print(f"    ✘ = um nulo seria ILEGÍVEL. ✘ NÃO quer dizer que o ban funcionou —")
+        print(f"    quer dizer que este desenho não distingue as duas coisas.")
+        print(f"    O piso de {piso:.0f} g é SEU, não do script (--efeito-esperado-g).")
+        print(f"    Referência: no piso amostral de ruído (DP ≈ 17,7 g), o desenho passa")
+        print(f"    a falsificar 15 g a partir de ~10 municípios tratados — daí a coluna")
+        print(f"    'n_muni_dose_alta' ao lado. Ver docs/ars/07-layer4-perguntas-abertas.md.")
     else:
-        print("  • MDE não calculado. Rode com --nascimentos <painel do script 02>.")
+        print("  • MDE e falsificação não calculados. Rode com --nascimentos <painel do 02>.")
     print("  • Não há piso de ÁREA neste diagnóstico, de propósito: hectare não move")
     print("    desfecho perinatal, gente exposta move. O filtro de viabilidade é o")
     print("    MDE, que conta nascimentos. Piso de área é critério do Ensaio 2.")
@@ -624,6 +690,14 @@ def main(argv: list[str] | None = None) -> int:
         "--nascimentos", type=Path, default=None,
         help="Painel do script 02 (parquet). Sem ele o MDE não é calculado.",
     )
+    parser.add_argument(
+        "--efeito-esperado-g", type=float, default=EFEITO_ESPERADO_PADRAO_G,
+        help=(
+            "Piso do efeito esperado sobre o peso ao nascer, em gramas. É uma "
+            "escolha SUA, não do script: define contra o que o IC é comparado na "
+            f"coluna 'falsifica'. Padrão {EFEITO_ESPERADO_PADRAO_G:.0f} g."
+        ),
+    )
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
@@ -641,7 +715,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.nascimentos is not None:
         try:
             painel = pd.read_parquet(args.nascimentos)
-            tabela = acrescenta_mde(tabela, medias, painel)
+            tabela = acrescenta_mde(
+                tabela, medias, painel, efeito_esperado_g=args.efeito_esperado_g
+            )
         except Exception as erro:  # noqa: BLE001
             print(f"[aviso] MDE não calculado ({type(erro).__name__}: {erro}).")
 
@@ -658,6 +734,15 @@ def main(argv: list[str] | None = None) -> int:
     saida.insert(0, "fonte", fonte)
     with caminho_tabela.open("w", encoding="utf-8") as fh:
         fh.write(f"# fonte={fonte} seed={args.seed} extraido_em={date.today().isoformat()}\n")
+        if "falsifica" in saida.columns:
+            # 'falsifica' não significa nada sem o piso contra o qual foi
+            # comparada — o piso viaja junto ou a coluna vira número solto.
+            sd = tabela.attrs.get("sd_tendencia_g", float("nan"))
+            fh.write(
+                f"# efeito_esperado_g={args.efeito_esperado_g} "
+                f"sd_tendencia_g={sd:.2f} nota=falsifica é conta ex-ante de desenho, "
+                "não teste de hipótese\n"
+            )
         if fonte == "simulado":
             fh.write("# ATENCAO: DADOS SIMULADOS - nao é evidência sobre o Ceará\n")
         saida.to_csv(fh, index=False)
