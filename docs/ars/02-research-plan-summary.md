@@ -1,7 +1,7 @@
 # Research Plan Summary — Ensaio 1
 
 *ARS `deep-research`, modo `socratic`, fronteira de não-geração mantida.*
-*Camadas 1 e 2 fechadas; 3, 4 e 5 abertas. Última atualização: 2026-08-23.*
+*Camadas 1, 2 e 3 fechadas; 4 e 5 abertas. Última atualização: 2026-08-24.*
 
 Registro do diálogo socrático. Os `[INSIGHT: ...]` são **transcrições literais**
 do pesquisador — não paráfrases minhas. O que não convergiu está listado como
@@ -138,22 +138,117 @@ hipótese de direção do viés.
 | Escopo de dados | **cheio** (13 fontes) — preocupação de cronograma levantada e reafirmada |
 | Janela principal | 2015 → 19/12/2024 (corte na Lei 19.135) |
 | Ritmo do diálogo | completo, camadas 2 a 5 |
-| Data do tratamento | 08/01/2019; antecipação em 18/12/2018 |
+| Data do tratamento | sanção 08/01/2019, vigência 09/01/2019; três marcos de antecipação — notícia 24/02/2015, certeza 18/12/2018 |
 
 ---
 
-## Layers 3, 4 e 5 — ABERTAS
+## Layer 3 — Estratégia de evidência (FECHADA, 2 rodadas)
 
-Perguntas colocadas, não respondidas. **Não preenchidas por mim.**
+*Commitment gate L2→L3 pago: o desenho é curva sob SPT com bounds ao lado,
+escopo cheio, janela até dez/2024.*
 
-**L3 — Estratégia de evidência (rodada 1 pendente)**
-- *Commitment gate:* que magnitude de efeito sobre peso ao nascer o desenho deve produzir, se estiver correto? (ver a nota de poder abaixo, que estreita muito a faixa admissível)
-- Que resultado no diagnóstico de dose mata a curva e força a migração para bounds ou para especificação discreta?
-- Se o SISAGUA falta de forma **seletiva** — ausente justamente onde a dose é alta —, o canal-água é reportado com ressalva ou condicionado a cobertura mínima definida de antemão?
-- Cavalcante (2023) indica que a banana **cresceu** pós-ban. Se houve substituição de método sem perda de produtividade, a exposição pode ter caído pouco e o efeito de saúde tem que ser pequeno **por construção**. Como o Ensaio 1 absorve a evidência que fortalece o Ensaio 2 e enfraquece o próprio mecanismo?
+### Rodada 1 — magnitude, gatilho de abandono, régua torta
+
+`[INSIGHT: o efeito esperado do banimento sobre o peso ao nascer em áreas de
+alta dose deve situar-se entre 15 g e 25 g. Esse número assume que a proibição
+da pulverização aérea elimina a deriva de longa distância, mas sofre atenuação
+porque o produtor substitui o avião pelo trator, mantendo parte da carga
+química.]`
+
+Sobre aceitar um desenho que pode não enxergar o próprio efeito esperado:
+
+`[INSIGHT: Eu aceito rodar o Ensaio 1 com o risco de um MDE de 33 g. Se o
+resultado for nulo, a conclusão não será "o banimento não teve efeito na saúde".
+(...) um resultado nulo aqui é evidência de cegueira do instrumento em pequenas
+amostras, exacerbada pela provável substituição para aplicação terrestre, e não
+prova de inocuidade.]`
+
+Sobre qual régua torta pesa mais:
+
+`[INSIGHT: A segunda régua (o químico e o instrumento GAEZ) me preocupa
+infinitamente mais. A compressão da janela de tempo (Régua 1) é um problema
+mecânico de econometria; resolve-se deslizando o período pré-tratamento para
+2010–2014 e testando quebras estruturais. Já a Régua 2 ameaça a validade de
+construto do desenho.]`
+
+### Rodada 2 — devil's advocate, e uma correção de rota minha
+
+**Correção que eu devia.** Eu havia escrito que, sem poder, a saída era trocar o
+desfecho primário. Está errado: o piso amostral do ruído dá razão efeito/ruído de
+1,30–1,81 para peso médio contra 0,17–0,80 para baixo peso, prematuridade e
+mortalidade. Peso médio é o **único** desfecho com razão acima de 1. E o piso
+implica DP de tendência ≈ 17,7 g, o que faz do MDE de 33 g com três municípios o
+**cenário base**, não o pessimista. Detalhes em `05-integracao-estado-da-arte.md`
+§6.
+
+**Sobre o conflito entre os limiares propostos e a escada do CGS:**
+
+`[INSIGHT: A escada vence: O limiar de 15 unidades é o piso real. (...) Se o
+painel entregar algo entre 12 e 14 municípios, a saída correta é colapsar a
+variável em doses discretas (ex: alta, média, baixa) e aplicar o estimador de
+grupo-tempo para múltiplos tratamentos.]`
+
+Implementado no script: curva a partir de 40, faixas discretas de 15 a 39,
+faixas **marcadas como suporte fino** de 12 a 14, binário abaixo de 12.
+
+`[INSIGHT: Você me pegou em um deslize de validade de construto. Para o Ensaio 1,
+a escala de área (MIN_AREA_ESTADO_HA = 5000) é inútil se a lavoura não fizer
+fronteira com núcleos habitados. O filtro primário para viabilidade de saúde
+perinatal deve ser um piso de nascimentos na área de exposição (ou população
+rural interceptada), não hectares agronômicos brutos.]`
+
+O piso de área saiu do diagnóstico; o filtro operante é o MDE, que conta
+nascimentos. Piso de área permanece critério legítimo — do **Ensaio 2**.
+
+**Sobre o instrumento GAEZ:**
+
+`[INSIGHT: Se a base cobrir banana e melão, nós mantemos a mecânica do
+instrumento intacta e apenas trocamos os ingredientes da receita. (...) Verificar
+o catálogo do GAEZ é prioridade zero antes de pagar o preço de assumir a dose
+administrativa crua.]`
+
+⚠️ Tentei verificar nesta sessão; `gaez.fao.org`, `gaez-services.fao.org` e
+`fao.org/gaez` estão todos bloqueados pelo proxy. **Fica como pendência de
+prioridade zero, para a máquina do pesquisador.**
+
+**Sobre de onde vêm os clusters que faltam:**
+
+`[INSIGHT: Baixar o corte da dose: Esta é a opção mais sólida e a que o dado vai
+permitir. Ao aceitar municípios de "dose média" na definição do tratamento,
+aumentamos o N e recuperamos poder estatístico, o que compensa a provável
+diluição no tamanho do efeito médio estimado.]`
+
+`[INSIGHT: A limitação submunicipal: Mudar a unidade para distritos ou setores
+censitários destrói a confiabilidade do desfecho. O DATASUS sofre com imprecisão
+crônica no registro de residência materno quando descemos da escala do
+município.]`
+
+**Sobre o grupo d = 0 no Gate 1:**
+
+`[INSIGHT: Concordo em seguirmos o Gate 1 com o Zero Ampliado para avaliar a
+viabilidade na cauda positiva, reportando as duas definições (Ampliado vs.
+Operacional) lado a lado na reta final.]`
+
+### Decisões registradas na L3
+
+| Decisão | Escolha |
+|---|---|
+| Efeito esperado | **15–25 g** nos municípios de dose alta |
+| Resultado nulo | reportado como **cegueira do instrumento**, não como inocuidade |
+| Escada de especificação | curva ≥ 40; faixas 15–39; faixas finas 12–14; binário < 12 |
+| Filtro de viabilidade | **nascimentos**, via MDE — não hectares |
+| Instrumento GAEZ | **manter**, trocando a receita, **se** a base cobrir banana/melão |
+| Clusters faltantes | **baixar o corte de dose**, não descer de unidade |
+| d = 0 no Gate 1 | **Zero Ampliado**; Operacional em paralelo, reportados lado a lado |
+
+---
+
+## Layers 4 e 5 — ABERTAS
 
 **L4 — Autocrítica (não iniciada)**
-- Seleção para nascimento vivo: se o ban reduz óbito fetal, fetos marginais passam a nascer e entram na cauda de baixo peso, atenuando ou invertendo o efeito sobre peso médio.
+- Seleção para nascimento vivo: se o ban reduz óbito fetal, fetos marginais
+  passam a nascer e entram na cauda de baixo peso, atenuando ou invertendo o
+  efeito sobre peso médio.
 - SUTVA com deriva transfronteiriça, para além do papel de mecanismo.
 - Poucos clusters intensamente tratados e lacuna de *enforcement*.
 - O adjetivo "irrefutável", que nenhum DiD sustenta.
@@ -163,10 +258,11 @@ Perguntas colocadas, não respondidas. **Não preenchidas por mim.**
 
 **Decisões em aberto que não são camada:**
 - **Controle vetorial entra como exclusão do d = 0 ou como parte do tratamento?**
-  O §2º do art. 28-B proíbe também dispersão aérea sanitária. As duas leituras
-  são defensáveis e dão estimandos diferentes.
 - Cultura-âncora (depende do Gate 1).
-- Definição final de d = 0 entre as quatro construções.
+- **Janela pré-ban recua para 2010–2014?** A L3 registra a intenção
+  ("resolve-se deslizando o período pré-tratamento"), sujeita a verificar
+  comparabilidade da PAM no período.
+- **Papel do glifosato** depois da contagem ABRASCO (4/23).
 
 ---
 

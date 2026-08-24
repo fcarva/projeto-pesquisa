@@ -109,8 +109,14 @@ CULTURAS_CANDIDATAS = (
 # Quem ratifica os cortes é o pesquisador — estão aqui em cima exatamente para
 # isso, e a versão anterior deste arquivo usava limiares que eram palpite meu
 # travestido de critério (ver docs/ars/02-research-plan-summary.md, nota de poder).
+# Ratificado pelo pesquisador em 2026-08-24, com um refinamento: as faixas
+# discretas descem até 12, e não param em 15. O raciocínio dele: 15 é o piso
+# real para a máquina de tratamento contínuo, mas entre 12 e 14 ainda cabe
+# colapsar a dose em faixas e usar indicadores múltiplos — pior que a curva,
+# melhor que binarizar. Abaixo de 12, binário.
 MIN_MUNI_CURVA = 40            # abaixo disso o sieve não-paramétrico não se defende
-MIN_MUNI_FAIXAS = 15           # abaixo disso nem faixas discretas — só binário
+MIN_MUNI_FAIXAS = 12           # abaixo disso nem faixas discretas — só binário
+MIN_MUNI_FAIXAS_FOLGA = 15     # entre 12 e 14 as faixas saem, mas marcadas como finas
 MIN_DOSE_DISTINTAS_CURVA = 20  # empate em massa mata o sieve mesmo com muitos municípios
 MIN_MUNI_DECIL_SUPERIOR = 5    # suporte no topo, onde a hipótese de limiar põe o efeito
 
@@ -452,6 +458,12 @@ def recomenda_especificacao(tabela: pd.DataFrame) -> pd.DataFrame:
                 "binário (Assumption 4-Agg) — curva abandonada",
                 f"{n} municípios com dose > 0, abaixo de {MIN_MUNI_FAIXAS}",
             )
+        if n < MIN_MUNI_FAIXAS_FOLGA:
+            return (
+                "faixas discretas (indicadores múltiplos) — SUPORTE FINO",
+                f"{n} municípios: entre {MIN_MUNI_FAIXAS} e {MIN_MUNI_FAIXAS_FOLGA - 1}, "
+                "faixas saem mas cada uma fica com pouquíssimos municípios",
+            )
         if n < MIN_MUNI_CURVA:
             return (
                 "faixas discretas (indicadores múltiplos)",
@@ -575,7 +587,9 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
     print("Como ler (ordenado por nº de municípios com dose > 0):")
     print("  • 'especificacao' é RECOMENDAÇÃO, não decisão. Vem da escada do CGS:")
     print(f"    >= {MIN_MUNI_CURVA} municípios com suporte espalhado -> curva não-paramétrica;")
-    print(f"    {MIN_MUNI_FAIXAS} a {MIN_MUNI_CURVA - 1} -> faixas discretas; abaixo de {MIN_MUNI_FAIXAS} -> binário.")
+    print(f"    {MIN_MUNI_FAIXAS_FOLGA} a {MIN_MUNI_CURVA - 1} -> faixas discretas;")
+    print(f"    {MIN_MUNI_FAIXAS} a {MIN_MUNI_FAIXAS_FOLGA - 1} -> faixas discretas com suporte fino;")
+    print(f"    abaixo de {MIN_MUNI_FAIXAS} -> binário sob Assumption 4-Agg.")
     print("  • Municípios no decil superior é onde a hipótese de limiar põe o efeito —")
     print("    e é onde o suporte é mais fino. Quanto mais certa a hipótese sobre o")
     print("    formato, menos municípios carregam o efeito e maior o MDE.")
@@ -587,6 +601,9 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
         print("    com o AGRUPADO, nunca com o ingênuo.")
     else:
         print("  • MDE não calculado. Rode com --nascimentos <painel do script 02>.")
+    print("  • Não há piso de ÁREA neste diagnóstico, de propósito: hectare não move")
+    print("    desfecho perinatal, gente exposta move. O filtro de viabilidade é o")
+    print("    MDE, que conta nascimentos. Piso de área é critério do Ensaio 2.")
     print("  • Área plantada é proxy de intensidade agrícola, não de pulverização")
     print("    AÉREA. O ban proíbe o método, não a molécula.")
     print("  • Este script não escolhe a cultura-âncora. A decisão é sua.")

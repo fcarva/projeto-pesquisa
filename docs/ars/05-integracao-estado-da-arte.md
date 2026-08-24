@@ -157,12 +157,42 @@ Entra uma etapa antes do Gate 1:
 
 > **E1.5 — Dispersão das tendências municipais.** Rodar o script 02 contra o
 > SINASC real e medir a DP das variações municipais de peso ao nascer no
-> pré-período. **Gate:** dado o número plausível de municípios de dose alta
-> (a ordem de grandeza é 3 a 15), essa DP permite detectar 23–32 g?
-> **Se não:** o desfecho primário precisa mudar — para taxa de baixo peso, para
-> prematuridade, ou para mortalidade (SIM), que têm estruturas de variância
-> diferentes — ou a unidade precisa mudar. Melhor saber antes de montar treze
-> fontes de dados.
+> pré-período. **Gate:** dado o número plausível de municípios de dose alta,
+> essa DP permite detectar 23–32 g?
+> **Se não:** ver §6 — a saída **não** é trocar o desfecho.
+
+---
+
+## 6. ⚠️ Correção: trocar o desfecho é a saída errada
+
+A versão anterior desta nota dizia que, se o poder não fechasse, o desfecho
+primário deveria migrar para baixo peso, prematuridade ou mortalidade, "que têm
+estruturas de variância diferentes". Têm — **e são piores**. O erro era meu.
+
+Calculando o piso amostral do ruído de tendência municipal (município de 800
+nascimentos/ano, meia-janela de 2 anos, n = 1.600):
+
+| Desfecho | Ruído relativo | Efeito na literatura | Razão efeito/ruído |
+|---|---|---|---|
+| **Peso médio** | 0,55% | 23–32 g (Reynier & Rubin) | **1,30 – 1,81** |
+| Baixo peso (<2500 g) | 11,2% | 5–9% relativo (Larsen) | 0,44 – 0,80 |
+| Prematuridade (<37 sem) | 10,1% | ~5% relativo | 0,50 |
+| Mortalidade infantil | 28,7% | 5% relativo (DRS) | 0,17 |
+
+Média contínua sobre todos os nascimentos bate evento raro por um fator de duas
+a oito vezes. A escolha da Layer 1 estava certa por uma razão que o diálogo não
+tinha articulado: peso médio não é só o desfecho mais defensável
+conceitualmente, é **o único com razão efeito/ruído acima de 1**.
+
+**O número que muda o cenário base.** Esse piso dá **DP de tendência ≈ 17,7 g** —
+sem nenhuma heterogeneidade real, só amostragem. A linha "DP = 20 g" da tabela do
+§1 é portanto aproximadamente o **melhor caso**, não o caso médio. Com três
+municípios tratados, o MDE de 33 g é otimista, e o efeito esperado pelo
+pesquisador é de 15–25 g.
+
+Não é cenário de risco: é o cenário base. E a saída correta não é trocar de
+desfecho — é **encorpar o grupo tratado**, o que devolve a decisão ao Gate 1.
+Ver a Layer 3 em `02-research-plan-summary.md`.
 
 Isso não contradiz a decisão de escopo cheio: a aquisição continua em paralelo.
 Muda qual número se olha primeiro.

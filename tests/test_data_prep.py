@@ -99,17 +99,20 @@ def test_escada_de_especificacao_cobre_os_tres_degraus():
     """A recomendação vem do suporte, não de limiar de área ou de concentração."""
     tabela = pd.DataFrame(
         {
-            "cultura": ["espalhada", "media", "rala"],
-            "n_muni_positivo": [60, 25, 8],
-            "n_dose_distintas": [60, 25, 8],
-            "n_muni_decil_superior": [6, 3, 1],
+            "cultura": ["espalhada", "media", "fina", "rala"],
+            "n_muni_positivo": [60, 25, 13, 8],
+            "n_dose_distintas": [60, 25, 13, 8],
+            "n_muni_decil_superior": [6, 3, 2, 1],
         }
     )
     saida = dose.recomenda_especificacao(tabela)
     assert "curva não-paramétrica" in saida["especificacao"].iloc[0]
     assert "faixas discretas" in saida["especificacao"].iloc[1]
-    assert "binário" in saida["especificacao"].iloc[2]
-    assert "curva abandonada" in saida["especificacao"].iloc[2]
+    assert "SUPORTE FINO" not in saida["especificacao"].iloc[1]
+    # 12 a 14: faixas ainda saem, mas marcadas — refinamento do pesquisador
+    assert "SUPORTE FINO" in saida["especificacao"].iloc[2]
+    assert "binário" in saida["especificacao"].iloc[3]
+    assert "curva abandonada" in saida["especificacao"].iloc[3]
 
 
 def test_muitos_municipios_com_dose_empatada_nao_sustenta_a_curva():
