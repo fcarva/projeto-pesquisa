@@ -15,10 +15,10 @@ TRILHA DO GATE                          TRILHA DE AQUISIÇÃO
 ──────────────                          ───────────────────
 E0  bans municipais < 2019  ⚠️           A1  SINASC + SIM (pysus / BD)
 E1  data e janela  ✅                    A2  FAO-GAEZ (raster)
-E2  01_check_dose --fonte sidra         A3  ANA ottobacias + SISAGUA
-E3  escolha de especificação            A4  MapBiomas + INMET/FUNCEME
-E4  d = 0 e contaminação                A5  SIH + CAGED/RAIS + PIB agro
-                                        A6  cadastro aeroagrícola + SEMACE
+E1.5 DP das tendências (SINASC) ⚠️       A3  ANA ottobacias + SISAGUA
+E2  01_check_dose --fonte sidra         A4  MapBiomas + INMET/FUNCEME
+E3  escolha de especificação            A5  SIH + CAGED/RAIS + PIB agro
+E4  d = 0 e contaminação                A6  cadastro aeroagrícola + SEMACE
         │                                          │
         └──────────►  E5  build_panel  ◄───────────┘
                             │
@@ -42,6 +42,21 @@ avisa que não substitui o Diário Oficial.
 **Se não:** todas as janelas se deslocam. Refazer E2 em diante.
 **Pendência aberta que E1 revelou:** bans municipais anteriores a 2019 (ver o fim
 deste arquivo). Essa é mais grave que a data.
+
+### E1.5 — Dispersão das tendências municipais ⚠️ **roda antes do Gate 1**
+**Faz:** `python scripts/data_prep/02_clean_births.py` contra o SINASC real, e ler
+a DP das variações municipais de peso ao nascer no pré-período (o script 01 já a
+reporta como `sd_tendencia_g` quando recebe `--nascimentos`).
+**Por quê antes:** Reynier & Rubin acham 23–32 g. Com DP de tendências ≈ 10 g,
+dois ou três municípios de dose alta bastam para detectar isso. Com DP ≈ 40 g,
+seriam necessários de 14 a 28 — e Rigotto et al. trabalham com **três**. O
+parâmetro que decide o Ensaio 1 é essa DP, não a dispersão de dose no PAM, e ela
+sai só do SINASC. Ver `05-integracao-estado-da-arte.md` §1.
+**Gate:** essa DP permite detectar 23–32 g com a ordem de grandeza de municípios
+de dose alta que se espera (3 a 15)?
+**Se não:** trocar o desfecho primário — taxa de baixo peso, prematuridade ou
+mortalidade (SIM) têm estruturas de variância diferentes — ou trocar a unidade.
+Melhor saber antes de montar treze fontes.
 
 ### E2 — Variação de dose (o gate que amarra tudo)
 **Faz:** `python scripts/data_prep/01_check_dose_variation.py --fonte sidra`
