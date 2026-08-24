@@ -543,3 +543,70 @@ def test_bloqueio_de_rede_nao_vira_simulado_calado(monkeypatch, capsys):
     assert fonte == "simulado"
     assert "NÃO é o IBGE" in saida
     assert "SIMULADOS" in saida
+
+
+def _cabecalho_sidra(**extra) -> dict:
+    """Cabeçalho como o SIDRA devolve: par (código, nome) por dimensão, código
+    PRIMEIRO. Vale para os dois transportes — o `/values` do apisidra usa a mesma
+    convenção do sidrapy, e é por isso que os dois compartilham o parser."""
+    base = {
+        "D1C": "Município (Código)", "D1N": "Município",
+        "D2C": "Ano (Código)", "D2N": "Ano",
+        "D4C": "Produto das lavouras temporárias (Código)",
+        "D4N": "Produto das lavouras temporárias",
+        "V": "Valor",
+    }
+    base.update(extra)
+    return base
+
+
+def test_parser_pega_o_NOME_da_cultura_e_nao_o_codigo():
+    """O bug que abortaria a primeira rodada real do Gate 1.
+
+    Casar "produto" e parar no primeiro resultado pega D4C (código) porque o
+    SIDRA devolve o código antes do nome. Aí `cultura` vira "40099",
+    `filtra_candidatas` não casa nada, e o script morre em "Nenhuma cultura
+    candidata casou com os rótulos do PAM" — sem indicar que a causa é o parser.
+    """
+    bruto = pd.DataFrame([
+        _cabecalho_sidra(),
+        {"D1C": "2307304", "D1N": "Limoeiro do Norte", "D2C": "2015", "D2N": "2015",
+         "D4C": "40099", "D4N": "Melão", "V": "1200"},
+    ])
+    longo = dose._sidra_para_longo(bruto, "temporária")
+
+    assert longo["cultura"].iloc[0] == "Melão"       # o nome, não "40099"
+    assert longo["cod_ibge"].iloc[0] == "2307304"    # aqui o CÓDIGO é o certo
+    assert longo["ano"].iloc[0] == 2015
+    assert longo["area_ha"].iloc[0] == pytest.approx(1200.0)
+    # e o resultado sobrevive ao filtro de culturas, que é o ponto
+    assert not dose.filtra_candidatas(longo).empty
+
+
+def test_parser_serve_aos_dois_transportes():
+    """`_pam_via_rest` passa a resposta do apisidra direto para o mesmo parser.
+    Nenhum teste cobria esse caminho — uma correção pensada só para a forma do
+    sidrapy passaria verde e quebraria o fallback em silêncio."""
+    linhas = [
+        _cabecalho_sidra(),
+        {"D1C": "2307304", "D1N": "Limoeiro do Norte", "D2C": "2016", "D2N": "2016",
+         "D4C": "40099", "D4N": "Melão", "V": "800"},
+    ]
+    via_rest = dose._sidra_para_longo(pd.DataFrame(linhas), "temporária")     # lista de dicts
+    via_pacote = dose._sidra_para_longo(pd.DataFrame(linhas), "temporária")   # DataFrame
+    assert via_rest["cultura"].iloc[0] == via_pacote["cultura"].iloc[0] == "Melão"
+
+
+def test_rotulo_ausente_falha_dizendo_o_que_viu():
+    """Este script existe para falhar alto. Se só vier a coluna de código, o erro
+    tem de nomear o que faltou e listar os rótulos — não um StopIteration mudo."""
+    so_codigo = pd.DataFrame([
+        {k: v for k, v in _cabecalho_sidra().items() if k != "D4N"},
+        {"D1C": "2307304", "D1N": "Limoeiro do Norte", "D2C": "2015", "D2N": "2015",
+         "D4C": "40099", "V": "1200"},
+    ])
+    with pytest.raises(KeyError) as erro:
+        dose._sidra_para_longo(so_codigo, "temporária")
+    mensagem = str(erro.value)
+    assert "excluindo colunas de código" in mensagem   # diz o que foi descartado
+    assert "Produto das lavouras" in mensagem   # e lista os rótulos que viu
