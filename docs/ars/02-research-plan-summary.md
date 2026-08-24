@@ -1,7 +1,8 @@
 # Research Plan Summary — Ensaio 1
 
 *ARS `deep-research`, modo `socratic`, fronteira de não-geração mantida.*
-*Camadas 1, 2 e 3 fechadas; 4 e 5 abertas. Última atualização: 2026-08-24.*
+*Camadas 1, 2 e 3 fechadas; 4 aberta com as perguntas equipadas; 5 não iniciada.
+Última atualização: 2026-08-24.*
 
 Registro do diálogo socrático. Os `[INSIGHT: ...]` são **transcrições literais**
 do pesquisador — não paráfrases minhas. O que não convergiu está listado como
@@ -243,18 +244,37 @@ Operacional) lado a lado na reta final.]`
 
 ---
 
-## Layers 4 e 5 — ABERTAS
+## Layer 4 — Autocrítica (ABERTA, rodada 1 respondida com "não sei")
 
-**L4 — Autocrítica (não iniciada)**
-- Seleção para nascimento vivo: se o ban reduz óbito fetal, fetos marginais
-  passam a nascer e entram na cauda de baixo peso, atenuando ou invertendo o
-  efeito sobre peso médio.
-- SUTVA com deriva transfronteiriça, para além do papel de mecanismo.
-- Poucos clusters intensamente tratados e lacuna de *enforcement*.
-- O adjetivo "irrefutável", que nenhum DiD sustenta.
+Perguntei três coisas duras de uma vez e a resposta foi **"não sei"**. Registrado
+como está: **nenhum INSIGHT nesta rodada**, porque não houve resposta a
+transcrever, e nada preenchido por mim.
 
-**L5 — Contribuição (não iniciada)**
-- Que magnitude, com que precisão, muda a decisão de cada uma das três cadeiras.
+O erro foi meu ao perguntar: as três não são do mesmo tipo, e eu não marquei
+isso. Uma é lógica, uma é empírica-barata, uma é administrativa. Em vez de
+repetir as perguntas, elas foram **equipadas** em
+`07-layer4-perguntas-abertas.md`:
+
+| Pergunta | Estado | O que a destrava |
+|---|---|---|
+| **Falsificação** — que resultado seria evidência contra o ban? | destravada **por lógica** | era pergunta de poder disfarçada: um nulo falsifica quando o IC exclui o efeito esperado. No piso amostral, isso acontece a partir de **~10 municípios tratados** — que vira o alvo numérico da decisão da L3 de baixar o corte de dose |
+| **Seleção para nascimento vivo** — como separar do efeito? | destravada **por teste barato** | rodar óbito fetal do SIM contra a dose *antes* de escolher correção. Se não se move, é problema teórico. Se se move, há três rotas conhecidas, listadas como **menu, não recomendação** |
+| **Enforcement** — a dose mede intenção ou exposição removida? | destravada **por ofício** | pedido LAI (Lei 12.527/2011) à SEMACE, com minuta pronta. Prazo legal de 20 dias — é a única com relógio externo, e por isso a primeira a disparar |
+
+**O que continua sendo pergunta dele, e não foi respondido:** o piso de
+falsificação (hoje 15 g, mas é escolha dele); qual rota de seleção adotar **se** o
+teste acusar movimento; e o que escrever se o enforcement voltar vazio.
+
+Ainda não tocados na L4: SUTVA transfronteiriço para além do papel de mecanismo,
+e o adjetivo "irrefutável" que apareceu na L1.
+
+## Layer 5 — Contribuição (NÃO INICIADA, com dependência)
+
+A L5 pergunta que magnitude, com que precisão, muda a decisão de cada uma das
+três cadeiras (STF, CCJ estadual, ANVISA/MAPA). Ela **depende** de saber se
+existe magnitude estimável — que é exatamente o que a pergunta 2 da L4 e o gate
+E1.5 vão dizer. Abrir agora seria pedir especulação sobre um número que o desenho
+ainda não sabe se produz.
 
 **Decisões em aberto que não são camada:**
 - **Controle vetorial entra como exclusão do d = 0 ou como parte do tratamento?**
