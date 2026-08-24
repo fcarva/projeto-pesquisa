@@ -48,16 +48,28 @@ deste arquivo). Essa é mais grave que a data.
 **Faz:** `python scripts/data_prep/02_clean_births.py` contra o SINASC real, e ler
 a DP das variações municipais de peso ao nascer no pré-período (o script 01 já a
 reporta como `sd_tendencia_g` quando recebe `--nascimentos`).
-**Por quê antes:** Reynier & Rubin acham 23–32 g. Com DP de tendências ≈ 10 g,
-dois ou três municípios de dose alta bastam para detectar isso. Com DP ≈ 40 g,
-seriam necessários de 14 a 28 — e Rigotto et al. trabalham com **três**. O
-parâmetro que decide o Ensaio 1 é essa DP, não a dispersão de dose no PAM, e ela
-sai só do SINASC. Ver `05-integracao-estado-da-arte.md` §1.
-**Gate:** essa DP permite detectar 23–32 g com a ordem de grandeza de municípios
-de dose alta que se espera (3 a 15)?
-**Se não:** trocar o desfecho primário — taxa de baixo peso, prematuridade ou
-mortalidade (SIM) têm estruturas de variância diferentes — ou trocar a unidade.
-Melhor saber antes de montar treze fontes.
+**Por quê antes:** Reynier & Rubin acham 23–32 g; o pesquisador espera 15–25 g.
+O parâmetro que decide se isso é detectável é essa DP, não a dispersão de dose no
+PAM — e ela sai só do SINASC. Ver `05-integracao-estado-da-arte.md` §1 e §6.
+
+⚠️ **O piso amostral já é ~17,7 g** (município de 800 nascimentos/ano, meia-janela
+de 2 anos), sem nenhuma heterogeneidade real. Então a linha de 20 g da tabela de
+poder é aproximadamente o **melhor caso**, e com três municípios o MDE de 33 g é
+otimista contra um efeito esperado de 15–25 g. Esse é o cenário base, não o
+pessimista.
+
+**Gate:** essa DP permite detectar 15–25 g com o número de municípios de dose
+alta que o Gate 1 entregar?
+**Se não — a saída ratificada na L3:** **baixar o corte de dose** para encorpar o
+grupo tratado, aceitando municípios de intensidade média e a diluição do efeito
+médio que isso traz.
+
+**O que NÃO é saída, e por quê.** Trocar o desfecho primário está descartado: o
+piso amostral dá razão efeito/ruído de 1,30–1,81 para peso médio contra 0,44–0,80
+para baixo peso, 0,50 para prematuridade e 0,17 para mortalidade infantil. Média
+contínua sobre todos os nascimentos bate evento raro por um fator de duas a oito
+vezes. E descer de unidade também está descartado, por decisão do pesquisador: o
+registro de residência materna do DATASUS não aguenta escala submunicipal.
 
 ### E2 — Variação de dose (o gate que amarra tudo)
 **Faz:** `python scripts/data_prep/01_check_dose_variation.py --fonte sidra`
@@ -80,10 +92,18 @@ controle sintético estadual ou o pareamento à la Rigotto, e a tese muda de
 espinha. Melhor descobrir aqui do que no capítulo 6.
 
 ### E3 — Escolha de especificação
-**Faz:** ler a coluna `especificacao`, que já aplica a escada do CGS —
-≥40 municípios com suporte espalhado → curva não-paramétrica; 15 a 39 → faixas
-discretas com indicadores múltiplos; <15 → binário sob Assumption 4-Agg. A
-coluna `motivo` diz o que derrubou a curva quando ela cai: poucos valores
+**Faz:** ler a coluna `especificacao`, que já aplica a escada do CGS com o
+refinamento ratificado pelo pesquisador na L3 — quatro degraus, batendo com as
+constantes do script:
+
+| Municípios com dose > 0 | Especificação | Constante |
+|---|---|---|
+| ≥ 40, com suporte espalhado | curva não-paramétrica (sieve) | `MIN_MUNI_CURVA` |
+| 15 a 39 | faixas discretas, indicadores múltiplos | `MIN_MUNI_FAIXAS_FOLGA` |
+| 12 a 14 | faixas discretas — **marcadas como suporte fino** | `MIN_MUNI_FAIXAS` |
+| < 12 | binário sob Assumption 4-Agg; curva abandonada | — |
+
+A coluna `motivo` diz o que derrubou a curva quando ela cai: poucos valores
 distintos de dose, ou cauda superior vazia. **A coluna recomenda; você ratifica.**
 **Gate:** o número de municípios com dose positiva e o suporte no decil superior
 sustentam a curva não-paramétrica?
