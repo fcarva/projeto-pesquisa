@@ -9,6 +9,7 @@ no proxy.
 |---|---|
 | `lei-16820-2019.md` | Lei 16.820/2019 — o ban. Texto integral. |
 | `lei-12228-1993-consolidada.md` | Lei 12.228/1993 **consolidada**, com o art. 28-B nas duas redações e o histórico de alteração. É a peça mais útil das duas. |
+| `pl-18-2015.md` | Projeto de Lei 18/2015 — o texto original e a **justificativa**, que reproduz a tabela do Dossiê ABRASCO com 24 amostras de água da Chapada do Apodi. Ver `docs/ars/06-quimico-e-antecipacao.md`. |
 
 ⚠️ Ambos trazem a ressalva de praxe: *"O texto desta Lei não substitui o
 publicado no Diário Oficial."* Para citação em texto final, conferir o DOE.
@@ -22,7 +23,8 @@ Drive, não no repositório.
 |---|---|
 | **09/12/1993** | Lei 12.228/1993 — norma-mãe sobre agrotóxicos no Ceará (D.O. 14.12.93). |
 | **2009** | Limoeiro do Norte proíbe pulverização aérea **por lei municipal** (fonte: esboço; o art. 29 da lei estadual autoriza os municípios a legislar supletivamente). ⚠️ Ver a ameaça abaixo. |
-| **18/12/2018** | ALECE aprova por unanimidade o PL 18/2015, após 4 anos de tramitação (fonte: ADI 7794). **Marco de antecipação.** |
+| **24/02/2015** | **PL 18/2015 apresentado** por Renato Roseno. ⚠️ **Marco de notícia** — a janela pré-ban 2015–2018 começa *depois* disto. |
+| **18/12/2018** | ALECE aprova por unanimidade, após 4 anos de tramitação. **Marco de certeza.** |
 | **08/01/2019** | Lei 16.820/2019 sancionada por Camilo Sobreira de Santana. |
 | **09/01/2019** | Publicação no D.O. O art. 2º diz "entra em vigor na data de sua publicação" — **é esta a data de vigência**. |
 | **mai/2023** | STF julga a lei constitucional (ADI 6137, rel. min. Cármen Lúcia, unânime). |
@@ -34,7 +36,9 @@ mensal a distinção não muda nada — ambas caem em janeiro de 2019 —, mas o
 da dissertação deve dizer 09/01/2019 quando falar de vigência e 08/01/2019 quando
 falar de sanção.
 
-**Iniciativa.** O texto oficial da Lei 16.820/2019 registra apenas
+**Três marcos, não um.** Notícia (24/02/2015), certeza (18/12/2018), obrigação (09/01/2019). O primeiro morde a variável de tratamento, não só o desfecho — ver `docs/ars/06-quimico-e-antecipacao.md` §1.
+
+**Iniciativa.** O PL 18/2015 e o texto oficial da Lei 16.820/2019 registram apenas
 **Deputado Renato Roseno**. O esboço atribui a autoria a três deputados (Roseno,
 Joaquim Noronha e Elmano de Freitas) — provavelmente coautoria no PL, não na lei
 sancionada. Conferir na tramitação do PL 18/2015 antes de afirmar.

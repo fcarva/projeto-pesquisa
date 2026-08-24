@@ -13,7 +13,8 @@ investimento: **cada fonte tem uso declarado que sobrevive a um gate negativo.**
 ```
 TRILHA DO GATE                          TRILHA DE AQUISIÇÃO
 ──────────────                          ───────────────────
-E0  bans municipais < 2019  ⚠️           A1  SINASC + SIM (pysus / BD)
+E0  antecipação: PL de 2015 +  ⚠️        A1  SINASC + SIM (pysus / BD)
+    bans municipais < 2019
 E1  data e janela  ✅                    A2  FAO-GAEZ (raster)
 E1.5 DP das tendências (SINASC) ⚠️       A3  ANA ottobacias + SISAGUA
 E2  01_check_dose --fonte sidra         A4  MapBiomas + INMET/FUNCEME
@@ -124,6 +125,9 @@ a um gate negativo em E2.
   granularidade municipal? (matriz de falsificação — a PAM não separa)
 - Cobertura do SISAGUA correlaciona com a dose? (A3 — se sim, a ausência é
   seletiva e o canal-água vira condicional)
+- A PAM cobre 2010–2014 com comparabilidade equivalente, para uma janela
+  pré-ban anterior ao PL de 2015? Houve mudança de metodologia ou de
+  classificação de cultura? (E0)
 
 ---
 
@@ -169,18 +173,23 @@ partir do texto, incluindo os degraus que **não** foram tomados?
 
 ## Antes de tudo — pendências que não são etapa
 
-1. ⚠️ **Levantar os bans municipais anteriores a 2019.** O art. 29 da Lei
+1. ⚠️ **A janela pré-ban começa depois da notícia do ban.** O PL 18/2015 foi
+   apresentado em **24/02/2015**; a janela pré-ban é 2015–2018. A dose medida
+   pode já estar respondendo à expectativa, e isso morde a variável de
+   tratamento, não só o desfecho. Ver `06-quimico-e-antecipacao.md` §1. Decidir
+   se o pré-período recua para 2010–2014 é pergunta da Layer 3.
+2. ⚠️ **Levantar os bans municipais anteriores a 2019.** O art. 29 da Lei
    12.228/1993 autoriza município a legislar supletivamente, e Limoeiro do Norte
    teria proibido a pulverização aérea em **2009**. Se procede, há unidades **já
    tratadas** dentro do grupo de dose alta, e 2015–2018 deixa de ser
    pré-tratamento para todos. Isso é anterior a E2 em importância: contamina a
    própria medida de dose.
-2. **Verificar as duas citações** — Larsen et al. (2017) e Marx-Stoelting et al.
+3. **Verificar a citação restante** — Larsen et al. (2017) e Marx-Stoelting et al.
    (2025) sobre Frank (2024). Nenhuma foi conferida; nenhuma está na pasta.
-3. **Decidir o controle vetorial** — exclusão do d = 0 ou parte do tratamento.
+4. **Decidir o controle vetorial** — exclusão do d = 0 ou parte do tratamento.
    Nota: a redação de 2024 **não reproduz** o §2º de 2019, então a proibição de
    dispersão aérea sanitária caiu em 19/12/2024 — mais uma razão para o corte.
-4. **Checar se o cadastro da SEMACE é público** (art. 8º da Lei 12.228/1993:
+5. **Checar se o cadastro da SEMACE é público** (art. 8º da Lei 12.228/1993:
    prestadoras de serviço de aplicação de agrotóxico devem se registrar). É a
    fonte estadual para o `d = 0` operacional, provavelmente melhor que
    ANAC/MAPA/SINDAG.
