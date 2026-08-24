@@ -68,12 +68,57 @@ células fica abaixo de 5 óbitos). O teste vai precisar de agregação mais gro
 município×ano, ou faixas de dose empilhadas. É propriedade do desfecho, não
 defeito de limpeza.
 
+## Acesso à rede na sessão remota — o que precisa ser liberado
+
+**O bloqueio é política de rede do ambiente, não instabilidade das fontes.** O
+proxy da sessão responde **403 ao CONNECT** para os domínios não liberados. A
+evidência é direta:
+
+```
+$ curl -sS "$HTTPS_PROXY/__agentproxy/status"
+"recentRelayFailures": [
+  {"kind": "connect_rejected",
+   "detail": "gateway answered 403 to CONNECT (policy denial or upstream failure)",
+   "host": "apisidra.ibge.gov.br:443"}, ...
+]
+```
+
+Domínios a liberar, por etapa do roteiro:
+
+| Domínio | Serve a | Etapa |
+|---|---|---|
+| `apisidra.ibge.gov.br` | valores do SIDRA (PAM) | **E2 — Gate 1** |
+| `servicodados.ibge.gov.br` | metadados do SIDRA (o preflight) | **E2 — Gate 1** |
+| `ftp.datasus.gov.br` | SINASC e SIM via pysus | E1.5, A1 |
+| `basedosdados.org` | rota alternativa para SINASC/SIM/SISAGUA | A1, A3 |
+| `gaez.fao.org` | raster de aptidão agroclimática | A2 |
+
+A política é escolhida na criação do ambiente, nas configurações em
+claude.ai/code — ver <https://code.claude.com/docs/en/claude-code-on-the-web>.
+**Enquanto não estiver liberada**, os três scripts aceitam arquivo baixado à mão
+(`--fonte arquivo --caminho …` no 01; `--caminho …` no 02 e no 03), e o script 01
+distingue na mensagem de erro bloqueio-de-rede de erro-do-IBGE — as duas causas
+pedem ações diferentes.
+
 ## Nota sobre a checagem de dose
 
 O script `01_check_dose_variation.py` monta a consulta ao SIDRA como
-`t/{1612,1613}/n6/in n3 23/v/{109,2313}/c{81,82}/all/p/2015-2018`. Os códigos de
-variável e classificação vieram da documentação das tabelas, mas **não foram
-verificados contra a API** (o ambiente onde o script foi escrito não tinha
-saída para `apisidra.ibge.gov.br`). Na primeira rodada com `--fonte sidra`,
-conferir os rótulos impressos contra <https://sidra.ibge.gov.br/tabela/1612> e
-`/1613` antes de confiar na tabela.
+`t/{1612,1613}/n6/in n3 23/v/{109,2313}/c{81,82}/all/p/2015-2018`.
+
+⚠️ **Os códigos de variável e classificação vieram da documentação das tabelas e
+continuam não verificados contra a API** — o ambiente onde o script foi escrito
+não tem saída para `servicodados.ibge.gov.br`. Isso importa mais do que parece:
+um código errado faz o SIDRA devolver **vazio, não erro**, e vazio caía
+silenciosamente para o simulado.
+
+**O preflight resolve isso, e é a primeira coisa a rodar quando a rede abrir:**
+
+```bash
+python scripts/data_prep/01_check_dose_variation.py --verificar-codigos
+```
+
+Ele bate cada código contra `servicodados.ibge.gov.br/api/v3/agregados/{t}/metadados`
+e, se algum não existir, **lista os que existem** — a correção não vira
+adivinhação. `--fonte sidra` roda o preflight antes de baixar e aborta se ele
+reprovar. **Registrar aqui a data em que o preflight passar** é o que fecha esta
+pendência.

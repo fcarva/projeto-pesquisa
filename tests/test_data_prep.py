@@ -464,3 +464,82 @@ def test_juncao_preserva_toda_a_chave_do_painel_de_nascimentos():
     so_nasc = junto[junto["n_obito_fetal"] == 0]
     assert len(so_nasc) > 0
     assert (so_nasc["taxa_obito_fetal"] == 0).all()
+
+
+# --------------------------------------------------------------------------
+# 01 — aquisição SIDRA: preflight de metadados e diagnóstico de rede
+# --------------------------------------------------------------------------
+
+# Resposta de metadados no formato da API v3 do servicodados. ⚠️ Gravada a
+# partir da documentação, NÃO de uma chamada real — a rede estava fechada
+# quando isto foi escrito. Serve para travar o parser, não para provar que os
+# códigos estão certos; quem prova isso é `--verificar-codigos` com rede.
+_METADADOS_1612 = {
+    "id": "1612",
+    "nome": "Área plantada, área colhida, quantidade produzida...",
+    "variaveis": [
+        {"id": 109, "nome": "Área plantada", "unidade": "Hectares"},
+        {"id": 216, "nome": "Área colhida", "unidade": "Hectares"},
+    ],
+    "classificacoes": [
+        {"id": 81, "nome": "Produto das lavouras temporárias", "categorias": []},
+    ],
+}
+
+
+def test_extrai_codigos_normaliza_id_para_texto():
+    """O SIDRA aceita id como texto e o script os guarda como texto. Comparar
+    int com str daria 'código não existe' para um código que existe."""
+    variaveis = dose._extrai_codigos(_METADADOS_1612, "variaveis")
+    assert variaveis == {"109": "Área plantada", "216": "Área colhida"}
+    assert dose._extrai_codigos(_METADADOS_1612, "classificacoes") == {
+        "81": "Produto das lavouras temporárias"
+    }
+    # chave ausente ou formato inesperado não estoura: devolve vazio
+    assert dose._extrai_codigos({}, "variaveis") == {}
+    assert dose._extrai_codigos({"variaveis": "nao é lista"}, "variaveis") == {}
+
+
+def test_preflight_aprova_codigo_existente_e_reprova_inventado(monkeypatch):
+    """O preflight é o que impede a queda silenciosa: código errado devolve
+    VAZIO no SIDRA, não erro, e vazio virava 'simulado' sem ninguém notar."""
+    monkeypatch.setattr(dose, "busca_metadados_sidra", lambda t, timeout=30: _METADADOS_1612)
+
+    bom = [{"tabela": "1612", "variavel": "109", "classificacao": "81", "grupo": "t"}]
+    assert dose.imprime_verificacao(dose.verifica_codigos_sidra(bom)) is True
+
+    ruim = [{"tabela": "1612", "variavel": "999", "classificacao": "81", "grupo": "t"}]
+    relatorio = dose.verifica_codigos_sidra(ruim)
+    assert not relatorio["variavel_ok"].iloc[0]
+    assert relatorio["classificacao_ok"].iloc[0]
+    assert dose.imprime_verificacao(relatorio) is False
+    # e o relatório carrega o que EXISTE, para a correção não virar adivinhação
+    assert "109" in relatorio["variaveis_disponiveis"].iloc[0]
+
+
+def test_403_do_proxy_e_bloqueio_de_rede_e_nao_erro_do_ibge():
+    """As duas causas pedem ações diferentes: liberar domínio contra mexer na
+    consulta. Confundi-las custou tempo numa sessão anterior."""
+    proxy = OSError("Tunnel connection failed: 403 Forbidden")
+    assert dose._diagnostica_erro_rede(proxy) is not None
+    assert "POLÍTICA DE REDE" in dose._diagnostica_erro_rede(proxy)
+    assert "apisidra.ibge.gov.br" in dose._diagnostica_erro_rede(proxy)
+
+    # erro do lado do IBGE não pode ser reclassificado como bloqueio
+    assert dose._diagnostica_erro_rede(ValueError("500 Server Error")) is None
+    assert dose._diagnostica_erro_rede(KeyError("variavel")) is None
+
+
+def test_bloqueio_de_rede_nao_vira_simulado_calado(monkeypatch, capsys):
+    """Em --fonte auto o fallback é legítimo, mas tem de anunciar QUAL motivo."""
+    def falha(*a, **k):
+        raise dose.BloqueioDeRede(dose._diagnostica_erro_rede(
+            OSError("Tunnel connection failed: 403 Forbidden")
+        ))
+
+    monkeypatch.setattr(dose, "carrega_pam_sidra", falha)
+    _, fonte = dose.carrega_pam("auto", anos=(2015, 2016), seed=1)
+    saida = capsys.readouterr().out
+    assert fonte == "simulado"
+    assert "NÃO é o IBGE" in saida
+    assert "SIMULADOS" in saida

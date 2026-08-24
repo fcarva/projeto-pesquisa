@@ -24,9 +24,16 @@ O que este script NÃO faz (ver CLAUDE.md, "Flags de auditoria"):
      Dias, Rocha & Soares 2023).
 
 Uso:
-    python scripts/data_prep/01_check_dose_variation.py                 # tenta SIDRA, cai p/ simulado
+    python scripts/data_prep/01_check_dose_variation.py --verificar-codigos  # só o preflight
+    python scripts/data_prep/01_check_dose_variation.py                 # arquivo -> SIDRA -> simulado
     python scripts/data_prep/01_check_dose_variation.py --fonte sidra   # exige SIDRA (falha alto)
+    python scripts/data_prep/01_check_dose_variation.py --fonte arquivo --caminho tab1612.csv
     python scripts/data_prep/01_check_dose_variation.py --fonte simulado
+
+Antes de confiar em qualquer rodada com `--fonte sidra`, rode `--verificar-codigos`:
+os códigos de variável e classificação em `SIDRA_TABELAS` vieram da documentação
+das tabelas e um código errado devolve **vazio**, não erro. O preflight bate os
+códigos contra a API de metadados e falha alto listando os que existem.
 
 Saídas em data/processed/ (nunca commitadas — ver .gitignore). O nome do
 arquivo carrega a fonte ("sidra" ou "simulado") justamente para que um
@@ -71,6 +78,18 @@ SIDRA_TABELAS = (
 # "in n3 23" = todos os municípios (n6) dentro da UF 23. Se a sua versão do
 # sidrapy não repassar essa sintaxe, troque por uma lista explícita de códigos.
 SIDRA_TERRITORIO = "in n3 23"
+
+# Dois endpoints, dois papéis. O de metadados diz QUAIS códigos existem; o de
+# valores devolve o dado. Usar o primeiro antes do segundo é o que transforma os
+# códigos acima de palpite em verificação — ver `verifica_codigos_sidra`.
+SIDRA_METADADOS_URL = "https://servicodados.ibge.gov.br/api/v3/agregados/{tabela}/metadados"
+SIDRA_VALUES_URL = "https://apisidra.ibge.gov.br/values"
+
+# Domínios que a política de rede do ambiente precisa liberar para este script
+# rodar. O proxy responde 403 ao CONNECT quando não estão liberados, e o erro
+# resultante NÃO se parece com "API fora do ar" — ver `_diagnostica_erro_rede`.
+DOMINIOS_IBGE = ("apisidra.ibge.gov.br", "servicodados.ibge.gov.br")
+DOMINIOS_PROXIMAS_ETAPAS = ("ftp.datasus.gov.br", "basedosdados.org", "gaez.fao.org")
 
 # Culturas candidatas a dose — HIPÓTESES, não escolhas. Alta pulverização
 # e/ou peso no agronegócio cearense; os comparadores de baixa pulverização
@@ -239,12 +258,200 @@ def _valor_sidra_para_float(serie: pd.Series) -> pd.Series:
     )
 
 
-def carrega_pam_sidra(anos=ANOS_PRE_BAN) -> pd.DataFrame:
+class BloqueioDeRede(RuntimeError):
+    """A rede do ambiente barrou a chamada — não é a API que está com problema.
+
+    Existe como classe própria porque as duas causas pedem ações **diferentes**:
+    bloqueio de rede se resolve liberando domínio na política do ambiente; erro
+    do IBGE se resolve mexendo no código da consulta. Tratar as duas como "acesso
+    indisponível" custou tempo numa sessão anterior.
+    """
+
+
+def _diagnostica_erro_rede(erro: BaseException) -> str | None:
+    """Devolve uma mensagem de bloqueio de rede, ou None se o erro for outro.
+
+    O proxy do ambiente responde **403 ao CONNECT** quando o domínio não está
+    liberado. Isso chega ao `requests` como ProxyError com "Tunnel connection
+    failed", e ao `curl` como HTTP 000 — nenhum dos dois se parece com "servidor
+    fora do ar", mas os dois são fáceis de confundir com isso.
+    """
+    texto = f"{type(erro).__name__}: {erro}".lower()
+    marcas = ("tunnel connection failed", "cannot connect to proxy", "proxyerror",
+              "403 forbidden", "connect_rejected")
+    if not any(m in texto for m in marcas):
+        return None
+    return (
+        "A chamada foi barrada pela POLÍTICA DE REDE do ambiente, não pelo IBGE.\n"
+        "  O proxy responde 403 ao CONNECT para domínios não liberados.\n"
+        f"  Libere, no mínimo: {', '.join(DOMINIOS_IBGE)}\n"
+        f"  E, para as próximas etapas: {', '.join(DOMINIOS_PROXIMAS_ETAPAS)}\n"
+        "  Onde: configurações do ambiente em claude.ai/code — a política de rede é\n"
+        "  escolhida na criação do ambiente. Ver\n"
+        "  https://code.claude.com/docs/en/claude-code-on-the-web\n"
+        "  Diagnóstico ao vivo: curl -sS \"$HTTPS_PROXY/__agentproxy/status\"\n"
+        "  Alternativa sem liberar nada: baixe a tabela do SIDRA à mão e rode com\n"
+        "  --fonte arquivo --caminho <arquivo.csv>."
+    )
+
+
+def busca_metadados_sidra(tabela: str, timeout: int = 30) -> dict:
+    """Metadados de uma tabela agregada do SIDRA (API v3 do servicodados).
+
+    ⚠️ **O formato da resposta não foi verificado contra a API por mim** — a rede
+    estava fechada quando isto foi escrito. O parser abaixo é defensivo de
+    propósito: se a estrutura não for a esperada, ele diz *o que veio* em vez de
+    estourar com KeyError. Na primeira rodada com rede, conferir.
+    """
+    import requests  # import local: o caminho simulado não deve exigir a dependência
+
+    url = SIDRA_METADADOS_URL.format(tabela=tabela)
+    try:
+        resposta = requests.get(url, timeout=timeout)
+        resposta.raise_for_status()
+        return resposta.json()
+    except Exception as erro:  # noqa: BLE001
+        bloqueio = _diagnostica_erro_rede(erro)
+        if bloqueio:
+            raise BloqueioDeRede(bloqueio) from erro
+        raise
+
+
+def _extrai_codigos(metadados: dict, chave: str) -> dict[str, str]:
+    """`{id: nome}` das variáveis ou classificações declaradas nos metadados.
+
+    `chave` é "variaveis" ou "classificacoes". Ids voltam como texto porque o
+    SIDRA os aceita assim e o script os guarda assim — comparar int com str aqui
+    daria "código não existe" para um código que existe.
+    """
+    itens = metadados.get(chave)
+    if not isinstance(itens, list):
+        return {}
+    saida = {}
+    for item in itens:
+        if isinstance(item, dict) and "id" in item:
+            saida[str(item["id"])] = str(item.get("nome", "(sem nome)"))
+    return saida
+
+
+def verifica_codigos_sidra(specs=SIDRA_TABELAS, timeout: int = 30) -> pd.DataFrame:
+    """Confere contra a API se os códigos de `SIDRA_TABELAS` existem de verdade.
+
+    É o preflight que troca palpite por verificação. `docs/fontes-e-vintages.md`
+    registra que os códigos de variável e classificação vieram da documentação e
+    **nunca foram batidos contra a API**; a saída desta função é essa conferência.
+
+    Devolve uma tabela com uma linha por (tabela, variável, classificação) e o
+    veredito de cada uma. Não levanta exceção por código errado — quem chama
+    decide se aborta —, mas propaga `BloqueioDeRede`, porque aí não há veredito
+    nenhum a dar.
+    """
+    linhas = []
+    for spec in specs:
+        metadados = busca_metadados_sidra(spec["tabela"], timeout)
+        variaveis = _extrai_codigos(metadados, "variaveis")
+        classificacoes = _extrai_codigos(metadados, "classificacoes")
+        linhas.append(
+            {
+                "tabela": spec["tabela"],
+                "nome_tabela": str(metadados.get("nome", "(sem nome)"))[:60],
+                "variavel": spec["variavel"],
+                "variavel_ok": spec["variavel"] in variaveis,
+                "variavel_nome": variaveis.get(spec["variavel"], "—"),
+                "classificacao": spec["classificacao"],
+                "classificacao_ok": spec["classificacao"] in classificacoes,
+                "classificacao_nome": classificacoes.get(spec["classificacao"], "—"),
+                "variaveis_disponiveis": variaveis,
+                "classificacoes_disponiveis": classificacoes,
+            }
+        )
+    return pd.DataFrame(linhas)
+
+
+def imprime_verificacao(relatorio: pd.DataFrame) -> bool:
+    """Imprime o preflight. Devolve True se todos os códigos conferem."""
+    barra = "=" * 84
+    print(barra)
+    print("PREFLIGHT — os códigos de SIDRA_TABELAS existem nas tabelas do IBGE?")
+    print(barra)
+    tudo_ok = True
+    for _, linha in relatorio.iterrows():
+        ok = bool(linha["variavel_ok"] and linha["classificacao_ok"])
+        tudo_ok &= ok
+        print(f"tabela {linha['tabela']} — {linha['nome_tabela']}")
+        marca = "✔" if linha["variavel_ok"] else "✘"
+        print(f"  {marca} variável {linha['variavel']}: {linha['variavel_nome']}")
+        marca = "✔" if linha["classificacao_ok"] else "✘"
+        print(f"  {marca} classificação {linha['classificacao']}: {linha['classificacao_nome']}")
+        if not linha["variavel_ok"]:
+            print("    variáveis disponíveis nesta tabela:")
+            for cod, nome in linha["variaveis_disponiveis"].items():
+                print(f"      {cod:>6}  {nome}")
+        if not linha["classificacao_ok"]:
+            print("    classificações disponíveis nesta tabela:")
+            for cod, nome in linha["classificacoes_disponiveis"].items():
+                print(f"      {cod:>6}  {nome}")
+        print()
+    print(barra)
+    if tudo_ok:
+        print("Todos os códigos conferem. Registre a data desta verificação em")
+        print("docs/fontes-e-vintages.md — é a pendência que estava aberta lá.")
+    else:
+        print("⚠️ Ao menos um código não existe. Corrija SIDRA_TABELAS no topo deste")
+        print("   arquivo com os códigos listados acima ANTES de rodar --fonte sidra.")
+    print(barra)
+    return tudo_ok
+
+
+def carrega_pam_sidra(anos=ANOS_PRE_BAN, verificar: bool = True) -> pd.DataFrame:
     """Baixa área plantada por cultura × município do Ceará via SIDRA (PAM/IBGE).
+
+    Ordem: preflight de metadados → `sidrapy` → REST direto. O preflight vem
+    primeiro porque um código errado devolve **vazio**, não erro — e vazio, no
+    dispatcher, virava queda silenciosa para o simulado. Falhar alto aqui é o
+    ponto.
 
     Levanta exceção se o acesso não estiver disponível — quem chama decide se
     cai para o simulado.
     """
+    if verificar:
+        relatorio = verifica_codigos_sidra()
+        if not imprime_verificacao(relatorio):
+            raise RuntimeError(
+                "Preflight reprovou: código de variável ou classificação inexistente. "
+                "Corrija SIDRA_TABELAS antes de baixar — a consulta devolveria vazio."
+            )
+
+    try:
+        return _pam_via_sidrapy(anos)
+    except BloqueioDeRede:
+        raise
+    except Exception as erro:  # noqa: BLE001
+        print(f"[aviso] sidrapy falhou ({type(erro).__name__}: {erro}).")
+        print("[aviso] Tentando REST direto em apisidra.ibge.gov.br.")
+        return _pam_via_rest(anos)
+
+
+def _consulta_sidra(spec: dict, periodo: str) -> str:
+    """Monta o caminho de consulta do SIDRA, comum aos dois transportes."""
+    return (
+        f"/t/{spec['tabela']}/n6/{SIDRA_TERRITORIO}"
+        f"/v/{spec['variavel']}/c{spec['classificacao']}/all/p/{periodo}"
+    )
+
+
+def _finaliza_pam(pedacos: list[pd.DataFrame], anos) -> pd.DataFrame:
+    """Filtro CE + anos, comum aos dois transportes."""
+    df = pd.concat(pedacos, ignore_index=True)
+    df = df[df["cod_ibge"].str.startswith(UF_CEARA)]
+    df = df[df["ano"].isin(anos)]
+    if df.empty:
+        raise RuntimeError("SIDRA respondeu, mas nada sobrou após o filtro CE/anos.")
+    return df.reset_index(drop=True)
+
+
+def _pam_via_sidrapy(anos=ANOS_PRE_BAN) -> pd.DataFrame:
+    """Transporte primário: o pacote `sidrapy`."""
     import sidrapy  # import local: o simulado não deve exigir a dependência
 
     periodo = f"{min(anos)}-{max(anos)}"
@@ -263,13 +470,64 @@ def carrega_pam_sidra(anos=ANOS_PRE_BAN) -> pd.DataFrame:
         if bruto is None or len(bruto) <= 1:
             raise RuntimeError(f"SIDRA devolveu vazio para a tabela {spec['tabela']}.")
         pedacos.append(_sidra_para_longo(bruto, spec["grupo"]))
+    return _finaliza_pam(pedacos, anos)
 
-    df = pd.concat(pedacos, ignore_index=True)
-    df = df[df["cod_ibge"].str.startswith(UF_CEARA)]
-    df = df[df["ano"].isin(anos)]
-    if df.empty:
-        raise RuntimeError("SIDRA respondeu, mas nada sobrou após o filtro CE/anos.")
-    return df.reset_index(drop=True)
+
+def _pam_via_rest(anos=ANOS_PRE_BAN, timeout: int = 120) -> pd.DataFrame:
+    """Transporte de reserva: REST direto, sem o pacote.
+
+    Molde tirado do `agente_macro/collectors/ibge_collector.py` do próprio
+    pesquisador (repo `baoba`), que guarda os dois endpoints e degrada quando o
+    `sidrapy` não está disponível. A resposta do `/values` é uma lista de dicts
+    cuja **primeira entrada é o cabeçalho de rótulos** — mesma convenção do
+    sidrapy, então `_sidra_para_longo` serve para os dois sem alteração.
+    """
+    import requests
+
+    periodo = f"{min(anos)}-{max(anos)}"
+    pedacos = []
+    for spec in SIDRA_TABELAS:
+        url = SIDRA_VALUES_URL + _consulta_sidra(spec, periodo)
+        try:
+            resposta = requests.get(url, timeout=timeout)
+            resposta.raise_for_status()
+            dados = resposta.json()
+        except Exception as erro:  # noqa: BLE001
+            bloqueio = _diagnostica_erro_rede(erro)
+            if bloqueio:
+                raise BloqueioDeRede(bloqueio) from erro
+            raise
+        if not isinstance(dados, list) or len(dados) <= 1:
+            raise RuntimeError(f"SIDRA devolveu vazio para a tabela {spec['tabela']}.")
+        pedacos.append(_sidra_para_longo(pd.DataFrame(dados), spec["grupo"]))
+    return _finaliza_pam(pedacos, anos)
+
+
+def carrega_pam_arquivo(caminhos: list[Path]) -> pd.DataFrame:
+    """Lê tabelas do SIDRA baixadas à mão (.csv / .xlsx), no formato do portal.
+
+    Seguro contra o bloqueio de rede, e alinha o script 01 com os scripts 02 e
+    03, que já aceitam `--caminho`. O formato esperado é o do próprio SIDRA — a
+    primeira linha traz os rótulos —, que é o que `_sidra_para_longo` já sabe ler.
+    """
+    if not caminhos:
+        raise ValueError("Nenhum caminho informado (use --caminho).")
+    pedacos = []
+    for caminho in caminhos:
+        if caminho.suffix in (".csv", ".gz"):
+            bruto = pd.read_csv(caminho, dtype=str, header=0)
+        elif caminho.suffix in (".xlsx", ".xls"):
+            bruto = pd.read_excel(caminho, dtype=str, header=0)
+        else:
+            raise ValueError(f"Extensão não suportada: {caminho}")
+        # O grupo não vem no arquivo; é inferido pela tabela de origem no nome,
+        # e cai para "desconhecido" — a coluna só serve para leitura, não entra
+        # em nenhum cálculo.
+        grupo = "temporária" if "1612" in caminho.name else (
+            "permanente" if "1613" in caminho.name else "desconhecido"
+        )
+        pedacos.append(_sidra_para_longo(bruto, grupo))
+    return _finaliza_pam(pedacos, ANOS_PRE_BAN)
 
 
 # --------------------------------------------------------------------------
@@ -333,18 +591,41 @@ def simula_pam(anos=ANOS_PRE_BAN, seed: int = SEED) -> pd.DataFrame:
     return pd.concat(linhas, ignore_index=True)
 
 
-def carrega_pam(fonte: str = "auto", anos=ANOS_PRE_BAN, seed: int = SEED) -> tuple[pd.DataFrame, str]:
-    """Dispatcher: 'sidra' | 'simulado' | 'auto' (tenta SIDRA, cai para simulado)."""
+def carrega_pam(
+    fonte: str = "auto",
+    anos=ANOS_PRE_BAN,
+    seed: int = SEED,
+    caminhos: list[Path] | None = None,
+) -> tuple[pd.DataFrame, str]:
+    """Dispatcher: 'sidra' | 'arquivo' | 'simulado' | 'auto'.
+
+    'auto' = arquivo (se houver) -> SIDRA -> simulado, como nos scripts 02 e 03.
+    O fallback para simulado **anuncia o motivo classificado**: bloqueio de rede
+    e erro do IBGE pedem ações diferentes, e a mensagem genérica de antes fazia
+    as duas parecerem a mesma coisa.
+    """
     if fonte == "simulado":
         return simula_pam(anos, seed), "simulado"
+    if fonte == "arquivo":
+        return carrega_pam_arquivo(caminhos or []), "arquivo"
     if fonte == "sidra":
         return carrega_pam_sidra(anos), "sidra"
+
+    if caminhos:
+        try:
+            return carrega_pam_arquivo(caminhos), "arquivo"
+        except Exception as erro:  # noqa: BLE001
+            print(f"[aviso] leitura dos arquivos falhou ({type(erro).__name__}: {erro}).")
     try:
         return carrega_pam_sidra(anos), "sidra"
-    except Exception as erro:  # noqa: BLE001 — qualquer falha vira fallback avisado
+    except BloqueioDeRede as erro:
+        print("[aviso] SIDRA inalcançável — e o motivo NÃO é o IBGE:")
+        for linha in str(erro).splitlines():
+            print(f"[aviso] {linha}")
+    except Exception as erro:  # noqa: BLE001 — qualquer outra falha vira fallback avisado
         print(f"[aviso] Acesso ao SIDRA indisponível ({type(erro).__name__}: {erro}).")
-        print("[aviso] Caindo para dados SIMULADOS. Nada abaixo é evidência empírica.")
-        return simula_pam(anos, seed), "simulado"
+    print("[aviso] Caindo para dados SIMULADOS. Nada abaixo é evidência empírica.")
+    return simula_pam(anos, seed), "simulado"
 
 
 # --------------------------------------------------------------------------
@@ -683,8 +964,19 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument(
-        "--fonte", choices=("auto", "sidra", "simulado"), default="auto",
-        help="auto (padrão): tenta SIDRA e cai para simulado se não houver acesso.",
+        "--fonte", choices=("auto", "sidra", "arquivo", "simulado"), default="auto",
+        help="auto (padrão): arquivo (se houver) -> SIDRA -> simulado.",
+    )
+    parser.add_argument(
+        "--caminho", type=Path, nargs="*", default=[],
+        help="Tabelas do SIDRA baixadas à mão (.csv/.xlsx), no formato do portal.",
+    )
+    parser.add_argument(
+        "--verificar-codigos", action="store_true",
+        help=(
+            "Só o preflight: confere contra a API de metadados se os códigos de "
+            "variável e classificação de SIDRA_TABELAS existem. Não baixa dado."
+        ),
     )
     parser.add_argument(
         "--nascimentos", type=Path, default=None,
@@ -702,7 +994,27 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
 
-    bruto, fonte = carrega_pam(args.fonte, ANOS_PRE_BAN, args.seed)
+    if args.verificar_codigos:
+        try:
+            return 0 if imprime_verificacao(verifica_codigos_sidra()) else 1
+        except BloqueioDeRede as erro:
+            print("=" * 84)
+            print("PREFLIGHT NÃO RODOU — a rede do ambiente barrou a chamada.")
+            print("=" * 84)
+            print(erro)
+            return 2
+
+    try:
+        bruto, fonte = carrega_pam(args.fonte, ANOS_PRE_BAN, args.seed, args.caminho)
+    except BloqueioDeRede as erro:
+        # Traceback aqui enterraria a mensagem, que é justamente a parte útil:
+        # ela diz o que liberar e onde.
+        print("=" * 84)
+        print("SIDRA INALCANÇÁVEL — a rede do ambiente barrou a chamada.")
+        print("=" * 84)
+        print(erro)
+        return 2
+
     candidatas = filtra_candidatas(bruto)
     if candidatas.empty:
         print("[erro] Nenhuma cultura candidata casou com os rótulos do PAM.")
