@@ -29,6 +29,7 @@ Uso:
     python scripts/data_prep/01_check_dose_variation.py --fonte sidra   # exige SIDRA (falha alto)
     python scripts/data_prep/01_check_dose_variation.py --fonte arquivo --caminho tab1612.csv
     python scripts/data_prep/01_check_dose_variation.py --fonte simulado
+    python scripts/data_prep/01_check_dose_variation.py --verificar-codigos
 
 Antes de confiar em qualquer rodada com `--fonte sidra`, rode `--verificar-codigos`:
 os códigos de variável e classificação em `SIDRA_TABELAS` vieram da documentação
@@ -228,7 +229,15 @@ def _sidra_para_longo(bruto: pd.DataFrame, grupo: str) -> pd.DataFrame:
 
     col_muni = coluna_por_rotulo("municipio (codigo)", "codigo do municipio")
     col_ano = coluna_por_rotulo("ano (codigo)", "ano")
-    col_cultura = coluna_por_rotulo("lavoura", "produto")
+    # O SIDRA devolve D4C (código) antes de D4N (nome); a dose precisa do rótulo.
+    col_cultura = coluna_por_rotulo("produto das lavouras", "produto")
+    if normaliza(str(rotulos[col_cultura])).endswith("(codigo)"):
+        col_cultura = next(
+            codigo
+            for codigo, rotulo in rotulos.items()
+            if any(t in normaliza(str(rotulo)) for t in ("produto das lavouras", "produto"))
+            and not normaliza(str(rotulo)).endswith("(codigo)")
+        )
     col_valor = coluna_por_rotulo("valor")
 
     longo = pd.DataFrame(
@@ -1014,7 +1023,6 @@ def main(argv: list[str] | None = None) -> int:
         print("=" * 84)
         print(erro)
         return 2
-
     candidatas = filtra_candidatas(bruto)
     if candidatas.empty:
         print("[erro] Nenhuma cultura candidata casou com os rótulos do PAM.")
