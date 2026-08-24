@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import date
 import unicodedata
 from pathlib import Path
 
@@ -95,11 +96,27 @@ CULTURAS_CANDIDATAS = (
     "mandioca",
 )
 
-# Limiares de "massa suficiente para servir de dose". São julgamentos, não
-# fatos — estão aqui em cima para serem discutidos e mexidos.
-MIN_MUNI_POSITIVOS = 20      # suporte transversal mínimo
-MIN_AREA_ESTADO_HA = 1_000   # a cultura precisa existir de fato no estado
-MAX_SHARE_TOP5 = 0.80        # concentração: dose em 5 municípios = pouco poder
+# --- Escada de especificação ------------------------------------------------
+# Estes cortes NÃO são preferência estética: saem do que cada estimador precisa.
+# A curva não-paramétrica de CGS usa um sieve (Chen, Christensen & Kankanala) e
+# exige suporte espalhado — valores de dose distintos, não municípios empilhados
+# no mesmo ponto. Quando o suporte encolhe, o próprio CGS aponta o degrau
+# seguinte: dose discreta com indicadores múltiplos ("when the treatment is
+# discrete, this is as simple as running a linear regression with multiple
+# treatment indicators"). O último degrau é binarizar sob Assumption 4-Agg,
+# abandonando a curva.
+#
+# Quem ratifica os cortes é o pesquisador — estão aqui em cima exatamente para
+# isso, e a versão anterior deste arquivo usava limiares que eram palpite meu
+# travestido de critério (ver docs/ars/02-research-plan-summary.md, nota de poder).
+MIN_MUNI_CURVA = 40            # abaixo disso o sieve não-paramétrico não se defende
+MIN_MUNI_FAIXAS = 15           # abaixo disso nem faixas discretas — só binário
+MIN_DOSE_DISTINTAS_CURVA = 20  # empate em massa mata o sieve mesmo com muitos municípios
+MIN_MUNI_DECIL_SUPERIOR = 5    # suporte no topo, onde a hipótese de limiar põe o efeito
+
+# --- Poder ------------------------------------------------------------------
+SD_PESO_G = 500.0  # DP individual do peso ao nascer; trocar pela do SINASC real
+Z_PODER = 2.8      # 80% de poder, 5% bilateral (1.96 + 0.84)
 
 
 # --------------------------------------------------------------------------
@@ -341,15 +358,19 @@ def media_por_municipio(df: pd.DataFrame, anos=ANOS_PRE_BAN) -> pd.DataFrame:
 
 
 def dispersao_por_cultura(medias: pd.DataFrame) -> pd.DataFrame:
-    """Uma linha por cultura com as métricas de dispersão entre municípios.
+    """Uma linha por cultura com o que decide a especificação, não só descrição.
 
     Duas versões do CV de propósito:
       - cv_todos:     inclui municípios com área zero. É o CV da variável de
                       tratamento como ela entraria na regressão (zero é dose).
       - cv_positivos: só entre quem planta. Separa "dose varia entre produtores"
                       de "quase ninguém planta".
-    p90/p10 é calculada só entre positivos — com muitos zeros, p10 = 0 e a razão
-    explode sem informar nada.
+
+    As colunas de suporte (`n_dose_distintas`, `n_muni_acima_mediana`,
+    `n_muni_decil_superior`) existem porque contagem de municípios sozinha não
+    pega dois casos patológicos: muitos municípios empilhados na mesma dose, e
+    cauda superior vazia — que é justamente onde a hipótese de limiar põe o
+    efeito.
     """
     registros = []
     n_muni_total = medias["cod_ibge"].nunique()
@@ -358,16 +379,33 @@ def dispersao_por_cultura(medias: pd.DataFrame) -> pd.DataFrame:
         area = bloco["area_ha_media"].to_numpy(dtype=float)
         positivos = area[area > 0]
         area_total = float(area.sum())
-        top5 = float(np.sort(area)[::-1][:5].sum())
+
+        if positivos.size:
+            mediana_pos = float(np.median(positivos))
+            corte_decil = float(np.percentile(positivos, 90))
+            no_decil = positivos[positivos >= corte_decil]
+            # Área é contínua: contar valores distintos só informa depois de
+            # arredondar. 0,1 ha é a precisão em que o PAM reporta.
+            n_distintas = int(np.unique(np.round(positivos, 1)).size)
+        else:
+            mediana_pos, no_decil, n_distintas = 0.0, np.array([]), 0
 
         registros.append(
             {
                 "cultura": cultura,
                 "n_muni_positivo": int(positivos.size),
+                "n_muni_zero": int(n_muni_total - positivos.size),
                 "share_muni_positivo": positivos.size / n_muni_total if n_muni_total else np.nan,
                 "area_total_estado_ha": area_total,
                 "area_media_positivos_ha": float(positivos.mean()) if positivos.size else 0.0,
-                "mediana_positivos_ha": float(np.median(positivos)) if positivos.size else 0.0,
+                "mediana_positivos_ha": mediana_pos,
+                "n_dose_distintas": n_distintas,
+                "n_muni_acima_mediana": int((positivos > mediana_pos).sum()),
+                "n_muni_decil_superior": int(no_decil.size),
+                "share_area_decil_superior": (
+                    float(no_decil.sum() / area_total) if area_total > 0 else np.nan
+                ),
+                "gini_dose": _gini(area),
                 "cv_todos": float(area.std(ddof=1) / area.mean()) if area.mean() > 0 else np.nan,
                 "cv_positivos": (
                     float(positivos.std(ddof=1) / positivos.mean())
@@ -375,12 +413,11 @@ def dispersao_por_cultura(medias: pd.DataFrame) -> pd.DataFrame:
                     else np.nan
                 ),
                 "p90_p10_positivos": _razao_p90_p10(positivos),
-                "share_top5_muni": top5 / area_total if area_total > 0 else np.nan,
             }
         )
 
     tabela = pd.DataFrame(registros)
-    return tabela.sort_values("cv_positivos", ascending=False, na_position="last").reset_index(drop=True)
+    return tabela.sort_values("n_muni_positivo", ascending=False).reset_index(drop=True)
 
 
 def _razao_p90_p10(positivos: np.ndarray) -> float:
@@ -391,20 +428,113 @@ def _razao_p90_p10(positivos: np.ndarray) -> float:
     return p90 / p10 if p10 > 0 else np.nan
 
 
-def sinaliza_massa(tabela: pd.DataFrame) -> pd.DataFrame:
-    """Marca o que tem massa para servir de dose — sem eleger vencedor."""
-    def avalia(linha: pd.Series) -> str:
-        problemas = []
-        if linha["n_muni_positivo"] < MIN_MUNI_POSITIVOS:
-            problemas.append(f"poucos municípios (<{MIN_MUNI_POSITIVOS})")
-        if linha["area_total_estado_ha"] < MIN_AREA_ESTADO_HA:
-            problemas.append(f"área fina (<{MIN_AREA_ESTADO_HA:.0f} ha no estado)")
-        if pd.notna(linha["share_top5_muni"]) and linha["share_top5_muni"] > MAX_SHARE_TOP5:
-            problemas.append(f"concentrada (top5 > {MAX_SHARE_TOP5:.0%})")
-        return "OK — candidata a dose" if not problemas else "; ".join(problemas)
+def _gini(valores: np.ndarray) -> float:
+    """Gini da dose como ela entra na regressão — com os zeros dentro."""
+    x = np.sort(np.asarray(valores, dtype=float))
+    n = x.size
+    if n == 0 or x.sum() <= 0:
+        return np.nan
+    cum = np.cumsum(x)
+    return float((n + 1 - 2 * cum.sum() / cum[-1]) / n)
+
+
+def recomenda_especificacao(tabela: pd.DataFrame) -> pd.DataFrame:
+    """Aplica a escada do CGS. **Recomenda; não decide.**
+
+    Substitui a coluna `sinal` da versão anterior, que dava "OK — candidata a
+    dose" com base em limiares arbitrários — e aprovava, por exemplo, cultura
+    com 25 municípios e três quartos da área em cinco deles.
+    """
+    def avalia(linha: pd.Series) -> tuple[str, str]:
+        n = int(linha["n_muni_positivo"])
+        if n < MIN_MUNI_FAIXAS:
+            return (
+                "binário (Assumption 4-Agg) — curva abandonada",
+                f"{n} municípios com dose > 0, abaixo de {MIN_MUNI_FAIXAS}",
+            )
+        if n < MIN_MUNI_CURVA:
+            return (
+                "faixas discretas (indicadores múltiplos)",
+                f"{n} municípios, abaixo dos {MIN_MUNI_CURVA} que o sieve pede",
+            )
+        motivos = []
+        if linha["n_dose_distintas"] < MIN_DOSE_DISTINTAS_CURVA:
+            motivos.append(f"só {int(linha['n_dose_distintas'])} valores distintos de dose")
+        if linha["n_muni_decil_superior"] < MIN_MUNI_DECIL_SUPERIOR:
+            motivos.append(
+                f"{int(linha['n_muni_decil_superior'])} municípios no decil superior"
+            )
+        if motivos:
+            return ("faixas discretas (indicadores múltiplos)", "; ".join(motivos))
+        return ("curva não-paramétrica (sieve)", f"{n} municípios, suporte espalhado")
 
     saida = tabela.copy()
-    saida["sinal"] = saida.apply(avalia, axis=1)
+    avaliado = saida.apply(avalia, axis=1, result_type="expand")
+    saida["especificacao"] = avaliado[0]
+    saida["motivo"] = avaliado[1]
+    return saida
+
+
+# --------------------------------------------------------------------------
+# Poder — o número que decide se vale estimar
+# --------------------------------------------------------------------------
+
+def acrescenta_mde(
+    tabela: pd.DataFrame, medias: pd.DataFrame, painel: pd.DataFrame, anos_pre=ANOS_PRE_BAN
+) -> pd.DataFrame:
+    """Efeito mínimo detectável para peso ao nascer, nas duas contabilidades.
+
+    A ingênua conta **bebês** — é o que uma regressão sem cluster reporta, e é
+    otimista por uma ordem de grandeza. A honesta conta **municípios**, porque
+    com poucos clusters tratados quem manda é a dispersão das tendências
+    municipais, não o tamanho da amostra individual. A distância entre as duas é
+    o argumento inteiro para Conley–Taber e wild bootstrap.
+
+    A DP das tendências é estimada dentro do pré-período: parte-se a janela ao
+    meio e mede-se, por município, a variação do peso médio. É um placebo — no
+    pré-período não há tratamento, então essa variação é ruído puro.
+    """
+    nasc = painel.copy()
+    nasc["cod_ibge6"] = nasc["cod_ibge6"].astype(str)
+    total_nasc = nasc.groupby("cod_ibge6")["n_nascimentos"].sum()
+
+    metade = min(anos_pre) + (max(anos_pre) - min(anos_pre)) // 2
+    pre = nasc[nasc["ano"].isin(anos_pre)]
+    inicio = pre[pre["ano"] <= metade].groupby("cod_ibge6")["peso_medio"].mean()
+    fim = pre[pre["ano"] > metade].groupby("cod_ibge6")["peso_medio"].mean()
+    variacao = (fim - inicio).dropna()
+    sd_tendencia = float(variacao.std(ddof=1)) if variacao.size > 1 else np.nan
+
+    linhas = []
+    for cultura in tabela["cultura"]:
+        bloco = medias[medias["cultura"] == cultura]
+        dose = bloco.set_index("cod_ibge6")["area_ha_media"]
+        positivos = dose[dose > 0]
+        if positivos.empty:
+            linhas.append((0, np.nan, np.nan))
+            continue
+        corte = float(np.percentile(positivos, 90))
+        altos = dose.index[dose >= corte]
+        g1 = len(altos)
+        g0 = int(dose.size - g1)
+        n1 = int(total_nasc.reindex(altos).fillna(0).sum())
+        n0 = int(total_nasc.sum() - n1)
+
+        ingenuo = (
+            Z_PODER * SD_PESO_G * np.sqrt(1 / n1 + 1 / n0) if n1 > 0 and n0 > 0 else np.nan
+        )
+        agrupado = (
+            Z_PODER * sd_tendencia * np.sqrt(1 / g1 + 1 / g0)
+            if g1 > 0 and g0 > 0 and not np.isnan(sd_tendencia)
+            else np.nan
+        )
+        linhas.append((n1, ingenuo, agrupado))
+
+    saida = tabela.copy()
+    saida[["n_nascimentos_dose_alta", "mde_ingenuo_g", "mde_agrupado_g"]] = pd.DataFrame(
+        linhas, index=saida.index
+    )
+    saida.attrs["sd_tendencia_g"] = sd_tendencia
     return saida
 
 
@@ -414,36 +544,51 @@ def sinaliza_massa(tabela: pd.DataFrame) -> pd.DataFrame:
 
 def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> None:
     faixa = f"{min(anos)}–{max(anos)}"
-    barra = "=" * 100
+    barra = "=" * 108
     print(barra)
-    print(f"VARIAÇÃO DE DOSE ENTRE MUNICÍPIOS DO CEARÁ — área média {faixa} (PAM/IBGE)")
+    print(f"GATE 1 — VARIAÇÃO DE DOSE ENTRE MUNICÍPIOS DO CEARÁ, área média {faixa} (PAM/IBGE)")
     print(f"fonte dos dados: {fonte.upper()}")
     if fonte == "simulado":
-        print("!! DADOS SIMULADOS — números inventados, servem só para validar o código. !!")
+        print("!! DADOS SIMULADOS — números inventados a partir dos próprios flags de")
+        print("!! auditoria. A tabela CONFIRMA os flags por circularidade. Não é evidência.")
     print(barra)
 
     colunas = [
-        "cultura", "n_muni_positivo", "area_total_estado_ha", "mediana_positivos_ha",
-        "cv_todos", "cv_positivos", "p90_p10_positivos", "share_top5_muni", "sinal",
+        "cultura", "n_muni_positivo", "n_dose_distintas", "n_muni_decil_superior",
+        "share_area_decil_superior", "gini_dose", "cv_todos", "especificacao",
     ]
+    tem_mde = "mde_agrupado_g" in tabela.columns
+    if tem_mde:
+        colunas = colunas[:-1] + ["mde_ingenuo_g", "mde_agrupado_g", "especificacao"]
+
     exibe = tabela[colunas].copy()
-    for col in ("area_total_estado_ha", "mediana_positivos_ha"):
-        exibe[col] = exibe[col].map(lambda v: f"{v:,.0f}")
-    for col in ("cv_todos", "cv_positivos", "p90_p10_positivos"):
-        exibe[col] = exibe[col].map(lambda v: "—" if pd.isna(v) else f"{v:.2f}")
-    exibe["share_top5_muni"] = exibe["share_top5_muni"].map(
+    exibe["share_area_decil_superior"] = exibe["share_area_decil_superior"].map(
         lambda v: "—" if pd.isna(v) else f"{v:.0%}"
     )
+    for col in ("gini_dose", "cv_todos"):
+        exibe[col] = exibe[col].map(lambda v: "—" if pd.isna(v) else f"{v:.2f}")
+    if tem_mde:
+        for col in ("mde_ingenuo_g", "mde_agrupado_g"):
+            exibe[col] = exibe[col].map(lambda v: "—" if pd.isna(v) else f"{v:.1f}")
     print(exibe.to_string(index=False))
     print(barra)
-    print("Como ler (ordenado por CV entre municípios que plantam):")
-    print("  • CV alto com poucos municípios NÃO é dose utilizável — é cauda fina.")
-    print("    Olhe 'n_muni_positivo' e 'sinal' antes do CV.")
-    print("  • 'cv_todos' inclui os zeros: é a dispersão da variável como ela")
-    print("    entraria na regressão de tratamento contínuo (zero é dose válida).")
+    print("Como ler (ordenado por nº de municípios com dose > 0):")
+    print("  • 'especificacao' é RECOMENDAÇÃO, não decisão. Vem da escada do CGS:")
+    print(f"    >= {MIN_MUNI_CURVA} municípios com suporte espalhado -> curva não-paramétrica;")
+    print(f"    {MIN_MUNI_FAIXAS} a {MIN_MUNI_CURVA - 1} -> faixas discretas; abaixo de {MIN_MUNI_FAIXAS} -> binário.")
+    print("  • Municípios no decil superior é onde a hipótese de limiar põe o efeito —")
+    print("    e é onde o suporte é mais fino. Quanto mais certa a hipótese sobre o")
+    print("    formato, menos municípios carregam o efeito e maior o MDE.")
+    if tem_mde:
+        sd = tabela.attrs.get("sd_tendencia_g")
+        print(f"  • MDE ingênuo conta bebês; MDE agrupado conta municípios (DP das")
+        print(f"    tendências municipais no pré-período = {sd:.1f} g). A distância entre")
+        print("    os dois é o argumento para Conley–Taber. Compare o efeito esperado")
+        print("    com o AGRUPADO, nunca com o ingênuo.")
+    else:
+        print("  • MDE não calculado. Rode com --nascimentos <painel do script 02>.")
     print("  • Área plantada é proxy de intensidade agrícola, não de pulverização")
-    print("    AÉREA. O ban proíbe o método, não a molécula — o descasamento")
-    print("    atenua o efeito estimado e precisa ser dito na identificação.")
+    print("    AÉREA. O ban proíbe o método, não a molécula.")
     print("  • Este script não escolhe a cultura-âncora. A decisão é sua.")
     print(barra)
 
@@ -458,6 +603,10 @@ def main(argv: list[str] | None = None) -> int:
         "--fonte", choices=("auto", "sidra", "simulado"), default="auto",
         help="auto (padrão): tenta SIDRA e cai para simulado se não houver acesso.",
     )
+    parser.add_argument(
+        "--nascimentos", type=Path, default=None,
+        help="Painel do script 02 (parquet). Sem ele o MDE não é calculado.",
+    )
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
@@ -470,14 +619,32 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     medias = media_por_municipio(candidatas)
-    tabela = sinaliza_massa(dispersao_por_cultura(medias))
+    tabela = recomenda_especificacao(dispersao_por_cultura(medias))
+
+    if args.nascimentos is not None:
+        try:
+            painel = pd.read_parquet(args.nascimentos)
+            tabela = acrescenta_mde(tabela, medias, painel)
+        except Exception as erro:  # noqa: BLE001
+            print(f"[aviso] MDE não calculado ({type(erro).__name__}: {erro}).")
+
     imprime_relatorio(tabela, fonte)
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     # Sufixo com a fonte: diagnóstico simulado nunca deve passar por real.
     caminho_tabela = args.out_dir / f"dose_variacao_diagnostico__{fonte}.csv"
     caminho_painel = args.out_dir / f"pam_ce_muni_cultura_media__{fonte}.parquet"
-    tabela.to_csv(caminho_tabela, index=False)
+
+    # Proveniência viaja DENTRO do arquivo, não só no nome. Um CSV desgarrado do
+    # nome já foi lido como se fosse real uma vez; não de novo.
+    saida = tabela.copy()
+    saida.insert(0, "fonte", fonte)
+    with caminho_tabela.open("w", encoding="utf-8") as fh:
+        fh.write(f"# fonte={fonte} seed={args.seed} extraido_em={date.today().isoformat()}\n")
+        if fonte == "simulado":
+            fh.write("# ATENCAO: DADOS SIMULADOS - nao é evidência sobre o Ceará\n")
+        saida.to_csv(fh, index=False)
+
     medias.to_parquet(caminho_painel, index=False)
     print(f"[ok] tabela diagnóstica -> {caminho_tabela}")
     print(f"[ok] painel município×cultura -> {caminho_painel}")

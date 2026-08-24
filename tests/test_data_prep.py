@@ -95,20 +95,115 @@ def test_dispersao_separa_cv_com_e_sem_zeros():
     assert np.isnan(linha["p90_p10_positivos"])  # <10 positivos: percentil não diz nada
 
 
-def test_sinaliza_massa_reprova_cultura_fina_e_concentrada():
+def test_escada_de_especificacao_cobre_os_tres_degraus():
+    """A recomendação vem do suporte, não de limiar de área ou de concentração."""
     tabela = pd.DataFrame(
         {
-            "cultura": ["fina", "boa"],
-            "n_muni_positivo": [3, 60],
-            "area_total_estado_ha": [200.0, 50_000.0],
-            "share_top5_muni": [0.95, 0.25],
+            "cultura": ["espalhada", "media", "rala"],
+            "n_muni_positivo": [60, 25, 8],
+            "n_dose_distintas": [60, 25, 8],
+            "n_muni_decil_superior": [6, 3, 1],
         }
     )
-    sinal = dose.sinaliza_massa(tabela)["sinal"]
-    assert "poucos municípios" in sinal.iloc[0]
-    assert "área fina" in sinal.iloc[0]
-    assert "concentrada" in sinal.iloc[0]
-    assert sinal.iloc[1] == "OK — candidata a dose"
+    saida = dose.recomenda_especificacao(tabela)
+    assert "curva não-paramétrica" in saida["especificacao"].iloc[0]
+    assert "faixas discretas" in saida["especificacao"].iloc[1]
+    assert "binário" in saida["especificacao"].iloc[2]
+    assert "curva abandonada" in saida["especificacao"].iloc[2]
+
+
+def test_muitos_municipios_com_dose_empatada_nao_sustenta_a_curva():
+    """O caso patológico que a contagem de municípios sozinha não pega.
+
+    80 municípios positivos parecem suporte de sobra — mas se quase todos estão
+    empilhados na mesma dose, o sieve não tem onde avaliar a curva.
+    """
+    tabela = pd.DataFrame(
+        {
+            "cultura": ["empatada"],
+            "n_muni_positivo": [80],
+            "n_dose_distintas": [4],
+            "n_muni_decil_superior": [8],
+        }
+    )
+    saida = dose.recomenda_especificacao(tabela)
+    assert "faixas discretas" in saida["especificacao"].iloc[0]
+    assert "valores distintos" in saida["motivo"].iloc[0]
+
+
+def test_cauda_superior_vazia_derruba_a_curva():
+    """Suporte no corpo da distribuição não substitui suporte no topo.
+
+    É no topo que a hipótese de limiar põe o efeito; sem municípios lá, a
+    inclinação que interessa não é estimável.
+    """
+    tabela = pd.DataFrame(
+        {
+            "cultura": ["sem topo"],
+            "n_muni_positivo": [55],
+            "n_dose_distintas": [55],
+            "n_muni_decil_superior": [2],
+        }
+    )
+    saida = dose.recomenda_especificacao(tabela)
+    assert "faixas discretas" in saida["especificacao"].iloc[0]
+    assert "decil superior" in saida["motivo"].iloc[0]
+
+
+def test_colunas_de_suporte_medem_o_que_prometem():
+    medias = pd.DataFrame(
+        {
+            "cod_ibge": [f"239{i:03d}0" for i in range(10)],
+            "cultura": ["Melão"] * 10,
+            # 4 positivos, dois deles empatados; o maior isolado no topo
+            "area_ha_media": [100.0, 100.0, 250.0, 900.0] + [0.0] * 6,
+        }
+    )
+    linha = dose.dispersao_por_cultura(medias).iloc[0]
+    assert linha["n_muni_positivo"] == 4
+    assert linha["n_muni_zero"] == 6
+    assert linha["n_dose_distintas"] == 3        # o empate em 100 conta uma vez
+    assert linha["n_muni_acima_mediana"] == 2    # 250 e 900 acima da mediana (175)
+    assert linha["n_muni_decil_superior"] == 1   # só o 900
+    assert 0.0 < linha["gini_dose"] < 1.0
+
+
+def test_mde_agrupado_e_maior_que_o_ingenuo():
+    """A conta que conta municípios tem que ser mais dura que a que conta bebês.
+
+    É o argumento inteiro para Conley–Taber: se o agrupado saísse menor, a
+    inferência com poucos clusters seria um detalhe, e não é.
+    """
+    medias = pd.DataFrame(
+        {
+            "cod_ibge": [f"239{i:03d}0" for i in range(20)],
+            "cod_ibge6": [f"239{i:03d}" for i in range(20)],
+            "cultura": ["Melão"] * 20,
+            "area_ha_media": [500.0] + [10.0] * 9 + [0.0] * 10,
+        }
+    )
+    rng = np.random.default_rng(7)
+    linhas = []
+    for cod in medias["cod_ibge6"]:
+        for ano in (2015, 2016, 2017, 2018):
+            linhas.append(
+                {
+                    "cod_ibge6": cod,
+                    "ano": ano,
+                    "mes": 6,
+                    "n_nascimentos": 200,
+                    "peso_medio": 3200 + rng.normal(0, 30),
+                }
+            )
+    painel = pd.DataFrame(linhas)
+
+    tabela = dose.recomenda_especificacao(dose.dispersao_por_cultura(medias))
+    saida = dose.acrescenta_mde(tabela, medias, painel)
+    ingenuo = saida["mde_ingenuo_g"].iloc[0]
+    agrupado = saida["mde_agrupado_g"].iloc[0]
+    assert ingenuo > 0 and agrupado > 0
+    assert agrupado > ingenuo
+    assert saida["n_nascimentos_dose_alta"].iloc[0] > 0
 
 
 # --------------------------------------------------------------------------

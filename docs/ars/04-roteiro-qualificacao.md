@@ -13,12 +13,12 @@ investimento: **cada fonte tem uso declarado que sobrevive a um gate negativo.**
 ```
 TRILHA DO GATE                          TRILHA DE AQUISIÇÃO
 ──────────────                          ───────────────────
-E1  data e janela                       A1  SINASC + SIM (pysus / BD)
-E2  01_check_dose --fonte sidra         A2  FAO-GAEZ (raster)
-E3  escolha de especificação            A3  ANA ottobacias + SISAGUA
-E4  d = 0 e contaminação                A4  MapBiomas + INMET/FUNCEME
-                                        A5  SIH + CAGED/RAIS + PIB agro
-                                        A6  cadastro aeroagrícola (ANAC/MAPA/SINDAG)
+E0  bans municipais < 2019  ⚠️           A1  SINASC + SIM (pysus / BD)
+E1  data e janela  ✅                    A2  FAO-GAEZ (raster)
+E2  01_check_dose --fonte sidra         A3  ANA ottobacias + SISAGUA
+E3  escolha de especificação            A4  MapBiomas + INMET/FUNCEME
+E4  d = 0 e contaminação                A5  SIH + CAGED/RAIS + PIB agro
+                                        A6  cadastro aeroagrícola + SEMACE
         │                                          │
         └──────────►  E5  build_panel  ◄───────────┘
                             │
@@ -33,21 +33,30 @@ E4  d = 0 e contaminação                A4  MapBiomas + INMET/FUNCEME
 
 ## Trilha do gate
 
-### E1 — Data, janela e antecipação
-**Faz:** confirmar 08/01/2019 contra o texto oficial da Lei 16.820/2019 (o
-download da ADAGRI está pendente — ver `docs/legislacao/README.md`); fixar
-janela 2015 → 19/12/2024; marcar 2019 como transição e 18/12/2018 como início da
-antecipação.
-**Gate:** a data oficial bate com a citada na ADI?
-**Se não:** o `CLAUDE.md` volta a mudar e todas as janelas se deslocam. Refazer
-E2 em diante.
+### E1 — Data, janela e antecipação ✅ resolvida
+**Feito:** texto oficial obtido (`docs/legislacao/`). Sanção **08/01/2019**,
+publicação e vigência **09/01/2019**. Janela 2015 → 19/12/2024; 2019 como ano de
+transição; antecipação a partir de **18/12/2018** (aprovação na ALECE).
+**Gate residual:** a data do DOE bate com a do portal da AL-CE? A própria fonte
+avisa que não substitui o Diário Oficial.
+**Se não:** todas as janelas se deslocam. Refazer E2 em diante.
+**Pendência aberta que E1 revelou:** bans municipais anteriores a 2019 (ver o fim
+deste arquivo). Essa é mais grave que a data.
 
 ### E2 — Variação de dose (o gate que amarra tudo)
 **Faz:** `python scripts/data_prep/01_check_dose_variation.py --fonte sidra`
 (roda na sua máquina — a rede da sessão remota bloqueia `apisidra.ibge.gov.br`).
-**Passa a reportar**, além do que já reporta: número de valores distintos de dose
-acima da mediana, contagem no decil superior, nascimentos acumulados no grupo de
-dose alta, e o MDE implicado.
+Com `--nascimentos data/processed/nascimentos_ce_muni_mes.parquet`, junta pelo
+`cod_ibge6` e acrescenta o MDE.
+
+**Colunas que o script já emite** (versão de 2026-08-24): `n_muni_positivo`,
+`n_muni_zero`, `n_dose_distintas`, `n_muni_acima_mediana`,
+`n_muni_decil_superior`, `share_area_decil_superior`, `gini_dose`, `cv_todos`,
+`cv_positivos`, `p90_p10_positivos`, `especificacao`, `motivo` e — com a flag —
+`n_nascimentos_dose_alta`, `mde_ingenuo_g`, `mde_agrupado_g`. O CSV se
+identifica por dentro: cabeçalho com fonte, seed e data, e coluna `fonte` em
+toda linha.
+
 **Gate:** existe dispersão de dose utilizável, e a cultura-âncora se sustenta
 empiricamente — banana, melão, ou outra?
 **Se não:** o desenho de tratamento contínuo cai inteiro. Aí a rota volta a ser
@@ -55,9 +64,11 @@ controle sintético estadual ou o pareamento à la Rigotto, e a tese muda de
 espinha. Melhor descobrir aqui do que no capítulo 6.
 
 ### E3 — Escolha de especificação
-**Faz:** aplicar a escada do CGS ao resultado de E2 (ver a nota de poder em
-`02-research-plan-summary.md`) — curva não-paramétrica, dose discreta em faixas,
-ou binário sob Assumption 4-Agg.
+**Faz:** ler a coluna `especificacao`, que já aplica a escada do CGS —
+≥40 municípios com suporte espalhado → curva não-paramétrica; 15 a 39 → faixas
+discretas com indicadores múltiplos; <15 → binário sob Assumption 4-Agg. A
+coluna `motivo` diz o que derrubou a curva quando ela cai: poucos valores
+distintos de dose, ou cauda superior vazia. **A coluna recomenda; você ratifica.**
 **Gate:** o número de municípios com dose positiva e o suporte no decil superior
 sustentam a curva não-paramétrica?
 **Se não:** desce um degrau na escada, e a mudança fica **registrada com a data**,
@@ -87,7 +98,7 @@ a um gate negativo em E2.
 | A3 | ANA + SISAGUA | canal-água, que independe do formato da curva |
 | A4 | MapBiomas + INMET/FUNCEME | canal-ar; e os polígonos melhoram a própria medida de dose |
 | A5 | SIH + CAGED/RAIS + PIB agro | canais de substituição e renda; insumo direto do Ensaio 2 |
-| A6 | cadastro aeroagrícola | definição 3 de d = 0 — a única que mede o **método** |
+| A6 | cadastro aeroagrícola (ANAC/MAPA/SINDAG) **+ registro SEMACE** | definição 3 de d = 0 — a única que mede o **método**. O art. 8º da Lei 12.228/1993 obriga prestadoras de serviço de aplicação a se registrarem na SEMACE: fonte estadual, provavelmente melhor |
 
 **Verificações a fazer na aquisição, não a assumir:**
 - MapBiomas separa banana e melão, ou só classes genéricas? (A4)
@@ -141,13 +152,25 @@ partir do texto, incluindo os degraus que **não** foram tomados?
 
 ---
 
-## Antes de tudo — três pendências que não são etapa
+## Antes de tudo — pendências que não são etapa
 
-1. **Verificar as duas citações** — Larsen et al. (2017) e Marx-Stoelting et al.
+1. ⚠️ **Levantar os bans municipais anteriores a 2019.** O art. 29 da Lei
+   12.228/1993 autoriza município a legislar supletivamente, e Limoeiro do Norte
+   teria proibido a pulverização aérea em **2009**. Se procede, há unidades **já
+   tratadas** dentro do grupo de dose alta, e 2015–2018 deixa de ser
+   pré-tratamento para todos. Isso é anterior a E2 em importância: contamina a
+   própria medida de dose.
+2. **Verificar as duas citações** — Larsen et al. (2017) e Marx-Stoelting et al.
    (2025) sobre Frank (2024). Nenhuma foi conferida; nenhuma está na pasta.
-2. **Baixar o texto oficial da Lei 16.820/2019** (links em
-   `docs/legislacao/README.md`; bloqueados na sessão remota, livres na sua máquina).
 3. **Decidir o controle vetorial** — exclusão do d = 0 ou parte do tratamento.
+   Nota: a redação de 2024 **não reproduz** o §2º de 2019, então a proibição de
+   dispersão aérea sanitária caiu em 19/12/2024 — mais uma razão para o corte.
+4. **Checar se o cadastro da SEMACE é público** (art. 8º da Lei 12.228/1993:
+   prestadoras de serviço de aplicação de agrotóxico devem se registrar). É a
+   fonte estadual para o `d = 0` operacional, provavelmente melhor que
+   ANAC/MAPA/SINDAG.
+
+~~Baixar o texto oficial da Lei 16.820/2019~~ — **feito**, em `docs/legislacao/`.
 
 ## E as camadas socráticas que faltam
 
