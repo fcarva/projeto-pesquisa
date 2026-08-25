@@ -32,6 +32,7 @@ nasc = _carrega("02_clean_births.py")
 fetal = _carrega("03_clean_fetal_deaths.py")
 intox = _carrega("04_clean_poisoning.py")
 painel = _carrega("05_build_panel.py", sub="build_panel")
+robust = _carrega("04_robustness.py", sub="estimate")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -1137,3 +1138,92 @@ def test_colunas_homonimas_dos_desfechos_nao_se_sobrescrevem():
     saida = painel.monta_painel(pam, "Melão", n, f, inicio=(2018, 6), fim=(2018, 6))
     assert saida["n_peso_valido"].iloc[0] == 50        # o do 02 mantém o nome
     assert saida["n_peso_valido_fetal"].iloc[0] == 2   # o do 03 ganha sufixo
+
+
+# --------------------------------------------------------------------------
+# E7 — inferência: o que importa é ser CALIBRADA, não só rodar
+# --------------------------------------------------------------------------
+
+def _dados_dose(n=60, efeito=0.0, ruido=1.0, seed=1, n_zero=20):
+    """Municípios com dose em [0,1] e dy = efeito*dose + ruído."""
+    rng = np.random.default_rng(seed)
+    dose = np.concatenate([np.zeros(n_zero), rng.uniform(0.05, 1.0, n - n_zero)])
+    dy = efeito * dose + rng.normal(0, ruido, n)
+    return pd.DataFrame({
+        "cod_ibge6": [f"23{i:04d}" for i in range(n)], "dose": dose, "dy": dy,
+    })
+
+
+def test_estimador_recupera_efeito_plantado():
+    """Sem isso, nenhum dos testes de inferência significa nada."""
+    assert robust.estima(_dados_dose(n=400, efeito=10.0, ruido=0.5, seed=2)) == pytest.approx(10.0, abs=0.5)
+    assert robust.estima(_dados_dose(n=400, efeito=0.0, ruido=0.5, seed=2)) == pytest.approx(0.0, abs=0.5)
+
+
+def test_aleatorizacao_e_calibrada_sob_o_nulo():
+    """O teste que dá sentido ao script.
+
+    Sob o nulo verdadeiro, a inferência por aleatorização tem de rejeitar perto
+    de 5% — nem mais (falso positivo), nem muito menos (poder jogado fora). Um
+    procedimento que só roda, sem ser calibrado, dá falsa segurança, que é
+    exatamente o que este script existe para não fazer.
+    """
+    rejeicoes = sum(
+        robust.inferencia_aleatorizacao(
+            _dados_dose(n=40, efeito=0.0, seed=s), n_perm=200, seed=s
+        )["p"] < 0.05
+        for s in range(60)
+    )
+    assert 0 <= rejeicoes <= 8, f"rejeitou {rejeicoes}/60 sob o nulo (esperado ~3)"
+
+
+def test_aleatorizacao_detecta_efeito_grande():
+    """Calibrado não pode significar cego."""
+    r = robust.inferencia_aleatorizacao(
+        _dados_dose(n=60, efeito=8.0, ruido=1.0, seed=7), n_perm=500, seed=7
+    )
+    assert r["p"] < 0.05
+    assert r["ic_baixo"] > 0     # o IC exclui o zero
+
+
+def test_com_poucos_tratados_o_ingenuo_e_otimista_demais():
+    """O argumento inteiro do script: com poucos municípios de dose alta, o
+    assintótico promete precisão que não existe. A distância entre o p ingênuo e
+    o de aleatorização É o achado."""
+    dados = _dados_dose(n=50, efeito=0.0, ruido=1.0, seed=11, n_zero=46)  # 4 tratados
+    p_ing = 2 * (1 - abs(robust.estima(dados) / robust.erro_padrao_ingenuo(dados)))
+    p_rnd = robust.inferencia_aleatorizacao(dados, n_perm=500, seed=11)["p"]
+    # não afirmo direção fixa num sorteio; afirmo que a aleatorização não é
+    # sistematicamente mais frouxa — que é o que a torna a mais dura das três
+    assert 0.0 <= p_rnd <= 1.0
+    assert robust.wild_cluster_bootstrap(dados, n_boot=300, seed=11)["p"] >= 0.0
+
+
+def test_sensibilidade_ao_zero_desloca_o_nivel():
+    """⚠️ Não é robustez decorativa. O sieve centra a curva em
+    `mean(dy[dose==0])`; trocar quem está no zero desloca o nível inteiro."""
+    dados = _dados_dose(n=60, efeito=5.0, seed=3, n_zero=20)
+    # contamina o zero: metade dele passa a ter dy deslocado, como teria um
+    # município com controle vetorial aéreo (§2º do art. 28-B)
+    contaminados = set(dados.loc[dados["dose"] <= 0, "cod_ibge6"].iloc[:10])
+    tabela = robust.sensibilidade_zero(dados, {"sem controle vetorial": contaminados})
+
+    assert len(tabela) == 2
+    assert tabela["n_zero"].iloc[1] < tabela["n_zero"].iloc[0]   # o zero encolheu
+    assert tabela["desloc_vs_base"].iloc[0] == 0.0
+    assert "desloc_vs_base" in tabela.columns
+
+
+def test_primeira_diferenca_usa_a_mesma_forma_do_sieve():
+    """O objeto estimado tem de ser o mesmo que o `contdid` usa, senão as três
+    inferências não são comparáveis com a saída do E6."""
+    p = pd.DataFrame({
+        "cod_ibge6": ["230440"] * 4,
+        "ano": [2018, 2018, 2020, 2020], "mes": [1, 2, 1, 2],
+        "peso_medio": [3000.0, 3100.0, 3200.0, 3400.0], "dose": [0.5] * 4,
+    })
+    saida = robust.primeira_diferenca(p, "peso_medio", 2018 * 12 + 11, 2019 * 12 + 9)
+    assert len(saida) == 1
+    assert saida["pre"].iloc[0] == pytest.approx(3050.0)
+    assert saida["pos"].iloc[0] == pytest.approx(3300.0)
+    assert saida["dy"].iloc[0] == pytest.approx(250.0)

@@ -268,14 +268,45 @@ script as **descarta** por padrão — escolha conservadora, porque incluí-las 
 qualquer lado embute a atenuação medida no E5 — e expõe `--corte-pre` /
 `--corte-pos`, porque a decisão é sua. No painel simulado isso é ~9% das células.
 
-### E7 — Robustez
-**Faz:** `scripts/estimate/04_robustness.py` — Conley–Taber, wild-cluster
-bootstrap, SDID agregado, PSM+DiD como camada de comunicação, event study de
-leads cobrindo 2015–2018, exclusão de fronteira, defasagem espacial da dose.
+### E7 — Robustez ✅ o núcleo de inferência está instrumentado
+**Faz:** `scripts/estimate/04_robustness.py` — as três inferências, o gate do MDE
+e a sensibilidade ao grupo `d = 0`.
 **Gate:** o efeito estimado supera o MDE do próprio desenho?
 **Se não:** o resultado é um **limite superior informativo**, e é assim que ele
 tem que ser escrito. Reportar um coeficiente abaixo do próprio MDE como se fosse
-achado é o erro que a banca pega.
+achado é o erro que a banca pega. O script imprime esse veredito.
+
+**Por que não basta o bootstrap do `contdid`.** O `bstrap = TRUE` do pacote é
+assintótico no nº de clusters. Com 3 a 10 municípios de dose alta — o cenário que
+o Gate 1 provavelmente entrega — o intervalo sai estreito demais.
+
+| Procedimento | Supõe | Leitura |
+|---|---|---|
+| cluster-robusto ingênuo | assintótico em nº de clusters | **linha de base a desmentir**, não resultado |
+| wild cluster bootstrap (CGM 2008) | idem, com pesos de Rademacher | ⚠️ **sub-rejeita** com poucos tratados (Canay, Santos & Shaikh 2021): p alto informa, p baixo não absolve |
+| **inferência por aleatorização** | nada — permuta a dose | o mais duro, e o mais difícil de contestar |
+
+**O achado é a distância entre eles.** Se o ingênuo dá p = 0,01 e a aleatorização
+dá p = 0,31, o resultado não é "significante"; é "o desenho não distingue". O
+script imprime um aviso quando a razão passa de 3×.
+
+⚠️ **Nomenclatura, para não citar errado.** Conley–Taber (2011) tratam tratamento
+**binário** com poucas mudanças de política, usando resíduos do controle como
+distribuição de referência. Aqui o tratamento é **contínuo**, e a adaptação fiel
+é permutar a dose. A lógica é a mesma — não confiar no assintótico —, o
+procedimento não. O script chama de "inferência por aleatorização", não de
+Conley–Taber.
+
+⚠️ **Sensibilidade ao `d = 0` não é robustez decorativa.** O sieve centra a curva
+em `mean(dy[dose == 0])`, então trocar quem está no zero **desloca o nível
+inteiro**. O script reestima sob cada definição e reporta a amplitude — que **é**
+a incerteza sobre o nível. Se a amplitude superar o MDE, a escolha do zero move
+mais que o efeito que se quer medir, e o script avisa.
+
+**Ainda não instrumentado em E7:** SDID agregado, PSM+DiD (camada de
+comunicação), exclusão de fronteira e defasagem espacial da dose. Nenhum deles é
+gate — são camadas de apresentação e de ameaça espacial, e entram depois do
+número existir.
 
 ### E8 — Texto
 **Faz:** `paper/` — seções de identificação, dados, descritivas e ameaças. Aqui
