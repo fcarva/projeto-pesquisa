@@ -50,6 +50,7 @@ import pandas as pd
 # --------------------------------------------------------------------------
 
 UF_CEARA = "23"
+CODMUNRES_DESCONHECIDO = "230000"
 ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)  # pré e pós-ban (jun/2019)
 OUT_DIR = Path("data/processed")
 NOME_SAIDA = "nascimentos_ce_muni_mes"
@@ -93,6 +94,15 @@ def padroniza_colunas(df: pd.DataFrame) -> pd.DataFrame:
     """Nomes em maiúscula e garante que as colunas esperadas existam (NaN se não)."""
     saida = df.copy()
     saida.columns = [str(c).strip().upper() for c in saida.columns]
+    aliases_datazoom = {
+        "DATA_NASCIMENTO_RECNASCIDO": "DTNASC",
+        "DATA_NASCIMENTO_RECEMNASCIDO": "DTNASC",
+        "SEMANAS_GESTACAO": "SEMAGESTAC",
+        "CONSULTAS_PRENATAL_AGRUPADAS": "CONSULTAS",
+        "IDADE_MAE": "IDADEMAE",
+        "ESCOLARIDADE_MAE": "ESCMAE",
+    }
+    saida = saida.rename(columns=aliases_datazoom)
     faltando = [c for c in COLUNAS_SINASC if c not in saida.columns]
     for col in faltando:
         saida[col] = np.nan
@@ -111,6 +121,7 @@ def extrai_ano_mes(dtnasc: pd.Series) -> pd.DataFrame:
     texto = dtnasc.astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
     texto = texto.str.zfill(8)
     data = pd.to_datetime(texto, format="%d%m%Y", errors="coerce")
+    data = data.fillna(pd.to_datetime(texto, format="mixed", errors="coerce"))
     return pd.DataFrame(
         {
             "ano": data.dt.year.astype("Int64"),
@@ -176,7 +187,8 @@ def filtra_ceara(df: pd.DataFrame) -> pd.DataFrame:
     cod = cod.str.zfill(6)
     saida = df.copy()
     saida["cod_ibge6"] = cod
-    return saida[cod.str.startswith(UF_CEARA).fillna(False)].copy()
+    dentro_ceara = cod.str.startswith(UF_CEARA).fillna(False)
+    return saida[dentro_ceara & cod.ne(CODMUNRES_DESCONHECIDO)].copy()
 
 
 def prepara_nascimentos(bruto: pd.DataFrame, anos=None) -> pd.DataFrame:
@@ -187,6 +199,8 @@ def prepara_nascimentos(bruto: pd.DataFrame, anos=None) -> pd.DataFrame:
     df["semanas"] = limpa_semanas(df["SEMAGESTAC"])
     df["baixo_peso"] = deriva_baixo_peso(df["peso_g"])
     df = pd.concat([df, deriva_prematuridade(df["semanas"], df["GESTACAO"])], axis=1)
+    for coluna in ("IDADEMAE", "ESCMAE", "CONSULTAS"):
+        df[coluna] = pd.to_numeric(df[coluna], errors="coerce")
     df = df[df["ano"].notna() & df["mes"].notna()]
     if anos is not None:
         df = df[df["ano"].isin(list(anos))]
@@ -226,17 +240,26 @@ def colapsa_muni_mes(individual: pd.DataFrame) -> pd.DataFrame:
 # --------------------------------------------------------------------------
 
 def carrega_de_arquivos(caminhos: list[Path]) -> pd.DataFrame:
-    """Lê arquivos SINASC já baixados (.parquet / .csv / .csv.gz).
+    """Lê arquivos SINASC já baixados (.dbc / .parquet / .csv / .csv.gz).
 
     Caminho mais robusto para a fonte real: baixe uma vez do DATASUS e aponte
-    para cá. `.dbc` precisa ser convertido antes (pysus/read.dbc) — o formato
-    é comprimido proprietário e pandas não lê.
+    para cá. A conversão DBC é feita em diretório temporário e o microdado
+    comprimido original permanece intacto.
     """
     if not caminhos:
         raise ValueError("Nenhum caminho informado.")
     pedacos = []
     for caminho in caminhos:
-        if caminho.suffix == ".parquet":
+        if caminho.suffix.lower() == ".dbc":
+            import tempfile
+            from dbfread import DBF
+            import pyreaddbc
+
+            with tempfile.TemporaryDirectory() as temporario:
+                dbf = Path(temporario) / f"{caminho.stem}.dbf"
+                pyreaddbc.dbc2dbf(str(caminho), str(dbf))
+                pedacos.append(pd.DataFrame(iter(DBF(str(dbf), load=False))))
+        elif caminho.suffix == ".parquet":
             pedacos.append(pd.read_parquet(caminho))
         elif caminho.suffix in (".csv", ".gz"):
             pedacos.append(pd.read_csv(caminho, dtype=str, low_memory=False))
@@ -249,18 +272,22 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
     """Baixa SINASC/CE via pysus. A API do pysus mudou entre versões maiores,
     então tentamos a atual e caímos para a antiga."""
     try:  # pysus >= 0.10
-        from pysus.ftp.databases.sinasc import SINASC
+        from pysus.api import PySUSClient
 
-        base = SINASC().load()
         pedacos = []
-        for ano in anos:
-            arquivos = base.get_files(uf="CE", year=ano)
-            for parquet in base.download(arquivos):
-                pedacos.append(parquet.to_dataframe())
+        with PySUSClient() as client:
+            ftp = client.get_ftp()
+            datasets = client._run_async(ftp.datasets())
+            base = next(dataset for dataset in datasets if dataset.name == "SINASC")
+            for ano in anos:
+                arquivos = client._run_async(base.search(state="CE", year=ano))
+                for arquivo in arquivos:
+                    parquet = client.download_to_parquet(arquivo)
+                    pedacos.append(parquet.to_dataframe())
         if not pedacos:
             raise RuntimeError("pysus não devolveu arquivos para CE.")
         return pd.concat(pedacos, ignore_index=True)
-    except ImportError:
+    except (ImportError, AttributeError):
         pass
 
     from pysus.online_data.SINASC import download  # API antiga
@@ -377,14 +404,15 @@ def carrega_nascimentos(
 # Relatório
 # --------------------------------------------------------------------------
 
-def imprime_resumo(individual: pd.DataFrame, painel: pd.DataFrame, fonte: str) -> None:
+def imprime_resumo(individual: pd.DataFrame | None, painel: pd.DataFrame, fonte: str) -> None:
     barra = "=" * 84
     print(barra)
     print(f"NASCIMENTOS — CEARÁ, município de residência × ano-mês (SINASC) | fonte: {fonte.upper()}")
     if fonte == "simulado":
         print("!! DADOS SIMULADOS — números inventados, servem só para validar o código. !!")
     print(barra)
-    print(f"nascimentos (CE, após limpeza) : {len(individual):,}")
+    n_nascimentos = int(painel["n_nascimentos"].sum())
+    print(f"nascimentos (CE, após limpeza) : {n_nascimentos:,}")
     print(f"municípios                     : {painel['cod_ibge6'].nunique()}")
     print(f"células município-mês          : {len(painel):,}")
     print(f"período                        : {painel['ano'].min()}–{painel['ano'].max()}")
@@ -427,13 +455,32 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
 
-    bruto, fonte = carrega_nascimentos(args.fonte, args.caminho, tuple(args.anos), args.seed)
-    individual = prepara_nascimentos(bruto, args.anos)
-    if individual.empty:
-        print("[erro] Nada sobrou após filtrar Ceará e datas válidas. Confira CODMUNRES/DTNASC.")
-        return 1
-
-    painel = colapsa_muni_mes(individual)
+    # DBCs anuais são grandes: agrega um por vez para não manter todo o
+    # microdado da janela na memória.
+    processa_por_arquivo = args.fonte == "arquivos" and len(args.caminho) > 1 and any(
+        caminho.suffix.lower() == ".dbc" for caminho in args.caminho
+    )
+    if processa_por_arquivo:
+        paineis = []
+        for caminho in args.caminho:
+            individual = prepara_nascimentos(
+                carrega_de_arquivos([caminho]), args.anos
+            )
+            if not individual.empty:
+                paineis.append(colapsa_muni_mes(individual))
+        if not paineis:
+            print("[erro] Nada sobrou após filtrar Ceará e datas válidas. Confira CODMUNRES/DTNASC.")
+            return 1
+        individual = None
+        painel = pd.concat(paineis, ignore_index=True)
+        fonte = "arquivos"
+    else:
+        bruto, fonte = carrega_nascimentos(args.fonte, args.caminho, tuple(args.anos), args.seed)
+        individual = prepara_nascimentos(bruto, args.anos)
+        if individual.empty:
+            print("[erro] Nada sobrou após filtrar Ceará e datas válidas. Confira CODMUNRES/DTNASC.")
+            return 1
+        painel = colapsa_muni_mes(individual)
     painel["fonte"] = fonte  # a proveniência viaja junto com o dado
     imprime_resumo(individual, painel, fonte)
 

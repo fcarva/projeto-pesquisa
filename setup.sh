@@ -73,11 +73,19 @@ numpy
 pyarrow
 pyfixest
 sidrapy
-pysus
+pysus==2.10.0
 geopandas
 matplotlib
-basedosdados
 pytest
+EOF
+fi
+
+# Base dos Dados é opcional: sua versão atual exige uma faixa de loguru
+# incompatível com o PySUS 2.10.0. Instale-a em ambiente separado quando
+# consultas ao BigQuery forem necessárias.
+if [ ! -f requirements-basedosdados.txt ]; then
+cat > requirements-basedosdados.txt <<'EOF'
+basedosdados==2.0.3
 EOF
 fi
 
@@ -110,6 +118,7 @@ cat <<'EOF'
 ==> Pronto. Próximos passos:
   1. Confira que CLAUDE.md e README.md estão na raiz e prompts.md em docs/.
   2. python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+      # Base dos Dados/BigQuery: use um ambiente separado e requirements-basedosdados.txt
   3. Rscript scripts/estimate/setup_r.R          # uma vez, para o R
   4. python scripts/data_prep/01_check_dose_variation.py   # Tarefa 1: variação de dose
   5. python scripts/data_prep/02_clean_births.py           # Tarefa 2: SINASC

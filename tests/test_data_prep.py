@@ -312,9 +312,26 @@ def test_prematuridade_usa_gestacao_so_quando_semagestac_falta():
 
 
 def test_filtra_ceara_mantem_so_uf_23():
-    df = pd.DataFrame({"CODMUNRES": ["230440", "355030", "239001", "292740"]})
+    df = pd.DataFrame({"CODMUNRES": ["230440", "230000", "355030", "239001", "292740"]})
     saida = nasc.filtra_ceara(nasc.padroniza_colunas(df))
     assert list(saida["cod_ibge6"]) == ["230440", "239001"]
+
+
+def test_padroniza_colunas_aceita_saida_datazoom_sinasc():
+    bruto = pd.DataFrame({
+        "codmunres": ["230440"],
+        "data_nascimento_recemnascido": ["2017-03-01"],
+        "peso": [3200],
+        "semanas_gestacao": [39],
+        "gestacao": [5],
+        "idade_mae": [25],
+        "escolaridade_mae": [4],
+        "consultas_prenatal_agrupadas": [4],
+    })
+    saida = nasc.prepara_nascimentos(bruto)
+    assert saida.iloc[0]["ano"] == 2017
+    assert saida.iloc[0]["mes"] == 3
+    assert saida.iloc[0]["IDADEMAE"] == 25
 
 
 def test_colapso_calcula_taxa_sobre_o_denominador_observado():

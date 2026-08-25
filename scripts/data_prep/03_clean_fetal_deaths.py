@@ -120,6 +120,12 @@ def padroniza_colunas(df: pd.DataFrame) -> pd.DataFrame:
     """Nomes em maiúscula e garante que as colunas esperadas existam (NaN se não)."""
     saida = df.copy()
     saida.columns = [str(c).strip().upper() for c in saida.columns]
+    aliases_datazoom = {
+        "DATA_OBITO": "DTOBITO",
+        "DATA_NASCIMENTO": "DTNASC",
+        "IDADE": "IDADEMAE",
+    }
+    saida = saida.rename(columns=aliases_datazoom)
     faltando = [c for c in COLUNAS_SIM if c not in saida.columns]
     for col in faltando:
         saida[col] = np.nan
@@ -146,6 +152,7 @@ def extrai_ano_mes(dtobito: pd.Series) -> pd.DataFrame:
     texto = dtobito.astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
     texto = texto.str.zfill(8)
     data = pd.to_datetime(texto, format="%d%m%Y", errors="coerce")
+    data = data.fillna(pd.to_datetime(texto, format="mixed", errors="coerce"))
     return pd.DataFrame(
         {
             "ano": data.dt.year.astype("Int64"),
@@ -341,18 +348,22 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
     antiga, como no script 02.
     """
     try:  # pysus >= 0.10
-        from pysus.ftp.databases.sim import SIM
+        from pysus.api import PySUSClient
 
-        base = SIM().load()
         pedacos = []
-        for ano in anos:
-            arquivos = base.get_files(group="CID10", uf="CE", year=ano)
-            for parquet in base.download(arquivos):
-                pedacos.append(parquet.to_dataframe())
+        with PySUSClient() as client:
+            ftp = client.get_ftp()
+            datasets = client._run_async(ftp.datasets())
+            base = next(dataset for dataset in datasets if dataset.name == "SIM")
+            for ano in anos:
+                arquivos = client._run_async(base.search(group="DO", state="CE", year=ano))
+                for arquivo in arquivos:
+                    parquet = client.download_to_parquet(arquivo)
+                    pedacos.append(parquet.to_dataframe())
         if not pedacos:
             raise RuntimeError("pysus não devolveu arquivos SIM para CE.")
         return pd.concat(pedacos, ignore_index=True)
-    except ImportError:
+    except (ImportError, AttributeError):
         pass
 
     from pysus.online_data.SIM import download  # API antiga
