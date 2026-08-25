@@ -119,6 +119,20 @@ cat("municípios:", uniqueN(painel$id),
     "| períodos:", uniqueN(painel$t),
     "| células:", nrow(painel), "\n")
 
+# ⚠️ Proveniência atravessa a fronteira R. Um painel simulado já foi lido como
+# real uma vez neste projeto; o nome do arquivo sozinho não basta, e o CSV de
+# saída tem de se identificar por dentro.
+fonte_painel <- if ("fonte" %in% names(painel)) as.character(painel$fonte[1]) else "desconhecida"
+cat("fonte do painel:", fonte_painel, "\n")
+if (fonte_painel != "real") {
+  cat("\n")
+  cat("!! ============================================================ !!\n")
+  cat("!! PAINEL NAO E REAL (fonte =", fonte_painel, ")\n")
+  cat("!! Nada abaixo e evidencia sobre o Ceara. Os CSV de saida levam\n")
+  cat("!! a coluna `fonte` para que isso nao se perca do arquivo.\n")
+  cat("!! ============================================================ !!\n\n")
+}
+
 if (painel[, sum(is.na(y))] > 0) {
   cat("[aviso]", painel[, sum(is.na(y))], "células com desfecho ausente.\n")
   cat("[aviso] O pacote NÃO aceita painel desbalanceado:\n")
@@ -201,7 +215,8 @@ for (alvo in c("level", "slope")) {
   resultados[[alvo]] <- res
   if (!is.null(res)) {
     grava_tidy(res, sprintf("cgs_curva_%s.csv", alvo),
-               extra = list(alvo = alvo, desfecho = desfecho, exposicao = exposicao))
+               extra = list(alvo = alvo, desfecho = desfecho, exposicao = exposicao,
+                            fonte = fonte_painel))
   }
 }
 
@@ -259,7 +274,7 @@ es <- tryCatch(
 )
 if (!is.null(es)) {
   grava_tidy(es, "cgs_eventstudy.csv",
-             extra = list(desfecho = desfecho, exposicao = exposicao))
+             extra = list(desfecho = desfecho, exposicao = exposicao, fonte = fonte_painel))
 }
 
 cat("\n", barra, "\n", sep = "")

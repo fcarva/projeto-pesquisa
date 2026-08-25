@@ -216,6 +216,40 @@ minutado (`07-layer4-perguntas-abertas.md`) e ainda **não foi protocolado** —
 É limitação declarável, não impedimento. Mas precisa estar declarada, e a decisão
 de renomear o estimando é de vocês.
 
+
+### D7 — O que é confirmatório e o que é exploratório?
+
+⚠️ **Achado da revisão metodológica** (`09-revisao-metodologica.md`, M1), e o
+único que ela classifica como impeditivo hoje.
+
+O pipeline produz hoje **31 séries candidatas a desfecho** — 6 do SINASC, 6 do
+óbito fetal, 19 do canal de intoxicação. Some-se três definições de exposição por
+trimestre, quatro construções de `d = 0` e dois parâmetros-alvo: o espaço de
+especificações passa de mil.
+
+**Por que isso é grave justamente neste desenho.** O projeto já sabe que o poder
+é curto — o MDE no cenário base fica acima do efeito esperado de 15–25 g. **Poder
+curto mais espaço de busca grande é a combinação que produz achado espúrio com
+aparência de rigor**: basta um dos 31 se mover, e como cada um tem justificativa
+teórica própria, a racionalização vem pronta depois do fato.
+
+Um desenho que declara honestamente ter pouco poder e ao mesmo tempo mantém 31
+desfechos em aberto está deixando aberta a porta que ele mesmo fechou nas outras
+paredes.
+
+**O que fecha, e custa um documento:** `docs/pre-especificacao.md` já está
+montado, com o que já foi argumentado pré-preenchido e o que é de vocês em
+branco. Declarar desfecho primário, exposição primária, o que é confirmatório, e
+se há correção de família. O resto vira **exploratório declarado**, o que é
+legítimo e honesto.
+
+⚠️ **A janela para isso fecha na primeira rodada com dado real** — e ela ainda
+está aberta só porque a rede está bloqueada. Um plano escrito depois de ver o
+coeficiente não é plano.
+
+*(O `make real` está bloqueado até o documento ser fechado e commitado. O commit
+é o carimbo de tempo: o histórico do git prova que o plano é anterior ao dado.)*
+
 ### D-bis — a que depende de um teste, e só depois vira decisão
 
 **Seleção para nascimento vivo.** Se o ban reduziu óbito fetal, fetos marginais
