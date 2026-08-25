@@ -874,3 +874,46 @@ def test_datazoom_sim_traz_peso_e_gestacao_com_outros_nomes(colunas):
 def test_idade_do_falecido_continua_fora_de_idademae():
     """No dicionário do SIM, `idade` e `idademae` são campos separados."""
     assert "IDADE" not in fetal.ALIASES_DATAZOOM
+
+
+def test_dofet_sem_tipobito_nao_zera_a_serie(capsys):
+    """⚠️ Zero silencioso é o pior desfecho possível aqui.
+
+    O SIM entrega óbito fetal de duas formas: dentro do DO geral (com TIPOBITO
+    separando) ou num DOFET dedicado, que `datazoom.saude` expõe como
+    `load_mortality(dataset = "fetal")` e que não precisa trazer TIPOBITO. Sem
+    detecção, o filtro descartava tudo — e um painel vazio de óbito fetal
+    *parece* o resultado benigno do teste de seleção ("não se move com a dose").
+    """
+    dofet = pd.DataFrame({
+        "dtobito": ["15032017"], "codmunres": ["230440"],
+        "peso_nascimento": ["1200"], "duracao_gestacao": [3], "idademae": [28],
+    })
+    saida = fetal.prepara_obitos(dofet)
+    assert len(saida) == 1
+    # e a decisão é ANUNCIADA, nunca tomada em silêncio
+    assert "DOFET" in capsys.readouterr().out
+
+
+def test_do_geral_continua_exigindo_o_filtro_tipobito():
+    """A detecção não pode afrouxar o filtro quando TIPOBITO existe."""
+    do_geral = pd.DataFrame({
+        "TIPOBITO": [1, 2], "DTOBITO": ["15032017", "15032017"],
+        "CODMUNRES": ["230440", "230440"], "PESO": ["1200", "3100"],
+        "SEMAGESTAC": [30, 39], "GESTACAO": [3, 5], "OBITOPARTO": [1, 3],
+        "IDADEMAE": [28, 31],
+    })
+    assert len(fetal.prepara_obitos(do_geral)) == 1          # só o fetal
+    assert len(fetal.prepara_obitos(do_geral, ja_fetal=False)) == 1
+
+
+def test_ja_fetal_forcado_nao_engole_do_geral_por_engano():
+    """`--ja-fetal` num DO geral é erro do usuário, e o resultado tem de mostrar
+    isso: os não fetais entram, e a contagem denuncia."""
+    do_geral = pd.DataFrame({
+        "TIPOBITO": [1, 2], "DTOBITO": ["15032017", "15032017"],
+        "CODMUNRES": ["230440", "230440"], "PESO": ["1200", "3100"],
+        "SEMAGESTAC": [30, 39], "GESTACAO": [3, 5], "OBITOPARTO": [1, 3],
+        "IDADEMAE": [28, 31],
+    })
+    assert len(fetal.prepara_obitos(do_geral, ja_fetal=True)) == 2

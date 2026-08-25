@@ -8,7 +8,8 @@ diferentes conforme a revisão. Preencher ao baixar, não depois.
 |---|---|---|---|---|
 | PAM/IBGE (tab. 1612, 1613) | CE, municípios, 2015–2018 | *(preencher)* | `scripts/data_prep/01_check_dose_variation.py --fonte sidra` | *(preencher)* |
 | SINASC | CE, 2015–2022 | *(preencher)* | `scripts/data_prep/02_clean_births.py` (pysus / Base dos Dados) | *(preencher)* |
-| SIM — DO (óbito fetal) | CE, 2015–2022 | *(preencher)* | `scripts/data_prep/03_clean_fetal_deaths.py` (pysus, grupo CID10) | *(preencher)* |
+| SIM — DO / DOFET (óbito fetal) | CE, 2015–2022 | *(preencher)* | `03_clean_fetal_deaths.py` (pysus CID10, ou DOFET via `00_export_datazoom.R`) | *(preencher)* |
+| SIH — AIH reduzida | CE, 2015–2022 | *(preencher)* | `00_export_datazoom.R --bases sih` — canal de intoxicação aguda (A5) | *(preencher)* |
 | SISAGUA | CE | *(preencher)* | Base dos Dados / MS | *(preencher)* |
 | FAO-GAEZ | CE | *(preencher)* | raster → `data/geo/` | *(preencher)* |
 | ANA (bacias) | CE | *(preencher)* | shapefile → `data/geo/` | *(preencher)* |
@@ -74,7 +75,23 @@ defeito de limpeza.
 SIM, SIH, SIASUS e CNES. É rota alternativa ao `pysus` para o DATASUS.
 
 ⚠️ **É um pacote R.** A fronteira com o Python é **arquivo**, como já vale para o
-`contdid` (ver `CLAUDE.md`): exporte de lá, leia com `--fonte arquivos` aqui.
+`contdid` (ver `CLAUDE.md`). A ponte está escrita:
+**`scripts/data_prep/00_export_datazoom.R`** grava CSV que os scripts 02, 03 leem.
+
+⚠️ **Ele NÃO contorna o bloqueio de rede.** Verificado no código do pacote: baixa
+de `ftp://ftp.datasus.gov.br`, exatamente o host que a política da sessão remota
+barra. É rota para a **sua máquina**, não para a sessão.
+
+⚠️ **`load_mortality(dataset = "fetal")` entrega DOFET, arquivo dedicado.** Isso
+contraria o que o script 03 assumia (óbito fetal só dentro do DO geral, separado
+por TIPOBITO). Duas consequências:
+
+- Um DOFET pode **não trazer TIPOBITO**, e aí o filtro do script 03 descartava
+  tudo. Zero silencioso é o pior desfecho possível aqui, porque um painel vazio
+  de óbito fetal *parece* o resultado benigno do teste de seleção. O script agora
+  detecta a ausência, **anuncia** a decisão, e aceita `--ja-fetal` / `--tem-tipobito`.
+- **DOFET é nacional**, não por UF. O recorte para o Ceará acontece do lado
+  Python, em `filtra_ceara`.
 
 ⚠️ **O pacote renomeia as colunas do DATASUS, e em duas convenções.** O parâmetro
 `language` aceita `"pt"` e `"eng"`, e **o padrão é `"eng"`**. Os scripts 02 e 03

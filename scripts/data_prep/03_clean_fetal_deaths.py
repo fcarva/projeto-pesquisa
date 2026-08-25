@@ -275,15 +275,47 @@ def filtra_ceara(df: pd.DataFrame) -> pd.DataFrame:
     return saida[cod.str.startswith(UF_CEARA).fillna(False)].copy()
 
 
-def prepara_obitos(bruto: pd.DataFrame, anos=None) -> pd.DataFrame:
+def _fonte_ja_e_so_fetal(bruto: pd.DataFrame) -> bool:
+    """A fonte já vem restrita a óbito fetal (arquivo DOFET)?
+
+    O SIM tem **duas** formas de entregar óbito fetal: dentro do DO geral, com
+    TIPOBITO separando fetal de não fetal, ou num arquivo **DOFET dedicado**, que
+    o `datazoom.saude` expõe como `load_mortality(dataset = "fetal")`. Um DOFET
+    não precisa carregar TIPOBITO — todo registro dele já é fetal.
+
+    ⚠️ Sem esta detecção o filtro TIPOBITO descartava **tudo** e o script saía
+    dizendo "Nada sobrou... Confira TIPOBITO/CODMUNRES/DTOBITO", quando a causa
+    é que a fonte é de outro tipo. Zero silencioso é o pior desfecho possível
+    aqui, porque um painel vazio de óbito fetal *parece* o resultado benigno do
+    teste de seleção ("óbito fetal não se move com a dose").
+
+    Nota: o DOFET é **nacional**, não por UF — `filtra_ceara` continua fazendo o
+    recorte.
+    """
+    colunas = {str(c).strip().upper() for c in bruto.columns}
+    return "TIPOBITO" not in colunas
+
+
+def prepara_obitos(bruto: pd.DataFrame, anos=None, ja_fetal: bool | None = None) -> pd.DataFrame:
     """Pipeline de limpeza no nível do indivíduo, antes do colapso.
 
     Ordem deliberada: TIPOBITO primeiro. Filtrar Ceará antes de filtrar fetal
     daria o mesmo resultado, mas o filtro que define a série vem na frente para
     que qualquer inspeção do meio do caminho já esteja olhando óbito fetal.
+
+    `ja_fetal=None` (padrão) detecta pela ausência da coluna TIPOBITO e **anuncia**
+    o que decidiu — nunca decide calado. `True`/`False` força.
     """
+    if ja_fetal is None:
+        ja_fetal = _fonte_ja_e_so_fetal(bruto)
+        if ja_fetal:
+            print("[aviso] TIPOBITO ausente na fonte: tratando como arquivo DOFET")
+            print("[aviso] (já restrito a óbito fetal). Se a fonte for um DO geral,")
+            print("[aviso] isto está ERRADO — rode com --tem-tipobito para exigir o filtro.")
+
     df = filtra_ceara(padroniza_colunas(bruto))
-    df = filtra_fetal(df)
+    if not ja_fetal:
+        df = filtra_fetal(df)
     df = pd.concat([df, extrai_ano_mes(df["DTOBITO"])], axis=1)
     df["peso_g"] = limpa_peso(df["PESO"])
     df["semanas"] = limpa_semanas(df["SEMAGESTAC"])
@@ -620,15 +652,28 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--nascimentos", type=Path, default=None,
                         help="Painel do script 02 (parquet). Sem ele a taxa não é calculada.")
     parser.add_argument("--anos", type=int, nargs="*", default=list(ANOS_PADRAO))
+    grupo = parser.add_mutually_exclusive_group()
+    grupo.add_argument(
+        "--ja-fetal", dest="ja_fetal", action="store_true", default=None,
+        help="A fonte já é só óbito fetal (arquivo DOFET); não aplicar filtro TIPOBITO.",
+    )
+    grupo.add_argument(
+        "--tem-tipobito", dest="ja_fetal", action="store_false",
+        help="Exigir o filtro TIPOBITO==1 (fonte é DO geral). Falha alto se faltar.",
+    )
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
 
     bruto, fonte = carrega_obitos(args.fonte, args.caminho, tuple(args.anos), args.seed)
-    individual = prepara_obitos(bruto, args.anos)
+    individual = prepara_obitos(bruto, args.anos, args.ja_fetal)
     if individual.empty:
-        print("[erro] Nada sobrou após filtrar TIPOBITO==1, Ceará e datas válidas.")
-        print("       Confira TIPOBITO/CODMUNRES/DTOBITO na fonte.")
+        print("[erro] Nada sobrou após filtrar Ceará, TIPOBITO e datas válidas.")
+        print("       Confira, nesta ordem:")
+        print("       1. A fonte é DO geral (tem TIPOBITO) ou DOFET (já só fetal)?")
+        print("          DOFET sem TIPOBITO zera tudo — use --ja-fetal.")
+        print("       2. CODMUNRES tem código IBGE de 6 dígitos começando em 23?")
+        print("       3. DTOBITO está em DDMMAAAA, ISO ou DD/MM/AAAA?")
         return 1
 
     painel = colapsa_muni_mes(individual)
