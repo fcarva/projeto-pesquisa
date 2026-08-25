@@ -1,0 +1,18 @@
+# Stack espacial — separado do requirements.txt de propósito.
+#
+# Motivo: geopandas/rasterio arrastam GDAL, PROJ e GEOS, que são pesados e
+# brigam com frequência. Uma instalação geo quebrada não pode derrubar o
+# pipeline principal, que não precisa de nada disto para rodar os scripts
+# 01–05. Mesmo precedente do requirements-basedosdados.txt.
+#
+#   pip install -r requirements-geo.txt
+#
+# ⚠️ Sem isto, NENHUMA fonte espacial é legível — nem o raster do FAO-GAEZ
+# (instrumento + definição 4 de d=0 + teste de contaminação do zero), nem as
+# ottobacias da ANA, nem os polígonos do MapBiomas. Ver docs/lacunas-de-dados.md.
+
+rasterio        # ler o GeoTIFF do GAEZ
+geopandas       # malha municipal do IBGE, ottobacias da ANA
+shapely         # geometria
+pyproj          # reprojeção — GAEZ vem em WGS84, IBGE também, mas conferir
+rasterstats     # estatística zonal: raster x polígono municipal

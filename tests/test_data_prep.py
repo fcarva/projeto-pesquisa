@@ -33,6 +33,7 @@ fetal = _carrega("03_clean_fetal_deaths.py")
 intox = _carrega("04_clean_poisoning.py")
 painel = _carrega("05_build_panel.py", sub="build_panel")
 robust = _carrega("04_robustness.py", sub="estimate")
+gaez = _carrega("06_build_gaez.py")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -1227,3 +1228,100 @@ def test_primeira_diferenca_usa_a_mesma_forma_do_sieve():
     assert saida["pre"].iloc[0] == pytest.approx(3050.0)
     assert saida["pos"].iloc[0] == pytest.approx(3300.0)
     assert saida["dy"].iloc[0] == pytest.approx(250.0)
+
+
+# --------------------------------------------------------------------------
+# 06 — receita FAO-GAEZ: os três erros que passam verdes
+# --------------------------------------------------------------------------
+
+def test_receita_usa_a_DIFERENCA_de_insumo_e_nao_o_nivel():
+    """⚠️ Erro nº 1, e o mais fácil de cometer.
+
+    O nível de rendimento mede FERTILIDADE. A diferença alto-menos-baixo mede
+    o quanto a terra RESPONDE a insumo — que é o que prediz adoção de cultivo
+    intensivo, e portanto o que o instrumento precisa predizer. Trocar um pelo
+    outro dá um número plausível e um instrumento diferente.
+    """
+    # terra A: rende muito sempre (fértil, mas não responde a insumo)
+    # terra B: rende pouco sem insumo e muito com (responde)
+    alto = np.array([100.0, 90.0])
+    baixo = np.array([95.0, 10.0])
+    dif = gaez.diferenca_insumo(alto, baixo)
+    assert dif.tolist() == [5.0, 80.0]
+    # pelo NÍVEL, A ganharia; pela diferença, B — que é o correto
+    assert alto.argmax() == 0
+    assert dif.argmax() == 1
+
+
+def test_percentil_e_sobre_a_amostra_inteira_e_ausente_continua_ausente():
+    """Imputar ausente pela mediana poria terra DESCONHECIDA no meio da
+    distribuição — isso é afirmação, não dado."""
+    p = gaez.percentil_nacional(np.array([10.0, 20.0, 30.0, np.nan, 40.0]))
+    assert p[0] == pytest.approx(0.0)     # menor
+    assert p[4] == pytest.approx(1.0)     # maior
+    assert np.isnan(p[3])                 # ausente segue ausente
+    assert 0.0 <= np.nanmin(p) and np.nanmax(p) <= 1.0
+
+
+def test_maximo_entre_culturas_vem_DEPOIS_do_percentil():
+    """⚠️ Erro nº 2. Máximo de rendimentos brutos é decidido pela cultura de
+    maior tonelagem, não pela de maior aptidão relativa — t/ha de banana e t/ha
+    de milho não são comparáveis. Máximo de PERCENTIS é comparável por
+    construção.
+    """
+    # banana rende em ordem de grandeza maior que milho, em unidades brutas
+    banana_bruto = np.array([50.0, 10.0])     # município 0 melhor
+    milho_bruto = np.array([1.0, 9.0])        # município 1 melhor
+
+    # errado: máximo do bruto -> banana domina os dois municípios
+    assert np.maximum(banana_bruto, milho_bruto).tolist() == [50.0, 10.0]
+
+    # certo: percentil primeiro, máximo depois -> cada um no seu melhor
+    correto = gaez.combina_culturas({
+        "banana": gaez.percentil_nacional(banana_bruto),
+        "milho": gaez.percentil_nacional(milho_bruto),
+    })
+    assert correto.tolist() == [1.0, 1.0]     # ambos são o topo de ALGUMA cultura
+
+
+def test_uma_cultura_ausente_nao_derruba_o_municipio():
+    """Apto para ALGUMA cultura basta — daí o máximo, não a média."""
+    saida = gaez.combina_culturas({
+        "banana": np.array([0.9, np.nan]),
+        "melao": np.array([np.nan, 0.4]),
+    })
+    assert saida.tolist() == [0.9, 0.4]
+    # mas se TODAS faltam, o município fica ausente
+    todas_nan = gaez.combina_culturas({"a": np.array([np.nan]), "b": np.array([np.nan])})
+    assert np.isnan(todas_nan[0])
+
+
+def test_normalizacao_fecha_em_zero_e_um():
+    """⚠️ Erro nº 3. `dose = 0` e `dose = 1` têm de significar os extremos da
+    amostra; sem a segunda reescala o índice não ocupa [0,1]."""
+    saida = gaez.normaliza_aptidao(np.array([0.2, 0.5, 0.8]))
+    assert saida.min() == pytest.approx(0.0)
+    assert saida.max() == pytest.approx(1.0)
+    # tudo igual: nenhum extremo é defensável, então o meio
+    plano = gaez.normaliza_aptidao(np.array([0.4, 0.4, 0.4]))
+    assert np.allclose(plano, 0.5)
+
+
+def test_receita_completa_respeita_a_ordem_das_quatro_etapas():
+    """Ponta a ponta: diferença -> percentil -> máximo -> normalização."""
+    tabela = gaez.aptidao_municipal({
+        "banana": (np.array([100.0, 90.0, 20.0]), np.array([95.0, 10.0, 19.0])),
+        "melao":  (np.array([10.0, 12.0, 80.0]),  np.array([9.0, 11.0, 5.0])),
+    })
+    assert list(tabela.columns) == ["aptidao_gaez", "percentil_banana", "percentil_melao"]
+    assert tabela["aptidao_gaez"].min() == pytest.approx(0.0)
+    assert tabela["aptidao_gaez"].max() == pytest.approx(1.0)
+    # município 0 responde pouco a insumo nas duas culturas -> é o piso
+    assert tabela["aptidao_gaez"].idxmin() == 0
+
+
+def test_formas_incompativeis_falham_alto():
+    with pytest.raises(ValueError, match="Formas diferentes"):
+        gaez.diferenca_insumo(np.array([1.0, 2.0]), np.array([1.0]))
+    with pytest.raises(ValueError, match="Nenhuma cultura"):
+        gaez.combina_culturas({})

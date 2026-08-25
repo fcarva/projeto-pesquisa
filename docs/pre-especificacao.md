@@ -62,6 +62,18 @@ reportada.
   ⬜ `level` (ATT(d|d))
 - Construção de `d = 0` primária: ⬜ 1 · ⬜ 2 · ⬜ 3 · ⬜ 4  *(§5.3 de
   `03-modelagem-ensaio1.md`)*
+
+  ⚠️ **Esta escolha está acoplada à aquisição, e o acoplamento é caro.** As
+  definições **3 e 4 dependem de fontes não adquiridas** — ANAC/SEMACE e
+  FAO-GAEZ. E o sieve centra a curva em `mean(dy[dose == 0])`, então isto não
+  muda a interpretação: **muda o nível do número**.
+
+  A saída correta não é adiar; é **declarar**. *"Primária = definição 2, porque
+  3 e 4 não estarão disponíveis até a qualificação"* é honesto e defensável.
+  Escolher a 4, não conseguir o GAEZ, e trocar em silêncio — não é. Se a
+  situação mudar, entra na tabela de desvios da §8.
+
+  Ver a matriz de degradação em `docs/lacunas-de-dados.md` §2.
 - Cortes do colapso pré/pós: `--corte-pre` ______ · `--corte-pos` ______
 
 ## 5. Critério de falsificação
