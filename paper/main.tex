@@ -1,0 +1,47 @@
+% =====================================================================
+% Ensaio 1 — documento de qualificação
+%
+% ⚠️ Alvo declarado no roteiro (docs/ars/04-roteiro-qualificacao.md):
+% "documento de projeto defensável. Identificação fechada, dose verificada,
+% descritivas preliminares, ameaças mapeadas. NÃO resultado estimado."
+%
+% Portanto a seção de identificação está COMPLETA sem dado, e as seções de
+% resultado estão ausentes de propósito — não por atraso.
+%
+% Compilar:  latexmk -pdf -interaction=nonstopmode paper/main.tex
+% =====================================================================
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[margin=3cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
+\usepackage{natbib}
+\usepackage{setspace}
+
+\onehalfspacing
+\graphicspath{{figures/}}
+
+\title{Proibição da pulverização aérea de agrotóxicos no Ceará:\\
+       avaliação de impacto sobre desfechos perinatais}
+\author{Felipe Carvalho Souza Santos\\
+        \small PPGEco/UFES}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% --- Seções ainda não escritas -------------------------------------
+% 1. Introdução
+% 2. Background: a Lei Zé Maria do Tomé; a Chapada do Apodi; a deriva
+% 3. Referencial teórico: externalidade e escolha de instrumento
+\input{secoes/04-identificacao}
+% 5. Dados e estatísticas descritivas   <- espera a aquisição
+% 6. Resultados e robustez              <- FORA DO ALVO DA QUALIFICAÇÃO
+% 7. Conclusão
+
+\end{document}

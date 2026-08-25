@@ -1,0 +1,357 @@
+% =====================================================================
+% Ensaio 1 — Seção 4: Estratégia empírica e identificação
+%
+% É a seção que a qualificação defende. O alvo declarado no roteiro é
+% "identificação fechada, ameaças mapeadas, NÃO resultado estimado" — então esta
+% seção está completa mesmo sem dado, e é assim que ela deve ser lida.
+%
+% Escrita em lógica de forward engineering, como o CLAUDE.md pede:
+% parâmetro-alvo -> hipóteses de identificação -> estimação. Não o contrário.
+%
+% ⚠️ Números de resultado NÃO entram aqui. Onde há número, ele é de DESENHO
+% (poder, efeito mínimo detectável, aritmética de exposição) e está marcado.
+% =====================================================================
+
+\section{Estratégia empírica e identificação}
+\label{sec:identificacao}
+
+\subsection{O parâmetro-alvo, e por que ele custa caro}
+\label{sub:estimando}
+
+A Lei Estadual nº 16.820/2019 entrou em vigor em 09 de janeiro de 2019 e vale
+para o Ceará inteiro de uma só vez. Não há, portanto, variação de \emph{timing}
+de adoção dentro do estado: a máquina de diferenças-em-diferenças escalonado não
+se aplica a este evento. A identificação vem de outra fonte de variação --- a
+\textbf{intensidade pré-ban de exposição à pulverização aérea} entre os 184
+municípios cearenses ---, e o tratamento é, por construção, \textbf{contínuo}.
+
+O estimador é o de Callaway, Goodman-Bacon e Sant'Anna para tratamento contínuo.
+Ele separa dois parâmetros que a literatura frequentemente confunde, e a
+distinção organiza toda esta seção:
+
+\begin{itemize}
+  \item $ATT(d\,|\,d)$ --- o efeito médio, entre os municípios que receberam
+    dose $d$, de ter recebido $d$ em vez de zero. É um efeito \textbf{no nível}
+    da dose.
+  \item $ATE(d)$ e sua derivada $ACR(d)$ --- a \textbf{curva} dose-resposta
+    causal: o efeito que $d$ teria sobre um município tomado ao acaso, e a taxa
+    a que esse efeito varia com a dose.
+\end{itemize}
+
+Os dois exigem hipóteses diferentes. $ATT(d\,|\,d)$ sai sob paralelismo de
+tendências no resultado \emph{não tratado} --- a hipótese usual. A curva exige
+\textbf{tendências paralelas fortes} (\emph{strong parallel trends}), que
+restringe trajetórias sob doses que o município \textbf{não recebeu}. Essa
+hipótese é, por natureza, \textbf{não testável}: nenhum período pré-tratamento
+informa o que teria acontecido a um município sob uma dose alternativa.
+
+\begin{quote}
+\textbf{Registro de honestidade.} O teste de tendências pré-tratamento --- o
+\emph{event study} de \emph{leads} --- \textbf{não} testa a hipótese forte. Ele
+fala da hipótese usual. Apresentá-lo como validação da curva seria erro de
+leitura, e é um erro comum o bastante para merecer estar escrito.
+\end{quote}
+
+Há ainda uma consequência econômica. Sob as duas hipóteses conjuntamente,
+$ATT(d\,|\,d) = ATE(d)$, o que equivale a excluir \emph{selection-on-gains}:
+municípios não podem ter escolhido sua intensidade agrícola antecipando ganhos
+diferenciados. Isso é uma afirmação forte sobre decisão de plantio, não um
+tecnicismo. Ela é declarada, não assumida em silêncio.
+
+\paragraph{A escolha, e o que a motiva.} O resultado principal é a
+\textbf{curva}, acompanhada dos limites de identificação parcial sob hipótese de
+direção do viés. A razão não é econométrica: o Ensaio 2 compara instrumentos de
+política sob a lógica de Weitzman, que decide pela \textbf{inclinação relativa}
+do dano marginal. Ou seja, o segundo ensaio precisa de $ACR(d)$ --- a derivada.
+Recuar para $ATT(d\,|\,d)$ tornaria o Ensaio 1 mais barato de defender e deixaria
+o Ensaio 2 sem âncora quantitativa. É decisão de arquitetura da dissertação, e
+está registrada como tal.
+
+\subsection{A variável de tratamento, e o que ela não mede}
+\label{sub:dose}
+
+A dose é a intensidade agrícola municipal pré-ban da cultura-âncora, medida pela
+área plantada média de 2015 a 2018 na Produção Agrícola Municipal do IBGE.
+Utiliza-se área \textbf{plantada}, e não colhida: o período 2012--2017 foi de
+seca severa no semiárido cearense, e a área colhida responde à quebra de safra
+--- isto é, é endógena ao clima, que é justamente o canal que o instrumento de
+aptidão agroclimática busca isolar. Área plantada mede intenção de plantio.
+
+Três limitações de medida acompanham essa escolha, e nenhuma delas se resolve
+com mais dado:
+
+\begin{enumerate}
+  \item \textbf{A proibição é de método, não de molécula.} O art. 28-B veda a
+    pulverização aérea; não nomeia princípio ativo algum. Área plantada é proxy
+    de intensidade agrícola, não de aplicação aérea efetiva, e culturas diferem
+    em quanto de fato recebem avião. O viés de medida daí resultante é, em geral,
+    atenuante.
+
+  \item \textbf{A química local não é a da literatura de referência.} A tabela
+    de análises de água reproduzida na justificativa do Projeto de Lei nº
+    18/2015, oriunda do Dossiê ABRASCO, registra em 23 pontos de coleta na
+    Chapada do Apodi: procimidona e carbaril em 23 de 23 amostras, carbofurano em
+    18, fenitrotiona em 16 --- e glifosato em 4. O perfil é de fungicida e
+    inseticida sobre fruticultura irrigada, não de herbicida sobre grão
+    transgênico. A consequência é metodológica: os desenhos construídos sobre
+    soja tolerante a herbicida e glifosato não transferem quimicamente, ainda que
+    transfiram na forma.
+
+  \item \textbf{A janela de medida da dose começa depois da notícia do ban.} O
+    Projeto de Lei foi apresentado em 24 de fevereiro de 2015. A janela
+    2015--2018, portanto, é integralmente posterior ao primeiro sinal público de
+    que a proibição viria. Se produtores responderam à expectativa, a dose medida
+    já incorpora parte do ajuste --- e isso morde a \emph{variável de tratamento},
+    não apenas o desfecho. Esta é a limitação mais séria das três.
+\end{enumerate}
+
+\paragraph{Três marcos, não um.} A cronologia legal distingue notícia
+(24/02/2015, apresentação do projeto), certeza (18/12/2018, aprovação unânime na
+Assembleia) e obrigação (09/01/2019, vigência). O desenho os trata separadamente:
+os \emph{leads} do \emph{event study} alcançam 2018 precisamente para que o
+segundo marco seja visível.
+
+\subsection{Quando o tratamento alcança cada coorte}
+\label{sub:exposicao}
+
+Um desfecho perinatal não é contemporâneo à exposição. Um nascimento ocorrido em
+março de 2019 foi gestado entre junho de 2018 e março de 2019 --- dois terços da
+gestação \textbf{antes} da vigência da lei. Marcar como tratada toda coorte
+nascida a partir de janeiro de 2019 dilui o efeito com gestação não exposta, e a
+diluição tem direção conhecida.
+
+O painel constrói, para cada célula município--mês, a fração da janela
+gestacional posterior ao ban. O tratamento não liga de uma vez: sobe ao longo de
+aproximadamente nove meses, e apenas as coortes nascidas a partir de outubro de
+2019 têm gestação integralmente pós-ban.
+
+\begin{table}[htbp]
+\centering
+\caption{Exposição gestacional contra marcação por data de nascimento}
+\label{tab:exposicao}
+\begin{tabular}{lcc}
+\hline
+Coorte & Fração da gestação pós-ban & Marcação ingênua \\
+\hline
+dez/2018 & 0{,}00 & 0 \\
+jan/2019 & 0{,}00 & 1 \\
+mai/2019 & 0{,}44 & 1 \\
+out/2019 & 1{,}00 & 1 \\
+\hline
+\end{tabular}
+
+\vspace{0.5em}
+\begin{minipage}{0.9\textwidth}
+\footnotesize \emph{Nota:} aritmética de desenho, não resultado. Ao longo de
+2019, a marcação por data de nascimento conta doze coortes tratadas onde a
+exposição efetiva soma sete --- superestimação de cinco duodécimos.
+\end{minipage}
+\end{table}
+
+\paragraph{A janela é fixa, e a razão importa.} A retroprojeção usa janela
+gestacional \textbf{fixa}, não a duração observada em cada célula. Usar a duração
+observada seria endógeno: a prematuridade é um dos desfechos do estudo, e se a
+proibição altera a duração da gestação, a janela de exposição se moveria junto
+com o tratamento. O desenho passaria a condicionar em variável afetada pelo
+tratamento, com viés de direção desconhecida. A gestação observada entra como
+desfecho; nunca como definidora de exposição.
+
+\paragraph{Um canal não retroprojeta.} A intoxicação aguda registrada em
+internação hospitalar é contemporânea à exposição --- não há gestação entre causa
+e efeito. Esse canal usa o mês de internação diretamente. Retroprojetá-lo
+inventaria defasagem inexistente.
+
+\subsection{O grupo de comparação}
+\label{sub:zero}
+
+O zero produzido pela PAM é zero de \emph{proxy} --- área nula da cultura ---, não
+zero de tratamento. Duas fontes de contaminação são conhecidas.
+
+A primeira tem direção. O §2º do art. 28-B, na redação de 2019, proíbe também a
+dispersão aérea para controle vetorial. Um município sem agricultura pulverizada,
+mas com controle aéreo de endemias, \textbf{é tratado} --- e municípios com
+programa de controle vetorial tendem a ser os maiores. A contaminação, portanto,
+correlaciona-se com porte populacional, que por sua vez correlaciona-se com
+desfecho perinatal. Não é ruído.
+
+A segunda é histórica. O art. 29 da Lei Estadual nº 12.228/1993 autoriza
+municípios a legislar supletivamente sobre uso de agrotóxicos, e há registro de
+que Limoeiro do Norte tenha proibido a pulverização aérea já em 2009. Se procede,
+há unidades \textbf{já tratadas} dentro do grupo de dose alta, e 2015--2018 deixa
+de ser período pré-tratamento para todas. O levantamento das leis municipais
+anteriores a 2019 é, por isso, anterior em importância ao próprio diagnóstico de
+dose.
+
+\paragraph{Quatro construções, todas reportadas.} O grupo de comparação é
+construído de quatro maneiras --- área nula da cultura-âncora; área nula de
+qualquer cultura candidata a aplicação aérea; ausência de operador aeroagrícola
+registrado; e baixa aptidão agroclimática ---, e a dispersão entre elas é
+reportada como incerteza sobre o nível.
+
+\begin{quote}
+\textbf{Por que a dispersão entre construções é o número, e não uma nota de
+rodapé.} O estimador não-paramétrico centra a curva na variação média do grupo de
+dose nula. Alterar quem compõe esse grupo não adiciona ruído: \textbf{desloca o
+nível da curva inteira}. A escolha do zero é, portanto, aritmética do estimador,
+não escolha de apresentação.
+\end{quote}
+
+\subsection{Estimação, e três restrições que o desenho declara}
+\label{sub:estimacao}
+
+A implementação de referência do estimador impõe restrições que não são detalhe
+de software e que, por afetarem o que pode ser afirmado, entram aqui:
+
+\begin{enumerate}
+  \item \textbf{O estimador não-paramétrico da curva opera sobre dois períodos.}
+    O painel município--mês precisa ser colapsado em pré e pós. Isso é escolha de
+    agregação, e está declarada como tal.
+  \item \textbf{O \emph{event study} não sai do mesmo estimador que a curva.} Os
+    \emph{leads} que dão evidência sobre paralelismo e antecipação vêm de
+    estimação separada, com agregação distinta.
+  \item \textbf{Covariáveis não são acomodadas.} Qualquer ajuste por
+    características municipais ocorre por fora --- na camada de pareamento
+    apresentada como robustez ---, não dentro do estimador principal.
+\end{enumerate}
+
+\paragraph{A tensão que essas restrições produzem, e que o leitor deve conhecer.}
+Colapsar em dois períodos transforma o pré-período em uma média única de
+2015--2018. Como essa janela é integralmente posterior ao marco de notícia
+(§\ref{sub:dose}), a média pré pode estar contaminada por antecipação --- e, por
+não haver \emph{leads} dentro da especificação principal, essa contaminação
+\textbf{não é observável nela}. O \emph{event study} existe e é reportado, mas
+valida objeto vizinho, não a curva. A tensão é real e não se resolve com
+robustez; declara-se, e três mitigações são reportadas: os \emph{leads} como
+pré-requisito explícito, a curva com pré-período recuado quando a
+comparabilidade da PAM permitir, e a curva com o pré partido ao meio, cuja
+diferença mede a contaminação.
+
+\paragraph{Coortes de transição.} O colapso pré/pós não acomoda as coortes cuja
+gestação atravessa a vigência. Elas são \textbf{descartadas} --- escolha
+conservadora, dado que incluí-las de qualquer lado embute a atenuação da
+Tabela~\ref{tab:exposicao} ---, e os cortes são reportados como parâmetro.
+
+\subsection{Poder, e o que conta como resultado negativo}
+\label{sub:poder}
+
+O desenho declara seu poder antes de estimar, e não depois.
+
+O parâmetro que decide a detectabilidade não é a dispersão de dose entre
+municípios, mas o \textbf{desvio-padrão das tendências municipais do desfecho no
+pré-período}. Com poucos municípios de dose alta, é ele que governa o efeito
+mínimo detectável. O piso amostral desse desvio --- calculado para município de
+porte típico, sem heterogeneidade real, apenas amostragem --- já é da ordem de
+17,7 gramas, de modo que cenários mais otimistas devem ser lidos como limite
+superior de desempenho, não como caso médio.
+
+\paragraph{O critério de falsificação, declarado antes.} Um resultado nulo é
+inconclusivo somente se o intervalo de confiança for largo. Se o intervalo
+\textbf{excluir} o efeito que a literatura levaria a esperar, o nulo constitui
+evidência de que a proibição não produziu esse efeito --- e o desenho falsifica.
+A meia-largura do intervalo é proporcional ao efeito mínimo detectável, de modo
+que o critério é aritmético e verificável antes de qualquer estimação.
+
+\begin{quote}
+Se o coeficiente estimado ficar \textbf{abaixo} do efeito mínimo detectável do
+próprio desenho, ele não constitui achado: constitui \textbf{limite superior
+informativo}, e é assim que será reportado.
+\end{quote}
+
+\subsection{Inferência}
+\label{sub:inferencia}
+
+Com poucos municípios de dose alta, o bootstrap assintótico produz intervalos
+estreitos demais. São reportados três procedimentos, lado a lado:
+
+\begin{enumerate}
+  \item erro-padrão agrupado convencional, como linha de base;
+  \item \emph{wild cluster bootstrap} com pesos de Rademacher e nulo imposto ---
+    com a ressalva de que ele sub-rejeita quando os clusters tratados são poucos,
+    de modo que um valor-p alto informa mas um valor-p baixo não absolve;
+  \item \textbf{inferência por aleatorização} sobre a dose, que não depende de
+    aproximação assintótica alguma e é, das três, a mais conservadora.
+\end{enumerate}
+
+\begin{quote}
+A distância entre os três é informação, não inconveniência. Se o procedimento
+convencional indicar significância e a aleatorização não, a leitura correta não é
+``o efeito é significativo'': é ``o desenho não distingue''.
+\end{quote}
+
+\paragraph{Nota de nomenclatura.} O procedimento de referência para poucas
+mudanças de política --- Conley e Taber --- foi construído para tratamento
+\textbf{binário}, usando resíduos do grupo de controle como distribuição de
+referência. Com tratamento contínuo, a adaptação fiel é permutar a dose. A lógica
+é a mesma; o procedimento não. Ele é nomeado aqui pelo que é.
+
+\subsection{Ameaças, e o que cada uma faz ao resultado}
+\label{sub:ameacas}
+
+\begin{table}[htbp]
+\centering
+\caption{Ameaças à identificação e tratamento dado a cada uma}
+\label{tab:ameacas}
+\small
+\begin{tabular}{p{4.2cm}p{4.6cm}p{4.6cm}}
+\hline
+Ameaça & Efeito sobre o estimando & Tratamento no desenho \\
+\hline
+Tendências paralelas fortes não verificáveis
+& A curva deixa de ser identificada pontualmente
+& Limites de identificação parcial sob direção do viés \\
+
+Antecipação a partir de 02/2015
+& Contamina a dose, não só o desfecho
+& \emph{Leads} até 2018; pré-período recuado; pré partido ao meio \\
+
+Contaminação do grupo de dose nula
+& \textbf{Desloca o nível} da curva
+& Quatro construções; dispersão reportada como incerteza \\
+
+Municípios já tratados antes de 2019
+& \textbf{Falha silenciosa}: resultado sai e está errado
+& Levantamento legislativo anterior ao diagnóstico de dose \\
+
+Seleção para nascimento vivo
+& Efeito real pode aparecer como nulo
+& Série de óbito fetal testada contra a dose antes de qualquer correção \\
+
+Lacuna de fiscalização
+& Estimando vira efeito de intenção de tratar
+& Pedido de acesso à informação; canal de intoxicação como via independente \\
+
+Poucos clusters tratados
+& Precisão aparente maior que a real
+& Três procedimentos de inferência reportados juntos \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Seleção para nascimento vivo, em detalhe.} Se a proibição reduziu
+óbito fetal, fetos que antes não chegavam a nascer passam a compor a amostra pela
+cauda inferior de peso --- puxando a média na direção \emph{oposta} à do efeito
+esperado, e disputando a mesma ordem de grandeza. Antes de qualquer correção, o
+desenho verifica se o problema existe: a série de óbito fetal é testada contra a
+dose com o mesmo desenho. Se não se move, a discussão encerra-se em limitação
+declarada. Se se move, as rotas conhecidas --- reporte conjunto, desfecho
+composto, limites de seleção amostral --- são avaliadas, e a escolha é reportada.
+
+\paragraph{Um canal que produz falsificação interna.} A hipótese de substituição
+sustenta que, proibido o avião, a aplicação migra para trator e pulverizador
+costal, aproximando o veneno do aplicador. Ela prevê movimento nas internações
+por intoxicação \textbf{acidental}. Como a proibição alcança o método e não a
+molécula, ela prevê \textbf{ausência} de movimento nas intoxicações
+\textbf{autoprovocadas}, que respondem à disponibilidade do produto. As duas
+séries partilham população, sistema de registro e municípios. Movimento conjunto
+não sustenta substituição de método; sustenta algo que move internação em geral.
+
+\subsection{Pré-especificação}
+\label{sub:prespec}
+
+O conjunto de desfechos que o desenho torna disponíveis é amplo, e o poder é
+curto. Essa combinação --- espaço de busca grande com poder limitado --- é a que
+produz achado espúrio com aparência de rigor. Por essa razão, desfecho primário,
+exposição primária, conjunto confirmatório e tratamento de multiplicidade são
+declarados por escrito antes do primeiro contato com dado real, e o registro é
+versionado, de modo que sua anterioridade seja verificável. Todo desvio posterior
+é reportado com data e motivo, e o resultado original é preservado.
