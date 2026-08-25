@@ -373,9 +373,12 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
     """Baixa SIM/CE via pysus, grupo CID10 (arquivos DO<UF><ano>).
 
     A API do pysus mudou entre versões maiores; tentamos a atual e caímos para a
-    antiga, como no script 02.
+    ⚠️ Usa `client._run_async`, método PRIVADO. Verificado que existe em 2.10.0,
+    mas nome privado não tem contrato de estabilidade: é o pin de versão em
+    requirements.txt que torna isso seguro, não a API. Ao subir o pysus, conferir
+    este ponto primeiro.
     """
-    try:  # pysus >= 0.10
+    try:
         from pysus.api import PySUSClient
 
         pedacos = []
@@ -391,12 +394,19 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
         if not pedacos:
             raise RuntimeError("pysus não devolveu arquivos SIM para CE.")
         return pd.concat(pedacos, ignore_index=True)
-    except (ImportError, AttributeError):
-        pass
-
-    from pysus.online_data.SIM import download  # API antiga
-
-    return pd.concat([download("CE", ano) for ano in anos], ignore_index=True)
+    except ImportError as erro:
+        # Sem fallback para `pysus.online_data` / `pysus.ftp`: verificado contra
+        # o pacote instalado que os DOIS somem em 2.10.0 (ModuleNotFoundError).
+        # Um fallback para módulo inexistente não é rede de segurança — é uma
+        # mensagem de erro apontando para o lugar errado.
+        raise RuntimeError(
+            f"pysus indisponível ou incompatível ({type(erro).__name__}: {erro}).\n"
+            "  requirements.txt pina pysus==2.10.0, cuja API é `pysus.api.PySUSClient`.\n"
+            "  ⚠️ Se o erro for 'No module named yaml': pysus 2.10.0 IMPORTA yaml mas\n"
+            "     não o declara como dependência. Instale `pyyaml` (já está no\n"
+            "     requirements.txt deste repositório por causa disso).\n"
+            "  Sem pysus, use --fonte arquivos --caminho com o DBC baixado à mão."
+        ) from erro
 
 
 def simula_sim(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_mes: int = 18) -> pd.DataFrame:

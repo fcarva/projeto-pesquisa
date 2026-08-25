@@ -4,6 +4,13 @@ pyarrow
 pyfixest
 sidrapy
 pysus==2.10.0
+# pysus 2.10.0 IMPORTA yaml mas não o declara: sem isto, `import pysus`
+# quebra numa instalação limpa. Verificado em venv isolado.
+pyyaml
+# Importados diretamente por scripts/data_prep/02 e 03 para ler DBC. Vêm
+# transitivamente pelo pysus, mas quem importa declara.
+dbfread
+pyreaddbc
 geopandas
 matplotlib
 pytest
