@@ -13,10 +13,10 @@ as de resultado estão **ausentes de propósito** — não por atraso.
 | Arquivo | Estado |
 |---|---|
 | `main.tex` | esqueleto; compila com o que existe |
+| `secoes/02-background.tex` | ✅ **escrita** |
+| `secoes/03-teoria.tex` | ✅ **escrita** |
 | `secoes/04-identificacao.tex` | ✅ **escrita** — é o que a banca defende |
-| §1 Introdução | ⬜ |
-| §2 Background (a lei, a Chapada, a deriva) | ⬜ |
-| §3 Referencial teórico | ⬜ |
+| §1 Introdução | ⬜ por último, quando as demais fixarem o argumento |
 | §5 Dados e descritivas | ⬜ espera aquisição |
 | §6 Resultados | ⬜ **fora do alvo da qualificação** |
 
@@ -30,6 +30,21 @@ balanceados (`table`, `tabular`, `itemize`, `enumerate`, `quote`, `minipage`),
 9 subseções, 12 rótulos. **Não** verificado: que compila. Na primeira compilação,
 esperar ajuste de pacote — `natbib` sem `.bib` ainda, e a tabela larga da
 §\ref{sub:ameacas} pode pedir `\resizebox` ou `landscape`.
+
+## ⚠️ Duas coisas que o texto corrige em relação ao esboço
+
+**O químico não é o glifosato.** `docs/framework-dissertacao.md` §5.1 é centrado
+em glifosato e culturas transgênicas. A tabela do Dossiê ABRASCO reproduzida no
+PL 18/2015 mostra outra coisa na Chapada do Apodi: procimidona e carbaril em
+23/23, carbofurano em 18/23, fenitrotiona em 16/23 — e **glifosato em 4/23**. É
+fungicida e inseticida sobre fruticultura irrigada, não herbicida sobre grão
+transgênico. A §2.3 abre com advertência ao leitor por isso, e tira três
+consequências metodológicas.
+
+**A autoria da lei.** O esboço atribui a três deputados. O texto oficial da lei e
+o PL 18/2015 registram apenas **Renato Roseno** — provavelmente coautoria no
+projeto, não na lei sancionada (ver `docs/legislacao/README.md`). O texto **não
+nomeia autores** enquanto a tramitação não for conferida.
 
 ## O que a §4 carrega, e que só existia em nota
 
@@ -60,8 +75,13 @@ vai cobrar:
 
 - **Números de resultado não entram.** Onde há número na §4, ele é de **desenho**
   (poder, MDE, aritmética de exposição) e está marcado como tal.
-- **Referências não verificadas não entram** sem marca. Marx-Stoelting et al.
-  (2025) e Larsen et al. (2017) continuam sem conferência contra DOI — ver
-  `docs/lacunas-de-dados.md` §1, classe E.
+- ⚠️ **Referências não verificadas não entram sem marca.** A §3 se apoia no
+  referencial de `docs/framework-dissertacao.md` §4 (Pigou, Coase, Weitzman,
+  Helfand & House, Lichtenberg–Parker–Zilberman, Skevas et al., Roth). **Nenhuma
+  foi conferida contra DOI/Crossref** — as bases estão inacessíveis
+  (`docs/lacunas-de-dados.md` §1, classe E). Por isso a §3 cita **em prosa, sem
+  `\\cite`**: o `.bib` só se monta com DOI conferido, e o `CLAUDE.md` proíbe
+  inventar referência. Marx-Stoelting et al. (2025) e Larsen et al. (2017)
+  seguem na mesma situação.
 - `paper/figures/` e `paper/tables/` recebem saída dos scripts, não arte feita à
   mão.
