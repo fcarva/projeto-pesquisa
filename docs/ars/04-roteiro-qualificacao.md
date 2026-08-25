@@ -231,13 +231,42 @@ cobertura por município-mês é suficiente, ou as células pequenas dominam?
 **Se não:** agregar a bimestre ou trimestre, com o custo declarado na precisão da
 janela gestacional.
 
-### E6 — Estimação
-**Faz:** `scripts/estimate/03_contdid.R` — lê parquet, grava CSV *tidy*. Produz
-`ATT(d|d)`, `ATE(d)`, e os bounds da §5.1.
+### E6 — Estimação ✅ instrumentado
+**Faz:** `scripts/estimate/03_contdid.R` — lê parquet, grava CSV *tidy*. Roda
+`target_parameter="level"` e `="slope"` e o event study.
 **Gate:** o diagnóstico do Teorema C.1 — `ATT(d|d)` e `ATE(d)` convergem?
-**Se não:** o resultado principal migra para os bounds, conforme o compromisso
-registrado em `03-modelagem-ensaio1.md` §4.1. A decisão é do diagnóstico, não da
-estética do coeficiente.
+**Se não:** o resultado principal migra para os limites da §5.1, conforme o
+compromisso registrado em `03-modelagem-ensaio1.md` §4.1. A decisão é do
+diagnóstico, não da estética do coeficiente.
+
+⚠️ **Três restrições do `contdid` v0.1.1 que mudam o desenho**, conferidas
+contra `R/cont_did.R` do repositório do autor (não supostas):
+
+| Restrição | Consequência |
+|---|---|
+| **O sieve (CCK) exige exatamente 2 períodos** | A **curva** — resultado principal da D1, e o que o Ensaio 2 precisa — **não roda no painel mensal**. Exige colapso pré/pós, que é escolha de agregação a declarar |
+| **Sem event study no sieve** | Os *leads* que dão evidência sobre a A4 saem de **outro estimador** que a curva. Duas rodadas, e o texto tem de dizer isso |
+| **Covariáveis não suportadas** (`xformula = ~1`) | Ajuste municipal só por outra via — o PSM+DiD da camada de comunicação, não por dentro do CGS |
+
+⚠️ **E a flag 5 deixa de ser ressalva de texto e vira aritmética.** No bloco do
+CCK o pacote faz:
+
+```r
+dy  <- post_data$.dy          # primeira diferença do desfecho
+m0  <- mean(dy[dose == 0])    # média entre os de dose zero
+dy_centered <- dy - m0        # a curva inteira é centrada nisso
+```
+
+A curva é **centrada na variação média do grupo `d = 0`**. Contaminação do zero
+não acrescenta ruído: **desloca o nível da curva inteira**. As quatro construções
+de zero da §5.3 têm de ser rodadas, e a dispersão entre elas **é** a incerteza
+sobre o nível.
+
+⚠️ **As coortes de transição.** O colapso pré/pós não sabe o que fazer com as
+coortes cuja gestação atravessa o ban (`0 < share_gestacao_pos_ban < 1`). O
+script as **descarta** por padrão — escolha conservadora, porque incluí-las de
+qualquer lado embute a atenuação medida no E5 — e expõe `--corte-pre` /
+`--corte-pos`, porque a decisão é sua. No painel simulado isso é ~9% das células.
 
 ### E7 — Robustez
 **Faz:** `scripts/estimate/04_robustness.py` — Conley–Taber, wild-cluster

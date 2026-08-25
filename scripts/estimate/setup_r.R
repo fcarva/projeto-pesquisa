@@ -13,10 +13,22 @@ renv::init(bare = TRUE)
 # CRAN
 renv::install(c("did", "data.table", "fixest", "arrow"))
 
-# `contdid` (implementação do estimador de tratamento contínuo) é distribuído
-# pelo GitHub do autor, não pelo CRAN — instalar como "contdid" puro falha com
-# "package not available". Se em algum momento ele for publicado no CRAN, a
-# linha abaixo continua funcionando; conferir em https://github.com/bcallaway11/contdid
+# ⚠️ ORDEM IMPORTA AQUI, e o motivo não é óbvio.
+#
+# `contdid` depende de `ptetools (>= 1.0.1)`, que **não está no CRAN** — é
+# GitHub-only (bcallaway11/ptetools, v1.0.2 quando isto foi escrito). E o
+# DESCRIPTION do `contdid` **não traz campo `Remotes:`**, então o instalador não
+# tem como descobrir onde achar `ptetools` sozinho: `renv::install("bcallaway11/contdid")`
+# falha na dependência.
+#
+# Verificado clonando os dois repositórios em 2026-08-24. Instalar `ptetools`
+# ANTES resolve. Se um dia ele for para o CRAN, esta linha continua funcionando.
+renv::install("bcallaway11/ptetools")
+
+# `contdid` (implementação do estimador de tratamento contínuo) também é
+# distribuído pelo GitHub do autor, não pelo CRAN — instalar como "contdid" puro
+# falha com "package not available".
+# Conferir em https://github.com/bcallaway11/contdid
 renv::install("bcallaway11/contdid")
 
 renv::snapshot()
