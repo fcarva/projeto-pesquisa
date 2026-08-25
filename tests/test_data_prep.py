@@ -703,3 +703,88 @@ def test_caminho_vazio_e_extensao_ruim_falham_claro(tmp_path):
     pdf.write_bytes(b"%PDF-1.4")
     with pytest.raises(ValueError, match="Extensão não suportada"):
         dose.carrega_pam_arquivo([pdf])
+
+
+# --------------------------------------------------------------------------
+# 02/03 — portabilidade de fonte: datas e recombinação de painéis
+# --------------------------------------------------------------------------
+
+@pytest.mark.parametrize("modulo", ["nasc", "fetal"], ids=["sinasc", "sim"])
+@pytest.mark.parametrize(
+    "texto,ano,mes",
+    [
+        ("15032017", 2017, 3),     # DATASUS: DDMMAAAA
+        ("1032017", 2017, 3),      # DATASUS com zero à esquerda perdido
+        ("2017-03-01", 2017, 3),   # ISO: datazoom / BigQuery
+        ("01/02/2017", 2017, 2),   # barra brasileira: dia 1 de FEVEREIRO
+        ("31/12/2019", 2019, 12),
+    ],
+)
+def test_data_nao_troca_dia_por_mes_em_nenhuma_fonte(modulo, texto, ano, mes):
+    """`format="mixed"` lia "01/02/2017" como JANEIRO — mês errado no painel.
+
+    Num desenho mensal cujo tratamento entra em 09/01/2019, mês trocado é
+    contaminação silenciosa da janela do evento. E `dayfirst=True` não é a
+    correção: conserta a barra e quebra o ISO. Por isso a lista de formatos é
+    fechada, tentada em ordem, sem inferência nenhuma.
+    """
+    m = {"nasc": nasc, "fetal": fetal}[modulo]
+    saida = m.extrai_ano_mes(pd.Series([texto]))
+    assert saida["ano"].iloc[0] == ano
+    assert saida["mes"].iloc[0] == mes
+
+
+def test_data_ilegivel_vira_ausente_e_nao_data_errada():
+    """Melhor perder a linha (o pipeline conta e descarta) que gravar mês errado."""
+    saida = nasc.extrai_ano_mes(pd.Series(["99999999", "não é data", None]))
+    assert saida["ano"].isna().all()
+
+
+def test_alias_datazoom_nao_confunde_idade_do_falecido_com_a_da_mae():
+    """Na DO do SIM, IDADE é a idade do FALECIDO em código composto (401 = 1
+    ano), não a da mãe — que já tem campo próprio, IDADEMAE. O alias punha 401
+    dentro de `idade_mae_media`."""
+    bruto = pd.DataFrame({
+        "TIPOBITO": [1], "DTOBITO": ["15032017"], "CODMUNRES": ["230440"],
+        "PESO": ["1200"], "SEMAGESTAC": [30], "GESTACAO": [3],
+        "OBITOPARTO": [1], "IDADE": [401],
+    })
+    saida = fetal.padroniza_colunas(bruto)
+    assert pd.isna(saida["IDADEMAE"].iloc[0])   # ausente, não 401
+
+
+def test_recombina_soma_celula_que_aparece_em_dois_arquivos():
+    """Registro tardio: um nascimento de dez/2015 pode vir no arquivo de 2016.
+
+    Colapsando arquivo a arquivo e concatenando, a mesma célula sai em DUAS
+    linhas — o painel perde a chave única, uma junção em build_panel
+    multiplicaria linhas, e média de médias sem peso daria o desfecho errado.
+    """
+    def um(dia, peso):
+        bruto = pd.DataFrame({"CODMUNRES": ["230440"], "DTNASC": [dia],
+                              "PESO": [peso], "SEMAGESTAC": [39], "GESTACAO": [5]})
+        return nasc.colapsa_muni_mes(nasc.prepara_nascimentos(bruto))
+
+    recombinado = nasc.recombina_paineis([um("15122015", "3000"), um("20122015", "3400")])
+    juntos = nasc.colapsa_muni_mes(nasc.prepara_nascimentos(pd.DataFrame({
+        "CODMUNRES": ["230440", "230440"], "DTNASC": ["15122015", "20122015"],
+        "PESO": ["3000", "3400"], "SEMAGESTAC": [39, 39], "GESTACAO": [5, 5],
+    })))
+
+    assert len(recombinado) == 1                                  # chave única
+    assert recombinado["n_nascimentos"].iloc[0] == 2
+    # e bate com o colapso feito de uma vez só — média PONDERADA, não de médias
+    assert recombinado["peso_medio"].iloc[0] == pytest.approx(juntos["peso_medio"].iloc[0])
+    assert recombinado["peso_medio"].iloc[0] == pytest.approx(3200.0)
+
+
+def test_recombina_pondera_pelo_denominador_certo():
+    """Célula grande e célula pequena não podem entrar com peso igual."""
+    def celula(n, peso):
+        bruto = pd.DataFrame({"CODMUNRES": ["230440"] * n, "DTNASC": ["15122015"] * n,
+                              "PESO": [peso] * n, "SEMAGESTAC": [39] * n, "GESTACAO": [5] * n})
+        return nasc.colapsa_muni_mes(nasc.prepara_nascimentos(bruto))
+
+    saida = nasc.recombina_paineis([celula(9, "3000"), celula(1, "4000")])
+    assert saida["n_nascimentos"].iloc[0] == 10
+    assert saida["peso_medio"].iloc[0] == pytest.approx(3100.0)   # não 3500

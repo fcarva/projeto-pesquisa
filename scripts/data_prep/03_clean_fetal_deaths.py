@@ -120,10 +120,14 @@ def padroniza_colunas(df: pd.DataFrame) -> pd.DataFrame:
     """Nomes em maiúscula e garante que as colunas esperadas existam (NaN se não)."""
     saida = df.copy()
     saida.columns = [str(c).strip().upper() for c in saida.columns]
+    # ⚠️ `IDADE` NÃO entra aqui. Na DO do SIM, IDADE é a idade do FALECIDO,
+    # codificada como composto (1º dígito = unidade: 0=min, 1=h, 2=dias,
+    # 3=meses, 4=anos). Num óbito fetal é a idade do feto, não da mãe — e o SIM
+    # já traz IDADEMAE como campo próprio. Mapear IDADE para IDADEMAE punha 401
+    # dentro de `idade_mae_media`, número errado numa tabela descritiva.
     aliases_datazoom = {
         "DATA_OBITO": "DTOBITO",
         "DATA_NASCIMENTO": "DTNASC",
-        "IDADE": "IDADEMAE",
     }
     saida = saida.rename(columns=aliases_datazoom)
     faltando = [c for c in COLUNAS_SIM if c not in saida.columns]
@@ -146,13 +150,37 @@ def filtra_fetal(df: pd.DataFrame) -> pd.DataFrame:
     return df[tipo == TIPOBITO_FETAL].copy()
 
 
+# Formatos de data aceitos, tentados NESTA ORDEM. Explícitos de propósito:
+# `format="mixed"` infere por elemento e, num campo brasileiro, lê "01/02/2017"
+# como janeiro — troca dia por mês e joga o nascimento na célula errada do painel
+# mensal. Num desenho cujo tratamento entra em janeiro de 2019, mês errado é
+# contaminação da janela do evento, e silenciosa. Já `dayfirst=True` conserta a
+# barra e quebra o ISO ("2017-03-01" vira janeiro). Nenhuma inferência serve:
+# a lista abaixo é fechada e determinística.
+FORMATOS_DATA = ("%d%m%Y", "%Y-%m-%d", "%d/%m/%Y")
+
+
+def _para_data(bruto: pd.Series) -> pd.Series:
+    """Converte para data tentando os formatos conhecidos, sem inferir."""
+    texto = bruto.astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
+    so_digitos = texto.str.fullmatch(r"\d+").fillna(False)
+    texto = texto.mask(so_digitos, texto.str.zfill(8))
+
+    data = pd.Series(pd.NaT, index=bruto.index, dtype="datetime64[ns]")
+    for formato in FORMATOS_DATA:
+        se_falta = data.isna()
+        if not se_falta.any():
+            break
+        data.loc[se_falta] = pd.to_datetime(
+            texto[se_falta], format=formato, errors="coerce"
+        )
+    return data
+
+
 def extrai_ano_mes(dtobito: pd.Series) -> pd.DataFrame:
     """DTOBITO (DDMMAAAA) -> ano e mês. Mesma lógica do DTNASC no script 02:
     o zero à esquerda do dia some quando o campo passa por leitor numérico."""
-    texto = dtobito.astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
-    texto = texto.str.zfill(8)
-    data = pd.to_datetime(texto, format="%d%m%Y", errors="coerce")
-    data = data.fillna(pd.to_datetime(texto, format="mixed", errors="coerce"))
+    data = _para_data(dtobito)
     return pd.DataFrame(
         {
             "ano": data.dt.year.astype("Int64"),

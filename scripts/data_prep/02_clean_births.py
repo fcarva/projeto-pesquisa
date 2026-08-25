@@ -111,6 +111,33 @@ def padroniza_colunas(df: pd.DataFrame) -> pd.DataFrame:
     return saida[list(COLUNAS_SINASC)]
 
 
+# Formatos de data aceitos, tentados NESTA ORDEM. Explícitos de propósito:
+# `format="mixed"` infere por elemento e, num campo brasileiro, lê "01/02/2017"
+# como janeiro — troca dia por mês e joga o nascimento na célula errada do painel
+# mensal. Num desenho cujo tratamento entra em janeiro de 2019, mês errado é
+# contaminação da janela do evento, e silenciosa. Já `dayfirst=True` conserta a
+# barra e quebra o ISO ("2017-03-01" vira janeiro). Nenhuma inferência serve:
+# a lista abaixo é fechada e determinística.
+FORMATOS_DATA = ("%d%m%Y", "%Y-%m-%d", "%d/%m/%Y")
+
+
+def _para_data(bruto: pd.Series) -> pd.Series:
+    """Converte para data tentando os formatos conhecidos, sem inferir."""
+    texto = bruto.astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
+    so_digitos = texto.str.fullmatch(r"\d+").fillna(False)
+    texto = texto.mask(so_digitos, texto.str.zfill(8))
+
+    data = pd.Series(pd.NaT, index=bruto.index, dtype="datetime64[ns]")
+    for formato in FORMATOS_DATA:
+        se_falta = data.isna()
+        if not se_falta.any():
+            break
+        data.loc[se_falta] = pd.to_datetime(
+            texto[se_falta], format=formato, errors="coerce"
+        )
+    return data
+
+
 def extrai_ano_mes(dtnasc: pd.Series) -> pd.DataFrame:
     """DTNASC (DDMMAAAA) -> ano e mês.
 
@@ -118,10 +145,7 @@ def extrai_ano_mes(dtnasc: pd.Series) -> pd.DataFrame:
     como número, o zero à esquerda do dia some e sobram 7 caracteres — daí o
     zfill antes do parse. Data inválida vira NaT, e a linha cai depois.
     """
-    texto = dtnasc.astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
-    texto = texto.str.zfill(8)
-    data = pd.to_datetime(texto, format="%d%m%Y", errors="coerce")
-    data = data.fillna(pd.to_datetime(texto, format="mixed", errors="coerce"))
+    data = _para_data(dtnasc)
     return pd.DataFrame(
         {
             "ano": data.dt.year.astype("Int64"),
@@ -225,7 +249,9 @@ def colapsa_muni_mes(individual: pd.DataFrame) -> pd.DataFrame:
         n_gest_valido=("prematuro", "count"),
         n_prematuro=("prematuro", "sum"),
         taxa_prematuridade=("prematuro", "mean"),
+        n_faixa_valido=("prematuro_por_faixa", "count"),
         share_gest_por_faixa=("prematuro_por_faixa", "mean"),
+        n_idade_valido=("IDADEMAE", "count"),
         idade_mae_media=("IDADEMAE", "mean"),
     ).reset_index()
 
@@ -238,6 +264,50 @@ def colapsa_muni_mes(individual: pd.DataFrame) -> pd.DataFrame:
 # --------------------------------------------------------------------------
 # Fontes
 # --------------------------------------------------------------------------
+
+# Colunas do painel e como cada uma se recombina quando a MESMA célula aparece
+# em mais de um arquivo. Média não se recombina por média: tem de ser ponderada
+# pelo próprio denominador, senão duas células de tamanhos diferentes entram com
+# peso igual. É por isso que `colapsa_muni_mes` guarda os `n_*_valido`.
+CONTAGENS = ("n_nascimentos", "n_peso_valido", "n_baixo_peso",
+             "n_gest_valido", "n_prematuro", "n_faixa_valido", "n_idade_valido")
+MEDIAS_PONDERADAS = {
+    "peso_medio": "n_peso_valido",
+    "taxa_baixo_peso": "n_peso_valido",
+    "taxa_prematuridade": "n_gest_valido",
+    "share_gest_por_faixa": "n_faixa_valido",
+    "idade_mae_media": "n_idade_valido",
+}
+
+
+def recombina_paineis(paineis: list[pd.DataFrame]) -> pd.DataFrame:
+    """Junta painéis colapsados separadamente, somando as células repetidas.
+
+    Necessário porque um arquivo anual do SINASC pode conter nascimento de
+    dezembro do ano anterior (registro tardio). Colapsando arquivo a arquivo e
+    concatenando, a mesma `cod_ibge6 × ano × mês` sai em DUAS linhas — e aí o
+    painel deixa de ter chave única: uma junção em build_panel multiplicaria
+    linhas, e uma média de médias sem peso daria o desfecho errado.
+    """
+    junto = pd.concat(paineis, ignore_index=True)
+    chave = ["cod_ibge6", "ano", "mes"]
+    if not junto.duplicated(subset=chave).any():
+        return junto.sort_values(chave).reset_index(drop=True)
+
+    for coluna, peso in MEDIAS_PONDERADAS.items():
+        junto[f"_soma_{coluna}"] = junto[coluna] * junto[peso]
+
+    agregados = {c: (c, "sum") for c in CONTAGENS if c in junto.columns}
+    agregados.update({f"_soma_{c}": (f"_soma_{c}", "sum") for c in MEDIAS_PONDERADAS})
+    saida = junto.groupby(chave, dropna=False).agg(**agregados).reset_index()
+
+    for coluna, peso in MEDIAS_PONDERADAS.items():
+        saida[coluna] = (saida[f"_soma_{coluna}"] / saida[peso]).where(saida[peso] > 0)
+        saida = saida.drop(columns=[f"_soma_{coluna}"])
+
+    saida["celula_pequena"] = saida["n_nascimentos"] < CELULA_PEQUENA
+    return saida.sort_values(chave).reset_index(drop=True)
+
 
 def carrega_de_arquivos(caminhos: list[Path]) -> pd.DataFrame:
     """Lê arquivos SINASC já baixados (.dbc / .parquet / .csv / .csv.gz).
@@ -472,7 +542,7 @@ def main(argv: list[str] | None = None) -> int:
             print("[erro] Nada sobrou após filtrar Ceará e datas válidas. Confira CODMUNRES/DTNASC.")
             return 1
         individual = None
-        painel = pd.concat(paineis, ignore_index=True)
+        painel = recombina_paineis(paineis)
         fonte = "arquivos"
     else:
         bruto, fonte = carrega_nascimentos(args.fonte, args.caminho, tuple(args.anos), args.seed)
