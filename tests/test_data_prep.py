@@ -30,6 +30,7 @@ def _carrega(nome: str):
 dose = _carrega("01_check_dose_variation.py")
 nasc = _carrega("02_clean_births.py")
 fetal = _carrega("03_clean_fetal_deaths.py")
+intox = _carrega("04_clean_poisoning.py")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -917,3 +918,112 @@ def test_ja_fetal_forcado_nao_engole_do_geral_por_engano():
         "IDADEMAE": [28, 31],
     })
     assert len(fetal.prepara_obitos(do_geral, ja_fetal=True)) == 2
+
+
+# --------------------------------------------------------------------------
+# 04 — intoxicação por agrotóxico (SIH), o canal de substituição
+# --------------------------------------------------------------------------
+
+def _aih(principal, secundario="", muni="230440", data="20170315", idade=30, morte=0):
+    return {"DIAG_PRINC": principal, "DIAG_SECUN": secundario, "MUNIC_RES": muni,
+            "DT_INTER": data, "MORTE": morte, "IDADE": idade, "SEXO": 1}
+
+
+def test_familias_de_intencao_nunca_sao_somadas():
+    """A separação É o desenho, não organização.
+
+    X48 (acidental) responde a COMO se aplica — o canal de substituição. X68
+    (autoprovocada) responde à DISPONIBILIDADE da molécula, que o ban não muda,
+    e por isso serve de placebo. Somar as duas mistura mecanismos e destrói o
+    placebo que vem de graça dentro do mesmo dado.
+    """
+    bruto = pd.DataFrame([_aih("X48"), _aih("X68"), _aih("X68"), _aih("Y18")])
+    painel = intox.colapsa_muni_mes(intox.prepara_internacoes(bruto))
+    linha = painel.iloc[0]
+    assert linha["n_acidental"] == 1
+    assert linha["n_autoprovocada"] == 2
+    assert linha["n_indeterminada"] == 1
+    # não existe coluna que some as intenções
+    assert "n_intoxicacao_total" not in painel.columns
+
+
+def test_cid_casa_com_e_sem_ponto():
+    """O SIH grava sem ponto ('T600'); a documentação usa 'T60.0'."""
+    bruto = pd.DataFrame([_aih("T60.0"), _aih("t600"), _aih("T603")])
+    painel = intox.colapsa_muni_mes(intox.prepara_internacoes(bruto))
+    assert painel["n_t60_organofosforado_carbamato"].iloc[0] == 2
+    assert painel["n_t60_herbicida_fungicida"].iloc[0] == 1
+
+
+def test_diagnostico_secundario_conta_mas_fica_marcado():
+    """SIH é faturamento: a escolha entre principal e secundário responde a
+    incentivo de pagamento, não só a clínica. Ignorar o secundário perde casos;
+    fundir os dois esconde o que a contagem significa."""
+    bruto = pd.DataFrame([_aih("T600", "X48"), _aih("X48", "T600")])
+    painel = intox.colapsa_muni_mes(intox.prepara_internacoes(bruto))
+    assert painel["n_acidental"].iloc[0] == 2             # os dois casam
+    assert painel["n_acidental_principal"].iloc[0] == 1   # só um no principal
+
+
+def test_internacao_sem_cid_de_agrotoxico_e_descartada():
+    """O SIH inteiro entra; só o que casa família fica."""
+    bruto = pd.DataFrame([_aih("J189"), _aih("I219"), _aih("X48")])
+    assert len(intox.prepara_internacoes(bruto)) == 1
+
+
+def test_data_do_sih_e_AAAAMMDD_e_nao_DDMMAAAA():
+    """⚠️ Formato DIFERENTE do SINASC. '20170315' é 15/03/2017; lido como
+    DDMMAAAA daria lixo, e num painel mensal mês errado é contaminação da
+    janela do evento."""
+    bruto = pd.DataFrame([_aih("X48", data="20170315")])
+    saida = intox.prepara_internacoes(bruto)
+    assert saida.iloc[0]["ano"] == 2017 and saida.iloc[0]["mes"] == 3
+
+
+def test_codigo_ibge_de_7_digitos_vira_a_chave_de_6():
+    """O SIH tem os dois: munic_res com 6 e codibge com 7. Sem truncar, a
+    junção com os painéis dos scripts 02 e 03 não acontece."""
+    bruto = pd.DataFrame([_aih("X48", muni="2304400"), _aih("X48", muni="230440")])
+    saida = intox.prepara_internacoes(bruto)
+    assert list(saida["cod_ibge6"].unique()) == ["230440"]
+
+
+def test_chave_casa_com_os_paineis_dos_scripts_02_e_03():
+    """Sem chave idêntica não há canal: o teste roda contra a mesma dose."""
+    b_intox = intox.simula_sih(anos=(2018,), seed=4)
+    p_intox = intox.colapsa_muni_mes(intox.prepara_internacoes(b_intox))
+    p_nasc = nasc.colapsa_muni_mes(
+        nasc.prepara_nascimentos(nasc.simula_sinasc(anos=(2018,), seed=4, n_por_muni_mes=10))
+    )
+    chave = ["cod_ibge6", "ano", "mes"]
+    juncao = p_nasc.merge(p_intox, on=chave, how="inner")
+    assert len(juncao) > 0
+    assert not p_intox.duplicated(subset=chave).any()
+
+
+def test_recorte_ocupacional_so_vale_para_a_familia_acidental():
+    """A hipótese de substituição fala do APLICADOR. Intoxicação em criança
+    tende a ser doméstica; em idade de trabalho, ocupacional."""
+    bruto = pd.DataFrame([
+        _aih("X48", idade=30),   # idade de trabalho
+        _aih("X48", idade=8),    # criança
+        _aih("X68", idade=30),   # autoprovocada não entra no recorte
+    ])
+    painel = intox.colapsa_muni_mes(intox.prepara_internacoes(bruto))
+    assert painel["n_acidental"].iloc[0] == 2
+    assert painel["n_acidental_idade_trabalho"].iloc[0] == 1
+    assert "n_autoprovocada_idade_trabalho" not in painel.columns
+
+
+def test_aliases_datazoom_do_sih_cobrem_as_duas_linguas():
+    """Mesma armadilha dos scripts 02 e 03: o padrão do pacote é inglês."""
+    for colunas in (
+        {"cid_diagnostico_principal": "X48", "municipio_residencia": "230440",
+         "data_internacao": "20170315"},
+        {"main_diagnosis_cid": "X48", "residence_municipality": "230440",
+         "date_admission": "20170315"},
+    ):
+        saida = intox.prepara_internacoes(pd.DataFrame([colunas]))
+        assert len(saida) == 1, colunas
+        assert saida.iloc[0]["cod_ibge6"] == "230440"
+        assert saida.iloc[0]["mes"] == 3

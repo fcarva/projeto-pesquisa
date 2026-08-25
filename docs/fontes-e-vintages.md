@@ -118,6 +118,21 @@ Duas ciladas dentro dessa tabela:
 E `idade` (idade do falecido, código composto) **não** é `idademae`. São campos
 separados no dicionário; confundi-los põe `401` dentro de `idade_mae_media`.
 
+## Nota sobre o SIH — três ressalvas que precisam estar no texto
+
+- **É internação, não incidência.** Só entra o caso grave o bastante para
+  internar, na rede SUS. Intoxicação leve, atendimento ambulatorial e rede
+  privada ficam de fora. O nível é subestimado; o estimando é efeito sobre
+  **caso grave internado**.
+- **É dado de faturamento.** `diag_princ` é o diagnóstico principal da AIH, e a
+  escolha entre principal e secundário responde a incentivo de pagamento, não só
+  a clínica. O script 04 varre os dois campos e emite as contagens **lado a
+  lado** — `n_<familia>` e `n_<familia>_principal` —, porque não significam a
+  mesma coisa.
+- **`DT_INTER` vem em AAAAMMDD**, formato **diferente** do `DTNASC` do SINASC
+  (DDMMAAAA). Lido na ordem errada, o mês sai trocado — e num painel mensal cujo
+  tratamento entra em jan/2019, mês trocado é contaminação da janela do evento.
+
 ## Acesso à rede na sessão remota — o que precisa ser liberado
 
 **O bloqueio é política de rede do ambiente, não instabilidade das fontes.** O

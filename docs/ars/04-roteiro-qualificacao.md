@@ -133,7 +133,7 @@ a um gate negativo em E2.
 | A2 | FAO-GAEZ | instrumento **e** definição 4 de d = 0 **e** teste de contaminação |
 | A3 | ANA + SISAGUA | canal-água, que independe do formato da curva |
 | A4 | MapBiomas + INMET/FUNCEME | canal-ar; e os polígonos melhoram a própria medida de dose |
-| A5 | SIH + CAGED/RAIS + PIB agro | canais de substituição e renda; insumo direto do Ensaio 2 |
+| A5 | **SIH ✅ instrumentado** (`04_clean_poisoning.py`) + CAGED/RAIS + PIB agro | canais de substituição e renda; insumo direto do Ensaio 2. O SIH traz o canal aéreo→terrestre **e um placebo de graça** — ver abaixo |
 | A6 | cadastro aeroagrícola (ANAC/MAPA/SINDAG) **+ registro SEMACE** | definição 3 de d = 0 — a única que mede o **método**. O art. 8º da Lei 12.228/1993 obriga prestadoras de serviço de aplicação a se registrarem na SEMACE: fonte estadual, provavelmente melhor |
 
 **Verificações a fazer na aquisição, não a assumir:**
@@ -148,6 +148,47 @@ a um gate negativo em E2.
 - A PAM cobre 2010–2014 com comparabilidade equivalente, para uma janela
   pré-ban anterior ao PL de 2015? Houve mudança de metodologia ou de
   classificação de cultura? (E0)
+
+
+### A5 — o canal de intoxicação, e o placebo que vem junto
+
+`scripts/data_prep/04_clean_poisoning.py` monta internação por intoxicação com
+agrotóxico (SIH) a município × ano-mês, com as famílias de CID **separadas e
+nunca somadas**.
+
+**A hipótese do canal.** Proibido o avião, a aplicação migra para trator e
+costal: *afasta* o veneno da população (menos deriva) e *aproxima* o veneno do
+aplicador. O ban pode reduzir exposição perinatal e **aumentar** intoxicação
+aguda ocupacional — sinal **oposto** ao do desfecho principal.
+
+⚠️ **E há um placebo dentro do mesmo dado.** O CID separa por intenção:
+
+| Família | Responde a | Papel |
+|---|---|---|
+| **X48** acidental | COMO se aplica | o canal de substituição |
+| **X68** autoprovocada | DISPONIBILIDADE da molécula | **placebo** |
+| Y18 indeterminada / X87 agressão | — | reportar, não compor |
+
+A flag 3 do `CLAUDE.md` registra que *proibir método ≠ proibir molécula*: o ban
+não muda a disponibilidade do produto. Então a hipótese prevê movimento em X48 e
+**nenhum movimento em X68** — mesma população, mesmo sistema de registro, mesmos
+municípios. **Se as duas se moverem juntas, a explicação não é substituição de
+método**; é algo que move internação em geral.
+
+**Por que isso importa para o *enforcement*.** A flag 3 hoje depende do pedido
+LAI, que ainda não voltou. Se a série acidental se move com a dose, isso é
+evidência **independente** de que o ban mudou comportamento no campo — não
+substitui o registro administrativo, chega por outro caminho.
+
+**Gate:** a série acidental tem suporte para ser estimável? (Na rodada simulada,
+100% das células município-mês ficam abaixo de 5 internações — intoxicação
+internada é evento raro, e o teste vai precisar de agregação mais grossa.)
+**Se não:** o canal vira descritivo no texto, não estimativa.
+
+⚠️ **Decisão de medida que continua sua:** qual família é o desfecho, qual é
+placebo, e se o recorte é T60.0 (organofosforado/carbamato — a química que o
+Dossiê ABRASCO achou na Chapada do Apodi) ou o agregado. O script separa; não
+escolhe.
 
 ---
 
