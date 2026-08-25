@@ -194,11 +194,37 @@ escolhe.
 
 ## Encontro das trilhas
 
-### E5 — build_panel
-**Faz:** `scripts/build_panel/` — junta desfechos, dose, instrumento, bacias,
-vento, canais. Painel município × ano-mês, com a retroprojeção gestacional a
-partir de `SEMAGESTAC` (é para isso que o script 02 colapsa por mês e não por
-ano).
+### E5 — build_panel ✅ instrumentado
+**Faz:** `scripts/build_panel/05_build_panel.py` — junta dose e desfechos num
+painel município × ano-mês balanceado. Instrumento, bacias e vento entram depois.
+
+⚠️ **A retroprojeção NÃO usa `SEMAGESTAC`, e a correção importa.** Retroprojetar
+pela gestação observada seria **endógeno**: prematuridade é um dos desfechos, e
+se o ban encurta a gestação a janela de exposição andaria junto com o
+tratamento — condicionar numa variável afetada pelo tratamento, com viés de
+direção desconhecida. A janela é **fixa em 9 meses**. A gestação observada entra
+como desfecho, nunca como definidor de exposição.
+
+**O que a retroprojeção revela.** O tratamento não liga de vez em jan/2019:
+sobe ao longo de ~9 meses.
+
+| Coorte | gestação pós-ban | marcação ingênua |
+|---|---|---|
+| dez/2018 | 0,00 | 0 |
+| **jan/2019** | **0,00** | **1** ← ingênuo diz tratado; a gestação foi toda antes |
+| mai/2019 | 0,44 | 1 |
+| out/2019 | 1,00 | 1 |
+
+Em 2019 o ingênuo conta 12 coortes tratadas onde a exposição real soma **7** —
+superconta **5/12**, e a atenuação tem direção conhecida. Por isso as duas
+construções saem lado a lado: `pos_ban_nascimento` existe para **medir** a
+atenuação, não para ser o tratamento.
+
+Sai também `share_tri1/2/3_pos_ban`: qual trimestre importa é questão empírica
+(Larsen et al. acham efeito concentrado), não suposição.
+
+⚠️ **Intoxicação não retroprojeta.** É contemporânea à exposição — o canal do
+script 04 usa o mês da internação. Retroprojetar ali inventaria defasagem.
 **Gate:** as chaves casam? PAM tem código IBGE de 7 dígitos, SINASC tem
 `CODMUNRES` de 6 — o `cod_ibge6` já está nos dois scripts para isso. E a
 cobertura por município-mês é suficiente, ou as células pequenas dominam?

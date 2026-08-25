@@ -19,8 +19,8 @@ import pytest
 RAIZ = Path(__file__).resolve().parents[1]
 
 
-def _carrega(nome: str):
-    caminho = RAIZ / "scripts" / "data_prep" / nome
+def _carrega(nome: str, sub: str = "data_prep"):
+    caminho = RAIZ / "scripts" / sub / nome
     spec = importlib.util.spec_from_file_location(caminho.stem, caminho)
     modulo = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(modulo)
@@ -31,6 +31,7 @@ dose = _carrega("01_check_dose_variation.py")
 nasc = _carrega("02_clean_births.py")
 fetal = _carrega("03_clean_fetal_deaths.py")
 intox = _carrega("04_clean_poisoning.py")
+painel = _carrega("05_build_panel.py", sub="build_panel")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -1027,3 +1028,112 @@ def test_aliases_datazoom_do_sih_cobrem_as_duas_linguas():
         assert len(saida) == 1, colunas
         assert saida.iloc[0]["cod_ibge6"] == "230440"
         assert saida.iloc[0]["mes"] == 3
+
+
+# --------------------------------------------------------------------------
+# 05 — painel: a retroprojeção gestacional é o ponto
+# --------------------------------------------------------------------------
+
+def _celulas(anos_meses):
+    return pd.DataFrame([{"cod_ibge6": "230440", "ano": a, "mes": m} for a, m in anos_meses])
+
+
+def test_tratamento_sobe_ao_longo_da_gestacao_em_vez_de_ligar_de_vez():
+    """O ban entra em 09/01/2019, mas a coorte de jan/2019 gestou tudo ANTES.
+
+    Marcar tratado por data de nascimento dilui o efeito com gestação não
+    exposta — atenuação de direção conhecida. Só a coorte de out/2019 em diante
+    teve gestação inteiramente pós-ban.
+    """
+    saida = painel.acrescenta_exposicao(_celulas([
+        (2018, 12), (2019, 1), (2019, 5), (2019, 10), (2020, 6),
+    ]))
+    s = saida["share_gestacao_pos_ban"].tolist()
+    assert s[0] == pytest.approx(0.0)      # dez/2018: gestação toda pré-ban
+    assert s[1] == pytest.approx(0.0)      # jan/2019: idem, apesar de "pós-ban"
+    assert s[2] == pytest.approx(4 / 9)    # mai/2019: 4 dos 9 meses pós-ban
+    assert s[3] == pytest.approx(1.0)      # out/2019: gestação inteira pós-ban
+    assert s[4] == pytest.approx(1.0)
+
+    # e o ingênuo diverge exatamente onde deveria
+    assert saida["pos_ban_nascimento"].tolist() == [0, 1, 1, 1, 1]
+
+
+def test_a_marcacao_ingenua_fica_ao_lado_para_medir_a_atenuacao():
+    """As duas saem juntas de propósito: a distância entre elas É a atenuação."""
+    saida = painel.acrescenta_exposicao(_celulas([(2019, m) for m in range(1, 13)]))
+    tratadas_ingenuo = saida["pos_ban_nascimento"].sum()
+    exposicao_real = saida["share_gestacao_pos_ban"].sum()
+    # 2019 tem 12 coortes; a exposição real soma 7 — o ingênuo superconta 5/12.
+    # (jan a set rampam de 0/9 a 8/9; out, nov e dez valem 1 cada.)
+    assert tratadas_ingenuo == 12
+    assert exposicao_real == pytest.approx(7.0)
+    assert (tratadas_ingenuo - exposicao_real) / tratadas_ingenuo == pytest.approx(5 / 12)
+
+
+def test_trimestres_particionam_a_gestacao():
+    """Os três trimestres cobrem a janela inteira, sem sobra nem sobreposição:
+    a média deles tem de bater com o share da gestação toda."""
+    saida = painel.acrescenta_exposicao(_celulas([(2019, m) for m in range(1, 13)]))
+    media_tri = saida[["share_tri1_pos_ban", "share_tri2_pos_ban", "share_tri3_pos_ban"]].mean(axis=1)
+    assert np.allclose(media_tri, saida["share_gestacao_pos_ban"])
+    # e o 3º trimestre (mais perto do parto) é sempre o mais exposto
+    assert (saida["share_tri3_pos_ban"] >= saida["share_tri1_pos_ban"]).all()
+
+
+def test_janela_e_fixa_e_nao_a_gestacao_observada():
+    """⚠️ Usar SEMAGESTAC para retroprojetar seria endógeno: prematuridade é um
+    dos desfechos. Se o ban encurta a gestação, a janela andaria junto com o
+    tratamento. A constante existe para travar isso."""
+    assert painel.JANELA_GESTACIONAL_MESES == 9
+    # a função de exposição não aceita gestação observada — só deslocamentos fixos
+    import inspect
+    assert "semanas" not in inspect.signature(painel.share_pos_ban).parameters
+
+
+def test_leads_alcancam_2018_e_os_tres_marcos_estao_no_painel():
+    """Os leads do event study têm de cobrir a antecipação: notícia (02/2015),
+    certeza (12/2018) e obrigação (01/2019)."""
+    saida = painel.acrescenta_exposicao(_celulas([(2015, 1), (2015, 2), (2018, 12), (2019, 1)]))
+    assert saida["evento_meses"].tolist() == [-48, -47, -1, 0]
+    assert saida["pos_noticia"].tolist() == [0, 1, 1, 1]
+    assert saida["pos_certeza"].tolist() == [0, 0, 1, 1]
+
+
+def test_painel_sai_balanceado_e_com_chave_unica():
+    """Município-mês sem nascimento é zero, não ausência. Grade furada faria o
+    estimador rodar desbalanceado sem ninguém ter decidido isso."""
+    pam = pd.DataFrame({
+        "cod_ibge6": ["230440", "230440", "230190"],
+        "cultura": ["Melão", "Banana (cacho)", "Melão"],
+        "area_ha_media": [500.0, 10.0, 0.0],
+    })
+    nasc_painel = pd.DataFrame({
+        "cod_ibge6": ["230440"], "ano": [2018], "mes": [6], "n_nascimentos": [50],
+    })
+    saida = painel.monta_painel(pam, "Melão", nasc_painel,
+                                inicio=(2018, 1), fim=(2018, 12))
+    assert len(saida) == 2 * 12                       # 2 municípios × 12 meses
+    assert not saida.duplicated(subset=["cod_ibge6", "ano", "mes"]).any()
+    assert saida["n_nascimentos"].notna().sum() == 1  # o resto fica ausente, não some
+
+
+def test_cultura_ancora_nao_tem_default():
+    """Flag 1 do CLAUDE.md: o script não escolhe, e cultura inexistente falha
+    listando as que existem."""
+    pam = pd.DataFrame({"cod_ibge6": ["230440"], "cultura": ["Melão"], "area_ha_media": [10.0]})
+    with pytest.raises(KeyError, match="Disponíveis"):
+        painel.monta_painel(pam, "Algodão herbáceo (em caroço)", None)
+
+
+def test_colunas_homonimas_dos_desfechos_nao_se_sobrescrevem():
+    """Os scripts 02 e 03 têm `n_peso_valido` os dois. Sem sufixo, a junção
+    apagaria um silenciosamente."""
+    pam = pd.DataFrame({"cod_ibge6": ["230440"], "cultura": ["Melão"], "area_ha_media": [10.0]})
+    n = pd.DataFrame({"cod_ibge6": ["230440"], "ano": [2018], "mes": [6],
+                      "n_peso_valido": [50], "peso_medio": [3200.0]})
+    f = pd.DataFrame({"cod_ibge6": ["230440"], "ano": [2018], "mes": [6],
+                      "n_peso_valido": [2], "n_obito_fetal": [2]})
+    saida = painel.monta_painel(pam, "Melão", n, f, inicio=(2018, 6), fim=(2018, 6))
+    assert saida["n_peso_valido"].iloc[0] == 50        # o do 02 mantém o nome
+    assert saida["n_peso_valido_fetal"].iloc[0] == 2   # o do 03 ganha sufixo
