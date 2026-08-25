@@ -116,20 +116,38 @@ CELULA_PEQUENA = 5  # óbitos fetais por município-mês abaixo disso: taxa é r
 # Limpeza
 # --------------------------------------------------------------------------
 
+# --- datazoom.saude (R) -----------------------------------------------------
+# Conferido contra R/dictionary.R do repositório datazoompuc/datazoom.saude,
+# seção `datasus_sim`. Duas convenções pelo parâmetro `language`; **o padrão do
+# pacote é "eng"**, então as duas entram.
+#
+# ⚠️ `IDADE` NÃO é alias de IDADEMAE. No dicionário do SIM os dois são campos
+# separados: `idade` é a idade do FALECIDO, em código composto (1º dígito =
+# unidade: 1=horas, 2=dias, 3=meses, 4=anos), que num óbito fetal é a do feto;
+# `idademae` é a da mãe e o pacote mantém o nome. Mapear um no outro punha 401
+# dentro de `idade_mae_media`.
+#
+# ⚠️ O dicionário do SIM **não tem `semagestac`** — a duração gestacional só vem
+# na forma agrupada (`duracao_gestacao`). Com fonte datazoom, o fallback
+# categórico de `deriva_acima_limiar` deixa de ser fallback e vira o único
+# caminho, e `share_gest_por_faixa` sai 100%. Isso não é defeito: é o que a
+# fonte oferece, e a coluna existe justamente para deixar visível.
+ALIASES_DATAZOOM = {
+    # português (language = "pt")
+    "PESO_NASCIMENTO": "PESO",          # faltava: sem isto o peso fetal vira NaN
+    "DURACAO_GESTACAO": "GESTACAO",     # faltava: e com ele o limiar de 22 semanas
+    # inglês (language = "eng", o PADRÃO do pacote)
+    "BIRTH_WEIGHT": "PESO",
+    "GESTATIONAL_DURATION": "GESTACAO",
+}
+# `tipobito`, `dtobito`, `codmunres`, `idademae` e `obitoparto` o pacote mantém
+# iguais nas duas línguas — não precisam de alias.
+
 def padroniza_colunas(df: pd.DataFrame) -> pd.DataFrame:
     """Nomes em maiúscula e garante que as colunas esperadas existam (NaN se não)."""
     saida = df.copy()
     saida.columns = [str(c).strip().upper() for c in saida.columns]
-    # ⚠️ `IDADE` NÃO entra aqui. Na DO do SIM, IDADE é a idade do FALECIDO,
-    # codificada como composto (1º dígito = unidade: 0=min, 1=h, 2=dias,
-    # 3=meses, 4=anos). Num óbito fetal é a idade do feto, não da mãe — e o SIM
-    # já traz IDADEMAE como campo próprio. Mapear IDADE para IDADEMAE punha 401
-    # dentro de `idade_mae_media`, número errado numa tabela descritiva.
-    aliases_datazoom = {
-        "DATA_OBITO": "DTOBITO",
-        "DATA_NASCIMENTO": "DTNASC",
-    }
-    saida = saida.rename(columns=aliases_datazoom)
+    saida = saida.rename(columns=ALIASES_DATAZOOM)
     faltando = [c for c in COLUNAS_SIM if c not in saida.columns]
     for col in faltando:
         saida[col] = np.nan

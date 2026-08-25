@@ -90,19 +90,47 @@ CELULA_PEQUENA = 5  # nascimentos por município-mês abaixo disso: taxa é ruí
 # Limpeza — funções pequenas, testáveis uma a uma
 # --------------------------------------------------------------------------
 
+# --- datazoom.saude (R) -----------------------------------------------------
+# O pacote datazoom.saude renomeia as colunas do DATASUS por um dicionário
+# próprio, conferido contra R/dictionary.R do repositório datazoompuc/
+# datazoom.saude (seção `dataset == "datasus_sinasc"`).
+#
+# ⚠️ Ele tem DUAS convenções, escolhidas pelo parâmetro `language`, e **o padrão
+# é "eng"** — não "pt". Cobrir só o português, como uma versão anterior deste
+# arquivo fazia, deixa a rodada padrão do pacote sem NENHUMA coluna casando: os
+# campos viram NaN, toda linha é descartada por data inválida, e o script morre
+# em "Nada sobrou após filtrar Ceará e datas válidas", apontando para a causa
+# errada. Por isso as duas convenções entram.
+#
+# ⚠️ E é um pacote **R**: a fronteira com o Python é arquivo, como no caso do
+# `contdid` (ver CLAUDE.md). Exporte de lá, leia com --fonte arquivos aqui.
+ALIASES_DATAZOOM = {
+    # português (language = "pt")
+    "DATA_NASCIMENTO_RECEMNASCIDO": "DTNASC",
+    "SEMANAS_GESTACAO": "SEMAGESTAC",
+    "SEMANAS_GESTACAO_AGRUPADO": "GESTACAO",   # faltava: é o fallback da prematuridade
+    "IDADE_MAE": "IDADEMAE",
+    "ESCOLARIDADE_MAE": "ESCMAE",
+    "CONSULTAS_PRENATAL_AGRUPADAS": "CONSULTAS",
+    # inglês (language = "eng", o PADRÃO do pacote)
+    "NEWBORN_BIRTH_DATE": "DTNASC",
+    "WEIGHT": "PESO",
+    "GESTATIONAL_WEEKS": "SEMAGESTAC",
+    "GROUPED_GESTATIONAL_WEEKS": "GESTACAO",
+    "MOTHER_AGE": "IDADEMAE",
+    "MOTHER_EDUCATION": "ESCMAE",
+    "GROUPED_PRENATAL_CONSULTATIONS": "CONSULTAS",
+}
+# `codmunres` e `peso` (pt) o pacote mantém iguais — não precisam de alias.
+# ⚠️ SEMANAS_GESTACAO e SEMANAS_GESTACAO_AGRUPADO são campos DIFERENTES: o
+# primeiro é a contagem, o segundo a faixa categórica. O rename casa exato, mas
+# trocá-los aqui inverteria desfecho com fallback.
+
 def padroniza_colunas(df: pd.DataFrame) -> pd.DataFrame:
     """Nomes em maiúscula e garante que as colunas esperadas existam (NaN se não)."""
     saida = df.copy()
     saida.columns = [str(c).strip().upper() for c in saida.columns]
-    aliases_datazoom = {
-        "DATA_NASCIMENTO_RECNASCIDO": "DTNASC",
-        "DATA_NASCIMENTO_RECEMNASCIDO": "DTNASC",
-        "SEMANAS_GESTACAO": "SEMAGESTAC",
-        "CONSULTAS_PRENATAL_AGRUPADAS": "CONSULTAS",
-        "IDADE_MAE": "IDADEMAE",
-        "ESCOLARIDADE_MAE": "ESCMAE",
-    }
-    saida = saida.rename(columns=aliases_datazoom)
+    saida = saida.rename(columns=ALIASES_DATAZOOM)
     faltando = [c for c in COLUNAS_SINASC if c not in saida.columns]
     for col in faltando:
         saida[col] = np.nan

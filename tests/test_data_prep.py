@@ -788,3 +788,89 @@ def test_recombina_pondera_pelo_denominador_certo():
     saida = nasc.recombina_paineis([celula(9, "3000"), celula(1, "4000")])
     assert saida["n_nascimentos"].iloc[0] == 10
     assert saida["peso_medio"].iloc[0] == pytest.approx(3100.0)   # não 3500
+
+
+# --------------------------------------------------------------------------
+# 02/03 — aliases do datazoom.saude, conferidos contra R/dictionary.R
+# --------------------------------------------------------------------------
+
+def test_datazoom_sinasc_em_ingles_o_padrao_do_pacote():
+    """⚠️ O `language` do datazoom.saude tem PADRÃO "eng", não "pt".
+
+    Cobrindo só o português, a rodada padrão do pacote não casa nenhuma coluna:
+    tudo vira NaN, toda linha é descartada por data inválida, e o script morre em
+    "Nada sobrou após filtrar Ceará" — apontando para a causa errada.
+    """
+    bruto = pd.DataFrame({
+        "codmunres": ["230440"],
+        "newborn_birth_date": ["2017-03-01"],
+        "weight": [3200],
+        "gestational_weeks": [39],
+        "grouped_gestational_weeks": [5],
+        "mother_age": [25],
+    })
+    saida = nasc.prepara_nascimentos(bruto)
+    assert len(saida) == 1
+    assert saida.iloc[0]["ano"] == 2017 and saida.iloc[0]["mes"] == 3
+    assert saida.iloc[0]["peso_g"] == 3200          # WEIGHT -> PESO
+    assert saida.iloc[0]["semanas"] == 39
+    assert saida.iloc[0]["IDADEMAE"] == 25
+
+
+def test_datazoom_sinasc_gestacao_agrupada_alimenta_o_fallback():
+    """`GESTACAO` vem de `semanas_gestacao_agrupado`, que nenhum alias cobria.
+
+    É o fallback da prematuridade quando SEMAGESTAC falta. Sem o alias, a coluna
+    ficava NaN e o fallback morria em silêncio — a taxa saía só de quem tinha
+    semana exata, sem nada indicando a perda.
+    """
+    bruto = pd.DataFrame({
+        "codmunres": ["230440"],
+        "data_nascimento_recemnascido": ["01/03/2017"],
+        "peso": [3200],
+        "semanas_gestacao": [99],                 # ignorado -> força o fallback
+        "semanas_gestacao_agrupado": [4],         # faixa 32–36 = prematuro
+    })
+    saida = nasc.prepara_nascimentos(bruto)
+    assert bool(saida.iloc[0]["prematuro"]) is True
+    assert saida.iloc[0]["prematuro_por_faixa"] == 1.0   # veio do fallback
+
+
+def test_semanas_gestacao_e_agrupado_nao_se_confundem():
+    """Campos DIFERENTES com nomes vizinhos: contagem contra faixa categórica.
+    Trocá-los inverteria desfecho com fallback."""
+    assert nasc.ALIASES_DATAZOOM["SEMANAS_GESTACAO"] == "SEMAGESTAC"
+    assert nasc.ALIASES_DATAZOOM["SEMANAS_GESTACAO_AGRUPADO"] == "GESTACAO"
+
+
+@pytest.mark.parametrize(
+    "colunas",
+    [
+        {"peso_nascimento": "1200", "duracao_gestacao": 3},        # pt
+        {"birth_weight": "1200", "gestational_duration": 3},       # eng (padrão)
+    ],
+    ids=["pt", "eng"],
+)
+def test_datazoom_sim_traz_peso_e_gestacao_com_outros_nomes(colunas):
+    """No SIM o pacote renomeia PESO e GESTACAO — nenhum dos dois era coberto.
+
+    São exatamente os campos de que o limiar de notificação depende (≥22 semanas
+    OU ≥500 g). Sem eles, `acima_limiar` fica ausente e `n_obito_fetal_22sem`
+    sai zero para tudo: o diagnóstico de subnotificação devolveria zeros sem
+    nada indicando que a causa é coluna faltando.
+    """
+    bruto = pd.DataFrame({
+        "tipobito": [1], "dtobito": ["15032017"], "codmunres": ["230440"],
+        "obitoparto": [1], "idademae": [28], **{k: [v] for k, v in colunas.items()},
+    })
+    individual = fetal.prepara_obitos(bruto)
+    assert len(individual) == 1
+    assert individual.iloc[0]["peso_g"] == 1200
+    assert individual.iloc[0]["acima_limiar"] == 1.0   # 28–31 sem e 1200 g
+    painel = fetal.colapsa_muni_mes(individual)
+    assert painel["n_obito_fetal_22sem"].iloc[0] == 1
+
+
+def test_idade_do_falecido_continua_fora_de_idademae():
+    """No dicionário do SIM, `idade` e `idademae` são campos separados."""
+    assert "IDADE" not in fetal.ALIASES_DATAZOOM

@@ -68,6 +68,39 @@ células fica abaixo de 5 óbitos). O teste vai precisar de agregação mais gro
 município×ano, ou faixas de dose empilhadas. É propriedade do desfecho, não
 defeito de limpeza.
 
+## Nota sobre o datazoom.saude — é pacote R, e a língua é armadilha
+
+`datazoompuc/datazoom.saude` (v0.1.1, MIT, PUC-Rio) baixa e padroniza SINASC,
+SIM, SIH, SIASUS e CNES. É rota alternativa ao `pysus` para o DATASUS.
+
+⚠️ **É um pacote R.** A fronteira com o Python é **arquivo**, como já vale para o
+`contdid` (ver `CLAUDE.md`): exporte de lá, leia com `--fonte arquivos` aqui.
+
+⚠️ **O pacote renomeia as colunas do DATASUS, e em duas convenções.** O parâmetro
+`language` aceita `"pt"` e `"eng"`, e **o padrão é `"eng"`**. Os scripts 02 e 03
+cobrem as duas em `ALIASES_DATAZOOM`, conferido contra `R/dictionary.R` do
+repositório. As traduções que mais importam, porque não são óbvias:
+
+| DATASUS | datazoom `pt` | datazoom `eng` (padrão) |
+|---|---|---|
+| `DTNASC` (SINASC) | `data_nascimento_recemnascido` | `newborn_birth_date` |
+| `GESTACAO` (SINASC) | `semanas_gestacao_agrupado` | `grouped_gestational_weeks` |
+| `SEMAGESTAC` (SINASC) | `semanas_gestacao` | `gestational_weeks` |
+| `PESO` (SIM) | `peso_nascimento` | `birth_weight` |
+| `GESTACAO` (SIM) | `duracao_gestacao` | `gestational_duration` |
+
+Duas ciladas dentro dessa tabela:
+
+- `semanas_gestacao` e `semanas_gestacao_agrupado` são **campos diferentes** —
+  contagem contra faixa categórica. Trocá-los inverte desfecho e fallback.
+- **O dicionário do SIM não tem `semagestac`**: a duração gestacional só vem
+  agrupada. Com fonte datazoom, o fallback categórico vira o único caminho e
+  `share_gest_por_faixa` sai 100%. Não é defeito; é o que a fonte oferece, e a
+  coluna existe para deixar isso visível.
+
+E `idade` (idade do falecido, código composto) **não** é `idademae`. São campos
+separados no dicionário; confundi-los põe `401` dentro de `idade_mae_media`.
+
 ## Acesso à rede na sessão remota — o que precisa ser liberado
 
 **O bloqueio é política de rede do ambiente, não instabilidade das fontes.** O
