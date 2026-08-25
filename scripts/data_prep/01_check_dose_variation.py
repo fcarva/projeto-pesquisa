@@ -43,6 +43,8 @@ diagnóstico simulado nunca seja lido como se fosse real.
 from __future__ import annotations
 
 import argparse
+import csv
+import gzip
 import sys
 from datetime import date
 import unicodedata
@@ -517,6 +519,52 @@ def _pam_via_rest(anos=ANOS_PRE_BAN, timeout: int = 120) -> pd.DataFrame:
     return _finaliza_pam(pedacos, anos)
 
 
+# Quantas linhas varrer procurando o cabeçalho num arquivo baixado à mão. O
+# export do portal do SIDRA vem com preâmbulo — título da tabela, variável, linha
+# em branco — antes dos rótulos. Varrer é melhor que cravar um número de linhas a
+# pular: o preâmbulo varia com a tabela e com a versão do portal.
+LINHAS_PREAMBULO_MAX = 15
+
+
+def _tabela_a_partir_dos_rotulos(linhas: list[list], origem: Path) -> pd.DataFrame:
+    """Acha a linha de rótulos e devolve a tabela na convenção do `sidrapy`.
+
+    `_sidra_para_longo` espera a convenção do sidrapy com `header="y"`: a
+    **primeira linha** traz os rótulos e o resto é corpo. Um CSV baixado do
+    portal não tem essa forma — vem com preâmbulo —, então aqui a linha de
+    rótulos é localizada e a tabela reconstruída a partir dela. Assim o parser
+    continua único: a correção de código-vs-nome vale para os três caminhos
+    (sidrapy, REST e arquivo), em vez de valer para dois e não para o terceiro.
+
+    As colunas ganham nomes de texto (`c0`, `c1`, ...) de propósito:
+    `coluna_por_rotulo` devolve `str(chave)`, e com colunas inteiras a indexação
+    seguinte falharia.
+    """
+    def e_cabecalho(linha) -> bool:
+        campos = [normaliza(str(c)) for c in linha]
+        return (
+            any("municipio" in c for c in campos)
+            and any(c == "ano" or c.startswith("ano (") for c in campos)
+            and any("valor" in c for c in campos)
+        )
+
+    for i, linha in enumerate(linhas[:LINHAS_PREAMBULO_MAX]):
+        if e_cabecalho(linha):
+            corpo = [l for l in linhas[i:] if any(str(c).strip() for c in l)]
+            largura = len(linha)
+            normalizadas = [list(l[:largura]) + [""] * (largura - len(l[:largura])) for l in corpo]
+            return pd.DataFrame(normalizadas, columns=[f"c{j}" for j in range(largura)], dtype=str)
+
+    vistas = [" | ".join(str(c) for c in l)[:70] for l in linhas[:5]]
+    raise ValueError(
+        f"Não achei a linha de rótulos em {origem.name}, varrendo as primeiras "
+        f"{LINHAS_PREAMBULO_MAX} linhas. O export do portal do SIDRA traz "
+        "preâmbulo (título, variável, linha em branco) antes do cabeçalho — "
+        "procurava uma linha com 'Município', 'Ano' e 'Valor'. "
+        f"Primeiras linhas vistas: {vistas}"
+    )
+
+
 def carrega_pam_arquivo(caminhos: list[Path]) -> pd.DataFrame:
     """Lê tabelas do SIDRA baixadas à mão (.csv / .xlsx), no formato do portal.
 
@@ -529,11 +577,15 @@ def carrega_pam_arquivo(caminhos: list[Path]) -> pd.DataFrame:
     pedacos = []
     for caminho in caminhos:
         if caminho.suffix in (".csv", ".gz"):
-            bruto = pd.read_csv(caminho, dtype=str, header=0)
+            abre = gzip.open if caminho.suffix == ".gz" else open
+            with abre(caminho, "rt", encoding="utf-8-sig", newline="") as fh:
+                linhas = [linha for linha in csv.reader(fh)]
         elif caminho.suffix in (".xlsx", ".xls"):
-            bruto = pd.read_excel(caminho, dtype=str, header=0)
+            planilha = pd.read_excel(caminho, dtype=str, header=None)
+            linhas = planilha.astype(object).where(planilha.notna(), "").values.tolist()
         else:
-            raise ValueError(f"Extensão não suportada: {caminho}")
+            raise ValueError(f"Extensão não suportada: {caminho} (use .csv/.gz/.xlsx).")
+        bruto = _tabela_a_partir_dos_rotulos(linhas, caminho)
         # O grupo não vem no arquivo; é inferido pela tabela de origem no nome,
         # e cai para "desconhecido" — a coluna só serve para leitura, não entra
         # em nenhum cálculo.

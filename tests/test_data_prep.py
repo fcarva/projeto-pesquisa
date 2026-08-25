@@ -610,3 +610,79 @@ def test_rotulo_ausente_falha_dizendo_o_que_viu():
     mensagem = str(erro.value)
     assert "excluindo colunas de código" in mensagem   # diz o que foi descartado
     assert "Produto das lavouras" in mensagem   # e lista os rótulos que viu
+
+
+# --------------------------------------------------------------------------
+# 01 — o caminho manual (--fonte arquivo), a saída de emergência sem rede
+# --------------------------------------------------------------------------
+
+_CABECALHO_CSV = (
+    '"Município (Código)","Município","Ano (Código)","Ano",'
+    '"Produto das lavouras temporárias (Código)","Produto das lavouras temporárias","Valor"\n'
+)
+_LINHA_CSV = '"2307304","Limoeiro do Norte","2015","2015","40099","Melão","1200"\n'
+
+
+def test_arquivo_do_portal_com_preambulo_e_lido(tmp_path):
+    """O caso que quebrava, e que é o formato mais provável de entrada.
+
+    O export do portal do SIDRA traz título, variável e linha em branco antes do
+    cabeçalho. Lendo com `header=0` isso estourava num ParserError do pandas
+    ("Expected 1 fields in line 4, saw 7") — mensagem que não diz nada sobre
+    preâmbulo, no caminho que o pesquisador usa justamente quando a rede falhou.
+    """
+    arq = tmp_path / "tabela1612.csv"
+    arq.write_text(
+        '"Tabela 1612 - Área plantada, área colhida, quantidade produzida"\n'
+        '"Variável - Área plantada (Hectares)"\n'
+        '""\n' + _CABECALHO_CSV + _LINHA_CSV,
+        encoding="utf-8",
+    )
+    saida = dose.carrega_pam_arquivo([arq])
+    assert len(saida) == 1
+    assert saida["cultura"].iloc[0] == "Melão"        # nome, não "40099"
+    assert saida["cod_ibge"].iloc[0] == "2307304"
+    assert saida["ano"].iloc[0] == 2015
+    assert saida["area_ha"].iloc[0] == pytest.approx(1200.0)
+
+
+def test_arquivo_no_formato_sidrapy_continua_funcionando(tmp_path):
+    """Sem preâmbulo, rótulos na linha 0 — a convenção do pacote. A detecção não
+    pode quebrar o caso que já funcionava."""
+    arq = tmp_path / "1612.csv"
+    arq.write_text(_CABECALHO_CSV + _LINHA_CSV, encoding="utf-8")
+    assert dose.carrega_pam_arquivo([arq])["cultura"].iloc[0] == "Melão"
+
+
+def test_grupo_sai_do_nome_do_arquivo(tmp_path):
+    """1612 = temporária, 1613 = permanente. Não vem no arquivo; é inferido."""
+    def grava(nome):
+        arq = tmp_path / nome
+        arq.write_text(_CABECALHO_CSV + _LINHA_CSV, encoding="utf-8")
+        return dose.carrega_pam_arquivo([arq])["grupo"].iloc[0]
+
+    assert grava("tabela1612.csv") == "temporária"
+    assert grava("export_1613_ce.csv") == "permanente"
+    assert grava("sem_numero.csv") == "desconhecido"
+
+
+def test_arquivo_sem_cabecalho_nomeia_o_preambulo_como_causa(tmp_path):
+    """Falhar alto é o princípio do script; falhar alto DIZENDO A CAUSA é o
+    ponto. 'Expected 1 fields in line 4' não ajuda ninguém."""
+    arq = tmp_path / "1612.csv"
+    arq.write_text("lixo\noutra coisa qualquer\n", encoding="utf-8")
+    with pytest.raises(ValueError) as erro:
+        dose.carrega_pam_arquivo([arq])
+    mensagem = str(erro.value)
+    assert "preâmbulo" in mensagem                 # nomeia a causa provável
+    assert "Município" in mensagem                 # e o que procurava
+    assert "lixo" in mensagem                      # e o que viu
+
+
+def test_caminho_vazio_e_extensao_ruim_falham_claro(tmp_path):
+    with pytest.raises(ValueError, match="--caminho"):
+        dose.carrega_pam_arquivo([])
+    pdf = tmp_path / "1612.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+    with pytest.raises(ValueError, match="Extensão não suportada"):
+        dose.carrega_pam_arquivo([pdf])
