@@ -6,14 +6,53 @@ diferentes conforme a revisão. Preencher ao baixar, não depois.
 
 | Base | Recorte | Data da extração | Como foi obtida | Arquivo em `data/raw/` |
 |---|---|---|---|---|
-| PAM/IBGE (tab. 1612, 1613) | CE, municípios, 2015–2018 | *(preencher)* | `scripts/data_prep/01_check_dose_variation.py --fonte sidra` | *(preencher)* |
-| SINASC | CE, 2015–2022 | *(preencher)* | `scripts/data_prep/02_clean_births.py` (pysus / Base dos Dados) | *(preencher)* |
-| SIM — DO / DOFET (óbito fetal) | CE, 2015–2022 | *(preencher)* | `03_clean_fetal_deaths.py` (pysus CID10, ou DOFET via `00_export_datazoom.R`) | *(preencher)* |
-| SIH — AIH reduzida | CE, 2015–2022 | *(preencher)* | `00_export_datazoom.R --bases sih` — canal de intoxicação aguda (A5) | *(preencher)* |
+| PAM/IBGE (tab. 1612, 1613) | CE, municípios, 2015–2018 | ✅ **2026-08-25** | `01_check_dose_variation.py --fonte sidra` (preflight: 4/4 códigos conferidos na API de metadados) | `data/processed/pam_ce_muni_cultura_media__sidra.parquet` |
+| SINASC | CE, 2015–2022 | ✅ **2026-08-25** | `02_clean_births.py --fonte pysus` (pysus 2.10.0, `DNCE2015`–`DNCE2022`); 1.001.709 nascimentos | cache do pysus em `~/pysus`; painel em `data/processed/nascimentos_ce_muni_mes.parquet` |
+| **SIM — DOFET (óbito fetal)** | CE, 2015–2022 | ✅ **2026-08-25** | `03_clean_fetal_deaths.py --fonte dofet` — FTP `SIM/CID10/DOFET/DOFET<AA>.dbc`, **nacional**, filtrado a CE. ⚠️ O `pysus` **não** alcança estes arquivos, e o DO estadual **não tem óbito fetal** | `data/processed/obitos_fetais_ce_muni_mes.parquet` (11.240 óbitos) |
+| SIH — AIH reduzida | CE, 2015–2022 | ✅ **2026-08-25** | `04_clean_poisoning.py --fonte pysus` — ingestor novo, **dispensa o R**. Mensal: 12 arquivos/ano. ⚠️ ~3,9 mi de AIH rendem **50** com CID de agrotóxico e **1** acidental: o canal A5 **não é estimável** aqui | `data/processed/intoxicacao_ce_muni_mes.parquet` |
+| **SINAN — IEXO (intoxicação exógena)** | — | ⬜ **não adquirida** | ⚠️ **Fonte candidata a substituir o SIH no canal A5**: 2.914 notificações no CE só em 2015 (266 de agrotóxico agrícola), contra **50 em 8 anos** no SIH. ✅ Códigos de `AGENTE_TOX` conferidos contra a **NT nº 5/2026-CGVAM/MS**: 02 = agrícola, **04 = saúde pública (o §2º do art. 28-B)**. Traz também `P_ATIVO_1/2/3` — princípio ativo. ⚠️ `CIRCUNSTAN` **não** conferido. Ingestor não escrito — ver `docs/gates-resultados-dados-reais.md` §7-bis.3 | — |
+| **PAINEL E5 (saída)** | CE, 184 municípios × 96 meses | ✅ **2026-08-25** | `05_build_panel.py --cultura "Banana (cacho)"` — junta as quatro bases acima. 17.664 células × 65 colunas, sem célula órfã. ⚠️ A cultura-âncora **não está ratificada** | `data/processed/painel_ensaio1.parquet` |
 | SISAGUA | CE | *(preencher)* | Base dos Dados / MS | *(preencher)* |
 | FAO-GAEZ | CE | *(preencher)* | raster → `data/geo/` | *(preencher)* |
 | ANA (bacias) | CE | *(preencher)* | shapefile → `data/geo/` | *(preencher)* |
 | IBAMA (vendas) | CE | *(preencher)* | portal IBAMA | *(preencher)* |
+
+## ⚠️ Ambiente — o que a primeira aquisição real revelou (2026-08-25)
+
+- **A rede nunca foi o problema do projeto**, e sim do proxy da sessão remota.
+  Aqui: SIDRA 200, DATASUS 226 por `ftp://`, IBGE 200, Crossref 200.
+  ⚠️ O DATASUS **não** responde por `http://` (000) — testar assim leva ao
+  diagnóstico errado de "DATASUS fora do ar".
+- ⚠️ **Não há R nesta máquina.** Bloqueia `00_export_datazoom.R` (contornável
+  pelo `pysus`) e, mais grave, bloqueia o **`contdid`** — o estimador primário
+  do E6. Instalar R + `contdid` + `renv` é pré-requisito da estimação.
+- ⚠️ **`pip install pysus` rebaixou `pandas` 3.0.0 → 2.3.3** no ambiente global e
+  quebrou um pacote não relacionado (`baoba`). Criar um `.venv` antes de novas
+  instalações.
+- **Bibliotecas geo estão presentes** (`geopandas` 1.1.4, `rasterio` 1.5.1) —
+  ao contrário do que `docs/lacunas-de-dados.md` afirmava. Falta o raster, não
+  a biblioteca.
+
+### ⚠️ Cobertura temporal — conferida no FTP em 2026-08-25
+
+| base | anos disponíveis para CE |
+|---|---|
+| **SINASC definitivo** (`NOV/DNRES`) | 2013 – **2022** |
+| SINASC preliminar (`PRELIM/DNRES`) | ⚠️ **só 2025 e 2026** |
+| SIM DO | até 2024 |
+| SIM DOFET | até 2024 |
+| SIH | até o mês corrente |
+
+⚠️ **2023 e 2024 do SINASC não existem no FTP** — nem definitivos nem
+preliminares. Como o desfecho principal é peso ao nascer, o **pós-ban efetivo é
+2019–2022**, e não 2019–2024 como a janela declarada supõe. Os preliminares de
+2025–2026 são posteriores à exceção de drones (19/12/2024) e contaminam
+justamente o que o corte da janela protege.
+
+**Antes de dar a janela por fechada:** conferir a Base dos Dados (BigQuery),
+que é a rota alternativa já listada no `CLAUDE.md` para o SINASC.
+
+Resultados dos gates: `docs/gates-resultados-dados-reais.md`.
 
 ## Documentos legais para `docs/`
 

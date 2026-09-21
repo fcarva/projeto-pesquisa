@@ -23,11 +23,18 @@ continua registrada como aberta.
 
 Notas de fonte que o código carrega junto:
 
-  • **Óbito fetal não é arquivo separado.** No SIM moderno vem dentro do DO
-    (`DO<UF><ano>`), identificado por TIPOBITO: 1 = fetal, 2 = não fetal. O
-    filtro por TIPOBITO é a primeira coisa que este script faz e é o que ele
-    mais precisa acertar — errar aqui contamina a série com óbitos infantis, que
-    são outro desfecho.
+  • ⚠️ **Óbito fetal É arquivo separado — a nota anterior estava errada.**
+    Conferido rodando em 2026-08-25 contra o FTP do DATASUS: em `DOCE2015.dbc`
+    (o DO estadual) **os 55.258 registros têm TIPOBITO = 2**. Não há um único
+    óbito fetal ali. A série fetal mora em `SIM/CID10/DOFET/DOFET<AA>.dbc`, que
+    é **nacional** (não por UF) e traz TIPOBITO = 1 em 100% das linhas.
+    Daí a fonte `--fonte dofet`, que é a real deste script.
+
+    Consequência de ter errado isso: `--fonte pysus` baixa o DO estadual, o
+    filtro por TIPOBITO zera a série, e a mensagem de erro culpa CODMUNRES ou
+    formato de data. O filtro por TIPOBITO continua sendo a primeira coisa que
+    o script faz — e continua importando, porque no DOFET ele é a garantia de
+    que nada de não-fetal entrou.
 
   • **Subnotificação é a ameaça central, e ela é heterogênea.** A notificação
     compulsória alcança perdas de ≥ 22 semanas OU ≥ 500 g; abaixo disso o
@@ -47,8 +54,8 @@ Notas de fonte que o código carrega junto:
     possível.
 
 Uso:
-    python scripts/data_prep/03_clean_fetal_deaths.py
-    python scripts/data_prep/03_clean_fetal_deaths.py --caminho data/raw/DOCE*.parquet
+    python scripts/data_prep/03_clean_fetal_deaths.py --fonte dofet   # a fonte real
+    python scripts/data_prep/03_clean_fetal_deaths.py --caminho data/raw/DOFET*.parquet
     python scripts/data_prep/03_clean_fetal_deaths.py --fonte simulado \\
         --nascimentos data/processed/nascimentos_ce_muni_mes__simulado.parquet
 
@@ -69,11 +76,13 @@ import pandas as pd
 # Parâmetros
 # --------------------------------------------------------------------------
 
-UF_CEARA = "23"
+UF_CEARA = "23"      # codigo IBGE, para filtrar CODMUNRES
+UF_SIGLA = "CE"      # sigla, para casar o nome do arquivo do FTP (DOCE<ano>.dbc)
+CODMUNRES_DESCONHECIDO = "230000"   # "municipio ignorado" - mesma regra do script 02
 ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)  # espelha o script 02
 OUT_DIR = Path("data/processed")
 NOME_SAIDA = "obitos_fetais_ce_muni_mes"
-SEED = 20190613  # mesma seed dos scripts 01 e 02
+SEED = 20190613  # mesma seed dos scripts 01 e 02; semente, não data do ban
 
 # Colunas do DATASUS/SIM (DO) usadas aqui.
 COLUNAS_SIM = (
@@ -267,12 +276,27 @@ def deriva_acima_limiar(
 
 
 def filtra_ceara(df: pd.DataFrame) -> pd.DataFrame:
-    """Mantém só residentes no Ceará (CODMUNRES começando em 23)."""
+    """Mantém só residentes no Ceará (CODMUNRES começando em 23).
+
+    ⚠️ **`230000` é "município ignorado", não um município.** O script 02 já o
+    descarta; este não descartava, e o resultado era um painel com **185**
+    unidades contra as 184 do painel de nascidos vivos. Consequências, as duas
+    silenciosas: a série fetal ganha uma unidade sem denominador possível, e a
+    taxa agregada usa um numerador que o denominador não cobre. Conferido
+    rodando contra o DOFET real em 2026-08-25 — era 1 óbito, mas o problema não
+    é o tamanho, é a chave.
+    """
     cod = df["CODMUNRES"].astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
     cod = cod.str.zfill(6)
     saida = df.copy()
     saida["cod_ibge6"] = cod
-    return saida[cod.str.startswith(UF_CEARA).fillna(False)].copy()
+    no_ceara = cod.str.startswith(UF_CEARA).fillna(False)
+    conhecido = cod != CODMUNRES_DESCONHECIDO
+    descartados = int((no_ceara & ~conhecido).sum())
+    if descartados:
+        print(f"[aviso] {descartados} óbito(s) com CODMUNRES {CODMUNRES_DESCONHECIDO} "
+              "(município ignorado) descartado(s) — mesma regra do script 02.")
+    return saida[no_ceara & conhecido].copy()
 
 
 def _fonte_ja_e_so_fetal(bruto: pd.DataFrame) -> bool:
@@ -319,6 +343,12 @@ def prepara_obitos(bruto: pd.DataFrame, anos=None, ja_fetal: bool | None = None)
     df = pd.concat([df, extrai_ano_mes(df["DTOBITO"])], axis=1)
     df["peso_g"] = limpa_peso(df["PESO"])
     df["semanas"] = limpa_semanas(df["SEMAGESTAC"])
+    # ⚠️ IDADEMAE vem como TEXTO das fontes reais (DBF do DOFET dá `str`; o
+    # pysus dá dtype `string`), e o colapso faz `mean` nela. Sem esta coerção o
+    # groupby morre com "agg function failed [how->mean,dtype->object]" — erro
+    # que aponta para o pandas e não para a coluna. `errors="coerce"` porque
+    # ausente vem como string vazia, não como NaN.
+    df["IDADEMAE"] = pd.to_numeric(df["IDADEMAE"], errors="coerce")
     df = pd.concat([df, deriva_acima_limiar(df["semanas"], df["GESTACAO"], df["peso_g"])], axis=1)
     df = df[df["ano"].notna() & df["mes"].notna()]
     if anos is not None:
@@ -437,10 +467,24 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
             datasets = client._run_async(ftp.datasets())
             base = next(dataset for dataset in datasets if dataset.name == "SIM")
             for ano in anos:
-                arquivos = client._run_async(base.search(group="DO", state="CE", year=ano))
+                # ⚠️ NÃO passar `group="DO"`. O `group_definitions` do SIM anuncia
+                # {'DO': 'Mortalidade Geral (CID-10)', 'DOR': '... (CID-9)'}, mas
+                # `search(group="DO", ...)` devolve **lista vazia** — em silêncio,
+                # sem erro. O sintoma vira "pysus não devolveu arquivos SIM para
+                # CE", que aponta para rede/indisponibilidade e não para o
+                # argumento errado. Conferido rodando em 2.10.0.
+                arquivos = client._run_async(base.search(state="CE", year=ano))
+                # Sem o filtro de grupo, garantimos o CID-10 pelo nome: os arquivos
+                # de mortalidade geral são DO<UF><ano>; os de CID-9 são DOR<UF><ano>.
+                arquivos = [a for a in arquivos
+                            if a.basename.upper().startswith(f"DO{UF_SIGLA}")]
+                if not arquivos:
+                    print(f"[aviso] SIM: nenhum DO{UF_SIGLA}{ano} no servidor.")
                 for arquivo in arquivos:
                     parquet = client.download_to_parquet(arquivo)
-                    pedacos.append(parquet.to_dataframe())
+                    # ⚠️ `Parquet.load()` é COROTINA em 2.10.0 — ver a mesma
+                    # nota em 02_clean_births.py. Não existe `to_dataframe()`.
+                    pedacos.append(client._run_async(parquet.load()))
         if not pedacos:
             raise RuntimeError("pysus não devolveu arquivos SIM para CE.")
         return pd.concat(pedacos, ignore_index=True)
@@ -545,17 +589,94 @@ def simula_sim(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_mes: int = 18) -> 
     return pd.concat([df, fora], ignore_index=True).sample(frac=1, random_state=seed).reset_index(drop=True)
 
 
+# --- DOFET: o arquivo NACIONAL de óbito fetal -------------------------------
+# ⚠️ O `pysus` NÃO alcança estes arquivos. O dataset SIM dele indexa apenas
+# `SIM/CID10/DORES` e `SIM/CID9/DORES` (conferido em `sim.paths`), de modo que
+# `search(state="CE")` devolve só `DOCE<ano>.dbc` — o DO geral, sem óbito fetal.
+# O DOFET fica em `SIM/CID10/DOFET/` e é baixado aqui direto por FTP.
+#
+# ⚠️ E ele é NACIONAL: `DOFET15.dbc`, não `DOFETCE15.dbc`. O recorte do Ceará
+# é feito depois, por CODMUNRES — por isso baixa-se ~3 MB por ano para ficar
+# com ~1,6 mil linhas.
+FTP_DOFET = "ftp://ftp.datasus.gov.br/dissemin/publicos/SIM/CID10/DOFET/DOFET{aa}.dbc"
+
+
+def carrega_de_dofet(anos=ANOS_PADRAO, cache: Path | None = None) -> pd.DataFrame:
+    """Baixa os DOFET nacionais por FTP e devolve só os residentes no Ceará.
+
+    Requer `pyreaddbc` (converte .dbc -> .dbf) e `dbfread` (lê o .dbf). Ambos
+    entram junto com o `pysus`, e estão declarados no requirements.txt.
+    """
+    import shutil
+    import subprocess
+    import tempfile
+
+    try:
+        import pyreaddbc
+        from dbfread import DBF
+    except ImportError as erro:  # pragma: no cover - depende do ambiente
+        raise RuntimeError(
+            f"DOFET precisa de pyreaddbc e dbfread ({erro}). "
+            "Ambos estão no requirements.txt."
+        ) from erro
+
+    if shutil.which("curl") is None:  # pragma: no cover
+        raise RuntimeError("DOFET é baixado por FTP com `curl`, que não está no PATH.")
+
+    destino = Path(cache) if cache else Path(tempfile.mkdtemp(prefix="dofet_"))
+    destino.mkdir(parents=True, exist_ok=True)
+
+    pedacos = []
+    for ano in anos:
+        aa = f"{ano % 100:02d}"
+        dbc = destino / f"DOFET{aa}.dbc"
+        dbf = destino / f"DOFET{aa}.dbf"
+        if not dbc.exists():
+            url = FTP_DOFET.format(aa=aa)
+            r = subprocess.run(["curl", "-s", "-f", "-m", "300", "-o", str(dbc), url],
+                               capture_output=True)
+            if r.returncode != 0 or not dbc.exists() or dbc.stat().st_size == 0:
+                print(f"[aviso] DOFET{aa} indisponível no FTP (curl {r.returncode}).")
+                dbc.unlink(missing_ok=True)
+                continue
+        if not dbf.exists():
+            pyreaddbc.dbc2dbf(str(dbc), str(dbf))
+        bloco = pd.DataFrame(iter(DBF(str(dbf), encoding="latin-1")))
+        # Recorte do Ceará ANTES de acumular: o arquivo é nacional e só ~5% é CE.
+        cod = bloco.get("CODMUNRES")
+        if cod is None:
+            print(f"[aviso] DOFET{aa} sem CODMUNRES; pulado.")
+            continue
+        bloco = bloco[cod.astype(str).str.startswith(UF_CEARA)]
+        print(f"  DOFET{aa}: {len(bloco):>6,} óbitos fetais no Ceará".replace(",", "."))
+        pedacos.append(bloco)
+
+    if not pedacos:
+        raise RuntimeError(
+            "Nenhum DOFET baixado. Confira o acesso a ftp.datasus.gov.br — "
+            "⚠️ o host responde por ftp://, NÃO por http:// (que dá 000)."
+        )
+    return pd.concat(pedacos, ignore_index=True)
+
+
 def carrega_obitos(
     fonte: str = "auto", caminhos: list[Path] | None = None, anos=ANOS_PADRAO, seed: int = SEED
 ) -> tuple[pd.DataFrame, str]:
-    """Dispatcher: 'arquivos' | 'pysus' | 'simulado' | 'auto'.
+    """Dispatcher: 'arquivos' | 'dofet' | 'pysus' | 'simulado' | 'auto'.
 
-    'auto' = arquivos (se houver) -> pysus -> simulado, como no script 02.
+    'auto' = arquivos (se houver) -> DOFET -> pysus -> simulado.
+
+    ⚠️ **DOFET vem antes do pysus de propósito.** O `pysus` alcança apenas o DO
+    estadual, onde TIPOBITO = 2 em 100% das linhas: ele baixa, roda e entrega
+    série VAZIA. Deixá-lo à frente faria o caminho automático falhar por uma
+    razão que parece de dado e é de fonte.
     """
     if fonte == "simulado":
         return simula_sim(anos, seed), "simulado"
     if fonte == "arquivos":
         return carrega_de_arquivos(caminhos or []), "arquivos"
+    if fonte == "dofet":
+        return carrega_de_dofet(anos), "dofet"
     if fonte == "pysus":
         return carrega_de_pysus(anos), "pysus"
 
@@ -564,6 +685,10 @@ def carrega_obitos(
             return carrega_de_arquivos(caminhos), "arquivos"
         except Exception as erro:  # noqa: BLE001
             print(f"[aviso] leitura dos arquivos falhou ({type(erro).__name__}: {erro}).")
+    try:
+        return carrega_de_dofet(anos), "dofet"
+    except Exception as erro:  # noqa: BLE001
+        print(f"[aviso] DOFET indisponível ({type(erro).__name__}: {erro}).")
     try:
         return carrega_de_pysus(anos), "pysus"
     except Exception as erro:  # noqa: BLE001
@@ -666,7 +791,9 @@ def main(argv: list[str] | None = None) -> int:
     _saida_utf8()
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument(
-        "--fonte", choices=("auto", "arquivos", "pysus", "simulado"), default="auto"
+        "--fonte", choices=("auto", "arquivos", "dofet", "pysus", "simulado"), default="auto",
+        help="'dofet' é a fonte real: o arquivo nacional de óbito fetal do SIM. "
+             "⚠️ 'pysus' só alcança o DO estadual, que NÃO tem óbito fetal."
     )
     parser.add_argument("--caminho", type=Path, nargs="*", default=[],
                         help="Arquivos SIM já baixados (.parquet/.csv/.csv.gz).")

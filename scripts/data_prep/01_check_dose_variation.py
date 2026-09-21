@@ -3,7 +3,7 @@
 
 Diagnóstico, não decisão. O desenho do Ensaio 1 é DiD de tratamento contínuo
 (Callaway, Goodman-Bacon & Sant'Anna 2024): o ban da pulverização aérea é
-estadual e simultâneo (jun/2019), então a identificação vem da variação de
+estadual e simultâneo (vigência em 09/01/2019), então a identificação vem da variação de
 *dose* entre municípios, não de variação de *timing*. Se não houver dispersão
 entre municípios na intensidade agrícola pré-ban, o desenho inteiro cai — por
 isso esta checagem vem antes de qualquer outra coisa.
@@ -57,10 +57,14 @@ import pandas as pd
 # Parâmetros
 # --------------------------------------------------------------------------
 
-ANOS_PRE_BAN = (2015, 2016, 2017, 2018)  # janela pré-ban (lei entra em jun/2019)
+ANOS_PRE_BAN = (2015, 2016, 2017, 2018)  # janela pré-ban (vigência em 09/01/2019)
 UF_CEARA = "23"
 OUT_DIR = Path("data/processed")
-SEED = 20190613  # data de sanção da Lei 16.820/2019; seed fixa, ver CLAUDE.md
+# ⚠️ O VALOR da seed é arbitrário e permanece fixo para não churnar dado
+# simulado nem testes. A etiqueta antiga dizia "data de sanção" e estava
+# ERRADA: a sanção foi em 08/01/2019 e a vigência em 09/01/2019 (texto
+# oficial em docs/legislacao/). Seed é semente, não é data.
+SEED = 20190613  # semente fixa, ver CLAUDE.md
 
 # --- SIDRA / PAM ----------------------------------------------------------
 # Tabelas da Produção Agrícola Municipal:

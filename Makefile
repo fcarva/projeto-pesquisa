@@ -20,7 +20,7 @@ MDE     ?=
 .PHONY: teste simulado real limpar prespec-ok ajuda
 
 ajuda:
-	@echo "make teste     — 85 testes"
+	@echo "make teste     — 102 testes"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make limpar    — apaga data/processed/"

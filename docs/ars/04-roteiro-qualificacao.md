@@ -44,7 +44,26 @@ avisa que não substitui o Diário Oficial.
 **Pendência aberta que E1 revelou:** bans municipais anteriores a 2019 (ver o fim
 deste arquivo). Essa é mais grave que a data.
 
-### E1.5 — Dispersão das tendências municipais ⚠️ **roda antes do Gate 1**
+### E1.5 — Dispersão das tendências ⚠️ **RODADO — REPROVA como especificado**
+
+⚠️ **DP observada = 47,5 g**, contra o piso de 17,7 g que este arquivo previa —
+**2,7×**. Com isso o MDE agrupado da banana é 33,8 g e a coluna `falsifica` dá
+**✘ em todas as 18 culturas**: um nulo seria ilegível.
+
+⚠️ **MAS 63% dessa variância é ruído amostral, não heterogeneidade.** O novo
+`07_diagnose_trend_sd.py` decompõe: heterogeneidade real = **28,4 g**, e no
+estrato de ≥800 nascimentos/ano a DP é **17,9 g** — praticamente o piso que
+este arquivo calculou. A conta estava certa; o que faltou foi notar que a
+mediana municipal do Ceará é de **283 nascimentos/ano**, não 800.
+
+Neutralizado o ruído, o MDE da banana cai para **20,3 g** e o gate **passa**.
+Mas neutralizar exige decisão — ponderar por nascimento (muda o estimando) ou
+cortar por porte (⚠️ pode remover o próprio grupo tratado: só 3 dos 17
+municípios de banana têm ≥800 nascimentos/ano). **A decisão é sua.**
+Ver `docs/gates-resultados-dados-reais.md` §§5–7.
+
+---
+
 **Faz:** `python scripts/data_prep/02_clean_births.py` contra o SINASC real, e ler
 a DP das variações municipais de peso ao nascer no pré-período (o script 01 já a
 reporta como `sd_tendencia_g` quando recebe `--nascimentos`).
@@ -71,7 +90,18 @@ contínua sobre todos os nascimentos bate evento raro por um fator de duas a oit
 vezes. E descer de unidade também está descartado, por decisão do pesquisador: o
 registro de residência materna do DATASUS não aguenta escala submunicipal.
 
-### E2 — Variação de dose (o gate que amarra tudo)
+### E2 — Variação de dose ✅ **RODADO contra o SIDRA real em 2026-08-25 — o gate PASSA**
+
+⚠️ **Resultado, e ele encerra a hipótese "melão".** Banana: 169 municípios com
+área > 0, Gini 0,86, 78% da área no decil superior → **curva sustentada**.
+Melão: **10** municípios → curva abandonada. Algodão: **28** → faixas discretas.
+Os dois candidatos que o material de projeto tratava como naturais **não**
+sustentam a curva; a banana sustenta, e é a que casa com a procimidona do
+Dossiê ABRASCO. **A ratificação da âncora continua sua.**
+Ver `docs/gates-resultados-dados-reais.md` §4.
+
+---
+
 **Faz:** `python scripts/data_prep/01_check_dose_variation.py --fonte sidra`
 (roda na sua máquina — a rede da sessão remota bloqueia `apisidra.ibge.gov.br`).
 Com `--nascimentos data/processed/nascimentos_ce_muni_mes.parquet`, junta pelo
@@ -180,10 +210,28 @@ LAI, que ainda não voltou. Se a série acidental se move com a dose, isso é
 evidência **independente** de que o ban mudou comportamento no campo — não
 substitui o registro administrativo, chega por outro caminho.
 
-**Gate:** a série acidental tem suporte para ser estimável? (Na rodada simulada,
-100% das células município-mês ficam abaixo de 5 internações — intoxicação
-internada é evento raro, e o teste vai precisar de agregação mais grossa.)
-**Se não:** o canal vira descritivo no texto, não estimativa.
+**Gate:** a série acidental tem suporte para ser estimável?
+⚠️ **RESPONDIDO com a série de 8 anos completa em 2026-08-25: NÃO, no SIH.**
+De ~3,9 milhões de AIH baixadas (CE, 2015–2022), apenas **50** têm CID de
+agrotóxico — em 27 municípios e 46 células de 17.664. E, decisivo: **1**
+internação acidental e **1** autoprovocada em oito anos.
+
+⚠️ **O placebo morre junto com o canal.** O desenho contrasta acidental (X48)
+com autoprovocada (X68); com 1 evento de cada lado não há contraste. Note que
+48 das 50 têm código **T60** (a molécula) mas **nenhum** código de intenção: no
+SIH, a divisão por intenção — que *é* o desenho do placebo — quase não é
+preenchida. Não é problema de agregação; não há o que agregar. SIH é internação
+faturada, e intoxicação aguda é atendida em emergência sem internar.
+
+✅ **Mas há fonte melhor, e ela é o sistema feito para isto.** O SINAN tem o
+agravo **`IEXO` — Intoxicação Exógena**: **2.914** notificações no Ceará em
+2015, contra 4 do SIH. E traz `AGENTE_TOX`, `ID_OCUPA_N` e — decisivo —
+**`CIRCUNSTAN`, que é a divisão acidental × autoprovocada, isto é, o placebo
+deste gate**. Ingestor ainda não escrito; os códigos ainda **não** foram
+conferidos contra o dicionário do SINAN. Ver
+`docs/gates-resultados-dados-reais.md` §7-bis.3.
+
+**Se não (mesmo no SINAN):** o canal vira descritivo no texto, não estimativa.
 
 ⚠️ **Decisão de medida que continua sua:** qual família é o desfecho, qual é
 placebo, e se o recorte é T60.0 (organofosforado/carbamato — a química que o
@@ -308,13 +356,28 @@ comunicação), exclusão de fronteira e defasagem espacial da dose. Nenhum dele
 gate — são camadas de apresentação e de ameaça espacial, e entram depois do
 número existir.
 
-### E8 — Texto
-**Faz:** `paper/` — seções de identificação, dados, descritivas e ameaças. Aqui
-entra o plugin ARS em modo de escrita (`academic-paper`), com os resultados já
-verificados.
+### E8 — Texto ✅ as quatro seções que não dependem de dado estão escritas
+**Feito:** `paper/secoes/01-introducao.tex` (fórmula de Head), `02-background`,
+`03-teoria` e `04-identificacao`. ✅ **O documento compila** — 21 páginas, 20
+referências, zero *undefined* e zero *overfull*. Havia MiKTeX na máquina do
+pesquisador.
+
+✅ **E o `.bib` existe.** `api.crossref.org` responde localmente — o bloqueio da
+classe E era do **proxy da sessão remota**, não do projeto. 40 DOIs conferidos,
+`paper/referencias.bib` gerado a partir da resposta do Crossref (sem digitação).
+Log: `docs/referencias-verificadas.md`.
+
+**Falta:** §5 (dados e descritivas), que espera a aquisição, e a conclusão. A §6
+segue **fora do alvo** desta etapa.
+
 **Gate:** um leitor cético consegue reconstruir a decisão de especificação a
 partir do texto, incluindo os degraus que **não** foram tomados?
 **Se não:** falta o registro de E3 e E6 no texto.
+
+⚠️ **O gate ainda não pode ser respondido**, e a razão não é o texto: E3 e E6
+dependem de dado que não existe. O que a §4 registra hoje é a **escada de
+decisão**, não o degrau tomado. Quando o Gate 1 rodar, o degrau escolhido entra
+no texto com data — que é o compromisso do E3.
 
 ---
 
@@ -331,8 +394,14 @@ partir do texto, incluindo os degraus que **não** foram tomados?
    tratadas** dentro do grupo de dose alta, e 2015–2018 deixa de ser
    pré-tratamento para todos. Isso é anterior a E2 em importância: contamina a
    própria medida de dose.
-3. **Verificar a citação restante** — Larsen et al. (2017) e Marx-Stoelting et al.
-   (2025) sobre Frank (2024). Nenhuma foi conferida; nenhuma está na pasta.
+3. ~~**Verificar a citação restante**~~ — ✅ **feito em 2026-08-25.** Larsen et
+   al. (2017) conferido, e o achado (5–9%, só acima do p95) confere com o
+   *abstract*. ⚠️ **Marx-Stoelting et al. (2025) NÃO foi encontrada** no
+   Crossref: não entra no `.bib` e não é citada. O argumento que ela carrega não
+   depende da citação existir. Ver `docs/referencias-verificadas.md`.
+   ⚠️ **Pendência que sobrou:** Camacho & Mejía (2017) não tem *abstract*
+   depositado — o DOI está conferido, mas a afirmação sobre o achado ainda não.
+   Está marcada `[a conferir]` em nota de rodapé no texto.
 4. **Decidir o controle vetorial** — exclusão do d = 0 ou parte do tratamento.
    Nota: a redação de 2024 **não reproduz** o §2º de 2019, então a proibição de
    dispersão aérea sanitária caiu em 19/12/2024 — mais uma razão para o corte.

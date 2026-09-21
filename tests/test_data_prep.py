@@ -1356,11 +1356,19 @@ def test_formas_incompativeis_falham_alto():
 #     04 robustez       ← ⚠️      <- portão
 #     03 obito fetal    ⚠️        <- portão
 #     02 nascimentos    nenhum    <- NÃO é portão: aqui ele só produz o parquet
+#     07 diagnose DP    ─ ⚠️ ✔     <- portão, mas NÃO coberto aqui — ver abaixo
 #     06 gaez (erro)    nenhum
 #
 # Verificado removendo o guarda de cada script: com o do 02 fora, o teste passa
 # do mesmo jeito; com o do 01 fora, falha em '\u2718'. Se algum dia o script 02
 # ganhar um símbolo na saída, ele vira portão também — por ora, não é.
+#
+# ⚠️ O script 07 ficou fora da primeira passada por ser untracked, e quebrava de
+# verdade — `line 265`, com a decomposição inteira já calculada e perdida. O
+# guarda foi aplicado e conferido à mão sob cp1252 nativo (exit 0), mas ele NÃO
+# entra nos testes por subprocess: não tem `--fonte simulado` e só roda contra o
+# SINASC pela rede. Cobertura por inspeção, não por portão — se algum dia ganhar
+# modo simulado, promover a portão aqui.
 
 
 def _roda_sob_cp1252(args: list[str], saida) -> subprocess.CompletedProcess:
@@ -1397,3 +1405,122 @@ def test_saida_mais_pesada_sobrevive_a_cp1252(tmp_path):
     """O script 04 é o de maior densidade de caractere que quebra em cp1252."""
     _exige_saida_limpa(_roda_sob_cp1252(
         ["scripts/data_prep/04_clean_poisoning.py", "--fonte", "simulado"], tmp_path))
+
+
+# --------------------------------------------------------------------------
+# 07_diagnose_trend_sd.py — a decomposição que decide a leitura do gate E1.5
+# --------------------------------------------------------------------------
+
+dp = _carrega("07_diagnose_trend_sd.py")
+
+
+def _microdado_sintetico(n_muni, nasc_por_ano, sd_real_g, seed=11, sd_individual=568.0):
+    """Municípios com heterogeneidade REAL conhecida, mais ruído de amostragem.
+
+    O deslocamento verdadeiro de cada município entre as duas metades tem DP
+    `sd_real_g`; o resto do que se observa é amostragem. É esse contraste que a
+    decomposição precisa recuperar.
+    """
+    rng = np.random.default_rng(seed)
+    deslocamento = rng.normal(0.0, sd_real_g, n_muni)
+    linhas = []
+    for i in range(n_muni):
+        for ano in dp.ANOS_PRE:
+            media = 3200.0 + (deslocamento[i] if ano > 2016 else 0.0)
+            pesos = rng.normal(media, sd_individual, nasc_por_ano)
+            for peso in pesos:
+                linhas.append((f"23{i:04d}", ano, peso))
+    return pd.DataFrame(linhas, columns=["cod_ibge6", "ano", "PESO"])
+
+
+def test_decomposicao_recupera_a_heterogeneidade_real():
+    """⚠️ O ponto do script: a DP observada SOMA ruído e sinal, e é o sinal que
+    governa o MDE. Ler a observada como se fosse heterogeneidade reprova um
+    desenho que talvez passe.
+
+    ⚠️ O regime deste teste é DELIBERADAMENTE generoso (muitos municípios,
+    muitos nascimentos). A decomposição é não-viesada mas **ruidosa**: o erro
+    da variância observada é de ordem `var·sqrt(2/n)`, então recuperar um sinal
+    pequeno com poucos municípios não é possível — e essa é exatamente a
+    ressalva que `docs/gates-resultados-dados-reais.md` §6 registra sobre a
+    estimativa de 28,4 g do Ceará.
+    """
+    d = _microdado_sintetico(n_muni=400, nasc_por_ano=500, sd_real_g=40.0)
+    _, r = dp.decompoe(d)
+    # a observada tem de ficar ACIMA da real — é a soma das duas variâncias
+    assert r["dp_observada_g"] > r["dp_real_g"]
+    # e a real tem de recuperar os 40 g plantados
+    assert r["dp_real_g"] == pytest.approx(40.0, abs=6.0)
+    assert r["fracao_variancia_ruido"] > 0.1
+
+
+def test_municipio_grande_tem_menos_ruido_que_pequeno():
+    """O ruído amostral escala com 1/sqrt(n): é isso que faz a DP não ponderada
+    do Ceará (mediana de 283 nascimentos/ano) exagerar a heterogeneidade."""
+    pequeno = dp.decompoe(_microdado_sintetico(300, 60, sd_real_g=40.0, seed=3))[1]
+    grande = dp.decompoe(_microdado_sintetico(300, 600, sd_real_g=40.0, seed=4))[1]
+    # o ruído desaba com o porte...
+    assert pequeno["dp_ruido_g"] > 2 * grande["dp_ruido_g"]
+    # ...e a DP OBSERVADA vai junto, que é o artefato que engana
+    assert pequeno["dp_observada_g"] > grande["dp_observada_g"]
+    # a heterogeneidade real, essa, NÃO muda com o porte
+    assert grande["dp_real_g"] == pytest.approx(pequeno["dp_real_g"], abs=15.0)
+
+
+def test_sem_heterogeneidade_real_a_componente_vai_a_zero():
+    """Municípios idênticos: tudo o que se observa é amostragem, e a
+    decomposição não pode inventar sinal onde não há."""
+    d = _microdado_sintetico(n_muni=120, nasc_por_ano=200, sd_real_g=0.0)
+    _, r = dp.decompoe(d)
+    assert r["dp_real_g"] < 12.0
+    assert r["fracao_variancia_ruido"] > 0.75
+
+
+def test_mde_cai_com_mais_tratados_e_com_dp_menor():
+    """Conta de desenho, não de resultado — mas é a que inverte o veredito do
+    gate, então tem de estar certa nas duas direções."""
+    assert dp.mde(47.0, 17, 167) > dp.mde(47.0, 40, 144)   # mais tratados, menor
+    assert dp.mde(47.0, 17, 167) > dp.mde(28.0, 17, 167)   # menos DP, menor
+    assert np.isnan(dp.mde(47.0, 0, 184))                  # sem tratado, sem conta
+
+
+# --------------------------------------------------------------------------
+# 05_build_panel.py — o encontro das trilhas quebrou por NOME DE ARQUIVO
+# --------------------------------------------------------------------------
+
+def _toca_pam(pasta, sufixo):
+    alvo = pasta / f"{painel.NOME_PAM}{sufixo}.parquet"
+    pd.DataFrame({"cod_ibge6": ["230010"], "cultura": ["Banana (cacho)"],
+                  "area_ha_media": [1.0]}).to_parquet(alvo, index=False)
+    return alvo
+
+
+def test_resolve_pam_acha_o_sufixo_da_fonte_real(tmp_path):
+    """⚠️ Regressão. O script 01 grava `__sidra`; o 05 procurava só por "" e
+    `__simulado`. Resultado: o PAM real existia, o painel não montava, e o erro
+    mandava rodar o script 01 que já tinha rodado."""
+    _toca_pam(tmp_path, "__sidra")
+    caminho, sufixo = painel.resolve_pam(tmp_path, "auto")
+    assert caminho is not None and sufixo == "__sidra"
+
+
+def test_resolve_pam_prefere_real_a_simulado(tmp_path):
+    """Com os dois na pasta, o real ganha — senão uma rodada real silenciosamente
+    usaria dose simulada, que é o erro que nenhum resultado denuncia."""
+    _toca_pam(tmp_path, "__simulado")
+    _toca_pam(tmp_path, "__sidra")
+    _, sufixo = painel.resolve_pam(tmp_path, "auto")
+    assert sufixo == "__sidra"
+
+
+def test_resolve_pam_nao_mistura_as_duas_fontes(tmp_path):
+    """'real' nunca cai no simulado, e 'simulado' nunca sobe para o real."""
+    _toca_pam(tmp_path, "__simulado")
+    assert painel.resolve_pam(tmp_path, "real") == (None, "")
+    _toca_pam(tmp_path, "__sidra")
+    caminho, sufixo = painel.resolve_pam(tmp_path, "simulado")
+    assert sufixo == "__simulado"
+
+
+def test_resolve_pam_sem_arquivo_devolve_none(tmp_path):
+    assert painel.resolve_pam(tmp_path, "auto") == (None, "")
