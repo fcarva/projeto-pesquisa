@@ -479,7 +479,28 @@ def imprime_resumo(individual: pd.DataFrame, painel: pd.DataFrame, fonte: str) -
 # CLI
 # --------------------------------------------------------------------------
 
+def _saida_utf8() -> None:
+    """Força UTF-8 na saída antes de qualquer print.
+
+    No Windows o console — e, sobretudo, o *pipe* que captura a saída — usa a
+    codepage da locale (cp1252 em pt-BR), que não encoda ─ ⚠ ✔ ✘ → ≥. Sem isto o
+    script morre de UnicodeEncodeError DEPOIS de ter feito o trabalho: a rodada
+    inteira se perde na impressão do resultado. Foi o que aconteceu — a API do
+    IBGE respondeu e o preflight morreu ao imprimir o que tinha encontrado.
+
+    Os acentos do português passam em cp1252; o que quebra é a decoração.
+    Reproduzível em qualquer plataforma com PYTHONIOENCODING=cp1252, e é assim
+    que o teste de regressão o prende.
+    """
+    for fluxo in (sys.stdout, sys.stderr):
+        try:
+            fluxo.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
 def main(argv: list[str] | None = None) -> int:
+    _saida_utf8()
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--fonte", choices=("auto", "arquivos", "simulado"), default="auto")
     parser.add_argument("--caminho", type=Path, nargs="*", default=[],

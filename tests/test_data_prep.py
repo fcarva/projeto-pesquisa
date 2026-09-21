@@ -10,6 +10,9 @@ Rodar: pytest -q
 from __future__ import annotations
 
 import importlib.util
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -1325,3 +1328,72 @@ def test_formas_incompativeis_falham_alto():
         gaez.diferenca_insumo(np.array([1.0, 2.0]), np.array([1.0]))
     with pytest.raises(ValueError, match="Nenhuma cultura"):
         gaez.combina_culturas({})
+
+
+# --------------------------------------------------------------------------
+# Portabilidade da saída — o console do Windows
+# --------------------------------------------------------------------------
+#
+# Os scripts imprimem ─ ⚠ ✔ ✘ → ≥. No Windows o pipe que captura a saída usa a
+# codepage da locale (cp1252), que não encoda nenhum deles, e o script morre de
+# UnicodeEncodeError DEPOIS de ter feito o trabalho. Aconteceu: a API do IBGE
+# respondeu e o preflight morreu ao imprimir o que tinha achado.
+#
+# PYTHONIOENCODING só age no arranque do interpretador, então estes são os
+# únicos testes por subprocess do arquivo — os demais carregam in-process.
+#
+# ⚠️ Não testar `--help`: ele usa só a primeira linha do docstring, que é
+# ASCII+acentos, e passa com ou sem o conserto. Um teste que nunca falha não é
+# portão. O corpo é que quebra.
+#
+# E nem todo corpo quebra. Medido, rodando cada caminho simulado e conferindo a
+# saída contra cp1252 — a contagem estática dos scripts engana, porque a maior
+# parte do traço de caixa está em caminhos que a rodada simulada não toma:
+#
+#     01 dose + MDE     ≈ ✔ ✘     <- portão (é onde a sessão do Windows bateu)
+#     04 intoxicacao    ← ⚠️      <- portão
+#     05 painel         ⚠️        <- portão
+#     04 robustez       ← ⚠️      <- portão
+#     03 obito fetal    ⚠️        <- portão
+#     02 nascimentos    nenhum    <- NÃO é portão: aqui ele só produz o parquet
+#     06 gaez (erro)    nenhum
+#
+# Verificado removendo o guarda de cada script: com o do 02 fora, o teste passa
+# do mesmo jeito; com o do 01 fora, falha em '\u2718'. Se algum dia o script 02
+# ganhar um símbolo na saída, ele vira portão também — por ora, não é.
+
+
+def _roda_sob_cp1252(args: list[str], saida) -> subprocess.CompletedProcess:
+    """Executa um script com a saída forçada a cp1252, como no Windows."""
+    return subprocess.run(
+        [sys.executable, *args, "--out-dir", str(saida)],
+        capture_output=True,          # bytes, não texto: o teste não pode
+        cwd=RAIZ,                     # morrer do mesmo mal que está testando
+        env={**os.environ, "PYTHONIOENCODING": "cp1252"},
+    )
+
+
+def _exige_saida_limpa(r: subprocess.CompletedProcess) -> None:
+    erro = r.stderr.decode("utf-8", errors="replace")
+    assert "UnicodeEncodeError" not in erro, erro[-2000:]
+    assert r.returncode == 0, erro[-2000:]
+
+
+def test_saida_sobrevive_a_console_cp1252(tmp_path):
+    """As duas famílias de símbolo: o traço de caixa e as marcas ✔/✘."""
+    nasc_args = ["scripts/data_prep/02_clean_births.py", "--fonte", "simulado"]
+    _exige_saida_limpa(_roda_sob_cp1252(nasc_args, tmp_path))
+
+    parquet = tmp_path / "nascimentos_ce_muni_mes__simulado.parquet"
+    assert parquet.exists(), "o script 02 não gravou o painel esperado"
+
+    # este caminho imprime a tabela `falsifica`, que é onde vivem ✔ e ✘
+    _exige_saida_limpa(_roda_sob_cp1252(
+        ["scripts/data_prep/01_check_dose_variation.py",
+         "--fonte", "simulado", "--nascimentos", str(parquet)], tmp_path))
+
+
+def test_saida_mais_pesada_sobrevive_a_cp1252(tmp_path):
+    """O script 04 é o de maior densidade de caractere que quebra em cp1252."""
+    _exige_saida_limpa(_roda_sob_cp1252(
+        ["scripts/data_prep/04_clean_poisoning.py", "--fonte", "simulado"], tmp_path))
