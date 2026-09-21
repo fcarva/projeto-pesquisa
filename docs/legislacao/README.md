@@ -22,7 +22,7 @@ Drive, não no repositório.
 | Data | Evento |
 |---|---|
 | **09/12/1993** | Lei 12.228/1993 — norma-mãe sobre agrotóxicos no Ceará (D.O. 14.12.93). |
-| **2009** | Limoeiro do Norte proíbe pulverização aérea **por lei municipal** (fonte: esboço; o art. 29 da lei estadual autoriza os municípios a legislar supletivamente). ⚠️ Ver a ameaça abaixo. |
+| **20/11/2009** | ✅ **CONFERIDO.** Limoeiro do Norte proíbe a pulverização aérea pela **Lei Municipal 1.478/2009** — *"dispõe sobre a proibição do uso de aeronaves nas pulverizações de lavouras no município de Limoeiro do Norte"*. Fonte primária: `camaralimoeirodonorte.ce.gov.br/leis/549` (consulta 2026-09-21). O art. 29 da lei estadual autoriza o município a legislar supletivamente. ⚠️ Ver a ameaça abaixo — ela agora tem número. |
 | **24/02/2015** | **PL 18/2015 apresentado** por Renato Roseno. ⚠️ **Marco de notícia** — a janela pré-ban 2015–2018 começa *depois* disto. |
 | **18/12/2018** | ALECE aprova por unanimidade, após 4 anos de tramitação. **Marco de certeza.** |
 | **08/01/2019** | Lei 16.820/2019 sancionada por Camilo Sobreira de Santana. |
@@ -45,16 +45,33 @@ sancionada. Conferir na tramitação do PL 18/2015 antes de afirmar.
 
 ## Duas descobertas que mudam o desenho
 
-### 1. ⚠️ Bans municipais anteriores contaminam o pré-período
+### 1. ⚠️ Bans municipais anteriores contaminam o pré-período — **confirmado**
 
 O **art. 29** da Lei 12.228/1993 estabelece: *"Compete aos municípios legislarem
-supletivamente sobre o uso e o armazenamento dos agrotóxicos"*. E o esboço
-registra que **Limoeiro do Norte proibiu a pulverização aérea em 2009**, dez anos
-antes da lei estadual.
+supletivamente sobre o uso e o armazenamento dos agrotóxicos"*. O esboço
+registrava que Limoeiro do Norte teria proibido a pulverização aérea em 2009.
 
-Se isso procede, um dos três municípios de alta exposição do estudo de Rigotto et
-al. — e um dos candidatos naturais a dose alta — **já estava (parcialmente)
-tratado antes de 2019**. Consequências:
+✅ **Procede.** Lei Municipal **1.478, de 20/11/2009**, conferida no acervo da
+Câmara Municipal em 2026-09-21. Não é hipótese de esboço: é lei, com número e
+data, **nove anos e sete semanas antes** da vigência estadual.
+
+#### ⚠️ E a contaminação está dentro do grupo tratado
+
+Conferido contra `data/processed/pam_ce_muni_cultura_media__sidra.parquet`:
+
+| | |
+|---|---|
+| Limoeiro do Norte | `cod_ibge6 = 230760` |
+| Banana (cacho), área média 2015–18 | **1.857,5 ha** |
+| Posição entre os 169 com área positiva | **6º** |
+| Decil superior da banana (o grupo tratado) | 17 municípios — **Limoeiro está nele** |
+
+O grupo tratado que sustenta o MDE da banana em `gates-resultados-dados-reais.md`
+§6 tem **17 unidades**, e **uma delas está tratada desde 2009**. É ~6% do grupo,
+e é a 6ª maior dose — não é unidade de borda.
+
+⚠️ **Isto não é mais uma ameaça a verificar; é um defeito a tratar.** As
+consequências que o esboço antecipava, agora com sujeito conhecido:
 
 - a dose pré-ban medida em 2015–2018 para Limoeiro do Norte já vem suprimida pelo
   ban municipal, subestimando a exposição histórica;
@@ -63,10 +80,49 @@ tratado antes de 2019**. Consequências:
 - e a comparação de Rigotto (2000–2010) atravessa o ban municipal, o que também
   afeta como aquele antecedente deve ser lido.
 
-**A fazer:** levantar quais municípios cearenses tinham lei municipal de
-restrição à pulverização aérea antes de 2019, e com que data. Sem isso, o painel
-tem unidades já tratadas dentro do grupo de dose alta. Não é detalhe: é uma
-violação da premissa de que 2015–2018 é período pré-tratamento para todos.
+### ✅ Varredura da fase 1 concluída em 2026-09-21 — e a contaminação é **só** Limoeiro
+
+Os 17 municípios do decil superior da banana — o grupo tratado que sustenta o
+MDE — foram varridos um a um:
+
+| resultado | n | significado |
+|---|---|---|
+| **confirmado** | **1** | Limoeiro do Norte, Lei 1.478/2009 |
+| `ausente_conferido` | 15 | acervo publicado conferido, **não há** lei do tema |
+| `inconclusivo` | 1 | Itapajé — portal não é nenhuma das duas plataformas |
+
+**A contaminação está limitada a ~6% do grupo tratado, e não cresce.** A
+hipótese de que a Chapada do Apodi tivesse legislado em bloco **não procede**:
+Quixeré (21.289 leis no acervo), Russas (6.901) e Tabuleiro do Norte não têm
+norma anterior a 2019 sobre pulverização aérea. Limoeiro foi isolado, não
+pioneiro de uma onda.
+
+⚠️ **O que "ausente_conferido" não diz.** Conferiu-se o **acervo publicado** de
+cada câmara. Câmara que não digitalizou 2009 devolve vazio legitimamente — e
+Uruburetama (151 leis) e Aratuba (80) têm acervos pequenos demais para serem
+completos. A §8 da pré-especificação recebe isso como ameaça declarada.
+
+**A fazer:** resolver Itapajé, e rodar a fase 2 (os 184) como verificação de
+completude — nenhum dos dois bloqueia a estimação.
+
+Escopo em duas fases, por custo-benefício: um ban em município de dose **zero**
+quase não enviesa — ele já entra como não tratado. O que morde é ban em município
+de **dose alta**.
+
+| Fase | Alvo | Por quê |
+|---|---|---|
+| 1 | união do decil superior entre as culturas candidatas (~30) | cobre exatamente onde o viés existe |
+| 2 | os 184 | verificação de completude; não bloqueia nada |
+
+Produto: **`docs/legislacao/bans-municipais-ce.csv`** — no repositório, não em
+`data/`. É tabela derivada pequena e segura, e `data/` é gitignored: um arquivo
+ali nunca chega às sessões remotas, que é a causa-raiz já paga duas vezes nesta
+linhagem.
+
+⚠️ **A coluna `confianca` não é enfeite.** Ausência de lei no site de uma câmara
+**não é prova de ausência de lei** — muitas não publicam acervo histórico. O CSV
+tem de separar "conferido, não há" de "não foi possível conferir", e a segunda
+categoria entra na §8 da pré-especificação como ameaça declarada, não como zero.
 
 ### 2. O registro da SEMACE resolve o `d = 0` operacional
 

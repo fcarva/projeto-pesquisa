@@ -1,0 +1,368 @@
+"""Varre o acervo das câmaras municipais atrás de bans anteriores a 2019.
+
+Consome o CSV de alvos que `08_alvos_legislativos.py` semeia e preenche as
+colunas de achado. **Mescla, nunca sobrescreve**: linha já resolvida não é
+tocada, porque varredura é trabalho caro e não se reproduz sozinha.
+
+⚠️ **O ponto inteiro deste script é a coluna `confianca`.** Ausência de lei no
+site de uma câmara NÃO é prova de ausência de lei. Ele só grava
+`ausente_conferido` quando **todos** os termos de busca voltaram resposta
+válida; se qualquer consulta falhou, ou se a plataforma não é conhecida, grava
+`inconclusivo`. Colapsar os dois transformaria buraco de fonte em zero — que é
+exatamente a falha silenciosa que a varredura existe para evitar.
+
+## As plataformas, mapeadas em 2026-09-21
+
+As câmaras cearenses respondem em `www.camara<slug>.ce.gov.br` e usam **duas**
+plataformas distintas, mais um resto sem site nesse padrão:
+
+| Plataforma | Marca no HTML | Busca | Estado |
+|---|---|---|---|
+| **A** | `leis.php` | `GET /leis.php?descr=<termo>` — renderizada no servidor | ✅ |
+| **B** | `atividade-legislativa` | `GET /institucional/legislacao/export/?format=json&pagina=2` — **acervo inteiro em JSON** | ✅ |
+
+E o host tem **dois prefixos**, não um: `camara<slug>.ce.gov.br` para a maioria,
+`cm<slug>.ce.gov.br` para uma minoria (Itapajé, Pacoti, Palmácia, Guaraciaba do
+Norte). Testar só o primeiro faz 4 municípios parecerem "sem site".
+
+⚠️ **Três armadilhas achadas rodando, e nenhuma se enxerga lendo o HTML:**
+
+1. **A busca casa palavra inteira, não substring.** `?descr=pulveriza` devolve
+   zero; `?descr=AERONAVES` devolve a lei. A ementa de Limoeiro diz
+   "pulverizações", e o prefixo não casa. Daí a lista `TERMOS` ser redundante
+   de propósito — variações com e sem acento, singular e plural.
+2. **A paginação de `/leis.php` é JS.** `?pagina=N` é aceito e **ignorado**:
+   páginas 5 a 13 devolvem o mesmo conteúdo. Varrer por paginação não funciona;
+   por isso este script busca por termo, não lista tudo.
+3. **A API da plataforma B devolve 400 para todo nome de parâmetro testado**
+   (`q`, `termo`, `busca`, e sem parâmetro). O nome vive no JS do portal.
+
+## Limites — o que este script NÃO resolve
+
+- **Portal que não é A nem B** fica `inconclusivo`. Resolver exige inspeção
+  manual do site.
+- **Acervo incompleto.** Câmara que não publica lei de 2009 devolve vazio
+  legitimamente. `ausente_conferido` significa "o acervo publicado não tem",
+  não "o município não legislou". A §8 da pré-especificação recebe isso como
+  ameaça declarada.
+
+Rodar:
+
+    python scripts/data_prep/09_varre_camaras.py --prioridade 1
+"""
+
+from __future__ import annotations
+
+import argparse
+import gzip
+import re
+import sys
+import time
+import unicodedata
+import urllib.parse
+import json
+import urllib.request
+from datetime import date
+from pathlib import Path
+
+import pandas as pd
+
+DESTINO = Path("docs/legislacao/bans-municipais-ce.csv")
+ANO_BAN_ESTADUAL = 2019
+UA = "Mozilla/5.0 (pesquisa academica; dissertacao PPGEco/UFES)"
+
+# ⚠️ Redundante DE PROPÓSITO: a busca casa palavra inteira. "pulveriza" não
+# encontra "pulverizações". Cada variação custa uma requisição e evita um falso
+# negativo — e falso negativo aqui vira "não há lei", que é o erro caro.
+TERMOS = (
+    "AERONAVES", "AERONAVE", "AVIAO", "AVIÃO", "AVIÕES",
+    "PULVERIZACAO", "PULVERIZAÇÃO", "PULVERIZAÇÕES", "PULVERIZAR",
+    "AGROTOXICO", "AGROTÓXICO", "AGROTÓXICOS", "AEREA", "AÉREA", "FUMIGACAO",
+)
+
+# Slug do portal por código IBGE6. Conferido um a um em 2026-09-21: o padrão
+# `camara<slug>.ce.gov.br` resolve para a maioria, mas não para todos, e o slug
+# nem sempre é o nome sem acento (por isso a tabela, e não uma regra).
+SLUGS = {
+    "230640": "itapipoca", "230760": "limoeirodonorte", "230840": "missaovelha",
+    "230910": "mulungu", "230210": "baturite", "230290": "capistrano",
+    "231380": "uruburetama", "231160": "redencao", "230140": "aratuba",
+    "231180": "russas", "231150": "quixere", "231340": "tiangua",
+    "231395": "varjota", "230630": "itapaje", "230980": "pacoti",
+    "231010": "palmacia", "230500": "guaraciabadonorte",
+}
+
+
+def _saida_utf8() -> None:
+    """Força UTF-8 na saída antes de qualquer print.
+
+    Mesmo guarda dos scripts 01–08: no Windows o pipe usa a codepage da locale
+    (cp1252), que não encoda ─ ⚠ ✔ ✘, e o script morreria DEPOIS de ter feito o
+    trabalho — aqui, depois de gastar dezenas de requisições de rede.
+    """
+    for fluxo in (sys.stdout, sys.stderr):
+        try:
+            fluxo.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
+def sem_acento(texto: str) -> str:
+    return "".join(c for c in unicodedata.normalize("NFD", texto)
+                   if unicodedata.category(c) != "Mn").lower()
+
+
+def busca_http(url: str, timeout: int = 35) -> str | None:
+    """GET que devolve texto, ou None se a rede falhar.
+
+    ⚠️ Descomprime gzip à mão: vários portais públicos brasileiros respondem
+    comprimido **mesmo sem `Accept-Encoding: gzip`**, e o `urllib` não
+    descomprime sozinho. Sem isto o `.decode` morre em `0x8b` com uma mensagem
+    que parece erro de codificação de texto e não é. Mesmo achado da API de
+    localidades do IBGE no script 08.
+    """
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=timeout) as resposta:
+            corpo = resposta.read()
+    except Exception:
+        return None
+    if corpo[:2] == b"\x1f\x8b":
+        corpo = gzip.decompress(corpo)
+    return corpo.decode("utf-8", errors="replace")
+
+
+# ⚠️ DOIS prefixos de host, não um. Conferido em 2026-09-21: a maioria responde
+# em `camara<slug>`, mas Itapajé, Pacoti, Palmácia e Guaraciaba do Norte só
+# respondem em `cm<slug>`. Testar só o primeiro fazia quatro municípios
+# parecerem "sem site" — e "sem site" vira `inconclusivo`, isto é, trabalho que
+# nunca seria feito porque parecia impossível.
+PREFIXOS_HOST = ("camara", "cm")
+
+
+def detecta_plataforma(slug: str) -> tuple[str, str]:
+    """('A' | 'B' | 'desconhecida' | 'sem_site', url_base)."""
+    for prefixo in PREFIXOS_HOST:
+        base = f"https://www.{prefixo}{slug}.ce.gov.br"
+        html = busca_http(base + "/", timeout=30)
+        if html is None:
+            continue
+        if "leis.php" in html:
+            return "A", base
+        if "atividade-legislativa" in html:
+            return "B", base
+        return "desconhecida", base
+    return "sem_site", f"https://www.camara{slug}.ce.gov.br"
+
+
+def varre_plataforma_b(base: str, timeout: int = 300) -> dict:
+    """Baixa o acervo inteiro em JSON e filtra localmente.
+
+    ⚠️ O `&pagina=2` não é para ir à página 2. É um parâmetro **não
+    reconhecido** pelo endpoint, e passá-lo desliga o filtro de paginação:
+    sem ele vêm 3 registros do ano corrente; com ele, o acervo completo. Sem
+    esse truque a varredura concluiria "acervo minúsculo, nada aqui".
+    """
+    url = f"{base}/institucional/legislacao/export/?format=json&pagina=2"
+    texto = busca_http(url, timeout=timeout)
+    if texto is None:
+        return {"leis": [], "erros": 1, "termos": 1, "n_acervo": 0, "url": url}
+    try:
+        bruto = json.loads(texto)
+    except json.JSONDecodeError:
+        return {"leis": [], "erros": 1, "termos": 1, "n_acervo": 0, "url": url}
+    itens = bruto if isinstance(bruto, list) else bruto.get("results", [])
+
+    leis = []
+    for item in itens:
+        ano = str(item.get("Ano", "")).strip()
+        ementa = str(item.get("Ementa", ""))
+        if not ano.isdigit() or int(ano) >= ANO_BAN_ESTADUAL:
+            continue
+        if not _e_do_tema(ementa):
+            continue
+        leis.append({
+            "numero_lei": f"{item.get('Número', '?')}/{ano}",
+            "ano": int(ano),
+            "data_lei": str(item.get("Data", ""))[:10],
+            "ementa": ementa[:200],
+            "url_fonte": url,
+        })
+    return {"leis": leis, "erros": 0, "termos": 1, "n_acervo": len(itens), "url": url}
+
+
+def extrai_leis(html: str) -> list[dict]:
+    """Lê a lista de leis da página de resultado da plataforma A."""
+    texto = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+    achados = []
+    for m in re.finditer(
+        r"Lei Municipal - ([\d.]+)/(\d{4})\s+(\d{2}/\d{2}/\d{4})\s+(.{10,260}?)\s+Acessar",
+        texto,
+    ):
+        numero, ano, data_br, ementa = m.groups()
+        ementa = re.sub(r"^-+>\s*", "", ementa).strip()
+        achados.append({
+            "numero_lei": f"{numero}/{ano}",
+            "ano": int(ano),
+            "data_lei": "-".join(reversed(data_br.split("/"))),
+            "ementa": ementa[:200],
+        })
+    return achados
+
+
+def varre_plataforma_a(base: str, termos=TERMOS, pausa: float = 0.3) -> dict:
+    """Busca cada termo e devolve achados anteriores ao ban estadual.
+
+    ⚠️ `erros` não é diagnóstico secundário: é o que separa `ausente_conferido`
+    de `inconclusivo`. Um termo que falhou por rede é um termo não conferido, e
+    um único desses já impede afirmar que não há lei.
+    """
+    leis, erros = {}, 0
+    for termo in termos:
+        url = f"{base}/leis.php?descr={urllib.parse.quote(termo)}"
+        html = busca_http(url)
+        if html is None:
+            erros += 1
+            continue
+        for lei in extrai_leis(html):
+            if lei["ano"] < ANO_BAN_ESTADUAL and _e_do_tema(lei["ementa"]):
+                lei["url_fonte"] = url
+                leis[lei["numero_lei"]] = lei
+        time.sleep(pausa)
+    return {"leis": list(leis.values()), "erros": erros, "termos": len(termos)}
+
+
+def _e_do_tema(ementa: str) -> bool:
+    """Filtra falso positivo: o termo pode casar por outro motivo.
+
+    "aérea" casa com "área aérea de lazer"; "avião" com homenagem a aviador.
+    Exige co-ocorrência de um termo de **método aéreo** com um de **veneno ou
+    lavoura** — que é a estrutura da ementa de Limoeiro.
+    """
+    e = sem_acento(ementa)
+    metodo = any(t in e for t in ("aeronave", "aviao", "aviões", "aereo", "aerea",
+                                  "pulveriza", "fumiga"))
+    alvo = any(t in e for t in ("agrotoxic", "defensivo", "veneno", "lavoura",
+                                "pulveriza", "praga", "agricol"))
+    return metodo and alvo
+
+
+def classifica(resultado: dict) -> tuple[str, str]:
+    """(confianca, tem_lei) a partir do que a varredura de fato conseguiu."""
+    if resultado["leis"]:
+        return "confirmado", "sim"
+    if resultado["erros"] > 0:
+        return "inconclusivo", ""          # ⚠️ NÃO é "não há"
+    return "ausente_conferido", "nao"
+
+
+def imprime_relatorio(linhas: list[dict]) -> None:
+    barra = "=" * 92
+    print(barra)
+    print("VARREDURA DAS CÂMARAS — bans municipais anteriores a 2019")
+    print(barra)
+    for r in linhas:
+        marca = {"confirmado": "⚠️ ACHOU", "ausente_conferido": "  nada",
+                 "inconclusivo": "?? incon"}.get(r["confianca"], "   ?")
+        print(f"  {marca:<10} {r['municipio']:<24} [{r['plataforma']}] {r['nota']}")
+        for lei in r.get("achados", []):
+            print(f"       >>> Lei {lei['numero_lei']}  {lei['data_lei']}")
+            print(f"           {lei['ementa'][:110]}")
+    print()
+    print(barra)
+    print("COMO LER")
+    print(barra)
+    print("  • 'nada' = ausente_conferido: o acervo PUBLICADO não tem lei do tema.")
+    print("    ⚠️ Não é 'o município não legislou' — câmara pode não publicar 2009.")
+    print("  • '?? incon' = inconclusivo: plataforma não automatizada, site fora,")
+    print("    ou algum termo falhou. É trabalho por fazer, NÃO ausência de lei.")
+    print("  • Nada aqui é resultado do ban. É saneamento de pré-período.")
+    print(barra)
+
+
+def main(argv: list[str] | None = None) -> int:
+    _saida_utf8()
+    p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    p.add_argument("--csv", type=Path, default=DESTINO)
+    p.add_argument("--prioridade", type=int, default=1,
+                   help="varrer só alvos até esta prioridade (1 = alta pulverização)")
+    p.add_argument("--limite", type=int, default=None,
+                   help="máximo de municípios nesta rodada")
+    p.add_argument("--refazer", action="store_true",
+                   help="revisita linhas já resolvidas (padrão: não)")
+    args = p.parse_args(argv)
+
+    if not args.csv.exists():
+        print(f"  ✘ {args.csv} não existe. Rode antes:")
+        print("    python scripts/data_prep/08_alvos_legislativos.py")
+        return 1
+
+    tabela = pd.read_csv(args.csv, dtype=str, comment="#").fillna("")
+    alvo = tabela[tabela["prioridade"].astype(int) <= args.prioridade]
+    if not args.refazer:
+        alvo = alvo[alvo["confianca"] == "nao_verificado"]
+    alvo = alvo[alvo["cod_ibge6"].isin(SLUGS)]
+    if args.limite:
+        alvo = alvo.head(args.limite)
+
+    if alvo.empty:
+        print("  Nada a varrer — todos os alvos com slug conhecido já foram "
+              "resolvidos. Use --refazer para revisitar.")
+        return 0
+
+    hoje = date.today().isoformat()
+    linhas_rel, indexado = [], tabela.set_index("cod_ibge6")
+    for _, linha in alvo.iterrows():
+        cod = linha["cod_ibge6"]
+        slug = SLUGS[cod]
+        plataforma, base = detecta_plataforma(slug)
+
+        if plataforma in ("sem_site", "desconhecida"):
+            nota = {"sem_site": f"nem camara{slug} nem cm{slug} respondem",
+                    "desconhecida": "portal não é plataforma A nem B"}[plataforma]
+            indexado.loc[cod, ["confianca", "data_consulta", "url_fonte"]] =                 ["inconclusivo", hoje, base + "/"]
+            linhas_rel.append({"municipio": linha["municipio"],
+                               "plataforma": plataforma,
+                               "confianca": "inconclusivo", "nota": nota})
+            continue
+
+        if plataforma == "A":
+            resultado = varre_plataforma_a(base)
+            nota = (f"{resultado['termos'] - resultado['erros']}/"
+                    f"{resultado['termos']} termos conferidos")
+        else:
+            resultado = varre_plataforma_b(base)
+            nota = (f"acervo de {resultado['n_acervo']} leis lido"
+                    if not resultado["erros"] else "export não respondeu")
+        confianca, tem_lei = classifica(resultado)
+        campos = {"confianca": confianca, "tem_lei": tem_lei, "data_consulta": hoje}
+        if resultado["leis"]:
+            primeira = sorted(resultado["leis"], key=lambda x: x["data_lei"])[0]
+            campos |= {"numero_lei": primeira["numero_lei"],
+                       "data_lei": primeira["data_lei"],
+                       "ementa": primeira["ementa"],
+                       "url_fonte": primeira["url_fonte"], "escopo": "total"}
+        else:
+            campos["url_fonte"] = resultado.get("url", base + "/")
+        for coluna, valor in campos.items():
+            indexado.loc[cod, coluna] = valor
+        linhas_rel.append({"municipio": linha["municipio"], "plataforma": plataforma,
+                       "confianca": confianca, "nota": nota,
+                       "achados": resultado["leis"]})
+
+    final = indexado.reset_index()[tabela.columns.tolist()]
+    cabecalho = [l for l in args.csv.read_text(encoding="utf-8").split("\n")
+                 if l.startswith("#")]
+    with open(args.csv, "w", encoding="utf-8", newline="") as fh:
+        for l in cabecalho:
+            fh.write(l + "\n")
+        fh.write(f"# varredura de câmaras: {hoje} por 09_varre_camaras.py\n")
+        final.to_csv(fh, index=False)
+
+    imprime_relatorio(linhas_rel)
+    print(f"\n[ok] -> {args.csv}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
