@@ -1,0 +1,193 @@
+% =====================================================================
+% Ensaio 1 — Seção 1: Introdução
+%
+% Escrita pela fórmula de Head (via Bellemare), na ordem que o framework fixa
+% (docs/framework-dissertacao.md §3.1):
+%   1. Hook — pelo mundo real, NUNCA pela literatura
+%   2. Pergunta de pesquisa — como PRIMEIRA FRASE do parágrafo
+%   3. Antecedentes — os estudos mais próximos, contados como história
+%   4. Value added — (i) identificação, (ii) validade externa, (iii) mecanismo
+%   5. Roadmap
+%
+% ⚠️ O pecado capital, segundo Bellemare, é o bait-and-switch: prometer na
+% introdução o que o corpo não entrega. Como o alvo da qualificação NÃO inclui
+% resultado estimado (docs/ars/04-roteiro-qualificacao.md), esta introdução
+% promete um DESENHO e o §\ref{sub:promessa} declara isso ao leitor. Nenhuma
+% frase abaixo anuncia achado.
+%
+% ⚠️ Esta seção deve ser REESCRITA a cada iteração do documento — Bellemare
+% estima que ~75% do destino de um artigo se decide na introdução.
+%
+% ✅ REFERÊNCIAS. Diferentemente das §2 e §3 quando foram escritas, esta seção
+% usa \cite: paper/referencias.bib foi conferido contra api.crossref.org em
+% 2026-08-25 (log em docs/referencias-verificadas.md).
+% =====================================================================
+
+\section{Introdução}
+\label{sec:introducao}
+
+Em 2010, José Maria Filho --- Zé Maria do Tomé --- foi assassinado na Chapada do
+Apodi, no interior do Ceará.\footnote{\textbf{[a conferir]} Circunstâncias do
+crime (data exata e número de disparos) \textbf{não} conferidas contra fonte
+primária; o texto registra apenas o ano, que consta da tramitação legislativa.
+Conferir antes da versão final.} Ele vinha denunciando havia anos a pulverização aérea de
+agrotóxicos sobre os perímetros irrigados da região, onde aviões sobrevoam
+plantações de banana e melão que fazem fronteira com casas, escolas e açudes de
+abastecimento. A denúncia não era sobre o veneno aplicado na lavoura; era sobre o
+veneno que \emph{não} fica na lavoura. Nove anos depois, o estado do Ceará
+proibiu a prática em todo o território --- a primeira proibição estadual do
+gênero no Brasil --- e deu à lei o nome do homem assassinado.
+
+A pulverização aérea é um caso raro de externalidade em que o mecanismo físico é
+visível a olho nu. Parte da calda liberada pela aeronave não atinge o alvo: é
+carregada pelo vento e se deposita fora da área tratada, num fenômeno que a
+literatura técnica chama de deriva. Quem contrata a aplicação paga pelo serviço e
+pelo produto; quem mora a favor do vento paga o resto. Essa é a pergunta
+distributiva que a lei cearense tenta responder por decreto --- e é uma pergunta
+sobre a qual, no Brasil, praticamente não existe evidência causal.
+
+\textbf{Qual é o efeito causal da proibição da pulverização aérea de agrotóxicos
+sobre desfechos de saúde ao nascer, e como esse efeito varia com a intensidade
+com que cada município era exposto à prática antes da proibição?} A segunda
+metade da pergunta não é um refinamento: é o objeto. Um número único --- o efeito
+médio da proibição --- diria se a política funcionou, mas não diria se proibir
+era o instrumento certo. Essa segunda pergunta, que é a do Ensaio 2 desta
+dissertação, se decide pela \emph{inclinação} da curva de dano marginal, e não
+pelo seu nível \citep{weitzman1974}. Por isso o parâmetro-alvo aqui é a
+\textbf{curva dose-resposta}, e não o efeito num ponto.
+
+\subsection{Antecedentes}
+\label{sub:antecedentes}
+
+A evidência econômica mais próxima deste caso se organiza em torno de duas
+perguntas que raramente se encontram: o que uma \emph{substância} faz à saúde, e
+o que um \emph{método de aplicação} faz à saúde.
+
+Do lado da substância, \citet{dias2023down} são a referência brasileira. Eles
+exploram a introdução da soja transgênica no Brasil --- e o ganho potencial de
+produtividade que ela trouxe a cada município, que é a variação de aptidão ---
+combinada à \emph{direção do fluxo d'água dentro da bacia}, e documentam
+deterioração dos desfechos ao nascer nas populações situadas a jusante. Na
+especificação preferida, o aumento médio do uso de glifosato entre 2000 e 2010
+eleva a mortalidade infantil em 5\% da média amostral.
+
+\citet{reynier2025glyphosate} replicam a lógica nos Estados Unidos, sobre a
+adoção de sementes geneticamente modificadas e com o mesmo instrumento de
+aptidão, e encontram redução significativa do peso ao nascer e da duração da
+gestação --- com efeito \textbf{doze vezes maior} no decil inferior de peso
+esperado do que no superior. O dano não é apenas médio; é desigual.
+\citet{larsen2017agricultural} acrescentam a forma funcional: no Vale de San
+Joaquin, a exposição residencial eleva desfechos adversos em 5 a 9\%, mas
+\emph{apenas} entre os expostos ao topo da distribuição --- o percentil 95 para
+cima. É resultado que recomenda tratar a dose como contínua e desconfiar de
+linearidade. E \citet{frank2024ecosystem} fecham o argumento pelo avesso, com um
+choque que empurra o uso de inseticida para \emph{cima}: a perda de morcegos
+predadores nos Estados Unidos leva o agricultor a compensar com 31,1\% mais
+inseticida, e a mortalidade infantil sobe 7,9\% nos condados atingidos.
+
+Do lado do método, o antecedente direto é \citet{camacho2017health}, que avaliam
+as consequências sanitárias da aspersão aérea de herbicida sobre cultivos
+ilícitos na Colômbia.\footnote{\textbf{[a conferir]} O registro Crossref deste
+artigo não traz \emph{abstract} depositado, de modo que a descrição acima se
+apoia no título. Os desfechos específicos e a magnitude serão conferidos contra
+o texto integral antes da versão final.} É o estudo mais próximo do objeto
+aqui, com uma diferença que importa: na Colômbia a pulverização aérea foi \emph{introduzida} como política de
+Estado, ao passo que no Ceará ela foi \emph{retirada}. Os sinais esperados se
+invertem, e com eles a estrutura de quem escolhe ser exposto.
+
+O que nenhum desses trabalhos oferece é a avaliação de uma \textbf{proibição de
+método} --- o instrumento que a lei cearense de fato usa. Do lado normativo, a
+comparação entre proibir e taxar é antiga na economia ambiental
+\citep{weitzman1974,lichtenberg1988,helfand1995}, e há simulação recente do
+banimento de uma molécula na Europa \citep{bocker2020glyphosate}, mas simulação
+ex-ante não é avaliação ex-post. Do lado do método econométrico, a peça que
+faltava chegou agora: \citet{callaway2024continuous} mostram que
+diferenças-em-diferenças com tratamento contínuo não recupera a curva
+dose-resposta sob as hipóteses habituais, e propõem os estimandos que a
+recuperam --- distinguindo, em particular, o efeito no nível de dose recebido da
+curva causal propriamente dita.
+
+\subsection{Contribuição}
+\label{sub:contribuicao}
+
+Este ensaio se situa no cruzamento desses dois lados, e a contribuição tem três
+camadas.
+
+\paragraph{Identificação.} A lei cearense entrou em vigor de uma só vez em todo o
+estado, de modo que não há variação de \emph{timing} a explorar e a maquinaria de
+diferenças-em-diferenças escalonado não se aplica. A identificação vem da
+\textbf{intensidade pré-ban de exposição} entre municípios, tratada como dose
+contínua, com o estimador de \citet{callaway2024continuous}. O desenho separa
+explicitamente o parâmetro que sai sob tendências paralelas usuais daquele que
+exige a hipótese forte, e declara --- antes de estimar --- que o teste de
+tendências pré-tratamento \emph{não} valida o segundo. Declara também seu próprio
+poder: com poucos municípios de dose alta e desfechos ruidosos, o efeito mínimo
+detectável é calculado \emph{ex ante}, e coeficiente abaixo dele é reportado como
+limite superior, não como achado.
+
+\paragraph{Validade externa.} O objeto é uma \textbf{proibição de método},
+raramente avaliada. A distinção não é semântica: proibir o avião não proíbe a
+molécula, o que significa que a política atua sobre a \emph{via de exposição}
+mantendo a disponibilidade do produto --- e que a aplicação pode migrar para o
+solo em vez de desaparecer. A relevância para política é imediata: o Supremo
+Tribunal Federal julgou a lei constitucional em 2023 (ADI 6137), de modo que a
+competência estadual para legislar nesta matéria está assentada e o instrumento é
+replicável por outras unidades da federação.\footnote{\textbf{[a conferir]} A
+afirmação de que proposições semelhantes já tramitam em outros estados consta
+do material de
+projeto, mas \textbf{não} foi conferida contra as casas legislativas
+correspondentes, e por isso não é feita aqui.}
+
+\paragraph{Mecanismo.} O desenho não trata o efeito como caixa-preta. Separa o
+canal hídrico do canal atmosférico, e acrescenta um terceiro de \emph{sinal
+oposto}: se a aplicação migra do avião para o trator e o pulverizador costal, a
+proibição afasta o agrotóxico da população e o aproxima do aplicador, de modo que
+a intoxicação aguda ocupacional deve \emph{subir}. O mesmo registro hospitalar
+fornece a falsificação: a intoxicação autoprovocada responde à disponibilidade da
+molécula, que a lei não altera, e portanto \textbf{não} deve se mover com a dose.
+Duas séries, mesma população, mesmo sistema de registro, predições opostas.
+
+\paragraph{Uma correção de escopo que a literatura de referência impõe.} Os
+trabalhos citados acima são construídos, quase sem exceção, sobre \emph{glifosato
+em culturas transgênicas tolerantes a herbicida}. A química documentada na
+Chapada do Apodi é outra: a tabela de análises de água reproduzida na
+justificativa do projeto de lei registra procimidona e carbaril em 23 de 23
+pontos de coleta, carbofurano em 18 e fenitrotiona em 16 --- contra glifosato em
+4. É fungicida e inseticida sobre fruticultura irrigada, não herbicida sobre
+grão. A consequência é declarada desde já: os desenhos de referência transferem
+na \emph{forma} --- instrumentar exposição por aptidão agroclimática ---, não no
+\emph{mecanismo}, e a §\ref{sub:quimico} detalha o que isso obriga a mudar.
+
+\subsection{O que este documento entrega, e o que não entrega}
+\label{sub:promessa}
+
+\begin{quote}
+Este é um documento de \textbf{qualificação}, e seu alvo declarado é um projeto
+defensável: identificação fechada, ameaças mapeadas, decisões de especificação
+registradas com antecedência. \textbf{Não há resultado estimado aqui}, e a
+ausência é deliberada. As seções de resultado estão fora do alvo desta etapa ---
+não atrasadas em relação a ele.
+\end{quote}
+
+A escolha tem uma razão que vai além do cronograma. O conjunto de desfechos que
+os registros administrativos brasileiros tornam disponíveis é amplo, e o poder
+estatístico deste desenho é curto; essa combinação é precisamente a que produz
+achado espúrio com aparência de rigor. Fixar desfecho primário, exposição
+primária e critério de falsificação \emph{antes} do primeiro contato com dado
+real é, aqui, condição de credibilidade --- e é verificável, porque o registro é
+versionado.
+
+\subsection{Organização do trabalho}
+\label{sub:roadmap}
+
+O restante deste ensaio organiza-se como segue. A §\ref{sec:background} apresenta
+a lei, sua cronologia --- que distingue três marcos de antecipação, e não um ---,
+a região a que ela responde e o mecanismo físico da deriva, além da correção
+química discutida acima. A §\ref{sec:teoria} desenvolve o referencial de
+externalidade e escolha de instrumento, e termina no conjunto de predições
+testáveis que amarra a teoria à estimação. A §\ref{sec:identificacao} ---
+o núcleo deste documento --- expõe o parâmetro-alvo, as hipóteses que ele exige,
+a construção da variável de dose e do grupo de comparação, o poder do desenho, os
+procedimentos de inferência e a tabela de ameaças, cada uma com o que faz ao
+estimando e o que o desenho lhe opõe. As seções de dados, resultados e conclusão
+completam o ensaio na versão final da dissertação.

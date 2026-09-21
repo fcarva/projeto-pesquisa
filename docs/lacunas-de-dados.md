@@ -1,8 +1,13 @@
 # Lacunas de dados — por prioridade, não por lista
 
-*2026-08-25. O pipeline está completo (92 testes, E5–E7 instrumentados) e
-**nenhuma fonte real foi tocada**. Este documento diz o que falta, quanto custa
-cada falta, e o que continua estimável sem ela.*
+*2026-08-25. O pipeline está completo (92 testes, E5–E7 instrumentados).*
+
+⚠️ **ATUALIZADO em 2026-08-25, mesma data: DUAS FONTES REAIS JÁ FORAM TOCADAS.**
+O bloqueio de rede era do **proxy da sessão remota**, não do projeto: na máquina
+do pesquisador o SIDRA responde 200 e o DATASUS responde 226 por `ftp://`.
+PAM e SINASC estão adquiridos, e os gates E2 e E1.5 têm número real.
+**Ver `docs/gates-resultados-dados-reais.md`** — inclusive porque o E1.5
+reprova como especificado, e a razão não é a que se esperava.
 
 ⚠️ **A lista A1–A6 do roteiro é plana, e a realidade não é.** O achado do E6
 reordenou tudo: uma fonte deixou de ser "canal" e virou parte do resultado
@@ -43,16 +48,23 @@ sem banda de incerteza.**
 Cada classe pede uma ação diferente. Misturá-las é o que faz a lista parecer
 intransponível.
 
-### Classe A — já contornada ✅
+### Classe A — ✅ **adquirida**, não apenas contornada
 
-| Fonte | Como |
+| Fonte | Situação em 2026-08-25 |
 |---|---|
-| PAM/SIDRA | `01_check_dose_variation.py --fonte arquivo --caminho tab1612.csv` |
-| SINASC, SIM, SIH | `00_export_datazoom.R` (na sua máquina) → `--caminho` nos scripts 02/03/04 |
+| **PAM/SIDRA** | ✅ **baixada** — `01_check_dose_variation.py --fonte sidra` roda direto (preflight: 4/4 códigos conferidos) |
+| **SINASC** | ✅ **baixado** — `02_clean_births.py --fonte pysus`, 1.001.709 nascimentos, 2015–2022 |
+| SIM, SIH | caminho `pysus` desbloqueado e **corrigido** (ver abaixo); ainda não rodados |
 
-O bloqueio de rede virou **inconveniência**, não impedimento. Os dois caminhos
-estão testados, inclusive contra o preâmbulo do portal do SIDRA e o DOFET sem
-`TIPOBITO`.
+⚠️ **O caminho `pysus` estava quebrado, e só rodando se descobriu.** Não existe
+`Parquet.to_dataframe()`; o método é `load()`, e é **corotina**. Corrigido em
+`02_clean_births.py` e `03_clean_fetal_deaths.py`. É o **quarto** bug de formato
+suposto desta linhagem — ler o código de um pacote não substitui executá-lo.
+
+⚠️ **`00_export_datazoom.R` não roda aqui: não há R nesta máquina.** Isso não
+custa nada para a aquisição (o `pysus` entrega o mesmo dado), mas **bloqueia o
+E6**: o `contdid`, estimador primário, é pacote R. Ver
+`docs/gates-resultados-dados-reais.md` §1.1.
 
 ### Classe B — falta baixar **e** falta o ingestor
 
@@ -65,10 +77,10 @@ estão testados, inclusive contra o preâmbulo do portal do SIDRA e o DOFET sem
 | INMET / FUNCEME | canal-ar (vento a favor/contra) | ❌ |
 | População municipal (IBGE) | denominador do canal de intoxicação | ❌ |
 
-⚠️ **E há um bloqueio que ninguém tinha notado: nenhuma biblioteca geo está
-instalada.** `geopandas`, `rasterio`, `shapely`, `pyproj`, `fiona`,
-`rasterstats`, `xarray` — todas ausentes, e `data/geo/` vazio. Mesmo com o raster
-do GAEZ baixado, **nada no repositório conseguiria lê-lo**.
+⚠️ ~~**nenhuma biblioteca geo está instalada**~~ — **não procede na máquina do
+pesquisador** (verificado 2026-08-25): `geopandas` 1.1.4, `rasterio` 1.5.1 e
+`pyproj` respondem. O `06_build_gaez.py` tem com o que rodar assim que o raster
+existir. `data/geo/` continua vazio — falta o **arquivo**, não a biblioteca.
 
 ✅ Resolvido: `requirements-geo.txt`. Separado do `requirements.txt` porque
 GDAL/PROJ/GEOS são pesados e brigam, e o pipeline 01–05 não precisa deles.
@@ -102,16 +114,24 @@ Cada uma é **uma consulta**. Nenhuma foi feita. Planejar em cima delas sem
 verificar é como o projeto já se queimou três vezes nesta sessão (aliases
 datazoom, parser SIDRA, API pysus).
 
-### Classe E — fora de alcance daqui
+### Classe E — ✅ **resolvida em 2026-08-25** (era bloqueio de proxy, não do projeto)
 
-| Item | Por quê |
+⚠️ **A classe E não era uma propriedade do projeto; era do proxy da sessão
+remota.** Na máquina do pesquisador, `api.crossref.org` responde normalmente.
+
+**Conferência feita:** 40 DOIs resolvidos, `paper/referencias.bib` gerado
+**a partir da resposta do Crossref** (sem digitação, logo sem erro de
+transcrição). Log completo, correções e lacunas: `docs/referencias-verificadas.md`.
+
+| Item | Situação |
 |---|---|
-| Marx-Stoelting et al. (2025), *Science* | Scholar Gateway é corpus **Wiley**; AAAS não está |
-| Larsen et al. (2017), *Nature Communications* | idem (Springer Nature) |
-| Reynier & Rubin (2025), *PNAS* | idem |
+| Larsen et al. (2017), *Nature Communications* | ✅ conferido, e o achado (5–9%, só acima do p95) confere com o *abstract* |
+| Reynier & Rubin (2025), *PNAS* | ✅ conferido. ⚠️ a magnitude "23–32 g" **não** consta do *abstract* — ver o log |
+| Marx-Stoelting et al. (2025), *Science* | ⚠️ **continua não encontrada** no Crossref. Não entra no `.bib` nem é citada |
 
-`api.crossref.org`, `doi.org`, `api.semanticscholar.org` e `pubmed` estão todos
-em **000**. As citações continuam **não verificadas**, e agora se sabe por quê.
+⚠️ **A distinção que o log estabelece:** DOI conferido autoriza a **citação**;
+não autoriza a **afirmação sobre o achado**. A segunda exige *abstract* ou texto
+integral, e duas atribuições da introdução foram corrigidas por isso.
 
 ---
 

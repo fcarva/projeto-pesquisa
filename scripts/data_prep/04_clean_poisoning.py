@@ -82,11 +82,12 @@ import pandas as pd
 # Parâmetros
 # --------------------------------------------------------------------------
 
-UF_CEARA = "23"
+UF_CEARA = "23"      # codigo IBGE, para filtrar MUNIC_RES
+UF_SIGLA = "CE"      # sigla, para casar o nome do arquivo do FTP (RDCE<AAMM>.dbc)
 ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
 OUT_DIR = Path("data/processed")
 NOME_SAIDA = "intoxicacao_ce_muni_mes"
-SEED = 20190613  # mesma seed dos scripts 01, 02 e 03
+SEED = 20190613  # mesma seed dos scripts 01, 02 e 03; semente, não data do ban
 
 COLUNAS_SIH = (
     "DIAG_PRINC",   # CID-10 do diagnóstico principal
@@ -330,6 +331,56 @@ def carrega_de_arquivos(caminhos: list[Path]) -> pd.DataFrame:
     return pd.concat(pedacos, ignore_index=True)
 
 
+# --- SIH via pysus ----------------------------------------------------------
+# Este caminho não existia: o script só aceitava arquivo exportado pelo
+# `00_export_datazoom.R`. ⚠️ Como **não há R** em toda máquina (não há nesta), o
+# canal de intoxicação ficava inacessível por uma razão de linguagem, não de
+# dado. O `pysus` alcança o SIH, então o canal A5 deixa de depender de R.
+#
+# ⚠️ O SIH é MENSAL: 8 anos = 96 arquivos, contra 8 do SINASC. É a fonte mais
+# lenta do pipeline, e é por isso que o download avisa a cada ano.
+def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
+    """Baixa a AIH Reduzida (RD) do SIH/CE via pysus, mês a mês.
+
+    ⚠️ NÃO usa `group="RD"`. O SIM tem o mesmo campo e ele devolve lista VAZIA
+    em silêncio (ver a nota em `03_clean_fetal_deaths.py`); aqui o grupo é
+    garantido pelo NOME do arquivo — `RDCE<AAMM>.dbc` —, que é verificável.
+    Os outros grupos do diretório (`ER`, `RJ`, `SP`) são rejeição e serviços
+    profissionais: entrariam como internação que não houve.
+    """
+    try:
+        from pysus.api import PySUSClient
+    except ImportError as erro:
+        raise RuntimeError(
+            f"pysus indisponível ({erro}). requirements.txt pina pysus==2.10.0."
+        ) from erro
+
+    prefixo = f"RD{UF_SIGLA}"
+    pedacos = []
+    with PySUSClient() as client:
+        ftp = client.get_ftp()
+        base = next(d for d in client._run_async(ftp.datasets()) if d.name == "SIH")
+        for ano in anos:
+            n_ano = 0
+            for mes in range(1, 13):
+                arquivos = client._run_async(base.search(state=UF_SIGLA, year=ano, month=mes))
+                arquivos = [a for a in arquivos
+                            if a.basename.upper().startswith(prefixo)]
+                for arquivo in arquivos:
+                    parquet = client.download_to_parquet(arquivo)
+                    # `load()` é corotina — mesma armadilha dos scripts 02 e 03.
+                    bloco = client._run_async(parquet.load())
+                    # Recorte do Ceará já aqui: a AIH traz residentes de fora.
+                    presentes = [c for c in COLUNAS_SIH if c in bloco.columns]
+                    pedacos.append(bloco[presentes])
+                    n_ano += len(bloco)
+            print(f"  SIH {ano}: {n_ano:>8,} AIH baixadas".replace(",", "."))
+
+    if not pedacos:
+        raise RuntimeError("pysus não devolveu arquivos SIH/RD para CE.")
+    return pd.concat(pedacos, ignore_index=True)
+
+
 def simula_sih(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_ano: int = 3) -> pd.DataFrame:
     """Microdado simulado com o esquema e os códigos reais do SIH.
 
@@ -393,22 +444,30 @@ def simula_sih(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_ano: int = 3) -> p
 def carrega_internacoes(
     fonte: str = "auto", caminhos: list[Path] | None = None, anos=ANOS_PADRAO, seed: int = SEED
 ) -> tuple[pd.DataFrame, str]:
-    """Dispatcher: 'arquivos' | 'simulado' | 'auto'.
+    """Dispatcher: 'arquivos' | 'pysus' | 'simulado' | 'auto'.
 
-    Não há caminho de download aqui de propósito: a fonte real vem do
-    `00_export_datazoom.R`, que é R, e a fronteira entre as linguagens é arquivo.
+    'auto' = arquivos (se houver) -> pysus -> simulado.
+
+    O caminho `pysus` foi acrescentado em 2026-08-25. Antes, a única fonte real
+    era o `00_export_datazoom.R` — ⚠️ e sem R instalado o canal A5 inteiro ficava
+    inacessível por uma razão de linguagem, não de dado.
     """
     if fonte == "simulado":
         return simula_sih(anos, seed), "simulado"
     if fonte == "arquivos":
         return carrega_de_arquivos(caminhos or []), "arquivos"
+    if fonte == "pysus":
+        return carrega_de_pysus(anos), "pysus"
     if caminhos:
         try:
             return carrega_de_arquivos(caminhos), "arquivos"
         except Exception as erro:  # noqa: BLE001
             print(f"[aviso] leitura dos arquivos falhou ({type(erro).__name__}: {erro}).")
-    print("[aviso] Sem arquivo do SIH. Rode scripts/data_prep/00_export_datazoom.R")
-    print("[aviso] --bases sih na sua máquina. Caindo para SIMULADO — não é evidência.")
+    try:
+        return carrega_de_pysus(anos), "pysus"
+    except Exception as erro:  # noqa: BLE001
+        print(f"[aviso] SIH via pysus indisponível ({type(erro).__name__}: {erro}).")
+    print("[aviso] Caindo para SIMULADO — não é evidência.")
     return simula_sih(anos, seed), "simulado"
 
 
@@ -502,7 +561,10 @@ def _saida_utf8() -> None:
 def main(argv: list[str] | None = None) -> int:
     _saida_utf8()
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("--fonte", choices=("auto", "arquivos", "simulado"), default="auto")
+    parser.add_argument("--fonte", choices=("auto", "arquivos", "pysus", "simulado"),
+                        default="auto",
+                        help="'pysus' baixa a AIH Reduzida direto do DATASUS "
+                             "(mensal: 12 arquivos por ano) e dispensa o R.")
     parser.add_argument("--caminho", type=Path, nargs="*", default=[],
                         help="SIH exportado pelo 00_export_datazoom.R (.csv.gz/.parquet).")
     parser.add_argument("--anos", type=int, nargs="*", default=list(ANOS_PADRAO))

@@ -36,3 +36,20 @@ renv/staging/
 .DS_Store
 .ipynb_checkpoints/
 .vscode/
+
+# --- LaTeX: artefatos de compilação ---
+# O documento passou a compilar em 2026-08-25 (MiKTeX local), e a partir daí
+# `latexmk` deixa estes na pasta paper/. Só as FONTES são versionadas: .tex e
+# .bib. O .pdf é derivado — reconstrói com `latexmk -pdf paper/main.tex`.
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.synctex.gz
+*.toc
+paper/*.log
+paper/main.pdf

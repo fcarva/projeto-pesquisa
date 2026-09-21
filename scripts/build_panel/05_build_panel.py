@@ -297,6 +297,38 @@ def imprime_resumo(painel: pd.DataFrame, cultura: str, fonte: str) -> None:
 # CLI
 # --------------------------------------------------------------------------
 
+# ⚠️ O PAM não segue a convenção de nome dos painéis de desfecho, e a diferença
+# já quebrou o encontro das trilhas (E5). Os scripts 02/03/04 gravam **nome nu**
+# quando a fonte é real e `__simulado` quando não é; o script 01 grava SEMPRE o
+# nome da fonte — `__sidra`, `__arquivo` ou `__simulado` —, de propósito, para
+# que um diagnóstico simulado nunca ocupe o nome canônico.
+#
+# Procurar só por "" e "__simulado", como este script fazia, não acha o PAM real
+# e faz a mensagem de erro mandar rodar o script 01 que **já rodou**.
+SUFIXOS_PAM_REAIS = ("__sidra", "__arquivo", "")
+SUFIXO_SIMULADO = "__simulado"
+NOME_PAM = "pam_ce_muni_cultura_media"
+
+
+def resolve_pam(in_dir: Path, fonte: str = "auto") -> tuple[Path | None, str]:
+    """Acha o PAM na pasta e devolve (caminho, sufixo). (None, "") se não houver.
+
+    'real' nunca cai no simulado, e 'simulado' nunca sobe para o real: misturar
+    as duas fontes num painel é o tipo de erro que não se vê no resultado.
+    """
+    if fonte == "simulado":
+        candidatos = (SUFIXO_SIMULADO,)
+    elif fonte == "real":
+        candidatos = SUFIXOS_PAM_REAIS
+    else:
+        candidatos = SUFIXOS_PAM_REAIS + (SUFIXO_SIMULADO,)
+    for suf in candidatos:
+        caminho = in_dir / f"{NOME_PAM}{suf}.parquet"
+        if caminho.exists():
+            return caminho, suf
+    return None, ""
+
+
 def _le(caminho: Path):
     return pd.read_parquet(caminho) if caminho.exists() else None
 
@@ -331,14 +363,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
 
-    sufixo = "__simulado" if args.fonte == "simulado" else ""
-    pam_caminho = args.in_dir / f"pam_ce_muni_cultura_media{sufixo}.parquet"
-    if args.fonte == "auto" and not pam_caminho.exists():
-        pam_caminho = args.in_dir / "pam_ce_muni_cultura_media__simulado.parquet"
-        sufixo = "__simulado"
-    pam = _le(pam_caminho)
+    pam_caminho, pam_sufixo = resolve_pam(args.in_dir, args.fonte)
+    # Os painéis de desfecho seguem a OUTRA convenção: nome nu quando reais.
+    sufixo = SUFIXO_SIMULADO if pam_sufixo == SUFIXO_SIMULADO else ""
+
+    pam = _le(pam_caminho) if pam_caminho else None
     if pam is None:
-        print(f"[erro] PAM não encontrado em {pam_caminho}.")
+        procurados = ", ".join(
+            f"{NOME_PAM}{s}.parquet" for s in (SUFIXOS_PAM_REAIS + (SUFIXO_SIMULADO,))
+        )
+        print(f"[erro] PAM não encontrado em {args.in_dir}. Procurados: {procurados}")
         print("       Rode antes: python scripts/data_prep/01_check_dose_variation.py")
         return 1
 

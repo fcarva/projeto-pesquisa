@@ -51,10 +51,10 @@ import pandas as pd
 
 UF_CEARA = "23"
 CODMUNRES_DESCONHECIDO = "230000"
-ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)  # pré e pós-ban (jun/2019)
+ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)  # pré e pós-ban (vigência 09/01/2019)
 OUT_DIR = Path("data/processed")
 NOME_SAIDA = "nascimentos_ce_muni_mes"
-SEED = 20190613
+SEED = 20190613  # semente fixa; NÃO é a data do ban (vigência 09/01/2019)
 
 # Colunas do DATASUS/SINASC usadas aqui (nomes reais do dicionário).
 COLUNAS_SINASC = (
@@ -210,7 +210,7 @@ def deriva_prematuridade(semanas_limpas: pd.Series, gestacao: pd.Series) -> pd.D
     Devolve também `prematuro_por_faixa`: 1 quando o valor veio do fallback
     categórico. A cobertura de SEMAGESTAC muda ao longo dos anos, então essa
     proporção precisa entrar como checagem — se ela salta justamente em torno
-    de jun/2019, a mudança de mensuração vira ameaça à identificação, não
+    de 09/01/2019, a mudança de mensuração vira ameaça à identificação, não
     detalhe de limpeza.
     """
     por_semanas = pd.Series(
@@ -386,7 +386,12 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
                 arquivos = client._run_async(base.search(state="CE", year=ano))
                 for arquivo in arquivos:
                     parquet = client.download_to_parquet(arquivo)
-                    pedacos.append(parquet.to_dataframe())
+                    # ⚠️ `Parquet.load()` é COROTINA em 2.10.0 — precisa do
+                    # `_run_async`, igual a `datasets()` e `search()`. Chamar
+                    # direto devolve um objeto coroutine, e o erro só aparece
+                    # depois, como AttributeError num atributo de DataFrame.
+                    # (Não existe `to_dataframe()`; conferido rodando, não lendo.)
+                    pedacos.append(client._run_async(parquet.load()))
         if not pedacos:
             raise RuntimeError("pysus não devolveu arquivos para CE.")
         return pd.concat(pedacos, ignore_index=True)
@@ -544,7 +549,7 @@ def imprime_resumo(individual: pd.DataFrame | None, painel: pd.DataFrame, fonte:
     pequenas = painel["celula_pequena"].mean()
     print(f"peso ausente                   : {falta_peso:.2%}")
     print(f"gestação ausente               : {falta_gest:.2%}")
-    print(f"prematuridade vinda de GESTACAO: {fallback:.2%}  (checar salto em torno de jun/2019)")
+    print(f"prematuridade vinda de GESTACAO: {fallback:.2%}  (checar salto em torno de 01/2019)")
     print(f"células com <{CELULA_PEQUENA} nascimentos      : {pequenas:.1%}  (taxa é ruído; ponderar por n)")
     print(barra)
 

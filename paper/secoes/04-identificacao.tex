@@ -20,12 +20,13 @@
 
 A Lei Estadual nº 16.820/2019 entrou em vigor em 09 de janeiro de 2019 e vale
 para o Ceará inteiro de uma só vez. Não há, portanto, variação de \emph{timing}
-de adoção dentro do estado: a máquina de diferenças-em-diferenças escalonado não
-se aplica a este evento. A identificação vem de outra fonte de variação --- a
+de adoção dentro do estado: a máquina de diferenças-em-diferenças escalonado
+\citep{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplica a
+este evento. A identificação vem de outra fonte de variação --- a
 \textbf{intensidade pré-ban de exposição à pulverização aérea} entre os 184
 municípios cearenses ---, e o tratamento é, por construção, \textbf{contínuo}.
 
-O estimador é o de Callaway, Goodman-Bacon e Sant'Anna para tratamento contínuo.
+O estimador é o de \citet{callaway2024continuous}, para tratamento contínuo.
 Ele separa dois parâmetros que a literatura frequentemente confunde, e a
 distinção organiza toda esta seção:
 
@@ -265,9 +266,10 @@ estreitos demais. São reportados três procedimentos, lado a lado:
 
 \begin{enumerate}
   \item erro-padrão agrupado convencional, como linha de base;
-  \item \emph{wild cluster bootstrap} com pesos de Rademacher e nulo imposto ---
-    com a ressalva de que ele sub-rejeita quando os clusters tratados são poucos,
-    de modo que um valor-p alto informa mas um valor-p baixo não absolve;
+  \item \emph{wild cluster bootstrap} com pesos de Rademacher e nulo imposto
+    \citep{cameron2008wild} --- com a ressalva de que ele sub-rejeita quando os
+    clusters tratados são poucos, de modo que um valor-p alto informa mas um
+    valor-p baixo não absolve \citep{canay2021wild};
   \item \textbf{inferência por aleatorização} sobre a dose, que não depende de
     aproximação assintótica alguma e é, das três, a mais conservadora.
 \end{enumerate}
@@ -279,7 +281,7 @@ convencional indicar significância e a aleatorização não, a leitura correta 
 \end{quote}
 
 \paragraph{Nota de nomenclatura.} O procedimento de referência para poucas
-mudanças de política --- Conley e Taber --- foi construído para tratamento
+mudanças de política --- \citet{conley2011} --- foi construído para tratamento
 \textbf{binário}, usando resíduos do grupo de controle como distribuição de
 referência. Com tratamento contínuo, a adaptação fiel é permutar a dose. A lógica
 é a mesma; o procedimento não. Ele é nomeado aqui pelo que é.
