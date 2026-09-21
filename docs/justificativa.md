@@ -4,10 +4,11 @@
 > projeto de pesquisa (NBR 15287): prosa contínua, impessoal, sem subdivisão
 > interna, com citações autor-data (NBR 10520); as referências completas entram
 > na seção própria do projeto (NBR 6023) quando o `.bib` for conferido contra
-> DOI. Extensão de cerca de duas páginas e meia (893 palavras, ante 1.714 da
-> versão anterior). Hipóteses de identificação, limites e ressalvas de escopo
-> ficaram fora: na NBR 15287 são metodologia, e já estão em
-> `paper/secoes/04-identificacao.tex`. A versão longa de trabalho permanece no
+> DOI. Extensão de cerca de três páginas (1.143 palavras, ante 1.714 da versão
+> original). O argumento é causal: problema, lacuna, mecanismo pelo qual o
+> efeito viaja e instrumento que afere cada elo. Hipóteses de identificação,
+> aritmética de poder e limites de escopo ficaram fora — na NBR 15287 são
+> metodologia, e estão em `paper/secoes/04-identificacao.tex`. A versão longa de trabalho permanece no
 > histórico do repositório (commit `72c074a`). O quadro de proveniência ao final
 > é controle interno do repositório e também não integra o projeto entregue.
 
@@ -71,19 +72,39 @@ do dano e do custo marginais, a escolha entre proibir, taxar ou impor
 zonas-tampão consome a derivada que o primeiro estima — e é essa exigência que
 fixa o parâmetro-alvo na curva dose-resposta, não no efeito em um ponto único.
 
-A contribuição vem com preço declarado, e é o preço que sustenta a
-justificativa sob incerteza. O parâmetro-alvo exige hipótese de identificação
-mais forte do que a usual, e o poder estatístico é curto: contra efeito
-esperado de 15 a 25 gramas, o piso amostral de ruído do desenho é de
-aproximadamente 17,7 gramas. Daí que o entregável declarado inclua o resultado
-nulo informativo — sobre política que está sendo replicada, um nulo cujo
-intervalo exclua o efeito esperado é evidência publicável, desde que
-pré-especificado, pois o pipeline produz 31 séries candidatas a desfecho e o
-espaço de busca ultrapassa mil especificações. As hipóteses que sustentam o
-parâmetro-alvo, os limites de identificação parcial que delas decorrem e o que
-não se reivindica — o método e não a molécula, a dose como intenção de tratar,
-a janela encerrada em dezembro de 2024 com a exceção para drones — são
-desenvolvidos na seção de identificação.
+A proibição desliga um mecanismo físico, e é por ele que o efeito, se existir,
+tem de passar. A deriva torna a exposição difusa e populacional, não
+ocupacional: o que não atinge o alvo é carregado pelo vento sobre casas,
+escolas e corpos d'água, e escoa para as bacias de onde se capta água de
+consumo. Desligado o método, dois canais devem se mover — o do ar, ordenado
+pela posição relativa ao vento predominante na janela de aplicação, e o da
+água, comparando montante e jusante da mesma bacia, modulado pela
+vulnerabilidade cárstica do Jandaíra. Um terceiro deve se mover em sentido
+contrário: proibido o avião, a aplicação migra para trator e pulverizador
+costal, o que afasta o produto da população e o aproxima do aplicador. A
+previsão não é de um sinal, e sim de um padrão de sinais — queda da exposição
+difusa, alta da intoxicação aguda acidental e imobilidade da autoprovocada, que
+responde à disponibilidade da molécula, não ao modo de aplicá-la. É esse padrão
+que faz do desenho um teste, e não uma procura.
+
+Cada elo dessa cadeia tem um instrumento de medida, e nenhum afere exatamente o
+conceito que o elo pede — declarar a distância entre um e outro é parte do que
+a pesquisa entrega. A dose é a área plantada média de 2015 a 2018 na Produção
+Agrícola Municipal: mede intenção de plantio, não aplicação aérea efetiva, e
+sua janela é inteiramente posterior ao primeiro sinal público da proibição,
+podendo já conter o ajuste à expectativa. A aptidão agroclimática da FAO-GAEZ
+instrumenta *onde* a cultura de alta pulverização se estabelece, mas não *como*
+se aplica: cobre metade da endogeneidade.
+
+A exposição tampouco é contemporânea ao desfecho — um nascimento de março de
+2019 foi gestado sobretudo antes da vigência —, e por isso se retroprojeta
+sobre janela gestacional fixa, fixa porque a duração observada é ela própria
+desfecho. O zero da comparação é zero de proxy, não de tratamento, e o peso só
+se observa em quem nasce vivo, razão por que o registro de óbito fetal é fonte
+de primeira linha, e não acessório. Somadas, essas escolhas dizem o que se
+poderá afirmar ao final: um efeito de intenção de tratar, com desfechos e
+resolução declarados antes do dado — o pipeline admite mais de mil
+especificações, e é a pré-especificação que separa achado de procura.
 
 A pesquisa é viável no prazo. O pipeline de estimação está completo e testado de
 ponta a ponta, em oito etapas e 92 testes automatizados, a estratégia de
@@ -110,8 +131,12 @@ cronograma até a qualificação está organizado em etapas com portão falsific
 | Larsen, Gaines e Deschênes (2017), Nat. Commun.; topo 5% | **V** | `doi:10.1038/s41467-017-00349-2`, pmid 28851866 |
 | Camacho e Mejía (2017), J. Health Econ. | **V** | `doi:10.1016/j.jhealeco.2017.04.005`, pmid 28570914 |
 | Dias, Rocha e Soares (2023), REStud; Greenstone e Hanna (2014), AER; Weitzman (1974), REStud | **C** | fora do índice alcançável; conferir no CAPES |
-| Efeito esperado de 15–25 g; piso amostral de ruído ≈ 17,7 g | **D** | `docs/ars/08-briefing-orientador.md` §D2 |
-| 31 séries, > 1.000 especificações | **D** | idem §D7 |
+| Deriva como exposição difusa; canais ar e água; canal de substituição com sinal oposto | **D** | `paper/secoes/02-background.tex` §2.4; `docs/ars/03-modelagem-ensaio1.md` §6 |
+| Intoxicação acidental responde ao método; autoprovocada, à disponibilidade | **C** | `scripts/data_prep/04_clean_poisoning.py` ⚠️ leitura dos códigos da CID-10 a conferir |
+| Dose = área plantada PAM 2015–2018, janela posterior ao marco de notícia; GAEZ cobre *onde*, não *como*; zero de proxy | **D** | `paper/secoes/04-identificacao.tex` §4.2; `docs/ars/03-modelagem-ensaio1.md` §§5.2–5.3 |
+| Retroprojeção em janela gestacional fixa; peso condicional a nascer vivo | **D** | `paper/secoes/04-identificacao.tex` §4.3; `docs/ars/03-modelagem-ensaio1.md` §7 |
+| Vulnerabilidade cárstica do Jandaíra modula o canal-água | **C** | `docs/ars/03-modelagem-ensaio1.md` §6.2 ⚠️ mapa CPRM/SGB não confirmado como público |
+| > 1.000 especificações no espaço de busca | **D** | `docs/ars/08-briefing-orientador.md` §D7 |
 | 8 etapas, 92 testes | **D** | `scripts/`, `tests/test_data_prep.py` |
 | NBR 15287, NBR 10520, NBR 6023 (formato adotado) | **C** | conferir edição vigente das normas |
 
@@ -122,5 +147,5 @@ manda o `CLAUDE.md`.
 
 *Quando a Introdução do Ensaio 1 for redigida — por último, pela fórmula de
 Head —, os quatro primeiros parágrafos são promovidos a hook, antecedentes,
-value added e pergunta; o quinto se distribui entre identificação e limitações;
-o sexto permanece só na versão de projeto.*
+value added e pergunta; o quinto, o sexto e o sétimo alimentam a seção de
+identificação; o oitavo permanece só na versão de projeto.*
