@@ -169,7 +169,26 @@ def mde(dp_g: float, n_tratados: int, n_controles: int) -> float:
     return Z_PODER * dp_g * np.sqrt(1 / n_tratados + 1 / n_controles)
 
 
+def _saida_utf8() -> None:
+    """Força UTF-8 na saída antes de qualquer print.
+
+    Mesmo guarda dos scripts 01–06: no Windows o pipe que captura a saída usa a
+    codepage da locale (cp1252 em pt-BR), que não encoda ─ ⚠ ✔ ✘ → ≥, e o script
+    morre de UnicodeEncodeError DEPOIS de ter feito o trabalho.
+
+    ⚠️ Este script ficou de fora da primeira passada porque era untracked — e
+    quebrava em `line 265`, na tabela das vias da §7, com a decomposição inteira
+    já calculada e perdida. É o script que decide a leitura do gate E1.5.
+    """
+    for fluxo in (sys.stdout, sys.stderr):
+        try:
+            fluxo.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
 def main() -> int:
+    _saida_utf8()
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--fonte", choices=("pysus", "arquivos"), default="pysus")
     p.add_argument("--caminho", nargs="*", default=None)

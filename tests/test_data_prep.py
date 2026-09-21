@@ -1356,11 +1356,19 @@ def test_formas_incompativeis_falham_alto():
 #     04 robustez       ← ⚠️      <- portão
 #     03 obito fetal    ⚠️        <- portão
 #     02 nascimentos    nenhum    <- NÃO é portão: aqui ele só produz o parquet
+#     07 diagnose DP    ─ ⚠️ ✔     <- portão, mas NÃO coberto aqui — ver abaixo
 #     06 gaez (erro)    nenhum
 #
 # Verificado removendo o guarda de cada script: com o do 02 fora, o teste passa
 # do mesmo jeito; com o do 01 fora, falha em '\u2718'. Se algum dia o script 02
 # ganhar um símbolo na saída, ele vira portão também — por ora, não é.
+#
+# ⚠️ O script 07 ficou fora da primeira passada por ser untracked, e quebrava de
+# verdade — `line 265`, com a decomposição inteira já calculada e perdida. O
+# guarda foi aplicado e conferido à mão sob cp1252 nativo (exit 0), mas ele NÃO
+# entra nos testes por subprocess: não tem `--fonte simulado` e só roda contra o
+# SINASC pela rede. Cobertura por inspeção, não por portão — se algum dia ganhar
+# modo simulado, promover a portão aqui.
 
 
 def _roda_sob_cp1252(args: list[str], saida) -> subprocess.CompletedProcess:
