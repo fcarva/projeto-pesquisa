@@ -86,6 +86,55 @@ suppressPackageStartupMessages({
 # ── argumentos ───────────────────────────────────────────────────────────────
 
 args <- commandArgs(trailingOnly = TRUE)
+
+CONHECIDOS <- c("--painel", "--desfecho", "--exposicao", "--saida",
+                "--corte-pre", "--corte-pos", "--biters", "--control-group")
+
+uso <- function() {
+  cat("E6 — CGS tratamento contínuo (Callaway, Goodman-Bacon & Sant'Anna)
+
+")
+  cat("  Rscript scripts/estimate/03_contdid.R [opções]
+
+")
+  cat("  --painel         parquet do painel   [data/processed/painel_ensaio1.parquet]
+")
+  cat("  --desfecho       coluna do desfecho  [peso_medio]
+")
+  cat("  --exposicao      coluna de exposição [share_gestacao_pos_ban]
+")
+  cat("  --saida          pasta de saída      [data/processed]
+")
+  cat("  --corte-pre      último mês pré      [2018-12]
+")
+  cat("  --corte-pos      primeiro mês pós    [2019-10]
+")
+  cat("  --biters         réplicas bootstrap  [1000]
+")
+  cat("  --control-group  grupo de comparação [nevertreated]
+")
+  cat("  --help           esta mensagem
+
+")
+  cat("⚠️ Este script ESTIMA. Ele não é diagnóstico.
+")
+}
+
+# ⚠️ Rejeitar flag desconhecida, e o motivo não é preciosismo. Antes disto,
+# `le()` ignorava em silêncio o que não reconhecia: rodar com `--help` NÃO
+# imprimia ajuda — ia direto estimar contra o painel real. Aconteceu em
+# 2026-09-21. O portão do `make real` não protege contra isso, porque o script
+# roda sozinho. Um estimador que estima ao receber flag errada é armadilha.
+if ("--help" %in% args || "-h" %in% args) { uso(); quit(status = 0) }
+desconhecidas <- setdiff(grep("^--", args, value = TRUE), CONHECIDOS)
+if (length(desconhecidas) > 0) {
+  cat("[erro] opção desconhecida:", paste(desconhecidas, collapse = ", "), "
+
+")
+  uso()
+  quit(status = 2)
+}
+
 le <- function(nome, padrao) {
   i <- which(args == nome)
   if (length(i) == 0) padrao else args[i + 1]
@@ -98,6 +147,28 @@ saida <- le("--saida", "data/processed")
 corte_pre <- le("--corte-pre", "2018-12")
 corte_pos <- le("--corte-pos", "2019-10")
 biters <- as.integer(le("--biters", "1000"))
+
+# ⚠️ ESCOLHA DE IDENTIFICAÇÃO, não detalhe técnico. Decidida pelo pesquisador
+# em 2026-09-21 e registrada aqui porque o CLAUDE.md manda perguntar antes de
+# mexer em identificação.
+#
+# Duas coisas se somam aqui:
+#
+# 1. O default do `contdid` v0.1.1 é
+#    `c("notyettreated","nevertreated","eventuallytreated")` — vetor de 3 —,
+#    mas a asserção interna do pacote exige escalar atômico. **O default viola
+#    a própria asserção**, então `cont_did` não roda sem este argumento
+#    explícito. Conferido em `formals(contdid::cont_did)`.
+# 2. O ban do Ceará é **simultâneo**: não existe "not yet treated" em sentido
+#    de timing. A comparação é por dose, e o grupo de comparação é o `d = 0`.
+#
+# ⚠️ E é aqui que a flag 5 do CLAUDE.md morde: `"nevertreated"` são os `d = 0`,
+# que a flag 5 diz NÃO serem zero de tratamento — o §2º do art. 28-B alcança
+# controle vetorial aéreo, e área nula na PAM é zero de *proxy*. A escolha
+# deste argumento e a construção do zero são a MESMA decisão. Qual das quatro
+# construções de `d = 0` está em uso tem de estar declarado na §4 da
+# pré-especificação junto com esta linha.
+control_group <- le("--control-group", "nevertreated")
 
 dir.create(saida, recursive = TRUE, showWarnings = FALSE)
 
@@ -207,6 +278,7 @@ for (alvo in c("level", "slope")) {
       aggregation = "dose",
       treatment_type = "continuous",
       dose_est_method = "cck",
+      control_group = control_group,
       biters = biters,
       cband = TRUE
     ),
@@ -267,6 +339,7 @@ es <- tryCatch(
     aggregation = "eventstudy",
     treatment_type = "continuous",
     dose_est_method = "parametric",
+    control_group = control_group,
     biters = biters,
     cband = TRUE
   ),
