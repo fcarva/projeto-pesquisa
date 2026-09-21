@@ -1357,6 +1357,8 @@ def test_formas_incompativeis_falham_alto():
 #     03 obito fetal    ⚠️        <- portão
 #     02 nascimentos    nenhum    <- NÃO é portão: aqui ele só produz o parquet
 #     07 diagnose DP    ─ ⚠️ ✔     <- portão, mas NÃO coberto aqui — ver abaixo
+#     08 alvos legisl. ─ ⚠️ ✘     <- portão, e COBERTO: aceita --cache-nomes,
+#                                    então prende sem depender de rede
 #     06 gaez (erro)    nenhum
 #
 # Verificado removendo o guarda de cada script: com o do 02 fora, o teste passa
@@ -1524,3 +1526,480 @@ def test_resolve_pam_nao_mistura_as_duas_fontes(tmp_path):
 
 def test_resolve_pam_sem_arquivo_devolve_none(tmp_path):
     assert painel.resolve_pam(tmp_path, "auto") == (None, "")
+
+
+# --------------------------------------------------------------------------
+# 08_alvos_legislativos.py — quem varrer, e o trabalho manual que não pode sumir
+# --------------------------------------------------------------------------
+
+alvos = _carrega("08_alvos_legislativos.py")
+
+
+def _pam_sintetico(n_muni=50):
+    """PAM com duas culturas: uma de alta pulverização, uma comparadora."""
+    linhas = []
+    for i in range(n_muni):
+        linhas.append({"cod_ibge6": f"23{i:04d}", "cultura": "Banana (cacho)",
+                       "area_ha_media": float(n_muni - i)})
+        linhas.append({"cod_ibge6": f"23{i:04d}", "cultura": "Mandioca",
+                       "area_ha_media": float(i + 1)})
+    return pd.DataFrame(linhas)
+
+
+def test_decil_usa_a_mesma_conta_do_script_07():
+    """⚠️ O decil daqui TEM de ser o do 07: é ele que produz `n_tratados` na
+    tabela de MDE, logo é ele cuja contaminação por ban municipal importa.
+    Duas definições de 'tratado' no mesmo repositório fariam a varredura cobrir
+    um grupo diferente do que o poder usa — e ninguém notaria."""
+    d = alvos.decil_superior(_pam_sintetico(50))
+    for cultura, bloco in d.groupby("cultura"):
+        assert len(bloco) == int(np.ceil(50 * 0.10))   # == max(1, ceil(n*0.10))
+
+
+def test_comparador_casa_apesar_do_qualificador_do_sidra():
+    """O rótulo do SIDRA vem com qualificador; o casamento é por prefixo."""
+    assert alvos.e_comparador("Milho (em grão)")
+    assert alvos.e_comparador("Arroz (em casca)")
+    assert alvos.e_comparador("Mandioca")
+    assert not alvos.e_comparador("Banana (cacho)")
+    assert not alvos.e_comparador("Melão")
+
+
+def test_prioridade_separa_alta_pulverizacao_de_comparador():
+    """Quem só aparece no decil de mandioca não é alvo prioritário."""
+    t = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
+    # os de maior área de banana entram como prioridade 1
+    assert t[t.cod_ibge6 == "230000"]["prioridade"].iloc[0] == 1
+    # os do topo da mandioca (área cresce com i) são só comparador
+    so_mandioca = t[t.motivo_alvo.str.startswith("Mandioca")]
+    assert not so_mandioca.empty
+    assert (so_mandioca["prioridade"] == 2).all()
+
+
+def test_rigotto_entra_mesmo_fora_do_decil():
+    """Os três municípios expostos entram por construção, como prioridade 1."""
+    t = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
+    for cod in alvos.RIGOTTO:
+        linha = t[t.cod_ibge6 == cod]
+        assert not linha.empty, f"{cod} devia entrar por Rigotto"
+        assert linha["prioridade"].iloc[0] == 1
+
+
+def test_mesclar_preserva_o_levantamento_manual(tmp_path):
+    """⚠️ A regressão que mais custaria caro. Varredura de câmara é trabalho
+    manual e não se reproduz sozinho: uma segunda rodada do script — depois de
+    trocar a cultura-âncora, por exemplo — NÃO pode apagar o que já se achou."""
+    destino = tmp_path / "bans.csv"
+    primeira = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
+    primeira.to_csv(destino, index=False)
+
+    # alguém varreu e achou uma lei
+    achado = pd.read_csv(destino, dtype=str).fillna("")
+    alvo = achado.loc[achado.index[0], "cod_ibge6"]
+    achado.loc[achado.index[0], ["tem_lei", "numero_lei", "confianca"]] =         ["sim", "999/2011", "confirmado"]
+    achado.to_csv(destino, index=False)
+
+    segunda = alvos.mescla_com_existente(
+        alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {}), destino)
+    linha = segunda[segunda.cod_ibge6 == alvo].iloc[0]
+    assert linha["numero_lei"] == "999/2011"
+    assert linha["confianca"] == "confirmado"
+
+
+def test_semente_nao_sobrescreve_varredura_posterior():
+    """A semente do Limoeiro preenche o branco, não corrige quem já olhou."""
+    base = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
+    base.loc[base.cod_ibge6 == "230760", ["confianca", "numero_lei"]] =         ["ausente_conferido", "nada"]
+    depois = alvos.aplica_semente(base)
+    assert depois[depois.cod_ibge6 == "230760"]["numero_lei"].iloc[0] == "nada"
+
+
+def test_resolve_pam_do_08_nao_mistura_fontes(tmp_path):
+    """Mesma regra do script 05: 'real' nunca cai no simulado."""
+    (tmp_path / f"{alvos.NOME_PAM}__simulado.parquet").write_bytes(b"x")
+    assert alvos.resolve_pam(tmp_path, "real") == (None, "")
+    assert alvos.resolve_pam(tmp_path, "simulado")[1] == "__simulado"
+
+
+def _roda_sob_cp1252_bruto(args: list[str]) -> subprocess.CompletedProcess:
+    """Como `_roda_sob_cp1252`, mas sem cravar `--out-dir`.
+
+    O script 08 não tem essa flag: ele escreve em `docs/`, não em
+    `data/processed/`, porque o produto é tabela derivada que precisa ser
+    **visível ao git** — `data/` é gitignored, e um arquivo ali nunca chega às
+    sessões remotas.
+    """
+    return subprocess.run(
+        [sys.executable, *args],
+        capture_output=True,
+        cwd=RAIZ,
+        env={**os.environ, "PYTHONIOENCODING": "cp1252"},
+    )
+
+
+def test_alvos_legislativos_sobrevive_a_cp1252(tmp_path):
+    """⚠️ Portão de cp1252 para o script 08, e ele prende SEM REDE.
+
+    Diferente do 07 — que só roda contra o SINASC e por isso ficou fora dos
+    testes por subprocess —, o 08 aceita `--cache-nomes`, então a API de
+    localidades do IBGE pode ser pré-semeada. É o que torna este um portão de
+    verdade e não um teste que depende do dia.
+
+    O caminho exercitado imprime `⚠️`, `✘` e `─`, que é a família que quebra."""
+    import json
+
+    pam = pd.DataFrame({
+        "cod_ibge6": ["230760", "230010", "230020"],
+        "cultura": ["Banana (cacho)"] * 3,
+        "area_ha_media": [100.0, 50.0, 10.0],
+    })
+    pam.to_parquet(tmp_path / f"{alvos.NOME_PAM}__simulado.parquet", index=False)
+
+    cache = tmp_path / "nomes.json"
+    cache.write_text(json.dumps(
+        [{"id": 2307601, "nome": "Limoeiro do Norte"},
+         {"id": 2300101, "nome": "Abaiara"},
+         {"id": 2300200, "nome": "Acarapé"}], ensure_ascii=False), encoding="utf-8")
+
+    r = _roda_sob_cp1252_bruto([
+        "scripts/data_prep/08_alvos_legislativos.py",
+        "--fonte", "simulado",
+        "--dir-dados", str(tmp_path),
+        "--cache-nomes", str(cache),
+        "--destino", str(tmp_path / "bans.csv"),
+    ])
+    _exige_saida_limpa(r)
+    assert (tmp_path / "bans.csv").exists()
+
+
+def test_alvos_legislativos_falha_legivel_sem_pam(tmp_path):
+    """Sem PAM ele tem de dizer o que rodar, não estourar — e a mensagem sai
+    com `✘`, que em cp1252 é exatamente o que mata sem o guarda."""
+    r = _roda_sob_cp1252_bruto([
+        "scripts/data_prep/08_alvos_legislativos.py",
+        "--fonte", "sidra",
+        "--dir-dados", str(tmp_path),
+        "--destino", str(tmp_path / "bans.csv"),
+    ])
+    erro = r.stderr.decode("utf-8", errors="replace")
+    assert "UnicodeEncodeError" not in erro, erro[-2000:]
+    assert r.returncode == 1              # falha declarada, não acidente
+    assert b"01_check_dose_variation" in r.stdout   # diz o que rodar antes
+
+
+# --------------------------------------------------------------------------
+# ban_municipal_data no painel — a distinção que NÃO pode morrer na fronteira
+# --------------------------------------------------------------------------
+
+def _csv_bans(tmp_path, linhas):
+    caminho = tmp_path / "bans.csv"
+    pd.DataFrame(linhas).to_csv(caminho, index=False)
+    return caminho
+
+
+def test_carrega_bans_preserva_a_distincao_de_confianca(tmp_path):
+    """⚠️ A regressão central. `inconclusivo` (ninguém conseguiu conferir) e
+    `ausente_conferido` (conferido, não há lei) têm data vazia NOS DOIS CASOS.
+    Se o painel levasse só a data, os dois virariam NaT e ficariam
+    indistinguíveis de um município comprovadamente não tratado — e a estimação
+    trataria "não sei" como "não". É a falha silenciosa que a varredura inteira
+    existe para evitar."""
+    c = _csv_bans(tmp_path, [
+        {"cod_ibge6": "230760", "data_lei": "2009-11-20", "confianca": "confirmado"},
+        {"cod_ibge6": "230010", "data_lei": "", "confianca": "ausente_conferido"},
+        {"cod_ibge6": "230020", "data_lei": "", "confianca": "inconclusivo"},
+    ])
+    b = painel.carrega_bans_municipais(c).set_index("cod_ibge6")
+    assert pd.isna(b.loc["230010", "ban_municipal_data"])
+    assert pd.isna(b.loc["230020", "ban_municipal_data"])
+    # ...mas a confiança separa os dois, que é o ponto
+    assert b.loc["230010", "ban_municipal_confianca"] == "ausente_conferido"
+    assert b.loc["230020", "ban_municipal_confianca"] == "inconclusivo"
+    assert b.loc["230760", "ban_municipal_data"] == pd.Timestamp("2009-11-20")
+
+
+def test_municipio_fora_do_csv_vira_nao_verificado(tmp_path):
+    """Quem a varredura nem alcançou NÃO pode entrar como 'não tratado'."""
+    medias, nasc = _medias_e_painel()
+    c = _csv_bans(tmp_path, [{"cod_ibge6": "999999", "data_lei": "",
+                              "confianca": "ausente_conferido"}])
+    p = painel.monta_painel(medias, "Melão", nasc,
+                            bans=painel.carrega_bans_municipais(c))
+    assert (p["ban_municipal_confianca"] == "nao_verificado").all()
+    assert p["ban_municipal_data"].isna().all()
+
+
+def test_ban_nao_altera_a_grade_do_painel():
+    """O merge não pode duplicar célula nem perder município — 184×96 é o
+    invariante que o gate E5 estabeleceu."""
+    medias, nasc = _medias_e_painel()
+    sem = painel.monta_painel(medias, "Melão", nasc, bans=pd.DataFrame(
+        columns=["cod_ibge6", "ban_municipal_data", "ban_municipal_confianca"]))
+    com = painel.monta_painel(medias, "Melão", nasc, bans=pd.DataFrame({
+        "cod_ibge6": [medias["cod_ibge6"].iloc[0]],
+        "ban_municipal_data": [pd.Timestamp("2009-11-20")],
+        "ban_municipal_confianca": ["confirmado"]}))
+    assert len(sem) == len(com)
+    assert sem["cod_ibge6"].nunique() == com["cod_ibge6"].nunique()
+    assert com["ban_municipal_data"].notna().any()
+
+
+def test_sem_arquivo_de_bans_o_painel_ainda_monta(tmp_path):
+    """A varredura pode não ter rodado. O painel não pode quebrar por isso —
+    mas também não pode fingir que ninguém tem ban."""
+    b = painel.carrega_bans_municipais(tmp_path / "nao-existe.csv")
+    assert b.empty
+    medias, nasc = _medias_e_painel()
+    p = painel.monta_painel(medias, "Melão", nasc, bans=b)
+    assert (p["ban_municipal_confianca"] == "nao_verificado").all()
+
+
+# --------------------------------------------------------------------------
+# 10_clean_sinan_iexo.py — o canal A5, e os códigos conferidos
+# --------------------------------------------------------------------------
+
+sinan = _carrega("10_clean_sinan_iexo.py")
+
+
+def test_trunca_o_digito_verificador_do_id_municip():
+    """⚠️ ID_MUNICIP tem 7 dígitos; cod_ibge6 tem 6. Sem truncar, o join com o
+    painel de nascimentos não casa — e não casa EM SILÊNCIO."""
+    d = pd.DataFrame({"ID_MUNICIP": ["2307601", "2311504", "1234567"]})
+    r = sinan.filtra_ceara(d)
+    assert list(r["cod_ibge6"]) == ["230760", "231150"]   # o de fora do CE sai
+
+
+def test_descarta_municipio_ignorado():
+    """230000 é unidade sem denominador possível — mesma regra dos scripts 02/03."""
+    d = pd.DataFrame({"ID_MUNICIP": ["2300000", "2307601"]})
+    assert list(sinan.filtra_ceara(d)["cod_ibge6"]) == ["230760"]
+
+
+def test_circunstancia_separa_intencional_de_nao_intencional():
+    """⚠️ O contraste que É o placebo. 03 (ambiental) entra como NÃO
+    intencional — foi o que a conferência do dicionário acrescentou à leitura
+    suposta do gates doc, que só previa 02."""
+    d = pd.DataFrame({"ID_MUNICIP": ["2307601"] * 6,
+                      "AGENTE_TOX": ["02"] * 6,
+                      "CIRCUNSTAN": ["01", "02", "03", "10", "12", "99"]})
+    r = sinan.classifica(d)
+    assert list(r["nao_intencional"]) == [True, True, True, False, False, False]
+    assert list(r["intencional"]) == [False, False, False, True, True, False]
+    assert r["circunstancia_ignorada"].sum() == 1      # o 99
+
+
+def test_agente_04_e_a_flag_5_e_nao_se_confunde_com_agricola():
+    """04 é controle vetorial (o §2º do art. 28-B). Colapsá-lo em 02 poria
+    contaminação do d=0 dentro do próprio canal A5."""
+    d = pd.DataFrame({"ID_MUNICIP": ["2307601"] * 3,
+                      "AGENTE_TOX": ["02", "03", "04"], "CIRCUNSTAN": ["02"] * 3})
+    r = sinan.classifica(d)
+    assert list(r["agrotoxico_agricola"]) == [True, False, False]
+    assert list(r["agrotoxico_saude_publica"]) == [False, False, True]
+    assert list(r["agrotoxico_domestico"]) == [False, True, False]
+
+
+def test_preflight_reprova_sem_coluna_essencial():
+    """⚠️ Filtro contra coluna ausente não dá erro — dá vazio. O preflight
+    existe para o vazio virar exceção em vez de conclusão."""
+    ok, notas = sinan.preflight(pd.DataFrame({"ID_MUNICIP": ["2307601"]}))
+    assert not ok and "DT_NOTIFIC" in notas
+    ok2, _ = sinan.preflight(pd.DataFrame({"ID_MUNICIP": ["x"], "DT_NOTIFIC": ["y"]}))
+    assert ok2
+
+
+def test_colapso_preserva_o_cruzamento_agricola_x_intencao():
+    """O canal precisa do cruzamento, não só das marginais."""
+    d = pd.DataFrame({
+        "ID_MUNICIP": ["2307601"] * 4,
+        "DT_NOTIFIC": ["20150310"] * 4,
+        "AGENTE_TOX": ["02", "02", "04", "02"],
+        "CIRCUNSTAN": ["02", "10", "02", "03"]})
+    painel = sinan.colapsa_muni_mes(sinan.extrai_ano_mes(sinan.classifica(
+        sinan.filtra_ceara(d))))
+    linha = painel.iloc[0]
+    assert linha["n_agricola"] == 3
+    assert linha["n_agricola_nao_intencional"] == 2   # 02 e 03
+    assert linha["n_agricola_intencional"] == 1      # o 10
+
+
+def test_mil_nao_come_virgula_literal():
+    """⚠️ Regressão: `f"{n:,}".replace(",", ".")` na linha inteira transformava
+    '01,02,03' em '01.02.03' e 'CE, pós-limpeza' em 'CE. pós-limpeza'."""
+    assert sinan._mil(1517) == "1.517"
+    assert sinan._mil(266) == "266"
+
+
+# --------------------------------------------------------------------------
+# 11_clean_populacao.py — o denominador, e a quebra censitária
+# --------------------------------------------------------------------------
+
+pop_mod = _carrega("11_clean_populacao.py")
+
+
+def test_trunca_codigo_de_7_digitos_do_sidra():
+    """D1C do SIDRA tem 7 dígitos; cod_ibge6 tem 6. Sem truncar, nada casa."""
+    r = pop_mod._sidra_para_longo([
+        {"D1C": "2307601", "D3N": "2015", "V": "56264"}])
+    assert r.loc[0, "cod_ibge6"] == "230760"
+    assert r.loc[0, "populacao"] == 56264
+
+
+def test_descarta_codigos_de_ausencia_do_sidra():
+    """'-', '..', 'X' são ausência no SIDRA, não zero. Virar 0 faria a taxa
+    explodir para infinito em vez de sumir."""
+    r = pop_mod._sidra_para_longo([
+        {"D1C": "2307601", "D3N": "2015", "V": "-"},
+        {"D1C": "2311504", "D3N": "2015", "V": ".."},
+        {"D1C": "2311801", "D3N": "2015", "V": "70000"}])
+    assert list(r["cod_ibge6"]) == ["231180"]
+
+
+def test_ano_censitario_esta_declarado():
+    """⚠️ Regressão. 2022 NÃO tem estimativa na tabela 6579 — conferido rodando:
+    zero registros. Sem o recurso à tabela do Censo o último ano do painel sai
+    com denominador NaN e a taxa some em silêncio."""
+    assert 2022 in pop_mod.ANOS_CENSITARIOS
+    tabela, variavel = pop_mod.ANOS_CENSITARIOS[2022]
+    assert tabela != pop_mod.TABELA        # tem de ser OUTRA tabela
+    assert variavel != pop_mod.VARIAVEL
+
+
+def test_simulado_marca_a_origem_do_numero():
+    """A distinção estimativa/censo viaja NA TABELA, não só no docstring."""
+    r = pop_mod.simula_populacao(anos=(2021, 2022))
+    assert set(r["origem"]) == {"estimativa", "censo"}
+    assert (r[r.ano == 2022]["origem"] == "censo").all()
+
+
+def test_painel_calcula_taxa_e_preserva_a_grade():
+    """A população não pode duplicar célula — 184×96 é o invariante do E5."""
+    medias, nasc = _medias_e_painel()
+    codigos = medias["cod_ibge6"].unique()
+    pop = pd.DataFrame([{"cod_ibge6": c, "ano": a, "populacao": 10_000,
+                         "populacao_origem": "estimativa"}
+                        for c in codigos for a in range(2015, 2023)])
+    sem = painel.monta_painel(medias, "Melão", nasc)
+    com = painel.monta_painel(medias, "Melão", nasc, populacao=pop)
+    assert len(sem) == len(com)
+    assert com["populacao"].notna().all()
+
+
+def test_sem_populacao_o_painel_ainda_monta():
+    """A coluna existe mesmo sem o arquivo — mas vazia, não zero."""
+    medias, nasc = _medias_e_painel()
+    p = painel.monta_painel(medias, "Melão", nasc, populacao=pd.DataFrame())
+    assert "populacao" in p.columns
+    assert p["populacao"].isna().all()
+
+
+# --------------------------------------------------------------------------
+# SINAN no painel — zero só dentro da cobertura
+# --------------------------------------------------------------------------
+
+def _sinan_parcial(codigos, anos):
+    """Painel SINAN cobrindo SÓ os anos pedidos."""
+    return pd.DataFrame([
+        {"cod_ibge6": c, "ano": a, "mes": m, "n_notificacoes": 1,
+         "n_agricola": 1, "n_agricola_nao_intencional": 1}
+        for c in codigos[:3] for a in anos for m in (1, 6)])
+
+
+def test_ano_sem_download_do_sinan_vira_nan_nao_zero():
+    """⚠️ A regressão mais cara desta rodada, e eu mesmo a criei antes de pegá-la.
+
+    `fillna(0)` cego transforma 'ano nunca baixado' em 'zero notificações'. Num
+    painel 2015–2022 com só 2015 baixado, isso diz que o canal A5 **desapareceu
+    a partir de 2016** — que é justamente o ano seguinte ao início da janela e
+    logo antes do ban. Achado espúrio pronto, saído de preenchimento de NaN.
+    """
+    medias, nasc = _medias_e_painel()
+    codigos = list(medias["cod_ibge6"].unique())
+    p = painel.monta_painel(medias, "Melão", nasc,
+                            sinan=_sinan_parcial(codigos, [2015]))
+    dentro = p[p["ano"] == 2015]
+    fora = p[p["ano"] > 2015]
+    assert dentro["sinan_n_agricola"].notna().all(), "2015 foi baixado: 0 é legítimo"
+    assert fora["sinan_n_agricola"].isna().all(), "ano não baixado tem de ser NaN"
+    assert not fora["sinan_ano_coberto"].any()
+
+
+def test_zero_legitimo_sobrevive_dentro_da_cobertura():
+    """Município-mês sem notificação, dentro de ano baixado, É zero — não NaN.
+    Confundir os dois na outra direção apagaria a ausência real de eventos."""
+    medias, nasc = _medias_e_painel()
+    codigos = list(medias["cod_ibge6"].unique())
+    p = painel.monta_painel(medias, "Melão", nasc,
+                            sinan=_sinan_parcial(codigos, [2015]))
+    em_2015 = p[p["ano"] == 2015]
+    # meses 2..5 e 7..12 não estão no fixture, mas o ano está coberto
+    assert (em_2015["sinan_n_agricola"] == 0).any()
+
+
+def test_sinan_entra_prefixado_e_nao_colide_com_o_sih():
+    """SIH e SINAN medem coisas diferentes — internação faturada contra
+    notificação compulsória —, e diferem por duas ordens de grandeza. Deixar
+    `n_agricola` nu ao lado de `n_acidental` convidaria a somá-los."""
+    medias, nasc = _medias_e_painel()
+    codigos = list(medias["cod_ibge6"].unique())
+    p = painel.monta_painel(medias, "Melão", nasc,
+                            sinan=_sinan_parcial(codigos, [2015, 2016]))
+    assert "sinan_n_agricola" in p.columns
+    assert "n_agricola" not in p.columns
+
+
+# --------------------------------------------------------------------------
+# GAEZ no painel — o instrumento, e a ordem percentil→recorte
+# --------------------------------------------------------------------------
+
+def test_percentil_e_nacional_nao_estadual():
+    """⚠️ O erro nº 2 da lista do script 06, e ele passa verde: ranquear só o
+    Ceará dá a posição DENTRO do estado, não no país — número plausível em
+    [0,1], instrumento errado. O percentil tem de ver a distribuição inteira
+    antes de qualquer recorte."""
+    nacional = np.array([1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    p_nac = gaez.percentil_nacional(nacional)
+    # os três últimos são o topo do país
+    assert p_nac[-1] == pytest.approx(1.0)
+    # se ranqueássemos só esse subconjunto, o menor deles viraria 0.0
+    p_sub = gaez.percentil_nacional(nacional[-3:])
+    assert p_sub[0] == pytest.approx(0.0)
+    assert p_nac[-3] > 0.5, "no ranking nacional ele NÃO é o menor"
+
+
+def test_percentil_ignora_ausente_em_vez_de_imputar():
+    """Terra sem dado não entra no ranking. Imputar pela mediana poria terra
+    desconhecida no meio da distribuição — afirmação, não dado."""
+    v = np.array([1.0, np.nan, 3.0])
+    r = gaez.percentil_nacional(v)
+    assert np.isnan(r[1])
+    assert r[0] == pytest.approx(0.0) and r[2] == pytest.approx(1.0)
+
+
+def test_diferenca_de_insumo_nao_e_o_nivel():
+    """A receita é ALTO menos BAIXO. Usar o nível troca o instrumento por outra
+    coisa — fertilidade em vez de resposta a insumo — e nada acusa."""
+    alto = np.array([100.0, 100.0])
+    baixo = np.array([90.0, 10.0])
+    d = gaez.diferenca_insumo(alto, baixo)
+    assert d[1] > d[0], "a terra que responde mais a insumo tem diferença maior"
+
+
+def test_gaez_entra_no_painel_sem_alterar_a_grade():
+    """Invariante do E5: o merge não pode duplicar nem perder célula."""
+    medias, nasc = _medias_e_painel()
+    codigos = medias["cod_ibge6"].unique()
+    g = pd.DataFrame({"cod_ibge6": codigos,
+                      "aptidao_gaez": np.linspace(0, 1, len(codigos))})
+    sem = painel.monta_painel(medias, "Melão", nasc)
+    com = painel.monta_painel(medias, "Melão", nasc, gaez=g)
+    assert len(sem) == len(com)
+    assert com["aptidao_gaez"].notna().all()
+
+
+def test_sem_gaez_a_coluna_existe_vazia():
+    """Sem o raster o painel monta — mas a aptidão fica NaN, não zero. Zero
+    diria 'terra sem aptidão', que é afirmação sobre o mundo."""
+    medias, nasc = _medias_e_painel()
+    p = painel.monta_painel(medias, "Melão", nasc, gaez=pd.DataFrame())
+    assert "aptidao_gaez" in p.columns and p["aptidao_gaez"].isna().all()

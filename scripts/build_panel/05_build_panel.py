@@ -214,6 +214,97 @@ def junta_desfechos(grade: pd.DataFrame, fontes: dict[str, pd.DataFrame]) -> pd.
     return painel
 
 
+CAMINHO_BANS = Path("docs/legislacao/bans-municipais-ce.csv")
+NOME_POPULACAO = "populacao_ce_muni_ano"
+NOME_GAEZ = "gaez_aptidao_muni"
+
+
+def carrega_gaez(in_dir: Path) -> pd.DataFrame:
+    """Aptidão agroclimática FAO-GAEZ, do script 06. Invariante no tempo.
+
+    ⚠️ **Três papéis, e dois são mecânicos** — não interpretativos. O sieve do
+    `contdid` faz `m0 <- mean(dy[dose == 0])`: a curva inteira é centrada no
+    grupo de dose zero. Então quem está no zero **desloca o nível do
+    resultado**, e o GAEZ é o que permite construir e testar esse grupo:
+
+    1. instrumento da exposição endógena (§5.2 da modelagem);
+    2. **definição 4 de `d = 0`** — baixa aptidão é zero que não depende de
+       registro administrativo estar completo;
+    3. **teste de contaminação do zero** — dentro do `d = 0`, quebrar por
+       aptidão: se os de alta aptidão com área zero se comportam como os de
+       baixa, o zero é real; se divergem, o zero é medida, e a divergência
+       estima a contaminação.
+
+    Sem isto o nível da curva fica **sem banda**, que é o que a matriz de
+    degradação da `lacunas-de-dados.md` §2 chama de "indefensável".
+    """
+    for sufixo in ("", "__irrigada", "__sequeiro"):
+        caminho = in_dir / f"{NOME_GAEZ}{sufixo}.parquet"
+        if caminho.exists():
+            g = pd.read_parquet(caminho)
+            g["cod_ibge6"] = g["cod_ibge6"].astype(str)
+            colunas = ["cod_ibge6"] + [c for c in g.columns
+                                       if c.startswith(("aptidao", "percentil"))]
+            return g[colunas].drop_duplicates("cod_ibge6")
+    return pd.DataFrame(columns=["cod_ibge6", "aptidao_gaez"])
+
+
+def carrega_populacao(in_dir: Path, fonte: str = "auto") -> pd.DataFrame:
+    """Denominador do canal de intoxicação, do script 11.
+
+    ⚠️ Anual, não mensal — repetir população mês a mês inventaria variação que
+    não existe. A junção é por (`cod_ibge6`, `ano`).
+
+    ⚠️ **Traz a coluna `origem` junto, e não é enfeite.** Até 2021 o número é
+    estimativa intercensitária; em 2022 é contagem do Censo. No Ceará isso é
+    uma queda de 9.240.580 para 8.794.957 — **4,8% no estado inteiro**, de um
+    ano para o outro, sem que nada tenha acontecido no mundo. Uma taxa que
+    cruze esse corte sem marcar a origem atribui à política o que é mudança de
+    metodologia.
+    """
+    for sufixo in (["__sidra", ""] if fonte != "simulado" else ["__simulado"]):
+        caminho = in_dir / f"{NOME_POPULACAO}{sufixo}.parquet"
+        if caminho.exists():
+            pop = pd.read_parquet(caminho)
+            pop["cod_ibge6"] = pop["cod_ibge6"].astype(str)
+            colunas = ["cod_ibge6", "ano", "populacao"]
+            if "origem" in pop.columns:
+                colunas.append("origem")
+            saida = pop[colunas].rename(columns={"origem": "populacao_origem"})
+            return saida
+    return pd.DataFrame(columns=["cod_ibge6", "ano", "populacao", "populacao_origem"])
+
+
+def carrega_bans_municipais(caminho: Path = CAMINHO_BANS) -> pd.DataFrame:
+    """Bans municipais anteriores a 2019, do levantamento legislativo.
+
+    Flag 0 do `CLAUDE.md`, e ela deixou de ser hipótese em 2026-09-21: Limoeiro
+    do Norte proíbe a pulverização aérea pela Lei 1.478 de 20/11/2009, e está
+    no decil superior da banana — dentro do grupo tratado.
+
+    ⚠️ **Devolve DUAS colunas, e a segunda não é decorativa.** Se o painel
+    levasse só a data, `inconclusivo` (ninguém conseguiu conferir) e
+    `ausente_conferido` (conferido, não há lei) virariam ambos `NaT` — e a
+    distinção que o CSV inteiro existe para preservar morreria na fronteira
+    entre os dois arquivos. Um município não conferido entraria na estimação
+    como se fosse comprovadamente não tratado antes de 2019. É a mesma classe
+    de falha silenciosa que a varredura foi feita para evitar.
+
+    Fonte gitignored? Não: `docs/legislacao/`, de propósito. `data/` não chega
+    às sessões remotas.
+    """
+    if not caminho.exists():
+        return pd.DataFrame(columns=["cod_ibge6", "ban_municipal_data",
+                                     "ban_municipal_confianca"])
+    bruto = pd.read_csv(caminho, dtype=str, comment="#").fillna("")
+    saida = pd.DataFrame({
+        "cod_ibge6": bruto["cod_ibge6"].astype(str),
+        "ban_municipal_data": pd.to_datetime(bruto["data_lei"], errors="coerce"),
+        "ban_municipal_confianca": bruto["confianca"],
+    })
+    return saida
+
+
 def monta_painel(
     pam: pd.DataFrame,
     cultura: str,
@@ -222,6 +313,10 @@ def monta_painel(
     intoxicacao: pd.DataFrame | None = None,
     inicio: tuple[int, int] = INICIO_PADRAO,
     fim: tuple[int, int] | None = None,
+    bans: pd.DataFrame | None = None,
+    populacao: pd.DataFrame | None = None,
+    sinan: pd.DataFrame | None = None,
+    gaez: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     """Painel município × ano-mês com dose, exposição e desfechos."""
     dose = extrai_dose(pam, cultura)
@@ -236,9 +331,81 @@ def monta_painel(
         grade,
         {"nasc": nascimentos, "fetal": fetais, "intox": intoxicacao},
     )
+    # ⚠️ SINAN entra com PREFIXO, e não é preciosismo de nome. Ele e o SIH
+    # medem coisas diferentes — notificação compulsória contra internação
+    # faturada — e as contagens diferem por duas ordens de grandeza (266
+    # agrícolas em 1 ano contra 1 acidental em 8). Deixar `n_agricola` nu ao
+    # lado de `n_acidental` convidaria a somar ou comparar os dois como se
+    # fossem a mesma série. Ver gates-resultados-dados-reais.md §7-bis.
+    if sinan is not None and not sinan.empty:
+        bloco = sinan.copy()
+        bloco["cod_ibge6"] = bloco["cod_ibge6"].astype(str)
+        bloco = bloco.drop(columns=[c for c in ("fonte",) if c in bloco.columns])
+        chave = ["cod_ibge6", "ano", "mes"]
+        bloco = bloco.rename(columns={c: f"sinan_{c}" for c in bloco.columns
+                                      if c not in chave})
+        painel = painel.merge(bloco, on=chave, how="left")
+
+        # ⚠️ ZERO SÓ DENTRO DA COBERTURA. Município-mês sem notificação dentro
+        # de um ano baixado é zero legítimo; ano que nunca foi baixado é
+        # AUSÊNCIA, e preencher com zero inventaria "nenhuma intoxicação em
+        # 2016–2022" a partir de um download incompleto. O painel diria que o
+        # canal A5 desapareceu depois do ban — achado espúrio pronto, saído de
+        # `fillna(0)`.
+        anos_cobertos = set(bloco["ano"].unique())
+        dentro = painel["ano"].isin(anos_cobertos)
+        painel["sinan_ano_coberto"] = dentro
+        for coluna in [c for c in painel.columns if c.startswith("sinan_n_")]:
+            painel[coluna] = painel[coluna].where(~dentro,
+                                                  painel[coluna].fillna(0))
+            painel.loc[~dentro, coluna] = np.nan
+
     painel = painel.merge(dose, on="cod_ibge6", how="left")
     painel = acrescenta_exposicao(painel)
     painel["cultura_ancora"] = cultura
+
+    # ⚠️ INSTRUMENTA, não decide. O script marca quem já estava banido antes de
+    # 2019; QUAL especificação primária faz com esses municípios — excluir,
+    # sensibilidade, grupo próprio — é decisão de E3/L3 e vai para a
+    # pré-especificação, não para cá. O CLAUDE.md proíbe o script escolher.
+    if populacao is not None and not populacao.empty:
+        painel = painel.merge(populacao, on=["cod_ibge6", "ano"], how="left")
+        # Taxas por 100 mil — a unidade em que o canal A5 é comparável entre
+        # municípios de porte diferente. ⚠️ Contagem não é; ver o script 07.
+        # ⚠️ Nomes conferidos contra o painel montado, não supostos: o SIH
+        # grava `n_acidental`/`n_t60_qualquer` e o SINAN entra prefixado. Uma
+        # versão anterior procurava `n_intoxicacao`, que não existe — e o
+        # resultado não era erro, era ausência silenciosa da taxa.
+        for coluna, nome in (("n_acidental", "taxa_sih_acidental_100k"),
+                             ("n_t60_qualquer", "taxa_sih_t60_100k"),
+                             ("sinan_n_agricola", "taxa_sinan_agricola_100k"),
+                             ("sinan_n_agricola_nao_intencional",
+                              "taxa_sinan_agricola_nao_intencional_100k")):
+            if coluna in painel.columns:
+                painel[nome] = np.where(
+                    painel["populacao"].to_numpy(dtype=float) > 0,
+                    painel[coluna].to_numpy(dtype=float)
+                    / painel["populacao"].to_numpy(dtype=float) * 100_000,
+                    np.nan)
+    else:
+        painel["populacao"] = np.nan
+        painel["populacao_origem"] = ""
+
+    if gaez is not None and not gaez.empty:
+        painel = painel.merge(gaez, on="cod_ibge6", how="left")
+    else:
+        painel["aptidao_gaez"] = np.nan
+
+    if bans is None:
+        bans = carrega_bans_municipais()
+    if not bans.empty:
+        painel = painel.merge(bans, on="cod_ibge6", how="left")
+    else:
+        painel["ban_municipal_data"] = pd.NaT
+        painel["ban_municipal_confianca"] = "nao_verificado"
+    painel["ban_municipal_confianca"] = (
+        painel["ban_municipal_confianca"].fillna("nao_verificado"))
+
     return painel.sort_values(["cod_ibge6", "ano", "mes"]).reset_index(drop=True)
 
 
@@ -290,6 +457,69 @@ def imprime_resumo(painel: pd.DataFrame, cultura: str, fonte: str) -> None:
     print("    que ali é o mês da internação. Retroprojetar inventaria defasagem.")
     print("  • Os leads do event study precisam alcançar 2018: `evento_meses` e")
     print("    `pos_certeza` (18/12/2018) estão no painel para isso.")
+
+    if "aptidao_gaez" in painel.columns:
+        por_muni = painel.drop_duplicates("cod_ibge6")
+        cob = por_muni["aptidao_gaez"].notna().mean()
+        print()
+        print(f"  APTIDÃO FAO-GAEZ: cobertura {cob:.1%} dos municípios")
+        if cob > 0:
+            zero = por_muni[por_muni["dose"] == 0]
+            if len(zero):
+                print(f"    no grupo d = 0 ({len(zero)} municípios): aptidão mediana "
+                      f"{zero['aptidao_gaez'].median():.3f}")
+                print("    ⚠️ Quebrar o d = 0 por aptidão é o teste de contaminação")
+                print("       da §5.3 — e ele move o NÍVEL da curva, não a leitura.")
+        else:
+            print("    ⚠️ SEM GAEZ o nível da curva fica sem banda. Rode:")
+            print("       python scripts/data_prep/06_build_gaez.py --culturas ...")
+
+    if "sinan_ano_coberto" in painel.columns:
+        anos_ok = sorted(int(a) for a in
+                         painel[painel["sinan_ano_coberto"]]["ano"].unique())
+        todos = sorted(int(a) for a in painel["ano"].unique())
+        faltam = [a for a in todos if a not in anos_ok]
+        print()
+        print(f"  SINAN/IEXO (canal A5): anos baixados {anos_ok}")
+        if faltam:
+            print(f"    ⚠️ SEM DADO em {faltam} — as colunas sinan_* ficam NaN,")
+            print("       não zero. Zero ali diria que o canal sumiu após o ban.")
+            print("       Rode: python scripts/data_prep/10_clean_sinan_iexo.py "
+                  "--fonte pysus")
+
+    if "populacao" in painel.columns:
+        cob = painel["populacao"].notna().mean()
+        print()
+        print(f"  DENOMINADOR POPULACIONAL: cobertura {cob:.1%}")
+        if cob < 1.0:
+            faltando = sorted(painel[painel["populacao"].isna()]["ano"].unique())
+            print(f"    ⚠️ anos sem população: {faltando} — a taxa some nesses anos")
+        origens = painel.get("populacao_origem")
+        if origens is not None and origens.notna().any():
+            por_ano = (painel.dropna(subset=["populacao"])
+                       .groupby("ano")["populacao_origem"].first())
+            censo = [a for a, o in por_ano.items() if o == "censo"]
+            if censo:
+                print(f"    ⚠️ anos de CENSO (não estimativa): {censo}")
+                print("       A quebra metodológica é de ~4,8% no estado. Taxa que")
+                print("       cruze esse corte mostra salto que não é do mundo.")
+
+    if "ban_municipal_confianca" in painel.columns:
+        por_muni = painel.drop_duplicates("cod_ibge6")
+        contagem = por_muni["ban_municipal_confianca"].value_counts()
+        banidos = por_muni[por_muni["ban_municipal_data"].notna()]
+        print()
+        print("  ⚠️ BANS MUNICIPAIS ANTERIORES A 2019 (flag 0):")
+        print(f"    confirmados (já tratados antes da lei estadual): "
+              f"{len(banidos):3d}")
+        for _, linha in banidos.iterrows():
+            print(f"      {linha['cod_ibge6']}  desde "
+                  f"{linha['ban_municipal_data'].date()}")
+        for chave in ("ausente_conferido", "inconclusivo", "nao_verificado"):
+            print(f"    {chave:<20} {int(contagem.get(chave, 0)):3d}")
+        print("    ⚠️ 'inconclusivo' e 'nao_verificado' NÃO são 'não tratado'. Para")
+        print("       eles não se sabe, e a §8 da pré-especificação recebe isso")
+        print("       como ameaça declarada — não como zero.")
     print(barra)
 
 
@@ -389,13 +619,17 @@ def main(argv: list[str] | None = None) -> int:
         "fetais": _le(args.in_dir / f"obitos_fetais_ce_muni_mes{sufixo}.parquet"),
         "intoxicacao": _le(args.in_dir / f"intoxicacao_ce_muni_mes{sufixo}.parquet"),
     }
+    sinan = _le(args.in_dir / f"sinan_iexo_ce_muni_mes{sufixo}.parquet")
     if fontes["nascimentos"] is None:
         print("[erro] Painel de nascimentos ausente — é o desfecho principal.")
         print("       Rode antes: python scripts/data_prep/02_clean_births.py")
         return 1
 
     try:
-        painel = monta_painel(pam, args.cultura, **fontes)
+        painel = monta_painel(
+            pam, args.cultura, **fontes,
+            populacao=carrega_populacao(args.in_dir, args.fonte),
+            sinan=sinan, gaez=carrega_gaez(args.in_dir))
     except KeyError as erro:
         print(f"[erro] {erro}")
         return 1

@@ -61,21 +61,24 @@ intransponível.
 `02_clean_births.py` e `03_clean_fetal_deaths.py`. É o **quarto** bug de formato
 suposto desta linhagem — ler o código de um pacote não substitui executá-lo.
 
-⚠️ **`00_export_datazoom.R` não roda aqui: não há R nesta máquina.** Isso não
-custa nada para a aquisição (o `pysus` entrega o mesmo dado), mas **bloqueia o
-E6**: o `contdid`, estimador primário, é pacote R. Ver
+⚠️ ~~**`00_export_datazoom.R` não roda aqui: não há R nesta máquina.**~~
+**CORRIGIDO em 2026-09-21: há R.** R 4.6.1 está instalado desde 13/08/2026, só
+**fora do PATH** — a verificação anterior testou o PATH e concluiu ausência.
+`00_export_datazoom.R` roda por caminho absoluto. O que bloqueia o E6 é
+**Rtools + pacotes** (`contdid`, `ptetools`, `pretrends`, `HonestDiD`, `synthdid`,
+`renv` — todos ausentes), não a ausência da linguagem. Ver
 `docs/gates-resultados-dados-reais.md` §1.1.
 
 ### Classe B — falta baixar **e** falta o ingestor
 
 | Fonte | Serve a | Ingestor existe? |
 |---|---|---|
-| **FAO-GAEZ** ⚠️ | instrumento + zero 4 + teste de contaminação | ✅ `06_build_gaez.py` |
+| ~~**FAO-GAEZ**~~ ✅ **ADQUIRIDO 2026-09-21** | instrumento + zero 4 + teste de contaminação | ✅ `06_build_gaez.py` — 184/184 municípios, primeiro estágio confere |
 | ANA (ottobacias) | canal-água (montante/jusante) | ❌ |
 | SISAGUA | canal-água (qualidade) | ❌ |
 | MapBiomas | canal-ar (deriva); melhora a medida de dose | ❌ |
 | INMET / FUNCEME | canal-ar (vento a favor/contra) | ❌ |
-| População municipal (IBGE) | denominador do canal de intoxicação | ❌ |
+| População municipal (IBGE) | denominador do canal de intoxicação | ✅ **`11_clean_populacao.py`** — SIDRA 6579 + Censo 4709 |
 
 ⚠️ ~~**nenhuma biblioteca geo está instalada**~~ — **não procede na máquina do
 pesquisador** (verificado 2026-08-25): `geopandas` 1.1.4, `rasterio` 1.5.1 e
@@ -91,28 +94,40 @@ GDAL/PROJ/GEOS são pesados e brigam, e o pipeline 01–05 não precisa deles.
 | Fonte | Ação | Prazo |
 |---|---|---|
 | **SEMACE / ANAC / MAPA / SINDAG** | protocolar a LAI (minuta em `07-layer4-*.md`) | 20 dias + 10. **Único com relógio externo** |
-| **Bans municipais < 2019** | levantamento legislativo, município a município | nenhum, mas é anterior ao Gate 1 em importância |
+| **Bans municipais < 2019** ⚠️ | levantamento legislativo. **Fase 1 = decil superior (~30)**, não os 184 | nenhum, mas é anterior ao Gate 1 em importância. ✅ **1 achado já confirmado** |
 
 Nenhum script resolve estas. Precisam de uma pessoa.
 
-⚠️ O segundo é mais grave do que a posição na lista sugere: se Limoeiro do Norte
-proibiu em **2009**, há unidades **já tratadas** dentro do grupo de dose alta, e
-2015–2018 deixa de ser pré-tratamento para todos. **Contamina a própria medida de
-dose**, não só o desfecho.
+⚠️ **O segundo deixou de ser condicional em 2026-09-21.** Limoeiro do Norte
+proibiu pela **Lei Municipal 1.478, de 20/11/2009** — conferido em fonte primária
+—, e ele **está no decil superior da banana** (6º de 169; o decil tem 17
+municípios). Então **há**, e não "se houver", unidade já tratada dentro do grupo
+de dose alta: ~6% dele. Para essa unidade a dose de 2015–2018 já vem suprimida
+pelo próprio ban municipal — **contamina a medida de dose**, não só o desfecho.
+A varredura dos outros 16 do decil é o que falta.
 
-### Classe D — a verificar **antes** de planejar em cima
+### Classe D — ✅ **quatro respondidas em 2026-09-21**, uma segue aberta
 
-| Pergunta | Por que importa |
-|---|---|
-| O catálogo do GAEZ cobre **banana e melão**? | "prioridade zero" da Layer 3. Se não cobrir, o instrumento precisa de outra construção |
-| O cadastro da SEMACE é público e tem série com município? | é a definição 3 de `d = 0` |
-| O MapBiomas separa banana/melão ou só classes genéricas? | se genérico, não melhora a dose |
-| O mapa cárstico do CPRM/SGB é público? | heterogeneidade do canal-água |
-| A PAM 2010–2014 é comparável? | insumo da **D4** (recuar a janela) |
+| Pergunta | Resposta | Consequência |
+|---|---|---|
+| O catálogo do GAEZ cobre **banana**? | ✅ **sim** — "Banana" consta das *GAEZ Summary Tables* (gaez.fao.org) e há camada "Banana Plantain Suitability Index" pela metodologia GAEZ | **O instrumento é viável para a âncora que o Gate 1 recomenda.** Destrava o item 4 da §3 |
+| …e **melão**? | ⚠️ **não conferido** — o portal é JS e a lista completa não saiu nem do FAQ nem do catálogo DCAT | Pesa pouco: o Gate 1 já descartou o melão para a curva (10 municípios) |
+| O cadastro da SEMACE é público e tem série com município? | ⚠️ **parcialmente, e provavelmente não serve.** Existe o **SICRA** (ce.gov.br/semace/…/sicra), mas ele cadastra *"empresas Registrantes/Fabricantes e seus produtos"* — **fabricante e produto, não prestador de aplicação por município** | ⚠️ **Não é a definição 3 de `d = 0`.** O art. 8º pede o registro de quem *aplica*; o SICRA registra quem *fabrica*. A LAI continua necessária. Rota alternativa achada: **SIPEAGRO/MAPA**, onde operadores aeroagrícolas se registram |
+| O MapBiomas separa banana/melão ou só classes genéricas? | ✅ **só genéricas.** Têm classe própria: soja (39), cana (20), café (46), citrus (47), dendê (35), algodão (62), arroz (40). **Banana cai em "Outras culturas perenes" (48)**; melão, em "Outras lavouras temporárias" (41) | **MapBiomas NÃO melhora a medida de dose** para este desenho. A flag do `CLAUDE.md` está resolvida no sentido pessimista — e isso *economiza* trabalho: o ingestor não vale a pena |
+| O mapa cárstico do CPRM/SGB é público? | ✅ **sim, e há fonte melhor.** A **ANA** publica "Sistemas Aquíferos" com classificação **Cárstico** em shapefile aberto (`dadosabertos.ana.gov.br`), catalogado no SNIRH | Vem da **mesma fonte e formato** que as ottobacias que o canal-água já usaria. Um download, não dois |
+| A **Base dos Dados** tem SINASC 2023–2024? | ✅ **declara 1979–2024** (`basedosdados.org/dataset/48ccef51…`) — contra 2013–2022 no FTP do DATASUS | ⚠️ Reabre a possibilidade de a janela fechar em **19/12/2024** como o desenho quer, em vez de 2022. Ver `gates-resultados-dados-reais.md` §7-bis.4 |
+| A PAM 2010–2014 é comparável? | ⬜ **não consultada** | insumo da **D4** (recuar a janela) |
 
-Cada uma é **uma consulta**. Nenhuma foi feita. Planejar em cima delas sem
-verificar é como o projeto já se queimou três vezes nesta sessão (aliases
-datazoom, parser SIDRA, API pysus).
+⚠️ **Duas ressalvas de proveniência, e elas são do mesmo tipo que a coluna
+`confianca` do CSV de bans exige de qualquer varredura:**
+
+1. **"Declara 1979–2024" não é "tem as linhas".** A cobertura temporal na página
+   de um dataset é metadado, não contagem. Confirmar com uma consulta ao
+   BigQuery filtrando `sigla_uf = 'CE'` e `ano >= 2023` **antes** de prometer a
+   janela até 2024 no texto.
+2. **Ausência de evidência sobre o melão no GAEZ não é evidência de ausência.**
+   O portal não renderiza sem JS; a lista completa exige `/scrape` com browser,
+   não `WebFetch`. Fica marcado como não conferido, não como "não tem".
 
 ### Classe E — ✅ **resolvida em 2026-08-25** (era bloqueio de proxy, não do projeto)
 
@@ -141,9 +156,9 @@ integral, e duas atribuições da introdução foram corrigidas por isso.
 
 | Sem esta fonte | O que ainda sai | O que **não** sai |
 |---|---|---|
-| **FAO-GAEZ** | a curva, com um nível **sem banda** | ⚠️ o instrumento; 3 das 4 definições de zero; o teste de contaminação. **O nível da curva vira indefensável** |
+| ~~**FAO-GAEZ**~~ ✅ **resolvido** | — | ~~o instrumento; 3 das 4 definições de zero~~. Restam impossíveis só as que dependem de ANAC/SEMACE (definição 3) |
 | **SEMACE / ANAC** | tudo, com o estimando renomeado | definição 3 de `d = 0` (a única que mede **método**); a verificação de *enforcement* pelo registro |
-| **Bans municipais < 2019** | tudo, aparentemente | ⚠️ a garantia de que 2015–2018 é pré-tratamento. **Falha silenciosa: o resultado sai e está errado** |
+| **Bans municipais < 2019** | tudo, aparentemente | ⚠️ a garantia de que 2015–2018 é pré-tratamento. **Falha silenciosa: o resultado sai e está errado.** Já não é risco hipotético — 1 dos 17 tratados da banana está banido desde 2009 |
 | ANA + SISAGUA | Ensaio 1 inteiro | o canal-água; o mecanismo fica postulado, não medido |
 | MapBiomas | tudo | melhoria da medida de dose; a deriva fica sem polígono |
 | INMET / FUNCEME | tudo | vento a favor/contra — o teste de direção que separa deriva de confundidor |

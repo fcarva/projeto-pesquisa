@@ -28,19 +28,90 @@ com `http://` e concluir "DATASUS fora do ar" é erro fácil de cometer.
 
 ## 1. ⚠️ Três achados de ambiente que mudam o plano
 
-### 1.1 Não há R nesta máquina
+### 1.1 ~~Não há R nesta máquina~~ ⚠️ **CORRIGIDO em 2026-09-21: há.**
 
-`Rscript` não existe aqui. Duas consequências, e a segunda é séria:
+**O R está instalado, e já estava quando esta seção foi escrita.**
 
-- `00_export_datazoom.R` **não roda** — mas isso não custa nada, porque o
-  caminho `pysus` funciona e entrega o mesmo dado (ver §2).
-- ⚠️ **O `contdid` também não roda.** O estimador **primário** do Ensaio 1
-  (Callaway, Goodman-Bacon & Sant'Anna) é pacote **R**, e o E6 depende dele.
-  A fronteira Python↔R por arquivo, que o `CLAUDE.md` fixa, pressupõe que os
-  dois lados existam. Hoje só um existe.
+    C:\Program Files\R\R-4.6.1\bin\Rscript.exe
+    R version 4.6.1 (2026-06-24 ucrt)
 
-**Isto é bloqueio do E6, e não estava em nenhuma lista.** Instalar R + `contdid`
-+ `renv` é pré-requisito da estimação, não detalhe de ambiente.
+O diretório é de **13/08/2026** — doze dias *antes* da sessão que concluiu que
+não havia R. A conclusão era falsa quando foi escrita.
+
+⚠️ **E o erro de método é o mesmo da linhagem toda.** A verificação foi
+`command -v Rscript` / `Rscript --version`, que consulta o **PATH**. No Windows
+o instalador do R **não põe `bin/` no PATH por padrão** — R roda pelo RGui ou
+por caminho absoluto. Testar disponibilidade pelo PATH e concluir "não está
+instalado" é o análogo exato de testar o DATASUS por `http://` e concluir que
+está fora do ar: o teste mede outra coisa que a pergunta.
+
+**Resolvido no mesmo dia.** Instalado Rtools45 (`winget RProject.Rtools`;
+conferido na página do CRAN que RTools 4.5 cobre "R 4.5.0+ *including R-devel*",
+logo o 4.6.1) e rodado `setup_r.R`:
+
+| Item | Estado em 2026-09-21 |
+|---|---|
+| R 4.6.1 + **Rtools45** | ✅ `make` e `gcc` visíveis ao R |
+| `contdid` 0.1.1 / `ptetools` 1.0.2 | ✅ do GitHub, nessa ordem |
+| `pretrends` 0.1.0 / `HonestDiD` 0.2.8 / `synthdid` 0.0.9 | ✅ |
+| `did` 2.5.1, `fixest` 0.14.2, `arrow` 25.0.1, `broom` 1.0.13 | ✅ |
+| `renv.lock` | ✅ **108 pacotes**, com SHA do GitHub fixado |
+
+⚠️ As versões batem exatamente com o que `did-analysis-aderencia.md` previu
+lendo os `DESCRIPTION` — desta vez a leitura conferiu com a execução.
+
+⚠️ **`renv::snapshot()` implícito deixou metade da camada de robustez de fora.**
+O padrão só grava o que enxerga em `library()` no código do projeto, e
+`pretrends`/`HonestDiD`/`synthdid`/`did`/`fixest` ainda não são chamados por
+script nenhum — o lock saiu com 64 pacotes e **sem eles**. Um lock que não
+reinstala a camada de robustez é um lock quebrado, e a falha é silenciosa.
+Corrigido com `renv::snapshot(type = "all")`. Quem repetir o setup precisa do
+`type = "all"` enquanto a camada não for chamada em código.
+
+`datazoom.saude` segue ausente de propósito: só serve ao `00_export_datazoom.R`,
+que o caminho `pysus` substitui (§2).
+
+### ⚠️ 1.1-bis O E6 estava quebrado por outro motivo, e ninguém podia saber
+
+Com R funcionando, `03_contdid.R` roda — e **falha no alvo primário**:
+
+```
+target_parameter = level  -> ATT(d|d), sob Assumption 4
+  [erro] Assertion on 'control_group' failed: Must be element of set
+         {'notyettreated','nevertreated','eventuallytreated'},
+         but is not atomic scalar.
+```
+
+A causa, conferida em `formals(contdid::cont_did)`:
+
+```r
+control_group = c("notyettreated", "nevertreated", "eventuallytreated")   # length 3
+```
+
+**O default do pacote viola a asserção do próprio pacote.** `cont_did` não roda
+com os defaults, e `03_contdid.R` nunca passa `control_group` — nem na curva
+(linha ~203) nem no event study (linha ~263). Logo o E6 **nunca teria produzido
+a curva**, com ou sem R instalado.
+
+⚠️ **A correção é de uma linha, mas a escolha não é técnica.** `control_group`
+define *quem são as unidades de comparação* — é hipótese de identificação, e o
+`CLAUDE.md` manda perguntar antes de mexer nisso. E ela colide de frente com a
+flag 5: num ban **simultâneo** não existe "not yet treated" no sentido de
+timing, então o candidato natural é `"nevertreated"` — que é exatamente o grupo
+`d = 0` que a flag 5 diz **não ser zero de tratamento**. A escolha do argumento
+e a construção do zero são a mesma decisão, e ela é do pesquisador.
+
+⚠️ **Registro honesto:** isto apareceu porque rodei `03_contdid.R --help` e o
+script **não tem `--help`** — ignorou a flag e foi estimar contra o painel real.
+Não era a intenção. **Nada foi gravado em disco** (nenhum CSV em
+`data/processed/`, conferido), e o alvo primário abortou antes de qualquer
+número. Mas vale a nota: um script de estimação sem `--help` que estima ao
+receber flag desconhecida é uma armadilha, e o portão do `make real` não protege
+contra ela porque o script roda sozinho.
+
+⚠️ **Nada disto revoga o portão da pré-especificação.** R destrava a
+*capacidade* de estimar; `make real` continua fail-closed enquanto
+`docs/pre-especificacao.md` estiver `ABERTA`.
 
 ### 1.2 As bibliotecas geo **estão** instaladas
 
@@ -402,10 +473,99 @@ que a flag 2 do `CLAUDE.md` diz não ser glifosato. ⚠️ São **campos abertos
 com grafia heterogênea — a própria nota técnica existe porque a filtragem por
 descritor textual é trabalhosa e precisa de lista de variantes.
 
-⚠️ **`CIRCUNSTAN` continua NÃO conferido.** A nota trata do agente, não da
-circunstância. A leitura provável (10 = tentativa de suicídio, 02 = acidental)
-segue **suposição** — e é justamente a divisão que sustenta o placebo. Conferir
-na Ficha de Investigação antes de escrever o ingestor.
+### ✅ `CIRCUNSTAN` conferido em 2026-09-21 — e a leitura suposta era incompleta
+
+Fonte: **Dicionário de Dados da Intoxicação Exógena**, campo 55
+(`tp_contaminacao`), em `portalsinan.saude.gov.br`
+(`DIC_DADOS_Intoxicacao_Exogena_v6_26.02.2026.pdf`):
+
+| código | significado | papel no desenho |
+|---|---|---|
+| 01 | Uso habitual | não-intencional — exposição ocupacional rotineira |
+| **02** | **Acidental** | não-intencional — o que se supunha ser *o* canal |
+| **03** | **Ambiental** | ⚠️ **categoria própria** — e para deriva de pulverização é provavelmente a mais aderente |
+| 04–09 | terapêutico, prescrição, erro, automedicação, abuso, alimento | fora do escopo |
+| **10** | **Tentativa de suicídio** | intencional — **o placebo** |
+| 11 / 12 | Tentativa de aborto / Violência | intencional |
+| 13 / 99 | Outra / Ignorado | — |
+
+**A suposição acertou o essencial e errou o recorte.** 10 = suicídio e
+02 = acidental, como se lia. Mas **`03 Ambiental` não estava previsto**, e é
+justamente a circunstância que descreve quem é atingido por deriva sem manusear
+o produto — a população do canal-ar, não o trabalhador.
+
+⚠️ **Consequência para o placebo:** o contraste não é `02` contra `10`. É
+**não-intencional `{01,02,03}`** contra **intencional `{10,11,12}`**. Recortar só
+em `02` descartaria a categoria mais aderente à hipótese e encolheria o numerador
+sem razão — e o encolhimento passaria despercebido, porque o resultado sairia
+assim mesmo.
+
+✅ **O bloqueio declarado nesta seção caiu:** `AGENTE_TOX` (Nota Técnica) e
+`CIRCUNSTAN` (Dicionário de Dados) estão ambos conferidos contra fonte oficial.
+
+### 7-bis.3-bis O ingestor foi escrito, rodou, e trouxe dois gates negativos
+
+`scripts/data_prep/10_clean_sinan_iexo.py --fonte pysus --anos 2015`, contra o
+`IEXOBR15.dbc` real (99.238 notificações no Brasil):
+
+| | esperado aqui | medido |
+|---|---|---|
+| notificações no CE | 2.914 | ✅ **2.914** |
+| `AGENTE_TOX = 02` agrícola | 266 | ✅ **266** |
+| `AGENTE_TOX = 03` doméstico | 45 | ✅ **45** |
+
+A reprodução é exata — o ingestor está certo. Mas a rodada mede o que a
+sondagem anterior não tinha medido, e **duas das três medidas são ruins**:
+
+⚠️ **1. O agente 04 NÃO torna a flag 5 mensurável. É *uma* notificação.**
+Esta seção previa que separar "agrotóxico de uso em saúde pública" faria a
+contaminação do `d = 0` por controle vetorial "deixar de ser hipótese e passar
+a ser mensurável". **Não passa:** 1 notificação no estado inteiro em 2015. O
+mesmo problema de suporte que matou o A5 no SIH, agora do outro lado. A flag 5
+continua sem fonte que a meça.
+
+⚠️ **2. `CIRCUNSTAN` está vazia em 54,8% dos casos.** De 2.914 notificações,
+1.596 não trazem circunstância utilizável. O placebo — não intencional (559)
+contra intencional (759) — existe, mas sobre **menos da metade** do dado. Não é
+o mesmo problema do SIH (lá não havia evento; aqui há evento sem campo), mas
+morde o mesmo desenho, e a fraqueza é **invisível no resultado**: o contraste
+sai, só sai sobre uma amostra que não é a população notificada.
+
+**3. Cobertura municipal parcial:** 61 dos 184 municípios em 2015, 66,2% das
+células com menos de 5 notificações.
+
+### A série completa 2015–2022, baixada em seguida
+
+| | SIH (8 anos) | **SINAN/IEXO (8 anos)** |
+|---|---|---|
+| eventos no CE | 50 | **27.338** |
+| agrotóxico agrícola | — | **1.217** |
+| acidental / não intencional | **1** | **5.130** |
+| intencional (o placebo) | 1 | **13.274** |
+| municípios alcançados | 27 | **160** |
+
+**Três ordens de grandeza.** A troca de fonte do canal A5 para o SINAN deixa de
+ser preferência e vira necessidade aritmética: com 1 evento o canal não é
+estimável, com 1.217 é.
+
+⚠️ **Mas os dois defeitos persistem na série longa:**
+- `AGENTE_TOX = 04` (saúde pública, a flag 5) soma **89** em oito anos. Melhor
+  que 1, ainda longe de mensurável por município-mês. **A flag 5 segue sem
+  fonte que a meça.**
+- `CIRCUNSTAN` ignorada em **8.934 de 27.338 (32,7%)** — melhor que os 54,8% de
+  2015 isolado, mas ainda um terço do dado fora do placebo.
+
+**Leitura honesta:** o SINAN é **muito** melhor que o SIH para o canal A5 — 266
+eventos agrícolas contra 1 acidental em oito anos —, e a troca de fonte se
+justifica. Mas ele **não** resolve a flag 5, e o placebo vem com metade do
+denominador. Ambos devem entrar na §8 da pré-especificação como limitação
+declarada, não como detalhe de implementação.
+
+⚠️ **E uma armadilha nova, da mesma família das outras quatro:**
+`search(disease="IEXO")` e `search(agravo="IEXO")` são **aceitos pelo `pysus` e
+devolvem lista vazia em silêncio** — idêntico ao `group="DO"` do SIM na
+§7-bis.1. Só `search(year=...)` + filtro pelo **nome do arquivo** funciona. É a
+quinta vez que um kwarg ignorado em silêncio quase produziu "não há dado".
 
 ⚠️ **E `ID_MUNICIP` tem 7 dígitos** (com dígito verificador), contra os 6 de
 `cod_ibge6`. A truncagem é obrigatória, e é o mesmo tipo de armadilha que o
@@ -443,9 +603,28 @@ protege.
 
 Isso **não** invalida o desenho: quatro anos de pós-ban são suficientes para o
 colapso pré/pós que o `contdid` exige. Mas muda o que o texto pode prometer, e
-deve entrar na §4 do `paper/` junto com a janela. **Conferir se a Base dos
-Dados (BigQuery) tem 2023–2024** antes de dar a janela por fechada — é a rota
-alternativa que o `CLAUDE.md` já lista para o SINASC.
+deve entrar na §4 do `paper/` junto com a janela.
+
+#### ✅ Conferido em 2026-09-21 — e a rota alternativa cobre o vão
+
+A **Base dos Dados** declara SINASC **1979–2024**
+(`basedosdados.org/dataset/48ccef51-8207-40ee-af5b-134c8ac3fb8c`), contra
+2013–2022 no FTP. Os dois anos que faltam estão dentro da cobertura anunciada.
+
+⚠️ **Mas "declara" não é "tem".** Cobertura temporal na página de um dataset é
+metadado, não contagem de linhas — e esta linhagem já se queimou quatro vezes
+confiando em formato anunciado em vez de executado. Antes de escrever no
+`paper/` que a janela fecha em 19/12/2024:
+
+```sql
+SELECT ano, COUNT(*) FROM `basedosdados.br_ms_sinasc.microdados`
+WHERE sigla_uf = 'CE' AND ano >= 2023 GROUP BY ano
+```
+
+Vindo linhas, o pós-ban do desfecho principal volta a **2019–2024** — seis anos,
+não quatro — e a §4 do `paper/` muda junto. Não vindo, fica 2019–2022 com a
+limitação declarada. **A consulta exige conta no BigQuery**, que é a única
+credencial nova que este caminho pede.
 
 ---
 
@@ -497,6 +676,79 @@ o erro que nenhum resultado denuncia.
 
 ---
 
+## 7-quater. ✅ FAO-GAEZ adquirido — o instrumento existe, e tem primeiro estágio
+
+*2026-09-21.* A `lacunas-de-dados.md` §2 dizia que sem GAEZ "o nível da curva
+vira indefensável". Ele foi adquirido e processado.
+
+### Onde os dados estavam, e por que ninguém achava
+
+Não estão em `gaez.fao.org` (portal JS, sem índice de arquivos). O repositório
+é **Google Cloud Storage**, público e listável:
+
+    https://storage.googleapis.com/gaez-v4-data/data/res05/CRUTS32/Hist/8110H/
+
+`res05` = Módulo V (aptidão e rendimento atingível); `CRUTS32/Hist` = clima
+observado; `8110H` / `8110L` = 1981–2010, alto / baixo insumo.
+
+### ⚠️ Quatro coisas que só apareceram conferindo
+
+**1. A variável certa é `yx`, não `yc` — e a diferença é de identificação.**
+Do guia oficial do repositório:
+
+| código | significado | serve? |
+|---|---|---|
+| **`yx`** | rendimento atingível médio da **melhor classe de aptidão** da célula | ✅ potencial da terra, independente de onde já se planta |
+| `yc` | rendimento atingível médio do **cropland atual** | ✘ condiciona em onde já se planta — **é a endogeneidade que o instrumento existe para quebrar** |
+| `yl` | densidade de produção (produção ÷ área da célula) | ✘ outra coisa |
+
+**2. Melão, manga e castanha de caju NÃO existem no GAEZ.** Das 48 culturas com
+o par alto/baixo, as candidatas do Gate 1 presentes são **banana (`ban`)** e
+**coco (`coc`)**. Isso fecha a "prioridade zero" da Layer 3 com resposta mista:
+o instrumento existe para a âncora que o Gate 1 recomenda, e **não existe** para
+manga e castanha.
+
+**3. Não existe baixo insumo IRRIGADO (`yxLi`).** Por construção do GAEZ, o
+cenário de baixo insumo é sequeiro. Como a receita é a **diferença** entre
+cenários, ela só fecha em **sequeiro** — e isso tem de estar no texto, porque a
+fruticultura da Chapada do Apodi é irrigada.
+
+**4. ⚠️ A listagem do bucket trunca em 1.000 chaves, e os `y*` vêm depois dos
+`s*`.** A primeira listagem devolveu 621 arquivos, nenhum de rendimento, e a
+conclusão natural teria sido "o GAEZ não publica rendimento em raster". São
+18.018 arquivos. **Truncagem silenciosa produzindo conclusão substantiva** — a
+mesma família das outras cinco desta linhagem.
+
+### O resultado
+
+`06_build_gaez.py --culturas banana coco --uf 23 --all-touched`:
+
+| | |
+|---|---|
+| municípios com índice | **184 de 184** |
+| índice (percentil nacional, reescalado) | 0,092 – 0,558 |
+| percentil calculado sobre | **5.570 municípios** (nacional), recortado depois |
+
+⚠️ **`--all-touched` foi necessário.** A célula do GAEZ tem ~9 km; Altaneira e
+Granjeiro não contêm nenhum centro de pixel e saíam com `mean=None` — NaN que
+depois pareceria "terra sem aptidão".
+
+### ✅ E há sinal de primeiro estágio
+
+| | n | aptidão média | mediana |
+|---|---|---|---|
+| decil superior da banana (tratados) | 17 | **0,372** | **0,500** |
+| demais | 165 | 0,263 | 0,195 |
+
+**Banana é plantada onde banana é apta.** É a condição de relevância do
+instrumento, e ela se verifica — não por suposição, por medida. O grupo `d = 0`
+(15 municípios) tem aptidão mediana **0,166**, abaixo da mediana estadual, o que
+é consistente com zeros reais e não com zeros de medida.
+
+⚠️ Isto **não** testa a exclusão, que não é testável. Testa relevância.
+
+---
+
 ## 8. O que fazer em seguida, em ordem
 
 1. ⚠️ **Instalar R + `contdid`.** É bloqueio do E6 e não estava mapeado. Sem
@@ -515,9 +767,10 @@ o erro que nenhum resultado denuncia.
 7. **Decidir a fonte do canal A5**: SINAN/IEXO (2.914 eventos/ano no Ceará)
    contra SIH (4). Ver §7-bis.3 — e conferir o dicionário de `AGENTE_TOX` e
    `CIRCUNSTAN` **antes** de escrever o ingestor.
-8. ⚠️ **Conferir se a Base dos Dados tem SINASC 2023–2024.** O FTP do DATASUS
-   não tem, e sem eles o pós-ban do desfecho principal é 2019–2022. Ver
-   §7-bis.4.
+8. ~~Conferir se a Base dos Dados tem SINASC 2023–2024~~ — ✅ **feito em
+   2026-09-21: declara 1979–2024.** Falta **uma consulta ao BigQuery** para
+   confirmar que as linhas do CE existem em 2023–2024; se existirem, o pós-ban
+   vai a seis anos. Ver §7-bis.4.
 
 ---
 

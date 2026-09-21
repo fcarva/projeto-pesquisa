@@ -212,7 +212,8 @@ def _exige_geo():
 
 
 def le_raster_por_municipio(
-    caminho_raster: Path, municipios, campo_id: str = "CD_MUN"
+    caminho_raster: Path, municipios, campo_id: str = "CD_MUN",
+    all_touched: bool = False,
 ) -> pd.DataFrame:
     """Média zonal do raster dentro de cada polígono municipal.
 
@@ -224,7 +225,14 @@ def le_raster_por_municipio(
     """
     _, gpd, zonal_stats = _exige_geo()
     malha = municipios if hasattr(municipios, "geometry") else gpd.read_file(municipios)
-    estat = zonal_stats(malha, str(caminho_raster), stats=["mean"], all_touched=False)
+    # ⚠️ `all_touched` não é detalhe de precisão. O raster do GAEZ tem célula de
+    # ~9 km (5 arcmin); município menor que isso pode não conter NENHUM centro
+    # de pixel e sai com `mean=None`. No Ceará isso aconteceu com Altaneira e
+    # Granjeiro. Com `all_touched=True` qualquer pixel tocado entra — a média
+    # fica mais grosseira para os pequenos, mas eles deixam de sumir. Sumir é
+    # pior: vira NaN que depois parece "terra sem aptidão".
+    estat = zonal_stats(malha, str(caminho_raster), stats=["mean"],
+                        all_touched=all_touched)
     return pd.DataFrame(
         {
             "cod_ibge7": malha[campo_id].astype(str).values,
@@ -267,7 +275,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--raster-baixo", type=Path, nargs="+", default=[],
                         help="GeoTIFF de rendimento atingível, BAIXO insumo — um por cultura.")
     parser.add_argument("--municipios", type=Path, default=None,
-                        help="Malha municipal do IBGE (.gpkg/.shp), com CD_MUN.")
+                        help="Malha municipal do IBGE (.gpkg/.shp/.geojson).")
+    parser.add_argument("--campo-id", default="CD_MUN",
+                        help="Coluna do código IBGE na malha. ⚠️ O shapefile do "
+                             "IBGE usa CD_MUN; a API de malhas devolve 'codarea'.")
+    parser.add_argument("--all-touched", action="store_true",
+                        help="Inclui pixel apenas TOCADO pelo polígono. Necessário "
+                             "para municípios menores que a célula de ~9 km do GAEZ.")
+    parser.add_argument("--uf", default=None,
+                        help="Recorta a SAÍDA a esta UF (ex.: 23). ⚠️ O percentil "
+                             "continua NACIONAL — é o recorte que vem depois, "
+                             "não antes, e essa ordem é a receita.")
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
 
@@ -298,8 +316,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         blocos = {}
         for cultura, r_alto, r_baixo in zip(args.culturas, args.raster_alto, args.raster_baixo):
-            alto = le_raster_por_municipio(r_alto, args.municipios)
-            baixo = le_raster_por_municipio(r_baixo, args.municipios)
+            alto = le_raster_por_municipio(r_alto, args.municipios, args.campo_id,
+                                           args.all_touched)
+            baixo = le_raster_por_municipio(r_baixo, args.municipios, args.campo_id,
+                                            args.all_touched)
             juntos = alto.merge(baixo, on="cod_ibge7", suffixes=("_alto", "_baixo"))
             blocos[cultura] = (juntos["valor_alto"].to_numpy(), juntos["valor_baixo"].to_numpy())
             codigos = juntos["cod_ibge7"]
@@ -315,6 +335,18 @@ def main(argv: list[str] | None = None) -> int:
     tabela = aptidao_municipal(blocos)
     tabela.insert(0, "cod_ibge7", codigos.values)
     tabela["cod_ibge6"] = tabela["cod_ibge7"].str[:6]   # a chave do projeto
+
+    # ⚠️ O RECORTE VEM DEPOIS DO PERCENTIL, e a ordem é a receita, não estilo.
+    # `percentil_nacional` ranqueia o que recebe: alimentá-lo só com o Ceará
+    # produziria a posição do município DENTRO do estado, não no país — que é o
+    # erro nº 2 da lista do topo deste arquivo, e ele passa verde (dá número
+    # plausível em [0,1]). Por isso a malha de entrada é nacional e o corte por
+    # UF acontece aqui, com o percentil já calculado.
+    if args.uf:
+        antes = len(tabela)
+        tabela = tabela[tabela["cod_ibge7"].str.startswith(args.uf)].reset_index(drop=True)
+        print(f"[nota] percentil calculado sobre {antes} municípios (nacional); "
+              f"saída recortada para {len(tabela)} da UF {args.uf}.")
 
     barra = "=" * 84
     print(barra)
