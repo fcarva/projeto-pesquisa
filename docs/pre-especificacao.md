@@ -1,122 +1,243 @@
 # Pré-especificação — Ensaio 1
 
-*Preencher e datar **antes** do primeiro contato com dado real. Depois disso, o
-documento não vale mais para o que ele existe: um plano escrito depois de ver o
-coeficiente não é plano, é racionalização com data.*
+**Status:** ✅ **FECHADA** · **Data de fechamento:** 2026-09-21 · **Assinatura:** Felipe Carvalho Souza Santos (o commit é o carimbo de tempo)
 
-**Status:** ⬜ não preenchido · **Data de fechamento:** ______ · **Assinatura:** ______
+<!-- PRESPEC_STATUS: FECHADA -->
 
-<!-- PRESPEC_STATUS: ABERTA -->
-*(o `make real` lê a linha acima. Troque `ABERTA` por `FECHADA` só depois de
-preencher, datar e assinar — e commite a troca: o commit é o carimbo de tempo.)*
+---
 
-⚠️ Este arquivo é resposta ao achado **M1** de `docs/ars/09-revisao-metodologica.md`:
-o pipeline produz **31 séries candidatas a desfecho**, e o desenho já sabe que o
-poder é curto. Poder curto mais espaço de busca grande é a combinação que produz
-achado espúrio com aparência de rigor. As seções abaixo fecham essa porta —
-**ou declaram, explicitamente, que ficou aberta.**
+## ⚠️ 0. O que este documento é — e o que ele NÃO é
 
-A janela para escrever isto ainda está aberta justamente porque a rede está
-bloqueada e nenhuma fonte real foi tocada. Ela fecha na primeira rodada com dado.
+**Este NÃO é um pré-registro no sentido estrito, e dizer que fosse seria falso.**
+
+A versão anterior deste arquivo dizia: *"a janela para escrever isto ainda está
+aberta justamente porque a rede está bloqueada e nenhuma fonte real foi tocada.
+Ela fecha na primeira rodada com dado."* **Essa janela fechou em 2026-08-25**, e
+o histórico do git prova a data. Escrever agora fingindo o contrário seria
+exatamente a "racionalização com data" contra a qual o próprio documento avisa.
+
+O que isto é: **um plano de análise escrito depois dos diagnósticos de desenho e
+antes de qualquer estimação.** É categoria real e defensável — mas só enquanto
+declarada.
+
+### O que já era conhecido ao assinar
+
+| conhecido | onde | é resultado do ban? |
+|---|---|---|
+| Distribuição de dose por cultura (Gate 1) | gates §4 | ✘ pré-período |
+| DP das tendências municipais e sua decomposição | gates §5–6 | ✘ pré-período (placebo por construção) |
+| MDE por cultura, e que ele **reprova** como especificado | gates §5 | ✘ conta de desenho *ex ante* |
+| Contagens do SINAN, SIH, SIM, população | gates §7-bis | ✘ descritivo |
+| Primeiro estágio do GAEZ (aptidão × dose) | gates §7-quater | ✘ relevância do instrumento |
+| Bans municipais < 2019 | legislacao §1 | ✘ saneamento de pré-período |
+
+### O que NÃO era conhecido ao assinar
+
+**Nenhuma estimativa de efeito.** `03_contdid.R` nunca produziu coeficiente:
+a única execução, acidental em 2026-09-21, abortou na asserção de
+`control_group` e **não gravou arquivo algum** (conferido). Nenhum `ATT`,
+nenhum `ACR(d)`, nenhum event study existe neste repositório.
+
+> **A fronteira que este documento protege** é entre *desenho* e *efeito*, não
+> entre *nenhum dado* e *dado*. A primeira fronteira ainda está intacta e é
+> verificável no git. A segunda já não estava, e fingir que sim custaria mais
+> credibilidade do que a honestidade custa.
 
 ---
 
 ## 1. Desfecho primário
 
-**Escolha:** ______________________
+**Escolha: `peso_medio`** (peso médio ao nascer, município × ano-mês, SINASC).
 
-*O que já está argumentado, e que o pesquisador só precisa ratificar ou recusar:*
-`peso_medio` é o único dos quatro candidatos com razão efeito/ruído acima de 1
-(1,30–1,81, contra 0,44–0,80 para baixo peso, 0,50 para prematuridade e 0,17 para
-mortalidade infantil — ver `05-integracao-estado-da-arte.md` §6). Média contínua
+Ratificado. É o único dos quatro candidatos com razão efeito/ruído acima de 1
+(1,30–1,81, contra 0,44–0,80 do baixo peso, 0,50 da prematuridade e 0,17 da
+mortalidade infantil — `05-integracao-estado-da-arte.md` §6). Média contínua
 sobre todos os nascimentos bate evento raro por um fator de duas a oito vezes.
 
-⚠️ Se a escolha for outra, o cálculo de poder do script 01 tem de ser refeito com
-o desvio-padrão daquele desfecho — o `SD_PESO_G = 500.0` é do peso.
+⚠️ **A flag 6 permanece uma ameaça, não uma solução.** Se o ban reduz óbito
+fetal, fetos marginais passam a nascer e entram na cauda de baixo peso, e o
+efeito sobre peso médio vem **atenuado ou invertido**. Por isso o óbito fetal
+entra como confirmatório #2 (§6) — não como acessório.
 
 ## 2. Exposição primária
 
-**Escolha:** ⬜ `share_gestacao_pos_ban` · ⬜ `share_tri1` · ⬜ `share_tri2` ·
-⬜ `share_tri3` · ⬜ outra: ______
+**Escolha: `share_gestacao_pos_ban`.**
 
-*Contexto:* Larsen et al. (2017) acham efeito concentrado na cauda alta de
-exposição; a literatura perinatal costuma separar por trimestre. Fixar um como
-primário e reportar os outros como exploratórios é diferente de rodar os quatro e
-contar o que se move.
+É a fração da gestação exposta ao regime pós-ban, por retroprojeção gestacional.
+Os três `share_tri1/2/3` ficam **exploratórios declarados**: qual trimestre
+importa é pergunta empírica, e rodar os quatro contando o que se move é
+exatamente o que a §6 existe para impedir.
+
+⚠️ `pos_ban_nascimento` (marcação ingênua pela data de nascimento) **não é
+exposição** — está no painel só para medir a atenuação que ela embutiria.
 
 ## 3. Cultura-âncora
 
-**Escolha:** ______________________
+**Escolha: `Banana (cacho)`.**
 
-*Contexto:* três fontes independentes convergem para **banana** (dissertação da
-UFC; ADI 7794; Cavalcante 2023). Convergência é hipótese forte, não escolha — o
-Gate 1 decide se ela se sustenta empiricamente. ⚠️ Se o Gate 1 derrubar a
-escolha, **a troca tem de ser registrada com data**, e a curva original também
-reportada.
+Ratificada contra o Gate 1, que é o teste empírico que a flag 1 exigia:
+
+| critério | banana |
+|---|---|
+| municípios com área positiva | **169** |
+| Gini da dose | **0,86** |
+| área no decil superior | **78%** |
+| especificação recomendada pelo script 01 | **curva** |
+
+Dispersão alta **com** suporte largo — a combinação que o sieve exige. Converge
+com três fontes independentes (dissertação UFC, ADI 7794, Cavalcante 2023) e com
+a química documentada: **procimidona é fungicida de bananal**, e aparece em 23
+de 23 amostras do Dossiê ABRASCO.
+
+✅ E o GAEZ confirma **relevância do instrumento**: o decil superior da banana
+tem aptidão média 0,372 contra 0,263 do resto (mediana 0,500 contra 0,195).
+Banana é plantada onde banana é apta.
+
+⚠️ **Melão e algodão estão empiricamente encerrados** para a curva — 10 e 28
+municípios com área positiva. Eram a hipótese do material de projeto pela
+Chapada do Apodi; o dado a descartou. Registrado aqui para que a troca não
+pareça, depois, conveniência.
 
 ## 4. Especificação
 
-- Degrau da escada do CGS: ______  *(a coluna `especificacao` do script 01
-  recomenda; o pesquisador ratifica — E3 do roteiro)*
-- Parâmetro-alvo primário: ⬜ `slope` (ACR — a curva, o que o Ensaio 2 precisa) ·
-  ⬜ `level` (ATT(d|d))
-- Construção de `d = 0` primária: ⬜ 1 · ⬜ 2 · ⬜ 3 · ⬜ 4  *(§5.3 de
-  `03-modelagem-ensaio1.md`)*
+- **Degrau da escada do CGS:** `curva` — sieve não-paramétrico (CCK), que é o
+  que a coluna `especificacao` do script 01 recomenda para a banana.
+- **Parâmetro-alvo primário:** ✅ **`slope`** — a curva `ACR(d)`.
 
-  ⚠️ **Esta escolha está acoplada à aquisição, e o acoplamento é caro.** As
-  definições **3 e 4 dependem de fontes não adquiridas** — ANAC/SEMACE e
-  FAO-GAEZ. E o sieve centra a curva em `mean(dy[dose == 0])`, então isto não
-  muda a interpretação: **muda o nível do número**.
+  ⚠️ **E ela custa mais caro que o nível, o que fica declarado aqui.** A curva
+  exige **strong parallel trends** (Assumption 5 de CGS), que exclui
+  *selection-on-gains* e **não é testável** por placebo pré-tratamento. O
+  `level` (`ATT(d|d)`) sai sob paralelismo tradicional e será reportado como
+  **sensibilidade**: a distância entre os dois é informação sobre quanto a
+  Assumption 5 está carregando.
 
-  A saída correta não é adiar; é **declarar**. *"Primária = definição 2, porque
-  3 e 4 não estarão disponíveis até a qualificação"* é honesto e defensável.
-  Escolher a 4, não conseguir o GAEZ, e trocar em silêncio — não é. Se a
-  situação mudar, entra na tabela de desvios da §8.
+  A justificativa de fundo é que o Ensaio 2 precisa da curva — sem ela a
+  comparação de Weitzman perde âncora empírica e vira exercício teórico.
 
-  Ver a matriz de degradação em `docs/lacunas-de-dados.md` §2.
-- Cortes do colapso pré/pós: `--corte-pre` ______ · `--corte-pos` ______
+- **Construção de `d = 0` primária:** ✅ **definição 4** (baixa aptidão FAO-GAEZ).
+
+  ⚠️ **Isto é um desvio da recomendação que o documento original trazia**, e o
+  motivo é que a restrição mudou: a versão anterior dizia *"primária = definição
+  2, porque 3 e 4 não estarão disponíveis"*. **O GAEZ foi adquirido em
+  2026-09-21**, 184/184 municípios. Entra na tabela de desvios da §8.
+
+  É o zero que **não depende de registro administrativo estar completo**, e é o
+  único que permite o teste de contaminação da §5.3 — quebrar o `d = 0` por
+  aptidão: se os de alta aptidão com área zero se comportam como os de baixa, o
+  zero é real; se divergem, o zero é medida, e a divergência estima a
+  contaminação.
+
+  ⚠️ O sieve centra a curva em `mean(dy[dose == 0])`, então esta escolha **move
+  o nível do resultado**, não a interpretação. A definição 2 será reportada como
+  sensibilidade, e a distância entre as duas é a banda do nível.
+
+  ⚠️ **A definição 3 segue impossível** — mede o *método*, e nenhuma fonte a
+  alcança no pré-ban: o SIPEAGRO é dado aberto mas o registro não tem data e é
+  93% drone pós-2024, e as autorizações começam em 2021. A LAI à SEMACE é a
+  única rota, e não chegou.
+
+- **Grupo de comparação (`control_group`):** `nevertreated`.
+
+  ⚠️ Não é detalhe técnico: define **quem são as unidades de comparação**. O ban
+  é simultâneo, então não existe "not yet treated" em sentido de *timing*, e a
+  comparação é por dose. **E isto colide com a flag 5**: `nevertreated` são os
+  `d = 0`, que a flag 5 diz não serem zero de tratamento — o §2º do art. 28-B
+  alcança controle vetorial aéreo. Esta escolha e a construção do zero acima são
+  **a mesma decisão**.
+
+- **Cortes do colapso pré/pós:** `--corte-pre 2018-12` · `--corte-pos 2019-10`.
+
+  As coortes cuja gestação atravessa o ban são descartadas (1.656 células, 9,4%).
+  É a escolha conservadora; incluí-las embute atenuação.
+
+- **Janela que define a dose:** **2015–2018 como primária**, com **2010–2014 como
+  sensibilidade declarada**.
+
+  ⚠️ A janela primária **começa depois do marco de notícia** (PL 18/2015
+  apresentado em 24/02/2015), então a dose pode já responder à expectativa —
+  ameaça que morde a *variável de tratamento*, não só o desfecho. A janela
+  recuada é comparável (184 municípios e 86 culturas em ambas, costura suave),
+  e custa 24% de troca no grupo tratado. Se os resultados não dependerem da
+  janela, a ameaça fica endereçada empiricamente em vez de suposta.
 
 ## 5. Critério de falsificação
 
-**Piso de efeito esperado:** ______ g
+**Piso de efeito esperado: 15 g.**
 
-*Já registrado como 15–25 g pelo pesquisador na Layer 3.* O script 01 emite
-`falsifica` comparando a meia-largura do IC contra esse piso. ⚠️ Trocar o piso
-**depois** de ver o IC inverte o sentido do teste.
+O extremo inferior da faixa de 15–25 g registrada na Layer 3 — a escolha
+**estrita**, porque piso menor é mais difícil de falsificar. O script 01 emite
+`falsifica` comparando a meia-largura do IC contra este piso.
 
-**O que se escreve se o desenho não falsificar:** ______________________
-*(o compromisso já registrado é "limite superior informativo" — E7)*
+⚠️ **Trocar o piso depois de ver o IC inverte o sentido do teste.** Está fixado
+aqui, com data.
+
+**O que se escreve se o desenho não falsificar: limite superior informativo.**
+
+✅ **E esta é a via escolhida para o problema de poder da §7 do gates doc.** O
+MDE do cenário base para a banana é 33,4 g, acima do efeito esperado. As
+alternativas foram consideradas e recusadas:
+
+| via | por que não |
+|---|---|
+| ponderar por nascimento | ⚠️ **muda o estimando** — o alvo passaria a ser efeito por criança, não por município. É mudança de parâmetro-alvo, não de precisão |
+| cortar por porte | ⚠️ **destrói o grupo tratado**: a mediana do decil superior da banana é 403 nascimentos/ano e só 3 de 17 têm ≥800 |
+
+A via escolhida **não exige decisão metodológica nova** — exige apenas não
+chamar de achado o que está abaixo do MDE do próprio desenho. É o compromisso
+que a §4.6 do `paper/` já declara.
 
 ## 6. Multiplicidade — o núcleo do M1
 
-**Confirmatório** (declarar aqui; tudo que não estiver nesta lista é exploratório):
+**Confirmatório** — tudo que não estiver nesta lista é exploratório:
 
 | # | Desfecho | Exposição | Hipótese e direção esperada |
 |---|---|---|---|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
+| 1 | `peso_medio` | `share_gestacao_pos_ban` | `ACR(d) > 0` — remover a exposição aumenta o peso ao nascer, e o efeito cresce com a dose pré-ban |
+| 2 | `taxa_obito_fetal` | `share_gestacao_pos_ban` | `ACR(d) < 0` — o ban reduz óbito fetal. ⚠️ **Entra por causa da flag 6**, não apesar dela: se só o peso for testado, a seleção para nascimento vivo fica indistinguível de efeito nulo |
 
-**Correção de família:** ⬜ nenhuma (e justificar) · ⬜ Bonferroni ·
-⬜ Holm · ⬜ Benjamini–Hochberg · ⬜ outra: ______
+**Correção de família: Holm**, aplicada às duas hipóteses acima.
 
-**Exploratório declarado:** tudo o mais — inclusive os 19 recortes do canal de
-intoxicação e as séries de óbito fetal. Reportar como exploratório é legítimo;
-reportar exploratório como confirmatório não é.
+Controla FWER sem a perda de potência do Bonferroni — e com poder curto cada
+ponto conta. ⚠️ A correção **não** se estende ao exploratório: corrigir uma
+família que não se declarou como confirmatória seria dar a ele estatuto que não
+tem.
 
-⚠️ **O placebo não conta como desfecho.** A série X68 (intoxicação autoprovocada)
-entra como **falsificação**, não como resultado: a hipótese prevê que ela **não**
-se mova. Declarar isso aqui é o que impede que um movimento nela seja
-reinterpretado como achado depois.
+**Exploratório declarado:** os três `share_tri1/2/3`; o parâmetro `level`; a
+definição 2 de `d = 0`; a janela 2010–2014; o canal A5 inteiro; `baixo_peso` e
+`prematuridade`; e todos os recortes de molécula. Reportar exploratório como
+exploratório é legítimo; reportá-lo como confirmatório não é.
+
+⚠️ **O placebo NÃO conta como desfecho.** A série **intencional** do SINAN/IEXO
+(`CIRCUNSTAN ∈ {10,11,12}` — suicídio, aborto, violência) entra como
+**falsificação**: a hipótese prevê que ela **não** se mova. Declarar isso aqui é
+o que impede que um movimento nela seja reinterpretado como achado depois.
+
+⚠️ **E a fraqueza do placebo fica declarada:** 32,7% das notificações do SINAN
+têm `CIRCUNSTAN` ignorada. O contraste existe sobre dois terços do dado.
+
+**Fonte do canal A5: SINAN/IEXO**, não SIH. Em 2015–2022: 1.217 notificações de
+agrotóxico agrícola e 5.130 não-intencionais, contra **1** internação acidental
+no SIH em oito anos. Com 1 evento o canal não é estimável; com 1.217 é. O SIH
+fica como série secundária — ele mede *caso grave internado*, que é outro
+estimando, não um pior.
 
 ## 7. O que NÃO será feito
 
-- ⬜ Não trocar o desfecho primário se o poder não fechar. *(A saída ratificada é
-  encorpar o grupo tratado baixando o corte de dose — E1.5.)*
-- ⬜ Não descer de unidade geográfica. *(O registro de residência materna do
-  DATASUS não aguenta escala submunicipal — decisão da L3.)*
-- ⬜ Não reportar coeficiente abaixo do MDE do próprio desenho como achado.
-- ⬜ Outros: ______________________
+- ☑ **Não trocar o desfecho primário se o poder não fechar.** A saída é a §5:
+  limite superior informativo.
+- ☑ **Não descer de unidade geográfica.** O registro de residência materna do
+  DATASUS não aguenta escala submunicipal.
+- ☑ **Não reportar coeficiente abaixo do MDE do próprio desenho como achado.**
+- ☑ **Não usar o canal-água como desfecho.** O SISAGUA tem quebra de registro no
+  Ceará a partir de 2020 — detecções vão de 44 em 2019 para **zero** em
+  2020–2022, com mais amostras, enquanto o Brasil segue reportando ~50% de
+  resultados numéricos. Um DiD ali acharia que o ban eliminou 100% das
+  detecções, e seria artefato de laboratório.
+- ☑ **Não usar o teste de direção do vento.** Os alísios dão coerência 0,96
+  entre estações: "a favor do vento" é colinear com "a oeste da fonte", que é
+  geografia. O teste não separaria o que promete separar.
+- ☑ **Não tratar `inconclusivo` como ausência.** Municípios cuja varredura
+  legislativa não concluiu entram como desconhecidos, não como não-tratados.
 
 ## 8. Desvios
 
@@ -125,14 +246,19 @@ final reporta as duas versões.
 
 | Data | O que mudou | Por quê | Resultado original preservado em |
 |---|---|---|---|
-| | | | |
+| 2026-09-21 | `d = 0` primária: definição 2 → **definição 4** | A recomendação original era condicional — *"definição 2 porque 3 e 4 não estarão disponíveis"*. O FAO-GAEZ foi adquirido em 2026-09-21, 184/184 municípios. A restrição que justificava a 2 deixou de existir | A definição 2 é reportada como sensibilidade; `data/processed/gaez_aptidao_muni.parquet` e o commit `11c9dca` registram a aquisição |
+| 2026-09-21 | Este documento passa a se declarar **plano pré-estimação**, não pré-registro | A janela de "nenhuma fonte tocada" fechou em 2026-08-25, e o git prova. Ver §0 | Histórico do git; `docs/gates-resultados-dados-reais.md` |
 
 ---
 
 ## Como usar
 
-1. Preencher com o orientador — as escolhas de 1 a 6 são as **D1–D7** do
-   `docs/ars/08-briefing-orientador.md`.
-2. Datar, assinar, **commitar**. O commit é o carimbo de tempo: o histórico do
-   git prova que o plano é anterior ao dado.
-3. Só então rodar `make pipeline` contra fonte real.
+1. ~~Preencher com o orientador~~ — preenchido em 2026-09-21. As escolhas de 1 a
+   6 são as **D1–D7** do `docs/ars/08-briefing-orientador.md`.
+2. Datar, assinar, **commitar**. Feito: o commit é o carimbo de tempo.
+3. Só então rodar contra fonte real: `make real CULTURA="Banana (cacho)"`.
+
+⚠️ **O que ainda bloqueia o E6**, e não é este documento:
+- a escada de especificação do script 01 precisa rodar na janela ratificada;
+- `03_contdid.R` nunca produziu coeficiente — a primeira execução real está por
+  vir, e o `control_group` corrigido nunca foi exercitado ponta a ponta.
