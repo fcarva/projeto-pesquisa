@@ -1,0 +1,270 @@
+% =====================================================================
+% Ensaio 1 — Seção 6: Diagnóstico de poder e limite superior
+%
+% ⚠️ ESTA SEÇÃO NÃO É "RESULTADOS", e o título não é eufemismo.
+%
+% O alvo declarado da qualificação é documento de PROJETO: identificação
+% fechada, dose verificada, ameaças mapeadas, NÃO resultado estimado. A
+% estimação foi levada até o fim, e o que ela mostra é que a análise de poder
+% ex ante estava certa — o desenho não distingue o efeito procurado do zero.
+% Isso é informação sobre o DESENHO, e é nessa chave que entra aqui.
+%
+% ⚠️ A pré-especificação (docs/pre-especificacao.md, fechada em 2026-09-21,
+% commit c386514) declara em §5: se o desenho não falsificar, o que se escreve é
+% LIMITE SUPERIOR INFORMATIVO. Nenhum número desta seção é apresentado como
+% achado, e a §6 daquele documento declara o que é confirmatório e o que é
+% exploratório. Esta seção respeita as duas coisas.
+% =====================================================================
+
+\section{Diagnóstico de poder e limite superior}
+\label{sec:diagnostico}
+
+\subsection{O que foi fixado antes de olhar}
+\label{sub:prespec-fechada}
+
+A análise que segue foi declarada antes de qualquer estimativa, em documento
+datado e versionado. O compromisso relevante é o critério de falsificação:
+fixou-se o piso de efeito esperado em \textbf{15 g} --- o extremo estrito da
+faixa de 15 a 25 g que a literatura sugere --- e declarou-se que, se a
+meia-largura do intervalo de confiança não ficasse abaixo desse piso, o que se
+escreveria seria \textbf{limite superior informativo}, não achado.
+
+\paragraph{Uma ressalva de integridade que o documento faz de si mesmo.}
+Este não é pré-registro no sentido estrito, e afirmá-lo seria falso. A janela em
+que nenhuma fonte real havia sido tocada fechou antes da assinatura, e o
+histórico de versionamento prova a data. O que existe é um \textbf{plano de
+análise escrito depois dos diagnósticos de desenho e antes de qualquer
+estimação}: conheciam-se a distribuição de dose, o desvio-padrão das tendências
+municipais, o efeito mínimo detectável e o primeiro estágio do instrumento ---
+tudo pré-período ou aritmética de desenho --- e não se conhecia nenhum
+coeficiente. A fronteira que o documento protege é entre \emph{desenho} e
+\emph{efeito}, não entre nenhum dado e dado, e essa fronteira é verificável.
+
+\subsection{A curva dose-resposta}
+\label{sub:curva}
+
+O estimador é o de \citet{callaway2024continuous} com \emph{sieve}
+não-paramétrico, sobre o painel colapsado em pré e pós --- colapso que o próprio
+estimador exige, e que descarta as coortes cuja gestação atravessa o ban
+(9,4\% das células). O grupo de comparação é o \(d = 0\) pela construção que
+usa baixa aptidão agroclimática, e a definição alternativa entra como
+sensibilidade.
+
+O \(ATT(d\,|\,d)\) agregado é de \textbf{\(-36{,}19\) g}, com erro-padrão de
+15,47 g e intervalo de confiança de 95\% em \([-66{,}51;\ -5{,}87]\). A
+meia-largura é de \textbf{30,32 g}, contra o piso pré-especificado de 15 g.
+
+\begin{quote}
+\textbf{Pelo critério fixado antes de olhar, isto não é achado.} É limite
+superior informativo: o desenho é compatível com efeito nulo e com efeito de
+magnitude compatível com a literatura, e não distingue entre os dois.
+\end{quote}
+
+\paragraph{A sensibilidade ao grupo de comparação é estreita.}
+Trocar a construção do \(d = 0\) desloca o agregado de \(-36{,}19\) para
+\(-35{,}33\) g. O \emph{sieve} centra a curva na variação média do grupo de dose
+zero, de modo que contaminação desse grupo deslocaria o nível inteiro; aqui o
+deslocamento é inferior a 1 g, porque apenas um município muda de lado.
+
+\paragraph{O \(ACR(d)\) agregado não é interpretável, e isso é achado
+metodológico.}
+A derivada da curva é fortemente não linear e inverte de sinal ao longo da dose.
+Na faixa de dose inferior a 0{,}1\% --- onde estão 48 dos 169 pontos --- ela é
+da ordem de \(-9.100\) g por unidade de dose, com erro-padrão \emph{maior} que a
+estimativa. O agregado que o pacote reporta é média simples sobre os pontos, e
+portanto é dominado justamente pela região onde a derivada não é identificada.
+A magnitude, ademais, é artefato de unidade: naquela faixa a dose varia cerca de
+0{,}0009, de modo que \(-9.100\) g \emph{por unidade de dose} implica algo como
+\(-8{,}6\) g de efeito. Nenhum dos 169 pontos exclui o zero, em nenhuma faixa. O
+que se reporta, portanto, é o \(ATT(d\,|\,d)\), que é estável entre faixas.
+
+\subsection{Inferência com poucos clusters tratados}
+\label{sub:inferencia-poucos}
+
+O \emph{bootstrap} multiplicador do estimador principal é assintótico no número
+de clusters, e com dezessete municípios de dose alta esse intervalo é estreito
+demais para ser levado a sério. A Tabela~\ref{tab:inferencia} põe três
+procedimentos lado a lado, sobre a mesma forma reduzida.
+
+\begin{table}[htbp]
+\centering
+\caption{Três procedimentos de inferência sobre a mesma forma reduzida}
+\label{tab:inferencia}
+\small
+\begin{tabular}{lrl}
+\toprule
+\textbf{Procedimento} & \textbf{\(p\)} & \textbf{Supõe} \\
+\midrule
+Cluster-robusto           & 0,736 & assintótico no nº de clusters \\
+\emph{Wild cluster bootstrap} & 0,757 & \citet{cameron2008wild}; sub-rejeita com poucos tratados \citep{canay2021wild} \\
+Inferência por aleatorização & 0,793 & nenhum assintótico \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A lógica é a de \citet{conley2011}: não confiar no assintótico quando as
+unidades tratadas são poucas. A adaptação é fiel na lógica e não no
+procedimento --- Conley e Taber tratam tratamento binário com poucas mudanças de
+política, e aqui o tratamento é contínuo, de modo que a versão exata é permutar
+a dose. O intervalo de 95\% por inversão é \([-46{,}45;\ +57{,}85]\).
+
+\textbf{O informativo é a concordância.} Este arranjo existe para expor
+distância entre procedimentos: quando o ingênuo rejeita e a aleatorização não, o
+resultado não é ``significante'', é ``o desenho não distingue''. Aqui não há
+distância a expor, porque não há precisão falsa a desmentir --- nenhum dos três
+rejeita, e o coeficiente da forma reduzida (\(+6{,}81\)) está abaixo do efeito
+mínimo detectável do próprio desenho (33{,}4 g).
+
+\subsection{O placebo tem poder? Quanto?}
+\label{sub:pretrends}
+
+A credibilidade do desenho repousa sobre o teste de tendências paralelas, e um
+teste que ``passa'' pode estar passando por falta de poder, não por ausência de
+violação \citep{roth2023trending}. Medir esse poder deixa de ser refinamento e
+vira pré-requisito.
+
+\paragraph{Uma conta ingênua que engana.}
+A meia-largura mediana dos \emph{leads} individuais é de cerca de 86 g, contra o
+piso de 15 g --- razão de quase seis para um, que sugeriria um teste inútil. A
+conta está errada: o teste de tendência usa os 46 \emph{leads}
+\textbf{conjuntamente} para detectar inclinação linear, e o teste conjunto é
+muito mais potente que qualquer \emph{lead} isolado.
+
+Feita a conta certa, uma tendência linear de \textbf{0,238 g por mês} é
+detectada em 80\% das vezes; a 90\%, exige 0,429 g por mês. Traduzidas para a
+janela de quatro anos de pós-tratamento, correspondem a \textbf{11,4 g} e
+\textbf{20,6 g} de viés acumulado.
+
+\begin{quote}
+A frase honesta, portanto, tem o valor preenchido: \textbf{o placebo exclui
+tendências confundidoras capazes de fabricar mais de cerca de 11 g de efeito
+espúrio, e não exclui abaixo disso.} Ele não é cego, e também não é
+tranquilizador --- 11 g é da ordem do efeito procurado.
+\end{quote}
+
+\paragraph{Uma limitação do estimador que restringe o que se pode dizer.}
+Com coorte única --- que é o caso de um ban simultâneo --- o estimador principal
+devolve estimativas de \emph{event study} apenas para os períodos anteriores ao
+tratamento; os posteriores saem indefinidos. O que existe é, portanto, um teste
+de pré-tendências, e não um \emph{event study}: a trajetória dinâmica pós-ban
+não é recuperável por esta via.
+
+\subsection{O preço da hipótese de paralelismo}
+\label{sub:honestdid}
+
+\citet{rambachan2023credible} respondem à pergunta seguinte: admitida violação
+de paralelismo de tamanho \(\bar{M}\) relativo à maior violação pré observada,
+que intervalo sobrevive? Como o estimador principal não entrega períodos pós, a
+aplicação usa um \emph{event study} de efeitos fixos com tratamento
+\textbf{binário} --- decil superior contra o grupo \(d = 0\) ---, agregado a
+ano. É outro estimando, e o resultado abaixo é sobre ele.
+
+\begin{table}[htbp]
+\centering
+\caption{Sensibilidade a violações de tendências paralelas}
+\label{tab:honestdid}
+\small
+\begin{tabular}{lrr}
+\toprule
+\(\bar{M}\) & \textbf{IC inferior} & \textbf{IC superior} \\
+\midrule
+0{,}00 (paralelismo perfeito) & \(-72{,}5\) & \(+24{,}5\) \\
+0{,}50 & \(-130{,}4\) & \(+79{,}5\) \\
+1{,}00 & \(-217{,}4\) & \(+161{,}4\) \\
+2{,}00 & \(-395{,}3\) & \(+339{,}3\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{O valor de quebra é zero}, porque o intervalo já cobre o zero sob
+paralelismo perfeito. A leitura correta não é que o resultado seja frágil: é que
+não havia significância a ser destruída. O procedimento não conserta poder ---
+ele precifica a hipótese, e o preço aqui é que a largura quase quadruplica
+quando se admite violação do tamanho da maior violação pré observada.
+
+\paragraph{Uma observação sobre o uso de efeitos fixos de dois sentidos.}
+A literatura recente adverte contra o \emph{event study} de efeitos fixos sob
+adoção escalonada \citep{goodmanbacon2021,sunabraham2021}. Essa advertência
+\textbf{não se aplica a este uso}: o ban é simultâneo e existe grupo
+nunca-tratado limpo, de modo que não há a comparação entre unidades já tratadas
+que produz o viés. É o caso em que o estimador é apropriado.
+
+\subsection{Controle sintético, e por que o resultado que cruza a linha não é
+reportado como achado}
+\label{sub:sdid}
+
+O desenho previa controle sintético com diferenças-em-diferenças
+\citep{arkhangelsky2021sdid} para o agregado estadual --- Ceará contra um Ceará
+sintético construído com outros estados. Essa versão não é executável com os
+dados adquiridos, que cobrem apenas municípios cearenses. O que se roda é a
+versão intraestadual: municípios de dose alta contra sintético construído com os
+de dose zero. É outra pergunta, e a ameaça também é outra --- se o grupo \(d=0\)
+estiver contaminado por dispersão aérea para controle vetorial, o sintético é
+construído com unidades parcialmente tratadas, e o método herda o problema em
+vez de corrigi-lo.
+
+\begin{table}[htbp]
+\centering
+\caption{Três estimadores sobre a mesma matriz de painel}
+\label{tab:sdid}
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Estimador} & \textbf{\(\tau\) (g)} & \textbf{EP} & \textbf{IC 95\%} \\
+\midrule
+Synthetic DiD       & \(-20{,}16\) & 18{,}50 & \([-56{,}43;\ +16{,}10]\) \\
+Controle sintético  & \(-34{,}64\) & 16{,}73 & \([-67{,}43;\ -1{,}85]\) \\
+DiD                 & \(-21{,}85\) & 19{,}23 & \([-59{,}54;\ +15{,}84]\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+O controle sintético puro é o único estimador deste trabalho cujo intervalo
+exclui o zero, e sua magnitude supera --- por pouco --- o efeito mínimo
+detectável do desenho. \textbf{Ele não é reportado como achado}, por três
+razões, e registrá-las é o ponto.
+
+\begin{enumerate}
+  \item Os três estimadores rodam sobre a \textbf{mesma matriz}. Divergirem
+    quanto a excluir o zero não é evidência a favor do que exclui --- é
+    evidência de que o resultado depende do estimador. A amplitude entre eles é
+    de 14,5 g.
+  \item Nenhum dos três é confirmatório. A pré-especificação declara como
+    confirmatórios a curva dose-resposta e o óbito fetal, sob correção de Holm;
+    tudo nesta subseção é exploratório declarado.
+  \item Selecionar, entre muitos procedimentos, aquele que cruzou a linha é
+    exatamente a prática que a pré-especificação foi escrita para impedir. O
+    documento existe para tornar essa escolha visível, e a torna.
+\end{enumerate}
+
+\subsection{O que este ensaio pode e não pode afirmar}
+\label{sub:balanco}
+
+O quadro é coerente entre estimadores: \(-36\) g pela curva, \(-16\) a \(-33\) g
+pelo \emph{event study} binário, \(-20\) g pelo controle sintético com DiD,
+\(-22\) g pelo DiD simples. Todos negativos, quase todos cobrindo o zero, nenhum
+superando o efeito mínimo detectável do desenho com margem.
+
+\begin{quote}
+\textbf{O que se pode afirmar:} o desenho é compatível com um efeito do
+banimento sobre o peso ao nascer de magnitude até cerca de 60 g em módulo, e
+não distingue esse efeito do zero. É limite superior informativo, e é assim que
+deve ser lido.
+\end{quote}
+
+\paragraph{E há uma razão substantiva para o sinal negativo não ser
+surpreendente.}
+A seleção para nascimento vivo predizia exatamente isso. Se o banimento reduz o
+óbito fetal, fetos marginais que antes não nasciam passam a nascer, e entram na
+cauda inferior da distribuição de peso --- o efeito sobre o peso médio vem
+atenuado ou invertido \citep{sorensen2025birth}. Foi por essa razão que o óbito
+fetal entrou como segundo confirmatório, e não como acessório. O coeficiente
+correspondente é de \(+0{,}0002\), com intervalo cobrindo o zero com folga: não
+sustenta a história de seleção, e também não a exclui, porque 98,7\% das células
+de óbito fetal têm menos de cinco eventos.
+
+\paragraph{O que faria o desenho falar.}
+O caminho declarado não é trocar o desfecho nem descer de unidade geográfica ---
+as duas coisas estão vedadas na pré-especificação. É encorpar o grupo tratado,
+baixando o corte de dose para além do decil superior, e é a via que o roteiro já
+ratificava antes de haver estimativa.

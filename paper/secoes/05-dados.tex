@@ -1,0 +1,177 @@
+% =====================================================================
+% Ensaio 1 — Seção 5: Dados, aquisição e descritivas
+%
+% Esta seção ESTÁ no alvo da qualificação. O roteiro pede "dose verificada,
+% descritivas preliminares" — é isto. O que ela não traz é efeito estimado;
+% esse material está na §6, e lá com o enquadramento que a pré-especificação
+% impõe.
+%
+% ⚠️ Todo número aqui sai de artefato em data/processed/, produzido pelos
+% scripts do pipeline, com vintage registrada. Nada é de memória.
+% =====================================================================
+
+\section{Dados, aquisição e descritivas}
+\label{sec:dados}
+
+\subsection{O que foi adquirido, e o que foi suspenso com razão declarada}
+\label{sub:aquisicao}
+
+A Tabela~\ref{tab:fontes} registra o estado de cada fonte. A distinção entre
+\emph{não adquirida} e \emph{suspensa} não é burocrática: uma fonte suspensa foi
+obtida, inspecionada e descartada por um defeito identificado, e o defeito é
+informação sobre o desenho.
+
+\begin{table}[htbp]
+\centering
+\caption{Fontes: estado em setembro de 2026}
+\label{tab:fontes}
+\small
+\begin{tabular}{llp{7.2cm}}
+\toprule
+\textbf{Fonte} & \textbf{Estado} & \textbf{Observação} \\
+\midrule
+PAM/SIDRA        & adquirida & Tabelas 1612 e 1613; média 2015--2018 \\
+SINASC           & adquirida & 2015--2022, via \texttt{pysus} \\
+SIM/DOFET        & adquirida & Série nacional; o óbito fetal não está no DO \\
+SINAN/IEXO       & adquirida & Substitui o SIH no canal de intoxicação \\
+População (IBGE) & adquirida & SIDRA 6579; 2022 vem do Censo \\
+FAO-GAEZ         & adquirida & 184 de 184 municípios \\
+Bans municipais  & levantados & 17 tratados varridos; 1 achado \\
+\midrule
+SISAGUA          & \textbf{suspensa} & Quebra de registro laboratorial em 2020 \\
+ANA (ottobacias) & \textbf{suspensa} & Bloqueada pela anterior, não por acesso \\
+INMET/FUNCEME    & \textbf{suspensa} & Alísios: direção sem variação espacial \\
+MapBiomas        & \textbf{descartada} & Banana cai em classe genérica \\
+SEMACE (LAI)     & pendente & Única rota para o \(d=0\) operacional pré-ban \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{As três suspensões, e por que cada uma é resultado.}
+O SISAGUA foi obtido e tem \textbf{58.061} medições de agrotóxico no Ceará,
+cobrindo os 184 municípios em todos os anos da janela --- a melhor cobertura de
+qualquer fonte deste trabalho. Ele não entra mesmo assim, por três razões. A
+primeira é que três das quatro moléculas que o Dossiê ABRASCO encontrou na
+Chapada do Apodi --- procimidona, carbaril e fenitrotiona --- \textbf{não
+constam da lista monitorada}: o que se mede bem é o glifosato, justamente o que
+o Dossiê encontrou de menos. A segunda é que 95\% das amostras vêm do sistema de
+distribuição, isto é, água já tratada, e apenas 0,4\% dos registros trazem
+coordenada --- o desenho montante/jusante fica sem o insumo de que depende, e é
+por isso que as ottobacias da ANA também ficam suspensas. A terceira é decisiva:
+as detecções caem de 44 em 2019 para \textbf{zero} em 2020, 2021 e 2022, com
+\emph{mais} amostras coletadas, enquanto o Brasil segue reportando cerca de
+metade dos resultados em valor numérico. É mudança de prática laboratorial
+cearense, iniciada no ano seguinte ao ban. Um DiD sobre essa variável concluiria
+que a lei eliminou a totalidade das detecções, e o achado seria artefato.
+
+O vento foi obtido do INMET e tem qualidade alta: quatorze estações automáticas
+no Ceará, séries horárias com direção, velocidade e rajada integralmente
+preenchidas. O teste que ele serviria --- separar deriva de confundidor pela
+direção --- não funciona, e a razão é o contrário do que se esperaria: a
+coerência circular \emph{entre} estações é de \textbf{0,96}. São os alísios, e
+eles sopram sempre de leste. Com direção sem variação espacial, ``a favor do
+vento'' é colinear com ``a oeste da fonte'', que é geografia --- e qualquer
+confundidor com gradiente leste--oeste ficaria indistinguível de deriva.
+
+\subsection{O painel}
+\label{sub:painel}
+
+O painel do Ensaio~1 é município \(\times\) ano-mês, balanceado: \textbf{184
+municípios \(\times\) 96 meses = 17.664 células}, sem célula órfã. A
+Tabela~\ref{tab:descritivas} traz as descritivas dos desfechos e das variáveis
+de exposição.
+
+\begin{table}[htbp]
+\centering
+\caption{Descritivas do painel, Ceará 2015--2022}
+\label{tab:descritivas}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Grandeza} & \textbf{Valor} \\
+\midrule
+Nascidos vivos (pós-limpeza)            & 1.001.709 \\
+Peso médio ao nascer                    & 3.208 g \\
+Baixo peso (\(<\) 2500 g)               & 8,34\% \\
+Prematuridade (\(<\) 37 semanas)        & 12,58\% \\
+Óbitos fetais                           & 11.240 \\
+Notificações de agrotóxico agrícola (SINAN) & 1.217 \\
+População (Censo 2022)                  & 8.794.957 \\
+\midrule
+Municípios com dose \(> 0\)             & 169 \\
+Municípios com dose \(= 0\)             & 15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{O canal de intoxicação mudou de fonte, e a razão é aritmética.}
+O desenho previa o SIH como contra-teste do canal-ar. Com a série completa de
+oito anos, o SIH entrega \textbf{uma} internação por intoxicação acidental por
+agrotóxico no estado inteiro --- e o placebo do canal, que contrasta acidental
+com autoprovocada, morre junto, porque há um evento de cada lado. O SINAN/IEXO,
+que é a notificação compulsória desenhada para exatamente isto, entrega
+\textbf{1.217} notificações de agrotóxico de uso agrícola e 5.130 de
+circunstância não intencional no mesmo período. Com um evento o canal não é
+estimável; com 1.217 é. O SIH permanece como série secundária: ele mede
+\emph{caso grave internado}, que é outro estimando, não um pior.
+
+\paragraph{Duas limitações do SINAN que ficam declaradas.}
+A circunstância --- o campo que sustenta o placebo --- está ignorada em
+\textbf{32,7\%} das notificações, de modo que o contraste existe sobre dois
+terços do dado. E o agente de uso em saúde pública, que seria a medida direta da
+contaminação do grupo \(d = 0\) por controle vetorial aéreo (§2º do art. 28-B),
+soma \textbf{89} notificações em oito anos. A flag da contaminação do zero
+continua, portanto, sem fonte que a meça.
+
+\subsection{A dose: o Gate 1 e a cultura-âncora}
+\label{sub:dose-gate1}
+
+A escolha da cultura-âncora era hipótese, não decisão, e o material de projeto
+apontava para melão e algodão pela Chapada do Apodi. O dado a encerrou: o melão
+tem área positiva em \textbf{10} municípios e o algodão em \textbf{28} ---
+suporte insuficiente para a curva não-paramétrica, que exige valores de dose
+espalhados e não empilhados. A banana sustenta: \textbf{169} municípios com área
+positiva, Gini de \textbf{0,86} e 78\% da área no decil superior, que é a
+combinação de dispersão alta com suporte largo que o \emph{sieve} pede. Ela
+também é a cultura que casa com a química documentada --- procimidona é
+fungicida de bananal, e aparece em 23 das 23 amostras do Dossiê.
+
+\paragraph{O instrumento tem primeiro estágio.}
+O índice FAO-GAEZ de aptidão agroclimática foi construído para os 184
+municípios pela receita de \citet{reynier2025glyphosate}: diferença de
+rendimento atingível entre alto e baixo insumo, percentil \emph{nacional} dessa
+diferença --- calculado sobre os 5.570 municípios brasileiros, não sobre o Ceará
+---, e máximo entre culturas tomado \emph{depois} do percentil. O decil superior
+da banana tem aptidão média de \textbf{0,37} contra \textbf{0,26} do restante
+(mediana 0,50 contra 0,20). Banana é plantada onde banana é apta, e a condição
+de relevância se verifica por medida. \textbf{Isso não testa a exclusão}, que
+não é testável.
+
+\subsection{Bans municipais anteriores: a ameaça medida}
+\label{sub:bans}
+
+O art.~29 da Lei Estadual nº 12.228/1993 autoriza municípios a legislar
+supletivamente sobre agrotóxicos, e o material de projeto registrava que
+Limoeiro do Norte teria proibido a pulverização aérea em 2009. Se procedesse,
+haveria unidades já tratadas dentro do grupo de dose alta, e 2015--2018 deixaria
+de ser período pré-tratamento para todas --- uma falha que o pipeline não
+acusaria, porque o resultado sairia normalmente.
+
+Procede. A \textbf{Lei Municipal nº 1.478, de 20 de novembro de 2009}, de
+Limoeiro do Norte, dispõe sobre a proibição do uso de aeronaves nas
+pulverizações de lavouras, nove anos antes da lei estadual. E o município está
+no decil superior da banana --- sexto entre 169 ---, isto é, \emph{dentro} do
+grupo tratado.
+
+O levantamento dos 17 municípios do decil superior está completo: \textbf{um
+confirmado}, dezesseis com acervo conferido e sem norma do tema, nenhum
+inconclusivo. A contaminação é exatamente Limoeiro do Norte e não cresce: a
+hipótese de que a Chapada do Apodi tivesse legislado em bloco não procede ---
+Quixeré, com 21.289 leis no acervo digitalizado, e Russas, com 6.901, não têm
+norma anterior a 2019 sobre o tema.
+
+\paragraph{O que ``ausente'' significa aqui.}
+Conferiu-se o acervo \emph{publicado} de cada câmara. Câmara que não digitalizou
+2009 devolve vazio legitimamente, e dois dos dezesseis têm acervos pequenos
+demais para serem completos. A tabela de ameaças (§\ref{sec:identificacao})
+recebe isso como limitação declarada, não como zero.

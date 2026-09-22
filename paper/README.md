@@ -8,6 +8,27 @@ ameaças mapeadas. **Não** resultado estimado."*
 Isso muda como o documento é lido: a seção de identificação está **completa**, e
 as de resultado estão **ausentes de propósito** — não por atraso.
 
+## ⚠️ Nota de escopo — por que há §6 num documento de projeto
+
+*Atualizado em 2026-09-22.*
+
+O alvo declarado continua sendo **documento de projeto**, e a §6 **não se chama
+"Resultados"**. Ela se chama *Diagnóstico de poder e limite superior*, e o título
+não é eufemismo: o que ela mostra é que a análise de poder **ex ante** estava
+certa — o MDE previsto era 33,4 g e a meia-largura realizada foi 30,3 g. Isso é
+informação sobre o **desenho**, que é o que a qualificação defende.
+
+Nenhum número dela é apresentado como achado. A pré-especificação
+(`docs/pre-especificacao.md`, fechada em 2026-09-21) comprometeu, **antes de
+qualquer estimativa**, que resultado abaixo do MDE se escreve como *limite
+superior informativo* — e é assim que está escrito.
+
+⚠️ **O caso que testa isso está na §6.6.** O controle sintético puro é o único
+estimador cujo IC exclui zero. Ele **não** é reportado como achado, e as três
+razões estão no texto: os três estimadores rodam sobre a mesma matriz, nenhum
+deles é confirmatório pela §6 da pré-especificação, e escolher o que cruzou a
+linha é exatamente a prática que aquele documento existe para impedir.
+
 ## Estrutura
 
 | Arquivo | Estado |
@@ -18,8 +39,8 @@ as de resultado estão **ausentes de propósito** — não por atraso.
 | `secoes/03-teoria.tex` | ✅ escrita |
 | `secoes/04-identificacao.tex` | ✅ escrita — é o que a banca defende |
 | `referencias.bib` | ✅ **40 entradas, todas com DOI conferido** |
-| §5 Dados e descritivas | ⬜ espera aquisição |
-| §6 Resultados | ⬜ **fora do alvo da qualificação** |
+| `secoes/05-dados.tex` | ✅ **escrita** — aquisição, descritivas, Gate 1, bans municipais |
+| `secoes/06-diagnostico-poder.tex` | ✅ **escrita** — ver a nota de escopo abaixo |
 
 ```
 latexmk -pdf -interaction=nonstopmode paper/main.tex
