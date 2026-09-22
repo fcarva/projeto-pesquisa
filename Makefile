@@ -1,6 +1,6 @@
 # Ordem de execução do pipeline do Ensaio 1.
 #
-# Doze scripts com dependência entre si e sem alvo único que os rode na ordem é
+# Treze scripts com dependência entre si e sem alvo único que os rode na ordem é
 # convite a estimar com painel velho. Este arquivo é o achado de
 # reprodutibilidade da revisão metodológica (docs/ars/09) virando alvo.
 #
@@ -148,6 +148,7 @@ real: prespec-ok cultura-ok
 	$(PY) scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.parquet \
 	    --desfecho $(DESFECHO) $(if $(MDE),--mde $(MDE),)
 	Rscript scripts/estimate/06_pretrends.R --desfecho $(DESFECHO)
+	Rscript scripts/estimate/07_honestdid.R --desfecho $(DESFECHO)
 
 # ⚠️ FORA de `real` DE PROPÓSITO. A varredura é dezenas de requisições a portais
 # de câmara, e o produto — docs/legislacao/bans-municipais-ce.csv — é COMMITADO.
