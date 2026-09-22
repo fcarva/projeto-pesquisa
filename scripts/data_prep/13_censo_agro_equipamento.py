@@ -94,10 +94,20 @@ def _get(url: str, timeout: int = 300):
     return json.loads(b.decode("utf-8"))
 
 
-def municipios_ce() -> list[str]:
-    """Códigos de SETE dígitos. ⚠️ Com seis a API devolve HTTP 500, não vazio."""
-    ms = _get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/23/municipios")
+def municipios_da_uf(uf: str = "23") -> list[str]:
+    """Códigos de SETE dígitos da UF. ⚠️ Com seis a API devolve HTTP 500, não vazio.
+
+    ⚠️ Parametrizado para o gate da Rota 1: a pergunta que decide o desenho de
+    fronteira é se o estado vizinho tinha aeronave no pré-ban, e ela se responde
+    com esta MESMA tabela — trocando só a UF. Ver `14_gate_fronteira.py`.
+    """
+    ms = _get(f"https://servicodados.ibge.gov.br/api/v1/localidades/estados/{uf}/municipios")
     return [str(m["id"]) for m in ms]
+
+
+def municipios_ce() -> list[str]:
+    """Compatibilidade: o Ceará, que é o caso canônico do projeto."""
+    return municipios_da_uf("23")
 
 
 def baixa(ids: list[str], chunk: int = 25, pausa: float = 0.3) -> pd.DataFrame:
@@ -245,11 +255,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--painel", type=Path, default=PAINEL)
     p.add_argument("--out-dir", type=Path, default=OUT_DIR)
     p.add_argument("--chunk", type=int, default=25)
+    p.add_argument("--uf", default="23", metavar="COD",
+                   help="Código IBGE da UF (padrão: 23 = Ceará). 24 = RN.")
     args = p.parse_args(argv)
 
-    print(f"  baixando SIDRA {TABELA}/{PERIODO} para os municípios do CE...")
+    print(f"  baixando SIDRA {TABELA}/{PERIODO} para os municípios da UF {args.uf}...")
     try:
-        ids = municipios_ce()
+        ids = municipios_da_uf(args.uf)
     except Exception as e:
         print(f"✘ não foi possível listar os municípios: {type(e).__name__}")
         return 1
@@ -261,7 +273,10 @@ def main(argv: list[str] | None = None) -> int:
     relata(tb, confronta(tb, args.painel))
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    destino = args.out_dir / "censo_agro_equipamento_ce.csv"
+    # ⚠️ Nome carrega a UF: sem isso uma rodada --uf 24 gravaria por cima do
+    # artefato do Ceará, e o confronto com a dose leria o arquivo errado.
+    sufixo_uf = "ce" if args.uf == "23" else f"uf{args.uf}"
+    destino = args.out_dir / f"censo_agro_equipamento_{sufixo_uf}.csv"
     tb.to_csv(destino, index=False, encoding="utf-8")
     print(f"gravado: {destino}  ({len(tb)} municípios)")
     return 0

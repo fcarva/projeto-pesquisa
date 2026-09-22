@@ -37,6 +37,7 @@ intox = _carrega("04_clean_poisoning.py")
 painel = _carrega("05_build_panel.py", sub="build_panel")
 robust = _carrega("04_robustness.py", sub="estimate")
 gaez = _carrega("06_build_gaez.py")
+gate = _carrega("14_gate_fronteira.py")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -2335,3 +2336,106 @@ def test_finaliza_pam_nomeia_as_ufs_quando_o_filtro_esvazia():
     })]
     with pytest.raises(RuntimeError, match="23,24"):
         dose._finaliza_pam(pedacos, (2017,), ("23", "24"))
+
+
+# --------------------------------------------------------------------------
+# Gate da Rota 1 (script 14)
+#
+# A regra que estes testes existem para travar: **'ausente' não é '✘'**.
+# Bloqueio de rede tem de produzir "não verificado", nunca "verificado e
+# reprovado" — as duas coisas pedem ações opostas, e confundi-las já produziu
+# conclusão substantiva errada neste repositório (a truncagem do bucket GAEZ).
+# --------------------------------------------------------------------------
+
+def test_veredito_ausente_em_G1_domina_mesmo_com_o_resto_aprovado():
+    # G2 e G3 ✔ com G1 ausente NÃO é aprovação: é ignorância sobre a única
+    # coisa que estava em dúvida.
+    r = [{"gate": "G1_aeronave", "veredito": "ausente"},
+         {"gate": "G2_melao", "veredito": "✔"},
+         {"gate": "G3_registro", "veredito": "✔"}]
+    assert gate.veredito_agregado(r) == "ausente"
+
+
+def test_veredito_reprova_a_rota_quando_o_vizinho_nao_tinha_aeronave():
+    r = [{"gate": "G1_aeronave", "veredito": "✘"},
+         {"gate": "G2_melao", "veredito": "✔"},
+         {"gate": "G3_registro", "veredito": "✔"}]
+    assert gate.veredito_agregado(r).startswith("✘")
+
+
+def test_veredito_aprova_so_com_os_tres_verdes():
+    r = [{"gate": "G1_aeronave", "veredito": "✔"},
+         {"gate": "G2_melao", "veredito": "✔"},
+         {"gate": "G3_registro", "veredito": "✔"}]
+    assert gate.veredito_agregado(r) == "✔"
+    r[1]["veredito"] = "✘"
+    assert gate.veredito_agregado(r) == "⚠ com ressalva"
+    r[1]["veredito"] = "ausente"
+    assert gate.veredito_agregado(r) == "⚠ parcial"
+
+
+def test_suporte_por_cultura_separa_as_ufs_e_ignora_area_zero():
+    medias = pd.DataFrame({
+        "cod_ibge": ["230440", "230970", "240810", "241170", "355030"],
+        "cultura": ["melão"] * 5,
+        "area_ha": [10.0, 0.0, 50.0, 30.0, 999.0],  # zero não conta; SP fica fora
+    })
+    t = gate.suporte_por_cultura(medias, ("23", "24"))
+    assert t.loc["melão", "23"] == 1      # só Limoeiro tem área > 0
+    assert t.loc["melão", "24"] == 2
+    assert t.loc["melão", "total"] == 3
+
+
+def test_gate_melao_vira_verde_quando_a_ampliacao_fecha_o_suporte():
+    # O encerramento do melão no Gate 1 foi condicional à amostra só-Ceará.
+    # Com poucos municípios continua ✘; com muitos, o suporte fecha.
+    poucos = pd.DataFrame({
+        "cod_ibge": ["230440", "240810"], "cultura": ["melão"] * 2,
+        "area_ha": [10.0, 20.0],
+    })
+    assert gate.gate_melao(poucos, "24")["veredito"] == "✘"
+
+    muitos = pd.DataFrame({
+        "cod_ibge": [f"23{i:04d}" for i in range(20)] + [f"24{i:04d}" for i in range(20)],
+        "cultura": ["melão"] * 40, "area_ha": [10.0] * 40,
+    })
+    saida = gate.gate_melao(muitos, "24")
+    assert saida["veredito"] == "✔"
+    assert saida["municipios_melao_ce"] == 20
+    assert saida["municipios_melao_total"] == 40
+
+
+def test_gate_melao_sem_pam_devolve_ausente_e_nao_reprovacao():
+    assert gate.gate_melao(None, "24")["veredito"] == "ausente"
+    assert gate.gate_melao(pd.DataFrame(), "24")["veredito"] == "ausente"
+
+
+def test_gate_registro_compara_peso_medio_entre_ufs():
+    painel = pd.DataFrame({
+        "cod_ibge6": ["230440", "230440", "240810", "240810"],
+        "n_nascimentos": [100, 100, 100, 100],
+        "peso_medio": [3200.0, 3200.0, 3210.0, 3210.0],
+    })
+    saida = gate.gate_registro(painel, "24")
+    assert saida["veredito"] == "✔"
+    assert saida["delta_peso_g"] == pytest.approx(-10.0)
+
+    # Diferença grande de nível reprova a TRIAGEM (não a identificação).
+    painel.loc[painel["cod_ibge6"] == "240810", "peso_medio"] = 3000.0
+    assert gate.gate_registro(painel, "24")["veredito"] == "✘"
+
+
+def test_gate_registro_exige_as_duas_ufs_no_painel():
+    # Painel só-Ceará não reprova o vizinho: ele não o observou.
+    painel = pd.DataFrame({
+        "cod_ibge6": ["230440"], "n_nascimentos": [100], "peso_medio": [3200.0],
+    })
+    saida = gate.gate_registro(painel, "24")
+    assert saida["veredito"] == "ausente"
+    assert "não tem as duas UFs" in saida["detalhe"]
+
+
+def test_gate_recusa_o_ceara_como_vizinho():
+    # --vizinho 23 compararia o Ceará consigo mesmo e devolveria zero por
+    # construção, sem nada acusar.
+    assert gate.main(["--vizinho", "23"]) == 1
