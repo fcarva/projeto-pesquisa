@@ -17,7 +17,7 @@ A receita agronômica pode dizer exatamente o que falta, por três elos:
 | elo | norma | estado da verificação |
 |---|---|---|
 | Toda venda de agrotóxico agrícola no Ceará exige receituário | Lei Estadual nº 12.228/1993, **art. 16** | ✅ texto consolidado em `docs/legislacao/` |
-| A receita registra a **modalidade de aplicação**, com anotação **obrigatória** quando aérea | Decreto Federal nº 4.074/2002, **art. 66** | ⚠️ conteúdo confirmado por dois agregadores de legislação; **texto verbatim pendente** (planalto.gov.br bloqueado na sessão). Conferir antes de protocolar |
+| A receita registra a **modalidade de aplicação**, com anotação **obrigatória** quando aérea | Decreto Federal nº 4.074/2002, **art. 66, IV, "d"** | ✅ **verbatim conferido no Planalto em 2026-09-22** — e o dispositivo é MAIS forte do que esta minuta supunha. Ver §3.1 |
 | A fiscalização do receituário cabe à defesa agropecuária estadual | Lei nº 12.228/1993, **art. 30, IV** (atribuído à SEARA em 1993); hoje a **ADAGRI** é a entidade executora do Sistema de Defesa Agropecuária do Estado | ✅ art. 30, IV; ⚠️ a sucessão SEARA → ADAGRI está afirmada pela própria ADAGRI, não pela lei de criação — conferir |
 
 Se a ADAGRI mantém as receitas de 2015–2018 em base consultável, o recorte
@@ -104,9 +104,9 @@ fracasso: ela fecha a rota e registra por quê.
 
 ## 3. Antes de protocolar — confira
 
-- [ ] **Texto verbatim do art. 66 do Decreto 4.074/2002** no Planalto. Se a
-      expressão "modalidade de aplicação" não estiver lá como está aqui, ajuste
-      — citar norma com redação errada é o jeito mais rápido de receber negativa.
+- [x] ✅ **Texto verbatim do art. 66 do Decreto 4.074/2002** — conferido no
+      Planalto em 2026-09-22. Ver §3.1: a expressão está lá, e o inciso dá um
+      gancho mais forte do que o que esta minuta vinha usando.
 - [ ] **Lei de criação da ADAGRI** e o dispositivo que lhe transfere a
       fiscalização do receituário. Citar a competência certa evita o
       "encaminhe-se à SEARA".
@@ -114,6 +114,39 @@ fracasso: ela fecha a rota e registra por quê.
       alguma instituiu o envio eletrônico de receitas, cite-a no pedido — ela
       prova que a base existe.
 - [ ] Canal: e-SIC/Ceará Transparente ou a ouvidoria da ADAGRI.
+
+### 3.1 ✅ Art. 66 verbatim — e ele é melhor do que o pedido supunha
+
+`planalto.gov.br/ccivil_03/decreto/2002/d4074.htm`, conferido em 2026-09-22
+(HTTP 200; o host estava inalcançável na sessão remota):
+
+> **Art. 66.** A receita, específica para cada cultura ou problema, deverá
+> conter, necessariamente:
+> […]
+> **IV** - recomendação técnica com as seguintes informações:
+> […]
+> **d) modalidade de aplicação, com anotação de instruções específicas, quando
+> necessário, e, obrigatoriamente, nos casos de aplicação aérea;**
+
+⚠️ **O inciso é mais forte do que "a receita registra a modalidade".** A
+anotação de instruções específicas é discricionária no caso geral — "quando
+necessário" — e **obrigatória** no caso aéreo. Isto é, a norma **destaca a
+aplicação aérea como o caso que não admite omissão**. O pedido deve citar o
+inciso inteiro, com a alínea, em vez de parafrasear o artigo: negar o extrato
+passa a exigir que a ADAGRI sustente que não possui o que a norma federal a
+obriga a exigir do emitente.
+
+⚠️ **Uma precisão de redação:** o parágrafo único vigente é o da **redação dada
+pelo Decreto nº 10.833, de 2021** ("com observância às recomendações de uso
+aprovadas em rótulo e bula **ou com base em recomendações oficiais**…"), não o
+original. Não muda o inciso IV, mas citar a redação revogada dá margem a
+resposta evasiva.
+
+⬜ **Os outros dois itens do checklist seguem abertos** — lei de criação da
+ADAGRI e objeto das Portarias 814/2022, 2/2024 e 16/2025. São normas estaduais
+e não estão no Planalto.
+
+---
 
 ## 4. O que fazer com a resposta
 

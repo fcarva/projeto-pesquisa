@@ -404,11 +404,22 @@ O gate informa a decisão; não a toma.
      pretendia não está escrito, e adivinhar é o que o log proíbe.
 2. **Leituras** (§5 do doc 14): Calzada et al. inteiro; Camacho & Mejía;
    calendário de pulverização da banana no CE.
-3. **Alinhar o script 03 ao padrão**: ele baixa por `ftp://` com `curl` em
-   subprocesso, um por arquivo, e exige `curl` no PATH. Os scripts 02, 04 e 10
-   usam `ftplib`, sem binário externo e com a conexão reaproveitada.
-4. **LAI** — fora do Claude Code. ADAGRI e SEMACE como no doc 14; o Planalto
-   responde nesta máquina, então o art. 66 verbatim está desbloqueado.
+3. ~~**Alinhar o script 03 ao padrão.**~~ ✅ **Feito em 2026-09-22.** O DOFET
+   passa a usar `ftplib`, sem `curl` no PATH e com UMA conexão para os 8
+   arquivos. ⚠️ **E o comportamento mudou num ponto:** ano indisponível agora
+   **levanta**, onde antes avisava e seguia — uma janela de 8 anos que
+   voltasse com 6 produziria série curta sem nada acusar, e óbito fetal é o
+   desfecho que a flag 6 põe em primeira linha.
+4. **LAI** — fora do Claude Code (protocolar é ato humano). ✅ **O art. 66
+   verbatim foi conferido** no Planalto em 2026-09-22, e é **mais forte do que
+   a minuta supunha**: o inciso IV, "d" exige a modalidade de aplicação com
+   anotação "**obrigatoriamente, nos casos de aplicação aérea**" — a norma
+   destaca o caso aéreo como o que não admite omissão. Negar o extrato passa a
+   exigir que a ADAGRI sustente não possuir o que a norma federal a obriga a
+   exigir. Ver `docs/legislacao/lai-adagri-minuta.md` §3.1.
+   ⬜ Seguem abertos os outros dois itens do checklist — lei de criação da
+   ADAGRI e objeto das Portarias 814/2022, 2/2024 e 16/2025 —, que são normas
+   estaduais e não estão no Planalto. E os pedidos A/B à SEMACE, intocados.
 5. **Canal A5**: avaliar os cubos do `sih-br-mcp` contra o SINAN/IEXO
    (2.914 eventos/ano × 4 no SIH) — item 7 do §8 do `gates-resultados`.
 6. **Censo 2010** no script 15, para o corte pré-ban.

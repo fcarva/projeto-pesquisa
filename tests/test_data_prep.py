@@ -479,6 +479,37 @@ def test_fronteira_recusa_o_ceara_como_vizinho_e_uf_sem_sigla():
     assert fronteira.main(["--vizinhos", "99"]) == 1
 
 
+# --------------------------------------------------------------------------
+# O transporte FTP do DOFET (03). Era `curl` em subprocesso, um processo por
+# arquivo, exigindo curl no PATH; alinhado aos scripts 02, 04 e 10 em
+# 2026-09-22. O teste trava também a MUDANÇA de comportamento: ano ausente
+# levanta, onde antes avisava e seguia.
+# --------------------------------------------------------------------------
+
+def test_baixa_dofet_ftp_usa_uma_conexao_e_respeita_o_cache(monkeypatch, tmp_path):
+    (tmp_path / "DOFET15.dbc").write_bytes(b"ja-estava-aqui")
+    registro = _instala_ftp_falso(monkeypatch, ["DOFET15.dbc", "DOFET16.dbc"])
+
+    caminhos = fetal.baixa_dofet_ftp(anos=(2015, 2016), destino=tmp_path)
+
+    assert [c.name for c in caminhos] == ["DOFET15.dbc", "DOFET16.dbc"]
+    baixados = [r[1] for r in registro if isinstance(r, tuple) and r[0] == "retr"]
+    assert baixados == ["DOFET16.dbc"]                 # o de 2015 veio do cache
+    assert registro.count("login") == 1                # UMA conexão, não uma por ano
+    assert list(tmp_path.glob("*.parte")) == []
+
+
+def test_baixa_dofet_ftp_grita_em_vez_de_encurtar_a_serie(monkeypatch, tmp_path):
+    """A versão com `curl` fazia `continue` num ano indisponível.
+
+    Uma janela de 8 anos que voltasse com 6 produziria série curta sem nada
+    acusar — e o óbito fetal é o desfecho que a flag 6 põe em primeira linha.
+    """
+    _instala_ftp_falso(monkeypatch, ["DOFET15.dbc"])
+    with pytest.raises(RuntimeError, match="DOFET16.dbc"):
+        fetal.baixa_dofet_ftp(anos=(2015, 2016), destino=tmp_path)
+
+
 def test_dispersao_separa_cv_com_e_sem_zeros():
     medias = pd.DataFrame(
         {
