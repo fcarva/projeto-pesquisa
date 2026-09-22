@@ -61,11 +61,12 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 175 testes"
+	@echo "make teste     — 183 testes"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
 	@echo "make gaez      — aptidão FAO-GAEZ (exige rasters em data/geo/)"
+	@echo "make erro-classificacao — a flag 7 medida: VPP da dose + limite do ATT"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
 	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
@@ -185,7 +186,7 @@ limpar:
 
 # A inversao de Weitzman e material do ENSAIO 2, nao do pipeline do Ensaio 1:
 # nao le painel, consome as constantes ja estimadas. Alvo proprio, de proposito.
-.PHONY: weitzman custo-conab equipamento
+.PHONY: weitzman custo-conab equipamento erro-classificacao
 custo-conab:
 	$(PY) scripts/data_prep/12_clean_conab_custos.py
 
@@ -193,6 +194,12 @@ custo-conab:
 # quem de fato pulverizava por aviao no CE. Rede leve; alvo proprio.
 equipamento:
 	$(PY) scripts/data_prep/13_censo_agro_equipamento.py
+
+# ⚠️ A flag 7, MEDIDA: sensibilidade, especificidade e VPP da dose contra a
+# medida direta de metodo, mais o limite do ATT sob misclassificacao. Roda sem
+# rede a partir dos numeros da secao 5.4; com --censo/--dose recalcula.
+erro-classificacao:
+	$(PY) scripts/estimate/12_erro_de_classificacao.py
 
 weitzman: custo-conab
 	$(PY) scripts/estimate/11_weitzman_inversao.py $(if $(BETA_MIN),--beta-min $(BETA_MIN) --beta-max $(BETA_MAX),)

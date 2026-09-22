@@ -38,6 +38,7 @@ painel = _carrega("05_build_panel.py", sub="build_panel")
 robust = _carrega("04_robustness.py", sub="estimate")
 gaez = _carrega("06_build_gaez.py")
 gate = _carrega("14_gate_fronteira.py")
+misc = _carrega("12_erro_de_classificacao.py", sub="estimate")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -2439,3 +2440,75 @@ def test_gate_recusa_o_ceara_como_vizinho():
     # --vizinho 23 compararia o Ceará consigo mesmo e devolveria zero por
     # construção, sem nada acusar.
     assert gate.main(["--vizinho", "23"]) == 1
+
+
+# --------------------------------------------------------------------------
+# Erro de classificação da dose (script 12 de estimate)
+#
+# A flag 7 deixa de ser afirmação qualitativa e vira três métricas padrão.
+# O que estes testes travam é o MECANISMO que Rull & Ritz (2003) descrevem:
+# com prevalência baixa, especificidade alta NÃO salva o VPP — e é o VPP que
+# diz que fração do grupo "tratado" estava de fato tratada.
+# --------------------------------------------------------------------------
+
+def test_metricas_reproduzem_os_numeros_publicados_na_secao_5_4():
+    # 184 municípios, 7 com aeronave, decil de 19 com 2 deles (Limoeiro, Quixeré).
+    m = misc.metricas_classificacao(184, 7, 19, 2)
+    assert m["sensibilidade"] == pytest.approx(2 / 7)
+    assert m["vpp"] == pytest.approx(2 / 19)
+    assert m["prevalencia"] == pytest.approx(7 / 184)
+    # A matriz tem de fechar nos 184.
+    assert m["vp"] + m["fp"] + m["fn"] + m["vn"] == 184
+
+
+def test_especificidade_alta_nao_salva_o_vpp_com_prevalencia_baixa():
+    # É o mecanismo de Rull & Ritz, e é contraintuitivo o bastante para merecer
+    # teste: 90%+ de especificidade com ~4% de prevalência ainda deixa ~9 de
+    # cada 10 "tratados" sem tratamento.
+    m = misc.metricas_classificacao(184, 7, 19, 2)
+    assert m["especificidade"] > 0.90
+    assert m["vpp"] < 0.15
+
+
+def test_lambda_teto_bate_com_a_definicao_do_corolario_5():
+    m = misc.metricas_classificacao(184, 7, 19, 2)
+    esperado = (1 - m["vpp"]) + m["fn"] / (184 - 19)
+    assert m["lambda_teto"] == pytest.approx(esperado)
+
+
+def test_metricas_recusam_matriz_impossivel():
+    # Mais acertos do que positivos verdadeiros existentes.
+    with pytest.raises(ValueError):
+        misc.metricas_classificacao(184, 7, 19, 8)
+    with pytest.raises(ValueError):
+        misc.metricas_classificacao(184, 7, 19, 20)
+
+
+def test_limite_colapsa_no_ponto_quando_nao_ha_misclassificacao():
+    assert misc.limite_corolario5(-21.85, 0.0) == pytest.approx((-21.85, -21.85))
+
+
+def test_limite_afasta_do_zero_e_preserva_o_sinal():
+    inf, sup = misc.limite_corolario5(-21.85, 0.5)
+    assert inf == pytest.approx(-43.70)
+    assert sup == pytest.approx(-21.85)
+    # Coeficiente positivo espelha, e o limite continua ordenado.
+    inf_p, sup_p = misc.limite_corolario5(21.85, 0.5)
+    assert (inf_p, sup_p) == pytest.approx((21.85, 43.70))
+
+
+def test_limite_recusa_lambda_fora_do_intervalo():
+    # λ = 1 significa classificação sem informação: infinito silencioso viraria
+    # número em tabela.
+    for ruim in (1.0, 1.5, -0.1):
+        with pytest.raises(ValueError, match="λ"):
+            misc.limite_corolario5(-21.85, ruim)
+
+
+def test_tabela_marca_quando_o_limite_ultrapassa_o_mde():
+    # É a leitura que importa: sob erro de medida, o efeito implicado sobre os
+    # genuinamente tratados passa do MDE de 33,4 g — logo o desenho teria tido
+    # poder, e a falha não foi de amostra.
+    t = misc.tabela_limites(-21.85, [0.3, 0.5], "did")
+    assert not t.loc[t["lambda"] == 0.3, "excede_mde"].iloc[0]
+    assert t.loc[t["lambda"] == 0.5, "excede_mde"].iloc[0]
