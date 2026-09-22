@@ -1,0 +1,22 @@
+# SIPEAGRO/MAPA — operadores aeroagrícolas REGISTRADOS no Ceará
+# fonte: dados.agricultura.gov.br/dataset/sipeagro (CC-BY), extração 2026-09-21
+# ⚠️ RETRATO DO PRESENTE, sem dimensão temporal: o arquivo não tem coluna de data.
+# ⚠️ 100 de 107 registros são AERONAVE REMOTAMENTE PILOTADA (drone), legalizada
+#    no CE só em 19/12/2024 pela Lei 19.135. NÃO mede capacidade pré-2019.
+cod_ibge6,municipio,n_estabelecimentos,n_registros,n_aeronave_remota,n_aeronave_convencional
+230240,Boa Viagem,1,28,28,0
+230760,Limoeiro do Norte,5,16,15,1
+230730,Juazeiro do Norte,1,12,6,0
+230535,Icapuí,1,12,12,0
+230030,Acopiara,2,10,10,0
+231290,Sobral,2,8,8,0
+230850,Mombaça,3,6,6,0
+230440,Fortaleza,4,4,4,0
+230250,Brejo Santo,1,2,2,0
+230550,Iguatu,1,2,2,0
+231310,Tabuleiro do Norte,1,2,2,0
+230200,Barro,1,1,1,0
+231110,Porteiras,1,1,1,0
+230765,Maracanaú,1,1,1,0
+231270,Senador Pompeu,1,1,1,0
+231180,Russas,1,1,1,0

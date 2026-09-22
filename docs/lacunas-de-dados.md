@@ -93,7 +93,8 @@ GDAL/PROJ/GEOS são pesados e brigam, e o pipeline 01–05 não precisa deles.
 
 | Fonte | Ação | Prazo |
 |---|---|---|
-| **SEMACE / ANAC / MAPA / SINDAG** | protocolar a LAI (minuta em `07-layer4-*.md`) | 20 dias + 10. **Único com relógio externo** |
+| ~~**MAPA**~~ ✅ **é DADO ABERTO** — LAI desnecessária | `dados.agricultura.gov.br/dataset/sipeagro`, CC-BY | ⚠️ mas **não serve à definição 3** — ver §1-bis |
+| **SEMACE / ANAC / SINDAG** | protocolar a LAI (minuta em `07-layer4-*.md`) | 20 dias + 10. **Único com relógio externo** |
 | **Bans municipais < 2019** ⚠️ | levantamento legislativo. **Fase 1 = decil superior (~30)**, não os 184 | nenhum, mas é anterior ao Gate 1 em importância. ✅ **1 achado já confirmado** |
 
 Nenhum script resolve estas. Precisam de uma pessoa.
@@ -105,6 +106,144 @@ municípios). Então **há**, e não "se houver", unidade já tratada dentro do 
 de dose alta: ~6% dele. Para essa unidade a dose de 2015–2018 já vem suprimida
 pelo próprio ban municipal — **contamina a medida de dose**, não só o desfecho.
 A varredura dos outros 16 do decil é o que falta.
+
+### 1-bis. ⚠️ O SIPEAGRO é aberto — e mesmo assim não fecha a definição 3
+
+*2026-09-21.* O `d = 0` da **definição 3** é o zero que mede o **método** (quem
+pode pulverizar por ar), não a cultura-proxy. A Classe C dava isso como
+bloqueado por LAI. **Não está:** o MAPA publica o SIPEAGRO em dados abertos,
+licença CC-BY, em CSV — `dados.agricultura.gov.br/dataset/sipeagro`.
+
+São dois arquivos, e nenhum dos dois entrega o que a definição 3 precisa:
+
+| arquivo | o que tem | por que não serve |
+|---|---|---|
+| **Registro** (7,7 MB) | 27 estabelecimentos no CE, 16 municípios | ⚠️ **sem coluna de data** — retrato do presente. E **100 de 107 registros são drone**, legalizado no CE só em 19/12/2024. Mede o mundo pós-exceção, não a capacidade pré-2019 |
+| **Autorização** (161 MB) | 739.137 autorizações, com `MUNICIPIO_AUTORIZADO` e datas de validade | ⚠️ **a série começa em 2021** (1.234 registros; só 2022 em diante é densa). **Não alcança a janela pré-ban** |
+
+**Conclusão honesta: a definição 3 de `d = 0` continua sem fonte**, e agora se
+sabe que não é por barreira administrativa — é porque o registro federal não
+tem profundidade histórica. A LAI à SEMACE segue valendo, e agora é a **única**
+rota para o pré-período.
+
+### ✅ Mas duas coisas se aproveitam
+
+**1. Um teste de *enforcement*, que a flag 3 pedia.** No arquivo de
+autorizações, 2022–2026:
+
+| UF | autorizações |
+|---|---|
+| Piauí | 67.014 |
+| Maranhão | 18.100 |
+| Bahia | 7.747 |
+| **Ceará** | **0** |
+
+Zero contra dezenas de milhares nos vizinhos do mesmo bioma. Não prova ausência
+de pulverização — prova ausência de **autorização federal**, que é o que o
+registro mede. Mas a flag 3 ("proibir método ≠ proibir molécula") ganha aqui
+sua primeira evidência quantitativa de que o ban não é letra morta no cadastro.
+
+⚠️ **Ressalva que não pode sumir:** a série começa em 2021, então isto é
+comparação **pós-ban contra pós-ban**. Não há contrafactual pré-ban no arquivo.
+
+**2. O mapa dos drones, para o corte da janela.**
+`docs/legislacao/sipeagro-aeroagricola-ce.csv` lista os 16 municípios cearenses
+com operador registrado. Como quase tudo ali é drone e drone só é legal desde
+19/12/2024, essa tabela descreve exatamente o regime que o corte da janela
+**exclui** — é o retrato do que viria depois, útil para o Ensaio 2 (troca de
+instrumento) e para justificar o corte.
+
+⚠️ Note que **Limoeiro do Norte tem 5 estabelecimentos e a única aeronave
+convencional registrada no estado** — o município que proibiu em 2009.
+
+### 1-ter. ⚠️ O canal-água: SISAGUA adquirido, e ele traz uma armadilha que
+inverteria o resultado
+
+*2026-09-21.* `vigilancia_demais_parametros` do SISAGUA
+(`s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SISAGUA/`, 105 MB, aberto):
+
+| | |
+|---|---|
+| medições de agrotóxico no CE | **58.061** |
+| municípios | **184 de 184** |
+| cobertura anual 2015–2022 | 171 a 184 municípios **todo ano** |
+| princípios ativos nomeados | 28, com VMP |
+
+A cobertura é a melhor de qualquer fonte deste projeto. E mesmo assim o canal
+**não está pronto**, por três razões — a terceira é séria.
+
+#### ⚠️ 1. Três das quatro moléculas do Dossiê ABRASCO não são monitoradas
+
+A flag 2 do `CLAUDE.md` registra que a tabela do PL 18/2015 achou, na Chapada do
+Apodi, **procimidona e carbaril em 23/23** amostras, **carbofurano em 18/23**,
+**fenitrotiona em 16/23** — e glifosato em só 4/23.
+
+No SISAGUA/CE:
+
+| molécula | medições |
+|---|---|
+| **procimidona** (*fungicida de bananal*) | **0** |
+| **carbaril** | **0** |
+| **fenitrotiona** | **0** |
+| carbofurano | 1.833 |
+| glifosato + AMPA | 1.563 |
+
+**A lista da Portaria não é a lista da Chapada do Apodi.** O monitoramento mede
+bem justamente a molécula que o Dossiê achou de menos (glifosato) e **não mede**
+a que ele achou em todas as amostras. O canal-água, como fonte, não alcança a
+química que a flag 2 identifica como a do problema.
+
+#### ⚠️ 2. 95% das amostras são de água TRATADA
+
+`Procedência da Coleta`: 55.019 de "SISTEMA DE DISTRIBUIÇÃO" contra **1.284** de
+"PONTO DE CAPTAÇÃO (água superficial)". Para deriva de pulverização o que
+interessa é o manancial; o que se mede é o que saiu da ETA. E `Latitude`/
+`Longitude` vêm preenchidas em **260 de 58.061** registros (0,4%), então o
+desenho montante/jusante **não tem coordenada** para se apoiar.
+
+#### ⚠️⚠️ 3. A quebra de registro que produziria um "efeito" inteiro do nada
+
+Detecções (resultado numérico > 0) no Ceará, por ano:
+
+    2015: 41    2016: 13    2017: 5    2018: 20    2019: 44
+    2020:  0    2021:  0    2022: 0   ← em 18.480 amostras
+
+Zero exato, três anos seguidos, com **mais** amostras que antes. E a categoria
+`MENOR_LQ` aparece exatamente quando o numérico some: 0, 1, 0, 1, 0 → **170,
+186, 360**.
+
+**Não é fenômeno nacional.** Comparação do percentual de resultados numéricos:
+
+| ano | Ceará | Brasil |
+|---|---|---|
+| 2015–2019 | 0,1 – 0,6% | 14 – 51% |
+| **2020** | **0,00%** | 49,8% |
+| **2021** | **0,00%** | 31,9% |
+| 2022 | 0,00% | 4,0% |
+
+Em 2020 o Brasil reporta metade dos resultados como número e o Ceará reporta
+**nenhum**. É mudança de prática laboratorial cearense, e ela começa no ano
+seguinte ao ban.
+
+> ⚠️ **Um DiD sobre "agrotóxico detectado na água" acharia que o ban eliminou
+> 100% das detecções — e isso seria artefato de registro, não efeito
+> ambiental.** O achado seria grande, significativo, e completamente espúrio.
+> É o pior caso do repositório: o pipeline roda, o número sai, e está errado.
+
+#### O que resta do canal
+
+Não é inutilizável, mas o que sobra é menor do que se esperava:
+
+- **pré-período 2015–2018 é usável** — detecções variam (41, 13, 5, 20) e a
+  cobertura municipal é quase completa;
+- **o pós-período não é comparável ao pré** na variável de detecção;
+- a alternativa é tratar `MENOR_LQ` como categoria ordinal, mas ela **só existe
+  a partir de 2020** — não há pré-período para ela.
+
+**Decisão que é sua:** o canal-água vira (a) descritivo de pré-período, (b)
+alvo de uma requisição de microdado laboratorial à SESA/CE com os valores
+brutos, ou (c) sai do escopo. A matriz da §2 dizia que sem ele "o mecanismo
+fica postulado, não medido" — continua assim, e agora se sabe por quê.
 
 ### Classe D — ✅ **quatro respondidas em 2026-09-21**, uma segue aberta
 
@@ -159,7 +298,7 @@ integral, e duas atribuições da introdução foram corrigidas por isso.
 | ~~**FAO-GAEZ**~~ ✅ **resolvido** | — | ~~o instrumento; 3 das 4 definições de zero~~. Restam impossíveis só as que dependem de ANAC/SEMACE (definição 3) |
 | **SEMACE / ANAC** | tudo, com o estimando renomeado | definição 3 de `d = 0` (a única que mede **método**); a verificação de *enforcement* pelo registro |
 | **Bans municipais < 2019** | tudo, aparentemente | ⚠️ a garantia de que 2015–2018 é pré-tratamento. **Falha silenciosa: o resultado sai e está errado.** Já não é risco hipotético — 1 dos 17 tratados da banana está banido desde 2009 |
-| ANA + SISAGUA | Ensaio 1 inteiro | o canal-água; o mecanismo fica postulado, não medido |
+| ~~ANA + SISAGUA~~ ⏸️ **SUSPENSO 2026-09-21** | Ensaio 1 inteiro | o canal-água. ⚠️ Não por indisponibilidade: o SISAGUA foi ADQUIRIDO e tem 58.061 medições em 184 municípios. Suspenso porque a variável de detecção tem quebra de registro no CE a partir de 2020 que produziria efeito espúrio. Ver §1-ter |
 | MapBiomas | tudo | melhoria da medida de dose; a deriva fica sem polígono |
 | INMET / FUNCEME | tudo | vento a favor/contra — o teste de direção que separa deriva de confundidor |
 | População municipal | contagens do canal de intoxicação | taxas; a comparação entre municípios de porte diferente |
@@ -184,7 +323,18 @@ está errado sem nada acusar. As demais degradam o escopo, não a validade.
    da curva.
 5. **PAM + SINASC** pelo caminho manual → Gate 1 e E1.5, os dois números que
    decidem se o ensaio tem chance.
-6. Canais (ANA, SISAGUA, MapBiomas, INMET) — depois de existir um número.
+6. ⏸️ Canais — reordenados em 2026-09-21, porque três dos quatro já foram
+   investigados e dois estão FECHADOS, não pendentes:
+   - **MapBiomas**: ✅ conferido — só classes genéricas, banana cai em "Outras
+     culturas perenes". **Não melhora a dose.** Não escrever ingestor.
+   - **SISAGUA**: ✅ adquirido, ⏸️ **suspenso** — ver §1-ter. A decisão pendente
+     não é de aquisição, é de escopo.
+   - **ANA**: ⏸️ **bloqueado pelo SISAGUA**, não por disponibilidade. As
+     ottobacias servem ao desenho montante/jusante, que precisa de coordenada
+     do ponto de coleta — o SISAGUA tem 0,4%. Baixar agora seria construir
+     infraestrutura para um desenho sem insumo.
+   - **INMET / FUNCEME**: ⬜ ainda aberto. É o teste de direção do vento, que
+     separa deriva de confundidor — e não depende do SISAGUA.
 
 ⚠️ Os itens 1 a 3 **não dependem da rede**. Podem ser feitos hoje.
 
