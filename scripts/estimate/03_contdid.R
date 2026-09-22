@@ -487,6 +487,59 @@ for (alvo in c("level", "slope")) {
     # sobre os tratados; `overall_acrt`, o ACR médio.
     ag_est <- if (alvo == "slope") res$overall_acrt else res$overall_att
     ag_se  <- if (alvo == "slope") res$overall_acrt_se else res$overall_att_se
+
+    # ⚠️⚠️ O `overall_acrt` NÃO É INTERPRETÁVEL COMO IMPRESSO, e isto foi
+    # diagnosticado medindo, em 2026-09-22, ao resolver uma divergência de sinal
+    # entre ele (-2.946,76) e a inclinação da forma reduzida do
+    # `04_robustness.py` (+6,81). Os dois usam a MESMA coluna `dose` e a MESMA
+    # forma reduzida — não era escala.
+    #
+    # A causa é que a derivada é fortemente NÃO LINEAR e o agregado é média
+    # SIMPLES sobre os pontos de dose:
+    #
+    #   dose < 0,1%  (48 pontos): ACR ~ -9.138   ep/|est| = 1,3  <- não identificado
+    #   0,1 a 1%     (68 pontos): ACR ~   -974   ep/|est| = 1,6  <- não identificado
+    #   1 a 5%       (23 pontos): ACR ~   +233   ep/|est| = 0,5
+    #   5 a 20%      (17 pontos): ACR ~   +119   ep/|est| = 0,6
+    #   > 20%        (13 pontos): ACR ~    -41   ep/|est| = 1,0
+    #
+    # A média é dominada pelos 48 pontos de dose quase nula, onde o erro-padrão
+    # SUPERA a estimativa. A inclinação OLS, sendo ponderada por variância, é
+    # dominada pelos poucos pontos de dose alta. Os dois resumem a mesma curva
+    # com pesos diferentes, e por isso divergem de sinal.
+    #
+    # ⚠️ E a magnitude é artefato de UNIDADE. Na faixa `< 0,1%` a dose varia de
+    # 0,000052 a 0,000995 — amplitude de 0,000943. Uma derivada de -9.138 g
+    # *por unidade de dose* aplicada a essa faixa implica **-8,6 g**. O número é
+    # gigante porque o denominador é minúsculo, não porque o efeito seja.
+    #
+    # NENHUM ponto de NENHUMA faixa exclui zero.
+    if (alvo == "slope") {
+      cat("       ⚠️ ACR agregado é média SIMPLES de uma derivada NÃO LINEAR.\n")
+      cat("          Não leve o número cru para o texto. A decomposição por\n")
+      cat("          faixa de dose mostra por quê:\n\n")
+      # ⚠️ Multiplicar o ACR agregado pela amplitude total de dose NÃO dá escala
+      # interpretável: isso pressupõe linearidade, que é exatamente o que falha
+      # aqui. O que informa é ver a derivada por faixa, com o erro-padrão ao
+      # lado — é assim que se enxerga onde ela é identificada e onde não é.
+      d <- res$dose; a <- res$acrt.d; e <- res$acrt.d_se
+      cortes <- c(0, 0.001, 0.01, 0.05, 0.2, 1.0001)
+      rot <- c("< 0,1%", "0,1 a 1%", "1 a 5%", "5 a 20%", "> 20%")
+      cat("          faixa de dose      n      ACR        ep   ep/|ACR|\n")
+      for (i in seq_len(length(cortes) - 1)) {
+        sel <- d >= cortes[i] & d < cortes[i + 1] & is.finite(a)
+        if (!any(sel)) next
+        ac <- mean(a[sel]); ep <- mean(e[sel])
+        cat(sprintf("          %-14s %4d %9.1f %9.1f %9.2f%s\n",
+                    rot[i], sum(sel), ac, ep, ep / abs(ac),
+                    if (ep / abs(ac) > 0.5) "  <- não identificado" else ""))
+      }
+      cat("\n          ⚠️ A média é dominada pelos pontos de dose quase nula, onde\n")
+      cat("             o ep SUPERA a estimativa. E a magnitude ali é artefato de\n")
+      cat("             UNIDADE: naquela faixa a dose varia ~0,0009, então -9.138 g\n")
+      cat("             por unidade de dose implica cerca de -8,6 g de efeito real.\n")
+      cat("          ⚠️ Use a curva ATT(d|d), que é estável entre as faixas.\n")
+    }
     if (!is.null(ag_est) && !is.null(ag_se)) {
       # ⚠️ Precisão adaptativa: uma TAXA vive em 1e-3 e sairia como "0.00 g" com
       # duas casas — número real impresso como zero é o pior tipo de saída.
