@@ -4,6 +4,16 @@
 `docs/ars/14-continuacao-local.md`. O que a sessão remota não podia fazer era a
 rede; é o que esta fez. Quem chegar aqui depois começa pelo §8.*
 
+> ⚠️ **Complemento da sessão remota, no mesmo dia**
+> (`docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §8-bis). Duas
+> leituras deste documento mudam. **(1)** A lei de Limoeiro de 2009 foi
+> **revogada em 20/05/2010**, então a flag 0 não "fica exatamente como está":
+> os dois tratados da divisa, Limoeiro e Quixeré, são tratamento genuíno em
+> 2019. **(2)** A frase "a partir de λ = 0,5 o efeito implicado continua a
+> ultrapassar o MDE" (§5) compara o limite do ATT com o MDE do estimando θ, e
+> essa comparação não serve. E o G1 reprovado talvez não derrube a Rota 1,
+> leitura que fica para o orientador.
+
 ---
 
 ## 1. O gate, com os três vizinhos e os três portões

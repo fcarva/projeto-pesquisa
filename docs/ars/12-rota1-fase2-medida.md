@@ -4,6 +4,13 @@
 gate antes de investir** (opção A), com o melão reaberto como subpergunta.
 2026-09-22.*
 
+> ⚠️ **Correções de 2026-09-22** (`docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md`):
+> o 17 × 19 está resolvido (17 é o grupo estimado; 15 deles sem aplicação
+> aérea); Negi & Negi não se aplicam (erro do lado oposto); sem falso negativo
+> o sinal **não** inverte (Corolário 1 de Denteh & Kédagni); a leitura "o
+> limite passa do MDE, logo o desenho teria tido poder" (§3) estava errada; e
+> a lei de Limoeiro de 2009 foi revogada em 2010.
+
 ---
 
 ## 0. O que a Fase 2 foi buscar, e o que achou
@@ -91,6 +98,14 @@ numeral 17 aparecia nos dois papéis. Corrigidos no mesmo commit: `CLAUDE.md`
 `docs/legislacao/lai-semace-minuta.md`, `docs/auditoria-mensuracao-do-tratamento.md`
 (inclusive o λ ingênuo, de 17/19 = 0,895 para 15/17 = **0,882**, com a última
 coluna da tabela do §3 recalculada) e os testes do script 12.
+
+> ⚠️ **Complemento da sessão remota, no mesmo dia**
+> (`docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §1 e §4): o 19 é
+> a conta do script 13 (`confronta`: quantil 0,9 sobre os 184, zeros incluídos)
+> — são os mesmos 17 mais o 18º e o 19º. E o λ que serve ao DiD binário é
+> **0,882**, não 0,912: o falso negativo conta só no grupo de comparação (dose
+> zero), onde ele é zero. O 0,912 somava os municípios com aeronave de dose
+> intermediária, que não entram no DiD binário.
 
 **Não muda a conclusão** (VPP ~10–12% nas duas leituras) e **precisa ser
 resolvido antes da qualificação**, porque é o tamanho do grupo tratado — o

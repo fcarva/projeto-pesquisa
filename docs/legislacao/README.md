@@ -23,6 +23,8 @@ Drive, não no repositório.
 |---|---|
 | **09/12/1993** | Lei 12.228/1993 — norma-mãe sobre agrotóxicos no Ceará (D.O. 14.12.93). |
 | **20/11/2009** | ✅ **CONFERIDO.** Limoeiro do Norte proíbe a pulverização aérea pela **Lei Municipal 1.478/2009** — *"dispõe sobre a proibição do uso de aeronaves nas pulverizações de lavouras no município de Limoeiro do Norte"*. Fonte primária: `camaralimoeirodonorte.ce.gov.br/leis/549` (consulta 2026-09-21). O art. 29 da lei estadual autoriza o município a legislar supletivamente. ⚠️ Ver a ameaça abaixo — ela agora tem número. |
+| **21/04/2010** | Assassinato de José Maria Filho, o Zé Maria do Tomé, que defendia a lei municipal. |
+| **20/05/2010** | ⚠️ **Lei 1.478/2009 REVOGADA** pela Câmara de Limoeiro do Norte, um mês após o assassinato. Fontes **secundárias** e concordantes: CPT, nota de 23/04/2014, reproduzida pela Terra de Direitos (*"A lei que proibia a pulverização aérea foi revogada em dia 20 de maio de 2010, um mês após o assassinato de Zé Maria"*), e MST, 16/01/2019. ⬜ **Lei revogadora a localizar** no acervo: `leis.php?descr=REVOGA`, `?descr=1.478`. Consequência: **a contaminação do pré-período 2015–2018 é nula** — ver abaixo e `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5. |
 | **24/02/2015** | **PL 18/2015 apresentado** por Renato Roseno. ⚠️ **Marco de notícia** — a janela pré-ban 2015–2018 começa *depois* disto. |
 | **18/12/2018** | ALECE aprova por unanimidade, após 4 anos de tramitação. **Marco de certeza.** |
 | **08/01/2019** | Lei 16.820/2019 sancionada por Camilo Sobreira de Santana. |
@@ -69,6 +71,14 @@ Conferido contra `data/processed/pam_ce_muni_cultura_media__sidra.parquet`:
 O grupo tratado que sustenta o MDE da banana em `gates-resultados-dados-reais.md`
 §6 tem **17 unidades**, e **uma delas está tratada desde 2009**. É ~6% do grupo,
 e é a 6ª maior dose — não é unidade de borda.
+
+> ⚠️ **Corrigido em 2026-09-22: a lei foi revogada em 20/05/2010** (cronologia
+> acima). O ban durou seis meses, e em 2015–2018 Limoeiro **não** estava sob
+> proibição. As três consequências listadas abaixo **não se materializam** na
+> janela do estudo; ficam como registro do raciocínio de 2026-09-21. A lição de
+> método: a varredura achou a lei e parou — **lei achada não é lei vigente**.
+> O registro (`bans-municipais-ce.csv`) ganhou `data_revogacao` e
+> `fonte_revogacao`, e o painel passou a contar bans **vigentes** em 2015.
 
 ⚠️ **Isto não é mais uma ameaça a verificar; é um defeito a tratar.** As
 consequências que o esboço antecipava, agora com sujeito conhecido:

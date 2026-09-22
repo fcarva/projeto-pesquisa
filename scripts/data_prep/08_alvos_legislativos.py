@@ -100,7 +100,19 @@ COLUNAS = [
     "cod_ibge6", "municipio", "prioridade", "tem_lei", "numero_lei", "data_lei",
     "ementa", "url_fonte", "data_consulta", "escopo", "confianca",
     "motivo_alvo", "area_max_ha", "rank_melhor",
+    # ⚠️ Acrescentadas em 2026-09-22. Lei achada não é lei vigente: a de
+    # Limoeiro (1.478/2009) foi revogada em 20/05/2010, e o registro só dizia
+    # quando ela nasceu. Sem estas colunas, "confirmado" lia-se como "tratado
+    # desde 2009" — e a varredura (script 09) guarda só a PRIMEIRA lei achada,
+    # nunca a que a revoga.
+    "data_revogacao", "fonte_revogacao",
 ]
+
+# Colunas que a varredura preenche e que uma nova rodada do 08 NÃO pode apagar.
+COLUNAS_DE_ACHADO = (
+    "tem_lei", "numero_lei", "data_lei", "ementa", "url_fonte",
+    "data_consulta", "escopo", "confianca", "data_revogacao", "fonte_revogacao",
+)
 
 # O único achado já confirmado, em fonte primária. Semeia o CSV para que a
 # varredura comece com um exemplo do formato preenchido, e não de uma tabela
@@ -116,6 +128,12 @@ SEMENTE_CONFIRMADA = {
         "data_consulta": "2026-09-21",
         "escopo": "total",
         "confianca": "confirmado",
+        # ⚠️ Fonte SECUNDÁRIA, e dita como tal: nota da CPT (2014), reproduzida
+        # pela Terra de Direitos, e o MST (2019). A lei revogadora ainda não
+        # foi localizada no acervo da Câmara — ver docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5.
+        "data_revogacao": "2010-05-20",
+        "fonte_revogacao": ("secundaria: CPT 2014 (terradedireitos.org.br) e "
+                            "MST 2019; lei revogadora nao localizada"),
     }
 }
 
@@ -255,8 +273,7 @@ def monta_alvos(decis: pd.DataFrame, nomes: dict[str, str]) -> pd.DataFrame:
                     a["prioridade"] = 1   # antecedente epidemiológico manda
 
     saida = pd.DataFrame(alvos)
-    for coluna in ("tem_lei", "numero_lei", "data_lei", "ementa",
-                   "url_fonte", "data_consulta", "escopo"):
+    for coluna in COLUNAS_DE_ACHADO:
         saida[coluna] = ""
     saida["confianca"] = "nao_verificado"
     return (saida[COLUNAS]
@@ -280,8 +297,9 @@ def mescla_com_existente(novos: pd.DataFrame, destino: Path) -> pd.DataFrame:
         cod = str(linha["cod_ibge6"])
         if cod not in resultado.index:            # alvo saiu do decil, mas o
             continue                              # achado não deixa de valer
-        for coluna in ("tem_lei", "numero_lei", "data_lei", "ementa",
-                       "url_fonte", "data_consulta", "escopo", "confianca"):
+        # `.get`: um CSV anterior a 2026-09-22 não tem as colunas de revogação,
+        # e ler um arquivo velho não pode quebrar.
+        for coluna in COLUNAS_DE_ACHADO:
             resultado.loc[cod, coluna] = linha.get(coluna, "")
     return resultado.reset_index()[COLUNAS]
 

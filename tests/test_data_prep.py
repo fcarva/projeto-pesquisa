@@ -1969,6 +1969,25 @@ def test_mesclar_preserva_o_levantamento_manual(tmp_path):
     assert linha["confianca"] == "confirmado"
 
 
+def test_mescla_preserva_a_revogacao(tmp_path):
+    """A coluna de revogação é achado manual, como a lei: uma nova rodada do
+    08 não pode apagá-la — e o `COLUNAS` fixo apagaria, se ela não estivesse
+    na lista."""
+    destino = tmp_path / "bans.csv"
+    primeira = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
+    assert {"data_revogacao", "fonte_revogacao"} <= set(primeira.columns)
+    alvo = primeira.loc[0, "cod_ibge6"]
+    primeira.loc[0, ["tem_lei", "confianca", "data_revogacao", "fonte_revogacao"]] = \
+        ["sim", "confirmado", "2010-05-20", "secundaria: teste"]
+    primeira.to_csv(destino, index=False)
+
+    segunda = alvos.mescla_com_existente(
+        alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {}), destino)
+    linha = segunda[segunda.cod_ibge6 == alvo].iloc[0]
+    assert linha["data_revogacao"] == "2010-05-20"
+    assert linha["fonte_revogacao"] == "secundaria: teste"
+
+
 def test_semente_nao_sobrescreve_varredura_posterior():
     """A semente do Limoeiro preenche o branco, não corrige quem já olhou."""
     base = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
@@ -2115,6 +2134,51 @@ def test_sem_arquivo_de_bans_o_painel_ainda_monta(tmp_path):
     medias, nasc = _medias_e_painel()
     p = painel.monta_painel(medias, "Melão", nasc, bans=b)
     assert (p["ban_municipal_confianca"] == "nao_verificado").all()
+
+
+def test_ban_revogado_nao_esta_vigente_no_pre_periodo(tmp_path):
+    """⚠️ A regressão de 2026-09-22. Lei achada não é lei vigente: a de
+    Limoeiro (2009) foi revogada em 20/05/2010, e sem a data de revogação o
+    painel dizia "tratado desde 2009" — contaminando um pré-período que não
+    estava contaminado."""
+    c = _csv_bans(tmp_path, [
+        {"cod_ibge6": "230760", "data_lei": "2009-11-20", "confianca": "confirmado",
+         "data_revogacao": "2010-05-20"},
+        {"cod_ibge6": "230999", "data_lei": "2012-03-01", "confianca": "confirmado",
+         "data_revogacao": ""},
+    ])
+    b = painel.carrega_bans_municipais(c).set_index("cod_ibge6")
+    assert b.loc["230760", "ban_municipal_revogado_em"] == pd.Timestamp("2010-05-20")
+    assert pd.isna(b.loc["230999", "ban_municipal_revogado_em"])
+    vigente = painel.ban_vigente_em(b, "2015-01-01")
+    assert not vigente.loc["230760"]      # revogado antes do pré-período
+    assert vigente.loc["230999"]          # sem revogação: segue vigente
+    assert painel.ban_vigente_em(b, "2010-01-01").loc["230760"]
+
+
+def test_csv_de_bans_anterior_a_revogacao_ainda_carrega(tmp_path):
+    """Arquivo velho, sem a coluna nova: NaT, não KeyError."""
+    c = _csv_bans(tmp_path, [{"cod_ibge6": "230760", "data_lei": "2009-11-20",
+                              "confianca": "confirmado"}])
+    b = painel.carrega_bans_municipais(c)
+    assert b["ban_municipal_revogado_em"].isna().all()
+    medias, nasc = _medias_e_painel()
+    p = painel.monta_painel(medias, "Melão", nasc, bans=pd.DataFrame({
+        "cod_ibge6": [medias["cod_ibge6"].iloc[0]],
+        "ban_municipal_data": [pd.Timestamp("2009-11-20")],
+        "ban_municipal_confianca": ["confirmado"]}))
+    assert "ban_municipal_revogado_em" in p.columns
+
+
+def test_registro_commitado_traz_a_revogacao_de_limoeiro():
+    """O CSV de `docs/legislacao/` é o que o painel lê. A revogação tem de
+    estar nele, com a fonte dita — e dita como secundária."""
+    b = pd.read_csv(RAIZ / "docs/legislacao/bans-municipais-ce.csv",
+                    dtype=str, comment="#").fillna("")
+    lim = b[b.cod_ibge6 == "230760"].iloc[0]
+    assert lim["data_lei"] == "2009-11-20"
+    assert lim["data_revogacao"] == "2010-05-20"
+    assert "secundaria" in lim["fonte_revogacao"]
 
 
 # --------------------------------------------------------------------------
@@ -2873,7 +2937,11 @@ def test_metricas_de_artefatos_le_o_parquet_que_o_script_01_grava(tmp_path):
     assert m["tamanho_decil"] == 2
     assert m["vp"] == 2
     assert m["vpp"] == pytest.approx(1.0)
-    assert m["lambda_teto"] == pytest.approx(0.0)
+    # Todos os 20 têm área positiva: não há grupo de dose zero, logo nenhum
+    # falso negativo no controle, e os dois λ são zero.
+    assert m["fn_controle"] == 0
+    assert m["lambda_amostra"] == pytest.approx(0.0)
+    assert m["lambda_populacao"] == pytest.approx(0.0)
 
 
 def test_gate_melao_sem_pam_devolve_ausente_e_nao_reprovacao():
@@ -2942,10 +3010,37 @@ def test_especificidade_alta_nao_salva_o_vpp_com_prevalencia_baixa():
     assert m["vpp"] < 0.15
 
 
-def test_lambda_teto_bate_com_a_definicao_do_corolario_5():
-    m = misc.metricas_classificacao(184, 7, 17, 2)
-    esperado = (1 - m["vpp"]) + m["fn"] / (184 - 17)
-    assert m["lambda_teto"] == pytest.approx(esperado)
+def test_lambda_da_amostra_conta_o_falso_negativo_so_no_grupo_de_comparacao():
+    # ⚠️ A correção de 2026-09-22. Os 5 municípios com aeronave fora do decil
+    # têm dose INTERMEDIÁRIA e não entram no DiD binário, que compara o decil
+    # com dose zero. No grupo de comparação o falso negativo é zero (flag 5),
+    # então λ = 1 − VPP. A conta antiga (5/167) fica rotulada como populacional.
+    m = misc.metricas_classificacao(184, 7, 17, 2, fn_controle=0)
+    assert m["lambda_amostra"] == pytest.approx(1 - 2 / 17)
+    assert m["lambda_populacao"] == pytest.approx((1 - 2 / 17) + 5 / (184 - 17))
+    assert m["corolario"] == 1
+
+
+def test_falso_negativo_no_controle_devolve_o_corolario_5():
+    # Com município tratado no grupo de comparação, o Corolário 1 cai e o
+    # sinal volta a poder inverter — o script tem de dizer qual vale.
+    m = misc.metricas_classificacao(184, 7, 17, 2, fn_controle=1, n_controle=15)
+    assert m["corolario"] == 5
+    assert m["lambda_amostra"] == pytest.approx((1 - 2 / 17) + 1 / 15)
+    with pytest.raises(ValueError, match="n_controle"):
+        misc.metricas_classificacao(184, 7, 17, 2, fn_controle=1)
+    with pytest.raises(ValueError, match="fn_controle"):
+        misc.metricas_classificacao(184, 7, 17, 2, fn_controle=6, n_controle=15)
+
+
+def test_decil_usa_ceil_como_os_estimadores():
+    # `round` divergia do `ceil` dos scripts 07/08 sempre que a parte
+    # fracionária é < 0,5: com 163 produtores dava 16 aqui e 17 lá.
+    assert misc.tamanho_do_decil(169) == 17
+    assert misc.tamanho_do_decil(163) == 17
+    assert misc.tamanho_do_decil(170) == 17
+    assert misc.tamanho_do_decil(171) == 18
+    assert misc.tamanho_do_decil(3) == 1
 
 
 def test_metricas_recusam_matriz_impossivel():
@@ -2977,13 +3072,79 @@ def test_limite_recusa_lambda_fora_do_intervalo():
             misc.limite_corolario5(-21.85, ruim)
 
 
-def test_tabela_marca_quando_o_limite_ultrapassa_o_mde():
-    # É a leitura que importa: sob erro de medida, o efeito implicado sobre os
-    # genuinamente tratados passa do MDE de 33,4 g — logo o desenho teria tido
-    # poder, e a falha não foi de amostra.
+def test_corolario1_preserva_o_sinal_e_colapsa_sem_erro():
+    # Sem falso negativo, θ = VPP·ATT para erro ARBITRÁRIO: o ATT fica entre
+    # θ e θ/VPP, do mesmo lado do zero.
+    assert misc.limite_corolario1(-21.85, 1.0) == pytest.approx((-21.85, -21.85))
+    inf, sup = misc.limite_corolario1(-21.85, 2 / 17)
+    assert inf == pytest.approx(-21.85 * 17 / 2)
+    assert sup == pytest.approx(-21.85)
+    assert inf < 0 and sup < 0
+    for ruim in (0.0, -0.1, 1.2):
+        with pytest.raises(ValueError, match="vpp_min"):
+            misc.limite_corolario1(-21.85, ruim)
+
+
+def test_tabela_nao_compara_limite_do_att_com_o_mde():
+    # ⚠️ Regressão da leitura errada de 2026-09-22: "o limite passa do MDE,
+    # logo o desenho teria tido poder". O MDE é do estimando θ deste desenho,
+    # e θ é o mesmo nas duas leituras. Quem fala de poder é a calibração.
     t = misc.tabela_limites(-21.85, [0.3, 0.5], "did")
-    assert not t.loc[t["lambda"] == 0.3, "excede_mde"].iloc[0]
-    assert t.loc[t["lambda"] == 0.5, "excede_mde"].iloc[0]
+    assert "excede_mde" not in t.columns
+    assert t["vpp"].tolist() == pytest.approx([0.7, 0.5])
+    assert t.loc[t["lambda"] == 0.5, "limite_inferior_g"].iloc[0] == pytest.approx(-43.70)
+
+
+def test_poder_aproximado_ancora_no_mde_e_no_alfa():
+    # Por construção: no MDE o poder é 80%; sem efeito, é o tamanho do teste.
+    assert misc.poder_aproximado(misc.MDE_G) == pytest.approx(0.80, abs=1e-6)
+    assert misc.poder_aproximado(0.0) == pytest.approx(0.05, abs=1e-6)
+    assert misc.poder_aproximado(-10.0) == pytest.approx(misc.poder_aproximado(10.0))
+
+
+def test_sinal_esperado_com_o_vpp_do_censo_fica_abaixo_do_mde_com_folga():
+    # O coração da calibração: com VPP = 2/17, nem f = 0,5 com δ = 150 g
+    # passa de ~9 g, e o poder não chega a 12%.
+    theta = misc.sinal_esperado(2 / 17, 0.5, 150.0)
+    assert theta == pytest.approx(150 * 0.5 * 2 / 17)
+    assert theta < 9.0
+    assert misc.poder_aproximado(theta) < 0.12
+    with pytest.raises(ValueError):
+        misc.sinal_esperado(1.2, 0.5, 150.0)
+    with pytest.raises(ValueError):
+        misc.sinal_esperado(0.5, 0.5, -1.0)
+
+
+def test_vpp_de_equilibrio_acima_de_um_e_impossivel():
+    # θ = −21,85 com f = 0,25 e δ = 80 exigiria VPP > 1: nem o grupo inteiro
+    # tratado produz esse θ. Com f = 0,5 e δ = 150 exige ~0,29 — cinco dos 17.
+    assert misc.vpp_de_equilibrio(-21.85, 0.25, 80.0) > 1
+    assert misc.vpp_de_equilibrio(-21.85, 0.5, 150.0) == pytest.approx(21.85 / 75)
+    with pytest.raises(ValueError):
+        misc.vpp_de_equilibrio(-21.85, 0.0, 150.0)
+
+
+def test_metricas_de_artefatos_conta_falso_negativo_na_dose_zero(tmp_path):
+    # Universo de 30: 25 produtores (decil = ceil(2,5) = 3), 5 de dose zero.
+    # Aeronave em 2 do decil, 1 produtor fora do decil e 1 de dose ZERO —
+    # só este último é falso negativo do grupo de comparação.
+    cods = [f"23{i:04d}" for i in range(30)]
+    censo = pd.DataFrame({"cod_ibge6": cods, "aeronave": 0})
+    censo.loc[censo.cod_ibge6.isin(["230000", "230001", "230010", "230027"]),
+              "aeronave"] = 3
+    # `area_ha_media`: é o nome que o script 01 grava no agregado.
+    dose = pd.DataFrame({"cod_ibge": [f"{c}0" for c in cods[:25]],
+                         "cultura": "Banana (cacho)",
+                         "area_ha_media": [float(100 - i) for i in range(25)]})
+    c_csv, d_pq = tmp_path / "censo.csv", tmp_path / "dose.parquet"
+    censo.to_csv(c_csv, index=False)
+    dose.to_parquet(d_pq, index=False)
+    m = misc.metricas_de_artefatos(c_csv, d_pq, "banana")
+    assert m["tamanho_decil"] == 3
+    assert m["vp"] == 2
+    assert m["fn_controle"] == 1          # 230027, dose zero com aeronave
+    assert m["corolario"] == 5
+    assert m["lambda_amostra"] == pytest.approx((1 - 2 / 3) + 1 / 5)
 
 
 # --------------------------------------------------------------------------

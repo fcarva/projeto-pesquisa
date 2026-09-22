@@ -45,6 +45,14 @@ Norte). Testar só o primeiro faz 4 municípios parecerem "sem site".
   legitimamente. `ausente_conferido` significa "o acervo publicado não tem",
   não "o município não legislou". A §8 da pré-especificação recebe isso como
   ameaça declarada.
+- ⚠️ **Lei achada não é lei vigente.** Quando acha mais de uma lei, o script
+  grava a **primeira** (a mais antiga) — e nunca procura a que a revoga. Foi
+  assim que a Lei 1.478/2009 de Limoeiro ficou registrada como ban vigente,
+  quando fontes secundárias (CPT 2014; MST 2019) dizem que ela foi **revogada
+  em 20/05/2010**. A revogadora dificilmente tem "aeronave" na ementa ("Revoga
+  a Lei nº ..."), então os `TERMOS` não a pegam. Todo `confirmado` exige
+  conferência manual de revogação, registrada em `data_revogacao` /
+  `fonte_revogacao` (colunas do script 08). Ver `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5.
 
 Rodar:
 
@@ -281,6 +289,9 @@ def imprime_relatorio(linhas: list[dict]) -> None:
         for lei in r.get("achados", []):
             print(f"       >>> Lei {lei['numero_lei']}  {lei['data_lei']}")
             print(f"           {lei['ementa'][:110]}")
+        if r.get("achados"):
+            print("       ⚠️ achada ≠ vigente: conferir revogação à mão "
+                  "(?descr=REVOGA e o número da lei) e gravar data_revogacao.")
     print()
     print(barra)
     print("COMO LER")

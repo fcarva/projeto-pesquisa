@@ -4,6 +4,25 @@
 `auditoria-pre-especificacao.md`) cruzada com busca bibliográfica dirigida.
 Feita em 2026-09-22.*
 
+> ⚠️ **Correções de 2026-09-22 — ler antes do resto.** Quatro afirmações deste
+> documento não se sustentaram. O texto original fica como registro; as
+> correções estão em `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md`.
+>
+> 1. **§2.1 — Negi & Negi não se aplicam.** O erro unilateral deles é só falso
+>    *negativo* (`D = D*·S`, falso positivo excluído por construção). O daqui é
+>    só falso *positivo*. O "terceiro encaixe" está no sentido errado.
+> 2. **§2.3 — o sinal não inverte.** Sem falso negativo, o Corolário 1 de
+>    Denteh & Kédagni dá atenuação pura sob erro *arbitrário*, inclusive
+>    diferencial. A coerência de sinal volta a valer contra esta ameaça.
+> 3. **§3 — "o desenho teria tido poder" estava errado.** O MDE é do estimando
+>    θ, o mesmo nas duas leituras. A calibração diz o contrário: com o VPP do
+>    Censo, o poder não passa de 11%. E o λ da amostra é 0,882, não 0,912.
+> 4. **§3, ressalva 2, e Rota 3 — a ressalva do "prestador" estava mal posta.**
+>    O Censo conta estabelecimentos que *usaram* aplicação por aeronave, no
+>    município da lavoura. E a lei de Limoeiro (2009) foi **revogada em 2010**:
+>    os 27 estabelecimentos do decil são tratamento genuíno em 2019. O grupo
+>    tratado tem 17 municípios, e 15 deles sem aplicação aérea (não "17 de 19").
+
 ---
 
 ## 0. O que esta auditoria é
@@ -64,6 +83,9 @@ tratamento em DiD não é uma leitura interpretativa: é um objeto formal, com
 estimando próprio, viés de direção caracterizada e estimador publicado.
 
 ### 2.1 O artigo que trata exatamente deste caso
+
+> ⚠️ **Não trata** — ver a correção 1 no topo. Negi & Negi excluem o falso
+> positivo, que é o único erro daqui.
 
 > **Negi, A. & Negi, D. S. (2025).** *Difference-in-Differences With a
 > Misclassified Treatment.* **Journal of Applied Econometrics** 40(4): 411–423.
@@ -140,6 +162,9 @@ sintético) é exatamente esse caso.
 
 ### 2.3 ⚠️ E há razão para o erro aqui ser diferencial, o que é a hipótese ruim
 
+> ⚠️ **Corrigido** (correção 2 no topo): sem falso negativo, erro diferencial
+> não inverte o sinal — Corolário 1 de Denteh & Kédagni.
+
 A Corolário 5 exige misclassification **não-diferencial** para valer como
 atenuação. Aqui provavelmente não vale, e a razão é substantiva: ter aeronave
 não é sorteio. As 36 aeronaves estão em 7 municípios, e 27 no decil superior —
@@ -178,6 +203,9 @@ contínuo, não binário) e serve só de ordem de grandeza.
 > O MDE deste desenho é **33,4 g**. A partir de `λ = 0,5` — e para o controle
 > sintético e o CGS já a partir de `λ = 0,3` — **o efeito implicado sobre os
 > genuinamente tratados ultrapassa o MDE do próprio desenho.**
+
+> ⚠️ **Corrigido** (correção 3 no topo): o parágrafo abaixo compara o limite
+> do ATT com o MDE do estimando θ, o que é indevido.
 
 Isto é: sob a leitura de erro de medida, o desenho **teria tido poder** — o que
 faltou não foi amostra, foi que o tratamento estava apontado para o lugar

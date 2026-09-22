@@ -159,9 +159,10 @@ entrar no `.bib`.
 |---|---|---|
 | **Calzada, Gisbert & Moscoso (2023)**, *JAERE* 10(6):1623–1663, `10.1086/725349` | página do periódico, RePEc, portal UAB, SSRN 3786643; coincide com a lista de Januzzi (2025) | ✅ bibliográfica · ⚠️ texto completo **não lido** — é o análogo mais próximo do projeto (banana + aéreo + fungicida + peso ao nascer). Ver `docs/ars/13-rota1-calzada-januzzi-censo.md` §1 |
 | **Januzzi (2025)**, dissertação, UFV | PDF fornecido pelo pesquisador; lido integralmente | ✅ |
-| **Negi & Negi (2025)**, *J. Applied Econometrics* 40(4):411–423, `10.1002/jae.3116` | metadados do periódico (open access) | ✅ bibliográfica · texto completo não lido |
+| **Negi & Negi (2025)**, *J. Applied Econometrics* 40(4):411–423, `10.1002/jae.3116` | metadados do periódico (open access); **texto completo lido em 2026-09-22** via Scholar Gateway (acervo Wiley) | ✅ — ⚠️ **não se aplica ao projeto**: o erro unilateral deles é só falso negativo (`D = D*·S`), o daqui é só falso positivo. Ver `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §3 |
 | **Sasaki & Wang (2024)**, *JBES* 42(2):812–824, `10.1080/07350015.2023.2249509` | registro do periódico; texto no arXiv:2211.14870 | ✅ |
 | **Rull & Ritz (2003)**, *EHP* 111(13):1582–1589, PMID 14527836 | PubMed e resumo | ✅ bibliográfica · texto completo não lido |
-| **Denteh & Kédagni**, arXiv:2207.11890 | texto completo no arXiv | ✅ — ⚠️ *working paper*, não publicado |
+| **Denteh & Kédagni**, arXiv:2207.11890 | texto completo no arXiv; **v3 (atualizada 2026-05-01) reconferida em 2026-09-22**: Hipóteses 1, 2, 4 e 6, Proposições 1 e 2, **Corolários 1 e 5** | ✅ — ⚠️ *working paper*, não publicado. O **Corolário 1** (sem falso negativo → atenuação pura sob erro arbitrário) é o que se aplica aqui |
+| **CPT (2014)** e **MST (2019)** — revogação da Lei 1.478/2009 de Limoeiro em 20/05/2010 | trecho literal da CPT via índice de busca (Terra de Direitos); MST pelo resumo do buscador | ⚠️ fontes **secundárias**, concordantes. Fonte primária (lei revogadora) **a localizar** |
 | **Camacho & Mejía (2017)** — pendência da §4 | **resumo** recuperado em 2026-09-22 | ⚠️ reduzida, não fechada: texto completo segue sem leitura |
 | **censobr** (Pereira & Barbosa 2023), `10.32614/CRAN.package.censobr` | `inst/CITATION` do pacote, no repositório clonado | ✅ |

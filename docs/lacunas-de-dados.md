@@ -155,7 +155,8 @@ com operador registrado. Como quase tudo ali é drone e drone só é legal desde
 instrumento) e para justificar o corte.
 
 ⚠️ Note que **Limoeiro do Norte tem 5 estabelecimentos e a única aeronave
-convencional registrada no estado** — o município que proibiu em 2009.
+convencional registrada no estado** — o município que proibiu em 2009 e
+revogou a proibição em 20/05/2010 (`docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5).
 
 ### 1-ter. ⚠️ O canal-água: SISAGUA adquirido, e ele traz uma armadilha que
 inverteria o resultado
@@ -402,7 +403,7 @@ integral, e duas atribuições da introdução foram corrigidas por isso.
 |---|---|---|
 | ~~**FAO-GAEZ**~~ ✅ **resolvido** | — | ~~o instrumento; 3 das 4 definições de zero~~. Restam impossíveis só as que dependem de ANAC/SEMACE (definição 3) |
 | **SEMACE / ANAC** | tudo, com o estimando renomeado | definição 3 de `d = 0` (a única que mede **método**); a verificação de *enforcement* pelo registro |
-| **Bans municipais < 2019** | tudo, aparentemente | ⚠️ a garantia de que 2015–2018 é pré-tratamento. **Falha silenciosa: o resultado sai e está errado.** Já não é risco hipotético — 1 dos 17 tratados da banana está banido desde 2009 |
+| **Bans municipais < 2019** | tudo, aparentemente | ⚠️ a garantia de que 2015–2018 é pré-tratamento. **Falha silenciosa: o resultado sai e está errado.** Já não é risco hipotético — 1 dos 17 tratados da banana teve lei em 2009. ⚠️ **Revogada em 20/05/2010** (fonte secundária): em 2015–2018 não havia ban vigente. A lição fica: lei achada ≠ lei vigente |
 | ~~ANA + SISAGUA~~ ⏸️ **SUSPENSO 2026-09-21** | Ensaio 1 inteiro | o canal-água. ⚠️ Não por indisponibilidade: o SISAGUA foi ADQUIRIDO e tem 58.061 medições em 184 municípios. Suspenso porque a variável de detecção tem quebra de registro no CE a partir de 2020 que produziria efeito espúrio. Ver §1-ter |
 | MapBiomas | tudo | melhoria da medida de dose; a deriva fica sem polígono |
 | ~~INMET / FUNCEME~~ ⏸️ **SUSPENSO 2026-09-21** | tudo | ⚠️ Não por indisponibilidade: o dado é aberto, horário e 100% preenchido. O teste transversal **não funciona** porque os alísios dão coerência 0,96 entre estações — 'a favor do vento' vira 'a oeste', que é geografia. O teste temporal exigiria data de pulverização, que não existe no pré-ban. Ver §1-quinquies |

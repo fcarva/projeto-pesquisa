@@ -19,7 +19,7 @@ git fetch origin
 git switch claude/exciting-noether-17cl74
 git pull origin claude/exciting-noether-17cl74
 pip install -r requirements.txt      # openpyxl é novo
-python -m pytest tests/ -q           # esperado: 194 passed
+python -m pytest tests/ -q           # esperado: 232 passed (3 exigem requirements-geo.txt)
 ```
 
 Puxar a conversa inteira em vez de só o código: `claude --teleport
@@ -57,6 +57,12 @@ Ler `data/processed/gate_fronteira__uf23-24.csv`:
 identificação, e passa pelo orientador (CLAUDE.md).
 
 ## 3. Resolver 17 × 19 no decil superior (15 min)
+
+> ✅ **Resolvido na sessão remota** (`docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §1): 17 é o grupo dos
+> estimadores, e 15 deles não tinham aplicação aérea; 19 é o quantil 0,9 sobre
+> os 184. Arquivos corrigidos. Rodar o comando abaixo continua útil para
+> confirmar com os artefatos — agora ele também conta o falso negativo no grupo
+> de comparação.
 
 Dizem **17**: `paper/secoes/05-dados.tex`, flag 0 do `CLAUDE.md`,
 `docs/legislacao/README.md`, `docs/lacunas-de-dados.md`,

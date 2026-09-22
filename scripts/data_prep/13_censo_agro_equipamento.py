@@ -25,15 +25,19 @@ Isso põe três coisas em cima da mesa, e nenhuma é sobre custo:
    está contaminado por usuários de aeronave — é verificação direta da flag 5,
    e ela passa aqui.
 
-2. ⚠️ **Diluição do tratamento.** Dos 17 municípios do decil superior da banana,
-   **15 não tinham aeronave alguma**. O `d` alto está sendo atribuído a
-   municípios onde o tratamento — remover a pulverização aérea — não tinha o que
-   remover. Isso atenua o ATT por construção, e é problema de DEFINIÇÃO de
-   tratamento, não de poder estatístico.
+2. ⚠️ **Diluição do tratamento.** Dos **17** tratados — o decil dos
+   estimadores, `ceil(10%)` dos 169 produtores —, **15 não tinham nenhum
+   estabelecimento com aplicação por aeronave**. (O `confronta` abaixo marca
+   19, porque usa o quantil 0,9 sobre os 184, zeros incluídos: são os mesmos 17
+   mais o 18º e o 19º. Resolvido em 2026-09-22, `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §1.) O `d`
+   alto está sendo atribuído a municípios onde o tratamento — remover a
+   pulverização aérea — não tinha o que remover. Isso atenua o ATT por
+   construção.
 
-3. ⚠️ **E compõe com a flag 0.** Das 27 aeronaves dentro do decil superior, 18
-   são de Limoeiro do Norte, que proibiu a pulverização aérea em 2009. Sobram
-   **9 aeronaves em Quixeré** como tratamento genuinamente novo em 2019.
+3. ✅ **E NÃO compõe com a flag 0, ao contrário do que se escreveu aqui antes.**
+   Dos 27 estabelecimentos do decil, 18 são de Limoeiro do Norte, cuja lei
+   municipal de 2009 foi **revogada em 20/05/2010** (fontes secundárias). Os 27
+   são tratamento genuíno em 2019: VPP = 2/17.
 
 ⚠️ AS RESSALVAS, QUE SÃO SÉRIAS
 --------------------------------

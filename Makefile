@@ -61,7 +61,7 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 194 testes"
+	@echo "make teste     — 232 testes (3 exigem requirements-geo.txt)"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"

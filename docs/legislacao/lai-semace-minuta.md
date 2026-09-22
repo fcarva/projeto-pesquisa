@@ -13,7 +13,10 @@ operacional. Continua valendo. ⚠️ **Mas em 2026-09-22 o Censo Agropecuário 
 uma ameaça maior**, e o mesmo cadastro é a única fonte que a resolve.
 
 O Censo mostra que, no Ceará, **36 estabelecimentos** usavam aeronave — e que
-**15 dos 17 municípios do decil superior da dose de banana não tinham nenhuma**.
+**15 dos 17 municípios do grupo tratado (o decil superior da dose de banana)
+não tinham nenhum** — conta corrigida em 2026-09-22 (`docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §1).
+O cadastro pedido aqui mede diretamente a fração genuinamente tratada (o VPP),
+que a calibração mostrou ser a alavanca do poder do desenho.
 Se isso ainda valia em 2018, a variável de tratamento do Ensaio 1 atribui dose
 alta a quem não tinha pulverização aérea a perder.
 
