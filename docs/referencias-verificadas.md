@@ -166,3 +166,68 @@ entrar no `.bib`.
 | **CPT (2014)** e **MST (2019)** — revogação da Lei 1.478/2009 de Limoeiro em 20/05/2010 | trecho literal da CPT via índice de busca (Terra de Direitos); MST pelo resumo do buscador | ⚠️ fontes **secundárias**, concordantes. Fonte primária (lei revogadora) **a localizar** |
 | **Camacho & Mejía (2017)** — pendência da §4 | **resumo** recuperado em 2026-09-22 | ⚠️ reduzida, não fechada: texto completo segue sem leitura |
 | **censobr** (Pereira & Barbosa 2023), `10.32614/CRAN.package.censobr` | `inst/CITATION` do pacote, no repositório clonado | ✅ |
+
+---
+
+## 9. Passada Crossref de 2026-09-22 (local) — a que o §7 exigia
+
+A sessão remota não alcançava `api.crossref.org` e deixou o §8 conferido por
+outras vias. Esta é a passada que faltava. **Sete entradas resolvidas, sete
+acrescentadas ao `.bib`** (40 → 47), com os campos gerados do registro Crossref,
+não digitados.
+
+| referência | DOI | registro Crossref | estado |
+|---|---|---|---|
+| Calzada, Gisbert & Moscoso | `10.1086/725349` | *JAERE* 10(6):1623–1663, 2023 | ✅ confere com o §8 |
+| Negi & Negi | `10.1002/jae.3116` | *J. Applied Econometrics* 40(4):411–423, 2025 | ✅ confere |
+| Sasaki & Wang | `10.1080/07350015.2023.2249509` | *JBES* 42(2):812–824 | ✅ confere — ver ⚠️ 1 |
+| **Rull & Ritz** | **`10.1289/ehp.6118`** | *EHP* 111(13):1582–1589, 2003 | ✅ **DOI obtido agora** — o §8 só tinha PMID |
+| Borusyak, Hull & Jaravel | `10.1093/restud/rdab030` | *ReStud* 89(1):181–213 | ✅ — ver ⚠️ 1 e ⚠️ 2 |
+| **Borusyak, Hull & Jaravel** | **`10.1093/ectj/utae003`** | *Econometrics Journal* 28(1):83–108, 2025 | ✅ **saiu de preprint** — ver ⚠️ 2 |
+| Goldsmith-Pinkham, Sorkin & Swift | `10.1257/aer.20181047` | *AER* 110(8):2586–2624, 2020 | ✅ confere |
+
+### ⚠️ 1. O ano do Crossref não é o ano que se cita
+
+O campo `issued` do Crossref traz a data **online-first**, e duas destas
+pareceram erradas na primeira leitura por causa disso:
+
+| | `issued` (online) | `published-print` (fascículo) | o texto cita |
+|---|---|---|---|
+| Sasaki & Wang | 2023-09-21 | **2024**-04-02, 42(2) | 2024 ✅ |
+| Borusyak, Hull & Jaravel (shift-share) | 2021-06-08 | **2022**-01-10, 89(1) | 2022 ✅ |
+
+As duas estavam certas. O gerador do `.bib` passou a usar `published-print`
+quando existe, e cai no `issued` só quando não existe — senão o arquivo teria
+gravado 2021 e 2023 com aparência de conferido.
+
+### ⚠️ 2. "Borusyak, Hull & Jaravel" nomeia TRÊS artigos, e um deles não é deles
+
+O doc 14 §4 pedia conferir "Borusyak, Hull & Jaravel (2022, 2025)". A busca
+devolveu que o rótulo é ambíguo em dois sentidos:
+
+- **A entrada `borusyak2024` já no `.bib` NÃO é deste trio.** É *Revisiting
+  Event-Study Designs* (`10.1093/restud/rdae007`), de Borusyak, **Jaravel e
+  Spiess** — outro terceiro autor, outro assunto. ✅ A entrada está correta como
+  está; o que era ambíguo era o apelido do handoff.
+- **"(2025)" casa com DOIS artigos publicados do trio**: a revisão do
+  *Econometrics Journal* (`10.1093/ectj/utae003`, acrescentada) e *A Practical
+  Guide to Shift-Share Instruments*, *JEP* 39(1):181–204
+  (`10.1257/jep.20231370`). ⬜ O segundo **não** entrou: o doc 14 não deixa
+  claro qual dos dois pretendia, e adivinhar é exatamente o que este arquivo
+  existe para impedir. Pendência para o pesquisador.
+
+### ⚠️ 3. Denteh & Kédagni continua *working paper*
+
+Busca por `journal-article` dos dois autores no Crossref: **nada**. Segue como
+arXiv:2207.11890, e o §8 já o marcava assim. Não entrou no `.bib` — a regra de
+entrada pede DOI conferido, e preprint do arXiv não tem registro Crossref aqui.
+O limite do Corolário 5 que a auditoria usa vem dele, então **a citação mais
+consequente do argumento repousa num não-publicado**. Isso não é problema de
+conferência; é fato a declarar no texto.
+
+### Auditoria de chaves (feita junto)
+
+47 entradas, **25 citadas** no `paper/`, **22 órfãs**, e — o que importa —
+**zero fantasmas**: nenhuma `\cite` aponta para entrada inexistente. As sete
+novas nascem órfãs por construção: foram conferidas para poderem ser citadas,
+e citar é decisão do texto, não desta passada.

@@ -391,10 +391,17 @@ O gate informa a decisão; não a toma.
 
 ## 9. Pendente, em ordem
 
-1. **Passo 4 do doc 14 — Crossref.** A rede libera: Calzada, Gisbert & Moscoso
-   (2023); Negi & Negi (2025); Sasaki & Wang (2024); Rull & Ritz (2003);
-   Borusyak, Hull & Jaravel (2022, 2025); Goldsmith-Pinkham, Sorkin & Swift
-   (2020).
+1. ~~**Passo 4 do doc 14 — Crossref.**~~ ✅ **Feito em 2026-09-22.** As sete
+   resolvem e entraram no `.bib` (40 → 47), com os campos gerados do registro,
+   não digitados. Detalhe em `docs/referencias-verificadas.md` §9. Três coisas
+   que a passada produziu além do carimbo:
+   - **Rull & Ritz ganhou DOI** (`10.1289/ehp.6118`); antes só havia PMID.
+   - **Borusyak, Hull & Jaravel (2025) saiu de preprint**: *Econometrics
+     Journal* 28(1):83–108.
+   - ⬜ **Uma pendência nova, e é do pesquisador:** "(2025)" casa com DOIS
+     artigos publicados do trio — a revisão do *EJ* (entrou) e *A Practical
+     Guide to Shift-Share Instruments*, *JEP* 39(1):181–204. Qual o doc 14
+     pretendia não está escrito, e adivinhar é o que o log proíbe.
 2. **Leituras** (§5 do doc 14): Calzada et al. inteiro; Camacho & Mejía;
    calendário de pulverização da banana no CE.
 3. **Alinhar o script 03 ao padrão**: ele baixa por `ftp://` com `curl` em
