@@ -41,6 +41,7 @@ gate = _carrega("14_gate_fronteira.py")
 misc = _carrega("12_erro_de_classificacao.py", sub="estimate")
 censo = _carrega("15_censo_demografico.py")
 fronteira = _carrega("16_fronteira_geografica.py")
+agua = _carrega("17_audita_sisagua.py")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -508,6 +509,92 @@ def test_baixa_dofet_ftp_grita_em_vez_de_encurtar_a_serie(monkeypatch, tmp_path)
     _instala_ftp_falso(monkeypatch, ["DOFET15.dbc"])
     with pytest.raises(RuntimeError, match="DOFET16.dbc"):
         fetal.baixa_dofet_ftp(anos=(2015, 2016), destino=tmp_path)
+
+
+# --------------------------------------------------------------------------
+# Auditoria do canal-água (17). O §1-ter das lacunas suspendeu o canal com o
+# alerta certo e a explicação errada; estes testes travam as três distinções
+# que a explicação apagava.
+# --------------------------------------------------------------------------
+
+def _sisagua(linhas):
+    """Registros crus no formato do CSV do SISAGUA (texto, vírgula decimal)."""
+    return pd.DataFrame(linhas, columns=[
+        "UF", "Ano", "Parâmetro (demais parâmetros)", "LD", "LQ", "Resultado"])
+
+
+def test_prepara_separa_as_TRES_categorias_de_resultado():
+    """⚠️ São três, não duas. O §1-ter só cita MENOR_LQ, e MENOR_LD é a maior
+    — tratar as duas como uma apaga a distinção que a auditoria precisa."""
+    bruto = _sisagua([
+        ("CE", "2015", "Atrazina - VMP: 2,0 ug/L", "0,1", "0,3", "0,87"),
+        ("CE", "2015", "Atrazina - VMP: 2,0 ug/L", "0,1", "0,3", "MENOR_LD"),
+        ("CE", "2020", "Atrazina - VMP: 2,0 ug/L", "0,1", "0,3", "MENOR_LQ"),
+    ])
+    pronto = agua.prepara(bruto)
+    assert list(pronto["categoria"]) == ["numerico", "MENOR_LD", "MENOR_LQ"]
+    assert pronto["resultado_num"].tolist()[0] == pytest.approx(0.87)
+    assert pronto["resultado_num"].isna().sum() == 2       # categoria não é zero
+    assert pronto["molecula"].unique().tolist() == ["Atrazina"]
+
+
+def test_prepara_nao_transforma_categoria_em_zero():
+    """MENOR_LD virar 0,0 seria o erro que inventa o efeito: 'não detectado'
+    e 'detectado em zero' viram a mesma coisa, e a série ganha variância que
+    não existe."""
+    pronto = agua.prepara(_sisagua([("CE", "2021", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")]))
+    assert pd.isna(pronto["resultado_num"].iloc[0])
+
+
+def test_teste_censura_mostra_que_o_sumico_nao_e_de_sensibilidade():
+    """O teste decisivo: as detecções antigas sobreviveriam ao LQ posterior?
+
+    Aqui três das quatro estão acima do LQ do regime seguinte (0,3). Se o zero
+    posterior fosse censura, elas teriam de reaparecer.
+    """
+    bruto = _sisagua(
+        [("CE", str(a), "Atrazina - VMP: 2", "0,1", "0,3", v)
+         for a, v in [(2015, "0,87"), (2016, "0,50"), (2017, "0,40"), (2018, "0,05")]]
+        + [("CE", str(a), "Atrazina - VMP: 2", "0,1", "0,3", "MENOR_LD")
+           for a in (2020, 2021, 2022, 2023)])
+    r = agua.teste_censura(agua.prepara(bruto), "CE")
+    assert r["n_deteccoes_pre"] == 4
+    assert r["lq_mediano_regime_quebra"] == pytest.approx(0.3)
+    assert r["pct_sobreviveria_ao_lq"] == pytest.approx(75.0)   # 3 de 4
+    assert r["pct_abaixo_do_proprio_lq"] == pytest.approx(25.0)  # só a de 0,05
+
+
+def test_limites_por_ano_expoe_mudanca_de_sensibilidade():
+    """O que o §1-ter não mediu: se o LQ tivesse subido, haveria explicação
+    analítica. Aqui ele CAI, que é o caso real de 2024 (0,30 -> 0,0101)."""
+    bruto = _sisagua([("CE", "2022", "X - VMP: 1", "0,1", "0,3", "MENOR_LD"),
+                      ("CE", "2024", "X - VMP: 1", "0,0031", "0,0101", "0,02")])
+    lim = agua.limites_por_ano(agua.prepara(bruto), "CE").set_index("ano")
+    assert lim.loc[2022, "lq_mediana"] == pytest.approx(0.3)
+    assert lim.loc[2024, "lq_mediana"] == pytest.approx(0.0101)
+
+
+def test_ufs_que_zeram_desfaz_o_fenomeno_so_cearense():
+    """O §1-ter dizia 'não é fenômeno nacional'. Zerar o numérico é comum —
+    e é isso que este recorte mostra."""
+    bruto = _sisagua(
+        [("CE", "2020", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")] * 2
+        + [("PB", "2020", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")] * 2
+        + [("SP", "2020", "X - VMP: 1", "0,1", "0,3", "0,5")] * 2)
+    z = agua.ufs_que_zeram(agua.prepara(bruto)).set_index("ano")
+    assert z.loc[2020, "ufs_com_dado"] == 3
+    assert z.loc[2020, "ufs_com_zero_numerico"] == 2
+    assert "CE" in z.loc[2020, "quais"] and "PB" in z.loc[2020, "quais"]
+
+
+def test_composicao_separa_a_uf_do_resto_do_pais():
+    bruto = _sisagua(
+        [("CE", "2019", "X - VMP: 1", "0,1", "0,3", "0,5")]
+        + [("CE", "2019", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")] * 9
+        + [("SP", "2019", "X - VMP: 1", "0,1", "0,3", "0,5")] * 5)
+    c = agua.composicao_por_ano(agua.prepara(bruto), "CE").set_index("grupo")
+    assert c.loc["CE", "pct_numerico"] == pytest.approx(10.0)
+    assert c.loc["resto do BR", "pct_numerico"] == pytest.approx(100.0)
 
 
 def test_dispersao_separa_cv_com_e_sem_zeros():

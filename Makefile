@@ -68,6 +68,7 @@ ajuda:
 	@echo "make gaez      — aptidão FAO-GAEZ (exige rasters em data/geo/)"
 	@echo "make erro-classificacao — a flag 7 medida: VPP da dose + limite do ATT"
 	@echo "make censo-demografico — Censo 2022 (censobr): água/esgoto CE x vizinho"
+	@echo "make audita-sisagua — canal-água: o que quebra na série, e o que não"
 	@echo "make fronteira-geografica — os tratados estão NA divisa? (geobr)"
 	@echo "make mde-desenhos — quanto poder cada grupo tratado compra (só pré-período)"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
@@ -236,6 +237,13 @@ censo-demografico:
 
 equipamento-vizinho:
 	$(PY) scripts/data_prep/13_censo_agro_equipamento.py --uf $(VIZINHO)
+
+# Canal-água. ⚠️ AUDITORIA, não ingestão: mede a fonte, não o efeito. O §1-ter
+# de docs/lacunas-de-dados.md suspendeu o canal, e este alvo diz exatamente o
+# que quebra — e o que NUNCA funcionou, que é a parte pior.
+.PHONY: audita-sisagua
+audita-sisagua:
+	$(PY) scripts/data_prep/17_audita_sisagua.py
 
 # ⚠️ Dimensão que o gate NÃO mede: um vizinho pode passar nos três portões e
 # não servir, porque o grupo tratado está a 300 km da divisa. Exige geobr

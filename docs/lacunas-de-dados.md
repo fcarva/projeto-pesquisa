@@ -247,6 +247,43 @@ alvo de uma requisição de microdado laboratorial à SESA/CE com os valores
 brutos, ou (c) sai do escopo. A matriz da §2 dizia que sem ele "o mecanismo
 fica postulado, não medido" — continua assim, e agora se sabe por quê.
 
+#### ⚠️ AUDITADO em 2026-09-22 — o alerta procede, a explicação não
+
+`scripts/data_prep/17_audita_sisagua.py`. **O aviso acima continua de pé: um
+DiD sobre "detectado" acharia eliminação de 100% e estaria errado.** Mas as
+razões mudam, e uma das conclusões se inverte.
+
+**1. A quebra NÃO é de sensibilidade analítica.** Era a hipótese natural e
+ninguém a tinha testado. LD e LQ medianos do Ceará ficam em **0,10 e 0,30
+µg/L de 2019 a 2023**, atravessando a quebra sem se mexer.
+
+**2. E as detecções antigas sobreviveriam ao regime novo.** Das 123 detecções
+numéricas de 2015–2019, só **2,4%** ficam abaixo do próprio LQ do registro
+(mediana 0,37 µg/L; máximo 10,25). **56% continuariam quantificáveis** sob o LQ
+de 0,30 vigente em 2020–2023 — e **78%** sobreviveriam ao LD. Nenhuma
+reapareceu. O zero não é censura; é reporte.
+
+**3. São quatro anos, e os numéricos voltam.** 2023 também é zero (4.957
+amostras, 100% `MENOR_LD`). Em **2024 o LQ mediano cai ~30×** (0,30 → 0,0101) e
+os numéricos reaparecem junto. A `MENOR_LQ` aparece só em 2020–2022 e some em
+2023: convenção adotada e abandonada.
+
+**4. ⚠️ São TRÊS categorias, não duas.** O texto acima só cita `MENOR_LQ`.
+`MENOR_LD` é a maior de todas — 280 mil dos 476 mil registros nacionais, e
+~99% dos cearenses **em todos os anos, inclusive no pré**.
+
+**5. ⚠️ E "não é fenômeno nacional" não se sustenta.** Zerar o numérico é
+comum: **5 a 9 de ~20 UFs** zeram em qualquer ano dado; Paraíba e Tocantins
+zeram em quase todos; o Ceará já zerava em **2014**. O resto do país também
+desaba — 57% de numéricos em 2020, 5,0% em 2022.
+
+> **A conclusão muda de forma, e fica pior para o canal.** O problema não é uma
+> quebra em 2020: é que a série **nunca teve variância**. São 123 detecções em
+> ~31 mil amostras de 2015–2019 — **0,4%**, contra 7–55% no resto do país. A
+> frase "o pré-período 2015–2018 é usável" é a que **não sobrevive**, mais do
+> que a do pós. A saída (a) — descritivo de pré-período — perde a base; as
+> saídas (b) e (c) ficam de pé.
+
 ### 1-quater. ✅ A D4 é viável — e o que ela custa
 
 *2026-09-21.* A **D4** pergunta se a janela que define a dose recua de 2015–2018
