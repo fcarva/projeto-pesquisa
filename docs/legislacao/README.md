@@ -72,6 +72,46 @@ O grupo tratado que sustenta o MDE da banana em `gates-resultados-dados-reais.md
 §6 tem **17 unidades**, e **uma delas está tratada desde 2009**. É ~6% do grupo,
 e é a 6ª maior dose — não é unidade de borda.
 
+> ### ⚠️⚠️ CONTESTADO em 2026-09-22 (sessão local): o acervo COMPLETO não tem a revogadora
+>
+> O item aberto era "lei revogadora a localizar no acervo". Ela foi procurada
+> no **acervo inteiro**, não por busca de termo: o endpoint
+> `camaralimoeirodonorte.ce.gov.br/leis/export` devolve a listagem completa —
+> **2.692 leis municipais**, de 1987 a 2026, com número, data e ementa.
+>
+> | verificação | resultado |
+> |---|---|
+> | leis citando "1478" ou "1.478" | **1** — a própria Lei 1.478/2009 |
+> | leis cuja ementa toca pulverização / agrotóxico / aéreo | **1** — a mesma |
+> | leis com "revog" na ementa (todo o acervo) | 10, **nenhuma** sobre a 1.478 |
+> | **leis datadas de 20/05/2010** | **NENHUMA** |
+>
+> ⚠️ **A data de 20/05/2010 não existe no acervo.** As leis vizinhas são a
+> **1509, de 12/05/2010** (denominação de posto de saúde) e a **1510, de
+> 21/05/2010** (protocolo de intenções). E 2010 está bem coberto — 43 leis,
+> numeração contínua de 1492 a 1535, de fevereiro a dezembro —, então não é
+> lacuna de acervo.
+>
+> **A candidata mais próxima por data e tema é a Lei 1511, de 26/05/2010,
+> "Dispõe sobre a política ambiental do município".** ⚠️ Mas a ementa não cita
+> a 1.478, e a LC 95/1998, art. 9º, exige **revogação expressa com enumeração**
+> — cláusula genérica de "revogam-se as disposições em contrário" não revoga
+> lei anterior específica. É hipótese a conferir no texto integral da 1511, não
+> confirmação.
+>
+> **O que isto muda e o que não muda.** Não prova que a revogação não ocorreu:
+> o acervo lista **ementas**, não textos integrais, e traz só "Lei Municipal" —
+> um decreto não apareceria. Mas o que era "fonte secundária, primária a
+> localizar" passa a ser **"fonte secundária, e a primária foi procurada no
+> acervo completo e não existe"**, que é situação bem mais frágil. ⬜ **A
+> cadeia que depende disto** — flag 0 do `CLAUDE.md`, `data_revogacao` no
+> registro, a contagem de bans vigentes no painel e os fatos da §5 do paper —
+> **fica pendente de decisão do pesquisador com o orientador.**
+>
+> Reproduzir: `python scripts/data_prep/09_varre_camaras.py --revogacao`
+> (rodou contra o site real, 6/6 buscas ok, nenhuma candidata) e a listagem
+> completa em `/leis/export`.
+
 > ⚠️ **Corrigido em 2026-09-22: a lei foi revogada em 20/05/2010** (cronologia
 > acima). O ban durou seis meses, e em 2015–2018 Limoeiro **não** estava sob
 > proibição. As três consequências listadas abaixo **não se materializam** na
