@@ -10,7 +10,7 @@ cod_ibge6,municipio,prioridade,tem_lei,numero_lei,data_lei,ementa,url_fonte,data
 230220,Beberibe,1,,,,,,,,nao_verificado,Castanha de caju (1º/170); Manga (4º/170); Coco-da-baía* (6º/165); Cana-de-açúcar (12º/120),30959.25,1
 230500,Guaraciaba do Norte,1,nao,,,,https://www.cmguaraciabadonorte.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Tomate (1º/71); Cana-de-açúcar (3º/120); Mamão (8º/105); Banana (cacho) (16º/169),1500.0,1
 230535,Icapuí,1,,,,,,,,nao_verificado,Mamão (1º/105); Melancia (2º/47); Coco-da-baía* (11º/165); Castanha de caju (11º/170),10321.0,1
-230630,Itapajé,1,,,,,https://www.cmitapaje.ce.gov.br/,2026-09-21,,inconclusivo,Banana (cacho) (1º/169),4774.0,1
+230630,Itapajé,1,nao,,,,https://www.itapaje.ce.gov.br/leis.php,2026-09-21,,ausente_conferido,Banana (cacho) (1º/169),4774.0,1
 231140,Quixeramobim,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (1º/28); Milho (em grão) (10º/184),10870.0,1
 231180,Russas,1,nao,,,,https://www.camararussas.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Uva (1º/6); Goiaba (1º/86); Banana (cacho) (12º/169); Coco-da-baía* (17º/165); Rigotto et al. (2013),1101.75,1
 231210,Santana do Cariri,1,,,,,,,,nao_verificado,Abacaxi* (1º/5),36.0,1

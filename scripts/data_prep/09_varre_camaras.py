@@ -137,21 +137,34 @@ def busca_http(url: str, timeout: int = 35) -> str | None:
 # respondem em `cm<slug>`. Testar só o primeiro fazia quatro municípios
 # parecerem "sem site" — e "sem site" vira `inconclusivo`, isto é, trabalho que
 # nunca seria feito porque parecia impossível.
-PREFIXOS_HOST = ("camara", "cm")
+# ⚠️ E o terceiro não é prefixo de câmara: é a PREFEITURA. Itapajé responde em
+# `cmitapaje.ce.gov.br` com um stub de 3 KB — parece site, não é acervo — e o
+# acervo de leis mora em `itapaje.ce.gov.br`, o portal do executivo. Testar só
+# os dois primeiros deixava o município `inconclusivo` para sempre, e um
+# "inconclusivo" é trabalho que nunca será feito porque parece impossível.
+#
+# A ordem importa: prefeitura POR ÚLTIMO, porque onde a câmara publica o acervo
+# ela é a fonte melhor (é o órgão que aprova a lei).
+PREFIXOS_HOST = ("camara", "cm", "")
 
 
 def detecta_plataforma(slug: str) -> tuple[str, str]:
     """('A' | 'B' | 'desconhecida' | 'sem_site', url_base)."""
+    ultimo = None
     for prefixo in PREFIXOS_HOST:
         base = f"https://www.{prefixo}{slug}.ce.gov.br"
         html = busca_http(base + "/", timeout=30)
         if html is None:
             continue
+        ultimo = base
         if "leis.php" in html:
             return "A", base
         if "atividade-legislativa" in html:
             return "B", base
-        return "desconhecida", base
+        # ⚠️ NÃO devolve "desconhecida" aqui: um host pode responder com stub e
+        # o acervo estar no próximo da lista. Só desiste depois de testar todos.
+    if ultimo:
+        return "desconhecida", ultimo
     return "sem_site", f"https://www.camara{slug}.ce.gov.br"
 
 

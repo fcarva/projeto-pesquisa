@@ -292,6 +292,61 @@ marco de notícia e paga com 24% de troca no grupo tratado. As duas rodadas
 existem lado a lado em `data/processed/`; a escolha vai para a §4 da
 pré-especificação com a razão declarada.
 
+### 1-quinquies. ⚠️ O vento: dado excelente, desenho bloqueado a montante
+
+*2026-09-21.* O último canal aberto. A matriz da §2 promete que sem ele falta
+"o teste de direção que separa deriva de confundidor".
+
+**O dado existe, é aberto e é bom.** `portal.inmet.gov.br/uploads/dadoshistoricos/
+<ano>.zip` (102 MB/ano). Para o Ceará, **14 estações automáticas**, horárias,
+com **direção em graus, velocidade e rajada — 100% preenchidos** (8.783 de
+8.784 horas em 2016, na estação de Jaguaribe).
+
+⚠️ A **API** `apitempo.inmet.gov.br/estacao/...` devolve **HTTP 204 para todas
+as estações** em datas históricas. Quem testar por ela conclui "o INMET não tem
+o dado". O ZIP anual tem.
+
+#### ⚠️ E aqui o achado inverte a expectativa
+
+Direção média do vento, por estação, 2016:
+
+| | |
+|---|---|
+| faixa entre as 14 estações | **63° a 112°** — todas de leste/nordeste |
+| **coerência circular ENTRE estações** | **0,96** |
+| direção média estadual | **89°** (leste — os alísios) |
+
+**São os alísios, e eles sopram sempre igual.** A coerência de 0,96 significa
+que **não há variação espacial de direção** no Ceará.
+
+> ⚠️ **É a regularidade que mata o teste transversal.** Se o vento vem sempre de
+> leste, "a favor do vento" é perfeitamente colinear com "está a oeste da
+> fonte" — e isso é **geografia, não vento**. Qualquer confundidor com gradiente
+> leste-oeste (distância do litoral, altitude, chuva, e no Ceará os três
+> variam assim) seria indistinguível de deriva. O teste não separaria o que
+> promete separar.
+
+#### O que sobra, e por que também não fecha
+
+A variação **temporal** existe: em Jaguaribe, a estação mais próxima da Chapada
+do Apodi, só **42%** das horas ficam a ±45° da direção média e **22%** saem do
+quadrante leste (coerência interna 0,42 — a menor do estado).
+
+Isso permitiria um teste de **timing**: efeito maior quando o vento soprou da
+lavoura para o receptor. ⚠️ **Mas exige saber QUANDO se pulverizou** — e o
+cadastro aeroagrícola do MAPA, conferido na §1-bis, **começa em 2021 e tem zero
+registros para o Ceará**. A data de aplicação não existe para a janela pré-ban.
+
+**Conclusão: o vento não é lacuna de aquisição, é desenho bloqueado a montante.**
+Adquiri-lo agora seria escrever ingestor para um teste sem o outro insumo — o
+que a §5 deste documento proíbe.
+
+✅ **Um detalhe que corrobora o mecanismo, de graça:** a velocidade mínima do
+dia em Jaguaribe é às **08h UTC (05h local): 2,0 m/s**, contra 3,6 m/s à tarde.
+É exatamente a janela em que a pulverização aérea é feita — de madrugada,
+justamente para minimizar deriva. O dado de vento confirma a prática descrita
+na literatura, ainda que não sirva ao teste de direção.
+
 ### Classe D — ✅ **quatro respondidas em 2026-09-21**, uma segue aberta
 
 | Pergunta | Resposta | Consequência |
@@ -347,7 +402,7 @@ integral, e duas atribuições da introdução foram corrigidas por isso.
 | **Bans municipais < 2019** | tudo, aparentemente | ⚠️ a garantia de que 2015–2018 é pré-tratamento. **Falha silenciosa: o resultado sai e está errado.** Já não é risco hipotético — 1 dos 17 tratados da banana está banido desde 2009 |
 | ~~ANA + SISAGUA~~ ⏸️ **SUSPENSO 2026-09-21** | Ensaio 1 inteiro | o canal-água. ⚠️ Não por indisponibilidade: o SISAGUA foi ADQUIRIDO e tem 58.061 medições em 184 municípios. Suspenso porque a variável de detecção tem quebra de registro no CE a partir de 2020 que produziria efeito espúrio. Ver §1-ter |
 | MapBiomas | tudo | melhoria da medida de dose; a deriva fica sem polígono |
-| INMET / FUNCEME | tudo | vento a favor/contra — o teste de direção que separa deriva de confundidor |
+| ~~INMET / FUNCEME~~ ⏸️ **SUSPENSO 2026-09-21** | tudo | ⚠️ Não por indisponibilidade: o dado é aberto, horário e 100% preenchido. O teste transversal **não funciona** porque os alísios dão coerência 0,96 entre estações — 'a favor do vento' vira 'a oeste', que é geografia. O teste temporal exigiria data de pulverização, que não existe no pré-ban. Ver §1-quinquies |
 | População municipal | contagens do canal de intoxicação | taxas; a comparação entre municípios de porte diferente |
 
 **Leitura da matriz.** Duas linhas têm consequência qualitativamente diferente

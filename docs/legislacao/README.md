@@ -88,8 +88,16 @@ MDE — foram varridos um a um:
 | resultado | n | significado |
 |---|---|---|
 | **confirmado** | **1** | Limoeiro do Norte, Lei 1.478/2009 |
-| `ausente_conferido` | 15 | acervo publicado conferido, **não há** lei do tema |
-| `inconclusivo` | 1 | Itapajé — portal não é nenhuma das duas plataformas |
+| `ausente_conferido` | **16** | acervo publicado conferido, **não há** lei do tema |
+| `inconclusivo` | **0** | — |
+
+✅ **Os 17 estão resolvidos.** Itapajé caiu depois: o host `cmitapaje.ce.gov.br`
+responde com um stub de 3 KB — parece site, não é acervo — e as leis do
+município moram em **`itapaje.ce.gov.br`, o portal da PREFEITURA**, que é
+plataforma A. ⚠️ O varredor desistia no primeiro host que respondesse; agora
+testa os três padrões (`camara<slug>`, `cm<slug>`, `<slug>`) antes de declarar
+inconclusivo. Um "inconclusivo" é trabalho que nunca será feito porque parece
+impossível — e este era só um prefixo de host.
 
 **A contaminação está limitada a ~6% do grupo tratado, e não cresce.** A
 hipótese de que a Chapada do Apodi tivesse legislado em bloco **não procede**:
