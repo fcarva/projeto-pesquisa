@@ -168,6 +168,46 @@ O extremo inferior da faixa de 15–25 g registrada na Layer 3 — a escolha
 **estrita**, porque piso menor é mais difícil de falsificar. O script 01 emite
 `falsifica` comparando a meia-largura do IC contra este piso.
 
+### ✅ Proveniência, rastreada em 2026-09-22
+
+A auditoria (`auditoria-pre-especificacao.md`, achado 5) apontou que este número
+— o mais carregado do documento, porque decide entre *achado* e *limite superior*
+— descendia de um bloco `[INSIGHT: ...]` sem citação. Rastreado até a fonte:
+
+| elo | estado |
+|---|---|
+| **23–32 g** atribuído a Reynier & Rubin (2025) | ✅ **confere, verbatim** — *"reduced average birthweight by 23 to 32 g at the average level of glyphosate exposure"*, Discussão, PMC11761964. Estimativa central **29,8 g** à intensidade média de 2012 |
+| 23–32 g → **15–25 g** (expectativa do pesquisador) | ⚠️ **juízo, não medida.** O ajuste para baixo supõe atenuação por substituição do avião pelo trator. Permanece hipótese declarada — mas agora é juízo contra âncora verificada, não contra número solto |
+| 15–25 g → **piso de 15 g** | ✅ escolha estrita do extremo inferior, fixada antes do dado |
+
+⚠️ **E o transporte da âncora tem um limite que a flag 2 já previa.** Reynier &
+Rubin medem o efeito de **acrescentar** glifosato; aqui mede-se o de **remover**
+um método de aplicação, e de outra classe química — procimidona e carbaril, não
+glifosato. A âncora é **analógica**, e é assim que o texto tem de citá-la.
+
+⚠️ **Dias, Rocha & Soares (2023) NÃO ancora magnitude em gramas.** O resultado
+principal deles é **+5% de mortalidade infantil**; não há efeito de peso em
+gramas no resumo. Eles são o template de *desenho*, não de magnitude.
+
+### ⚠️ E a âncora verificada diz onde este desenho teria poder
+
+Confrontando as duas magnitudes com o MDE de 33,4 g do cenário base:
+
+| alvo de Reynier & Rubin | magnitude | o desenho detecta? |
+|---|---|---|
+| efeito **médio** | 23–32 g | ✘ abaixo do MDE |
+| **decil inferior** de peso esperado | **75 g** | ✅ bem acima do MDE |
+| exposição no percentil 90 | 146–243 g | ✅ |
+
+O achado central daquele artigo é que o efeito se concentra **doze vezes** mais
+no decil inferior. Se o mesmo padrão distributivo valer aqui, **este desenho tem
+poder para a cauda vulnerável e não para a média** — e isso é caminho de
+especificação, não consolo retórico.
+
+⚠️ Mas é **exploratório**, não confirmatório: não foi declarado antes do dado, e
+promovê-lo agora seria exatamente o que a §6 existe para impedir. Entra como
+hipótese a pré-especificar para o próximo ciclo.
+
 ⚠️ **Trocar o piso depois de ver o IC inverte o sentido do teste.** Está fixado
 aqui, com data.
 
@@ -250,6 +290,7 @@ final reporta as duas versões.
 | 2026-09-21 | Este documento passa a se declarar **plano pré-estimação**, não pré-registro | A janela de "nenhuma fonte tocada" fechou em 2026-08-25, e o git prova. Ver §0 | Histórico do git; `docs/gates-resultados-dados-reais.md` |
 | 2026-09-22 | ⚠️ **Alvo primário: `slope` (`ACR(d)`) → `level` (`ATT(d\|d)`)** | A derivada agregada que o pacote reporta é **média simples sobre os pontos**, e é dominada pela faixa de dose < 0,1% — 48 dos 169 pontos — onde o erro-padrão supera a estimativa. A curva inverte de sinal ao longo da dose e nenhum ponto exclui zero em faixa alguma. O agregado, portanto, não é interpretável, e reportá-lo como resultado principal seria reportar um artefato de agregação. O `level` era a sensibilidade declarada na §4 e passa a principal | `data/processed/cgs_curva_slope__peso_medio__d0-4.csv` preserva a curva; a §6.2 do paper traz a decomposição por faixa. ⚠️ **Consequência para o Ensaio 2:** ele foi justificado *pela curva*, e a §7 do paper tem de dizer o que isso faz com a âncora de Weitzman |
 | 2026-09-22 | Correção de fato: **"o SPT não é testável por placebo" → "o placebo não o isola, mas pode falsificá-lo"** | O CGS §6.3 propõe e **roda** verificação pré-tratamento que fala do SPT — a inclinação em dose do `ACRT^es` — e na aplicação dos próprios autores ela **rejeita**. A afirmação anterior era forte demais. Ver `docs/auditoria-pre-especificacao.md` achado 3 | O teste foi implementado em `scripts/estimate/10_spt_pretrend.py` e rodado: nenhum dos 3 cortes placebo rejeita. ⚠️ Mas os 3 produzem inclinação **maior em módulo** que a do desenho real |
+| 2026-09-22 | Proveniência do **piso de 15 g** escrita na §5; o piso **não muda** | Ele descendia de bloco `[INSIGHT: ...]` sem citação. Rastreado: os 23–32 g de Reynier & Rubin **conferem verbatim** no texto completo (Discussão, PMC11761964), e não estavam no *abstract* porque o PNAS publica *Significance* ali. ⚠️ Dois documentos internos se contradiziam sobre isso e foram conciliados | `docs/referencias-verificadas.md` e `docs/justificativa.md`, ambos corrigidos com a localização. A decisão de 15 g permanece intacta — só a justificativa passou a existir |
 | 2026-09-22 | A correção de **Holm** passa a existir de fato | A §6 a declarava desde o fechamento e **nenhuma linha a implementava** — a família confirmatória foi estimada sem correção até aqui. Ver auditoria, achado 1 | `scripts/estimate/09_holm.py`; `data/processed/holm_confirmatorios.csv`. Nenhuma hipótese rejeita a 5%, antes ou depois |
 
 ---

@@ -24,10 +24,26 @@
 
 A análise que segue foi declarada antes de qualquer estimativa, em documento
 datado e versionado. O compromisso relevante é o critério de falsificação:
-fixou-se o piso de efeito esperado em \textbf{15 g} --- o extremo estrito da
-faixa de 15 a 25 g que a literatura sugere --- e declarou-se que, se a
+fixou-se o piso de efeito esperado em \textbf{15 g} e declarou-se que, se a
 meia-largura do intervalo de confiança não ficasse abaixo desse piso, o que se
 escreveria seria \textbf{limite superior informativo}, não achado.
+
+\paragraph{De onde vem esse piso.}
+A âncora é \citet{reynier2025glyphosate}, que estimam redução de \textbf{23 a
+32 g} no peso ao nascer à intensidade média de exposição ao glifosato no meio
+rural norte-americano, com estimativa central de 29,8 g. O piso adotado aqui é
+menor que o extremo inferior daquela faixa, e a diferença é deliberada: supõe-se
+atenuação, porque proibir o \emph{método} aéreo não remove a molécula quando o
+produtor substitui o avião pelo trator. Piso menor torna a falsificação mais
+difícil, não mais fácil, e essa é a razão de tê-lo escolhido.
+
+O transporte da âncora tem limite declarado. Aqueles autores medem o efeito
+de \emph{acrescentar} glifosato; aqui mede-se o de \emph{remover} um método de
+aplicação, e de outra classe química --- procimidona e carbaril, não glifosato
+(§\ref{sec:background}). A âncora é analógica, e é sob essa ressalva que entra.
+\citet{dias2023down}, o template de desenho deste trabalho, não serve de âncora
+de magnitude: o resultado principal deles é de mortalidade infantil, não de peso
+em gramas.
 
 \paragraph{Uma ressalva de integridade que o documento faz de si mesmo.}
 Este não é pré-registro no sentido estrito, e afirmá-lo seria falso. A janela em
@@ -356,3 +372,37 @@ O caminho declarado não é trocar o desfecho nem descer de unidade geográfica 
 as duas coisas estão vedadas na pré-especificação. É encorpar o grupo tratado,
 baixando o corte de dose para além do decil superior, e é a via que o roteiro já
 ratificava antes de haver estimativa.
+
+\paragraph{E a âncora da literatura aponta um segundo caminho, que não estava
+declarado.}
+O achado central de \citet{reynier2025glyphosate} não é a média: é que o efeito
+se concentra \textbf{doze vezes} mais no decil inferior de peso esperado ---
+75 g de perda ali contra 6 g no decil superior. Posta essa distribuição contra o
+efeito mínimo detectável deste desenho, aparece uma assimetria que o diagnóstico
+agregado esconde:
+
+\begin{table}[htbp]
+\centering
+\caption{Magnitudes da âncora contra o MDE deste desenho (33,4 g)}
+\label{tab:mde-cauda}
+\small
+\begin{tabular}{lrc}
+\toprule
+\textbf{Alvo em \citet{reynier2025glyphosate}} & \textbf{Magnitude} & \textbf{Detectável aqui?} \\
+\midrule
+Efeito médio                       & 23--32 g   & não \\
+Decil inferior de peso esperado    & 75 g       & sim \\
+Exposição no percentil 90          & 146--243 g & sim \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Se o mesmo padrão distributivo valer no Ceará, \textbf{este desenho tem poder
+para a cauda vulnerável e não para a média} --- e o problema deixa de ser de
+tamanho de amostra para ser de escolha de estimando.
+
+Isso \textbf{não} é reportado como resultado, e nem sequer como análise feita.
+Não foi declarado antes do dado, e promovê-lo agora seria precisamente a prática
+que a pré-especificação existe para impedir. Fica registrado como hipótese a
+pré-especificar no ciclo seguinte, o que é o único estatuto honesto que ela pode
+ter neste texto.

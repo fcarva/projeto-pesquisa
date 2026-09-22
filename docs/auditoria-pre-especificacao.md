@@ -33,7 +33,7 @@ Continuous Treatment*, arXiv:2107.02637, §3.2.1–3.2.2 e §6.3, lidos em
 | 2 | **O alvo primário foi trocado sem entrar na tabela de desvios** | 🔴 alta | ✅ **resolvido** 2026-09-22 |
 | 3 | **A camada de robustez não defende o parâmetro pré-especificado** | 🔴 alta | ✅ **resolvido** 2026-09-22 |
 | 4 | A numeração das hipóteses do CGS está errada em todo o repositório | 🟡 média | ✅ **resolvido** 2026-09-22 |
-| 5 | O piso de 15 g deriva de magnitude que o próprio repo marcou não-verificada | 🟡 média | ⬜ aberto |
+| 5 | O piso de 15 g deriva de magnitude que o próprio repo marcou não-verificada | 🟡 média | ✅ **resolvido** 2026-09-22 |
 | 6 | O paper não informa que o número reportado é a *sensibilidade* declarada | 🟡 média | ✅ resolvido junto com o 2 |
 
 ### O que a resolução dos quatro produziu
@@ -44,6 +44,41 @@ Continuous Treatment*, arXiv:2107.02637, §3.2.1–3.2.2 e §6.3, lidos em
 | 2 e 6 | Terceira linha na §8 da pré-especificação; parágrafo na §6.2 do paper **antes** do número | A troca de alvo deixa de ser silenciosa. ⚠️ A consequência para o Ensaio 2 fica registrada e pendente da §7 |
 | 3 | `scripts/estimate/10_spt_pretrend.py` + nova §6.6 do paper | ⚠️ **Nenhum dos 3 cortes placebo rejeita — mas os 3 produzem inclinação MAIOR em módulo que a do desenho real** (25,8 / 31,1 / 13,0 contra 6,8). O ruído de pré-período supera o efeito estimado |
 | 4 | Substituição em 66 linhas de 16 arquivos, com guarda para o "canal A5" | Zero `Assumption 4/5` remanescentes; as 4 ocorrências de "canal A5" intactas |
+| 5 | Texto completo pelo Europe PMC; §5 da pré-especificação reescrita; os dois docs em desacordo conciliados | ⚠️ **O repositório estava errado dos dois lados** — ver abaixo |
+
+### ⚠️ O achado 5 terminou desmentindo a própria auditoria
+
+A auditoria registrou que os 23–32 g eram magnitude *não verificada*, apoiando-se
+em `referencias-verificadas.md:104`. **O texto completo a traz verbatim:**
+
+> *"[...] which reduced average birthweight by **23 to 32 g** at the average
+> level of glyphosate exposure"* — Reynier & Rubin (2025), Discussão, PMC11761964
+
+A ressalva interna estava certa quanto ao fato (não está no *abstract*) e errada
+quanto à conclusão (não é "do material de projeto"). A causa é mecânica e vale
+registrar: **o PNAS publica *Significance* no lugar do resumo numérico**, de modo
+que uma verificação que só lê *abstract* não encontra magnitude nenhuma naquele
+periódico. Estimativa central: **29,8 g**.
+
+Então: `justificativa.md` estava certa ao marcar **V**, e faltava-lhe a
+localização; `referencias-verificadas.md` estava certa sobre o *abstract* e
+errada sobre a origem. Ambas corrigidas, e o piso de 15 g **não muda** — só a
+justificativa passou a existir.
+
+⚠️ **E o que a fonte verificada revelou é mais útil que a correção.** Confrontando
+as magnitudes daquele artigo com o MDE de 33,4 g deste desenho: o efeito *médio*
+(23–32 g) está **abaixo** do detectável, mas o do *decil inferior* (75 g) está
+bem acima. O achado central deles é que o efeito se concentra doze vezes na
+cauda vulnerável. **Se o padrão valer aqui, o desenho tem poder para a cauda e
+não para a média** — o problema deixa de ser de amostra e passa a ser de escolha
+de estimando. Entra no paper como hipótese a pré-especificar, jamais como
+resultado: não foi declarada antes do dado.
+
+⚠️ **E um limite de transporte que continua valendo.** Reynier & Rubin medem o
+efeito de *acrescentar* glifosato; aqui mede-se o de *remover* um método, e de
+outra classe química. A âncora é analógica, e o texto passa a dizê-lo.
+**Dias, Rocha & Soares (2023) não ancora magnitude**: o resultado deles é +5% de
+mortalidade infantil, não peso em gramas. São template de desenho, não de escala.
 
 ⚠️ **O achado 3 não deu o desfecho que se esperava, e isso importa.** A hipótese
 de trabalho era que o teste pudesse *rejeitar*, o que converteria a troca de alvo

@@ -101,7 +101,7 @@ atribui a cada trabalho. Duas atribuições da primeira redação da introduçã
 | Atribuição | Situação |
 |---|---|
 | DRS: "o efeito desaparece onde a água de consumo não vem do rio" | ⚠️ **não** consta do *abstract*. Trocado pelo que consta: identificação por direção do fluxo dentro da bacia, deterioração a jusante, e **+5%** de mortalidade infantil na especificação preferida |
-| Reynier & Rubin: "redução de 23 a 32 gramas" | ⚠️ a magnitude vem do material de projeto, **não** do *abstract*. Trocada pelo que consta: redução de peso e de duração gestacional, com efeito **doze vezes maior** no decil inferior de peso esperado |
+| Reynier & Rubin: "redução de 23 a 32 gramas" | ✅ **CONFERE — corrigido em 2026-09-22.** A ressalva anterior dizia que a magnitude "vem do material de projeto, não do *abstract*". A primeira metade era falsa e a segunda é irrelevante: o texto completo (PMC11761964, Discussão) traz **verbatim** *"reduced average birthweight by 23 to 32 g at the average level of glyphosate exposure"*. O PNAS publica *Significance* no lugar do resumo numérico, e foi isso que a verificação por *abstract* não alcançou. Estimativa central: **29,8 g** à intensidade média de 2012. ⚠️ E o decil inferior perde **75 g** contra **6 g** no superior — é daí que vem o "doze vezes" |
 | Larsen et al.: efeito só na cauda superior | ✅ confere — **5 a 9%**, apenas acima do percentil 95 |
 | Frank (2024): inseticida ↑, mortalidade infantil ↑ | ✅ confere — **+31,1%** de inseticida, **+7,9%** de mortalidade infantil |
 | Camacho & Mejía (2017) | ⚠️ **sem *abstract* depositado**. A descrição no texto se apoia no título, e uma nota de rodapé declara isso. Conferir contra o texto integral |

@@ -188,7 +188,7 @@ documentada — descer degrau não é fracasso; descer sem registrar, é.
 | PL apresentado em 24/02/2015 | **P** | `docs/legislacao/pl-18-2015.md` |
 | Assassinato de Zé Maria do Tomé, 2010; lei leva seu nome | **P** | `paper/secoes/02-background.tex` §2.1 |
 | ADI 6137 (2023, unânime); Lei 19.135/2024; ADI 7794 | **P** | `docs/legislacao/README.md` |
-| Reynier & Rubin (2025), PNAS; 23–32 g | **V** | `doi:10.1073/pnas.2413013121`, pmid 39808655 |
+| Reynier & Rubin (2025), PNAS; 23–32 g | **V** | `doi:10.1073/pnas.2413013121`, pmid 39808655. ✅ Localizado em 2026-09-22: **texto completo, Discussão** (PMC11761964), verbatim. Não está no *abstract* — o PNAS publica *Significance* ali, sem número. Central: 29,8 g |
 | Larsen, Gaines & Deschênes (2017), Nat. Commun.; topo 5% | **V** | `doi:10.1038/s41467-017-00349-2`, pmid 28851866 |
 | Camacho & Mejía (2017), J. Health Econ. | **V** | `doi:10.1016/j.jhealeco.2017.04.005`, pmid 28570914 |
 | Callaway, Goodman-Bacon & Sant'Anna — estimador | **V** | `arxiv:2107.02637` |
