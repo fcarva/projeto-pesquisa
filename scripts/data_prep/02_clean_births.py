@@ -61,6 +61,11 @@ UFS_PADRAO = ("23",)
 # de propósito: um código solto vira download silencioso do estado errado.
 SIGLA_POR_UF = {"23": "CE", "24": "RN", "22": "PI", "25": "PB", "26": "PE"}
 ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)  # pré e pós-ban (vigência 09/01/2019)
+# FTP do DATASUS: a fonte ORIGINAL, porta 21. `1996_` é a série consolidada —
+# existe uma pasta `PRELIM` irmã, e não é dela que se lê.
+FTP_DATASUS = "ftp.datasus.gov.br"
+FTP_SINASC_DIR = "/dissemin/publicos/SINASC/1996_/Dados/DNRES"
+RAW_DIR = Path("data/raw/sinasc")
 OUT_DIR = Path("data/processed")
 NOME_SAIDA = "nascimentos_ce_muni_mes"
 
@@ -538,6 +543,73 @@ def simula_sinasc(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_mes: int = 18) 
     return pd.concat([df, fora], ignore_index=True).sample(frac=1, random_state=seed).reset_index(drop=True)
 
 
+def baixa_sinasc_ftp(anos=ANOS_PADRAO, ufs=UFS_PADRAO, destino=RAW_DIR,
+                     timeout: int = 60) -> list[Path]:
+    """Baixa `DN{SIGLA}{ano}.dbc` do FTP do DATASUS e devolve os caminhos.
+
+    ⚠️ POR QUE EXISTE, havendo `--fonte pysus`. O pysus 2.10 **não lê o FTP**:
+    ele baixa do espelho DuckLake por HTTPS (`nbg1.your-objectstorage.com`). Em
+    2026-09-22 esse espelho ficou inalcançável desta máquina — o TCP abre e a
+    sessão morre — enquanto o FTP do DATASUS, que é a fonte original,
+    respondia em 0,4 s. São dois transportes para o MESMO arquivo, e ter os
+    dois é o que separa "a fonte caiu" de "este caminho até a fonte caiu".
+
+    ⚠️ Baixa para `.parte` e só então renomeia. Interrupção no meio deixaria um
+    `.dbc` truncado no cache, e a rodada seguinte o leria como arquivo bom —
+    falha silenciosa, que é o modo de erro que este repositório mais teme.
+    Arquivo já presente não volta a baixar.
+    """
+    from ftplib import FTP
+
+    destino = Path(destino)
+    destino.mkdir(parents=True, exist_ok=True)
+    siglas = [_sigla_da_uf(uf) for uf in ufs]
+    caminhos: list[Path] = []
+    faltando: list[str] = []
+
+    with FTP(FTP_DATASUS, timeout=timeout) as ftp:
+        ftp.login()
+        ftp.cwd(FTP_SINASC_DIR)
+        disponiveis = set(ftp.nlst())
+        for sigla in siglas:
+            for ano in anos:
+                nome = f"DN{sigla}{ano}.dbc"
+                alvo = destino / nome
+                if alvo.exists() and alvo.stat().st_size > 0:
+                    caminhos.append(alvo)
+                    continue
+                if nome not in disponiveis:
+                    faltando.append(nome)
+                    continue
+                parte = alvo.with_suffix(".parte")
+                with open(parte, "wb") as fh:
+                    ftp.retrbinary(f"RETR {nome}", fh.write)
+                parte.replace(alvo)
+                print(f"[ok] {nome} ({alvo.stat().st_size / 1e6:.1f} MB)")
+                caminhos.append(alvo)
+
+    # ⚠️ Ano pedido e ausente é erro, não silêncio: sem isto, uma janela
+    # cortada pela metade viraria painel curto sem nada acusar.
+    if faltando:
+        raise RuntimeError(
+            f"O FTP do DATASUS não tem: {', '.join(faltando)}. "
+            f"Confira o ano (a série consolidada em {FTP_SINASC_DIR} ia até 2024 "
+            "em 2026-09-22) e a sigla da UF."
+        )
+    if not caminhos:
+        raise RuntimeError("Nenhum arquivo SINASC baixado do FTP.")
+    return caminhos
+
+
+def carrega_de_ftp(anos=ANOS_PADRAO, ufs=UFS_PADRAO, destino=RAW_DIR) -> pd.DataFrame:
+    """Baixa do FTP e lê tudo de uma vez — usado pelo dispatcher `auto`.
+
+    O `main` com `--fonte ftp` NÃO passa por aqui: lá o FTP é só fetcher, e a
+    leitura vai pelo caminho por arquivo, que não segura a janela em memória.
+    """
+    return carrega_de_arquivos(baixa_sinasc_ftp(anos, ufs, destino))
+
+
 def carrega_nascimentos(
     fonte: str = "auto", caminhos: list[Path] | None = None, anos=ANOS_PADRAO,
     seed: int = SEED, ufs=UFS_PADRAO,
@@ -553,6 +625,8 @@ def carrega_nascimentos(
         return carrega_de_arquivos(caminhos or []), "arquivos"
     if fonte == "pysus":
         return carrega_de_pysus(anos, ufs), "pysus"
+    if fonte == "ftp":
+        return carrega_de_ftp(anos, ufs), "ftp"
 
     if caminhos:
         try:
@@ -563,6 +637,14 @@ def carrega_nascimentos(
         return carrega_de_pysus(anos, ufs), "pysus"
     except Exception as erro:  # noqa: BLE001
         print(f"[aviso] acesso via pysus indisponível ({type(erro).__name__}: {erro}).")
+    # ⚠️ Antes de desistir para o simulado, o OUTRO transporte da mesma fonte.
+    # O simulado é último recurso, não segundo — e em 2026-09-22 foi exatamente
+    # esta ordem que separou "o DATASUS caiu" (falso) de "o espelho HTTPS do
+    # pysus caiu" (verdadeiro).
+    try:
+        return carrega_de_ftp(anos, ufs), "ftp"
+    except Exception as erro:  # noqa: BLE001
+        print(f"[aviso] FTP do DATASUS indisponível ({type(erro).__name__}: {erro}).")
         print("[aviso] Caindo para microdado SIMULADO. Nada abaixo é evidência empírica.")
         return simula_sinasc(anos, seed), "simulado"
 
@@ -634,13 +716,15 @@ def main(argv: list[str] | None = None) -> int:
     _saida_utf8()
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument(
-        "--fonte", choices=("auto", "arquivos", "pysus", "simulado"), default="auto"
+        "--fonte", choices=("auto", "arquivos", "pysus", "ftp", "simulado"), default="auto"
     )
     parser.add_argument("--caminho", type=Path, nargs="*", default=[],
                         help="Arquivos SINASC já baixados (.parquet/.csv/.csv.gz).")
     parser.add_argument("--anos", type=int, nargs="*", default=list(ANOS_PADRAO))
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
+    parser.add_argument("--raw-dir", type=Path, default=RAW_DIR,
+                        help="Cache dos .dbc baixados do FTP (padrão: data/raw/sinasc).")
     parser.add_argument(
         "--ufs", nargs="+", default=list(UFS_PADRAO), metavar="COD",
         help=("Códigos IBGE de UF a manter (padrão: 23 = Ceará). "
@@ -652,6 +736,16 @@ def main(argv: list[str] | None = None) -> int:
     # DBCs anuais são grandes: agrega um por vez para não manter todo o
     # microdado da janela na memória.
     ufs = tuple(str(u).strip() for u in args.ufs)
+
+    # ⚠️ Com --fonte ftp o FTP é FETCHER, não leitor: baixa os .dbc e delega ao
+    # caminho de arquivos, que processa um por vez e não segura a janela toda
+    # em memória. Só a proveniência registrada continua sendo "ftp".
+    rotulo_fonte = None
+    if args.fonte == "ftp":
+        args.caminho = baixa_sinasc_ftp(tuple(args.anos), ufs, args.raw_dir)
+        args.fonte = "arquivos"
+        rotulo_fonte = "ftp"
+
     processa_por_arquivo = args.fonte == "arquivos" and len(args.caminho) > 1 and any(
         caminho.suffix.lower() == ".dbc" for caminho in args.caminho
     )
@@ -678,6 +772,7 @@ def main(argv: list[str] | None = None) -> int:
             print("[erro] Nada sobrou após filtrar Ceará e datas válidas. Confira CODMUNRES/DTNASC.")
             return 1
         painel = colapsa_muni_mes(individual)
+    fonte = rotulo_fonte or fonte
     painel["fonte"] = fonte  # a proveniência viaja junto com o dado
     imprime_resumo(individual, painel, fonte)
 

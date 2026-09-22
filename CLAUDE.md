@@ -51,16 +51,17 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 > | **ADAGRI (receituário)** | ⬜ **LAI a protocolar** — a receita registra a modalidade de aplicação (Dec. 4.074/2002, art. 66). Única rota para medir o **método** no pré-período. Ver `docs/legislacao/lai-adagri-minuta.md` |
 > | **SEMACE / ANAC / MAPA** | ⚠️ o MAPA é **dado aberto** (a LAI era desnecessária), mas não tem profundidade histórica. A LAI à SEMACE é a única rota para o pré-período |
 
-- **SINASC** (nascimentos), **SIM** (óbitos) — DATASUS, via `pysus` ou Base dos Dados (BigQuery). **Microdado sensível → nunca commitar.**
+- **SINASC** (nascimentos), **SIM** (óbitos) — DATASUS. ⚠️ **Dois transportes para a mesma fonte, e isso é de propósito:** `--fonte ftp` (script 02) baixa o `.dbc` do **FTP do DATASUS, porta 21** — a fonte original —, e `--fonte pysus` passa pelo espelho DuckLake em HTTPS. Em 2026-09-22 o espelho ficou inalcançável (TCP abre, sessão morre) enquanto o FTP respondia em 0,4 s; o `auto` tenta pysus → FTP → simulado, **nessa ordem**, porque simulado não é evidência. O FTP tem a série consolidada **até 2024** (`/dissemin/publicos/SINASC/1996_/Dados/DNRES`, irmã da `PRELIM`) — a Base dos Dados/BigQuery deixou de ser rota necessária. **Microdado sensível → nunca commitar.**
 - **SISAGUA** (qualidade da água) — Base dos Dados / MS.
 - **PAM/IBGE** (área/produção por cultura) — `sidrapy` ou Base dos Dados.
 - **FAO-GAEZ** (aptidão agroclimática) — raster → `data/geo/`.
 - **ANA** (bacias) — shapefiles → `data/geo/`.
 - **IBAMA** (vendas de agrotóxicos) — contexto.
-- **SIH/DATASUS** (internações por intoxicação aguda) — canal de substituição aéreo→terrestre.
+- **SIH/DATASUS** (internações por intoxicação aguda) — canal de substituição aéreo→terrestre. `--fonte ftp` no script 04 (`RD{UF}{AA}{MM}.dbc`, **mensal**: a janela são 96 arquivos).
 - **CAGED/RAIS** e **PIB agropecuário municipal** (IBGE) — canal de renda; insumo do Ensaio 2.
 - **MapBiomas** (polígonos de cultivo) — fonte da deriva no canal-ar. ⚠️ Verificar se separa banana/melão ou só classes genéricas.
 - **INMET / FUNCEME** (vento diário) — vetor a favor/contra no canal-ar.
+- **SINAN/IEXO** (notificação de intoxicação exógena) — canal A5, script 10. ⚠️ **FINAIS e PRELIM são diretórios diferentes no FTP** (em 2026-09-22: finais até 2022, preliminares 2023–2026), e a janela do projeto cruza essa fronteira. Ano que só existe em PRELIM **não entra sozinho**: exige `--aceitar-preliminar`, e a proveniência gravada vira `ftp_preliminar`. Dado em revisão misturado com final produz quebra de série que vem da consolidação, não do mundo.
 - **CPRM/SGB** (vulnerabilidade cárstica, Aquífero Jandaíra) — heterogeneidade do canal-água. ⚠️ Confirmar se o mapa é público.
 - **ANAC / MAPA / SINDAG** (cadastro aeroagrícola e pistas) — define o `d = 0` que mede o **método**, não a cultura.
 - Documentos legais → `docs/legislacao/`: Lei 16.820/2019 e Lei 12.228/1993 consolidada (**obtidos**); ADI 6137/STF; Lei 19.135/2024 (exceção drones); ADI 7794. **ADI 5553 / ADI 7755** (desoneração tributária de agrotóxicos, rel. Fachin) — o STF decidindo o instrumento-**preço** enquanto já validou o instrumento-**quantidade**; matéria do Ensaio 2. A audiência pública da ADI 5553 é acervo técnico público.

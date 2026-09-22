@@ -119,6 +119,112 @@ def test_media_por_municipio_trata_ausencia_de_linha_como_zero():
     assert medias["cod_ibge6"].iloc[0] == "239001"  # chave de join com o SINASC
 
 
+# --------------------------------------------------------------------------
+# O transporte FTP do SINASC (02). Existe porque em 2026-09-22 o espelho HTTPS
+# que o pysus usa ficou inalcançável enquanto o FTP do DATASUS — a fonte
+# original — respondia em 0,4 s. Os testes travam o que distingue os dois.
+# --------------------------------------------------------------------------
+
+class _FTPFalso:
+    """FTP do DATASUS de mentira: lista o que existe e escreve bytes fixos."""
+
+    def __init__(self, arquivos, registro):
+        # Lista = mesma listagem em qualquer diretório. Dict {diretório: [...]}
+        # = listagens distintas, que é o que o SINAN exige: FINAIS e PRELIM são
+        # diretórios diferentes e a diferença é substantiva.
+        self._arquivos = arquivos
+        self._registro = registro
+        self._dir = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        return False
+
+    def login(self):
+        self._registro.append("login")
+
+    def cwd(self, diretorio):
+        self._registro.append(("cwd", diretorio))
+        self._dir = diretorio
+
+    def nlst(self):
+        if isinstance(self._arquivos, dict):
+            return list(self._arquivos.get(self._dir, []))
+        return list(self._arquivos)
+
+    def retrbinary(self, comando, escreve):
+        nome = comando.split()[-1]
+        self._registro.append(("retr", nome))
+        escreve(b"dbc-de-mentira")
+
+
+def _instala_ftp_falso(monkeypatch, arquivos):
+    import ftplib
+    registro = []
+    monkeypatch.setattr(
+        ftplib, "FTP", lambda host, timeout=60: _FTPFalso(arquivos, registro)
+    )
+    return registro
+
+
+def test_baixa_sinasc_ftp_traz_os_arquivos_e_nao_deixa_parte(monkeypatch, tmp_path):
+    registro = _instala_ftp_falso(monkeypatch, ["DNCE2015.dbc", "DNRN2015.dbc"])
+    caminhos = nasc.baixa_sinasc_ftp(anos=(2015,), ufs=("23", "24"), destino=tmp_path)
+
+    assert [c.name for c in caminhos] == ["DNCE2015.dbc", "DNRN2015.dbc"]
+    assert all(c.read_bytes() == b"dbc-de-mentira" for c in caminhos)
+    # O `.parte` é renomeado, nunca deixado para trás: um `.dbc` truncado no
+    # cache seria lido como arquivo bom na rodada seguinte.
+    assert list(tmp_path.glob("*.parte")) == []
+    assert ("retr", "DNCE2015.dbc") in registro
+
+
+def test_baixa_sinasc_ftp_nao_rebaixa_o_que_ja_esta_em_cache(monkeypatch, tmp_path):
+    (tmp_path / "DNCE2015.dbc").write_bytes(b"ja-estava-aqui")
+    registro = _instala_ftp_falso(monkeypatch, ["DNCE2015.dbc", "DNCE2016.dbc"])
+
+    caminhos = nasc.baixa_sinasc_ftp(anos=(2015, 2016), ufs=("23",), destino=tmp_path)
+
+    assert len(caminhos) == 2
+    baixados = [n for tipo, n in (r for r in registro if isinstance(r, tuple) and r[0] == "retr")]
+    assert baixados == ["DNCE2016.dbc"]          # só o que faltava
+    assert (tmp_path / "DNCE2015.dbc").read_bytes() == b"ja-estava-aqui"
+
+
+def test_baixa_sinasc_ftp_grita_quando_falta_ano(monkeypatch, tmp_path):
+    """Ano pedido e ausente é erro. Janela cortada pela metade não vira painel."""
+    _instala_ftp_falso(monkeypatch, ["DNCE2015.dbc"])
+    with pytest.raises(RuntimeError, match="DNCE2016.dbc"):
+        nasc.baixa_sinasc_ftp(anos=(2015, 2016), ufs=("23",), destino=tmp_path)
+
+
+def test_dispatcher_usa_o_ftp_antes_de_cair_para_o_simulado(monkeypatch):
+    """O simulado é ÚLTIMO recurso, não segundo.
+
+    Era esta ordem que faltava: com o pysus fora do ar, `auto` ia direto para
+    microdado simulado — que não é evidência — em vez de tentar o outro
+    transporte da mesma fonte.
+    """
+    def pysus_fora(anos, ufs):
+        raise RuntimeError("espelho HTTPS inalcançável")
+
+    chamou = {}
+
+    def ftp_ok(anos=None, ufs=None, destino=None):
+        chamou["ftp"] = True
+        return pd.DataFrame({"CODMUNRES": ["230440"], "DTNASC": ["01012015"],
+                             "PESO": [3200]})
+
+    monkeypatch.setattr(nasc, "carrega_de_pysus", pysus_fora)
+    monkeypatch.setattr(nasc, "carrega_de_ftp", ftp_ok)
+
+    _, fonte = nasc.carrega_nascimentos(fonte="auto", anos=(2015,), ufs=("23",))
+    assert fonte == "ftp"
+    assert chamou.get("ftp")
+
+
 def test_makefile_e_script_concordam_sobre_o_sufixo_de_uf():
     """O Makefile montava o nome do artefato à mão, e errava para VIZINHO=22.
 
@@ -144,6 +250,134 @@ def test_makefile_e_script_concordam_sobre_o_sufixo_de_uf():
         do_makefile = f"uf{ordenadas[0]}-{ordenadas[1]}"
         do_script = dose.sufixo_das_ufs(("23", vizinho)).lstrip("_")
         assert do_makefile == do_script, (vizinho, do_makefile, do_script)
+
+
+def test_makefile_nao_usa_o_transporte_que_cai_no_gate():
+    """O alvo `fronteira` termina num GATE: queda silenciosa para simulado ali
+    produziria veredito sobre microdado inventado. Por isso `--fonte ftp`."""
+    texto = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    alvo = texto.split("fronteira:", 1)[1]
+    assert "02_clean_births.py --fonte ftp" in alvo
+    assert "02_clean_births.py --fonte pysus" not in alvo
+
+
+# --------------------------------------------------------------------------
+# O transporte FTP do SIH (04). Mesma razão do 02, com um agravante: o SIH é
+# MENSAL — 8 anos são 96 arquivos, e uma conexão reaproveitada vale muito mais.
+# --------------------------------------------------------------------------
+
+def test_baixa_sih_ftp_monta_o_nome_mensal_e_cacheia(monkeypatch, tmp_path):
+    arquivos = [f"RDCE15{m:02d}.dbc" for m in range(1, 13)]
+    (tmp_path / "RDCE1501.dbc").write_bytes(b"ja-estava-aqui")
+    registro = _instala_ftp_falso(monkeypatch, arquivos)
+
+    caminhos = intox.baixa_sih_ftp(anos=(2015,), uf="CE", destino=tmp_path)
+
+    assert len(caminhos) == 12
+    baixados = [n for r in registro if isinstance(r, tuple) and r[0] == "retr"
+                for n in [r[1]]]
+    assert "RDCE1501.dbc" not in baixados      # cache respeitado
+    assert len(baixados) == 11
+    assert list(tmp_path.glob("*.parte")) == []
+
+
+def test_baixa_sih_ftp_recusa_serie_com_mes_faltando(monkeypatch, tmp_path):
+    """Ano de 11 meses produziria queda de internações que o texto leria
+    como efeito. Mês ausente é erro, não buraco silencioso."""
+    _instala_ftp_falso(monkeypatch, [f"RDCE15{m:02d}.dbc" for m in range(1, 12)])
+    with pytest.raises(RuntimeError, match="RDCE1512.dbc"):
+        intox.baixa_sih_ftp(anos=(2015,), uf="CE", destino=tmp_path)
+
+
+def test_sih_so_pega_o_grupo_RD_pelo_nome(monkeypatch, tmp_path):
+    """ER, RJ e SP moram no mesmo diretório e são rejeição e serviços
+    profissionais — entrariam como internação que não houve."""
+    arquivos = ([f"RDCE15{m:02d}.dbc" for m in range(1, 13)]
+                + ["ERCE1501.dbc", "RJCE1501.dbc", "SPCE1501.dbc"])
+    registro = _instala_ftp_falso(monkeypatch, arquivos)
+    caminhos = intox.baixa_sih_ftp(anos=(2015,), uf="CE", destino=tmp_path)
+    assert all(c.name.startswith("RDCE") for c in caminhos)
+
+
+def test_dispatcher_do_sih_usa_ftp_antes_do_simulado(monkeypatch):
+    monkeypatch.setattr(intox, "carrega_de_pysus",
+                        lambda anos: (_ for _ in ()).throw(RuntimeError("espelho fora")))
+    monkeypatch.setattr(intox, "carrega_de_ftp",
+                        lambda anos=None, uf=None, destino=None: pd.DataFrame(
+                            {"MUNIC_RES": ["230440"], "DT_INTER": ["20150101"],
+                             "DIAG_PRINC": ["T600"]}))
+    _, fonte = intox.carrega_internacoes("auto", None, (2015,), 1)
+    assert fonte == "ftp"
+
+
+# --------------------------------------------------------------------------
+# O transporte FTP do SINAN/IEXO (10). O que ele tem de próprio é a separação
+# FINAIS x PRELIM: dado ainda em revisão não pode entrar como final em
+# silêncio, senão a quebra da série vem do estágio de consolidação.
+# --------------------------------------------------------------------------
+
+def _ftp_sinan(monkeypatch, finais, prelim):
+    return _instala_ftp_falso(monkeypatch, {
+        sinan.FTP_SINAN_FINAIS: finais,
+        sinan.FTP_SINAN_PRELIM: prelim,
+    })
+
+
+def test_iexo_prefere_finais_quando_o_ano_esta_nos_dois(monkeypatch, tmp_path):
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], ["IEXOBR15.dbc"])
+    caminhos, preliminares = sinan.baixa_iexo_ftp(anos=(2015,), destino=tmp_path)
+    assert [c.name for c in caminhos] == ["IEXOBR15.dbc"]   # sem prefixo prelim_
+    assert preliminares == []
+
+
+def test_iexo_recusa_ano_que_so_existe_em_prelim(monkeypatch, tmp_path):
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], ["IEXOBR23.dbc"])
+    with pytest.raises(RuntimeError, match="2023"):
+        sinan.baixa_iexo_ftp(anos=(2015, 2023), destino=tmp_path)
+    # E não deixa meio-resultado em disco para a rodada seguinte achar.
+    assert list(tmp_path.glob("*.parte")) == []
+
+
+def test_iexo_aceita_prelim_quando_pedido_e_marca_a_proveniencia(monkeypatch, tmp_path):
+    """Entrar é permitido; entrar sem dizer, não."""
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], ["IEXOBR23.dbc"])
+    caminhos, preliminares = sinan.baixa_iexo_ftp(
+        anos=(2015, 2023), destino=tmp_path, aceitar_preliminar=True)
+
+    assert preliminares == [2023]
+    nomes = sorted(c.name for c in caminhos)
+    assert nomes == ["IEXOBR15.dbc", "prelim_IEXOBR23.dbc"]
+
+
+def test_iexo_grita_quando_o_ano_nao_existe_em_lugar_nenhum(monkeypatch, tmp_path):
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], [])
+    with pytest.raises(RuntimeError, match="IEXOBR99.dbc"):
+        sinan.baixa_iexo_ftp(anos=(1999,), destino=tmp_path)
+
+
+def test_makefile_alvo_real_nunca_cai_no_simulado():
+    """O alvo `real` roda contra dado REAL por definição.
+
+    `--fonte auto` termina em simulado quando a rede falha — painel plausível e
+    inventado dentro do alvo cuja premissa é o oposto. Os três scripts com dois
+    transportes têm de ir de `--fonte ftp`, que falha duro.
+    """
+    texto = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    linhas = texto.splitlines()
+    inicio = next(i for i, l in enumerate(linhas)
+                  if l.startswith("real: prespec-ok"))
+    receita = []
+    for l in linhas[inicio + 1:]:
+        if l and not l.startswith((chr(9), " ")):
+            break
+        receita.append(l)
+    receita = chr(10).join(receita)
+
+    for script in ("02_clean_births.py", "04_clean_poisoning.py",
+                   "10_clean_sinan_iexo.py"):
+        linha = next(l for l in receita.splitlines() if script in l)
+        assert "--fonte ftp" in linha, (script, linha)
+        assert "--fonte auto" not in linha
 
 
 def test_dispersao_separa_cv_com_e_sem_zeros():

@@ -137,12 +137,19 @@ prespec-ok:
 	}
 	@echo "  [ok] pré-especificação FECHADA — pode rodar contra dado real."
 
+# ⚠️ NENHUM passo daqui pode cair para `simulado`. O alvo `real` existe para
+# rodar contra dado real, e `--fonte auto` termina em simulado quando a rede
+# falha — painel plausível e inventado, dentro do alvo cuja premissa é o
+# oposto. Por isso `--fonte ftp` explícito nos scripts 02, 04 e 10: é o
+# transporte que funciona (docs/ars/15 §6) e falha DURO quando não funciona.
+# A linha do 10 já era explícita (`--fonte pysus`) pela mesma razão; só mudou
+# qual transporte é o que está de pé.
 real: prespec-ok cultura-ok
-	$(PY) scripts/data_prep/02_clean_births.py       --fonte auto
+	$(PY) scripts/data_prep/02_clean_births.py       --fonte ftp
 	$(PY) scripts/data_prep/03_clean_fetal_deaths.py --fonte auto \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet
-	$(PY) scripts/data_prep/04_clean_poisoning.py    --fonte auto
-	$(PY) scripts/data_prep/10_clean_sinan_iexo.py   --fonte pysus
+	$(PY) scripts/data_prep/04_clean_poisoning.py    --fonte ftp
+	$(PY) scripts/data_prep/10_clean_sinan_iexo.py   --fonte ftp
 	$(PY) scripts/data_prep/11_clean_populacao.py    --fonte sidra
 	$(PY) scripts/data_prep/01_check_dose_variation.py --verificar-codigos
 	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte sidra \
@@ -235,8 +242,12 @@ gate-fronteira:
 
 # Ingestao multi-UF + gate, na ordem. ⚠️ Nao monta painel nem estima: a
 # estrategia de identificacao nao muda sem o orientador (CLAUDE.md).
+# ⚠️ O script 02 vai de `--fonte ftp`, nao `pysus`: o pysus passa pelo espelho
+# DuckLake em HTTPS, que caiu em 2026-09-22 enquanto o FTP do DATASUS — a fonte
+# original — respondia em 0,4 s. E aqui nao pode haver queda silenciosa para
+# simulado, porque o que vem depois e um GATE. Ver docs/ars/15 §6.
 fronteira:
 	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte sidra --ufs 23 $(VIZINHO)
-	$(PY) scripts/data_prep/02_clean_births.py --fonte pysus --ufs 23 $(VIZINHO)
+	$(PY) scripts/data_prep/02_clean_births.py --fonte ftp --ufs 23 $(VIZINHO)
 	$(MAKE) censo-demografico VIZINHO=$(VIZINHO)
 	$(MAKE) gate-fronteira VIZINHO=$(VIZINHO)
