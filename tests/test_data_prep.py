@@ -2003,3 +2003,31 @@ def test_sem_gaez_a_coluna_existe_vazia():
     medias, nasc = _medias_e_painel()
     p = painel.monta_painel(medias, "Melão", nasc, gaez=pd.DataFrame())
     assert "aptidao_gaez" in p.columns and p["aptidao_gaez"].isna().all()
+
+
+# --------------------------------------------------------------------------
+# D4 — a janela da dose vira parâmetro, sem sobrescrever o painel canônico
+# --------------------------------------------------------------------------
+
+def test_janela_padrao_nao_ganha_sufixo():
+    """A rodada canônica tem de continuar gravando no nome de sempre — senão o
+    script 05 não acha o painel e o E5 quebra de novo."""
+    assert dose.sufixo_da_janela(dose.ANOS_PRE_BAN) == ""
+    assert dose.sufixo_da_janela(list(reversed(dose.ANOS_PRE_BAN))) == ""
+
+
+def test_janela_da_d4_ganha_sufixo_proprio():
+    """⚠️ Sem isto, `--anos 2010..2014` gravaria POR CIMA do painel canônico e o
+    script 05 leria o arquivo de sempre com dose medida em outra janela — sem
+    nada acusar. Mesma classe de erro do `__sidra` que quebrou o E5."""
+    assert dose.sufixo_da_janela((2010, 2011, 2012, 2013, 2014)) == "__2010_2014"
+    assert dose.sufixo_da_janela((2013, 2014)) == "__2013_2014"
+
+
+def test_carrega_pam_arquivo_honra_a_janela(tmp_path):
+    """⚠️ Regressão: `carrega_pam_arquivo` usava ANOS_PRE_BAN fixo, então
+    `--anos 2010..2014 --fonte arquivo` filtrava para 2015–2018 e devolvia
+    VAZIO, sem erro. A janela tem de chegar até o filtro."""
+    import inspect
+    sig = inspect.signature(dose.carrega_pam_arquivo)
+    assert "anos" in sig.parameters, "a janela tem de ser parâmetro, não constante"

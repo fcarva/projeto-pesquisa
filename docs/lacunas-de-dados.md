@@ -245,6 +245,53 @@ alvo de uma requisição de microdado laboratorial à SESA/CE com os valores
 brutos, ou (c) sai do escopo. A matriz da §2 dizia que sem ele "o mecanismo
 fica postulado, não medido" — continua assim, e agora se sabe por quê.
 
+### 1-quater. ✅ A D4 é viável — e o que ela custa
+
+*2026-09-21.* A **D4** pergunta se a janela que define a dose recua de 2015–2018
+para 2010–2014. Ela importa porque o `CLAUDE.md` registra três marcos de
+antecipação, e o primeiro é **24/02/2015** — a apresentação do PL 18/2015. A
+janela atual **começa depois do marco de notícia**, então a dose medida pode já
+estar respondendo à expectativa do ban. Isso morde a **variável de tratamento**,
+não só o desfecho.
+
+**Comparabilidade: passa nos três testes.**
+
+| teste | resultado |
+|---|---|
+| mesmas tabelas/códigos | ✅ 1612/1613, variáveis 109/2313, classificações 81/82 — período 1974–2025 |
+| mesmos municípios | ✅ **184 em ambos**, zero entram, zero saem |
+| mesmas culturas | ✅ **86 em ambos**, nenhuma aparece ou some |
+| costura 2014→2015 | ✅ banana 46.654 → 44.482, dentro da tendência. Sem degrau |
+
+**⚠️ Mas recuar a janela troca quem é tratado:**
+
+| cultura | ρ de Spearman | tratados que coincidem |
+|---|---|---|
+| **Banana** | 0,848 | **13 de 17 (76%)** |
+| Castanha de caju | 0,957 | 15/17 (88%) |
+| Coco-da-baía | 0,886 | 15/17 (88%) |
+
+Quatro dos 17 tratados da banana mudam. Não é ruído de borda: é **24% do grupo
+tratado**, e o MDE do gates doc §6 é calculado sobre exatamente esses 17.
+
+⚠️ **Limoeiro do Norte é tratado nas DUAS janelas** — a contaminação da flag 0
+não se resolve recuando a janela.
+
+**Instrumentado, não decidido.** O script 01 ganhou `--anos`, e a janela
+não-padrão grava com sufixo próprio (`__2010_2014`). Sem o sufixo, rodar a
+sensibilidade sobrescreveria o painel canônico e o script 05 leria o arquivo de
+sempre com dose de outra janela — sem nada acusar. Dois testes de regressão
+prendem isso.
+
+⚠️ E um bug apareceu no caminho: `carrega_pam_arquivo` usava `ANOS_PRE_BAN`
+fixo, então `--anos 2010 … 2014 --fonte arquivo` filtrava para 2015–2018 e
+devolvia **vazio, sem erro**. Corrigido.
+
+**A decisão continua sua:** recuar a janela compra um pré-período anterior ao
+marco de notícia e paga com 24% de troca no grupo tratado. As duas rodadas
+existem lado a lado em `data/processed/`; a escolha vai para a §4 da
+pré-especificação com a razão declarada.
+
 ### Classe D — ✅ **quatro respondidas em 2026-09-21**, uma segue aberta
 
 | Pergunta | Resposta | Consequência |
@@ -255,7 +302,7 @@ fica postulado, não medido" — continua assim, e agora se sabe por quê.
 | O MapBiomas separa banana/melão ou só classes genéricas? | ✅ **só genéricas.** Têm classe própria: soja (39), cana (20), café (46), citrus (47), dendê (35), algodão (62), arroz (40). **Banana cai em "Outras culturas perenes" (48)**; melão, em "Outras lavouras temporárias" (41) | **MapBiomas NÃO melhora a medida de dose** para este desenho. A flag do `CLAUDE.md` está resolvida no sentido pessimista — e isso *economiza* trabalho: o ingestor não vale a pena |
 | O mapa cárstico do CPRM/SGB é público? | ✅ **sim, e há fonte melhor.** A **ANA** publica "Sistemas Aquíferos" com classificação **Cárstico** em shapefile aberto (`dadosabertos.ana.gov.br`), catalogado no SNIRH | Vem da **mesma fonte e formato** que as ottobacias que o canal-água já usaria. Um download, não dois |
 | A **Base dos Dados** tem SINASC 2023–2024? | ✅ **declara 1979–2024** (`basedosdados.org/dataset/48ccef51…`) — contra 2013–2022 no FTP do DATASUS | ⚠️ Reabre a possibilidade de a janela fechar em **19/12/2024** como o desenho quer, em vez de 2022. Ver `gates-resultados-dados-reais.md` §7-bis.4 |
-| A PAM 2010–2014 é comparável? | ⬜ **não consultada** | insumo da **D4** (recuar a janela) |
+| A PAM 2010–2014 é comparável? | ✅ **SIM**, conferido em 2026-09-21: mesmas tabelas (1612/1613), mesmos códigos, **184 municípios e 86 culturas em ambos os períodos**, nenhuma cultura entra ou sai, e a costura 2014→2015 é suave na banana | **A D4 é viável.** ⚠️ Mas não é grátis — ver §1-quater |
 
 ⚠️ **Duas ressalvas de proveniência, e elas são do mesmo tipo que a coluna
 `confianca` do CSV de bans exige de qualquer varredura:**

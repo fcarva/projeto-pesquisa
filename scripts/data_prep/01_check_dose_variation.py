@@ -569,7 +569,7 @@ def _tabela_a_partir_dos_rotulos(linhas: list[list], origem: Path) -> pd.DataFra
     )
 
 
-def carrega_pam_arquivo(caminhos: list[Path]) -> pd.DataFrame:
+def carrega_pam_arquivo(caminhos: list[Path], anos=ANOS_PRE_BAN) -> pd.DataFrame:
     """Lê tabelas do SIDRA baixadas à mão (.csv / .xlsx), no formato do portal.
 
     Seguro contra o bloqueio de rede, e alinha o script 01 com os scripts 02 e
@@ -597,7 +597,10 @@ def carrega_pam_arquivo(caminhos: list[Path]) -> pd.DataFrame:
             "permanente" if "1613" in caminho.name else "desconhecido"
         )
         pedacos.append(_sidra_para_longo(bruto, grupo))
-    return _finaliza_pam(pedacos, ANOS_PRE_BAN)
+    # ⚠️ Era `ANOS_PRE_BAN` fixo aqui: `--anos 2010 ... 2014 --fonte arquivo`
+    # filtrava para 2015–2018 e devolvia VAZIO, sem erro. A janela tem de
+    # chegar até o filtro, senão a D4 não é exercitável pela rota de arquivo.
+    return _finaliza_pam(pedacos, anos)
 
 
 # --------------------------------------------------------------------------
@@ -1031,6 +1034,24 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
 # CLI
 # --------------------------------------------------------------------------
 
+def sufixo_da_janela(anos, padrao=ANOS_PRE_BAN) -> str:
+    """Sufixo de arquivo para janela de dose não-padrão. "" quando é a padrão.
+
+    ⚠️ Existe para a sensibilidade da **D4** não sobrescrever o painel
+    canônico. A D4 pergunta se a janela pré-ban recua para 2010–2014, e a razão
+    é séria: o PL 18/2015 foi apresentado em **24/02/2015**, então a janela
+    2015–2018 começa DEPOIS do marco de notícia e a dose já pode estar
+    respondendo à expectativa.
+
+    Sem o sufixo, `--anos 2010 ... 2014` gravaria por cima de
+    `pam_ce_muni_cultura_media__sidra.parquet`, e o script 05 leria o arquivo de
+    sempre com dose medida em outra janela — **sem nada acusar**. É a mesma
+    classe de erro que o `__sidra` já causou no E5.
+    """
+    janela = tuple(sorted(anos))
+    return "" if janela == tuple(sorted(padrao)) else f"__{janela[0]}_{janela[-1]}"
+
+
 def _saida_utf8() -> None:
     """Força UTF-8 na saída antes de qualquer print.
 
@@ -1082,8 +1103,18 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument("--anos", type=int, nargs="+", default=list(ANOS_PRE_BAN),
+                        help="Janela que define a DOSE. ⚠️ Ver a nota sobre a D4 no "
+                             "topo deste arquivo antes de mudar.")
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = parser.parse_args(argv)
+
+    # ⚠️ Janela não-padrão ganha sufixo no NOME. Sem isso, rodar a sensibilidade
+    # da D4 sobrescreveria o painel canônico com dose medida em outra janela — e
+    # o script 05 leria o arquivo de sempre, com conteúdo trocado, sem nada
+    # acusar. É a mesma classe de erro do `__sidra` que já quebrou o E5.
+    janela = tuple(sorted(args.anos))
+    sufixo_janela = sufixo_da_janela(janela)
 
     if args.verificar_codigos:
         try:
@@ -1096,7 +1127,7 @@ def main(argv: list[str] | None = None) -> int:
             return 2
 
     try:
-        bruto, fonte = carrega_pam(args.fonte, ANOS_PRE_BAN, args.seed, args.caminho)
+        bruto, fonte = carrega_pam(args.fonte, janela, args.seed, args.caminho)
     except BloqueioDeRede as erro:
         # Traceback aqui enterraria a mensagem, que é justamente a parte útil:
         # ela diz o que liberar e onde.
@@ -1111,7 +1142,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"       Rótulos disponíveis: {sorted(bruto['cultura'].unique())[:40]}")
         return 1
 
-    medias = media_por_municipio(candidatas)
+    medias = media_por_municipio(candidatas, janela)
     tabela = recomenda_especificacao(dispersao_por_cultura(medias))
 
     if args.nascimentos is not None:
@@ -1123,17 +1154,18 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as erro:  # noqa: BLE001
             print(f"[aviso] MDE não calculado ({type(erro).__name__}: {erro}).")
 
-    imprime_relatorio(tabela, fonte)
+    imprime_relatorio(tabela, fonte, janela)
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     # Sufixo com a fonte: diagnóstico simulado nunca deve passar por real.
-    caminho_tabela = args.out_dir / f"dose_variacao_diagnostico__{fonte}.csv"
-    caminho_painel = args.out_dir / f"pam_ce_muni_cultura_media__{fonte}.parquet"
 
     # Proveniência viaja DENTRO do arquivo, não só no nome. Um CSV desgarrado do
     # nome já foi lido como se fosse real uma vez; não de novo.
     saida = tabela.copy()
     saida.insert(0, "fonte", fonte)
+    caminho_tabela = args.out_dir / f"dose_variacao_diagnostico__{fonte}{sufixo_janela}.csv"
+    caminho_painel = (args.out_dir /
+                      f"pam_ce_muni_cultura_media__{fonte}{sufixo_janela}.parquet")
     with caminho_tabela.open("w", encoding="utf-8") as fh:
         fh.write(f"# fonte={fonte} seed={args.seed} extraido_em={date.today().isoformat()}\n")
         if "falsifica" in saida.columns:
