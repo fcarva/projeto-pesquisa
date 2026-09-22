@@ -51,9 +51,30 @@ import pandas as pd
 
 UF_CEARA = "23"
 CODMUNRES_DESCONHECIDO = "230000"
+# ⚠️ Rota 1 (desenho de fronteira): o ban é ESTADUAL, então o grupo de
+# comparação de um desenho CE × vizinho vive FORA da UF 23. O padrão continua
+# só o Ceará — nada muda para quem não passar --ufs. Ver
+# docs/auditoria-mensuracao-do-tratamento.md §4.
+UFS_PADRAO = ("23",)
+# Sigla por código IBGE, para o `state=` do pysus. Só as UFs que fazem
+# fronteira com o Ceará mais o próprio — ampliar exige acrescentar aqui, e é
+# de propósito: um código solto vira download silencioso do estado errado.
+SIGLA_POR_UF = {"23": "CE", "24": "RN", "22": "PI", "25": "PB", "26": "PE"}
 ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)  # pré e pós-ban (vigência 09/01/2019)
 OUT_DIR = Path("data/processed")
 NOME_SAIDA = "nascimentos_ce_muni_mes"
+
+
+def sufixo_das_ufs(ufs, padrao=UFS_PADRAO) -> str:
+    """Sufixo de arquivo para recorte de UF não-padrão. "" quando é só o CE.
+
+    ⚠️ Mesma razão do `sufixo_da_janela` do script 01: sem ele, uma rodada
+    `--ufs 23 24` gravaria por cima de `nascimentos_ce_muni_mes.parquet`, e o
+    script 05 montaria o painel com o Rio Grande do Norte dentro **sem nada
+    acusar**. O nome do arquivo é a única barreira que sobrevive a esquecimento.
+    """
+    atual = tuple(sorted(ufs))
+    return "" if atual == tuple(sorted(padrao)) else "__uf" + "-".join(atual)
 SEED = 20190613  # semente fixa; NÃO é a data do ban (vigência 09/01/2019)
 
 # Colunas do DATASUS/SINASC usadas aqui (nomes reais do dicionário).
@@ -233,19 +254,32 @@ def deriva_prematuridade(semanas_limpas: pd.Series, gestacao: pd.Series) -> pd.D
     )
 
 
-def filtra_ceara(df: pd.DataFrame) -> pd.DataFrame:
-    """Mantém só residentes no Ceará (CODMUNRES começando em 23)."""
+def filtra_ufs(df: pd.DataFrame, ufs=UFS_PADRAO) -> pd.DataFrame:
+    """Mantém só residentes nas UFs pedidas (CODMUNRES começando no código).
+
+    ⚠️ O código de "município ignorado" é `<UF>0000` e existe para CADA UF —
+    descartar só o `230000` num painel de duas UFs deixaria entrar o `240000`
+    do Rio Grande do Norte como se fosse município. O conjunto é construído a
+    partir de `ufs` justamente para que acrescentar uma UF não exija lembrar
+    deste detalhe.
+    """
     cod = df["CODMUNRES"].astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
     cod = cod.str.zfill(6)
     saida = df.copy()
     saida["cod_ibge6"] = cod
-    dentro_ceara = cod.str.startswith(UF_CEARA).fillna(False)
-    return saida[dentro_ceara & cod.ne(CODMUNRES_DESCONHECIDO)].copy()
+    dentro = cod.str.startswith(tuple(ufs)).fillna(False)
+    desconhecidos = {f"{uf}0000" for uf in ufs}
+    return saida[dentro & ~cod.isin(desconhecidos)].copy()
 
 
-def prepara_nascimentos(bruto: pd.DataFrame, anos=None) -> pd.DataFrame:
+def filtra_ceara(df: pd.DataFrame) -> pd.DataFrame:
+    """Compatibilidade: o caso de uma UF só, que é o padrão do projeto."""
+    return filtra_ufs(df, (UF_CEARA,))
+
+
+def prepara_nascimentos(bruto: pd.DataFrame, anos=None, ufs=UFS_PADRAO) -> pd.DataFrame:
     """Pipeline de limpeza no nível do indivíduo, antes do colapso."""
-    df = filtra_ceara(padroniza_colunas(bruto))
+    df = filtra_ufs(padroniza_colunas(bruto), ufs)
     df = pd.concat([df, extrai_ano_mes(df["DTNASC"])], axis=1)
     df["peso_g"] = limpa_peso(df["PESO"])
     df["semanas"] = limpa_semanas(df["SEMAGESTAC"])
@@ -366,8 +400,24 @@ def carrega_de_arquivos(caminhos: list[Path]) -> pd.DataFrame:
     return pd.concat(pedacos, ignore_index=True)
 
 
-def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
-    """Baixa SINASC/CE via pysus (API `pysus.api.PySUSClient`, 2.10.x).
+def _sigla_da_uf(uf: str) -> str:
+    """Código IBGE -> sigla, para o `state=` do pysus.
+
+    Falha alto em código desconhecido de propósito: o pysus aceita qualquer
+    string e devolve lista vazia, o que aqui viraria "UF sem nascimentos" em vez
+    de "você digitou errado".
+    """
+    try:
+        return SIGLA_POR_UF[uf]
+    except KeyError:
+        raise ValueError(
+            f"UF {uf!r} não está em SIGLA_POR_UF ({sorted(SIGLA_POR_UF)}). "
+            "Acrescente a sigla antes de usar."
+        ) from None
+
+
+def carrega_de_pysus(anos=ANOS_PADRAO, ufs=UFS_PADRAO) -> pd.DataFrame:
+    """Baixa SINASC via pysus (API `pysus.api.PySUSClient`, 2.10.x), por UF.
 
     ⚠️ Usa `client._run_async`, que é método PRIVADO. Verificado que existe em
     2.10.0, mas nome privado não tem contrato de estabilidade: é o pin de versão
@@ -382,8 +432,9 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
             ftp = client.get_ftp()
             datasets = client._run_async(ftp.datasets())
             base = next(dataset for dataset in datasets if dataset.name == "SINASC")
-            for ano in anos:
-                arquivos = client._run_async(base.search(state="CE", year=ano))
+            siglas = [_sigla_da_uf(uf) for uf in ufs]
+            for sigla, ano in [(s, a) for s in siglas for a in anos]:
+                arquivos = client._run_async(base.search(state=sigla, year=ano))
                 for arquivo in arquivos:
                     parquet = client.download_to_parquet(arquivo)
                     # ⚠️ `Parquet.load()` é COROTINA em 2.10.0 — precisa do
@@ -393,7 +444,7 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
                     # (Não existe `to_dataframe()`; conferido rodando, não lendo.)
                     pedacos.append(client._run_async(parquet.load()))
         if not pedacos:
-            raise RuntimeError("pysus não devolveu arquivos para CE.")
+            raise RuntimeError(f"pysus não devolveu arquivos para {','.join(siglas)}.")
         return pd.concat(pedacos, ignore_index=True)
     except ImportError as erro:
         # Sem fallback para `pysus.online_data` / `pysus.ftp`: verificado contra
@@ -488,7 +539,8 @@ def simula_sinasc(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_mes: int = 18) 
 
 
 def carrega_nascimentos(
-    fonte: str = "auto", caminhos: list[Path] | None = None, anos=ANOS_PADRAO, seed: int = SEED
+    fonte: str = "auto", caminhos: list[Path] | None = None, anos=ANOS_PADRAO,
+    seed: int = SEED, ufs=UFS_PADRAO,
 ) -> tuple[pd.DataFrame, str]:
     """Dispatcher: 'arquivos' | 'pysus' | 'simulado' | 'auto'.
 
@@ -500,7 +552,7 @@ def carrega_nascimentos(
     if fonte == "arquivos":
         return carrega_de_arquivos(caminhos or []), "arquivos"
     if fonte == "pysus":
-        return carrega_de_pysus(anos), "pysus"
+        return carrega_de_pysus(anos, ufs), "pysus"
 
     if caminhos:
         try:
@@ -508,7 +560,7 @@ def carrega_nascimentos(
         except Exception as erro:  # noqa: BLE001
             print(f"[aviso] leitura dos arquivos falhou ({type(erro).__name__}: {erro}).")
     try:
-        return carrega_de_pysus(anos), "pysus"
+        return carrega_de_pysus(anos, ufs), "pysus"
     except Exception as erro:  # noqa: BLE001
         print(f"[aviso] acesso via pysus indisponível ({type(erro).__name__}: {erro}).")
         print("[aviso] Caindo para microdado SIMULADO. Nada abaixo é evidência empírica.")
@@ -589,10 +641,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--anos", type=int, nargs="*", default=list(ANOS_PADRAO))
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
+    parser.add_argument(
+        "--ufs", nargs="+", default=list(UFS_PADRAO), metavar="COD",
+        help=("Códigos IBGE de UF a manter (padrão: 23 = Ceará). "
+              "Ex.: --ufs 23 24 para o desenho de fronteira CE x RN. "
+              "Recorte não-padrão grava com sufixo __uf23-24."),
+    )
     args = parser.parse_args(argv)
 
     # DBCs anuais são grandes: agrega um por vez para não manter todo o
     # microdado da janela na memória.
+    ufs = tuple(str(u).strip() for u in args.ufs)
     processa_por_arquivo = args.fonte == "arquivos" and len(args.caminho) > 1 and any(
         caminho.suffix.lower() == ".dbc" for caminho in args.caminho
     )
@@ -600,7 +659,7 @@ def main(argv: list[str] | None = None) -> int:
         paineis = []
         for caminho in args.caminho:
             individual = prepara_nascimentos(
-                carrega_de_arquivos([caminho]), args.anos
+                carrega_de_arquivos([caminho]), args.anos, ufs
             )
             if not individual.empty:
                 paineis.append(colapsa_muni_mes(individual))
@@ -611,8 +670,10 @@ def main(argv: list[str] | None = None) -> int:
         painel = recombina_paineis(paineis)
         fonte = "arquivos"
     else:
-        bruto, fonte = carrega_nascimentos(args.fonte, args.caminho, tuple(args.anos), args.seed)
-        individual = prepara_nascimentos(bruto, args.anos)
+        bruto, fonte = carrega_nascimentos(
+            args.fonte, args.caminho, tuple(args.anos), args.seed, ufs
+        )
+        individual = prepara_nascimentos(bruto, args.anos, ufs)
         if individual.empty:
             print("[erro] Nada sobrou após filtrar Ceará e datas válidas. Confira CODMUNRES/DTNASC.")
             return 1
@@ -622,7 +683,7 @@ def main(argv: list[str] | None = None) -> int:
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     sufixo = "" if fonte != "simulado" else "__simulado"
-    destino = args.out_dir / f"{NOME_SAIDA}{sufixo}.parquet"
+    destino = args.out_dir / f"{NOME_SAIDA}{sufixo_das_ufs(ufs)}{sufixo}.parquet"
     painel.to_parquet(destino, index=False)
     print(f"[ok] painel -> {destino}")
     print("[nota] data/processed/ é gitignored: microdado e derivados não vão para o repositório.")

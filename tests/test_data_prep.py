@@ -2251,3 +2251,87 @@ def test_equip_confronta_marca_decil_e_preenche_zero(tmp_path):
     assert m is not None and len(m) == 2
     assert m.loc[m.cod_ibge6 == "230010", "aeronave"].iloc[0] == 0.0
     assert "decil_superior" in m.columns and m["decil_superior"].any()
+
+
+# --------------------------------------------------------------------------
+# Rota 1 — recorte multi-UF (desenho de fronteira CE x vizinho)
+#
+# O ban é ESTADUAL: o grupo de comparação de um desenho de fronteira vive fora
+# da UF 23. Estes testes travam as três coisas que, se quebrarem, quebram em
+# SILÊNCIO — recorte territorial errado no SIDRA, código de "município
+# ignorado" entrando como município, e arquivo multi-UF sobrescrevendo o painel
+# canônico do Ceará. Ver docs/auditoria-mensuracao-do-tratamento.md §4.
+# --------------------------------------------------------------------------
+
+def test_territorio_sidra_uma_uf_preserva_o_comportamento_antigo():
+    assert dose.territorio_sidra(("23",)) == dose.SIDRA_TERRITORIO
+
+
+def test_territorio_sidra_duas_ufs_usa_lista_separada_por_virgula():
+    assert dose.territorio_sidra(("23", "24")) == "in n3 23,24"
+
+
+@pytest.mark.parametrize("modulo", [dose, nasc])
+def test_sufixo_das_ufs_vazio_no_padrao_e_marcado_fora_dele(modulo):
+    # Vazio no padrão: uma rodada só-Ceará não pode mudar de nome de arquivo.
+    assert modulo.sufixo_das_ufs(("23",)) == ""
+    # Fora do padrão o nome MUDA — é o que impede a sobrescrita silenciosa.
+    assert modulo.sufixo_das_ufs(("23", "24")) == "__uf23-24"
+    # E é estável à ordem: --ufs 24 23 grava no mesmo lugar que --ufs 23 24.
+    assert modulo.sufixo_das_ufs(("24", "23")) == modulo.sufixo_das_ufs(("23", "24"))
+
+
+def test_filtra_ufs_mantem_as_duas_ufs_e_descarta_os_dois_ignorados():
+    # 230000 e 240000 são "município ignorado" de CE e RN. Descartar só o do
+    # Ceará deixaria o do RN entrar como se fosse município — e ele tem
+    # nascimentos, então o painel ganharia uma unidade fantasma.
+    df = pd.DataFrame({"CODMUNRES": [
+        "230440",  # Limoeiro do Norte (CE)
+        "240810",  # Mossoró (RN)
+        "230000",  # ignorado CE
+        "240000",  # ignorado RN
+        "355030",  # São Paulo, fora das duas
+    ]})
+    saida = nasc.filtra_ufs(nasc.padroniza_colunas(df), ("23", "24"))
+    assert list(saida["cod_ibge6"]) == ["230440", "240810"]
+
+
+def test_filtra_ceara_continua_sendo_o_caso_de_uma_uf():
+    # A função antiga vira caso particular da nova — se isso quebrar, todo o
+    # pipeline canônico do Ceará muda sem ninguém pedir.
+    df = pd.DataFrame({"CODMUNRES": ["230440", "240810", "230000"]})
+    padronizado = nasc.padroniza_colunas(df)
+    assert (list(nasc.filtra_ceara(padronizado)["cod_ibge6"])
+            == list(nasc.filtra_ufs(padronizado, ("23",))["cod_ibge6"])
+            == ["230440"])
+
+
+def test_sigla_da_uf_falha_alto_em_codigo_desconhecido():
+    # O pysus aceita qualquer string e devolve lista vazia: sem esta guarda,
+    # um código errado viraria "UF sem nascimentos", não "você digitou errado".
+    assert nasc._sigla_da_uf("24") == "RN"
+    with pytest.raises(ValueError, match="SIGLA_POR_UF"):
+        nasc._sigla_da_uf("99")
+
+
+def test_finaliza_pam_filtra_pelo_conjunto_de_ufs_pedido():
+    pedacos = [pd.DataFrame({
+        "cod_ibge": ["230440", "240810", "355030"],
+        "ano": [2017, 2017, 2017],
+        "cultura": ["banana"] * 3,
+        "area_ha": [100.0, 200.0, 300.0],
+    })]
+    so_ce = dose._finaliza_pam(pedacos, (2017,), ("23",))
+    assert list(so_ce["cod_ibge"]) == ["230440"]
+    fronteira = dose._finaliza_pam(pedacos, (2017,), ("23", "24"))
+    assert list(fronteira["cod_ibge"]) == ["230440", "240810"]
+
+
+def test_finaliza_pam_nomeia_as_ufs_quando_o_filtro_esvazia():
+    # A mensagem antiga dizia "filtro CE/anos" mesmo num recorte de duas UFs.
+    pedacos = [pd.DataFrame({
+        "cod_ibge": ["355030"], "ano": [2017],
+        "cultura": ["banana"], "area_ha": [1.0],
+    })]
+    with pytest.raises(RuntimeError, match="23,24"):
+        dose._finaliza_pam(pedacos, (2017,), ("23", "24"))
