@@ -12,7 +12,7 @@ vocês dois.
 
 ## 0. Se a conversa for curta, é isto
 
-O pipeline está **completo e testado** — sete scripts, 85 testes, do download à
+O pipeline está **completo e testado** — onze scripts, 139 testes, do download à
 inferência. Nenhum rodou contra dado real: a rede do ambiente bloqueia IBGE,
 DATASUS e FAO.
 

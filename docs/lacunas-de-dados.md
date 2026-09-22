@@ -1,6 +1,7 @@
 # Lacunas de dados — por prioridade, não por lista
 
 *2026-08-25. O pipeline está completo (92 testes, E5–E7 instrumentados).*
+*⚠️ Atualizado 2026-09-21: **onze scripts, 139 testes**; ver o histórico abaixo.*
 
 ⚠️ **ATUALIZADO em 2026-08-25, mesma data: DUAS FONTES REAIS JÁ FORAM TOCADAS.**
 O bloqueio de rede era do **proxy da sessão remota**, não do projeto: na máquina

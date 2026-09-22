@@ -3,6 +3,8 @@
 *2026-08-25. Até esta sessão, **nenhuma fonte real tinha sido tocada**: o
 pipeline inteiro (92 testes) rodava contra dado simulado. Isto muda aqui.*
 
+*⚠️ Atualizado em 2026-09-21: o pipeline tem hoje **onze scripts e 139 testes**.*
+
 ⚠️ **Nada neste documento é resultado do ban.** Tudo é pré-período ou desenho.
 Os gates decidem se o Ensaio 1 é estimável; não dizem se a lei funcionou.
 

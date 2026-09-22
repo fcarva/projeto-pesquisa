@@ -1,47 +1,106 @@
 # Ordem de execução do pipeline do Ensaio 1.
 #
-# Sete scripts com dependência entre si e sem alvo único que os rode na ordem é
+# Onze scripts com dependência entre si e sem alvo único que os rode na ordem é
 # convite a estimar com painel velho. Este arquivo é o achado de
 # reprodutibilidade da revisão metodológica (docs/ars/09) virando alvo.
 #
 #   make simulado   # pipeline inteiro com dado simulado (valida o código)
 #   make real       # exige pré-especificação preenchida; roda contra dado real
 #   make teste      # a suíte
+#   make varredura  # bans municipais < 2019 (rede pesada; produto commitado)
+#   make gaez       # aptidão FAO-GAEZ (exige rasters em data/geo/)
 #
 # ⚠️ `make real` é bloqueado de propósito enquanto docs/pre-especificacao.md
 # estiver com "Status: ⬜ não preenchido". Ver o achado M1 da revisão: 31 séries
 # candidatas a desfecho e poder curto pedem plano ANTES do dado.
+#
+# ⚠️ AUDITORIA 2026-09-21: este arquivo tinha ficado para trás do pipeline —
+# conhecia sete scripts quando já eram onze, e por isso `make real` montava o
+# painel SEM bans municipais, SEM SINAN, SEM população e SEM GAEZ. Era
+# exatamente o "estimar com painel velho" que ele existe para impedir. Um
+# orquestrador desatualizado é pior que nenhum: ele dá a impressão de que a
+# ordem está garantida.
 
 PY      := python
-CULTURA ?= Melão
+
+# ⚠️ ARMADILHA DE WINDOWS, achada rodando em 2026-09-21. O `make` que vem com o
+# Rtools é MSYS e **não repassa `APPDATA`**. Sem ela o Python resolve o user
+# site-packages para o literal `~\Python\Python313\site-packages` e não enxerga
+# NENHUM pacote instalado pelo usuário: `make simulado` morre em
+# `ModuleNotFoundError: No module named 'dateutil'` enquanto o mesmo comando,
+# rodado à mão, funciona. O sintoma aponta para o pacote; a causa é a variável.
+# `USERPROFILE` também é removida; só `HOME` sobrevive, e em forma MSYS
+# (`/c/Users/...`). `cygpath -w` a converte para a forma que o Python entende.
+ifeq ($(APPDATA),)
+export APPDATA := $(shell cygpath -w "$(HOME)" 2>/dev/null)\AppData\Roaming
+endif
+
+# ⚠️ Conserto de sintoma, não de causa. A causa é o projeto usar o Python do
+# sistema com pacotes em user site-packages. O gates doc §1.3 já recomenda um
+# `.venv` — instalar o `pysus` rebaixou o pandas global de 3.0.0 para 2.3.3 e
+# quebrou um pacote não relacionado. Com `PY := .venv/Scripts/python` esta
+# armadilha inteira desaparece, junto com aquela.
+
+# ⚠️ SEM DEFAULT, e isso conserta um bug real. Era `CULTURA ?= Melão`. O Gate 1
+# contra dado real descartou o melão — 10 municípios com área positiva, curva
+# abandonada. Rodar com o default montava o painel na cultura que o dado já
+# tinha eliminado, e NÃO falhava: só produzia resultado errado em silêncio.
+# Exigir a escolha não hard-coda âncora nenhuma (o CLAUDE.md proíbe): recusa
+# escolher, que é o que o repositório manda o script 05 fazer.
+CULTURA ?=
 DESFECHO?= peso_medio
 MDE     ?=
 
-.PHONY: teste simulado real limpar prespec-ok ajuda
+.PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 102 testes"
+	@echo "make teste     — 139 testes"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
+	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
+	@echo "make gaez      — aptidão FAO-GAEZ (exige rasters em data/geo/)"
 	@echo "make limpar    — apaga data/processed/"
 	@echo ""
 	@echo "variáveis: CULTURA=<nome>  DESFECHO=<coluna>  MDE=<gramas>"
+	@echo ""
+	@echo "⚠️ CULTURA é obrigatória. O Gate 1 descartou melão e algodão;"
+	@echo "   a banana sustenta a curva (169 municípios, Gini 0,86)."
 
 teste:
 	$(PY) -m pytest tests/ -q
 
-simulado:
+# O segundo portão. O primeiro protege contra estimar sem plano; este, contra
+# estimar na cultura errada.
+cultura-ok:
+	@test -n "$(CULTURA)" || { \
+	  echo ""; \
+	  echo "  BLOQUEADO: CULTURA não informada."; \
+	  echo ""; \
+	  echo "  Este Makefile não escolhe a cultura-âncora — o CLAUDE.md proíbe"; \
+	  echo "  hard-codá-la, e o Gate 1 contra dado real já descartou"; \
+	  echo "  empiricamente o melão (10 municípios) e o algodão (28)."; \
+	  echo "  A banana sustenta a curva: 169 municípios, Gini 0,86."; \
+	  echo ""; \
+	  echo '  make real CULTURA="Banana (cacho)"'; \
+	  echo ""; \
+	  exit 1; \
+	}
+
+simulado: cultura-ok
 	$(PY) scripts/data_prep/02_clean_births.py       --fonte simulado
 	$(PY) scripts/data_prep/03_clean_fetal_deaths.py --fonte simulado \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes__simulado.parquet
 	$(PY) scripts/data_prep/04_clean_poisoning.py    --fonte simulado
+	$(PY) scripts/data_prep/10_clean_sinan_iexo.py   --fonte simulado
+	$(PY) scripts/data_prep/11_clean_populacao.py    --fonte simulado
 	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte simulado \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes__simulado.parquet
 	$(PY) scripts/build_panel/05_build_panel.py --cultura "$(CULTURA)" --fonte simulado
 	$(PY) scripts/estimate/04_robustness.py --desfecho $(DESFECHO) $(if $(MDE),--mde $(MDE),)
 	@echo ""
 	@echo "⚠️ Tudo acima é SIMULADO. Nada é evidência sobre o Ceará."
-	@echo "   O E6 (Rscript scripts/estimate/03_contdid.R) exige R — ver setup_r.R."
+	@echo "   O E6 e o passo Rscript scripts/estimate/03_contdid.R — R esta"
+	@echo "   instalado desde 2026-09-21; ver setup_r.R e o renv.lock."
 
 # O portão: sem plano escrito, não roda contra dado real.
 # Fail-CLOSED de propósito: só passa com o marcador explícito de FECHADA.
@@ -64,11 +123,13 @@ prespec-ok:
 	}
 	@echo "  [ok] pré-especificação FECHADA — pode rodar contra dado real."
 
-real: prespec-ok
+real: prespec-ok cultura-ok
 	$(PY) scripts/data_prep/02_clean_births.py       --fonte auto
 	$(PY) scripts/data_prep/03_clean_fetal_deaths.py --fonte auto \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet
 	$(PY) scripts/data_prep/04_clean_poisoning.py    --fonte auto
+	$(PY) scripts/data_prep/10_clean_sinan_iexo.py   --fonte pysus
+	$(PY) scripts/data_prep/11_clean_populacao.py    --fonte sidra
 	$(PY) scripts/data_prep/01_check_dose_variation.py --verificar-codigos
 	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte sidra \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet
@@ -76,6 +137,26 @@ real: prespec-ok
 	Rscript scripts/estimate/03_contdid.R --desfecho $(DESFECHO)
 	$(PY) scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.parquet \
 	    --desfecho $(DESFECHO) $(if $(MDE),--mde $(MDE),)
+
+# ⚠️ FORA de `real` DE PROPÓSITO. A varredura é dezenas de requisições a portais
+# de câmara, e o produto — docs/legislacao/bans-municipais-ce.csv — é COMMITADO.
+# Repeti-la a cada estimação gastaria rede para reproduzir um arquivo que já
+# está no git. O script 05 LÊ o CSV; este alvo o ATUALIZA.
+varredura:
+	$(PY) scripts/data_prep/08_alvos_legislativos.py
+	$(PY) scripts/data_prep/09_varre_camaras.py --prioridade 1
+
+# ⚠️ FORA de `real` porque exige rasters em data/geo/, que são gitignored e
+# pesam ~5 MB cada. Baixar a cada rodada é desperdício, e sem eles o script
+# falha alto — que é o comportamento certo. As URLs do bucket do GAEZ estão em
+# docs/gates-resultados-dados-reais.md §7-quater.
+gaez:
+	$(PY) scripts/data_prep/06_build_gaez.py \
+	    --culturas banana coco \
+	    --raster-alto  data/geo/gaez_yx_alto_banana.tif data/geo/gaez_yx_alto_coco.tif \
+	    --raster-baixo data/geo/gaez_yx_baixo_banana.tif data/geo/gaez_yx_baixo_coco.tif \
+	    --municipios data/geo/municipios_br.geojson --campo-id codarea \
+	    --uf 23 --all-touched
 
 limpar:
 	rm -rf data/processed/*.parquet data/processed/*.csv

@@ -12,6 +12,7 @@ similar results?"* — aplicado por mim ao desenho. É revisão, não saída de
 ferramenta.
 
 Revisado: `CLAUDE.md`, `docs/ars/03`–`08`, e os sete scripts do pipeline.
+⚠️ *Em 2026-09-21 o pipeline tem **onze** scripts; esta revisão é de 2026-08.*
 **Não** revisado: resultados, porque não existem.
 
 ---
@@ -134,7 +135,7 @@ o painel não é real, e propaga a coluna para todos os CSV de saída.
 | Ambiente declarado | ✅ `requirements.txt` + `renv.lock`, com `pyyaml` e `ptetools` já corrigidos |
 | Fronteira Python/R por arquivo | ✅ e agora com proveniência atravessando |
 | *Vintage* das fontes | ⚠️ `docs/fontes-e-vintages.md` existe e está **em branco** — nenhuma extração feita |
-| Cobertura de teste | ✅ 85 testes; ⚠️ nenhum contra dado real |
+| Cobertura de teste | ✅ **139 testes**; ⚠️ ~~nenhum contra dado real~~ — **corrigido em 2026-08-25/09-21**: PAM, SINASC, SIM, SIH, SINAN, população e GAEZ rodaram contra fonte real |
 | Ordem de execução documentada | ⚠️ os scripts são numerados, mas **não há um `make` ou runbook** que fixe a sequência 00→01→02→03→04→05→06→07 |
 
 O último é barato e vale: sete scripts com dependências entre si, sem um alvo

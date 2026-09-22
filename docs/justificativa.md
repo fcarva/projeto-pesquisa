@@ -170,7 +170,7 @@ descritivos no texto, não estimativa.
 
 O que falta a este projeto é aquisição de dados, não desenho. O pipeline está
 completo e testado de ponta a ponta — oito etapas, do download à inferência, com
-92 testes automatizados —, a estratégia de identificação está escrita, a
+139 testes automatizados —, a estratégia de identificação está escrita, a
 legislação primária está obtida e transcrita, e a bateria de robustez implementa
 três procedimentos de inferência cujo desacordo é, ele mesmo, o diagnóstico. Nada
 disso rodou contra dado real: as fontes (IBGE, DATASUS, FAO) dependem de acesso
@@ -197,7 +197,7 @@ documentada — descer degrau não é fracasso; descer sem registrar, é.
 | Weitzman (1974), Rev. Econ. Studies | **C** | idem |
 | MDE, piso de 17,7 g, meia-largura 0,70 × MDE, alvo de dez municípios | **D** | aritmética do desenho — `docs/ars/08-briefing-orientador.md` §D2 |
 | 31 séries, > 1.000 especificações | **D** | contagem do pipeline — idem §D7 |
-| 8 etapas, 92 testes | **D** | `scripts/`, `tests/test_data_prep.py` |
+| 11 etapas, 139 testes | **D** | `scripts/`, `tests/test_data_prep.py` |
 
 ⚠️ **Nenhuma citação da classe C foi conferida.** O índice bibliográfico
 alcançável desta sessão cobre PubMed/PMC e arXiv; periódicos de economia (AER,

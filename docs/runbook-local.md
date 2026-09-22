@@ -10,6 +10,33 @@ certa. Escrito em 2026-09-21, contra o código em `72c074a`.*
 
 ---
 
+## ⚠️⚠️ ESTE DOCUMENTO ESTÁ DESATUALIZADO — leia antes de seguir
+
+*Auditoria de 2026-09-21.* A premissa central do runbook **é falsa na máquina do
+pesquisador**, e já era quando ele foi escrito.
+
+| o runbook diz | o que é verdade |
+|---|---|
+| "nada rodou contra dado real" | ✘ **Tudo rodou.** PAM, SINASC, SIM, SIH, SINAN, população e GAEZ, desde 2026-08-25. Ver `gates-resultados-dados-reais.md` |
+| "não há R nesta sessão" (§7) | ✘ **R 4.6.1 instalado** desde 13/08/2026, com Rtools45, `contdid`, `pretrends`, `HonestDiD`, `synthdid` e `renv.lock` de 108 pacotes |
+| `python3 -m venv` | ✘ **Não existe `python3`** nesta máquina; é `python` (3.13.7) |
+| `make` não roda aqui | ✘ **Roda** — o Rtools traz GNU Make 4.4.1 em `c:/rtools45/usr/bin` |
+| `make teste  # 92 testes` | ✘ São **139** |
+| `make real CULTURA="Melão"` | ⚠️ **O Gate 1 descartou o melão** (10 municípios). E `CULTURA` agora é obrigatória: o Makefile se recusa a escolher |
+| o pipeline tem 7 scripts | ✘ Tem **onze** — 08 a 11 entraram depois |
+
+⚠️ **Uma armadilha de Windows que o runbook não podia prever:** o `make` do
+Rtools é MSYS e **não repassa `APPDATA`**. Sem ela o Python não enxerga nenhum
+pacote do usuário, e `make simulado` morre em `ModuleNotFoundError: No module
+named 'dateutil'` enquanto o mesmo comando, rodado à mão, funciona. O `Makefile`
+já corrige, derivando `APPDATA` de `HOME` via `cygpath`.
+
+**O que continua valendo:** a §1 (por que a ordem não é a ordem do pipeline) e o
+preflight do SIDRA da §3 — os dois seguem corretos e úteis. O resto é registro
+histórico de uma sessão que não conseguia executar nada.
+
+---
+
 ## 0. Identificadores
 
 ```bash
@@ -56,9 +83,9 @@ o portão protege a *estimação*, não o *diagnóstico*.
 ## 2. Passo 0 — ambiente
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+python -m venv .venv && source .venv/Scripts/activate   # Windows: Scripts/, nao bin/
 pip install -r requirements.txt
-make teste          # 92 testes, ~25 s. Se não passar, pare aqui.
+make teste          # 139 testes, ~45 s. Se não passar, pare aqui.
 make simulado       # o pipeline inteiro com dado sintético — valida a fiação
 ```
 
@@ -232,7 +259,7 @@ instalar `contdid` direto falha na dependência. O script instala `ptetools`
 antes. Depois de rodar, **commite o `renv.lock`**.
 
 ```bash
-make real CULTURA="Melão" DESFECHO=peso_medio MDE=<o mde_agrupado_g do passo 4>
+make real CULTURA="Banana (cacho)" DESFECHO=peso_medio MDE=<o mde_agrupado_g do passo 4>
 ```
 
 Ou, passo a passo:
@@ -244,7 +271,7 @@ python scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.
     --desfecho peso_medio --mde <mde_agrupado_g>
 ```
 
-⚠️ **`03_contdid.R` nunca foi executado** — não há R nesta sessão. Os nomes de
+⚠️ ~~**`03_contdid.R` nunca foi executado** — não há R nesta sessão.~~ **Executado em 2026-09-21**, e falhou por bug real: o default de `control_group` do `contdid` viola a asserção do próprio pacote. Corrigido com `nevertreated`. Os nomes de
 argumento foram conferidos contra `R/cont_did.R` do repositório do autor (v0.1.1);
 a rodada, não. Espere atrito na primeira vez.
 
