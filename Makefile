@@ -68,6 +68,7 @@ ajuda:
 	@echo "make gaez      — aptidão FAO-GAEZ (exige rasters em data/geo/)"
 	@echo "make erro-classificacao — a flag 7 medida: VPP da dose + limite do ATT"
 	@echo "make censo-demografico — Censo 2022 (censobr): água/esgoto CE x vizinho"
+	@echo "make fronteira-geografica — os tratados estão NA divisa? (geobr)"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
 	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
@@ -217,7 +218,7 @@ weitzman: custo-conab
 # o vizinho tinha pulverizacao aerea no pre-ban? (SINDAG diz que o RN nao tem
 # frota; o Censo Agro e quem decide.) Ver docs/ars/11-rota1-fase1-escopo.md.
 # VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
-.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico
+.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica
 VIZINHO ?= 24
 # ⚠️ `sufixo_das_ufs` (scripts 01 e 02) ORDENA as UFs antes de montar o nome:
 # --ufs 23 22 grava `__uf22-23`, nao `__uf23-22`. Montar o sufixo a mao como
@@ -234,6 +235,12 @@ censo-demografico:
 
 equipamento-vizinho:
 	$(PY) scripts/data_prep/13_censo_agro_equipamento.py --uf $(VIZINHO)
+
+# ⚠️ Dimensão que o gate NÃO mede: um vizinho pode passar nos três portões e
+# não servir, porque o grupo tratado está a 300 km da divisa. Exige geobr
+# (requirements-geo.txt) e rede. Ver docs/ars/15 §7.
+fronteira-geografica:
+	$(PY) scripts/data_prep/16_fronteira_geografica.py --vizinhos 24 22 26
 
 gate-fronteira:
 	$(PY) scripts/data_prep/14_gate_fronteira.py --vizinho $(VIZINHO) \

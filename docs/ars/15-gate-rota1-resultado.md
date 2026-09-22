@@ -329,11 +329,33 @@ falha silenciosa.
 **mudança de identificação**, e o `CLAUDE.md` põe isso em "perguntar antes de".
 O gate informa a decisão; não a toma.
 
-1. **O vizinho.** O gate descarta o RN pelo método e aponta **PI e PE**. PE
-   passa com folga (40 estabelecimentos em 12 municípios, mais que o próprio CE)
-   e **não estava entre os candidatos da Fase 1**. Mas nenhum dos dois casa na
-   cultura, que é a razão de ser da Chapada do Apodi — a saída (C) do §6 do doc
-   11, com o custo que ela declara.
+1. **O vizinho — e a geometria corrige a leitura do gate.** O gate descarta o
+   RN pelo método e aponta PI e PE. **O mapa desmente parte disso.** Um desenho
+   de fronteira é, antes de tudo, uma afirmação geométrica: as unidades tratadas
+   têm de estar *na linha*. Rodando `16_fronteira_geografica.py` sobre a malha
+   do IBGE (geobr, geometria completa):
+
+   | vizinho | mun. CE na divisa | **tratados** na divisa | dist. média dos 17 |
+   |---|---:|---:|---:|
+   | RN (24) | 12 | **2** | 169 km |
+   | PI (22) | 20 | **2** | 188 km |
+   | PE (26) | 10 | **0** | **323 km** |
+
+   ⚠️ **Pernambuco é geograficamente inviável para este desenho.** Passou o G1
+   com folga — 40 estabelecimentos contra 36 do Ceará —, e **nenhum** dos 17
+   tratados toca a divisa dele. O mais próximo é Missão Velha, a 19 km, sem
+   aeronave. Um desenho de fronteira com PE não teria unidade tratada na
+   fronteira, que é a condição mínima.
+
+   ✅ **E os dois únicos tratados COM aeronave tocam a divisa do RN.** Limoeiro
+   do Norte (18 aeronaves) e Quixeré (9) — as 27 do decil — estão *em cima* da
+   linha potiguar. A Chapada do Apodi é fronteira. Pelo Piauí tocam Tianguá e
+   Guaraciaba do Norte (Ibiapaba), nenhum dos dois com aeronave em 2006.
+
+   Isso não reabilita o RN no G1 nem reprova o PE no seu: é **outra dimensão**,
+   e entra junto com as outras. Mas inverte o custo relativo das saídas — a (C)
+   com PE deixa de ser uma opção, e a (B) com o RN ganha o argumento de que as
+   unidades genuinamente tratadas são justamente as da linha.
 2. **Ou a saída (B).** Se o que importa é manter a comparabilidade agronômica,
    o RN volta como ITT de fronteira — e aí a dose sai do desenho, e com ela a
    âncora que o Ensaio 2 pede.
@@ -348,6 +370,12 @@ O gate informa a decisão; não a toma.
 6. **λ ingênuo 0,882** em vez de 0,895 — o valor muda, a leitura não.
 7. **A janela até 2024 está disponível** (§6.2). Usar ou não é decisão de
    desenho.
+8. ⚠️ **O `geobr` baixa sem verificar TLS** (`InsecureRequestWarning` em
+   `github.com`). O conteúdo vem do GitHub Releases do IPEA, mas a cadeia não é
+   verificada — e este repositório cobra proveniência por fonte. Registrado em
+   `requirements-geo.txt` e no cabeçalho do script 16. ⚠️ E o `geobr` **não tem
+   bacia hidrográfica**: conferido no pacote R e no Python, as ottobacias da ANA
+   seguem sendo rota própria.
 
 ---
 

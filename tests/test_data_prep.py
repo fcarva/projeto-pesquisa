@@ -40,6 +40,7 @@ gaez = _carrega("06_build_gaez.py")
 gate = _carrega("14_gate_fronteira.py")
 misc = _carrega("12_erro_de_classificacao.py", sub="estimate")
 censo = _carrega("15_censo_demografico.py")
+fronteira = _carrega("16_fronteira_geografica.py")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -378,6 +379,104 @@ def test_makefile_alvo_real_nunca_cai_no_simulado():
         linha = next(l for l in receita.splitlines() if script in l)
         assert "--fonte ftp" in linha, (script, linha)
         assert "--fonte auto" not in linha
+
+
+# --------------------------------------------------------------------------
+# Fronteira geográfica (16). O gate do 14 mede método, suporte e registro e
+# nunca olha o mapa — e um desenho de fronteira é, antes de tudo, uma
+# afirmação geométrica. Os testes rodam sem rede: geometria sintética.
+# --------------------------------------------------------------------------
+
+def _quadrado(x0, y0, lado=10_000):
+    from shapely.geometry import box
+    return box(x0, y0, x0 + lado, y0 + lado)
+
+
+def _malha(nomes_e_caixas):
+    import geopandas as gpd
+    return gpd.GeoDataFrame(
+        {"name_muni": [n for n, _ in nomes_e_caixas],
+         "cod7": [f"23{i:05d}" for i, _ in enumerate(nomes_e_caixas)]},
+        geometry=[g for _, g in nomes_e_caixas],
+        crs=fronteira.CRS_METRICO,
+    )
+
+
+def test_adjacencia_conta_so_quem_encosta_na_divisa():
+    ce = _malha([("Encosta", _quadrado(0, 0)),
+                 ("Longe", _quadrado(100_000, 0)),
+                 ("Encosta2", _quadrado(0, 10_000))])
+    viz = _malha([("Vizinho", _quadrado(10_000, 0, 20_000))])
+
+    r = fronteira.adjacencia(ce, viz, {"2300000", "2300001"})
+    assert r["municipios_ce_na_fronteira"] == 2      # Encosta e Encosta2
+    assert r["tratados_na_fronteira"] == 1           # só Encosta é tratado E toca
+    assert r["tratados_total"] == 2
+    assert r["dist_minima_tratados_km"] == pytest.approx(0.0)
+    assert "Encosta" in r["nomes_tratados_na_fronteira"]
+
+
+def test_adjacencia_mede_em_quilometros_e_nao_em_graus():
+    """⚠️ O geobr entrega EPSG:4674, que é GEOGRÁFICO.
+
+    Medir distância sem reprojetar devolveria graus — número plausível e
+    errado, que é a classe de erro que este repositório persegue. O CRS
+    métrico é parte do contrato da função, não detalhe de implementação.
+    """
+    ce = _malha([("Tratado", _quadrado(0, 0))])
+    viz = _malha([("Vizinho", _quadrado(60_000, 0))])   # 50 km de vão
+    r = fronteira.adjacencia(ce, viz, {"2300000"})
+    assert r["dist_minima_tratados_km"] == pytest.approx(50.0, abs=0.1)
+    assert r["tratados_na_fronteira"] == 0
+
+
+def test_decil_superior_tira_o_decil_sobre_os_POSITIVOS():
+    """A divergência 17 × 19 nasceu exatamente aqui: 169 positivos -> 17,
+    não 184 municípios do estado -> 19. Ver docs/ars/15 §5."""
+    pam = pd.DataFrame({
+        "cod_ibge": [f"23{i:05d}" for i in range(20)],
+        "cultura": ["Banana (cacho)"] * 20,
+        # 10 positivos entre 20 municípios: o decil é 1, não 2
+        "area_ha_media": [100.0, 90.0] + [10.0] * 8 + [0.0] * 10,
+    })
+    assert fronteira.decil_superior(pam, "banana") == {"2300000"}
+
+
+def test_decil_superior_aceita_o_nome_longo_e_o_agregado():
+    base = {"cod_ibge": [f"23{i:05d}" for i in range(10)],
+            "cultura": ["Banana (cacho)"] * 10}
+    valores = [500.0] + [1.0] * 9
+    assert fronteira.decil_superior(
+        pd.DataFrame({**base, "area_ha_media": valores}), "banana") == {"2300000"}
+    assert fronteira.decil_superior(
+        pd.DataFrame({**base, "area_ha": valores}), "banana") == {"2300000"}
+
+
+def test_decil_superior_recusa_cultura_sem_area_positiva():
+    pam = pd.DataFrame({"cod_ibge": ["2300000"], "cultura": ["Banana (cacho)"],
+                        "area_ha_media": [0.0]})
+    with pytest.raises(ValueError, match="área positiva"):
+        fronteira.decil_superior(pam, "banana")
+
+
+def test_tabela_por_tratado_aponta_a_divisa_mais_proxima():
+    ce = _malha([("Perto do RN", _quadrado(0, 0)),
+                 ("Perto do PE", _quadrado(200_000, 0))])
+    malhas = {"CE": ce,
+              "RN": _malha([("RN", _quadrado(20_000, 0))]),
+              "PE": _malha([("PE", _quadrado(220_000, 0))])}
+    t = fronteira.tabela_por_tratado(ce, malhas, {"2300000", "2300001"},
+                                     com_aeronave={"2300000"})
+    linha = t.set_index("municipio")
+    assert linha.loc["Perto do RN", "fronteira_mais_proxima"] == "RN"
+    assert linha.loc["Perto do PE", "fronteira_mais_proxima"] == "PE"
+    assert bool(linha.loc["Perto do RN", "tem_aeronave_2006"]) is True
+    assert bool(linha.loc["Perto do PE", "tem_aeronave_2006"]) is False
+
+
+def test_fronteira_recusa_o_ceara_como_vizinho_e_uf_sem_sigla():
+    assert fronteira.main(["--vizinhos", "23"]) == 1
+    assert fronteira.main(["--vizinhos", "99"]) == 1
 
 
 def test_dispersao_separa_cv_com_e_sem_zeros():
