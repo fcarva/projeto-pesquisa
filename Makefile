@@ -1,6 +1,6 @@
 # Ordem de execução do pipeline do Ensaio 1.
 #
-# Onze scripts com dependência entre si e sem alvo único que os rode na ordem é
+# Doze scripts com dependência entre si e sem alvo único que os rode na ordem é
 # convite a estimar com painel velho. Este arquivo é o achado de
 # reprodutibilidade da revisão metodológica (docs/ars/09) virando alvo.
 #
@@ -51,6 +51,13 @@ CULTURA ?=
 DESFECHO?= peso_medio
 MDE     ?=
 
+# Construção do d = 0 da §5.3. A pré-especificação de 2026-09-21 ratificou a
+# **definição 4** (baixa aptidão FAO-GAEZ), que só passou a ser possível depois
+# que o GAEZ foi adquirido. `D_ZERO=1` roda a definição base como sensibilidade,
+# e o nome do arquivo de saída carrega a construção — duas rodadas não se
+# apagam. ⚠️ Trocar o primário aqui exige entrada na tabela de desvios da §8.
+D_ZERO  ?= 4
+
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
@@ -61,7 +68,10 @@ ajuda:
 	@echo "make gaez      — aptidão FAO-GAEZ (exige rasters em data/geo/)"
 	@echo "make limpar    — apaga data/processed/"
 	@echo ""
-	@echo "variáveis: CULTURA=<nome>  DESFECHO=<coluna>  MDE=<gramas>"
+	@echo "variáveis: CULTURA=<nome>  DESFECHO=<coluna>  MDE=<gramas>  D_ZERO=1|4"
+	@echo ""
+	@echo "D_ZERO=4 é o primário (aptidão GAEZ, ratificado na pré-especificação);"
+	@echo "D_ZERO=1 roda a definição base como sensibilidade."
 	@echo ""
 	@echo "⚠️ CULTURA é obrigatória. O Gate 1 descartou melão e algodão;"
 	@echo "   a banana sustenta a curva (169 municípios, Gini 0,86)."
@@ -134,9 +144,10 @@ real: prespec-ok cultura-ok
 	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte sidra \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet
 	$(PY) scripts/build_panel/05_build_panel.py --cultura "$(CULTURA)" --fonte real
-	Rscript scripts/estimate/03_contdid.R --desfecho $(DESFECHO)
+	Rscript scripts/estimate/03_contdid.R --desfecho $(DESFECHO) --d-zero $(D_ZERO)
 	$(PY) scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.parquet \
 	    --desfecho $(DESFECHO) $(if $(MDE),--mde $(MDE),)
+	Rscript scripts/estimate/06_pretrends.R --desfecho $(DESFECHO)
 
 # ⚠️ FORA de `real` DE PROPÓSITO. A varredura é dezenas de requisições a portais
 # de câmara, e o produto — docs/legislacao/bans-municipais-ce.csv — é COMMITADO.
