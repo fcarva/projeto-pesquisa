@@ -1,0 +1,188 @@
+% =====================================================================
+% Ensaio 1 — Seção 7: Conclusão
+%
+% ⚠️ ESTA SEÇÃO TEM DE ENCARAR UM PROBLEMA QUE O PRÓPRIO TEXTO CRIOU.
+%
+% A §3 declara, em citação destacada: "Um Ensaio 1 que entregasse apenas o
+% efeito médio no nível tratado deixaria o Ensaio 2 sem âncora empírica."
+% A §6 entrega exatamente isso, e declara a derivada não-interpretável.
+%
+% Escrever uma conclusão que não diga isso seria escrever contra o próprio
+% documento. A §7.2 diz, e propõe a saída.
+%
+% ⚠️ DECISÕES QUE SÃO DO PESQUISADOR, NÃO DESTE TEXTO: estão marcadas no corpo
+% como tais, cada uma com recomendação. Não são perguntas retóricas.
+% =====================================================================
+
+\section{Conclusão}
+\label{sec:conclusao}
+
+\subsection{O que este ensaio estabelece}
+\label{sub:estabelece}
+
+Este ensaio montou um desenho de avaliação causal para o banimento da
+pulverização aérea no Ceará e o levou até o fim: identificação fechada, dose
+construída e verificada contra o dado, plano de análise datado e versionado,
+estimação executada e camada de robustez inteira aplicada.
+
+O que ele \textbf{não} entrega é efeito medido. O \(ATT(d\,|\,d)\) agregado é de
+\(-36{,}19\) g com meia-largura de 30,32 g, contra o piso de 15 g fixado antes
+de olhar, e nenhum dos três procedimentos de inferência rejeita o nulo. Pelo
+critério que o próprio trabalho escreveu antes de ver qualquer coeficiente,
+isso é \textbf{limite superior informativo}, e é assim que está reportado.
+
+\begin{quote}
+\textbf{E o resultado mais sólido deste ensaio é sobre o desenho, não sobre o
+Ceará.} A análise de poder \emph{ex ante} previu efeito mínimo detectável de
+33,4 g; a meia-largura realizada foi de 30,3 g. O desenho comportou-se como
+diagnosticado antes de existir dado --- o que valida o procedimento e condena a
+especificação corrente a não distinguir o efeito procurado do zero.
+\end{quote}
+
+\subsection{A âncora que o Ensaio 2 esperava, e que não veio}
+\label{sub:ancora}
+
+A §\ref{sec:teoria} justifica a escolha do parâmetro-alvo com um argumento que
+agora se volta contra o trabalho, e é preciso dizê-lo sem rodeio. Aquela seção
+afirma que Weitzman decide pela \emph{inclinação} e não pelo nível, e conclui
+que um Ensaio 1 limitado ao efeito médio deixaria o Ensaio 2 sem âncora
+empírica, devolvendo a escolha entre proibir e taxar ao terreno da
+plausibilidade.
+
+\textbf{É o que aconteceu.} A curva foi estimada, e o agregado que ela produz não
+é interpretável: a derivada é fortemente não linear, inverte de sinal ao longo da
+dose, e o agregado é média simples dominada pela faixa de dose quase nula, onde
+o erro-padrão supera a estimativa. Nenhum dos 169 pontos exclui o zero, em
+nenhuma faixa. A troca do alvo primário está registrada na tabela de desvios da
+pré-especificação, mas o registro resolve a integridade do procedimento, não o
+problema substantivo.
+
+\paragraph{Três rotas, e a que se recomenda.}
+A situação admite três saídas, e elas não são equivalentes.
+
+\begin{enumerate}
+\item \textbf{Adiar o Ensaio 2 até o Ensaio 1 ter poder.} A via declarada é
+  encorpar o grupo tratado, baixando o corte de dose para além do decil
+  superior. É honesta e é cara: serializa a dissertação inteira atrás de uma
+  reestimação cujo ganho de precisão não está garantido.
+
+\item \textbf{Substituir o ponto por limites.} \citet{callaway2024continuous}
+  oferecem, na §5.1, identificação parcial sob hipótese de direção do viés de
+  seleção. Entrega faixa, não número --- e uma faixa larga demais devolve o
+  mesmo problema com mais aparato.
+
+\item \textbf{Inverter a pergunta.} Em vez de estimar a inclinação e alimentar a
+  regra de Weitzman, perguntar \textbf{qual inclinação seria necessária para
+  inverter o ranking entre proibir e taxar}, e então confrontar esse valor com o
+  que o Ensaio 1 consegue excluir.
+\end{enumerate}
+
+\begin{quote}
+\textbf{Recomenda-se a terceira.} Ela converte uma estimativa que falhou em um
+exercício de limites que é informativo mesmo com poder curto: o intervalo por
+aleatorização, de \([-46{,}45;\ +57{,}85]\), \emph{exclui} regiões do espaço de
+parâmetros, e se o valor que inverteria o ranking estiver fora do que o dado
+admite, a conclusão de política se sustenta sem depender do ponto. É a forma
+padrão de fazer análise de política com desenho imperfeito, e não exige nenhum
+dado novo.
+\end{quote}
+
+\paragraph{Decisão do pesquisador.}
+Qual das três rotas o Ensaio 2 adota é escolha de escopo da dissertação, e não
+decorre do que este ensaio mediu. As três são defensáveis; a segunda e a
+terceira são combináveis. O que \emph{não} é defensável é manter a redação atual
+da §\ref{sec:teoria}, que promete uma âncora que o Ensaio 1 não entrega --- essa
+promessa precisa ser reescrita na versão final, qualquer que seja a rota.
+
+\subsection{Três achados que não são sobre o Ceará}
+\label{sub:metodologicos}
+
+O trabalho produziu resultados que sobrevivem independentemente do efeito do
+banimento, e que valem para quem montar desenho parecido.
+
+\paragraph{O agregado da curva pode não significar nada.}
+Quando a densidade da dose se concentra perto de zero, a média simples das
+derivadas pontuais é dominada pela região em que a derivada não é identificada.
+O número sai, tem erro-padrão, e não quer dizer o que parece. Reportar a
+decomposição por faixa de dose deveria ser rotina, e não é.
+
+\paragraph{Fonte com cobertura excelente pode ser a mais perigosa.}
+O SISAGUA cobre os 184 municípios em todos os anos da janela --- a melhor
+cobertura de qualquer fonte deste trabalho --- e foi suspenso. As detecções de
+agrotóxico no Ceará caem de 44 em 2019 para zero exato em 2020, 2021 e 2022,
+\emph{com mais amostras coletadas}, enquanto o país segue reportando cerca de
+metade dos resultados em valor numérico. Um diferença-em-diferenças sobre essa
+variável concluiria que a lei eliminou a totalidade das detecções: grande,
+significativo e inteiramente artefato de mudança de prática laboratorial. A
+cobertura alta é o que torna o artefato convincente.
+
+\paragraph{Um teste que ``passa'' precisa dizer com quanto poder.}
+Medido formalmente, o placebo deste desenho exclui tendências confundidoras
+capazes de fabricar mais de cerca de 11 g de efeito espúrio, e não exclui abaixo
+disso. Onze gramas é da ordem do efeito procurado. Sem essa medida, o mesmo
+placebo seria reportado como aprovação --- e teria sido.
+
+\subsection{As ameaças que ficam declaradas}
+\label{sub:ameacas-declaradas}
+
+Três limitações não foram resolvidas e não devem ser apresentadas como se
+tivessem sido.
+
+A primeira é o \(d = 0\). O §2º do art.~28-B alcança a dispersão aérea para
+controle vetorial, de modo que municípios sem agricultura pulverizada podem ser
+tratados. A medida direta dessa contaminação existe no SINAN e soma 89
+notificações em oito anos --- insuficiente para estimar o que quer que seja. A
+única rota ao zero que mede o \emph{método} no pré-período é o cadastro estadual,
+e ele depende de pedido de acesso à informação ainda pendente.
+
+A segunda é a antecipação. A janela que define a dose começa em 2015, depois do
+marco de notícia de fevereiro daquele ano, de modo que a dose medida pode já
+responder à expectativa. A ameaça morde a variável de tratamento, não apenas o
+desfecho, e a janela recuada de 2010--2014 entra como sensibilidade declarada
+precisamente por isso.
+
+A terceira é a hipótese que o alvo originalmente primário exigia. O teste de
+inclinação em dose no pré-período não a rejeita, mas os três cortes placebo
+produzem inclinação \emph{maior em módulo} que a do desenho real. O teste não
+falha por o desenho ser limpo; ele não teria como rejeitar.
+
+\subsection{O que vem depois}
+\label{sub:depois}
+
+Três frentes dependem de terceiros e têm relógio próprio: o pedido de acesso ao
+cadastro estadual, que é a única via ao \(d = 0\) operacional; a verificação de
+se o registro de nascimentos alcança 2023 e 2024, o que levaria o pós-banimento
+de quatro para seis anos; e a varredura legislativa dos municípios restantes,
+como conferência de completude.
+
+\paragraph{E há uma hipótese que a literatura sugere e que este trabalho não
+pode reivindicar.}
+O efeito estimado por \citet{reynier2025glyphosate} concentra-se doze vezes mais
+no decil inferior de peso esperado --- 75 g de perda ali contra 6 g no decil
+superior. Confrontadas essas magnitudes com o efeito mínimo detectável deste
+desenho, aparece uma assimetria que o diagnóstico agregado esconde: o desenho
+não detecta o efeito médio, e detectaria com folga um efeito da ordem do que
+aquele artigo encontra na cauda. Se o padrão distributivo se repetir aqui, o
+problema deixa de ser de tamanho de amostra e passa a ser de escolha de
+estimando.
+
+\textbf{Isso não é resultado deste trabalho, e não pode ser lido como tal.} Não
+foi declarado antes do dado, e promovê-lo agora seria exatamente a prática que a
+pré-especificação existe para impedir. Registra-se como a hipótese a
+pré-especificar no ciclo seguinte --- que é o único estatuto honesto que ela
+pode ter aqui, e que vale mais do que um resultado a mais.
+
+\subsection{Uma nota sobre o que este ensaio defende}
+\label{sub:defende}
+
+O trabalho não mostra que o banimento funcionou, e tampouco que não funcionou.
+Mostra que o desenho disponível para avaliá-lo, montado com o estimador correto
+para tratamento contínuo e submetido à camada de robustez que o estado da arte
+recomenda, não distingue entre as duas coisas --- e diz exatamente quanto lhe
+falta para distinguir.
+
+Num campo em que a mesma combinação de registro administrativo amplo e poder
+curto produz achados publicáveis com regularidade, estabelecer que um desenho
+não fala, e estabelecê-lo contra critério fixado por escrito antes de olhar, é
+contribuição de tipo diferente da que se buscava. Ela é menor em ambição e maior
+em confiabilidade, e é a que o dado autoriza.

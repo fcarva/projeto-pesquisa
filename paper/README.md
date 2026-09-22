@@ -41,6 +41,7 @@ linha é exatamente a prática que aquele documento existe para impedir.
 | `referencias.bib` | ✅ **40 entradas, todas com DOI conferido** |
 | `secoes/05-dados.tex` | ✅ **escrita** — aquisição, descritivas, Gate 1, bans municipais |
 | `secoes/06-diagnostico-poder.tex` | ✅ **escrita** — ver a nota de escopo abaixo |
+| `secoes/07-conclusao.tex` | ✅ **escrita** — ⚠️ encara a âncora que o Ensaio 2 não recebeu |
 
 ```
 latexmk -pdf -interaction=nonstopmode paper/main.tex
