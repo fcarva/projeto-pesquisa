@@ -212,6 +212,13 @@ weitzman: custo-conab
 # VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
 .PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico
 VIZINHO ?= 24
+# ⚠️ `sufixo_das_ufs` (scripts 01 e 02) ORDENA as UFs antes de montar o nome:
+# --ufs 23 22 grava `__uf22-23`, nao `__uf23-22`. Montar o sufixo a mao como
+# "uf23-$(VIZINHO)" funcionava para 24 e 26 e QUEBRAVA para 22 — justamente o
+# vizinho que o gate manda tentar quando o RN reprova no G1. `$(sort ...)` e
+# lexical, e com codigos de dois digitos isso coincide com a ordem numerica.
+UFS_ORDENADAS := $(sort 23 $(VIZINHO))
+SUFIXO_UF := uf$(word 1,$(UFS_ORDENADAS))-$(word 2,$(UFS_ORDENADAS))
 
 # Censo 2022 por setor via censobr (GitHub Releases do IPEA). Triagem ESTRUTURAL
 # (agua, esgoto, poco) entre os dois lados da linha. Niveis, nao tendencias.
@@ -223,8 +230,8 @@ equipamento-vizinho:
 
 gate-fronteira:
 	$(PY) scripts/data_prep/14_gate_fronteira.py --vizinho $(VIZINHO) \
-	  --pam data/processed/pam_ce_muni_cultura_media__sidra__uf23-$(VIZINHO).parquet \
-	  --painel data/processed/nascimentos_ce_muni_mes__uf23-$(VIZINHO).parquet
+	  --pam data/processed/pam_ce_muni_cultura_media__sidra__$(SUFIXO_UF).parquet \
+	  --painel data/processed/nascimentos_ce_muni_mes__$(SUFIXO_UF).parquet
 
 # Ingestao multi-UF + gate, na ordem. ⚠️ Nao monta painel nem estima: a
 # estrategia de identificacao nao muda sem o orientador (CLAUDE.md).

@@ -119,6 +119,33 @@ def test_media_por_municipio_trata_ausencia_de_linha_como_zero():
     assert medias["cod_ibge6"].iloc[0] == "239001"  # chave de join com o SINASC
 
 
+def test_makefile_e_script_concordam_sobre_o_sufixo_de_uf():
+    """O Makefile montava o nome do artefato à mão, e errava para VIZINHO=22.
+
+    `sufixo_das_ufs` ORDENA as UFs: --ufs 23 22 grava `__uf22-23`. O alvo
+    `gate-fronteira` montava "uf23-$(VIZINHO)", que casava para 24 e 26 e
+    quebrava para 22 — justamente o vizinho que o gate manda tentar quando o RN
+    reprova no G1. Agora o Makefile usa $(sort ...); este teste trava os dois
+    lados juntos, porque não há `make` no ambiente de teste para rodar o alvo.
+    """
+    texto = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    # Só as linhas de receita: o comentário que explica o bug cita o nome
+    # antigo de propósito, e não é ele que o `make` executa.
+    receitas = [l for l in texto.splitlines() if not l.lstrip().startswith("#")]
+
+    # O alvo tem de usar a variável, nunca o nome montado à mão.
+    assert any("$(SUFIXO_UF).parquet" in l for l in receitas)
+    assert not any("uf23-$(VIZINHO)" in l for l in receitas)
+
+    for vizinho in ("22", "24", "26"):
+        # O que o `$(sort 23 $(VIZINHO))` do Makefile produz: sort lexical,
+        # sem repetição — reproduzido aqui em Python.
+        ordenadas = sorted({"23", vizinho})
+        do_makefile = f"uf{ordenadas[0]}-{ordenadas[1]}"
+        do_script = dose.sufixo_das_ufs(("23", vizinho)).lstrip("_")
+        assert do_makefile == do_script, (vizinho, do_makefile, do_script)
+
+
 def test_dispersao_separa_cv_com_e_sem_zeros():
     medias = pd.DataFrame(
         {
@@ -2376,11 +2403,73 @@ def test_veredito_aprova_so_com_os_tres_verdes():
     assert gate.veredito_agregado(r) == "⚠ parcial"
 
 
+def test_finaliza_pam_recusa_painel_de_fronteira_com_uma_uf_so():
+    """O bug de 2026-09-22: `--ufs 23 24` gravou `__uf23-24` com só o Ceará.
+
+    Vazio total já gritava; faltar UMA das UFs pedidas, não. O gate do script
+    14 então leu a ausência do RN como achado — "o RN não planta melão", ✘ —
+    quando o veredito honesto era `ausente`.
+    """
+    so_ce = pd.DataFrame({
+        "cod_ibge": ["2304400", "2309706"],
+        "ano": [2015, 2015],
+        "cultura": ["Melão", "Melão"],
+        "area_ha": [10.0, 20.0],
+    })
+    with pytest.raises(RuntimeError, match="não vieram"):
+        dose._finaliza_pam([so_ce], (2015,), ("23", "24"))
+
+    # Só o Ceará pedido, só o Ceará devolvido: isso continua válido.
+    assert len(dose._finaliza_pam([so_ce], (2015,), ("23",))) == 2
+
+    com_rn = pd.concat([so_ce, pd.DataFrame({
+        "cod_ibge": ["2408102"], "ano": [2015],
+        "cultura": ["Melão"], "area_ha": [50.0],
+    })], ignore_index=True)
+    assert len(dose._finaliza_pam([com_rn], (2015,), ("23", "24"))) == 3
+
+
+def test_carrega_pam_sidra_consulta_uma_uf_por_vez_e_une(monkeypatch):
+    """Duas coisas de uma vez, e as duas quebraram de verdade em 2026-09-22.
+
+    1. A UF pedida tem de CHEGAR ao transporte: `carrega_pam_sidra` recebia
+       `ufs` e chamava `_pam_via_sidrapy(anos)` sem repassar, caindo no
+       default só-Ceará.
+    2. As UFs têm de ir UMA POR CONSULTA: o SIDRA corta em 50.000 valores e
+       CE+RN juntos pedem 63.180, devolvendo 400.
+    """
+    vistos = []
+
+    def falso_transporte(anos, ufs=None):
+        vistos.append(ufs)
+        (uf,) = ufs                      # uma por consulta, nunca duas
+        return pd.DataFrame({"cod_ibge": [uf + "04400"], "ano": [2015],
+                             "cultura": ["Melão"], "area_ha": [1.0]})
+
+    monkeypatch.setattr(dose, "_pam_via_sidrapy", falso_transporte)
+    saida = dose.carrega_pam_sidra((2015,), verificar=False, ufs=("23", "24"))
+
+    assert vistos == [("23",), ("24",)]
+    assert set(saida["cod_ibge"].str[:2]) == {"23", "24"}
+
+
+def test_carrega_pam_sidra_grita_se_uma_uf_nao_voltar(monkeypatch):
+    """A união também é conferida: UF pedida e ausente não vira zero."""
+    def so_ceara(anos, ufs=None):
+        return pd.DataFrame({"cod_ibge": ["2304400"], "ano": [2015],
+                             "cultura": ["Melão"], "area_ha": [1.0]})
+
+    monkeypatch.setattr(dose, "_pam_via_sidrapy", so_ceara)
+    with pytest.raises(RuntimeError, match="não vieram"):
+        dose.carrega_pam_sidra((2015,), verificar=False, ufs=("23", "24"))
+
+
 def test_suporte_por_cultura_separa_as_ufs_e_ignora_area_zero():
     medias = pd.DataFrame({
         "cod_ibge": ["230440", "230970", "240810", "241170", "355030"],
         "cultura": ["melão"] * 5,
-        "area_ha": [10.0, 0.0, 50.0, 30.0, 999.0],  # zero não conta; SP fica fora
+        # nome real do parquet agregado do script 01; zero não conta, SP fica fora
+        "area_ha_media": [10.0, 0.0, 50.0, 30.0, 999.0],
     })
     t = gate.suporte_por_cultura(medias, ("23", "24"))
     assert t.loc["melão", "23"] == 1      # só Limoeiro tem área > 0
@@ -2393,18 +2482,65 @@ def test_gate_melao_vira_verde_quando_a_ampliacao_fecha_o_suporte():
     # Com poucos municípios continua ✘; com muitos, o suporte fecha.
     poucos = pd.DataFrame({
         "cod_ibge": ["230440", "240810"], "cultura": ["melão"] * 2,
-        "area_ha": [10.0, 20.0],
+        "area_ha_media": [10.0, 20.0],
     })
     assert gate.gate_melao(poucos, "24")["veredito"] == "✘"
 
     muitos = pd.DataFrame({
         "cod_ibge": [f"23{i:04d}" for i in range(20)] + [f"24{i:04d}" for i in range(20)],
-        "cultura": ["melão"] * 40, "area_ha": [10.0] * 40,
+        "cultura": ["melão"] * 40, "area_ha_media": [10.0] * 40,
     })
     saida = gate.gate_melao(muitos, "24")
     assert saida["veredito"] == "✔"
     assert saida["municipios_melao_ce"] == 20
     assert saida["municipios_melao_total"] == 40
+
+
+def test_suporte_por_cultura_aceita_o_nome_legado_e_grita_sem_coluna():
+    """O bug real: script 01 grava `area_ha_media`, 12 e 14 liam `area_ha`.
+
+    Os testes antigos usavam `area_ha` nos dois lados, então passavam enquanto
+    o artefato de verdade quebrava com KeyError. Aqui os dois nomes valem e a
+    falta dos dois é erro nomeado.
+    """
+    legado = pd.DataFrame({
+        "cod_ibge": ["230440", "240810"], "cultura": ["melão"] * 2,
+        "area_ha": [10.0, 20.0],
+    })
+    t = gate.suporte_por_cultura(legado, ("23", "24"))
+    assert t.loc["melão", "total"] == 2
+
+    sem_area = pd.DataFrame({"cod_ibge": ["230440"], "cultura": ["melão"]})
+    with pytest.raises(KeyError, match="coluna de área"):
+        gate.suporte_por_cultura(sem_area, ("23", "24"))
+
+
+def test_metricas_de_artefatos_le_o_parquet_que_o_script_01_grava(tmp_path):
+    """Caminho nunca exercitado: só `metricas_classificacao` tinha teste.
+
+    Vinte municípios, os dois maiores com aeronave — o decil (k=2) acerta os
+    dois, então VPP = 1 e λ = 0.
+    """
+    censo = pd.DataFrame({
+        "cod_ibge6": [f"23{i:04d}" for i in range(20)],
+        "aeronave": [5.0, 3.0] + [0.0] * 18,
+    })
+    csv = tmp_path / "censo.csv"
+    censo.to_csv(csv, index=False)
+
+    dose = pd.DataFrame({
+        "cod_ibge": [f"23{i:04d}0" for i in range(20)],
+        "cultura": ["Banana (cacho)"] * 20,
+        "area_ha_media": [900.0, 800.0] + [10.0] * 18,
+    })
+    parquet = tmp_path / "pam.parquet"
+    dose.to_parquet(parquet)
+
+    m = misc.metricas_de_artefatos(csv, parquet, "banana")
+    assert m["tamanho_decil"] == 2
+    assert m["vp"] == 2
+    assert m["vpp"] == pytest.approx(1.0)
+    assert m["lambda_teto"] == pytest.approx(0.0)
 
 
 def test_gate_melao_sem_pam_devolve_ausente_e_nao_reprovacao():

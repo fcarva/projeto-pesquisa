@@ -140,6 +140,24 @@ def metricas_classificacao(n_municipios: int, com_aeronave: int,
     }
 
 
+# O parquet agregado do script 01 chama a coluna `area_ha_media` — a média da
+# janela pré-ban. Só o formato longo, ano a ano, tem `area_ha`. Aceitar os dois
+# evita depender de qual dos dois arquivos chega pelo `--pam`; o que não pode
+# é falhar com KeyError cru, que foi exatamente o que escondeu esta divergência
+# (os testes usavam `area_ha`, o script 01 grava `area_ha_media`).
+COLUNAS_DE_AREA = ("area_ha_media", "area_ha")
+
+
+def coluna_de_area(df: pd.DataFrame) -> str:
+    for col in COLUNAS_DE_AREA:
+        if col in df.columns:
+            return col
+    raise KeyError(
+        f"PAM sem coluna de área: esperava uma de {COLUNAS_DE_AREA}, "
+        f"veio {list(df.columns)}"
+    )
+
+
 def metricas_de_artefatos(censo_csv: Path, dose_parquet: Path, cultura: str,
                          tamanho_decil: int | None = None) -> dict:
     """Recalcula as métricas a partir dos artefatos, em vez dos números da §5.4.
@@ -147,7 +165,7 @@ def metricas_de_artefatos(censo_csv: Path, dose_parquet: Path, cultura: str,
     `censo_csv` sai do script 13 (`censo_agro_equipamento_ce.csv`) e traz
     `cod_ibge6` e `aeronave`; `dose_parquet` sai do script 01
     (`pam_ce_muni_cultura_media__*.parquet`) e traz `cod_ibge`, `cultura`,
-    `area_ha`.
+    `area_ha_media`.
 
     ⚠️ O decil é calculado sobre os municípios com área POSITIVA da cultura —
     que é a convenção do Gate 1 (169 para a banana), não sobre os 184. É
@@ -158,13 +176,14 @@ def metricas_de_artefatos(censo_csv: Path, dose_parquet: Path, cultura: str,
     dose = pd.read_parquet(dose_parquet)
     dose["cod_ibge"] = dose["cod_ibge"].astype(str).str[:6]
     dose = dose[dose["cultura"].str.contains(cultura, case=False, na=False)]
-    dose = dose[dose["area_ha"] > 0]
+    col_area = coluna_de_area(dose)
+    dose = dose[dose[col_area] > 0]
     if dose.empty:
         raise ValueError(f"nenhum município com área positiva de {cultura!r}")
 
     n_positivos = dose["cod_ibge"].nunique()
     k = tamanho_decil or max(1, round(n_positivos / 10))
-    decil = set(dose.nlargest(k, "area_ha")["cod_ibge"])
+    decil = set(dose.nlargest(k, col_area)["cod_ibge"])
 
     com_aeronave = set(censo.loc[censo["aeronave"] > 0, "cod_ibge6"])
     n_municipios = censo["cod_ibge6"].nunique()

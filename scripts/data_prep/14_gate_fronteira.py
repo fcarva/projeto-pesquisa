@@ -144,12 +144,30 @@ def gate_aeronave(vizinho: str, chunk: int = 25) -> dict:
 # G2 — o suporte de melão fecha no painel ampliado?
 # --------------------------------------------------------------------------
 
+# O parquet agregado do script 01 chama a coluna `area_ha_media` — a média da
+# janela pré-ban. Só o formato longo, ano a ano, tem `area_ha`. Aceitar os dois
+# evita depender de qual dos dois arquivos chega pelo `--pam`; o que não pode
+# é falhar com KeyError cru, que foi exatamente o que escondeu esta divergência
+# (os testes usavam `area_ha`, o script 01 grava `area_ha_media`).
+COLUNAS_DE_AREA = ("area_ha_media", "area_ha")
+
+
+def coluna_de_area(df: pd.DataFrame) -> str:
+    for col in COLUNAS_DE_AREA:
+        if col in df.columns:
+            return col
+    raise KeyError(
+        f"PAM sem coluna de área: esperava uma de {COLUNAS_DE_AREA}, "
+        f"veio {list(df.columns)}"
+    )
+
+
 def suporte_por_cultura(medias: pd.DataFrame, ufs) -> pd.DataFrame:
     """Municípios com área > 0 por cultura, dentro e fora do Ceará."""
     df = medias.copy()
     df["cod_ibge"] = df["cod_ibge"].astype(str)
     df = df[df["cod_ibge"].str.startswith(tuple(ufs))]
-    df = df[df["area_ha"] > 0]
+    df = df[df[coluna_de_area(df)] > 0]
     df["uf"] = df["cod_ibge"].str[:2]
     tabela = (df.groupby(["cultura", "uf"])["cod_ibge"].nunique()
                 .unstack(fill_value=0))

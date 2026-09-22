@@ -458,14 +458,27 @@ def carrega_pam_sidra(anos=ANOS_PRE_BAN, verificar: bool = True, ufs=UFS_PADRAO)
                 "Corrija SIDRA_TABELAS antes de baixar — a consulta devolveria vazio."
             )
 
+    # ⚠️ UMA UF POR CONSULTA, e não as duas juntas. O SIDRA corta em 50.000
+    # valores por requisição: CE+RN pedem 63.180 e a resposta é 400 (Bad
+    # Request), não um resultado truncado. `in n3 23,24` é sintaxe válida — o
+    # que estoura é o tamanho. Uma UF de cada vez fica em ~31.600, e a união é
+    # conferida depois por `_confere_ufs`.
+    pedacos = [_pam_de_uma_uf(anos, uf) for uf in ufs]
+    df = pd.concat(pedacos, ignore_index=True)
+    _confere_ufs(df, ufs)
+    return df.reset_index(drop=True)
+
+
+def _pam_de_uma_uf(anos, uf: str) -> pd.DataFrame:
+    """Baixa uma UF, com o REST como reserva do sidrapy."""
     try:
-        return _pam_via_sidrapy(anos)
+        return _pam_via_sidrapy(anos, ufs=(uf,))
     except BloqueioDeRede:
         raise
     except Exception as erro:  # noqa: BLE001
-        print(f"[aviso] sidrapy falhou ({type(erro).__name__}: {erro}).")
+        print(f"[aviso] sidrapy falhou na UF {uf} ({type(erro).__name__}: {erro}).")
         print("[aviso] Tentando REST direto em apisidra.ibge.gov.br.")
-        return _pam_via_rest(anos)
+        return _pam_via_rest(anos, ufs=(uf,))
 
 
 def _consulta_sidra(spec: dict, periodo: str, ufs=UFS_PADRAO) -> str:
@@ -485,7 +498,26 @@ def _finaliza_pam(pedacos: list[pd.DataFrame], anos, ufs=UFS_PADRAO) -> pd.DataF
         raise RuntimeError(
             f"SIDRA respondeu, mas nada sobrou após o filtro UF={','.join(ufs)}/anos."
         )
+    # ⚠️ Vazio total não é o único modo de falha. Se UMA das UFs pedidas não
+    # voltar, o artefato sai com `sufixo_das_ufs` no NOME — `__uf23-24` — e
+    # conteúdo de uma UF só; o gate do script 14 então lê a ausência do vizinho
+    # como zero substantivo ("o RN não planta melão") em vez de `ausente`. Foi
+    # o que aconteceu em 2026-09-22, e é a mesma classe de erro da truncagem do
+    # bucket GAEZ: silêncio de fonte virando achado.
+    _confere_ufs(df, ufs)
     return df.reset_index(drop=True)
+
+
+def _confere_ufs(df: pd.DataFrame, ufs) -> None:
+    """Toda UF pedida tem de aparecer no resultado. Ausência não é zero."""
+    presentes = set(df["cod_ibge"].str[:2])
+    faltando = [uf for uf in ufs if uf not in presentes]
+    if faltando:
+        raise RuntimeError(
+            f"SIDRA respondeu, mas a(s) UF(s) {','.join(faltando)} não vieram — "
+            f"só {','.join(sorted(presentes))}. Um artefato com nome de fronteira "
+            "e conteúdo de uma UF só faria o gate ler ausência como zero."
+        )
 
 
 def _pam_via_sidrapy(anos=ANOS_PRE_BAN, ufs=UFS_PADRAO) -> pd.DataFrame:
