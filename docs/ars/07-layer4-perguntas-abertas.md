@@ -146,6 +146,14 @@ Secretaria da Saúde, pelos arts. 15 e 30 da Lei estadual 12.228/1993. O caminho
 a **Lei de Acesso à Informação (Lei 12.527/2011)**, que dá prazo legal de
 resposta de 20 dias, prorrogáveis por 10.
 
+⚠️ **SUPERADA em 2026-09-22 — use `docs/legislacao/lai-semace-minuta.md`.**
+A minuta abaixo continua correta no mérito, mas pede a coisa certa pela razão
+menor: ela trata o cadastro como item 4, para o `d = 0`. Depois do Censo
+Agropecuário (flag 7), o cadastro virou a fonte que decide se a **dose mede o
+que o banimento removeu** — e a minuta nova reordena, separa em dois pedidos
+(o Decreto 36.552/2025 exige requerimento individualizado) e antecipa a
+negativa do art. 43, V.
+
 **Minuta do pedido** (adaptar ao formulário do órgão):
 
 > Com base na Lei nº 12.527/2011, solicito acesso às seguintes informações

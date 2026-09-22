@@ -226,3 +226,13 @@ e, se algum não existir, **lista os que existem** — a correção não vira
 adivinhação. `--fonte sidra` roda o preflight antes de baixar e aborta se ele
 reprovar. **Registrar aqui a data em que o preflight passar** é o que fecha esta
 pendência.
+
+## Pedidos LAI em curso
+
+| pedido | protocolado em | prazo (20+10) | estado |
+|---|---|---|---|
+| **SEMACE — cadastro art. 8º (método de aplicação)** | ⬜ *preencher ao protocolar* | — | minuta pronta: `docs/legislacao/lai-semace-minuta.md` |
+| SEMACE — fiscalização do art. 28-B | ⬜ *preencher ao protocolar* | — | idem, Pedido B |
+
+⚠️ É o **único relógio externo** do projeto. Anotar a data de protocolo aqui é
+o que permite cobrar o prazo e, se preciso, recorrer ao CGAI.
