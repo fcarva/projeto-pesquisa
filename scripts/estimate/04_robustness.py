@@ -334,6 +334,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--corte-pos", default="2019-10")
     parser.add_argument("--mde", type=float, default=None,
                         help="MDE do desenho, do script 01 (mde_agrupado_g).")
+    parser.add_argument("--aptidao-p", type=float, default=0.75,
+                        help="percentil de aptidão GAEZ acima do qual o zero é "
+                             "SUSPEITO (definição 4 da §5.3). ⚠️ p75 deixa 14 de "
+                             "15 controles; p25 deixa 5 — cortes apertados "
+                             "destroem o grupo de comparação.")
     parser.add_argument("--n-boot", type=int, default=N_BOOT)
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
@@ -370,14 +375,31 @@ def main(argv: list[str] | None = None) -> int:
         "wcb": wild_cluster_bootstrap(dados, args.n_boot, args.seed),
         "aleatorizacao": inferencia_aleatorizacao(dados, args.n_boot, args.seed),
     }
-    # sem as definições alternativas de zero (dependem de GAEZ/ANAC, ainda não
-    # adquiridos), a tabela sai só com a base — e diz que sai
-    sens = sensibilidade_zero(dados, {})
+    # ⚠️ ATUALIZADO 2026-09-21: o FAO-GAEZ FOI adquirido, e a definição 4 da §5.3
+    # passa a rodar. A mensagem anterior — "dependem de GAEZ, ainda não
+    # adquiridos" — virou falsa e dizia ao leitor que a banda era impossível
+    # quando ela já era calculável.
+    definicoes = {}
+    if "aptidao_gaez" in painel.columns:
+        por_muni = (painel.drop_duplicates("cod_ibge6")
+                    [["cod_ibge6", "dose", "aptidao_gaez"]].dropna(subset=["aptidao_gaez"]))
+        corte = por_muni["aptidao_gaez"].quantile(args.aptidao_p)
+        suspeitos = set(por_muni.loc[(por_muni["dose"] <= 0)
+                                     & (por_muni["aptidao_gaez"] > corte), "cod_ibge6"])
+        definicoes[f"def. 4 — aptidão GAEZ > p{int(args.aptidao_p*100)}"] = suspeitos
+
+    sens = sensibilidade_zero(dados, definicoes)
 
     imprime_relatorio(dados, args.desfecho, args.mde, resultados, sens)
-    print("⚠️ Sensibilidade ao zero rodou só com a definição base: as outras três")
-    print("   da §5.3 dependem de FAO-GAEZ e do cadastro aeroagrícola/SEMACE,")
-    print("   ainda não adquiridos. Sem elas, o nível da curva está SEM banda.")
+    if definicoes:
+        print("✅ Sensibilidade ao zero inclui a DEFINIÇÃO 4 (aptidão FAO-GAEZ),")
+        print("   ratificada na pré-especificação de 2026-09-21.")
+        print("   ⚠️ A definição 3 (cadastro aeroagrícola) segue impossível: o")
+        print("      SIPEAGRO não tem profundidade histórica, e a LAI à SEMACE é")
+        print("      a única rota para o pré-ban. Ver lacunas-de-dados.md §1-bis.")
+    else:
+        print("⚠️ Sem `aptidao_gaez` no painel, só a definição base roda.")
+        print("   Rode antes: make gaez")
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     linha = {"desfecho": args.desfecho, "estimativa": beta,
