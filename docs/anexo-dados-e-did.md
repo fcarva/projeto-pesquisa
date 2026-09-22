@@ -25,7 +25,12 @@ orientação. PPGEco/UFES, 2026-09-21, com os dados de 2026-08-25.*
 | **SIM — DOFET** | CE, 2015–2022 | ✅ 2026-08-25 | **11.240 óbitos fetais** |
 | **SIH — AIH reduzida** | CE, 2015–2022 | ✅ 2026-08-25 | ~3,9 mi de AIH — ⚠️ ver A4 |
 | **Painel E5** | 184 municípios × 96 meses | ✅ 2026-08-25 | 17.664 células × 65 colunas |
-| SISAGUA, FAO-GAEZ, ANA, IBAMA | — | ⬜ não adquiridas | — |
+| **SINAN/IEXO** | CE, 2015–2022 | ✅ 2026-09-21 | **27.338 notificações**, 1.217 de agrotóxico agrícola |
+| **População (SIDRA)** | CE, 2015–2022 | ✅ 2026-09-21 | 184 muni × 8 anos. ⚠️ 2022 vem do Censo |
+| **FAO-GAEZ** | banana + coco | ✅ 2026-09-21 | **184/184 municípios**; primeiro estágio confere |
+| **Bans municipais < 2019** | 17 tratados da banana | ✅ 2026-09-21 | 1 confirmado (Limoeiro), 16 conferidos sem lei |
+| **SISAGUA** | CE, 2015–2022 | ⏸️ adquirido, **suspenso** | 58.061 medições. ⚠️ quebra de registro em 2020 — ver B-bis |
+| ANA, IBAMA, INMET | — | ⬜ não adquiridas | ⏸️ ANA e INMET bloqueadas por desenho, não por acesso |
 
 ⚠️ **Uma correção de diagnóstico que vale registrar:** a rede nunca foi problema
 do projeto — era política do proxy da sessão remota. Na máquina local, SIDRA,
@@ -94,10 +99,10 @@ protege.
 
 | Sem esta fonte | O que ainda sai | O que **não** sai |
 |---|---|---|
-| **FAO-GAEZ** | a curva, com nível **sem banda** | o instrumento; 3 das 4 definições de zero; o teste de contaminação. ⚠️ **O nível da curva vira indefensável** |
+| ~~**FAO-GAEZ**~~ ✅ **RESOLVIDO 2026-09-21** | — | ~~o instrumento; 3 das 4 definições de zero~~. Resta impossível só a definição 3, que depende de SEMACE |
 | **Bans municipais < 2019** | tudo, aparentemente | a garantia de que 2015–2018 é pré-tratamento. ⚠️ **Falha silenciosa: o resultado sai e está errado** |
 | SEMACE / ANAC | tudo, com o estimando renomeado | a definição 3 de zero — a única que mede **método** |
-| ANA + SISAGUA | o Ensaio 1 inteiro | o canal-água; o mecanismo fica postulado |
+| ANA + SISAGUA ⏸️ | o Ensaio 1 inteiro | o canal-água. ⚠️ **Não é falta de acesso**: o SISAGUA foi adquirido e tem 58.061 medições em 184 municípios. Suspenso porque a detecção tem quebra de registro no CE a partir de 2020 que produziria efeito espúrio |
 | INMET / FUNCEME | tudo | vento a favor/contra |
 
 As bibliotecas geo **estão** instaladas na máquina local — falta o raster, não a
@@ -230,9 +235,20 @@ exige **exatamente dois períodos** (o pré vira média única de 2015–2018), 
 faz event study** (os *leads* saem de outro estimador) e **não aceita
 covariáveis**.
 
-⛔ **E um bloqueio que não estava mapeado: não há R instalado na máquina.** Sem R
-+ `contdid` + `renv`, **não há estimação**, por mais limpo que o painel esteja.
-É o primeiro item da lista de próximos passos.
+⛔ ~~**E um bloqueio que não estava mapeado: não há R instalado na máquina.**~~
+✅ **CORRIGIDO em 2026-09-21: R 4.6.1 estava instalado desde 13/08/2026** — a
+verificação anterior testou o PATH, e no Windows o instalador do R não põe
+`bin/` nele. Instalados Rtools45 e os pacotes; `renv.lock` com 108, SHA do
+GitHub fixado em `contdid`, `ptetools`, `pretrends`, `HonestDiD` e `synthdid`.
+
+⚠️ **E o E6 estava quebrado por outro motivo, invisível enquanto R parecia
+ausente:** o default de `control_group` do `contdid` é um vetor de 3 e a
+asserção interna do pacote exige escalar — **o default viola a própria
+asserção**. `03_contdid.R` nunca passava o argumento, então a curva nunca
+teria saído. Corrigido com `control_group = "nevertreated"`, decisão do
+pesquisador registrada no código.
+
+**O que bloqueia a estimação hoje é a pré-especificação, não o ambiente.**
 
 ## B7. A camada de robustez, e o que não se aplica
 
