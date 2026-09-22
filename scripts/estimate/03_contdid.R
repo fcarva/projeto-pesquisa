@@ -88,7 +88,8 @@ suppressPackageStartupMessages({
 args <- commandArgs(trailingOnly = TRUE)
 
 CONHECIDOS <- c("--painel", "--desfecho", "--exposicao", "--saida",
-                "--corte-pre", "--corte-pos", "--biters", "--control-group")
+                "--corte-pre", "--corte-pos", "--biters", "--control-group",
+                "--d-zero", "--aptidao-p")
 
 uso <- function() {
   cat("E6 — CGS tratamento contínuo (Callaway, Goodman-Bacon & Sant'Anna)
@@ -112,6 +113,10 @@ uso <- function() {
   cat("  --biters         réplicas bootstrap  [1000]
 ")
   cat("  --control-group  grupo de comparação [nevertreated]
+")
+  cat("  --d-zero         construção do d = 0: 1 (área nula) | 4 (aptidão GAEZ) [1]
+")
+  cat("  --aptidao-p      percentil de aptidão acima do qual o zero é SUSPEITO [0.75]
 ")
   cat("  --help           esta mensagem
 
@@ -170,6 +175,30 @@ biters <- as.integer(le("--biters", "1000"))
 # pré-especificação junto com esta linha.
 control_group <- le("--control-group", "nevertreated")
 
+# ⚠️ CONSTRUÇÃO DO d = 0 — §5.3 de 03-modelagem-ensaio1.md, e a
+# pré-especificação de 2026-09-21 ratificou a **definição 4**.
+#
+#   1 = área nula da cultura-âncora (PAM). É a linha de base.
+#   4 = baixa aptidão GAEZ para a âncora. Não depende de registro
+#       administrativo estar completo.
+#
+# A implementação da 4 é: dentro do grupo de área nula, DESCARTAR quem tem
+# aptidão alta. O raciocínio é que um município que PODERIA plantar banana e
+# não planta é zero suspeito — pode ter trocado de cultura, ou pulverizar
+# outra coisa. Zero crível é área nula COM aptidão baixa.
+#
+# ⚠️ E isto quase não morde: no Ceará, dos 15 municípios de área nula, apenas
+# UM tem aptidão acima do p75 estadual. Medido antes de implementar, não
+# descoberto depois. O zero deste desenho já era quase todo de baixa aptidão —
+# o que é boa notícia para a credibilidade do grupo de comparação, e torna a
+# escolha entre 1 e 4 menos consequente do que a pré-especificação supunha.
+#
+# ⚠️ O corte é PARÂMETRO, não constante: p75 deixa 14 de 15 controles, p25
+# deixa 5. Cortes apertados destroem o grupo de comparação, e um desenho sem
+# controle não estima nada.
+d_zero <- le("--d-zero", "1")
+aptidao_p <- as.numeric(le("--aptidao-p", "0.75"))
+
 dir.create(saida, recursive = TRUE, showWarnings = FALSE)
 
 barra <- strrep("=", 84)
@@ -189,6 +218,30 @@ painel[, y := get(desfecho)]
 cat("municípios:", uniqueN(painel$id),
     "| períodos:", uniqueN(painel$t),
     "| células:", nrow(painel), "\n")
+
+if (d_zero == "4") {
+  if (!"aptidao_gaez" %in% names(painel)) {
+    stop("--d-zero 4 exige a coluna `aptidao_gaez` no painel. Rode antes: make gaez")
+  }
+  por_muni <- unique(painel[, .(cod_ibge6, dose, aptidao_gaez)])
+  corte <- as.numeric(quantile(por_muni$aptidao_gaez, aptidao_p, na.rm = TRUE))
+  suspeitos <- por_muni[dose == 0 & aptidao_gaez > corte, cod_ibge6]
+  n_zero <- nrow(por_muni[dose == 0])
+  cat("\nd = 0 pela DEFINIÇÃO 4 (aptidão GAEZ, §5.3) — ratificada na pré-especificação\n")
+  cat("  corte de aptidão (p", format(aptidao_p * 100), "):", format(round(corte, 3)), "\n")
+  cat("  zeros por área    :", n_zero, "\n")
+  cat("  zeros SUSPEITOS descartados (área nula + aptidão alta):", length(suspeitos), "\n")
+  cat("  controles restantes:", n_zero - length(suspeitos), "\n")
+  if (n_zero - length(suspeitos) < 5) {
+    cat("  ⚠️ MENOS DE 5 CONTROLES. O sieve centra a curva em mean(dy[dose==0]);\n")
+    cat("     com grupo assim pequeno o nível fica sem precisão utilizável.\n")
+  }
+  painel <- painel[!cod_ibge6 %in% suspeitos]
+} else {
+  cat("\nd = 0 pela DEFINIÇÃO 1 (área nula da cultura-âncora).\n")
+  cat("  ⚠️ A pré-especificação de 2026-09-21 ratificou a definição 4.\n")
+  cat("     Rodar com 1 é SENSIBILIDADE — registre na §8 se virar primária.\n")
+}
 
 # ⚠️ Proveniência atravessa a fronteira R. Um painel simulado já foi lido como
 # real uma vez neste projeto; o nome do arquivo sozinho não basta, e o CSV de
@@ -240,6 +293,22 @@ colapsado <- painel[!is.na(periodo) & !is.na(y),
 # o sieve exige painel balanceado nos dois períodos
 completos <- colapsado[, .N, by = id][N == 2L, id]
 colapsado <- colapsado[id %in% completos]
+
+# ⚠️ `gname` É OBRIGATÓRIO, e a omissão dele era o SEGUNDO bug deste script.
+# Sem ele o `cont_did` morre em "'by' deve unicamente especificar coluna
+# válida" — erro de `data.table` vindo de dentro do pacote, que não diz
+# qual argumento falta. Conferido rodando em 2026-09-21: com `gname`, os
+# dois alvos rodam; sem, nenhum.
+#
+# `g` é o período em que a unidade passa a ser tratada, e 0 para nunca
+# tratada. O ban é simultâneo: quem tem dose > 0 é tratado no período 2,
+# e o grupo `d = 0` nunca é tratado — que é o mesmo grupo que
+# `control_group = "nevertreated"` seleciona. As duas escolhas têm de
+# concordar, senão o pacote compara com um conjunto e o texto descreve outro.
+colapsado[, g := fifelse(dose > 0, 2L, 0L)]
+cat("  g: tratados", uniqueN(colapsado[g == 2L]$id),
+    "| nunca-tratados", uniqueN(colapsado[g == 0L]$id), "
+")
 cat("  municípios com os dois períodos:", uniqueN(colapsado$id), "\n")
 
 # ── 1. a curva, via sieve não-paramétrico (CCK) ──────────────────────────────
@@ -248,16 +317,44 @@ cat("\n", barra, "\n", sep = "")
 cat("1. CURVA DOSE-RESPOSTA — sieve não-paramétrico (CCK), 2 períodos\n")
 cat(barra, "\n")
 
-grava_tidy <- function(obj, arquivo, extra = list()) {
-  tidy <- tryCatch(as.data.table(broom::tidy(obj)), error = function(e) NULL)
-  if (is.null(tidy)) {
-    # `contdid` não expõe broom::tidy; extrai os campos do objeto direto
-    tidy <- data.table(
-      dose = tryCatch(obj$dose, error = function(e) NA_real_),
-      estimativa = tryCatch(obj$att.d, error = function(e) NA_real_),
-      erro_padrao = tryCatch(obj$att.d.se, error = function(e) NA_real_)
-    )
+# ⚠️ TERCEIRO bug deste script, e o pior tipo: ele produzia saída PLAUSÍVEL e
+# silenciosamente errada. Três defeitos somados, conferidos rodando em
+# 2026-09-21 contra `names()` do objeto:
+#
+#   1. `broom::tidy` NÃO tem método para a classe `dose_obj` — erra sempre, e o
+#      `tryCatch` mandava tudo para o fallback. O fallback era o caminho real,
+#      não a exceção.
+#   2. O fallback extraía `obj$att.d` para OS DOIS alvos. Resultado: os arquivos
+#      `cgs_curva_level.csv` e `cgs_curva_slope.csv` saíam BYTE A BYTE IDÊNTICOS,
+#      rotulados como parâmetros diferentes. ATT(d|d) e ACR(d) não são a mesma
+#      coisa — o segundo é a derivada do primeiro.
+#   3. Pedia `obj$att.d.se` (ponto); o campo é `att.d_se` (sublinhado). O erro
+#      padrão sumia, e sem ele **não há critério de falsificação** — a §5 da
+#      pré-especificação compara a meia-largura do IC contra o piso de 15 g.
+#
+# Os campos, conferidos: `att.d`/`att.d_se`/`att.d_crit.val` para o level,
+# `acrt.d`/`acrt.d_se`/`acrt.d_crit.val` para o slope, mais os agregados
+# `overall_att`/`overall_acrt` e seus erros.
+grava_tidy <- function(obj, arquivo, alvo = "level", extra = list()) {
+  campo <- if (alvo == "slope") "acrt.d" else "att.d"
+  est <- obj[[campo]]
+  se <- obj[[paste0(campo, "_se")]]
+  crit <- obj[[paste0(campo, "_crit.val")]]
+  if (is.null(est) || is.null(se)) {
+    stop("objeto do contdid sem `", campo, "` ou `", campo,
+         "_se`. A API mudou — confira names(obj) antes de confiar na saída.")
   }
+  # `cband = TRUE` devolve valor crítico de banda UNIFORME, não 1,96. Usar 1,96
+  # aqui estreitaria a banda e inverteria o teste de falsificação.
+  tidy <- data.table(
+    dose = obj$dose,
+    estimativa = est,
+    erro_padrao = se,
+    valor_critico = if (is.null(crit)) NA_real_ else as.numeric(crit)[1]
+  )
+  tidy[, ic_inf := estimativa - valor_critico * erro_padrao]
+  tidy[, ic_sup := estimativa + valor_critico * erro_padrao]
+  tidy[, meia_largura := valor_critico * erro_padrao]
   for (nome in names(extra)) tidy[[nome]] <- extra[[nome]]
   caminho <- file.path(saida, arquivo)
   data.table::fwrite(tidy, caminho)
@@ -272,7 +369,7 @@ for (alvo in c("level", "slope")) {
       else "  -> ACR(d), exige Assumption 5 (NÃO testável)", "\n")
   res <- tryCatch(
     cont_did(
-      yname = "y", dname = "dose", tname = "periodo", idname = "id",
+      yname = "y", dname = "dose", gname = "g", tname = "periodo", idname = "id",
       data = as.data.frame(colapsado),
       target_parameter = alvo,
       aggregation = "dose",
@@ -286,9 +383,54 @@ for (alvo in c("level", "slope")) {
   )
   resultados[[alvo]] <- res
   if (!is.null(res)) {
-    grava_tidy(res, sprintf("cgs_curva_%s.csv", alvo),
+    # ⚠️ O DESFECHO ENTRA NO NOME. Sem isso, rodar o confirmatório #2
+    # (óbito fetal) SOBRESCREVIA os arquivos do #1 (peso), e o único sinal
+    # era a coluna `desfecho` por dentro — que ninguém confere antes de ler
+    # o CSV que acabou de ser gravado. Mesma classe do sufixo `__sidra` que
+    # já quebrou o encontro das trilhas no E5.
+    # ⚠️ E a construção do d = 0 TAMBÉM entra no nome. Sem ela, rodar a
+    # sensibilidade `--d-zero 1` gravava por cima do primário `--d-zero 4`,
+    # e o arquivo ficava com o rótulo certo e o conteúdo da outra rodada.
+    # Duas rodadas que se apagam são pior que uma só: dão a impressão de
+    # que a sensibilidade foi feita.
+    grava_tidy(res, sprintf("cgs_curva_%s__%s__d0-%s.csv", alvo, desfecho, d_zero),
+               alvo = alvo,
                extra = list(alvo = alvo, desfecho = desfecho, exposicao = exposicao,
                             fonte = fonte_painel))
+    # O agregado — o número que vai para o texto. `overall_att` é o ATT médio
+    # sobre os tratados; `overall_acrt`, o ACR médio.
+    ag_est <- if (alvo == "slope") res$overall_acrt else res$overall_att
+    ag_se  <- if (alvo == "slope") res$overall_acrt_se else res$overall_att_se
+    if (!is.null(ag_est) && !is.null(ag_se)) {
+      # ⚠️ Precisão adaptativa: uma TAXA vive em 1e-3 e sairia como "0.00 g" com
+      # duas casas — número real impresso como zero é o pior tipo de saída.
+      casas <- if (abs(ag_est) < 1) 5 else 2
+      unid <- if (desfecho == "peso_medio") " g" else ""
+      cat(sprintf(paste0("       agregado: %.", casas, "f%s  (ep %.", casas,
+                         "f)  IC95%% [%.", casas, "f ; %.", casas, "f]
+"),
+                  ag_est, unid, ag_se, ag_est - 1.96 * ag_se, ag_est + 1.96 * ag_se))
+      # ⚠️ O piso de 15 g da §5 da pré-especificação é do PESO, em gramas. Ele
+      # não significa nada para uma taxa. Aplicá-lo a `taxa_obito_fetal` daria
+      # "falsifica SIM" trivialmente, porque a meia-largura de uma proporção é
+      # sempre << 15. Falso conforto, e do tipo que passa despercebido.
+      if (desfecho == "peso_medio") {
+        cat(sprintf("       meia-largura do IC: %.2f g  |  piso pré-especificado: 15 g
+",
+                    1.96 * ag_se))
+        cat(sprintf("       falsifica 15 g? %s
+",
+                    if (1.96 * ag_se <= 15) "SIM" else "NAO — IC largo demais"))
+      } else {
+        cat(sprintf("       meia-largura do IC: %.4f (unidade do desfecho)
+",
+                    1.96 * ag_se))
+        cat("       ⚠️ o piso de 15 g é do PESO — não há piso pré-especificado
+")
+        cat("          para este desfecho, então NÃO há teste de falsificação aqui.
+")
+      }
+    }
   }
 }
 
@@ -326,6 +468,9 @@ cat("3. EVENT STUDY — paramétrico, painel mensal (rodada SEPARADA da curva)\n
 cat(barra, "\n")
 
 mensal <- painel[!is.na(y), .(id, t, y, dose)]
+# Mesmo `gname`, agora no calendário mensal: o ban entra em vigor em
+# 09/01/2019, que neste índice é 2019*12 + 0.
+mensal[, g := fifelse(dose > 0, 2019L * 12L + 0L, 0L)]
 completos_m <- mensal[, .N, by = id][N == max(N), id]
 mensal <- mensal[id %in% completos_m]
 cat("  painel balanceado:", uniqueN(mensal$id), "municípios ×",
@@ -333,7 +478,7 @@ cat("  painel balanceado:", uniqueN(mensal$id), "municípios ×",
 
 es <- tryCatch(
   cont_did(
-    yname = "y", dname = "dose", tname = "t", idname = "id",
+    yname = "y", dname = "dose", gname = "g", tname = "t", idname = "id",
     data = as.data.frame(mensal),
     target_parameter = "level",
     aggregation = "eventstudy",
@@ -346,7 +491,7 @@ es <- tryCatch(
   error = function(e) { cat("  [erro]", conditionMessage(e), "\n"); NULL }
 )
 if (!is.null(es)) {
-  grava_tidy(es, "cgs_eventstudy.csv",
+  grava_tidy(es, sprintf("cgs_eventstudy__%s__d0-%s.csv", desfecho, d_zero),
              extra = list(desfecho = desfecho, exposicao = exposicao, fonte = fonte_painel))
 }
 
