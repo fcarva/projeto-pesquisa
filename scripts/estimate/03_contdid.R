@@ -89,7 +89,7 @@ args <- commandArgs(trailingOnly = TRUE)
 
 CONHECIDOS <- c("--painel", "--desfecho", "--exposicao", "--saida",
                 "--corte-pre", "--corte-pos", "--biters", "--control-group",
-                "--d-zero", "--aptidao-p")
+                "--d-zero", "--aptidao-p", "--seed")
 
 uso <- function() {
   cat("E6 — CGS tratamento contínuo (Callaway, Goodman-Bacon & Sant'Anna)
@@ -117,6 +117,8 @@ uso <- function() {
   cat("  --d-zero         construção do d = 0: 1 (área nula) | 4 (aptidão GAEZ) [1]
 ")
   cat("  --aptidao-p      percentil de aptidão acima do qual o zero é SUSPEITO [0.75]
+")
+  cat("  --seed           semente do bootstrap [20190613]
 ")
   cat("  --help           esta mensagem
 
@@ -196,6 +198,15 @@ control_group <- le("--control-group", "nevertreated")
 # ⚠️ O corte é PARÂMETRO, não constante: p75 deixa 14 de 15 controles, p25
 # deixa 5. Cortes apertados destroem o grupo de comparação, e um desenho sem
 # controle não estima nada.
+# ⚠️ SEMENTE FIXA, e o motivo apareceu rodando duas vezes. O `contdid` faz
+# bootstrap multiplicador e SEM semente o valor crítico da banda muda entre
+# rodadas: a mesma especificação deu 2 leads fora do zero numa execução e 0 na
+# seguinte. Rejeições marginais que aparecem e somem não são resultado — e uma
+# delas indo para a dissertação seria irreprodutível por quem a checasse.
+# O CLAUDE.md já manda "fixar seeds"; o script R não fazia.
+seed <- as.integer(le("--seed", "20190613"))
+set.seed(seed)
+
 d_zero <- le("--d-zero", "1")
 aptidao_p <- as.numeric(le("--aptidao-p", "0.75"))
 
@@ -336,6 +347,81 @@ cat(barra, "\n")
 # `acrt.d`/`acrt.d_se`/`acrt.d_crit.val` para o slope, mais os agregados
 # `overall_att`/`overall_acrt` e seus erros.
 grava_tidy <- function(obj, arquivo, alvo = "level", extra = list()) {
+  # ⚠️ DUAS CLASSES DE OBJETO, e confundi-las era o que quebrava o event study.
+  # A curva (`aggregation = "dose"`) devolve `dose_obj`, com campos `att.d`.
+  # O event study (`aggregation = "eventstudy"`) devolve `pte_results`, cuja
+  # substância está em `obj$event_study` — um `aggte_obj` com `egt` (tempo de
+  # evento), `att.egt`, `se.egt` e `crit.val.egt`. Procurar `att.d` nele dava
+  # zero linhas, e o erro aparecia só depois, em `[[<-.data.frame`, apontando
+  # para o lugar errado.
+  if (inherits(obj, "pte_results") || !is.null(obj$event_study)) {
+    ev <- obj$event_study
+    if (is.null(ev$att.egt)) stop("pte_results sem `event_study$att.egt`.")
+    crit <- if (is.null(ev$crit.val.egt)) NA_real_ else as.numeric(ev$crit.val.egt)[1]
+    tidy <- data.table(
+      tempo_evento = as.numeric(ev$egt),
+      estimativa = as.numeric(ev$att.egt),
+      erro_padrao = as.numeric(ev$se.egt),
+      valor_critico = crit
+    )
+    tidy[, ic_inf := estimativa - valor_critico * erro_padrao]
+    tidy[, ic_sup := estimativa + valor_critico * erro_padrao]
+    tidy[, meia_largura := valor_critico * erro_padrao]
+    tidy[, pre := tempo_evento < 0]
+    for (nome in names(extra)) tidy[[nome]] <- extra[[nome]]
+    caminho <- file.path(saida, arquivo)
+    data.table::fwrite(tidy, caminho)
+    cat("  [ok]", caminho, "
+")
+    # O teste de paralelismo é sobre os LEADS. Reportar aqui, não deixar para
+    # quem abrir o CSV — é o número que decide se a A4 se sustenta.
+    # ⚠️ LIMITAÇÃO DO PACOTE, conferida rodando em 2026-09-21 e não suposta.
+    # Com coorte ÚNICA — que é o caso de um ban simultâneo — o `cont_did` em
+    # `aggregation = "eventstudy"` devolve `att_gt` com valor APENAS para
+    # t < g. Todos os 48 períodos pós saem NA. Conferido em `es$att_gt`:
+    # 47 não-NA, todos em t de 24181 a 24227; NA de 24228 a 24275.
+    #
+    # Consequência para o texto: **isto não é um event study, é um teste de
+    # pré-tendências.** A trajetória dinâmica pós-ban não sai daqui, e prometê-la
+    # seria prometer o que o estimador não entrega. O repositório já registrava
+    # que "os leads saem de outro estimador que a curva"; agora sabe-se que os
+    # LAGS não saem de nenhum dos dois.
+    n_pos_na <- nrow(tidy[pre == FALSE & !is.finite(estimativa)])
+    n_pos <- nrow(tidy[pre == FALSE])
+    if (n_pos > 0 && n_pos_na == n_pos) {
+      cat("  ⚠️ TODOS os", n_pos, "períodos PÓS saíram NA — limitação do pacote com
+")
+      cat("     coorte única. O que está no CSV é teste de PRÉ-TENDÊNCIAS, não
+")
+      cat("     event study. A trajetória dinâmica pós-ban não sai daqui.
+")
+    }
+
+    pre <- tidy[pre == TRUE & is.finite(estimativa) & is.finite(erro_padrao)]
+    if (nrow(pre) > 0) {
+      fora <- pre[ic_inf > 0 | ic_sup < 0]
+      cat(sprintf("       leads (t < 0): %d | fora do zero pela banda: %d (%.0f%%)
+",
+                  nrow(pre), nrow(fora), 100 * nrow(fora) / nrow(pre)))
+      cat(sprintf("       |média dos leads|: %.2f | maior |lead|: %.2f
+",
+                  abs(mean(pre$estimativa)), max(abs(pre$estimativa))))
+      # ⚠️ O NÚMERO QUE DECIDE não é quantos leads rejeitam — é a largura deles.
+      mh <- median(pre$meia_largura, na.rm = TRUE)
+      cat(sprintf("       meia-largura mediana dos leads: %.1f g
+", mh))
+      cat(sprintf("       ⚠️ contra o piso de 15 g da §5: %.1fx MAIOR
+", mh / 15))
+      cat("          Uma violação do tamanho que se procura seria INVISÍVEL.
+")
+      cat("          Leads dentro do zero não provam paralelismo — provam falta
+")
+      cat("          de poder para rejeitá-lo. É o que o `pretrends` quantifica.
+")
+    }
+    return(invisible(tidy))
+  }
+
   campo <- if (alvo == "slope") "acrt.d" else "att.d"
   est <- obj[[campo]]
   se <- obj[[paste0(campo, "_se")]]
