@@ -176,6 +176,16 @@ outras vias. Esta é a passada que faltava. **Sete entradas resolvidas, sete
 acrescentadas ao `.bib`** (40 → 47), com os campos gerados do registro Crossref,
 não digitados.
 
+> ⚠️ **Conferida não é aplicável, e a diferença mordeu neste mesmo dia.** Esta
+> seção atesta **existência e metadados**: que o DOI resolve e que autor, ano,
+> volume e página são os do registro. Não atesta que o resultado do artigo
+> serve ao desenho. **Negi & Negi (2025) é o caso**: resolve perfeitamente
+> aqui e, lido por inteiro pela sessão remota no mesmo dia, **não se aplica**
+> — o erro unilateral deles é só falso negativo, o daqui é só falso positivo.
+> Ver a linha dele no §8 e
+> `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §3. Entrar no
+> `.bib` é permissão para citar, não argumento para usar.
+
 | referência | DOI | registro Crossref | estado |
 |---|---|---|---|
 | Calzada, Gisbert & Moscoso | `10.1086/725349` | *JAERE* 10(6):1623–1663, 2023 | ✅ confere com o §8 |
