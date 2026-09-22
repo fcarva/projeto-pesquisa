@@ -200,16 +200,88 @@ contaminado.
 
 ---
 
+## 5-bis. A busca desconfirmatória, feita — e ela achou um contrapeso real
+
+O Checkpoint 2 registrou que a busca tinha formato confirmatório. A busca
+desconfirmatória foi então executada: *literatura que defenda proxies de cultura
+como boa medida de exposição*.
+
+**Ela existe, e é preciso ser justo com ela:**
+
+> **Nuckols et al. (2007)**, *EHP* 115(5):684 — integrando mapas de cultura ao
+> PUR, *"for all six pesticides we found **good agreement (88–98%)** as to
+> whether the pesticide use was predicted."*
+
+⚠️ **Mas o contrapeso responde a outra pergunta**, e a distinção é o ponto:
+
+| pergunta | o que a literatura diz |
+|---|---|
+| a cultura prediz **qual molécula**? | ✅ **sim, 88–98%** (Nuckols et al.) |
+| a proximidade à cultura prediz **se houve exposição**? | ✘ **não** — *"considerable effect estimate attenuation also occurred when we used residential distance to crops as a proxy for pesticide application"* (Rull & Ritz, resumo) |
+| a área da cultura prediz se a aplicação foi **aérea**? | ⚠️ **ninguém testou** — a pergunta não existe na literatura da Califórnia, porque lá o PUR registra o método |
+
+> **O problema de medida deste projeto é estritamente mais difícil que o da
+> literatura de referência**, e agora dá para dizer por quê em uma linha: ele
+> precisa de uma terceira camada — o **método** de aplicação — que nenhum dos
+> dois achados acima cobre, e que 0,03% dos estabelecimentos usavam.
+
+Isso **não** enfraquece o achado da §1: o elo que falha é justamente o que este
+trabalho usa. Mas corrige uma leitura preguiçosa que o §4.1 convidava — a de que
+"proxy de cultura não presta". Ela presta para o que a cultura de fato determina,
+que é a química. A §5.3 da pré-especificação (procimidona é fungicida de bananal)
+está, portanto, **apoiada** por esta literatura, não enfraquecida.
+
+---
+
+## 5-ter. ⚠️ O teste que Camacho & Mejía rodaram, e que este desenho não pode rodar
+
+Lendo o resumo completo do análogo mais direto, apareceu a frase que mais importa
+de tudo que esta fase encontrou:
+
+> *"The results are robust to **controlling for the extent of coca cultivation**
+> of illicit crops in the municipality of residence."*
+
+Eles **separam a pulverização da cultura** porque têm as duas coisas: registro de
+aplicação **e** extensão do cultivo. Controlando a segunda, mostram que o efeito
+vem da primeira.
+
+**Este desenho tem só a cultura.** Logo não pode rodar esse teste — e isso
+significa que o coeficiente estimado aqui é, por construção, uma **mistura**:
+efeito da pulverização aérea **mais** tudo que a intensidade agrícola faz com
+saúde perinatal por outras vias (renda, trabalho no campo, aplicação terrestre,
+nitrato). A flag 2 já dizia "área plantada é proxy de intensidade agrícola";
+o que faltava era o nome do teste que separaria as duas e a constatação de que
+o análogo o rodou.
+
+### E daqui sai o argumento a favor da Rota 1 que eu não havia articulado
+
+O desenho de fronteira **é** uma forma de rodar aquele teste com os dados que
+existem. Comparando municípios de **extensão de cultivo semelhante** dos dois
+lados da linha, a extensão fica aproximadamente fixa e o que varia é o **regime
+de pulverização**. É a separação de Camacho & Mejía, obtida por geografia em vez
+de por registro.
+
+> Isto reordena a justificativa da Rota 1. Ela não vale principalmente por
+> encorpar o grupo tratado, nem por eliminar a flag 7 — vale porque é **a única
+> via disponível para separar o efeito do método do efeito da cultura**, que é
+> a confusão que a §4.2 do paper declara e nunca endereça.
+
+⚠️ E isso continua **condicionado ao gate**: se o vizinho não tinha pulverização
+aérea, não há regime a contrastar e a separação não acontece.
+
+---
+
 ## 6. Estado do checkpoint e o que falta
 
 **Devil's Advocate — Checkpoint 2 (cherry-picking, viés de confirmação):**
-⚠️ **PASS com ressalva.** A ressalva é que a Fase 2 buscou literatura que
-*mediria* o problema da flag 7 e encontrou literatura que o confirma — o que é
-exatamente o formato de uma busca confirmatória. Mitigação parcial: o §5 registra
-o achado que **contraria** a rota preferida (o VPP piora no desenho de
-fronteira), e ele foi escrito antes de qualquer conclusão sobre qual rota vence.
-Mitigação que falta: procurar ativamente literatura que diga que proxies de
-cultura funcionam bem. **Não foi feita**, e fica declarada como pendência.
+✅ **PASS.** A busca inicial tinha formato confirmatório, e as duas mitigações
+foram executadas: (i) o §5 registra o achado que **contraria** a rota preferida
+— o VPP piora no desenho de fronteira —, escrito antes de qualquer conclusão
+sobre qual rota vence; (ii) a busca desconfirmatória foi feita (§5-bis), achou
+um contrapeso real (Nuckols et al., 88–98%) e ele está caracterizado pelo que
+de fato mostra, não pelo que conviria. O resultado da desconfirmação **estreitou**
+a afirmação em vez de apagá-la: proxy de cultura prediz bem a **química** e mal a
+**ocorrência**, e nada na literatura cobre o **método**.
 
 ### Pendências desta fase
 
@@ -217,9 +289,12 @@ cultura funcionam bem. **Não foi feita**, e fica declarada como pendência.
   quanto de atenuação, para que combinações de sensibilidade e especificidade —
   ficam por ler. O que se usa aqui é o achado do resumo, que é qualitativo.
 - ⚠️ **A inconsistência 17 vs 19** precisa de resolução, não de nota.
-- ⚠️ **Camacho & Mejía** segue sem verificação por texto completo (terceira
-  sessão consecutiva; o proxy bloqueia o CGD e o ScienceDirect).
-- ⚠️ **Busca desconfirmatória** não feita — ver Checkpoint 2.
+- ⚠️ **Camacho & Mejía**: o **resumo** foi recuperado e conferido nesta sessão
+  (ver §5-ter) — a pendência de `referencias-verificadas.md:107` ("sem abstract
+  depositado") pode ser **reduzida**, não fechada. O **texto completo** segue
+  sem leitura pela terceira sessão: o proxy bloqueia CGD, ScienceDirect e RePEc.
+- ✅ **Busca desconfirmatória** feita — ver §5-bis.
+- ⚠️ **Nuckols et al. (2007)** conferido por resumo; autoria completa e texto por ler.
 
 ---
 
