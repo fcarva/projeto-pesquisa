@@ -183,6 +183,9 @@ limpar:
 
 # A inversao de Weitzman e material do ENSAIO 2, nao do pipeline do Ensaio 1:
 # nao le painel, consome as constantes ja estimadas. Alvo proprio, de proposito.
-.PHONY: weitzman
-weitzman:
+.PHONY: weitzman custo-conab
+custo-conab:
+	$(PY) scripts/data_prep/12_clean_conab_custos.py
+
+weitzman: custo-conab
 	$(PY) scripts/estimate/11_weitzman_inversao.py $(if $(BETA_MIN),--beta-min $(BETA_MIN) --beta-max $(BETA_MAX),)

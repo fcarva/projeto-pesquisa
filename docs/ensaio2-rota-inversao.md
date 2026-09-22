@@ -82,21 +82,79 @@ e não destrava a conclusão; destravar o benefício é o problema difícil.
 
 ## 4. O que buscar, em ordem
 
-### 4.1 O lado do custo — barato, e faça mesmo assim
+### 4.1 O lado do custo — ✅ BUSCADO em 2026-09-22
 
-Ele não decide sozinho, mas define **onde** o limiar cai, e sem ele nem a
-fronteira tem escala interpretável.
+⭐ **A Conab tem item de linha próprio para avião.** A planilha de custos de
+produção da banana (`serie-historica-custos-banana-2008-a-2025.xlsx`) traz
+**"2 - Operação com Avião"**, separado de "3.1 - Tratores e Colheitadeiras".
+Órgão oficial, 88 sistemas, 2008–2025, cinco UFs.
 
-| parâmetro | onde procurar |
+`scripts/data_prep/12_clean_conab_custos.py` · `make custo-conab`
+
+| grandeza | valor |
 |---|---|
-| custo de aplicação aérea por hectare | SINDAG; cooperativas; Conab (custo de produção) |
-| custo de aplicação terrestre por hectare | idem; Embrapa tem séries de custo por cultura |
-| perda de rendimento na substituição | literatura agronômica de banana; ⚠️ é o elo mais fraco |
-| `sigma` do choque de custo | variância histórica dos custos acima |
+| custo de operação com avião | **R$ 280 a 520/ha** (mediana R$ 460) |
+| como % do custo total | **1,55%** (máx 1,70%) |
+| custo total da banana | ~R$ 28.000/ha |
+| sistemas com avião | 4 de 88 |
+| sistemas com trator | 9 de 88 |
+| **sistemas com ambos** | **0** |
 
-⚠️ Qualquer faixa assim é **calibração declarada**, jamais estimativa deste
-trabalho, e o texto tem de dizê-lo em cada uso. O script força isso: sem
-`--beta-min/--beta-max` explícitos ele se recusa a concluir.
+#### ⭐ Dois achados que valem mais que o preço
+
+**As duas tecnologias são mutuamente exclusivas, e ambas estão em uso
+comercial.** Nenhum dos 88 sistemas usa avião e trator. E a maioria dos que a
+Conab acompanha já usa trator. Ou seja: a aplicação terrestre não é apenas
+*tecnicamente* viável (a Embrapa já dizia isso para o controle de sigatoka) —
+ela é a **escolha corrente da maior parte do setor registrado**.
+
+⚠️ Isso é insumo para o Ensaio 1 também, não só para o 2: a substituição que o
+ban força já era praticada por parte do setor antes dele, o que torna o choque
+de custo menor do que a retórica do contencioso judicial sugeria.
+
+**A ordem de grandeza reenquadra o problema.** A aplicação aérea é ~1,5% do
+custo de produção, contra ~45% de fertilizante. Mesmo dobrar esse item deixa o
+efeito sobre o custo total abaixo do ruído anual de insumo.
+
+#### ⚠️ E a armadilha que essa tabela arma
+
+É tentador subtrair R$ 460 (avião) de R$ 1.003 (trator) e chamar de custo de
+abatimento. **Não é**, por três razões independentes:
+
+1. Os itens não são comparáveis: "Avião" é só pulverização; "Tratores e
+   Colheitadeiras" é **toda** a operação tratorizada.
+2. As amostras não se sobrepõem: avião só na BA, trator em ES/RS/SC, com
+   produtividade mediana de 26.000 contra 30.000 kg/ha.
+3. A escolha de tecnologia é **endógena** ao sistema.
+
+O script imprime as três e se recusa a fazer a subtração.
+
+#### ⚠️ E o que continua faltando: `c` não é o nível
+
+A Conab dá o **nível** de custo por hectare. Weitzman compara **inclinações**. O
+que decide `c` é a **heterogeneidade do custo de conversão entre produtores** —
+terreno, porte do bananal, tamanho do talhão —, e a planilha, que reporta
+sistema típico, não enxerga isso.
+
+```
+c ~ 0   (prêmio de conversão homogêneo)
+        Delta -> -infinito se beta > 0
+        => a QUANTIDADE domina, SEM precisar saber quanto vale beta
+c >> 0  (conversão muito mais cara para alguns)
+        volta a valer a comparação usual, e beta é indispensável
+```
+
+⭐ **O valor da busca foi encolher a pergunta.** O Ensaio 2 não precisa medir `c`
+na escala certa — precisa saber se o prêmio de conversão é **homogêneo entre
+produtores**. Isso é pergunta de levantamento setorial, não de econometria.
+
+#### O que ainda falta no lado do custo
+
+| item | onde |
+|---|---|
+| dispersão do custo de conversão entre produtores | ⚠️ **o que decide `c`** — levantamento setorial, SINDAG, cooperativas da Chapada do Apodi |
+| perda de rendimento na substituição | literatura agronômica de banana; elo mais fraco |
+| `sigma` do choque de custo | variância da série Conab já extraída |
 
 ### 4.2 O lado do benefício — o problema de verdade
 

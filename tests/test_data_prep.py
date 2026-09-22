@@ -2182,3 +2182,32 @@ def test_weitzman_com_calibracao_conclui_nos_extremos():
     assert (fr["conclusao"] == "proibição").any(), "c bem abaixo de beta"
     assert (fr["conclusao"] == "taxa").any(), "c bem acima de beta"
     assert (fr["conclusao"] == "indeterminado").any(), "a faixa tem de cruzar"
+
+
+# --------------------------------------------------------------------------
+# 12_clean_conab_custos.py — o lado do custo da inversao de Weitzman
+# --------------------------------------------------------------------------
+
+conab = _carrega("12_clean_conab_custos.py")
+
+
+def test_conab_alvos_cobrem_aviao_e_trator():
+    """Os dois itens de linha que a substituicao aereo->terrestre precisa."""
+    assert "custo_aviao" in conab.ALVOS
+    assert "custo_tratores" in conab.ALVOS
+    assert conab.ALVOS["custo_aviao"].startswith("2 - Opera")
+
+
+def test_conab_num_tolera_texto():
+    """A planilha mistura numero e texto livre; o parser nao pode morrer."""
+    assert conab._num("") != conab._num("")          # NaN
+    assert conab._num(520) == 520.0
+    assert conab._num("nao e numero") != conab._num("nao e numero")
+
+
+def test_conab_le_aba_ignora_indice():
+    """A aba 'Índice' nao casa o padrao regiao-UF-ano e tem de sair como None."""
+    class _XL:
+        def parse(self, aba, header=None):
+            raise AssertionError("nao deveria abrir a aba Indice")
+    assert conab.le_aba(_XL(), "Índice") is None
