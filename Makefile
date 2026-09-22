@@ -183,9 +183,14 @@ limpar:
 
 # A inversao de Weitzman e material do ENSAIO 2, nao do pipeline do Ensaio 1:
 # nao le painel, consome as constantes ja estimadas. Alvo proprio, de proposito.
-.PHONY: weitzman custo-conab
+.PHONY: weitzman custo-conab equipamento
 custo-conab:
 	$(PY) scripts/data_prep/12_clean_conab_custos.py
+
+# ⚠️ Saiu da busca pelo lado do custo do Ensaio 2 e achou coisa do Ensaio 1:
+# quem de fato pulverizava por aviao no CE. Rede leve; alvo proprio.
+equipamento:
+	$(PY) scripts/data_prep/13_censo_agro_equipamento.py
 
 weitzman: custo-conab
 	$(PY) scripts/estimate/11_weitzman_inversao.py $(if $(BETA_MIN),--beta-min $(BETA_MIN) --beta-max $(BETA_MAX),)

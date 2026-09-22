@@ -2211,3 +2211,43 @@ def test_conab_le_aba_ignora_indice():
         def parse(self, aba, header=None):
             raise AssertionError("nao deveria abrir a aba Indice")
     assert conab.le_aba(_XL(), "Índice") is None
+
+
+# --------------------------------------------------------------------------
+# 13_censo_agro_equipamento.py — quem pulverizava por aviao
+#
+# ⚠️ Os dois testes que importam sao os das ARMADILHAS que custaram tempo:
+# o gzip sem header do IBGE, e o codigo de 6 digitos que devolve HTTP 500.
+# --------------------------------------------------------------------------
+
+equip = _carrega("13_censo_agro_equipamento.py")
+
+
+def test_equip_categorias_separam_aeronave_de_terrestre():
+    """O par que a substituicao aereo->terrestre precisa, com rotulo estavel."""
+    assert equip.EQUIPAMENTOS["113450"] == "aeronave"
+    assert equip.EQUIPAMENTOS["113449"] == "tracao_mecanica"
+    assert equip.TABELA == 1008 and equip.PERIODO == "2006"
+
+
+def test_equip_confronta_sem_painel_nao_explode(tmp_path):
+    """Sem painel o script segue e avisa; nao pode morrer no confronto."""
+    tb = pd.DataFrame({"cod_ibge6": ["230760"], "municipio": ["X"],
+                       "aeronave": [18.0], "tracao_mecanica": [56.0],
+                       "costal": [1.0], "total": [100.0]})
+    assert equip.confronta(tb, tmp_path / "nao_existe.parquet") is None
+
+
+def test_equip_confronta_marca_decil_e_preenche_zero(tmp_path):
+    """Municipio ausente do censo entra como ZERO, nunca como NaN silencioso."""
+    pn = pd.DataFrame({"cod_ibge6": ["230760", "230010"] * 3,
+                       "dose": [0.39, 0.0] * 3, "dose_ha": [1858.0, 0.0] * 3})
+    alvo = tmp_path / "painel.parquet"
+    pn.to_parquet(alvo)
+    tb = pd.DataFrame({"cod_ibge6": ["230760"], "municipio": ["Limoeiro"],
+                       "aeronave": [18.0], "tracao_mecanica": [56.0],
+                       "costal": [1.0], "total": [100.0]})
+    m = equip.confronta(tb, alvo)
+    assert m is not None and len(m) == 2
+    assert m.loc[m.cod_ibge6 == "230010", "aeronave"].iloc[0] == 0.0
+    assert "decil_superior" in m.columns and m["decil_superior"].any()
