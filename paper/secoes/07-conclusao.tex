@@ -78,21 +78,56 @@ A situação admite três saídas, e elas não são equivalentes.
 \end{enumerate}
 
 \begin{quote}
-\textbf{Recomenda-se a terceira.} Ela converte uma estimativa que falhou em um
-exercício de limites que é informativo mesmo com poder curto: o intervalo por
-aleatorização, de \([-46{,}45;\ +57{,}85]\), \emph{exclui} regiões do espaço de
-parâmetros, e se o valor que inverteria o ranking estiver fora do que o dado
-admite, a conclusão de política se sustenta sem depender do ponto. É a forma
-padrão de fazer análise de política com desenho imperfeito, e não exige nenhum
-dado novo.
+\textbf{Adota-se a terceira.} Ela é a forma padrão de fazer análise de política
+com desenho imperfeito: em vez de esconder a imprecisão atrás de um ponto, diz
+com exatidão o que teria de ser verdade para a conclusão virar, e quanto falta
+para saber.
 \end{quote}
 
-\paragraph{Decisão do pesquisador.}
-Qual das três rotas o Ensaio 2 adota é escolha de escopo da dissertação, e não
-decorre do que este ensaio mediu. As três são defensáveis; a segunda e a
-terceira são combináveis. O que \emph{não} é defensável é manter a redação atual
-da §\ref{sec:teoria}, que promete uma âncora que o Ensaio 1 não entrega --- essa
-promessa precisa ser reescrita na versão final, qualquer que seja a rota.
+\paragraph{E a inversão, executada, devolve um resultado desconfortável e útil.}
+Escrita formalmente, a regra de \citet{weitzman1974} compara a inclinação do
+benefício marginal do abatimento, \(\beta = |B''|\), com a do custo marginal,
+\(c = C''\). A quantidade --- a proibição --- domina quando \(\beta > c\), e o
+limiar é exatamente \(\beta = c\). A incerteza sobre custos escala a magnitude da
+vantagem e \emph{não} troca o lado dela, o que já desfaz a intuição comum de que
+mais incerteza favoreceria um dos instrumentos.
+
+Montado o mapeamento entre os objetos do Ensaio 1 e os da regra, aparece um
+problema de alvo que a §\ref{sec:teoria} não registrava:
+
+\[
+B(q) = |ATT(q\,|\,q)| \quad\longrightarrow\quad
+B'(q) = |ACR(q)| \quad\longrightarrow\quad
+B''(q) = ACR'(q)
+\]
+
+\begin{quote}
+\textbf{Weitzman consome a \emph{segunda} derivada da dose-resposta, não a
+primeira.} O \(ACR\) é o benefício \emph{marginal}; a regra precisa da
+\emph{inclinação} dele. A §\ref{sec:teoria} diz que o Ensaio 2 ``consome a
+derivada'', e a formulação é imprecisa --- o que a salva em parte é que ter a
+\emph{curva} inteira de \(ACR\), e não um ponto, entrega \(ACR'\) de imediato.
+Era por isso que a curva era o alvo.
+\end{quote}
+
+A consequência é dura e vale escrever sem atenuação: o Ensaio 1 estima o \(ACR\)
+com intervalo que cobre o zero com folga em todas as faixas de dose, e a derivada
+de uma curva não identificada não é identificada. \textbf{Este ensaio não
+restringe \(\beta\) --- e portanto não exclui nenhuma região do espaço de
+parâmetros de Weitzman.}
+
+\paragraph{O que a inversão então produz, e por que não é um fracasso.}
+Ela localiza o gargalo com precisão que o diagnóstico agregado não dava. O lado
+do \emph{custo} é calibrável de fonte secundária --- custo de aplicação aérea
+contra terrestre por hectare, perda de rendimento na substituição --- e não
+depende deste desenho. O lado do \emph{benefício} é que está vazio, e não se
+resolve encorpando o grupo tratado na margem, porque o objeto que falta é uma
+curvatura, e não um nível.
+
+Escrever ``a proibição é justificada porque o dano é convexo'' exigiria
+precisamente o que não se tem. Escrever ``para a taxa dominar, o custo marginal
+teria de ser mais inclinado que \(\beta\), e nada no Ensaio 1 exclui isso'' é
+verdadeiro, verificável, e é a fronteira honesta do que este trabalho autoriza.
 
 \subsection{Três achados que não são sobre o Ceará}
 \label{sub:metodologicos}

@@ -2141,3 +2141,44 @@ def test_holm_grava_as_duas_hipoteses_confirmatorias(tmp_path):
         assert (res[col] >= res[col.replace("_holm", "")] - 1e-9).all(), \
             f"{col}: p ajustado nunca pode ser MENOR que o bruto"
         assert (res[col] <= 1.0).all()
+
+
+# --------------------------------------------------------------------------
+# 11_weitzman_inversao.py — a rota 3 do Ensaio 2
+#
+# ⚠️ O teste que mais importa aqui é o que garante que o script NAO conclui
+# quando nao tem faixa de beta. Concluir sem calibracao seria exatamente o erro
+# de alvo que a auditoria pegou: usar o IC do ACR como se fosse do ACR'.
+# --------------------------------------------------------------------------
+
+wtz = _carrega("11_weitzman_inversao.py", sub="estimate")
+
+
+def test_weitzman_regra_bate_com_o_teorema():
+    """beta > c => proibicao domina (Delta < 0). beta < c => taxa domina."""
+    assert wtz.vantagem_preco(beta=10.0, c=5.0, sigma=1.0) < 0     # quantidade
+    assert wtz.vantagem_preco(beta=2.0, c=5.0, sigma=1.0) > 0      # preco
+    assert wtz.vantagem_preco(beta=5.0, c=5.0, sigma=1.0) == pytest.approx(0.0)
+
+
+def test_weitzman_sigma_escala_mas_nao_vira_o_lado():
+    """Mais incerteza aumenta a magnitude e NUNCA troca o instrumento."""
+    a = wtz.vantagem_preco(beta=10.0, c=5.0, sigma=1.0)
+    b = wtz.vantagem_preco(beta=10.0, c=5.0, sigma=3.0)
+    assert abs(b) > abs(a)
+    assert np.sign(a) == np.sign(b)
+    assert wtz.limiar_beta(5.0) == 5.0
+
+
+def test_weitzman_sem_calibracao_nao_conclui():
+    """⚠️ O portao central: sem faixa de beta, TUDO tem de sair indeterminado."""
+    fr = wtz.fronteira(np.linspace(1, 60, 9), sigma=1.0, beta_faixa=None)
+    assert (fr["conclusao"] == "indeterminado").all()
+    assert fr["beta_min"].isna().all()
+
+
+def test_weitzman_com_calibracao_conclui_nos_extremos():
+    fr = wtz.fronteira(np.linspace(1, 60, 9), sigma=1.0, beta_faixa=(40.0, 55.0))
+    assert (fr["conclusao"] == "proibição").any(), "c bem abaixo de beta"
+    assert (fr["conclusao"] == "taxa").any(), "c bem acima de beta"
+    assert (fr["conclusao"] == "indeterminado").any(), "a faixa tem de cruzar"
