@@ -26,7 +26,7 @@
 # SAÍDA (em data/raw/, que é gitignored — microdado nunca vai para o repositório)
 #   sinasc_ce_<ano>.csv.gz     -> scripts/data_prep/02_clean_births.py --caminho
 #   sim_dofet_ce_<ano>.csv.gz  -> scripts/data_prep/03_clean_fetal_deaths.py --caminho --ja-fetal
-#   sih_rd_ce_<ano>.csv.gz     -> canal de intoxicação aguda (A5 do roteiro)
+#   sih_rd_ce_<ano>.csv.gz     -> canal de intoxicação aguda (SPT do roteiro)
 
 suppressPackageStartupMessages({
   library(datazoom.saude)
@@ -99,7 +99,7 @@ if ("fetal" %in% bases) {
   }
 }
 
-# --- SIH: o canal de substituição aéreo -> terrestre (A5) --------------------
+# --- SIH: o canal de substituição aéreo -> terrestre (SPT) --------------------
 #
 # Hipótese do canal: proibido o avião, a aplicação migra para trator e costal —
 # o que APROXIMA o aplicador do veneno e pode AUMENTAR intoxicação aguda

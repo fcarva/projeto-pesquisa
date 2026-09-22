@@ -19,7 +19,7 @@ Revisado: `CLAUDE.md`, `docs/ars/03`–`08`, e os sete scripts do pipeline.
 
 ## O que já está coberto, e por isso não é achado
 
-O desenho já registra e instrumenta: a não testabilidade da Assumption 5 e os
+O desenho já registra e instrumenta: a não testabilidade da Assumption SPT e os
 limites da §5.1; a aritmética de poder e o piso de falsificação; a contaminação
 do `d = 0`; os três marcos de antecipação; a seleção para nascimento vivo; e a
 lacuna de *enforcement*. Um revisor não precisa levantar nenhuma dessas — elas

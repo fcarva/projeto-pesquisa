@@ -85,12 +85,12 @@ desenho — **com uma distinção que precisa ficar explícita para não virar e
 
 | Ferramenta | Sobre qual hipótese | O que entrega |
 |---|---|---|
-| Event study de leads | Assumption 4 (paralelismo em resultado **não tratado**) | evidência, não validação |
-| **HonestDiD** | **Assumption 4** | sensibilidade: quão grande a violação teria de ser para derrubar o resultado |
-| **Bounds §5.1 do CGS** | **Assumption 5 (strong PT)** | identificação parcial sob direção do viés |
+| Event study de leads | Assumption PT (paralelismo em resultado **não tratado**) | evidência, não validação |
+| **HonestDiD** | **Assumption PT** | sensibilidade: quão grande a violação teria de ser para derrubar o resultado |
+| **Bounds §5.1 do CGS** | **Assumption SPT (strong PT)** | identificação parcial sob direção do viés |
 
 HonestDiD formaliza a sensibilidade do paralelismo **tradicional**. Ele não toca
-o *strong parallel trends*, porque a A5 restringe trajetórias sob doses não
+o *strong parallel trends*, porque a SPT restringe trajetórias sob doses não
 recebidas — e não há pré-período que informe isso. As duas ferramentas são
 **complementares**: HonestDiD blinda o ATT(d|d); os bounds da §5.1 blindam a
 curva. Usar uma no lugar da outra é o erro a evitar.

@@ -90,7 +90,7 @@ limites da §5.1. O nível `ATT(d|d)` entra como o degrau barato, sempre reporta
 
 ## 3. Hipóteses de identificação
 
-### 3.1 Assumption 4 — paralelismo tradicional
+### 3.1 Assumption PT — paralelismo tradicional
 
 Trajetórias de resultado potencial **não tratado** paralelas entre grupos de
 dose. Identifica `ATT(d|d)`.
@@ -101,7 +101,7 @@ porque *"the selection bias is not identified as we do not observe Y₂(d) for
 units that experienced dose d′. Such a result precludes a causal interpretation
 of ATT differences across doses."*
 
-Versão agregada, verbatim (Assumption 4-Agg), que é o degrau mais seguro:
+Versão agregada, verbatim (Assumption PT-Agg), que é o degrau mais seguro:
 
 ```
 E[Y₂(0) − Y₁(0) | D > 0] = E[Y₂(0) − Y₁(0) | D = 0]
@@ -109,7 +109,7 @@ E[Y₂(0) − Y₁(0) | D > 0] = E[Y₂(0) − Y₁(0) | D = 0]
 
 Isto é: binarizar o tratamento e assumir paralelismo sobre o binário.
 
-### 3.2 Assumption 5 — strong parallel trends
+### 3.2 Assumption SPT — strong parallel trends
 
 Verbatim: *para todo d ∈ D,*
 
@@ -121,7 +121,7 @@ A evolução média de toda a população, se todos tivessem recebido a dose `d`
 igual à evolução que o grupo de dose `d` de fato experimentou. Identifica
 `ATE(d)` e `ACR(d)`.
 
-**O que ela proíbe.** Pelo Teorema C.1, mantida a A4, a A5 equivale a
+**O que ela proíbe.** Pelo Teorema C.1, mantida a PT, a SPT equivale a
 `ATT(d|d) = ATE(d)` para toda dose. CGS: *"While this condition does not impose
 full treatment effect homogeneity, it does rule out selection-on-gains into a
 particular dose group."* Ou seja: municípios não escolheram sua intensidade de
@@ -131,14 +131,14 @@ e estrutura fundiária, não por antecipação do benefício de saúde de um ban
 ainda não existia. Essa é a defesa, e ela é razoável — o ban de 2019 não estava
 no horizonte de quem decidiu plantar em 2005.
 
-### 3.3 Por que o placebo pré-tratamento não testa a A5
+### 3.3 Por que o placebo pré-tratamento não testa a SPT
 
 Placebo restringe trajetórias de resultado potencial **não tratado** — evidência
-sobre a A4. A A5 envolve `Y₂(d)`: trajetórias sob doses que a unidade **não
+sobre a PT. A SPT envolve `Y₂(d)`: trajetórias sob doses que a unidade **não
 recebeu**. No pré-período ninguém é tratado, logo não existe análogo pré-período
-da A5. Nenhum event study de leads testa a A5, por mais limpo que saia.
+da SPT. Nenhum event study de leads testa a SPT, por mais limpo que saia.
 
-Corolários: (i) placebo limpo apoia a A4, não a A5; (ii) não rejeitar não é
+Corolários: (i) placebo limpo apoia a PT, não a SPT; (ii) não rejeitar não é
 validar; (iii) com antecipação desde 18/12/2018, um placebo em 2017 deixa apenas
 2015–2016 como pré-período — dois anos.
 
@@ -148,11 +148,11 @@ validar; (iii) com antecipação desde 18/12/2018, um placebo em 2017 deixa apen
 
 ### 4.1 Diagnóstico 1 — as duas curvas lado a lado (Teorema C.1)
 
-Estimar e plotar **`ATT(d|d)`** (identificada sob A4) contra **`ATE(d)`**
-(identificada sob A5). Pelo Teorema C.1, se A4 e A5 valem, as duas coincidem.
+Estimar e plotar **`ATT(d|d)`** (identificada sob PT) contra **`ATE(d)`**
+(identificada sob SPT). Pelo Teorema C.1, se PT e SPT valem, as duas coincidem.
 
-- **Convergem** → a seleção-nos-ganhos é desprezível; a curva sob A5 fica de pé.
-- **Divergem** → a A5 é rejeitada; o resultado principal migra para os bounds da
+- **Convergem** → a seleção-nos-ganhos é desprezível; a curva sob SPT fica de pé.
+- **Divergem** → a SPT é rejeitada; o resultado principal migra para os bounds da
   §5.1, e a magnitude da divergência estima o tamanho da seleção.
 
 Compromisso registrado: **a decisão entre curva pontual e bounds é tomada por
@@ -161,12 +161,12 @@ este diagnóstico, não por qual dos dois dá o resultado mais bonito.**
 ### 4.2 Diagnóstico 2 — sinal patológico da ACR
 
 CGS, na aplicação a Acemoglu–Finkelstein, encontram ACR **negativa** na maior
-parte das doses positivas e leem isso como suspeita contra a A5 (ou contra o
+parte das doses positivas e leem isso como suspeita contra a SPT (ou contra o
 modelo, ou ambos).
 
 Tradução para este caso: a hipótese registrada é melhora **crescente** na dose.
 ACR de sinal invertido em faixa relevante da distribuição é, por default,
-**evidência contra a A5** — não achado biológico. Para ser lida como achado
+**evidência contra a SPT** — não achado biológico. Para ser lida como achado
 precisa de mecanismo independente que a sustente, e o candidato já está nomeado:
 substituição aéreo→terrestre elevando exposição em dose média. Esse mecanismo
 tem teste próprio (SIH, §6.1). **Sem confirmação no SIH, ACR invertida é
@@ -270,7 +270,7 @@ não fecha antes do Gate 1.
 Contra-teste do mesmo canal: **SIH/DATASUS**, internações por intoxicação aguda.
 Se o produtor migrou para aplicação terrestre, a exposição pontual sobe nos meses
 de aplicação pós-ban, mesmo com a exposição difusa caindo. É o teste que
-distingue "ACR invertida = achado" de "ACR invertida = A5 quebrada" (§4.2).
+distingue "ACR invertida = achado" de "ACR invertida = SPT quebrada" (§4.2).
 
 ### 6.2 Canal-água
 

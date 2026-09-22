@@ -27,14 +27,34 @@ Continuous Treatment*, arXiv:2107.02637, §3.2.1–3.2.2 e §6.3, lidos em
 
 ## Sumário: seis achados
 
-| # | Achado | Gravidade |
+| # | Achado | Gravidade | Estado |
+|---|---|---|---|
+| 1 | **A correção de Holm nunca foi implementada** | 🔴 alta | ✅ **resolvido** 2026-09-22 |
+| 2 | **O alvo primário foi trocado sem entrar na tabela de desvios** | 🔴 alta | ✅ **resolvido** 2026-09-22 |
+| 3 | **A camada de robustez não defende o parâmetro pré-especificado** | 🔴 alta | ✅ **resolvido** 2026-09-22 |
+| 4 | A numeração das hipóteses do CGS está errada em todo o repositório | 🟡 média | ✅ **resolvido** 2026-09-22 |
+| 5 | O piso de 15 g deriva de magnitude que o próprio repo marcou não-verificada | 🟡 média | ⬜ aberto |
+| 6 | O paper não informa que o número reportado é a *sensibilidade* declarada | 🟡 média | ✅ resolvido junto com o 2 |
+
+### O que a resolução dos quatro produziu
+
+| achado | o que foi feito | resultado |
 |---|---|---|
-| 1 | **A correção de Holm nunca foi implementada** | 🔴 alta |
-| 2 | **O alvo primário foi trocado sem entrar na tabela de desvios** | 🔴 alta |
-| 3 | **A camada de robustez não defende o parâmetro pré-especificado** | 🔴 alta |
-| 4 | A numeração das hipóteses do CGS está errada em todo o repositório | 🟡 média |
-| 5 | O piso de 15 g deriva de magnitude que o próprio repo marcou não-verificada | 🟡 média |
-| 6 | O paper não informa que o número reportado é a *sensibilidade* declarada | 🟡 média |
+| 1 | `scripts/estimate/09_holm.py`, no `Makefile` e com 5 testes | Nenhuma hipótese rejeita a 5%, antes ou depois. **A correção não muda a conclusão — e agora isso é fato verificado, não expectativa** |
+| 2 e 6 | Terceira linha na §8 da pré-especificação; parágrafo na §6.2 do paper **antes** do número | A troca de alvo deixa de ser silenciosa. ⚠️ A consequência para o Ensaio 2 fica registrada e pendente da §7 |
+| 3 | `scripts/estimate/10_spt_pretrend.py` + nova §6.6 do paper | ⚠️ **Nenhum dos 3 cortes placebo rejeita — mas os 3 produzem inclinação MAIOR em módulo que a do desenho real** (25,8 / 31,1 / 13,0 contra 6,8). O ruído de pré-período supera o efeito estimado |
+| 4 | Substituição em 66 linhas de 16 arquivos, com guarda para o "canal A5" | Zero `Assumption 4/5` remanescentes; as 4 ocorrências de "canal A5" intactas |
+
+⚠️ **O achado 3 não deu o desfecho que se esperava, e isso importa.** A hipótese
+de trabalho era que o teste pudesse *rejeitar*, o que converteria a troca de alvo
+do achado 2 de escolha em exigência do dado. Ele não rejeitou. A defesa da §6.2
+continua apoiada no argumento de não-interpretabilidade, que é bom mas é
+argumento — não medida.
+
+E o que o teste devolveu em lugar disso é um diagnóstico de poder mais duro que o
+que já estava escrito: **o desenho não separa o efeito do ruído de pré-período
+para o peso ao nascer.** Para o óbito fetal, separa — nenhum dos 3 placebos
+alcança a inclinação real. A assimetria entre os dois desfechos é achado novo.
 
 Os três primeiros são **da pré-especificação para o que foi feito** — quebras de
 compromisso. Os três últimos são de **fidelidade ao que está escrito**.

@@ -97,23 +97,23 @@ zero".]`
 
 Não são opiniões; são leituras do texto do paper, e mudam o desenho.
 
-**(a) O mapeamento estava invertido.** A Assumption 4 (paralelismo tradicional)
+**(a) O mapeamento estava invertido.** A Assumption PT (paralelismo tradicional)
 identifica **ATT(d|d)** — o nível. Não identifica a ACRT. CGS §3.2.2 abre com
 *"average causal responses are not identified under a traditional parallel trends
 assumption"*, porque a diferença de ATT entre doses carrega viés de seleção não
 identificado: *"the selection bias is not identified as we do not observe Y(d)
 for units that experienced dose d′. Such a result precludes a causal
-interpretation of ATT differences across doses."* É a **Assumption 5 (SPT)** que
+interpretation of ATT differences across doses."* É a **Assumption SPT (SPT)** que
 entrega **ACR e ATE(d)**.
 
-O Teorema C.1 joga a favor: mantida a A4, a A5 equivale a **ATT(d|d) = ATE(d)**,
+O Teorema C.1 joga a favor: mantida a PT, a SPT equivale a **ATT(d|d) = ATE(d)**,
 e os autores ressalvam que isso *"does not impose full treatment effect
 homogeneity"* — exclui **selection-on-gains**, não heterogeneidade. O teste
 proposto sobrevive com rótulo trocado: põe-se **ATT(d|d) contra ATE(d)**, e a
 divergência é a assinatura da seleção-nos-ganhos.
 
 **(b) O placebo pré-tratamento não testa o SPT.** Placebo restringe trajetórias
-de resultado potencial *não tratado* — isso é a A4. O SPT envolve `Y_{t=2}(d)`,
+de resultado potencial *não tratado* — isso é a PT. O SPT envolve `Y_{t=2}(d)`,
 trajetórias sob doses não recebidas, e no pré-período ninguém é tratado: não há
 análogo. Acresce que não rejeitar ≠ validar, e que com antecipação desde
 18/12/2018 um placebo em 2017 deixa só 2015–2016 como pré.
@@ -318,7 +318,7 @@ um número, é uma escolha de estimador que o próprio paper organiza —
 |---|---|
 | ~40 ou mais, com dose espalhada | curva não-paramétrica (sieve à la Chen, Christensen & Kankanala) |
 | ~15 a 40 | dose **discreta** em faixas, com indicadores múltiplos — CGS: *"when the treatment is discrete, this is as simple as running a linear regression with multiple treatment indicators"* |
-| menos de ~15 | binário sob **Assumption 4-Agg** (paralelismo agregado); a curva é abandonada |
+| menos de ~15 | binário sob **Assumption PT-Agg** (paralelismo agregado); a curva é abandonada |
 
 **O que substitui `MIN_AREA_ESTADO_HA`: nascimentos, não hectares.** O limiar
 relevante não é área plantada — é quantos nascimentos existem no grupo de dose

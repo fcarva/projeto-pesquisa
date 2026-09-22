@@ -50,6 +50,15 @@ estimador exige, e que descarta as coortes cuja gestação atravessa o ban
 usa baixa aptidão agroclimática, e a definição alternativa entra como
 sensibilidade.
 
+\paragraph{O que se reporta aqui não é o alvo que a pré-especificação declarou
+primário, e a troca está registrada.}
+Aquele documento fixou o \(ACR(d)\) --- a curva --- como parâmetro principal, e
+designou o \(ATT(d\,|\,d)\) como \emph{sensibilidade}. O que segue inverte os
+dois. A razão é o parágrafo sobre a não-interpretabilidade da derivada agregada,
+mais abaixo nesta mesma subseção, e a inversão entra na tabela de desvios da §8
+da pré-especificação com data de 22 de setembro de 2026. Dizer isto antes do
+número, e não depois, é o que impede que a troca pareça conveniência.
+
 O \(ATT(d\,|\,d)\) agregado é de \textbf{\(-36{,}19\) g}, com erro-padrão de
 15,47 g e intervalo de confiança de 95\% em \([-66{,}51;\ -5{,}87]\). A
 meia-largura é de \textbf{30,32 g}, contra o piso pré-especificado de 15 g.
@@ -114,6 +123,20 @@ resultado não é ``significante'', é ``o desenho não distingue''. Aqui não h
 distância a expor, porque não há precisão falsa a desmentir --- nenhum dos três
 rejeita, e o coeficiente da forma reduzida (\(+6{,}81\)) está abaixo do efeito
 mínimo detectável do próprio desenho (33{,}4 g).
+
+\paragraph{A família confirmatória, corrigida.}
+A pré-especificação declara duas hipóteses confirmatórias --- peso médio e óbito
+fetal --- e manda corrigir a família por Holm, que controla a taxa de erro por
+família sem a perda de potência do Bonferroni. Corrigidos, os \(p\) do peso vão
+de 0,394 para 0,427 no teste unilateral que a direção declarada pede, e de 0,794
+para 0,866 no bilateral; os do óbito fetal, de 0,214 para 0,427 e de 0,433 para
+0,866. \textbf{Nenhuma hipótese rejeita a 5\%, antes ou depois da correção.}
+
+A correção não muda a conclusão, e é precisamente por isso que vale registrá-la:
+o compromisso era de procedimento, e um procedimento que só se cumpre quando o
+resultado não depende dele não é procedimento. A pré-especificação não declara
+qual dos três estimadores de incerteza alimenta o Holm --- lacuna dela, não
+escolha deste texto ---, de modo que os três são reportados.
 
 \subsection{O placebo tem poder? Quanto?}
 \label{sub:pretrends}
@@ -188,6 +211,71 @@ adoção escalonada \citep{goodmanbacon2021,sunabraham2021}. Essa advertência
 \textbf{não se aplica a este uso}: o ban é simultâneo e existe grupo
 nunca-tratado limpo, de modo que não há a comparação entre unidades já tratadas
 que produz o viés. É o caso em que o estimador é apropriado.
+
+\subsection{A hipótese de que o alvo primário precisava, e que não havia sido
+sondada}
+\label{sub:spt}
+
+As duas sensibilidades anteriores operam sobre o \emph{event study} binário, em
+níveis, e falam portanto do paralelismo tradicional. O alvo que a
+pré-especificação declarou principal --- a curva --- precisa de outra hipótese, o
+\emph{strong parallel trends}, e essa não havia sido sondada por nenhum
+procedimento deste trabalho.
+
+\paragraph{A afirmação de que ela não é testável era forte demais.}
+O material de projeto registrava que nenhum \emph{event study} de \emph{leads}
+poderia falar dessa hipótese, porque ela envolve trajetórias sob doses não
+recebidas, e no pré-período ninguém é tratado. O raciocínio está quase todo
+certo, e a conclusão não. \citet{callaway2024continuous} observam, na §6.3, que
+antes do tratamento as duas versões do paralelismo têm a \emph{mesma}
+implicação --- a relação entre a variação do desfecho e a dose deve ser nula ---
+e computam exatamente essa verificação na própria aplicação, onde ela
+\textbf{rejeita}. A formulação correta é mais estreita: o placebo não
+\emph{isola} a hipótese forte, porque passar é compatível com as duas; mas pode
+\textbf{falsificá-la}.
+
+\paragraph{O teste, e o que ele devolve.}
+Finge-se que o banimento ocorreu em data do pré-período e roda-se a mesma forma
+reduzida, com a mesma distância entre janelas do desenho real. A janela de
+2015--2018 comporta três cortes com doze meses de cada lado.
+
+\begin{table}[htbp]
+\centering
+\caption{Inclinação em dose antes do banimento: três cortes placebo}
+\label{tab:spt}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{2}{c}{\textbf{Peso médio}} & \multicolumn{2}{c}{\textbf{Óbito fetal}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+\textbf{Corte placebo} & \textbf{incl.} & \textbf{\(p\)} & \textbf{incl.} & \textbf{\(p\)} \\
+\midrule
+2016-01 / 2016-11 & 25,76 & 0,371 & 0,00086 & 0,864 \\
+2016-07 / 2017-05 & 31,07 & 0,239 & 0,00074 & 0,852 \\
+2017-01 / 2017-11 & 12,96 & 0,608 & 0,00021 & 0,959 \\
+\midrule
+\emph{desenho real} & \emph{6,81} & \emph{0,794} & \emph{--0,00244} & \emph{0,433} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Nenhum dos três rejeita, em nenhum dos dois desfechos. A implicação comum não é
+violada onde se consegue olhar, e isso é o mais forte que este teste consegue
+ser --- ele não valida a hipótese.
+
+\begin{quote}
+\textbf{E a coluna do peso traz o diagnóstico mais duro desta seção.} Os três
+cortes placebo produzem inclinação \emph{maior em módulo} que a do desenho real:
+25,8, 31,1 e 13,0 contra 6,8. O ruído de pré-período do próprio painel é maior
+que o efeito estimado. Não é que o teste não rejeite por o desenho ser limpo; é
+que ele não rejeitaria de todo modo.
+\end{quote}
+
+\paragraph{E a assimetria entre os dois desfechos é informativa.}
+No óbito fetal a relação se inverte: nenhum dos três placebos alcança a
+inclinação do desenho real. Onde o peso não separa sinal de ruído de
+pré-período, o óbito fetal separa --- o que reforça que ele entrou como segundo
+confirmatório por razão de desenho, e não por acessório.
 
 \subsection{Controle sintético, e por que o resultado que cruza a linha não é
 reportado como achado}

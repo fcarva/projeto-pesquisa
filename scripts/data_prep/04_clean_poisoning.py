@@ -5,7 +5,7 @@
 costal. Isso *afasta* o veneno da população — menos deriva — e *aproxima* o
 veneno do aplicador. Então o ban pode **reduzir** exposição perinatal e ao mesmo
 tempo **aumentar** intoxicação aguda ocupacional. Sinal oposto ao do desfecho
-principal, e por isso vale medir separado: é o item A5 do roteiro.
+principal, e por isso vale medir separado: é o item SPT do roteiro.
 
 **Por que isso ataca a flag 3 do CLAUDE.md.** A lacuna de *enforcement* — o ban
 foi fiscalizado? — hoje depende de um pedido LAI que ainda não voltou. Se a série

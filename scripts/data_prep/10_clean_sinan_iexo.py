@@ -1,4 +1,4 @@
-"""Canal A5 pelo SINAN/IEXO — a notificação compulsória de intoxicação exógena.
+"""Canal SPT pelo SINAN/IEXO — a notificação compulsória de intoxicação exógena.
 
 Substitui (ou acompanha) o SIH como fonte do canal de intoxicação. A razão é de
 ordem de grandeza, e está em `docs/gates-resultados-dados-reais.md` §7-bis:
@@ -274,7 +274,7 @@ def _mil(n: int) -> str:
 def imprime_resumo(individual: pd.DataFrame, painel: pd.DataFrame, fonte: str) -> None:
     barra = "=" * 88
     print(barra)
-    print(f"SINAN/IEXO — CANAL A5 | fonte: {fonte}")
+    print(f"SINAN/IEXO — CANAL SPT | fonte: {fonte}")
     print(barra)
     n = len(individual)
     print(f"  notificações (CE, pós-limpeza)   : {_mil(n):>8}")

@@ -78,7 +78,7 @@ que o caminho `pysus` substitui (§2).
 Com R funcionando, `03_contdid.R` roda — e **falha no alvo primário**:
 
 ```
-target_parameter = level  -> ATT(d|d), sob Assumption 4
+target_parameter = level  -> ATT(d|d), sob Assumption PT
   [erro] Assertion on 'control_group' failed: Must be element of set
          {'notyettreated','nevertreated','eventuallytreated'},
          but is not atomic scalar.
@@ -407,7 +407,7 @@ não de dado**. Foi acrescentada a fonte `--fonte pysus` (AIH Reduzida, mensal).
 | ⚠️ **autoprovocada** (o placebo) | **1** |
 | células com < 5 internações | **100%** |
 
-**O gate do A5 no roteiro** pergunta se a série acidental tem suporte para ser
+**O gate do SPT no roteiro** pergunta se a série acidental tem suporte para ser
 estimável. **Não tem, e a margem é absurda:** *uma* internação acidental em oito
 anos no estado inteiro. Não se conserta com agregação — não há o que agregar.
 
@@ -523,7 +523,7 @@ sondagem anterior não tinha medido, e **duas das três medidas são ruins**:
 Esta seção previa que separar "agrotóxico de uso em saúde pública" faria a
 contaminação do `d = 0` por controle vetorial "deixar de ser hipótese e passar
 a ser mensurável". **Não passa:** 1 notificação no estado inteiro em 2015. O
-mesmo problema de suporte que matou o A5 no SIH, agora do outro lado. A flag 5
+mesmo problema de suporte que matou o SPT no SIH, agora do outro lado. A flag 5
 continua sem fonte que a meça.
 
 ⚠️ **2. `CIRCUNSTAN` está vazia em 54,8% dos casos.** De 2.914 notificações,

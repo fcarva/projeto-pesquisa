@@ -150,6 +150,13 @@ real: prespec-ok cultura-ok
 	Rscript scripts/estimate/06_pretrends.R --desfecho $(DESFECHO)
 	Rscript scripts/estimate/07_honestdid.R --desfecho $(DESFECHO)
 	Rscript scripts/estimate/08_synthdid.R --desfecho $(DESFECHO)
+#	09 e 10 fecham a auditoria de 2026-09-22. O 09 é o cumprimento do Holm que a
+#	§6 da pré-especificação mandava e que não existia; o 10 é a sonda do SPT que
+#	o CGS §6.3 propõe — a única hipótese que o alvo primário precisava e que
+#	nenhum outro passo deste alvo tocava. Nenhum dos dois usa R.
+	$(PY) scripts/estimate/09_holm.py --painel data/processed/painel_ensaio1.parquet
+	$(PY) scripts/estimate/10_spt_pretrend.py --painel data/processed/painel_ensaio1.parquet \
+	    --desfecho $(DESFECHO)
 
 # ⚠️ FORA de `real` DE PROPÓSITO. A varredura é dezenas de requisições a portais
 # de câmara, e o produto — docs/legislacao/bans-municipais-ce.csv — é COMMITADO.

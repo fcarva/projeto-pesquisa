@@ -17,8 +17,8 @@ E0  antecipação: PL de 2015 +  ⚠️        A1  SINASC + SIM (pysus / BD)
     bans municipais < 2019
 E1  data e janela  ✅                    A2  FAO-GAEZ (raster)
 E1.5 DP das tendências (SINASC) ⚠️       A3  ANA ottobacias + SISAGUA
-E2  01_check_dose --fonte sidra         A4  MapBiomas + INMET/FUNCEME
-E3  escolha de especificação            A5  SIH + CAGED/RAIS + PIB agro
+E2  01_check_dose --fonte sidra         PT  MapBiomas + INMET/FUNCEME
+E3  escolha de especificação            SPT  SIH + CAGED/RAIS + PIB agro
 E4  d = 0 e contaminação                A6  cadastro aeroagrícola + SEMACE
         │                                          │
         └──────────►  E5  build_panel  ◄───────────┘
@@ -131,7 +131,7 @@ constantes do script:
 | ≥ 40, com suporte espalhado | curva não-paramétrica (sieve) | `MIN_MUNI_CURVA` |
 | 15 a 39 | faixas discretas, indicadores múltiplos | `MIN_MUNI_FAIXAS_FOLGA` |
 | 12 a 14 | faixas discretas — **marcadas como suporte fino** | `MIN_MUNI_FAIXAS` |
-| < 12 | binário sob Assumption 4-Agg; curva abandonada | — |
+| < 12 | binário sob Assumption PT-Agg; curva abandonada | — |
 
 A coluna `motivo` diz o que derrubou a curva quando ela cai: poucos valores
 distintos de dose, ou cauda superior vazia. **A coluna recomenda; você ratifica.**
@@ -162,12 +162,12 @@ a um gate negativo em E2.
 | A1 | SINASC + SIM | painel de desfechos para qualquer desenho alternativo |
 | A2 | FAO-GAEZ | instrumento **e** definição 4 de d = 0 **e** teste de contaminação |
 | A3 | ANA + SISAGUA | canal-água, que independe do formato da curva |
-| A4 | MapBiomas + INMET/FUNCEME | canal-ar; e os polígonos melhoram a própria medida de dose |
-| A5 | **SIH ✅ instrumentado** (`04_clean_poisoning.py`) + CAGED/RAIS + PIB agro | canais de substituição e renda; insumo direto do Ensaio 2. O SIH traz o canal aéreo→terrestre **e um placebo de graça** — ver abaixo |
+| PT | MapBiomas + INMET/FUNCEME | canal-ar; e os polígonos melhoram a própria medida de dose |
+| SPT | **SIH ✅ instrumentado** (`04_clean_poisoning.py`) + CAGED/RAIS + PIB agro | canais de substituição e renda; insumo direto do Ensaio 2. O SIH traz o canal aéreo→terrestre **e um placebo de graça** — ver abaixo |
 | A6 | cadastro aeroagrícola (ANAC/MAPA/SINDAG) **+ registro SEMACE** | definição 3 de d = 0 — a única que mede o **método**. O art. 8º da Lei 12.228/1993 obriga prestadoras de serviço de aplicação a se registrarem na SEMACE: fonte estadual, provavelmente melhor |
 
 **Verificações a fazer na aquisição, não a assumir:**
-- MapBiomas separa banana e melão, ou só classes genéricas? (A4)
+- MapBiomas separa banana e melão, ou só classes genéricas? (PT)
 - Existe mapa público de vulnerabilidade cárstica do Jandaíra, CPRM/SGB? (A3)
 - SINASC 2024 já está disponível na vintage necessária? (A1 — define se a janela
   fecha em 2024 ou 2023)
@@ -180,7 +180,7 @@ a um gate negativo em E2.
   classificação de cultura? (E0)
 
 
-### A5 — o canal de intoxicação, e o placebo que vem junto
+### SPT — o canal de intoxicação, e o placebo que vem junto
 
 `scripts/data_prep/04_clean_poisoning.py` monta internação por intoxicação com
 agrotóxico (SIH) a município × ano-mês, com as famílias de CID **separadas e
@@ -293,7 +293,7 @@ contra `R/cont_did.R` do repositório do autor (não supostas):
 | Restrição | Consequência |
 |---|---|
 | **O sieve (CCK) exige exatamente 2 períodos** | A **curva** — resultado principal da D1, e o que o Ensaio 2 precisa — **não roda no painel mensal**. Exige colapso pré/pós, que é escolha de agregação a declarar |
-| **Sem event study no sieve** | Os *leads* que dão evidência sobre a A4 saem de **outro estimador** que a curva. Duas rodadas, e o texto tem de dizer isso |
+| **Sem event study no sieve** | Os *leads* que dão evidência sobre a PT saem de **outro estimador** que a curva. Duas rodadas, e o texto tem de dizer isso |
 | **Covariáveis não suportadas** (`xformula = ~1`) | Ajuste municipal só por outra via — o PSM+DiD da camada de comunicação, não por dentro do CGS |
 
 ⚠️ **E a flag 5 deixa de ser ressalva de texto e vira aritmética.** No bloco do

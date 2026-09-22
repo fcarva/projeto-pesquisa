@@ -27,7 +27,7 @@
 #
 # 2. ⚠️ **Com o sieve não há event study.**
 #        if (aggregation != "dose") stop("event study not supported with cck")
-#    Então os *leads* que testam paralelismo (A4) e a antecipação de 2015–2018
+#    Então os *leads* que testam paralelismo (PT) e a antecipação de 2015–2018
 #    **não saem do mesmo estimador que a curva**. São duas rodadas, com
 #    agregações diferentes, e o texto tem de dizer isso.
 #
@@ -55,10 +55,10 @@
 # O GATE DO TEOREMA C.1
 # ══════════════════════════════════════════════════════════════════════════════
 # `cont_did` tem `target_parameter = c("level", "slope")`:
-#   "level" -> ATT(d|d), que sai sob paralelismo tradicional (Assumption 4)
-#   "slope" -> ACRT(d|d)/ACR(d), que exige strong parallel trends (Assumption 5)
+#   "level" -> ATT(d|d), que sai sob paralelismo tradicional (Assumption PT)
+#   "slope" -> ACRT(d|d)/ACR(d), que exige strong parallel trends (Assumption SPT)
 #
-# O Teorema C.1 do CGS diz que A4 + A5 juntas implicam ATT(d|d) = ATE(d). Então
+# O Teorema C.1 do CGS diz que PT + SPT juntas implicam ATT(d|d) = ATE(d). Então
 # rodar os dois e comparar É o diagnóstico. **Divergência é informação, não
 # defeito:** se divergirem, o resultado principal migra para os limites da §5.1,
 # conforme o compromisso já registrado em 03-modelagem-ensaio1.md §4.1. A decisão
@@ -374,7 +374,7 @@ grava_tidy <- function(obj, arquivo, alvo = "level", extra = list()) {
     cat("  [ok]", caminho, "
 ")
     # O teste de paralelismo é sobre os LEADS. Reportar aqui, não deixar para
-    # quem abrir o CSV — é o número que decide se a A4 se sustenta.
+    # quem abrir o CSV — é o número que decide se a PT se sustenta.
     # ⚠️ LIMITAÇÃO DO PACOTE, conferida rodando em 2026-09-21 e não suposta.
     # Com coorte ÚNICA — que é o caso de um ban simultâneo — o `cont_did` em
     # `aggregation = "eventstudy"` devolve `att_gt` com valor APENAS para
@@ -451,8 +451,8 @@ grava_tidy <- function(obj, arquivo, alvo = "level", extra = list()) {
 resultados <- list()
 for (alvo in c("level", "slope")) {
   cat("\n  target_parameter =", alvo,
-      if (alvo == "level") "  -> ATT(d|d), sob Assumption 4"
-      else "  -> ACR(d), exige Assumption 5 (NÃO testável)", "\n")
+      if (alvo == "level") "  -> ATT(d|d), sob Assumption PT"
+      else "  -> ACR(d), exige Assumption SPT (NÃO testável)", "\n")
   res <- tryCatch(
     cont_did(
       yname = "y", dname = "dose", gname = "g", tname = "periodo", idname = "id",
@@ -578,8 +578,8 @@ for (alvo in c("level", "slope")) {
 cat("\n", barra, "\n", sep = "")
 cat("2. DIAGNÓSTICO DO TEOREMA C.1 — ATT(d|d) converge com ATE(d)?\n")
 cat(barra, "\n")
-cat("A4 + A5 juntas implicam ATT(d|d) = ATE(d). Divergência é INFORMAÇÃO:\n")
-cat("quer dizer que a A5 (strong parallel trends) não se sustenta, e o\n")
+cat("PT + SPT juntas implicam ATT(d|d) = ATE(d). Divergência é INFORMAÇÃO:\n")
+cat("quer dizer que a SPT (strong parallel trends) não se sustenta, e o\n")
 cat("resultado principal migra para os limites da §5.1 — compromisso já\n")
 cat("registrado em docs/ars/03-modelagem-ensaio1.md §4.1.\n\n")
 
@@ -596,7 +596,7 @@ if (!is.null(resultados$level) && !is.null(resultados$slope)) {
 #
 # ⚠️ Rodada SEPARADA de propósito: o sieve não faz event study
 # (`stop("event study not supported with cck estimator yet")`). Então os leads
-# que dão evidência sobre a A4 saem de outro estimador que a curva — e o texto
+# que dão evidência sobre a PT saem de outro estimador que a curva — e o texto
 # tem de dizer isso, em vez de deixar parecer que é tudo a mesma rodada.
 #
 # Os leads precisam alcançar 2018: os três marcos de antecipação são

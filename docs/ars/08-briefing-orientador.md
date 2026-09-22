@@ -118,12 +118,12 @@ isso agora é o que impede reinterpretar um movimento nela como achado depois.
 
 | Parâmetro | O que é | Hipótese que exige |
 |---|---|---|
-| `ATT(d\|d)` | efeito **no nível** de dose *d* | paralelismo tradicional (Assumption 4) |
-| `ATE(d)` / `ACR(d)` | a **curva** e sua inclinação | **strong parallel trends** (Assumption 5) |
+| `ATT(d\|d)` | efeito **no nível** de dose *d* | paralelismo tradicional (Assumption PT) |
+| `ATE(d)` / `ACR(d)` | a **curva** e sua inclinação | **strong parallel trends** (Assumption SPT) |
 
-A A5 restringe trajetórias sob doses **não recebidas** — por isso é **não
-testável**. ⚠️ O placebo de tendências pré **não testa a A5**; fala da A4. E o
-Teorema C.1 mostra que A4 + A5 juntas excluem *selection-on-gains* — hipótese
+A SPT restringe trajetórias sob doses **não recebidas** — por isso é **não
+testável**. ⚠️ O placebo de tendências pré **não testa a SPT**; fala da PT. E o
+Teorema C.1 mostra que PT + SPT juntas excluem *selection-on-gains* — hipótese
 econômica forte sobre decisão de plantio.
 
 > ⚠️ **O Ensaio 2 precisa da curva, não do nível.** Weitzman decide pela
@@ -313,7 +313,7 @@ E8   texto da qualificação                  ⬜
 | ≥ 40, suporte espalhado | curva não-paramétrica (sieve) |
 | 15 a 39 | faixas discretas, indicadores múltiplos |
 | 12 a 14 | faixas discretas — **suporte fino** |
-| < 12 | binário sob Assumption 4-Agg; curva abandonada |
+| < 12 | binário sob Assumption PT-Agg; curva abandonada |
 
 Descer um degrau não é fracasso. Descer sem registrar, é.
 

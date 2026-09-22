@@ -23,7 +23,7 @@ orientação. PPGEco/UFES, 2026-09-21, com os dados de 2026-08-25.*
 | **PAM/IBGE** (tab. 1612, 1613) | CE, municípios, 2015–2018 | ✅ 2026-08-25 | preflight 4/4 códigos conferidos na API |
 | **SINASC** | CE, 2015–2022 | ✅ 2026-08-25 | **1.001.709 nascimentos** |
 | **SIM — DOFET** | CE, 2015–2022 | ✅ 2026-08-25 | **11.240 óbitos fetais** |
-| **SIH — AIH reduzida** | CE, 2015–2022 | ✅ 2026-08-25 | ~3,9 mi de AIH — ⚠️ ver A4 |
+| **SIH — AIH reduzida** | CE, 2015–2022 | ✅ 2026-08-25 | ~3,9 mi de AIH — ⚠️ ver PT |
 | **Painel E5** | 184 municípios × 96 meses | ✅ 2026-08-25 | 17.664 células × 65 colunas |
 | **SINAN/IEXO** | CE, 2015–2022 | ✅ 2026-09-21 | **27.338 notificações**, 1.217 de agrotóxico agrícola |
 | **População (SIDRA)** | CE, 2015–2022 | ✅ 2026-09-21 | 184 muni × 8 anos. ⚠️ 2022 vem do Censo |
@@ -84,7 +84,7 @@ de `AGENTE_TOX` já foram conferidos contra a nota técnica do Ministério da Sa
 (02 = agrícola; **04 = saúde pública**, que é o §2º do art. 28-B). O ingestor
 ainda não foi escrito.
 
-## A4. ⚠️ A janela não fecha em 2024
+## PT. ⚠️ A janela não fecha em 2024
 
 O SINASC definitivo para em **2022** no FTP do DATASUS; 2023 e 2024 não existem,
 nem preliminares. Os preliminares disponíveis são de 2025–2026 — posteriores à

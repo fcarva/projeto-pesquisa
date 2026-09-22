@@ -105,11 +105,11 @@ pareça, depois, conveniência.
 - **Parâmetro-alvo primário:** ✅ **`slope`** — a curva `ACR(d)`.
 
   ⚠️ **E ela custa mais caro que o nível, o que fica declarado aqui.** A curva
-  exige **strong parallel trends** (Assumption 5 de CGS), que exclui
+  exige **strong parallel trends** (Assumption SPT de CGS), que exclui
   *selection-on-gains* e **não é testável** por placebo pré-tratamento. O
   `level` (`ATT(d|d)`) sai sob paralelismo tradicional e será reportado como
   **sensibilidade**: a distância entre os dois é informação sobre quanto a
-  Assumption 5 está carregando.
+  Assumption SPT está carregando.
 
   A justificativa de fundo é que o Ensaio 2 precisa da curva — sem ela a
   comparação de Weitzman perde âncora empírica e vira exercício teórico.
@@ -248,6 +248,9 @@ final reporta as duas versões.
 |---|---|---|---|
 | 2026-09-21 | `d = 0` primária: definição 2 → **definição 4** | A recomendação original era condicional — *"definição 2 porque 3 e 4 não estarão disponíveis"*. O FAO-GAEZ foi adquirido em 2026-09-21, 184/184 municípios. A restrição que justificava a 2 deixou de existir | A definição 2 é reportada como sensibilidade; `data/processed/gaez_aptidao_muni.parquet` e o commit `11c9dca` registram a aquisição |
 | 2026-09-21 | Este documento passa a se declarar **plano pré-estimação**, não pré-registro | A janela de "nenhuma fonte tocada" fechou em 2026-08-25, e o git prova. Ver §0 | Histórico do git; `docs/gates-resultados-dados-reais.md` |
+| 2026-09-22 | ⚠️ **Alvo primário: `slope` (`ACR(d)`) → `level` (`ATT(d\|d)`)** | A derivada agregada que o pacote reporta é **média simples sobre os pontos**, e é dominada pela faixa de dose < 0,1% — 48 dos 169 pontos — onde o erro-padrão supera a estimativa. A curva inverte de sinal ao longo da dose e nenhum ponto exclui zero em faixa alguma. O agregado, portanto, não é interpretável, e reportá-lo como resultado principal seria reportar um artefato de agregação. O `level` era a sensibilidade declarada na §4 e passa a principal | `data/processed/cgs_curva_slope__peso_medio__d0-4.csv` preserva a curva; a §6.2 do paper traz a decomposição por faixa. ⚠️ **Consequência para o Ensaio 2:** ele foi justificado *pela curva*, e a §7 do paper tem de dizer o que isso faz com a âncora de Weitzman |
+| 2026-09-22 | Correção de fato: **"o SPT não é testável por placebo" → "o placebo não o isola, mas pode falsificá-lo"** | O CGS §6.3 propõe e **roda** verificação pré-tratamento que fala do SPT — a inclinação em dose do `ACRT^es` — e na aplicação dos próprios autores ela **rejeita**. A afirmação anterior era forte demais. Ver `docs/auditoria-pre-especificacao.md` achado 3 | O teste foi implementado em `scripts/estimate/10_spt_pretrend.py` e rodado: nenhum dos 3 cortes placebo rejeita. ⚠️ Mas os 3 produzem inclinação **maior em módulo** que a do desenho real |
+| 2026-09-22 | A correção de **Holm** passa a existir de fato | A §6 a declarava desde o fechamento e **nenhuma linha a implementava** — a família confirmatória foi estimada sem correção até aqui. Ver auditoria, achado 1 | `scripts/estimate/09_holm.py`; `data/processed/holm_confirmatorios.csv`. Nenhuma hipótese rejeita a 5%, antes ou depois |
 
 ---
 

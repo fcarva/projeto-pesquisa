@@ -128,7 +128,7 @@ CULTURAS_CANDIDATAS = (
 # no mesmo ponto. Quando o suporte encolhe, o próprio CGS aponta o degrau
 # seguinte: dose discreta com indicadores múltiplos ("when the treatment is
 # discrete, this is as simple as running a linear regression with multiple
-# treatment indicators"). O último degrau é binarizar sob Assumption 4-Agg,
+# treatment indicators"). O último degrau é binarizar sob Assumption PT-Agg,
 # abandonando a curva.
 #
 # Quem ratifica os cortes é o pesquisador — estão aqui em cima exatamente para
@@ -825,7 +825,7 @@ def recomenda_especificacao(tabela: pd.DataFrame) -> pd.DataFrame:
         n = int(linha["n_muni_positivo"])
         if n < MIN_MUNI_FAIXAS:
             return (
-                "binário (Assumption 4-Agg) — curva abandonada",
+                "binário (Assumption PT-Agg) — curva abandonada",
                 f"{n} municípios com dose > 0, abaixo de {MIN_MUNI_FAIXAS}",
             )
         if n < MIN_MUNI_FAIXAS_FOLGA:
@@ -999,7 +999,7 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
     print(f"    >= {MIN_MUNI_CURVA} municípios com suporte espalhado -> curva não-paramétrica;")
     print(f"    {MIN_MUNI_FAIXAS_FOLGA} a {MIN_MUNI_CURVA - 1} -> faixas discretas;")
     print(f"    {MIN_MUNI_FAIXAS} a {MIN_MUNI_FAIXAS_FOLGA - 1} -> faixas discretas com suporte fino;")
-    print(f"    abaixo de {MIN_MUNI_FAIXAS} -> binário sob Assumption 4-Agg.")
+    print(f"    abaixo de {MIN_MUNI_FAIXAS} -> binário sob Assumption PT-Agg.")
     print("  • Municípios no decil superior é onde a hipótese de limiar põe o efeito —")
     print("    e é onde o suporte é mais fino. Quanto mais certa a hipótese sobre o")
     print("    formato, menos municípios carregam o efeito e maior o MDE.")

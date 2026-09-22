@@ -2031,3 +2031,113 @@ def test_carrega_pam_arquivo_honra_a_janela(tmp_path):
     import inspect
     sig = inspect.signature(dose.carrega_pam_arquivo)
     assert "anos" in sig.parameters, "a janela tem de ser parâmetro, não constante"
+
+
+# --------------------------------------------------------------------------
+# 09_holm.py e 10_spt_pretrend.py — o que a auditoria de 2026-09-22 mandou criar
+#
+# O 09 cumpre a correção de Holm que a §6 da pré-especificação declarava e que
+# nenhuma linha implementava. O 10 é a sonda do strong parallel trends que o
+# CGS §6.3 propõe — a hipótese de que o alvo primário precisava.
+#
+# ⚠️ Os dois leem painel. O teste NÃO usa `data/processed/`, que é gitignored e
+# portanto ausente em clone novo: constrói painel sintético próprio. É o que
+# torna estes testes rodáveis em CI.
+# --------------------------------------------------------------------------
+
+holm_mod = _carrega("09_holm.py", sub="estimate")
+spt_mod = _carrega("10_spt_pretrend.py", sub="estimate")
+
+
+def test_holm_valores_conhecidos():
+    """Holm a mão, para dois casos onde a conta é conferível."""
+    # p ordenados 0,01 e 0,04 com m=2: 0,01x2=0,02 ; 0,04x1=0,04
+    assert holm_mod.holm([0.01, 0.04]) == pytest.approx([0.02, 0.04])
+    # a ordem de entrada não importa — o ajuste segue o p, não a posição
+    assert holm_mod.holm([0.04, 0.01]) == pytest.approx([0.04, 0.02])
+
+
+def test_holm_impoe_monotonicidade():
+    """Sem o acúmulo do máximo, o segundo p ajustado sairia MENOR que o primeiro.
+
+    0,03x2 = 0,06 e 0,04x1 = 0,04. Devolver [0,06 ; 0,04] não seria p-valor.
+    """
+    assert holm_mod.holm([0.03, 0.04]) == pytest.approx([0.06, 0.06])
+
+
+def test_holm_nunca_passa_de_um():
+    assert holm_mod.holm([0.6, 0.7]) == pytest.approx([1.0, 1.0])
+
+
+def test_holm_uma_hipotese_nao_corrige():
+    """Com m=1 não há família, e Holm tem de ser a identidade."""
+    assert holm_mod.holm([0.031]) == pytest.approx([0.031])
+
+
+def test_placebos_cabem_inteiros_no_pre_periodo():
+    """Nenhuma janela placebo pode encostar no ban — senão o teste é circular."""
+    t_ini, t_fim, gap, larg = 2015 * 12, 2018 * 12 + 11, 10, 12
+    cortes = spt_mod.placebos(t_ini, t_fim, gap, larg)
+    assert cortes, "o pré-período de 2015-2018 comporta ao menos um corte"
+    for a, b in cortes:
+        assert b - a == gap, "o gap placebo tem de espelhar o do desenho real"
+        assert a - larg >= t_ini, "janela pré do placebo vaza antes do início"
+        assert b + larg <= t_fim, "⚠️ janela pós do placebo alcança o ban"
+
+
+def test_placebos_vazio_quando_janela_nao_cabe():
+    """Pré-período curto tem de devolver lista vazia, não janela inválida."""
+    assert spt_mod.placebos(2018 * 12, 2018 * 12 + 11, 10, 12) == []
+
+
+def _painel_sintetico(caminho, n_muni=60, seed=7):
+    """Painel mínimo com as colunas que os dois scripts exigem."""
+    rng = np.random.default_rng(seed)
+    linhas = []
+    dose = np.concatenate([np.zeros(n_muni // 4),
+                           rng.gamma(2.0, 0.02, n_muni - n_muni // 4)])
+    for i in range(n_muni):
+        nivel = 3200 + rng.normal(0, 40)
+        for ano in range(2015, 2023):
+            for mes in range(1, 13):
+                linhas.append({
+                    "cod_ibge6": 230000 + i,
+                    "ano": ano, "mes": mes,
+                    "dose": float(dose[i]),
+                    "peso_medio": nivel + rng.normal(0, 25),
+                    "taxa_obito_fetal": abs(rng.normal(0.01, 0.003)),
+                })
+    pd.DataFrame(linhas).to_parquet(caminho)
+    return caminho
+
+
+def test_holm_e_spt_sobrevivem_a_cp1252(tmp_path):
+    """Portão de encoding: os dois imprimem ⚠️, ✔ e traço de caixa."""
+    painel = _painel_sintetico(tmp_path / "painel_teste.parquet")
+
+    for args in (
+        ["scripts/estimate/09_holm.py", "--painel", str(painel), "--n-boot", "60"],
+        ["scripts/estimate/10_spt_pretrend.py", "--painel", str(painel),
+         "--desfecho", "peso_medio", "--n-boot", "60"],
+    ):
+        _exige_saida_limpa(_roda_sob_cp1252(args, tmp_path))
+
+    assert (tmp_path / "holm_confirmatorios.csv").exists()
+    assert (tmp_path / "spt_pretrend__peso_medio.csv").exists()
+
+
+def test_holm_grava_as_duas_hipoteses_confirmatorias(tmp_path):
+    """A família da §6 tem DUAS hipóteses; gravar uma só seria Holm otimista."""
+    painel = _painel_sintetico(tmp_path / "painel_teste.parquet")
+    r = _roda_sob_cp1252(
+        ["scripts/estimate/09_holm.py", "--painel", str(painel), "--n-boot", "60"],
+        tmp_path)
+    _exige_saida_limpa(r)
+
+    res = pd.read_csv(tmp_path / "holm_confirmatorios.csv")
+    assert len(res) == 2, "a família confirmatória tem de sair completa"
+    assert set(res["desfecho"]) == {"peso_medio", "taxa_obito_fetal"}
+    for col in ("p_uni_holm", "p_rnd_holm", "p_wcb_holm"):
+        assert (res[col] >= res[col.replace("_holm", "")] - 1e-9).all(), \
+            f"{col}: p ajustado nunca pode ser MENOR que o bruto"
+        assert (res[col] <= 1.0).all()
