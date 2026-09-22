@@ -2453,10 +2453,12 @@ def test_gate_recusa_o_ceara_como_vizinho():
 # --------------------------------------------------------------------------
 
 def test_metricas_reproduzem_os_numeros_publicados_na_secao_5_4():
-    # 184 municípios, 7 com aeronave, decil de 19 com 2 deles (Limoeiro, Quixeré).
-    m = misc.metricas_classificacao(184, 7, 19, 2)
+    # 184 municípios, 7 com aeronave, decil de 17 com 2 deles (Limoeiro, Quixeré).
+    # O decil é 17 e não 19: 169 municípios com banana > 0 / 10, verificado
+    # contra os artefatos em 2026-09-22 (ver docs/ars/12 §2).
+    m = misc.metricas_classificacao(184, 7, 17, 2)
     assert m["sensibilidade"] == pytest.approx(2 / 7)
-    assert m["vpp"] == pytest.approx(2 / 19)
+    assert m["vpp"] == pytest.approx(2 / 17)
     assert m["prevalencia"] == pytest.approx(7 / 184)
     # A matriz tem de fechar nos 184.
     assert m["vp"] + m["fp"] + m["fn"] + m["vn"] == 184
@@ -2466,23 +2468,23 @@ def test_especificidade_alta_nao_salva_o_vpp_com_prevalencia_baixa():
     # É o mecanismo de Rull & Ritz, e é contraintuitivo o bastante para merecer
     # teste: 90%+ de especificidade com ~4% de prevalência ainda deixa ~9 de
     # cada 10 "tratados" sem tratamento.
-    m = misc.metricas_classificacao(184, 7, 19, 2)
+    m = misc.metricas_classificacao(184, 7, 17, 2)
     assert m["especificidade"] > 0.90
     assert m["vpp"] < 0.15
 
 
 def test_lambda_teto_bate_com_a_definicao_do_corolario_5():
-    m = misc.metricas_classificacao(184, 7, 19, 2)
-    esperado = (1 - m["vpp"]) + m["fn"] / (184 - 19)
+    m = misc.metricas_classificacao(184, 7, 17, 2)
+    esperado = (1 - m["vpp"]) + m["fn"] / (184 - 17)
     assert m["lambda_teto"] == pytest.approx(esperado)
 
 
 def test_metricas_recusam_matriz_impossivel():
     # Mais acertos do que positivos verdadeiros existentes.
     with pytest.raises(ValueError):
-        misc.metricas_classificacao(184, 7, 19, 8)
+        misc.metricas_classificacao(184, 7, 17, 8)
     with pytest.raises(ValueError):
-        misc.metricas_classificacao(184, 7, 19, 20)
+        misc.metricas_classificacao(184, 7, 17, 20)
 
 
 def test_limite_colapsa_no_ponto_quando_nao_ha_misclassificacao():

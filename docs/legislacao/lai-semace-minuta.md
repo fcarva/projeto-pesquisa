@@ -13,7 +13,7 @@ operacional. Continua valendo. ⚠️ **Mas em 2026-09-22 o Censo Agropecuário 
 uma ameaça maior**, e o mesmo cadastro é a única fonte que a resolve.
 
 O Censo mostra que, no Ceará, **36 estabelecimentos** usavam aeronave — e que
-**17 dos 19 municípios do decil superior da dose de banana não tinham nenhuma**.
+**15 dos 17 municípios do decil superior da dose de banana não tinham nenhuma**.
 Se isso ainda valia em 2018, a variável de tratamento do Ensaio 1 atribui dose
 alta a quem não tinha pulverização aérea a perder.
 

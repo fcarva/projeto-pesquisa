@@ -73,10 +73,24 @@ Reprodutível: `make erro-classificacao` (`scripts/estimate/12_erro_de_classific
 
 ### ⚠️ Uma inconsistência interna que a conta expôs
 
-O repositório reporta o decil superior ora como **17**, ora como **19**
-municípios — §6.3 do paper e a flag 0 dizem 17; a §5.4 diz 19. A origem provável
-é o denominador (169 com área positiva → 16,9 ≈ 17; 184 → 18,4 ≈ 19), mas isso é
-hipótese, não verificação.
+O repositório reportava o decil superior ora como **17**, ora como **19**
+municípios — §6.3 do paper e a flag 0 diziam 17; a §5.4 dizia 19.
+
+✅ **Resolvido em 2026-09-22, contra os artefatos, na máquina local.** A hipótese
+do denominador estava certa e agora está verificada: a banana tem **169**
+municípios com área positiva, e a convenção do Gate 1 tira o decil **sobre os
+positivos** — 169/10 ≈ **17**. O 19 vinha de dividir os 184 municípios do estado,
+que não é o corte que a pré-especificação usa. **O decil é 17**, e dele **2 têm
+aeronave** (Limoeiro do Norte 18, Quixeré 9 — as 27 do decil) e **15 não têm**.
+Logo a linha correta da tabela acima é a primeira: **VPP 11,8%**, λ teto 0,912.
+
+⚠️ E a correção mexeu em dois números, não em um: onde o repositório dizia
+"dos 19, **17** sem aeronave", o certo é "dos 17, **15** sem aeronave" — o
+numeral 17 aparecia nos dois papéis. Corrigidos no mesmo commit: `CLAUDE.md`
+(flag 7), `paper/secoes/05-dados.tex` §5.4, `scripts/data_prep/13`,
+`docs/legislacao/lai-semace-minuta.md`, `docs/auditoria-mensuracao-do-tratamento.md`
+(inclusive o λ ingênuo, de 17/19 = 0,895 para 15/17 = **0,882**, com a última
+coluna da tabela do §3 recalculada) e os testes do script 12.
 
 **Não muda a conclusão** (VPP ~10–12% nas duas leituras) e **precisa ser
 resolvido antes da qualificação**, porque é o tamanho do grupo tratado — o
@@ -182,7 +196,7 @@ ele **uma pergunta que não estava lá**, e que agora parece a mais informativa:
 > aeronave.
 
 ⚠️ **E essa observação é desconfortável para a Rota 1.** Ela troca um problema de
-**VPP** por um problema de **sensibilidade**: em vez de tratar 19 municípios dos
+**VPP** por um problema de **sensibilidade**: em vez de tratar 17 municípios dos
 quais 2 eram tratados, trataria 184 dos quais ~7 eram. O VPP cairia de ~11% para
 ~4%.
 

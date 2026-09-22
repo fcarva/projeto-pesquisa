@@ -93,10 +93,12 @@ PUBLICADOS = {
     "municipios_com_aeronave": 7,
     "municipios_decil_com_aeronave": 2,   # Limoeiro do Norte (18) e Quixeré (9)
 }
-# ⚠️ O repositório reporta o decil superior ora como 17, ora como 19 municípios
-# (§6.3 e flag 0 dizem 17; §5.4 diz 19). As duas contas entram, e a divergência
-# fica visível em vez de ser escolhida em silêncio.
-TAMANHOS_DECIL = (17, 19)
+# ✅ Divergência 17 × 19 RESOLVIDA em 2026-09-22, contra os artefatos: a banana
+# tem 169 municípios com área positiva, e o decil da convenção do Gate 1 é
+# sobre os positivos — 169/10 ≈ 17. O 19 vinha do denominador errado (184
+# municípios do CE, ceil = 19), que não é o corte que a pré-especificação usa.
+# Com 17: 2 com aeronave (Limoeiro 18, Quixeré 9), 15 sem, VPP 11,8%.
+TAMANHOS_DECIL = (17,)
 
 # Coeficientes já reportados na §6 do paper, em gramas.
 COEFICIENTES_PAPER = {

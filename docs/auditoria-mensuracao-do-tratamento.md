@@ -91,8 +91,8 @@ Do resumo, verbatim:
    daqui é unilateral.** O Censo Agropecuário mostrou que **nenhum** município
    de dose zero tinha aeronave (§5.4 do paper, flag 5 ✅). Isso é exatamente
    dizer que **não há falso negativo**: não existe município marcado `d = 0`
-   que fosse de fato tratado. Só há falso positivo — dose alta sem aeronave, 17
-   dos 19. A condição que o estimador deles exige não é suposta: está medida,
+   que fosse de fato tratado. Só há falso positivo — dose alta sem aeronave, 15
+   dos 17. A condição que o estimador deles exige não é suposta: está medida,
    e foi medida por outra razão.
 
 Essa é a informação mais valiosa desta auditoria. A verificação da flag 5 foi
@@ -161,14 +161,14 @@ e a dose é onde ele morde mais.**
 
 Aplicando o Corolário 5 aos coeficientes **já reportados** no paper. `λ` é o
 parâmetro de sensibilidade; a última coluna usa o valor ingênuo que o Censo
-sugere (17/19 dos tratados sem aeronave).
+sugere (15/17 dos tratados sem aeronave).
 
-| estimador (§6) | λ=0 | λ=0,3 | λ=0,5 | λ=0,7 | λ=0,895 |
+| estimador (§6) | λ=0 | λ=0,3 | λ=0,5 | λ=0,7 | λ=0,882 |
 |---|---:|---:|---:|---:|---:|
-| Synthetic DiD | −20,2 | −28,8 | **−40,3** | −67,2 | −191,5 |
-| Controle sintético | −34,6 | **−49,5** | −69,3 | −115,5 | −329,1 |
-| DiD simples | −21,9 | −31,2 | **−43,7** | −72,8 | −207,6 |
-| CGS `ATT(d\|d)` ⚠️ | −36,2 | **−51,7** | −72,4 | −120,6 | −343,8 |
+| Synthetic DiD | −20,2 | −28,8 | **−40,3** | −67,2 | −171,4 |
+| Controle sintético | −34,6 | **−49,5** | −69,3 | −115,5 | −294,4 |
+| DiD simples | −21,9 | −31,2 | **−43,7** | −72,8 | −185,7 |
+| CGS `ATT(d\|d)` ⚠️ | −36,2 | **−51,7** | −72,4 | −120,6 | −307,7 |
 
 ⚠️ A linha do CGS entra **fora do escopo formal** do corolário (tratamento
 contínuo, não binário) e serve só de ordem de grandeza.
@@ -192,7 +192,7 @@ magnitude cai dentro do que a âncora reporta para exposição alta
    sobre eles exige o arcabouço de *intersection bounds* (Chernozhukov, Lee &
    Rosen), que os autores usam. Com 17 clusters tratados, a largura resultante
    pode engolir a leitura acima.
-2. **`λ = 0,895` é indefensável como escolhido**, e está na tabela para mostrar
+2. **`λ = 0,882` é indefensável como escolhido**, e está na tabela para mostrar
    que é. O Censo é de **2006**, conta **estabelecimentos** e não voos, e um
    prestador de serviço aeroagrícola sediado em Limoeiro do Norte pulveriza
    lavoura em Quixeré — "não ter aeronave" não é "não receber pulverização". A

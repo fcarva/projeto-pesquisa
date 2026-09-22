@@ -25,8 +25,8 @@ Isso põe três coisas em cima da mesa, e nenhuma é sobre custo:
    está contaminado por usuários de aeronave — é verificação direta da flag 5,
    e ela passa aqui.
 
-2. ⚠️ **Diluição do tratamento.** Dos 19 municípios do decil superior da banana,
-   **17 não tinham aeronave alguma**. O `d` alto está sendo atribuído a
+2. ⚠️ **Diluição do tratamento.** Dos 17 municípios do decil superior da banana,
+   **15 não tinham aeronave alguma**. O `d` alto está sendo atribuído a
    municípios onde o tratamento — remover a pulverização aérea — não tinha o que
    remover. Isso atenua o ATT por construção, e é problema de DEFINIÇÃO de
    tratamento, não de poder estatístico.
