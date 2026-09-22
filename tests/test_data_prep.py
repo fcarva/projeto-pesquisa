@@ -39,6 +39,7 @@ robust = _carrega("04_robustness.py", sub="estimate")
 gaez = _carrega("06_build_gaez.py")
 gate = _carrega("14_gate_fronteira.py")
 misc = _carrega("12_erro_de_classificacao.py", sub="estimate")
+censo = _carrega("15_censo_demografico.py")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -2512,3 +2513,143 @@ def test_tabela_marca_quando_o_limite_ultrapassa_o_mde():
     t = misc.tabela_limites(-21.85, [0.3, 0.5], "did")
     assert not t.loc[t["lambda"] == 0.3, "excede_mde"].iloc[0]
     assert t.loc[t["lambda"] == 0.5, "excede_mde"].iloc[0]
+
+
+# --------------------------------------------------------------------------
+# Censo 2022 via censobr (script 15)
+#
+# O risco que estes testes travam é o silencioso: um código de variável errado
+# não dá erro, dá uma coluna de outra coisa com nome certo. Por isso a
+# verificação contra o dicionário oficial tem teste próprio, e o fechamento das
+# categorias no total de domicílios também.
+# --------------------------------------------------------------------------
+
+def _setores_sinteticos(fator_fechamento: float = 1.0) -> pd.DataFrame:
+    """Dois setores em Limoeiro (CE), um em Mossoró (RN)."""
+    linhas = []
+    for code_state, code_muni, nome, ri, nome_ri, dppo in [
+        (23, 2307601, "Limoeiro do Norte", 230007, "Russas - Limoeiro do Norte", 100),
+        (23, 2307601, "Limoeiro do Norte", 230007, "Russas - Limoeiro do Norte", 100),
+        (24, 2408003, "Mossoró", 240009, "Mossoró", 400),
+    ]:
+        linha = {"code_state": code_state, "code_muni": code_muni, "name_muni": nome,
+                 "code_immediate": ri, "name_immediate": nome_ri}
+        for coluna in censo.VARIAVEIS_2022:
+            linha[coluna] = 0
+        linha["domicilio01_V00001"] = dppo
+        # água: 80% rede, 20% poço raso; esgoto: 50% rede, 50% fossa rudimentar
+        linha["domicilio02_V00111"] = 0.8 * dppo * fator_fechamento
+        linha["domicilio02_V00113"] = 0.2 * dppo * fator_fechamento
+        linha["domicilio02_V00309"] = 0.5 * dppo * fator_fechamento
+        linha["domicilio02_V00312"] = 0.5 * dppo * fator_fechamento
+        linhas.append(linha)
+    return pd.DataFrame(linhas)
+
+
+def test_url_do_censobr_reproduz_a_que_o_pacote_R_monta():
+    # read_tracts() em R: paste0(base, release, "/", ano, "_tracts_", dataset,
+    # "_", release, ".parquet"), com dataset em minúsculas.
+    assert censo.url_setores(2022, "Domicilio") == (
+        "https://github.com/ipea/censobr_prep_data/releases/download/"
+        "v1.0.0/2022_tracts_domicilio_v1.0.0.parquet")
+    assert censo.url_dicionario(2022).endswith("censo_docs/2022_dictionary_tracts.xlsx")
+    assert censo.url_dicionario(2010).endswith(".pdf")
+
+
+def test_verifica_dicionario_passa_quando_os_codigos_conferem():
+    linhas = [(None, None, None, col.split("_", 1)[1], None, f"DPPO, {trecho} etc")
+              for col, (_, trecho) in censo.VARIAVEIS_2022.items()]
+    assert censo.verifica_dicionario(linhas) == []
+
+
+def test_verifica_dicionario_acusa_codigo_trocado_e_codigo_ausente():
+    linhas = [(None, None, None, col.split("_", 1)[1], None, f"DPPO, {trecho}")
+              for col, (_, trecho) in censo.VARIAVEIS_2022.items()]
+    # V00112 (poço profundo) passa a descrever carro-pipa: coluna errada, nome certo.
+    linhas = [l if l[3] != "V00112" else (None, None, None, "V00112", None, "carro-pipa")
+              for l in linhas]
+    linhas = [l for l in linhas if l[3] != "V00316"]
+    problemas = censo.verifica_dicionario(linhas)
+    assert any("V00112" in p and "poço profundo" in p for p in problemas)
+    assert any("V00316" in p and "ausente" in p for p in problemas)
+
+
+def test_agrega_setores_em_municipios_e_fecha_as_categorias():
+    df = _setores_sinteticos().rename(
+        columns={k: v[0] for k, v in censo.VARIAVEIS_2022.items()})
+    m = censo.agrega_municipio(df)
+    assert len(m) == 2
+    limoeiro = m[m["code_muni"] == 2307601].iloc[0]
+    assert limoeiro["dppo"] == 200 and limoeiro["agua_rede_geral"] == 160
+    assert censo.fechamento(m) == pytest.approx({"agua": 1.0, "esgoto": 1.0})
+
+
+def test_agregacao_trata_suprimido_como_zero_e_o_fechamento_denuncia():
+    # Setor com célula suprimida (NaN) não pode quebrar a soma — mas o
+    # fechamento tem de cair, porque aqueles domicílios ficaram sem categoria.
+    df = _setores_sinteticos().rename(
+        columns={k: v[0] for k, v in censo.VARIAVEIS_2022.items()})
+    df.loc[2, "agua_rede_geral"] = float("nan")
+    m = censo.agrega_municipio(df)
+    assert m["agua_rede_geral"].notna().all()
+    assert censo.fechamento(m)["agua"] < 1.0
+
+
+def test_indicadores_separam_media_ponderada_de_media_municipal():
+    # Quando um município grande e um pequeno diferem, as duas médias divergem —
+    # e é a municipal que descreve a unidade do DiD.
+    m = pd.DataFrame({
+        "dppo": [1000, 100],
+        "agua_rede_geral": [1000, 0], "agua_poco_profundo": [0, 0],
+        "agua_poco_raso": [0, 100], "agua_carro_pipa": [0, 0],
+        "esg_rede": [0, 0], "esg_fossa_ligada": [0, 0],
+        "esg_fossa_rudimentar": [1000, 100], "esg_sem_banheiro": [0, 0],
+    })
+    ind = censo.indicadores(m)
+    assert ind["poco"] == pytest.approx(100 / 1100)
+    assert ind["poco_media_municipal"] == pytest.approx(0.5)
+
+
+def test_grupos_usam_codigos_externos_e_somem_fora_do_recorte():
+    df = _setores_sinteticos().rename(
+        columns={k: v[0] for k, v in censo.VARIAVEIS_2022.items()})
+    m = censo.agrega_municipio(df)
+    t = censo.tabela_comparacao(m)
+    assert "CE: RI Russas–Limoeiro" in t.index
+    assert "RN: RIDE Chapada (PLP 98/07)" in t.index   # Mossoró está na RIDE
+    so_ce = censo.tabela_comparacao(m[m["code_state"] == 23])
+    assert not any(rotulo.startswith("RN") for rotulo in so_ce.index)
+
+
+def test_ride_tem_os_21_municipios_do_plp_e_todos_potiguares():
+    assert len(censo.RIDE_CHAPADA_RN) == 21
+    assert all(str(c).startswith("24") for c in censo.RIDE_CHAPADA_RN)
+
+
+def test_baixa_nao_deixa_arquivo_parcial_e_nao_rebaixa(tmp_path):
+    origem = tmp_path / "origem.bin"
+    origem.write_bytes(b"x" * 5000)
+    destino = tmp_path / "cache" / "arquivo.parquet"
+    censo.baixa(origem.as_uri(), destino)
+    assert destino.read_bytes() == b"x" * 5000
+    assert not destino.with_suffix(".parquet.parte").exists()
+    origem.write_bytes(b"MUDOU")          # cache existente não é rebaixado
+    censo.baixa(origem.as_uri(), destino)
+    assert destino.read_bytes() == b"x" * 5000
+
+
+def test_main_recusa_gravar_quando_o_fechamento_nao_fecha(tmp_path):
+    caminho = tmp_path / "setores.parquet"
+    _setores_sinteticos(fator_fechamento=0.5).to_parquet(caminho, index=False)
+    saida = tmp_path / "out"
+    assert censo.main(["--setores", str(caminho), "--out-dir", str(saida)]) == 1
+    assert not saida.exists() or not any(saida.iterdir())
+
+
+def test_main_grava_com_sufixo_de_uf_e_proveniencia(tmp_path):
+    caminho = tmp_path / "setores.parquet"
+    _setores_sinteticos().to_parquet(caminho, index=False)
+    assert censo.main(["--setores", str(caminho), "--out-dir", str(tmp_path)]) == 0
+    csv = pd.read_csv(tmp_path / "censo2022_comparabilidade__uf23-24.csv")
+    assert set(csv["fonte"]) == {"censobr v1.0.0"}
+    assert (tmp_path / "censo2022_domicilios_muni__uf23-24.parquet").exists()

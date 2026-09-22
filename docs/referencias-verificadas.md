@@ -146,3 +146,22 @@ curl -s "https://api.crossref.org/works/<DOI>" | python -m json.tool | head -40
 
 Se o DOI não resolve, a referência **não entra**. Se resolve mas o campo falta,
 o campo fica vazio e a lacuna vai para a §4 deste arquivo.
+
+---
+
+## 8. Conferências de 2026-09-22 (sessão remota — Crossref bloqueado)
+
+⚠️ Nesta sessão `api.crossref.org` respondeu **000**. As entradas abaixo foram
+conferidas por outras vias e **precisam da passada Crossref local** (§7) antes de
+entrar no `.bib`.
+
+| referência | conferida por | estado |
+|---|---|---|
+| **Calzada, Gisbert & Moscoso (2023)**, *JAERE* 10(6):1623–1663, `10.1086/725349` | página do periódico, RePEc, portal UAB, SSRN 3786643; coincide com a lista de Januzzi (2025) | ✅ bibliográfica · ⚠️ texto completo **não lido** — é o análogo mais próximo do projeto (banana + aéreo + fungicida + peso ao nascer). Ver `docs/ars/13-rota1-calzada-januzzi-censo.md` §1 |
+| **Januzzi (2025)**, dissertação, UFV | PDF fornecido pelo pesquisador; lido integralmente | ✅ |
+| **Negi & Negi (2025)**, *J. Applied Econometrics* 40(4):411–423, `10.1002/jae.3116` | metadados do periódico (open access) | ✅ bibliográfica · texto completo não lido |
+| **Sasaki & Wang (2024)**, *JBES* 42(2):812–824, `10.1080/07350015.2023.2249509` | registro do periódico; texto no arXiv:2211.14870 | ✅ |
+| **Rull & Ritz (2003)**, *EHP* 111(13):1582–1589, PMID 14527836 | PubMed e resumo | ✅ bibliográfica · texto completo não lido |
+| **Denteh & Kédagni**, arXiv:2207.11890 | texto completo no arXiv | ✅ — ⚠️ *working paper*, não publicado |
+| **Camacho & Mejía (2017)** — pendência da §4 | **resumo** recuperado em 2026-09-22 | ⚠️ reduzida, não fechada: texto completo segue sem leitura |
+| **censobr** (Pereira & Barbosa 2023), `10.32614/CRAN.package.censobr` | `inst/CITATION` do pacote, no repositório clonado | ✅ |

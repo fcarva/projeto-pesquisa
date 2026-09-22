@@ -61,12 +61,13 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 183 testes"
+	@echo "make teste     — 194 testes"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
 	@echo "make gaez      — aptidão FAO-GAEZ (exige rasters em data/geo/)"
 	@echo "make erro-classificacao — a flag 7 medida: VPP da dose + limite do ATT"
+	@echo "make censo-demografico — Censo 2022 (censobr): água/esgoto CE x vizinho"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
 	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
@@ -209,8 +210,13 @@ weitzman: custo-conab
 # o vizinho tinha pulverizacao aerea no pre-ban? (SINDAG diz que o RN nao tem
 # frota; o Censo Agro e quem decide.) Ver docs/ars/11-rota1-fase1-escopo.md.
 # VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
-.PHONY: gate-fronteira equipamento-vizinho fronteira
+.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico
 VIZINHO ?= 24
+
+# Censo 2022 por setor via censobr (GitHub Releases do IPEA). Triagem ESTRUTURAL
+# (agua, esgoto, poco) entre os dois lados da linha. Niveis, nao tendencias.
+censo-demografico:
+	$(PY) scripts/data_prep/15_censo_demografico.py --ufs 23 $(VIZINHO) --verificar-dicionario
 
 equipamento-vizinho:
 	$(PY) scripts/data_prep/13_censo_agro_equipamento.py --uf $(VIZINHO)
@@ -225,4 +231,5 @@ gate-fronteira:
 fronteira:
 	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte sidra --ufs 23 $(VIZINHO)
 	$(PY) scripts/data_prep/02_clean_births.py --fonte pysus --ufs 23 $(VIZINHO)
+	$(MAKE) censo-demografico VIZINHO=$(VIZINHO)
 	$(MAKE) gate-fronteira VIZINHO=$(VIZINHO)
