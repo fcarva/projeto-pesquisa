@@ -19,7 +19,7 @@ git fetch origin
 git switch claude/exciting-noether-17cl74
 git pull origin claude/exciting-noether-17cl74
 pip install -r requirements.txt      # openpyxl é novo
-python -m pytest tests/ -q           # esperado: 232 passed (3 exigem requirements-geo.txt)
+python -m pytest tests/ -q           # esperado: 251 passed (3 exigem requirements-geo.txt)
 ```
 
 Puxar a conversa inteira em vez de só o código: `claude --teleport
@@ -38,7 +38,7 @@ make fronteira VIZINHO=24
 Sem `make`, na ordem:
 ```powershell
 python scripts/data_prep/01_check_dose_variation.py --fonte sidra --ufs 23 24
-python scripts/data_prep/02_clean_births.py --fonte pysus --ufs 23 24
+python scripts/data_prep/02_clean_births.py --fonte ftp --ufs 23 24   # o espelho do pysus caiu (doc 15 §6)
 python scripts/data_prep/15_censo_demografico.py --ufs 23 24 --verificar-dicionario
 python scripts/data_prep/14_gate_fronteira.py --vizinho 24 `
   --pam data/processed/pam_ce_muni_cultura_media__sidra__uf23-24.parquet `

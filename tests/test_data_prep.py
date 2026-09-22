@@ -3316,3 +3316,242 @@ def test_main_grava_com_sufixo_de_uf_e_proveniencia(tmp_path):
     csv = pd.read_csv(tmp_path / "censo2022_comparabilidade__uf23-24.csv")
     assert set(csv["fonte"]) == {"censobr v1.0.0"}
     assert (tmp_path / "censo2022_domicilios_muni__uf23-24.parquet").exists()
+
+
+# --------------------------------------------------------------------------
+# MDE dos desenhos candidatos (script 13 de estimate)
+#
+# O que estes testes travam: (1) a conta agrupada é a mesma que deu os 33,4 g;
+# (2) o MDE é conta de DESENHO — não pode enxergar o pós-ban; (3) σ e τ saem
+# do painel agregado sem microdado; (4) tratado ausente torna o desenho
+# `ausente`, não menor.
+# --------------------------------------------------------------------------
+
+import json as _json
+import math as _math
+
+mde = _carrega("13_mde_desenhos.py", sub="estimate")
+varre = _carrega("09_varre_camaras.py")
+
+
+def _painel_mde(unidades: dict, anos=range(2015, 2023), sigma=500.0, tau=0.0,
+                seed=3, salto_pos=0.0, tratados=()):
+    """Painel município × mês: `unidades` = {cod: nascimentos/mês}.
+
+    Cada município ganha uma tendência própria entre as metades do pré-período
+    (DP `tau`) e ruído amostral de média mensal (`sigma/√n`). `salto_pos` soma
+    um efeito enorme nos `tratados` a partir de 2019 — o MDE não pode vê-lo.
+    """
+    rng = np.random.default_rng(seed)
+    linhas = []
+    for cod, n in unidades.items():
+        tendencia = rng.normal(0.0, tau) if tau else 0.0
+        base = 3200.0 + rng.normal(0.0, 50.0)
+        for ano in anos:
+            for mes in range(1, 13):
+                mu = base + (tendencia if ano >= 2017 else 0.0)
+                if ano >= 2019 and cod in tratados:
+                    mu += salto_pos
+                linhas.append({"cod_ibge6": cod, "ano": ano, "mes": mes,
+                               "n_nascimentos": n, "n_peso_valido": n,
+                               "peso_medio": rng.normal(mu, sigma / np.sqrt(n))})
+    return pd.DataFrame(linhas)
+
+
+def test_mde_agrupado_e_a_conta_que_deu_os_33_g():
+    # 2,8 × DP × √(1/17 + 1/167): com DP de ~46,9 g é o MDE do cenário base.
+    assert mde.mde_agrupado(46.86, 17, 167) == pytest.approx(
+        2.8 * 46.86 * _math.sqrt(1 / 17 + 1 / 167))
+    assert mde.mde_agrupado(46.86, 17, 167) == pytest.approx(33.4, abs=0.05)
+    assert _math.isnan(mde.mde_agrupado(46.86, 0, 167))
+
+
+def test_mde_nao_enxerga_o_pos_ban():
+    # ⚠️ A regressão que mais importa: um MDE calculado com o pós-ban deixaria de
+    # ser conta de desenho. Um salto de 500 g nos tratados depois de 2019 não
+    # pode mover nada.
+    unidades = {f"23{i:04d}": 30 for i in range(30)}
+    sem = _painel_mde(unidades)
+    com = _painel_mde(unidades, salto_pos=500.0, tratados={"230000", "230001"})
+    pd.testing.assert_frame_equal(mde.variacao_placebo(sem), mde.variacao_placebo(com))
+    assert mde.variancia_individual(sem) == pytest.approx(mde.variancia_individual(com))
+
+
+def test_sigma_individual_sai_do_painel_agregado():
+    # Sem microdado: a variação mês a mês dentro do município devolve σ.
+    painel = _painel_mde({f"23{i:04d}": 30 for i in range(40)}, sigma=500.0)
+    assert _math.sqrt(mde.variancia_individual(painel)) == pytest.approx(500.0, rel=0.05)
+
+
+def test_heterogeneidade_separa_tendencia_real_do_ruido():
+    # τ = 20 g de tendência real, e o ruído amostral por cima; o método do
+    # script 07 tem de devolver os 20, não o total.
+    painel = _painel_mde({f"23{i:04d}": 100 for i in range(200)}, sigma=500.0, tau=20.0)
+    var = mde.variacao_placebo(painel)
+    tau = _math.sqrt(mde.heterogeneidade(var, mde.variancia_individual(painel)))
+    assert tau == pytest.approx(20.0, abs=4.0)
+
+
+def test_municipio_pequeno_custa_mais_poder():
+    # Mesmos controles; tratado de 20 nascimentos/ano contra tratado de 800.
+    var = pd.DataFrame({"n_ini": [40.0, 1600.0] + [400.0] * 20,
+                        "n_fim": [40.0, 1600.0] + [400.0] * 20,
+                        "delta": [0.0] * 22, "delta_script01": [0.0] * 22},
+                       index=["230001", "230002"] + [f"24{i:04d}" for i in range(20)])
+    controles = [f"24{i:04d}" for i in range(20)]
+    pequeno = mde.avalia_desenho("p", {"230001"}, controles, var, 250_000.0, 100.0, 1.0)
+    grande = mde.avalia_desenho("g", {"230002"}, controles, var, 250_000.0, 100.0, 1.0)
+    assert pequeno["mde_por_unidade_g"] > grande["mde_por_unidade_g"]
+
+
+def test_tratado_sem_pre_periodo_torna_o_desenho_ausente():
+    # Calcular sem Limoeiro daria número para um desenho que não é o proposto.
+    var = pd.DataFrame({"n_ini": [300.0] * 5, "n_fim": [300.0] * 5, "delta": [1.0] * 5,
+                        "delta_script01": [1.0] * 5},
+                       index=["231150", "240001", "240002", "240003", "240004"])
+    r = mde.avalia_desenho("chapada2", {"230760", "231150"}, set(var.index), var,
+                           250_000.0, 0.0, 1.0)
+    assert r["veredito"] == "ausente"
+    assert "230760" in r["motivo"]
+    assert "mde_por_unidade_g" not in r
+
+
+def test_decil_do_mde_usa_ceil_sobre_os_positivos():
+    pam = pd.DataFrame({"cod_ibge": [f"23{i:04d}0" for i in range(170)],
+                        "cultura": "Banana (cacho)",
+                        "area_ha_media": [float(200 - i) for i in range(163)] + [0.0] * 7})
+    assert len(mde.decil_superior(pam, "banana")) == 17        # ceil(16,3)
+    assert len(mde.dose_zero(pam, "banana", {f"23{i:04d}" for i in range(170)})) == 7
+
+
+def test_poder_ancora_no_mde_e_no_alfa():
+    assert mde.poder(33.4, 33.4) == pytest.approx(0.80, abs=0.01)
+    assert mde.poder(0.0, 33.4) == pytest.approx(0.05, abs=0.001)
+
+
+def test_main_calcula_a_chapada_e_marca_ausente_o_que_falta(tmp_path):
+    # Painel com Limoeiro, Quixeré, 30 do CE e a RIDE potiguar; sem PAM e sem
+    # Censo, o benchmark e a Rota 3 não entram, e os da Chapada saem calculados.
+    ride = sorted(mde.ride_chapada_rn())
+    unidades = {"230760": 70, "231150": 25, **{f"23{i:04d}": 20 for i in range(30)},
+                **{c: 40 for c in ride}}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades, tau=10.0).to_parquet(caminho, index=False)
+    assert mde.main(["--painel", str(caminho), "--pam", str(tmp_path / "nao.parquet"),
+                     "--censo", str(tmp_path / "nao.csv"),
+                     "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "mde_desenhos.csv").set_index("desenho")
+    assert r.loc["chapada2_vs_ride_rn", "veredito"] == "calculado"
+    assert r.loc["chapada2_vs_ride_rn", "g0"] == len(ride)
+    assert r.loc["quixere_vs_ride_rn", "g1"] == 1
+    assert "decil17_vs_ce_outros" not in r.index         # sem PAM, sem benchmark
+
+
+def test_main_com_painel_so_do_ceara_nao_calcula_a_fronteira(tmp_path):
+    # A lição do doc 15 §4.1: painel de fronteira com uma UF só.
+    unidades = {"230760": 70, "231150": 25, **{f"23{i:04d}": 20 for i in range(30)}}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades).to_parquet(caminho, index=False)
+    assert mde.main(["--painel", str(caminho), "--pam", str(tmp_path / "nao.parquet"),
+                     "--censo", str(tmp_path / "nao.csv"),
+                     "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "mde_desenhos.csv").set_index("desenho")
+    assert (r.loc[["chapada2_vs_ride_rn", "chapada2_vs_rn", "quixere_vs_ride_rn"],
+                  "veredito"] == "ausente").all()
+
+
+# --------------------------------------------------------------------------
+# Revogação no script 09 — lei achada não é lei vigente
+# --------------------------------------------------------------------------
+
+def test_cita_a_lei_casa_as_duas_grafias_e_nao_o_vizinho():
+    assert varre.cita_a_lei("Revoga a Lei Municipal nº 1.478/2009", "1478/2009")
+    assert varre.cita_a_lei("revoga a lei 1478, de 20/11/2009", "1478/2009")
+    assert not varre.cita_a_lei("Altera a Lei nº 11.478", "1478/2009")
+    assert not varre.cita_a_lei("Lei nº 1.4789", "1478/2009")
+
+
+def test_candidatas_sao_so_as_posteriores_e_saem_marcadas():
+    leis = [
+        {"numero_lei": "1.512/2010", "ano": 2010, "data_lei": "20/05/2010",
+         "ementa": "Revoga a Lei nº 1.478, de 20 de novembro de 2009"},
+        {"numero_lei": "1.400/2008", "ano": 2008, "data_lei": "2008-01-01",
+         "ementa": "Revoga a Lei 1.478"},                     # anterior: fora
+        {"numero_lei": "1.600/2011", "ano": 2011, "data_lei": "2011-03-01",
+         "ementa": "Altera a Lei nº 1.478/2009"},             # cita, não revoga
+    ]
+    c = varre.candidatas_revogacao(leis, "1478/2009", "2009-11-20")
+    assert [x["numero_lei"] for x in c] == ["1.512/2010", "1.600/2011"]
+    assert c[0]["data_lei"] == "2010-05-20"                  # data normalizada
+    assert c[0]["cita_o_numero"] and c[0]["fala_em_revogar"]
+    assert c[1]["cita_o_numero"] and not c[1]["fala_em_revogar"]
+    assert varre.revogadora_inequivoca(c)["numero_lei"] == "1.512/2010"
+
+
+def test_revogadora_ambigua_nao_e_escolhida():
+    # Duas que citam e revogam: o script não escolhe — conferir à mão.
+    c = [{"numero_lei": n, "data_lei": d, "ementa": "Revoga a Lei 1.478",
+          "cita_o_numero": True, "fala_em_revogar": True}
+         for n, d in (("1.512/2010", "2010-05-20"), ("1.520/2010", "2010-06-01"))]
+    assert varre.revogadora_inequivoca(c) is None
+
+
+def test_roda_revogacao_grava_so_a_inequivoca(monkeypatch):
+    tabela = pd.DataFrame([{"cod_ibge6": "230760", "municipio": "Limoeiro do Norte",
+                            "numero_lei": "1478/2009", "data_lei": "2009-11-20",
+                            "confianca": "confirmado", "data_revogacao": "2010-05-20",
+                            "fonte_revogacao": "secundaria: CPT 2014"}])
+    monkeypatch.setattr(varre, "detecta_plataforma", lambda slug: ("A", "https://x"))
+    forte = {"numero_lei": "1.512/2010", "ano": 2010, "data_lei": "2010-05-20",
+             "ementa": "Revoga a Lei nº 1.478/2009", "url_fonte": "https://x/leis.php"}
+    monkeypatch.setattr(varre, "busca_revogacao", lambda *a, **k: {
+        "candidatas": varre.candidatas_revogacao([forte], "1478/2009", "2009-11-20"),
+        "erros": 0, "termos": 6})
+    nova, _ = varre.roda_revogacao(tabela, gravar=True)
+    assert nova.loc[0, "fonte_revogacao"].startswith("primaria: Lei 1.512/2010")
+    # sem --gravar, nada muda
+    igual, _ = varre.roda_revogacao(tabela, gravar=False)
+    assert igual.equals(tabela)
+
+
+def test_acervo_b_nao_descarta_o_que_a_revogacao_precisa(monkeypatch):
+    # A varredura filtra por tema e por ano < 2019; o acervo para a revogação
+    # não pode filtrar — "Revoga a Lei nº 1.478" não fala em aeronave.
+    itens = [{"Número": "1478", "Ano": "2009", "Data": "2009-11-20",
+              "Ementa": "Proíbe o uso de aeronaves nas pulverizações de lavouras"},
+             {"Número": "1512", "Ano": "2010", "Data": "2010-05-20",
+              "Ementa": "Revoga a Lei nº 1.478/2009"}]
+    monkeypatch.setattr(varre, "busca_http", lambda url, timeout=35: _json.dumps(itens))
+    acervo, erros, _ = varre._acervo_plataforma_b("https://x")
+    assert erros == 0 and len(acervo) == 2
+    varredura = varre.varre_plataforma_b("https://x")
+    assert [l["numero_lei"] for l in varredura["leis"]] == ["1478/2009"]
+
+
+def test_coluna_agrupada_replica_a_conta_do_script_01():
+    # O benchmark só serve se for a MESMA conta: médias simples das médias
+    # mensais por metade, como `acrescenta_mde` do script 01 — não a média
+    # ponderada por nascimento que a coluna por unidade usa.
+    painel = _painel_mde({f"23{i:04d}": 5 + 3 * (i % 7) for i in range(25)})
+    var = mde.variacao_placebo(painel)
+    pre = painel[painel["ano"].isin(mde.ANOS_PRE)]
+    ini = pre[pre["ano"] <= 2016].groupby("cod_ibge6")["peso_medio"].mean()
+    fim = pre[pre["ano"] > 2016].groupby("cod_ibge6")["peso_medio"].mean()
+    pd.testing.assert_series_equal((fim - ini).sort_index(),
+                                   var["delta_script01"].sort_index(),
+                                   check_names=False)
+
+
+def test_rota3_com_municipio_de_aeronave_sem_nascimento_e_ausente(tmp_path):
+    # Tratado pelo Censo que não aparece no painel não pode sumir do desenho.
+    unidades = {"230760": 70, "231150": 25, **{f"23{i:04d}": 20 for i in range(30)}}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades).to_parquet(caminho, index=False)
+    censo_csv = tmp_path / "censo.csv"
+    pd.DataFrame({"cod_ibge6": ["230760", "231150", "239999"],
+                  "aeronave": [18, 9, 2]}).to_csv(censo_csv, index=False)
+    assert mde.main(["--painel", str(caminho), "--pam", str(tmp_path / "nao.parquet"),
+                     "--censo", str(censo_csv), "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "mde_desenhos.csv").set_index("desenho")
+    assert r.loc["aeronave_ce_vs_ce_sem", "veredito"] == "ausente"
+    assert "239999" in r.loc["aeronave_ce_vs_ce_sem", "motivo"]

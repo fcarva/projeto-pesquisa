@@ -61,7 +61,7 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 232 testes (3 exigem requirements-geo.txt)"
+	@echo "make teste     — 251 testes (3 exigem requirements-geo.txt)"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
@@ -69,6 +69,7 @@ ajuda:
 	@echo "make erro-classificacao — a flag 7 medida: VPP da dose + limite do ATT"
 	@echo "make censo-demografico — Censo 2022 (censobr): água/esgoto CE x vizinho"
 	@echo "make fronteira-geografica — os tratados estão NA divisa? (geobr)"
+	@echo "make mde-desenhos — quanto poder cada grupo tratado compra (só pré-período)"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
 	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
@@ -218,7 +219,7 @@ weitzman: custo-conab
 # o vizinho tinha pulverizacao aerea no pre-ban? (SINDAG diz que o RN nao tem
 # frota; o Censo Agro e quem decide.) Ver docs/ars/11-rota1-fase1-escopo.md.
 # VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
-.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica
+.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos
 VIZINHO ?= 24
 # ⚠️ `sufixo_das_ufs` (scripts 01 e 02) ORDENA as UFs antes de montar o nome:
 # --ufs 23 22 grava `__uf22-23`, nao `__uf23-22`. Montar o sufixo a mao como
@@ -239,6 +240,14 @@ equipamento-vizinho:
 # ⚠️ Dimensão que o gate NÃO mede: um vizinho pode passar nos três portões e
 # não servir, porque o grupo tratado está a 300 km da divisa. Exige geobr
 # (requirements-geo.txt) e rede. Ver docs/ars/15 §7.
+# O preço de cada desenho candidato: MDE do decil (benchmark dos 33,4 g), da
+# Chapada (Limoeiro + Quixeré contra o RN) e da Rota 3 (tratado pelo método).
+# ⚠️ So pre-periodo, nada estimado; e o painel tem de ter o RN (make fronteira).
+# Ver docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §11.
+mde-desenhos:
+	$(PY) scripts/estimate/13_mde_desenhos.py \
+	  --painel data/processed/nascimentos_ce_muni_mes__$(SUFIXO_UF).parquet
+
 fronteira-geografica:
 	$(PY) scripts/data_prep/16_fronteira_geografica.py --vizinhos 24 22 26
 

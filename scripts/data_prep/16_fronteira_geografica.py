@@ -63,6 +63,7 @@ Saída: `data/processed/fronteira_geografica__uf23.csv` (gitignored).
 from __future__ import annotations
 
 import argparse
+import math
 from datetime import date
 from pathlib import Path
 
@@ -114,7 +115,10 @@ def decil_superior(pam: pd.DataFrame, cultura: str = CULTURA_PADRAO) -> set[str]
     bloco = bloco[bloco[col] > 0]
     if bloco.empty:
         raise ValueError(f"nenhum município com área positiva de {cultura!r}")
-    k = max(1, round(bloco["cod_ibge"].nunique() / 10))
+    # `ceil`, como os estimadores 07/08: `round` diverge quando a parte
+    # fracionária é < 0,5 (163 produtores: 16 aqui, 17 lá). Com os 169 da
+    # banana dá o mesmo 17. Corrigido em 2026-09-22, junto com o script 12.
+    k = max(1, math.ceil(bloco["cod_ibge"].nunique() * 0.10))
     return set(bloco.nlargest(k, col)["cod_ibge"].astype(str))
 
 

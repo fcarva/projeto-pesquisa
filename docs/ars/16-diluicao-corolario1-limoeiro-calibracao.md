@@ -338,10 +338,11 @@ este sem o gate. Juntos, quatro coisas mudam de lugar.
    `CLAUDE.md`, no script 12, nos testes, no paper e em três documentos, foram
    resolvidos preservando os dois lados: `area_ha_media`, `--fonte ftp` e o
    sufixo das UFs, e também o Corolário 1, o λ da amostra e a revogação.
-2. **Localizar a lei revogadora de Limoeiro** (§5). O Planalto e a Câmara
-   respondem na máquina local.
+2. **Localizar a lei revogadora de Limoeiro** (§5): `python
+   scripts/data_prep/09_varre_camaras.py --revogacao` (§11.2).
 3. **O poder de um desenho com dois tratados** (Limoeiro e Quixeré contra a
-   Chapada potiguar), antes de qualquer investimento na Rota 1 (§8-bis).
+   Chapada potiguar), antes de qualquer investimento na Rota 1 (§8-bis):
+   `make mde-desenhos` (§11.1).
 
 **Do orientador:**
 
@@ -351,3 +352,70 @@ este sem o gate. Juntos, quatro coisas mudam de lugar.
    exploratória.
 3. Decidir o que o Ensaio 1 reporta como resultado principal: o nulo com os
    limites do Corolário 1 e a calibração, em vez de "desenho sem poder".
+
+## 11. As duas ferramentas para a máquina local
+
+*Acrescentado na mesma noite, depois dos commits locais do Crossref e do DOFET.*
+
+### 11.1 `make mde-desenhos` — quanto poder cada grupo tratado compra
+
+`scripts/estimate/13_mde_desenhos.py` calcula o MDE de seis desenhos
+candidatos com **só o pré-período** (2015–2018). Nada é estimado, e o pós-ban
+não entra: um teste trava isso.
+
+| desenho | tratados | controles | VPP |
+|---|---|---|---|
+| `decil17_vs_ce_outros` | decil da banana (17) | resto do CE | 2/17 — **benchmark** |
+| `decil17_vs_ce_dose_zero` | decil (17) | CE de dose zero (07/08) | 2/17 |
+| `chapada2_vs_ride_rn` | Limoeiro + Quixeré | RIDE potiguar (21) | ~1 |
+| `chapada2_vs_rn` | Limoeiro + Quixeré | todo o RN | ~1 |
+| `quixere_vs_ride_rn` | só Quixeré | RIDE potiguar | ~1 |
+| `aeronave_ce_vs_ce_sem` | os 7 com aplicação aérea | CE sem | ~1 (Rota 3) |
+
+Duas contas por desenho. A **agrupada** é a do script 01, a que deu os 33,4 g.
+A **por unidade** dá a cada município a própria variância, `σ²(1/N_ini +
+1/N_fim) + τ²`. Com σ estimado da variação mês a mês e τ pelo método do script
+07, é a que vale com poucos tratados. O poder sai contra `θ = VPP · f · δ`, a
+calibração do §7.
+
+**Como ler, em ordem:**
+
+1. **O benchmark primeiro.** A coluna agrupada de `decil17_vs_ce_outros` tem de
+   reproduzir ~33,4 g. Se não reproduzir, pare: o painel difere do que gerou o
+   MDE do paper, e os outros números não são comparáveis.
+2. **Depois `chapada2_vs_ride_rn`**, contra o sinal de `f · δ`. É o número que
+   decide se a Rota 1 concentrada vale o investimento.
+3. **`aeronave_ce_vs_ce_sem`** mostra o que a Rota 3 compraria dentro do
+   próprio estado, tratando pelo método e não pela cultura.
+
+⚠️ Num painel **sintético** com a forma do real (184 + 167 municípios, σ ≈ 550
+g, τ ≈ 15 g), a ordem foi: o decil diluído com poder de no máximo ~14%; a
+Chapada com dois tratados entre 13% e 86%; os 7 pelo método entre 26% e 100%,
+conforme `f` e `δ`. **Não é resultado**, é a mecânica: com VPP ≈ 1, até dois
+tratados podem comprar mais poder que dezessete diluídos. Os números reais
+saem do painel `__uf23-24`. E escolher desenho continua sendo decisão do
+orientador.
+
+⚠️ É a aproximação normal. Com 1 ou 2 tratados, a inferência de verdade seria
+Conley–Taber, com a distribuição tirada dos controles.
+
+### 11.2 `09_varre_camaras.py --revogacao` — a lei revogadora de Limoeiro
+
+Para cada `confirmado` do registro, procura as leis **posteriores** que citam
+o número da lei achada (as duas grafias, "1.478" e "1478") ou que revogam algo
+do tema. Na plataforma A, busca `REVOGA` e variantes mais o próprio número; na
+B, lê o acervo inteiro, sem o filtro de tema e de ano que a varredura aplica.
+
+```powershell
+python scripts/data_prep/09_varre_camaras.py --revogacao                    # só relata
+python scripts/data_prep/09_varre_camaras.py --revogacao --gravar-revogacao
+```
+
+Só grava a candidata **inequívoca**, a única que cita o número E fala em
+revogar, e troca `fonte_revogacao` de "secundaria" para "primaria". "Altera a
+Lei nº 1.478" cita e não revoga; duas candidatas fortes não são escolhidas.
+Nesses casos o relatório lista as candidatas para conferência à mão.
+
+Se a busca não achar nada, a alternativa manual é o **export do acervo** da
+Câmara: `camaralimoeirodonorte.ce.gov.br/leis/export` (CSV, JSON ou XLS). Aí
+basta procurar "1.478" nas leis de 2010.
