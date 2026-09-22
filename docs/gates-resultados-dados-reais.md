@@ -607,26 +607,34 @@ Isso **não** invalida o desenho: quatro anos de pós-ban são suficientes para 
 colapso pré/pós que o `contdid` exige. Mas muda o que o texto pode prometer, e
 deve entrar na §4 do `paper/` junto com a janela.
 
-#### ✅ Conferido em 2026-09-21 — e a rota alternativa cobre o vão
+#### ✅ RESOLVIDO em 2026-09-22 — e a premissa é que estava errada
 
-A **Base dos Dados** declara SINASC **1979–2024**
-(`basedosdados.org/dataset/48ccef51-8207-40ee-af5b-134c8ac3fb8c`), contra
-2013–2022 no FTP. Os dois anos que faltam estão dentro da cobertura anunciada.
+**O FTP do DATASUS tem 2023 e 2024.** Listando
+`/dissemin/publicos/SINASC/1996_/Dados/DNRES` — a série **consolidada**, que
+tem uma pasta `PRELIM` irmã e separada:
 
-⚠️ **Mas "declara" não é "tem".** Cobertura temporal na página de um dataset é
-metadado, não contagem de linhas — e esta linhagem já se queimou quatro vezes
-confiando em formato anunciado em vez de executado. Antes de escrever no
-`paper/` que a janela fecha em 19/12/2024:
+| UF | anos disponíveis |
+|---|---|
+| CE | 2007–**2024** |
+| RN, PI, PE | 2005–**2024** |
 
-```sql
-SELECT ano, COUNT(*) FROM `basedosdados.br_ms_sinasc.microdados`
-WHERE sigla_uf = 'CE' AND ano >= 2023 GROUP BY ano
-```
+O "2013–2022 no FTP" que motivou toda esta seção **não se sustenta**. O pós-ban
+do desfecho principal vai a **2019–2024** — seis anos, não quatro — e a janela
+fecha em 19/12/2024 como o desenho sempre quis.
 
-Vindo linhas, o pós-ban do desfecho principal volta a **2019–2024** — seis anos,
-não quatro — e a §4 do `paper/` muda junto. Não vindo, fica 2019–2022 com a
-limitação declarada. **A consulta exige conta no BigQuery**, que é a única
-credencial nova que este caminho pede.
+✅ **E a Base dos Dados deixa de ser necessária.** Não é preciso conferir se
+"declara 1979–2024" vira linha: a fonte primária basta, sem BigQuery e **sem
+credencial nova nenhuma**. A Base dos Dados continua válida como redundância,
+não como rota.
+
+⚠️ **Duas ressalvas antes de escrever seis anos no `paper/`.** A janela ainda é
+decisão de desenho, não consequência de disponibilidade — ampliar o pós-ban
+passa pelo orientador. E o corte em 19/12/2024 existe para preservar a cota
+zero contra a Lei 19.135/2024: 2024 entra **truncado**, não inteiro.
+
+⚠️ O painel corrente (`05_build_panel.py`, §7-ter) continua em **2015–2022**,
+porque é o que `ANOS_PADRAO` do script 02 pede. Estender é mudar essa
+constante — e refazer o painel.
 
 ---
 
@@ -769,10 +777,11 @@ instrumento, e ela se verifica — não por suposição, por medida. O grupo `d 
 7. **Decidir a fonte do canal A5**: SINAN/IEXO (2.914 eventos/ano no Ceará)
    contra SIH (4). Ver §7-bis.3 — e conferir o dicionário de `AGENTE_TOX` e
    `CIRCUNSTAN` **antes** de escrever o ingestor.
-8. ~~Conferir se a Base dos Dados tem SINASC 2023–2024~~ — ✅ **feito em
-   2026-09-21: declara 1979–2024.** Falta **uma consulta ao BigQuery** para
-   confirmar que as linhas do CE existem em 2023–2024; se existirem, o pós-ban
-   vai a seis anos. Ver §7-bis.4.
+8. ~~Conferir se a Base dos Dados tem SINASC 2023–2024~~ — ✅ **encerrado em
+   2026-09-22, por outro caminho: o FTP do DATASUS já tem 2023 e 2024.** Nada
+   a consultar no BigQuery, nenhuma credencial nova. O que resta é **decisão
+   de desenho** — estender o pós-ban a 2019–2024 passa pelo orientador e muda
+   `ANOS_PADRAO` do script 02. Ver §7-bis.4.
 
 ---
 

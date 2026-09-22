@@ -357,16 +357,18 @@ na literatura, ainda que não sirva ao teste de direção.
 | O cadastro da SEMACE é público e tem série com município? | ⚠️ **parcialmente, e provavelmente não serve.** Existe o **SICRA** (ce.gov.br/semace/…/sicra), mas ele cadastra *"empresas Registrantes/Fabricantes e seus produtos"* — **fabricante e produto, não prestador de aplicação por município** | ⚠️ **Não é a definição 3 de `d = 0`.** O art. 8º pede o registro de quem *aplica*; o SICRA registra quem *fabrica*. A LAI continua necessária. Rota alternativa achada: **SIPEAGRO/MAPA**, onde operadores aeroagrícolas se registram |
 | O MapBiomas separa banana/melão ou só classes genéricas? | ✅ **só genéricas.** Têm classe própria: soja (39), cana (20), café (46), citrus (47), dendê (35), algodão (62), arroz (40). **Banana cai em "Outras culturas perenes" (48)**; melão, em "Outras lavouras temporárias" (41) | **MapBiomas NÃO melhora a medida de dose** para este desenho. A flag do `CLAUDE.md` está resolvida no sentido pessimista — e isso *economiza* trabalho: o ingestor não vale a pena |
 | O mapa cárstico do CPRM/SGB é público? | ✅ **sim, e há fonte melhor.** A **ANA** publica "Sistemas Aquíferos" com classificação **Cárstico** em shapefile aberto (`dadosabertos.ana.gov.br`), catalogado no SNIRH | Vem da **mesma fonte e formato** que as ottobacias que o canal-água já usaria. Um download, não dois |
-| A **Base dos Dados** tem SINASC 2023–2024? | ✅ **declara 1979–2024** (`basedosdados.org/dataset/48ccef51…`) — contra 2013–2022 no FTP do DATASUS | ⚠️ Reabre a possibilidade de a janela fechar em **19/12/2024** como o desenho quer, em vez de 2022. Ver `gates-resultados-dados-reais.md` §7-bis.4 |
+| A **Base dos Dados** tem SINASC 2023–2024? | ⚠️ **pergunta superada em 2026-09-22 — a premissa era falsa.** Ela nasceu de "2013–2022 no FTP do DATASUS", e a série **consolidada** do FTP (`/dissemin/publicos/SINASC/1996_/Dados/DNRES`, irmã da `PRELIM`) tem **até 2024** para CE, RN, PI e PE. Conferido listando o diretório, não lendo página | **A janela pode fechar em 19/12/2024 pelo próprio DATASUS**, sem BigQuery e sem credencial. A Base dos Dados vira redundância, não rota. Ver `gates-resultados-dados-reais.md` §7-bis.4 |
 | A PAM 2010–2014 é comparável? | ✅ **SIM**, conferido em 2026-09-21: mesmas tabelas (1612/1613), mesmos códigos, **184 municípios e 86 culturas em ambos os períodos**, nenhuma cultura entra ou sai, e a costura 2014→2015 é suave na banana | **A D4 é viável.** ⚠️ Mas não é grátis — ver §1-quater |
 
 ⚠️ **Duas ressalvas de proveniência, e elas são do mesmo tipo que a coluna
 `confianca` do CSV de bans exige de qualquer varredura:**
 
-1. **"Declara 1979–2024" não é "tem as linhas".** A cobertura temporal na página
-   de um dataset é metadado, não contagem. Confirmar com uma consulta ao
-   BigQuery filtrando `sigla_uf = 'CE'` e `ano >= 2023` **antes** de prometer a
-   janela até 2024 no texto.
+1. ~~**"Declara 1979–2024" não é "tem as linhas".**~~ ✅ **Encerrada em
+   2026-09-22, e a lição é outra:** a consulta ao BigQuery ficou desnecessária
+   porque o **FTP já tem 2023 e 2024**. O que precisava de verificação não era
+   a cobertura anunciada da Base dos Dados — era a **premissa** de que o FTP
+   parava em 2022, que ninguém tinha listado. A regra de conferir executando em
+   vez de ler continua; ela só apontava para o lado errado.
 2. **Ausência de evidência sobre o melão no GAEZ não é evidência de ausência.**
    O portal não renderiza sem JS; a lista completa exige `/scrape` com browser,
    não `WebFetch`. Fica marcado como não conferido, não como "não tem".
