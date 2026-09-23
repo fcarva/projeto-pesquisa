@@ -163,7 +163,8 @@ entrar no `.bib`.
 | **Sasaki & Wang (2024)**, *JBES* 42(2):812–824, `10.1080/07350015.2023.2249509` | registro do periódico; texto no arXiv:2211.14870 | ✅ |
 | **Rull & Ritz (2003)**, *EHP* 111(13):1582–1589, PMID 14527836 | PubMed e resumo | ✅ bibliográfica · texto completo não lido |
 | **Denteh & Kédagni**, arXiv:2207.11890 | texto completo no arXiv; **v3 (atualizada 2026-05-01) reconferida em 2026-09-22**: Hipóteses 1, 2, 4 e 6, Proposições 1 e 2, **Corolários 1 e 5** | ✅ — ⚠️ *working paper*, não publicado. O **Corolário 1** (sem falso negativo → atenuação pura sob erro arbitrário) é o que se aplica aqui |
-| **CPT (2014)** e **MST (2019)** — revogação da Lei 1.478/2009 de Limoeiro em 20/05/2010 | trecho literal da CPT via índice de busca (Terra de Direitos); MST pelo resumo do buscador | ⚠️ fontes **secundárias**, concordantes. Fonte primária (lei revogadora) **a localizar** |
+| **CPT (2014)** e **MST (2019)** — revogação da Lei 1.478/2009 de Limoeiro em 20/05/2010 | trecho literal da CPT via índice de busca (Terra de Direitos); MST pelo resumo do buscador | ⚠️ fontes **secundárias**, concordantes. O 20/05 é, provavelmente, a data da votação |
+| **Lei Municipal 1.511/2010** de Limoeiro do Norte (26/05/2010) — a revogadora; *Diário do Nordeste* (abr/2010) e **G1** (31/10/2024) | ementa no acervo da Câmara (`/leis/581`, via listagem completa); trechos literais do jornal e do G1 via índice de busca | ✅ revogadora identificada: a revogação está num artigo do corpo. ⬜ **Texto integral não lido**, e a data da matéria do *Diário* veio do buscador |
 | **Camacho & Mejía (2017)** — pendência da §4 | **resumo** recuperado em 2026-09-22 | ⚠️ reduzida, não fechada: texto completo segue sem leitura |
 | **censobr** (Pereira & Barbosa 2023), `10.32614/CRAN.package.censobr` | `inst/CITATION` do pacote, no repositório clonado | ✅ |
 

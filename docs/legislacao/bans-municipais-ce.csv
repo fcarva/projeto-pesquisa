@@ -4,7 +4,8 @@
 # ⚠️ 'inconclusivo' NÃO é 'ausente_conferido' — ver o docstring do script e docs/legislacao/README.md §1
 # varredura de câmaras: 2026-09-21 por 09_varre_camaras.py
 # varredura de câmaras: 2026-09-21 por 09_varre_camaras.py
-# 2026-09-22: colunas data_revogacao/fonte_revogacao — Limoeiro (Lei 1.478/2009) revogada em 20/05/2010 segundo CPT 2014 e MST 2019; ver docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §4
+# 2026-09-22: colunas data_revogacao/fonte_revogacao — Limoeiro (Lei 1.478/2009) revogada em 20/05/2010 segundo CPT 2014 e MST 2019; ver docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5
+# 2026-09-22 (sessao remota): revogadora identificada - Lei 1.511, de 26/05/2010 (politica ambiental; revogacao num artigo do corpo, nao na ementa). 20/05/2010 (CPT) e provavel data da votacao. Texto integral a conferir - ver docs/legislacao/README.md
 cod_ibge6,municipio,prioridade,tem_lei,numero_lei,data_lei,ementa,url_fonte,data_consulta,escopo,confianca,motivo_alvo,area_max_ha,rank_melhor,data_revogacao,fonte_revogacao
 230100,Aquiraz,1,,,,,,,,nao_verificado,Manga (1º/170); Cana-de-açúcar (7º/120); Coco-da-baía* (10º/165),993.0,1,,
 230110,Aracati,1,,,,,,,,nao_verificado,Melão (1º/10); Melancia (1º/47); Mamão (3º/105); Castanha de caju (7º/170); Goiaba (9º/86); Manga (12º/170); Coco-da-baía* (14º/165),13771.5,1,,
@@ -26,7 +27,7 @@ cod_ibge6,municipio,prioridade,tem_lei,numero_lei,data_lei,ementa,url_fonte,data
 231380,Uruburetama,1,nao,,,,https://www.camarauruburetama.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (2º/169); Manga (14º/170),3186.0,2,,
 231395,Varjota,1,nao,,,,https://www.camaravarjota.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Mamão (2º/105); Banana (cacho) (15º/169),839.75,2,,
 230020,Acaraú,1,,,,,,,,nao_verificado,Coco-da-baía* (3º/165); Goiaba (3º/86); Mandioca (10º/172),4414.25,3,,
-230760,Limoeiro do Norte,1,sim,1478/2009,2009-11-20,Dispõe sobre a proibição do uso de aeronaves nas pulverizações de Lavouras no município de Limoeiro do Norte. 20/11/2009,https://www.camaralimoeirodonorte.ce.gov.br/leis.php?descr=PULVERIZA%C3%87%C3%95ES,2026-09-21,total,confirmado,Melancia (3º/47); Goiaba (4º/86); Arroz (em casca) (5º/73); Banana (cacho) (6º/169); Mamão (9º/105); Rigotto et al. (2013),1857.5,3,2010-05-20,secundaria: CPT 2014 (terradedireitos.org.br) e MST 2019; CONTESTADO 2026-09-22: acervo completo da Camara (2692 leis) nao tem revogadora nem lei datada de 20/05/2010 - ver docs/legislacao/README.md
+230760,Limoeiro do Norte,1,sim,1478/2009,2009-11-20,Dispõe sobre a proibição do uso de aeronaves nas pulverizações de Lavouras no município de Limoeiro do Norte. 20/11/2009,https://www.camaralimoeirodonorte.ce.gov.br/leis.php?descr=PULVERIZA%C3%87%C3%95ES,2026-09-21,total,confirmado,Melancia (3º/47); Goiaba (4º/86); Arroz (em casca) (5º/73); Banana (cacho) (6º/169); Mamão (9º/105); Rigotto et al. (2013),1857.5,3,2010-05-26,"secundaria, revogadora identificada: Lei 1.511 de 26/05/2010 (Dispoe sobre a politica ambiental do municipio; camaralimoeirodonorte.ce.gov.br/leis/581) - a revogacao esta num artigo do corpo segundo Diario do Nordeste (abr/2010) e G1 (31/10/2024); CPT 2014 da 20/05/2010, provavel data da votacao; texto integral da 1.511 a conferir - ver docs/legislacao/README.md"
 230810,Mauriti,1,,,,,,,,nao_verificado,Manga (3º/170); Milho (em grão) (8º/184),11473.75,3,,
 231130,Quixadá,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (3º/28),55.0,3,,
 231160,Redenção,1,nao,,,,https://www.camararedencao.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (3º/169); Arroz (em casca) (6º/73),3068.5,3,,

@@ -10,12 +10,13 @@ como os dois se encaixam.*
 
 ## 0. Cinco achados, em ordem de consequência
 
-1. **A lei municipal de Limoeiro do Norte foi revogada em 20/05/2010**, um mês
-   depois do assassinato de Zé Maria do Tomé. A contaminação da flag 0 **não
+1. **A lei municipal de Limoeiro do Norte foi revogada em maio de 2010**, um
+   mês depois do assassinato de Zé Maria do Tomé, por um artigo da **Lei 1.511,
+   de 26/05/2010** (política ambiental). A contaminação da flag 0 **não
    alcança a janela do estudo**, e os 27 estabelecimentos com aplicação por
    aeronave do grupo tratado (Limoeiro 18, Quixeré 9) são **todos** tratamento
-   genuíno em 2019. ⚠️ Fonte secundária: duas notas concordantes (CPT, MST). A
-   lei revogadora ainda precisa ser localizada no acervo da Câmara (§5).
+   genuíno em 2019. ⚠️ A revogadora está identificada, mas o texto integral
+   dela ainda não foi lido (§5).
 2. **Negi & Negi (2025) não se aplicam.** O erro unilateral deles é o
    **inverso** do nosso: admite só falso negativo e exclui o falso positivo por
    construção. A flag 7 encaixou o estimador deles no sentido errado (§3).
@@ -138,10 +139,22 @@ nenhum município de dose zero tinha aplicação por aeronave. O termo é zero.
 | CPT, 23/04/2014, reproduzida pela Terra de Direitos ([link](https://terradedireitos.org.br/noticias/noticias/quatro-anos-do-assassinato-de-ze-maria-uma-luta-contra-os-agrotoxicos-e-por-justica/14217); original em [cptnacional.org.br](https://cptnacional.org.br/2014/04/23/quatro-anos-do-assassinato-de-ze-maria-uma-luta-contra-os-agrotoxicos-e-por-justica/)) | *"A lei que proibia a pulverização aérea foi revogada em dia 20 de maio de 2010, um mês após o assassinato de Zé Maria."* | ✅ trecho literal, via índice de busca |
 | MST, 16/01/2019 ([link](https://mst.org.br/2019/01/16/proibicao-da-pulverizacao-aerea-de-agrotoxicos-no-ceara-direito-e-conquista-dos-povos-do-campo/)) | cerca de um mês após a morte de Zé Maria, a lei municipal foi revertida e a pulverização voltou a ser permitida | ⚠️ lido pelo resumo do buscador, não pelo texto integral |
 | Agência Pública / Repórter Brasil, 02/2019 | lista 8 municípios com proibição anterior à lei estadual; pela auditoria, todos no Centro-Oeste, Sul e Sudeste | ✅ consistente: Limoeiro não está na lista |
-| **lei revogadora, no acervo da Câmara** | — | ⬜ **a localizar** (bloqueado aqui) |
+| **lei revogadora, no acervo da Câmara** | Lei **1.511, de 26/05/2010**, *"Dispõe sobre a política ambiental do município"* (`/leis/581`) | ✅ identificada (atualização abaixo); ⬜ texto integral a ler |
 
-O ban municipal durou **seis meses** (20/11/2009 a 20/05/2010). As
-consequências, se a fonte primária confirmar:
+> **Atualização, 2026-09-22 (fim do dia).** A sessão local procurou a
+> revogadora no acervo completo (2.692 leis) e não achou lei citando a 1.478
+> nem datada de 20/05/2010, então contestou a revogação. A revogadora existe:
+> é a **Lei 1.511, de 26/05/2010**, de política ambiental, e a revogação está
+> num **artigo do corpo**. A ementa não diz nada disso, e por isso nenhuma
+> busca a pegou. O *Diário do Nordeste* (abr/2010) noticiou que o projeto "tem
+> em um de seus artigos a revogação da lei anterior, que proíbe a pulverização
+> aérea". O G1 (31/10/2024) diz que a Câmara "votou a lei 1.511" em maio de
+> 2010. O 20/05 da CPT é, provavelmente, a data da votação. Registro,
+> `CLAUDE.md` e paper usam 26/05/2010. Evidência completa e pendências em
+> `docs/legislacao/README.md` (bloco RESOLVIDO).
+
+O ban municipal durou **seis meses** (20/11/2009 a maio de 2010). As
+consequências, agora que a revogadora está identificada:
 
 - **Flag 0:** a contaminação do pré-período **não existe na janela do estudo**.
   Em 2015–2018 Limoeiro pulverizava como os vizinhos.
@@ -151,15 +164,19 @@ consequências, se a fonte primária confirmar:
   revogação não se confirmar.
 - **Pipeline:** a varredura (script 09) grava só a **primeira** lei que acha e
   nunca procura a que a revoga, cuja ementa ("Revoga a Lei nº…") não casa com
-  nenhum termo de busca. O registro ganhou as colunas `data_revogacao` e
+  nenhum termo de busca. ⚠️ E o caso real era pior do que este pressuposto: a
+  ementa da revogadora não diz "revoga" **nem** cita o número. O `--revogacao`
+  passou a marcar leis-quadro ambientais posteriores (`lei_quadro`) como
+  candidatas a ler. O registro ganhou as colunas `data_revogacao` e
   `fonte_revogacao`. O painel ganhou `ban_municipal_revogado_em` e
   `ban_vigente_em()`, e o relatório passou a dizer quantos bans estavam
   **vigentes** em 2015.
 
-**Para fechar, na máquina local:** no acervo da Câmara (plataforma A, que casa
-palavra inteira), buscar `leis.php?descr=REVOGA` e `leis.php?descr=1.478` e
-localizar a lei de maio de 2010. Gravar número, data e URL em `numero_lei` da
-revogadora, em `fonte_revogacao`, e trocar "secundaria" por "primaria".
+**Para fechar, na máquina local:** abrir o anexo da Lei 1.511 em
+`camaralimoeirodonorte.ce.gov.br/leis/581`, copiar o artigo revogatório para
+`docs/legislacao/README.md` e trocar "secundaria" por "primaria" em
+`fonte_revogacao`. Se o artigo tiver caído na votação, a revogação volta a ser
+questão aberta, e a flag 0 com ela.
 
 ## 6. A geografia do grupo tratado
 

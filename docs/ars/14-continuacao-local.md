@@ -19,7 +19,7 @@ git fetch origin
 git switch claude/exciting-noether-17cl74
 git pull origin claude/exciting-noether-17cl74
 pip install -r requirements.txt      # openpyxl é novo
-python -m pytest tests/ -q           # esperado: 251 passed (3 exigem requirements-geo.txt)
+python -m pytest tests/ -q           # esperado: 261 passed (3 exigem requirements-geo.txt)
 ```
 
 Puxar a conversa inteira em vez de só o código: `claude --teleport
@@ -79,6 +79,17 @@ python scripts/estimate/12_erro_de_classificacao.py `
 ```
 Corrigir o número errado em todos os arquivos acima e em
 `docs/auditoria-mensuracao-do-tratamento.md` — no mesmo commit.
+
+## 3-bis. Texto integral da Lei 1.511/2010 de Limoeiro (5 min)
+
+A revogadora da Lei 1.478/2009 foi identificada: a **Lei 1.511, de
+26/05/2010**, de política ambiental. A revogação está num artigo do corpo.
+Falta lê-la. Abrir o anexo em
+`https://www.camaralimoeirodonorte.ce.gov.br/leis/581` e copiar o artigo
+revogatório para o bloco RESOLVIDO de `docs/legislacao/README.md`. Depois,
+trocar `secundaria` por `primaria` em `fonte_revogacao`, no registro e na
+semente do script 08, e rodar os testes. Se o artigo não estiver lá, a flag 0
+reabre.
 
 ## 4. Crossref antes de qualquer `.bib` (30 min)
 

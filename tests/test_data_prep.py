@@ -2290,13 +2290,27 @@ def test_csv_de_bans_anterior_a_revogacao_ainda_carrega(tmp_path):
 
 def test_registro_commitado_traz_a_revogacao_de_limoeiro():
     """O CSV de `docs/legislacao/` é o que o painel lê. A revogação tem de
-    estar nele, com a fonte dita — e dita como secundária."""
+    estar nele, com a fonte dita — e dita como secundária enquanto o texto
+    integral da revogadora (Lei 1.511, de 26/05/2010) não for lido."""
     b = pd.read_csv(RAIZ / "docs/legislacao/bans-municipais-ce.csv",
                     dtype=str, comment="#").fillna("")
     lim = b[b.cod_ibge6 == "230760"].iloc[0]
     assert lim["data_lei"] == "2009-11-20"
-    assert lim["data_revogacao"] == "2010-05-20"
+    assert lim["data_revogacao"] == "2010-05-26"
+    assert "1.511" in lim["fonte_revogacao"]
     assert "secundaria" in lim["fonte_revogacao"]
+
+
+def test_semente_e_registro_concordam_na_revogacao_de_limoeiro():
+    """A semente do 08 e o CSV commitado contam a mesma história. Se um for
+    corrigido e o outro não, uma nova rodada do 08 sobre registro vazio
+    ressuscita a data velha."""
+    b = pd.read_csv(RAIZ / "docs/legislacao/bans-municipais-ce.csv",
+                    dtype=str, comment="#").fillna("")
+    lim = b[b.cod_ibge6 == "230760"].iloc[0]
+    semente = alvos.SEMENTE_CONFIRMADA["230760"]
+    assert semente["data_revogacao"] == lim["data_revogacao"]
+    assert "1.511" in semente["fonte_revogacao"]
 
 
 # --------------------------------------------------------------------------
@@ -3559,6 +3573,8 @@ def test_cita_a_lei_casa_as_duas_grafias_e_nao_o_vizinho():
 
 
 def test_candidatas_sao_so_as_posteriores_e_saem_marcadas():
+    # A 1.512 é fictícia, o caso de livro. A revogadora real de Limoeiro, a
+    # 1.511/2010, não cita o número nem diz "revoga" (teste da lei-quadro abaixo).
     leis = [
         {"numero_lei": "1.512/2010", "ano": 2010, "data_lei": "20/05/2010",
          "ementa": "Revoga a Lei nº 1.478, de 20 de novembro de 2009"},
@@ -3573,6 +3589,42 @@ def test_candidatas_sao_so_as_posteriores_e_saem_marcadas():
     assert c[0]["cita_o_numero"] and c[0]["fala_em_revogar"]
     assert c[1]["cita_o_numero"] and not c[1]["fala_em_revogar"]
     assert varre.revogadora_inequivoca(c)["numero_lei"] == "1.512/2010"
+
+
+def test_lei_quadro_ambiental_e_candidata_mas_nunca_inequivoca():
+    """O caso real de Limoeiro. A Lei 1.511/2010 revogou a 1.478/2009 num artigo
+    do corpo; a ementa não cita o número nem diz "revoga". Sem a marca de
+    lei-quadro, a busca devolvia "nenhuma candidata" — e a revogação chegou a
+    ser contestada por isso. A marca põe a lei na lista de leitura, e só."""
+    leis = [
+        {"numero_lei": "1510/2010", "ano": 2010, "data_lei": "21/05/2010",
+         "ementa": "Autoriza o Poder Executivo a firmar protocolo de intenções"},
+        {"numero_lei": "1511/2010", "ano": 2010, "data_lei": "26/05/2010",
+         "ementa": "DISPÕE SOBRE A POLÍTICA AMBIENTAL DO MUNICÍPIO DE LIMOEIRO "
+                   "DO NORTE E DÁ OUTRAS PROVIDÊNCIAS."},
+    ]
+    c = varre.candidatas_revogacao(leis, "1478/2009", "2009-11-20")
+    assert [x["numero_lei"] for x in c] == ["1511/2010"]
+    assert c[0]["lei_quadro"]
+    assert not c[0]["cita_o_numero"] and not c[0]["fala_em_revogar"]
+    assert varre.revogadora_inequivoca(c) is None       # ler o texto, não gravar
+
+
+def test_lei_quadro_depois_do_ban_estadual_fica_de_fora():
+    # Revogação municipal de 2020 não muda o que vigorava em 2015–2018.
+    leis = [{"numero_lei": "2300/2020", "ano": 2020, "data_lei": "2020-03-02",
+             "ementa": "Institui o Código Ambiental do Município"}]
+    assert varre.candidatas_revogacao(leis, "1478/2009", "2009-11-20") == []
+
+
+def test_busca_da_plataforma_a_procura_lei_quadro(monkeypatch):
+    urls = []
+    monkeypatch.setattr(varre, "busca_http", lambda url, timeout=35: urls.append(url))
+    r = varre.busca_revogacao("A", "https://x", "1478/2009", "2009-11-20", pausa=0)
+    assert any("descr=AMBIENTAL" in u for u in urls)
+    # rede fora: cada termo é um termo não conferido, não "não revogada"
+    assert r["erros"] == r["termos"] == len(urls)
+    assert r["candidatas"] == []
 
 
 def test_revogadora_ambigua_nao_e_escolhida():

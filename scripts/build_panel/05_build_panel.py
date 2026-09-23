@@ -280,8 +280,8 @@ def carrega_bans_municipais(caminho: Path = CAMINHO_BANS) -> pd.DataFrame:
 
     Flag 0 do `CLAUDE.md`: Limoeiro do Norte proibiu a pulverização aérea pela
     Lei 1.478 de 20/11/2009, e está no decil superior da banana. ⚠️ **E a lei
-    foi revogada em 20/05/2010** (fontes secundárias; a revogadora ainda não
-    foi localizada no acervo). Por isso a TERCEIRA coluna: sem a data de
+    foi revogada pela Lei 1.511, de 26/05/2010** (política ambiental; a
+    revogação está no corpo, não na ementa). Por isso a TERCEIRA coluna: sem a data de
     revogação, "ban em 2009" lia-se como "tratado desde 2009", e no pré-período
     de 2015–2018 Limoeiro pulverizava como qualquer vizinho.
 

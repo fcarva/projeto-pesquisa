@@ -181,9 +181,9 @@ FRACOES_EXPOSTAS = (0.10, 0.25, 0.50)
 # VPP — fração dos 17 tratados genuinamente tratada em 2019.
 CENARIOS_VPP = {
     # Censo 2006: Limoeiro + Quixeré. A lei de Limoeiro (2009) foi revogada
-    # em 20/05/2010 (fontes secundárias) — os dois contam.
+    # pela Lei 1.511, de 26/05/2010 (texto integral a conferir) — os dois contam.
     "censo2006": 2 / 17,
-    # Se a revogação de 2010 NÃO se confirmar na fonte primária: só Quixeré.
+    # Se o texto integral da 1.511 NÃO trouxer a revogação: só Quixeré.
     "censo2006_sem_limoeiro": 1 / 17,
     # Tudo o que não é serra: Limoeiro, Quixeré, Russas, Varjota, Itapipoca
     # (misto) e Missão Velha (vale do Cariri). Teto generoso — doc 16 §6.

@@ -101,7 +101,8 @@ COLUNAS = [
     "ementa", "url_fonte", "data_consulta", "escopo", "confianca",
     "motivo_alvo", "area_max_ha", "rank_melhor",
     # ⚠️ Acrescentadas em 2026-09-22. Lei achada não é lei vigente: a de
-    # Limoeiro (1.478/2009) foi revogada em 20/05/2010, e o registro só dizia
+    # Limoeiro (1.478/2009) foi revogada em maio de 2010 (Lei 1.511, de
+    # 26/05/2010), e o registro só dizia
     # quando ela nasceu. Sem estas colunas, "confirmado" lia-se como "tratado
     # desde 2009" — e a varredura (script 09) guarda só a PRIMEIRA lei achada,
     # nunca a que a revoga.
@@ -128,12 +129,17 @@ SEMENTE_CONFIRMADA = {
         "data_consulta": "2026-09-21",
         "escopo": "total",
         "confianca": "confirmado",
-        # ⚠️ Fonte SECUNDÁRIA, e dita como tal: nota da CPT (2014), reproduzida
-        # pela Terra de Direitos, e o MST (2019). A lei revogadora ainda não
-        # foi localizada no acervo da Câmara — ver docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5.
-        "data_revogacao": "2010-05-20",
-        "fonte_revogacao": ("secundaria: CPT 2014 (terradedireitos.org.br) e "
-                            "MST 2019; lei revogadora nao localizada"),
+        # ⚠️ Revogadora IDENTIFICADA, mas a revogação ainda é fonte secundária:
+        # a Lei 1.511, de 26/05/2010 ("Dispõe sobre a política ambiental do
+        # município"), traz a revogação num artigo do corpo, não na ementa
+        # (Diário do Nordeste, abr/2010; G1, 31/10/2024). O 20/05/2010 da CPT
+        # é, provavelmente, a data da votação. Texto integral a conferir —
+        # ver docs/legislacao/README.md e docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5.
+        "data_revogacao": "2010-05-26",
+        "fonte_revogacao": ("secundaria, revogadora identificada: Lei 1.511 de "
+                            "26/05/2010 (politica ambiental; revogacao num artigo "
+                            "do corpo); CPT 2014 da 20/05/2010, provavel votacao; "
+                            "texto integral a conferir"),
     }
 }
 

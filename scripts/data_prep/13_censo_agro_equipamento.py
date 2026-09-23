@@ -36,7 +36,7 @@ Isso põe três coisas em cima da mesa, e nenhuma é sobre custo:
 
 3. ✅ **E NÃO compõe com a flag 0, ao contrário do que se escreveu aqui antes.**
    Dos 27 estabelecimentos do decil, 18 são de Limoeiro do Norte, cuja lei
-   municipal de 2009 foi **revogada em 20/05/2010** (fontes secundárias). Os 27
+   municipal de 2009 foi **revogada em maio de 2010** (Lei 1.511). Os 27
    são tratamento genuíno em 2019: VPP = 2/17.
 
 ⚠️ AS RESSALVAS, QUE SÃO SÉRIAS

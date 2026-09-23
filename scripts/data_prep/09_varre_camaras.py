@@ -48,9 +48,10 @@ Norte). Testar só o primeiro faz 4 municípios parecerem "sem site".
 - ⚠️ **Lei achada não é lei vigente.** Quando acha mais de uma lei, o script
   grava a **primeira** (a mais antiga) — e nunca procura a que a revoga. Foi
   assim que a Lei 1.478/2009 de Limoeiro ficou registrada como ban vigente,
-  quando fontes secundárias (CPT 2014; MST 2019) dizem que ela foi **revogada
-  em 20/05/2010**. A revogadora dificilmente tem "aeronave" na ementa ("Revoga
-  a Lei nº ..."), então os `TERMOS` não a pegam. Todo `confirmado` exige
+  quando ela foi **revogada em maio de 2010** pela Lei 1.511, de 26/05/2010.
+  A revogadora dificilmente tem "aeronave" na ementa, então os `TERMOS` não a
+  pegam — e a de Limoeiro nem sequer diz "revoga": é uma lei de política
+  ambiental com a revogação num artigo do corpo. Todo `confirmado` exige
   conferência manual de revogação, registrada em `data_revogacao` /
   `fonte_revogacao` (colunas do script 08). Ver `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5.
 
@@ -61,9 +62,12 @@ Rodar:
     python scripts/data_prep/09_varre_camaras.py --revogacao --gravar-revogacao
 
 O modo `--revogacao` procura, para cada `confirmado`, as leis POSTERIORES que
-citam o número da lei achada ou que revogam algo do tema. Só grava a candidata
-inequívoca — a que cita o número E fala em revogar — e troca a fonte de
-"secundaria" para "primaria". O resto sai no relatório para conferência à mão.
+citam o número da lei achada, que revogam algo do tema, ou que são lei-quadro
+ambiental (política ambiental, meio ambiente, código de posturas) anterior a
+2019. Só grava a candidata inequívoca — a que cita o número E fala em revogar —
+e troca a fonte de "secundaria" para "primaria". O resto sai no relatório para
+conferência à mão. ⚠️ A lei-quadro nunca é inequívoca: a de Limoeiro (Lei
+1.511/2010) revogou num artigo do corpo, e só o texto integral mostra isso.
 """
 
 from __future__ import annotations
@@ -299,11 +303,22 @@ def classifica(resultado: dict) -> tuple[str, str]:
 # Revogação — lei achada não é lei vigente
 # --------------------------------------------------------------------------
 # Acrescentado em 2026-09-22, depois que fontes secundárias mostraram que a Lei
-# 1.478/2009 de Limoeiro foi revogada em 20/05/2010 — e a varredura, que parava
+# 1.478/2009 de Limoeiro foi revogada em maio de 2010 — e a varredura, que parava
 # na primeira lei achada, não tinha como saber. Ver
 # docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5.
 
 TERMOS_REVOGACAO = ("REVOGA", "REVOGADA", "REVOGAÇÃO", "REVOGACAO")
+
+# ⚠️ Lei-quadro: a revogação pode morar no CORPO de uma lei ampla, sem número nem
+# "revoga" na ementa. Foi o caso real: a Lei 1.511/2010 de Limoeiro ("Dispõe
+# sobre a política ambiental do município") revogou a 1.478/2009 num artigo, e
+# as buscas por número e por "revoga" voltaram vazias — a sessão local chegou a
+# contestar a revogação por isso. Leis-quadro saem como candidatas A LER, nunca
+# como inequívocas. Temas em minúsculas e sem acento, como `sem_acento` devolve;
+# termos para a busca da plataforma A, que casa palavra inteira.
+TEMAS_LEI_QUADRO = ("politica ambiental", "meio ambiente", "codigo ambiental",
+                    "codigo de posturas")
+TERMOS_LEI_QUADRO = ("AMBIENTAL", "AMBIENTE", "POSTURAS")
 
 
 def variantes_do_numero(numero_lei: str) -> set[str]:
@@ -330,13 +345,26 @@ def _data_iso(texto: str) -> str:
     return f"{m.group(3)}-{m.group(2)}-{m.group(1)}" if m else texto
 
 
+def _e_lei_quadro(ementa: str) -> bool:
+    """Lei ampla que pode revogar no corpo sem dizer na ementa (ver TEMAS_LEI_QUADRO)."""
+    e = sem_acento(ementa)
+    return any(t in e for t in TEMAS_LEI_QUADRO)
+
+
 def candidatas_revogacao(leis: list[dict], numero_lei: str, data_lei: str) -> list[dict]:
-    """Leis POSTERIORES à achada que citam o número dela, ou que revogam algo do tema.
+    """Leis POSTERIORES à achada que citam o número dela, que revogam algo do
+    tema, ou que são lei-quadro ambiental anterior ao ban estadual.
 
     ⚠️ Não decide. "Altera a Lei nº 1.478" cita o número e não revoga; "Revoga
-    as Leis nº ..." pode não repetir o tema. Por isso cada candidata sai com as
-    duas marcas, `cita_o_numero` e `fala_em_revogar`, e só a coincidência das
-    duas autoriza gravar sem olho humano (`--gravar-revogacao`).
+    as Leis nº ..." pode não repetir o tema; e a lei-quadro pode revogar num
+    artigo sem dizer nada na ementa. Por isso cada candidata sai com três
+    marcas — `cita_o_numero`, `fala_em_revogar`, `lei_quadro` — e só a
+    coincidência das duas primeiras autoriza gravar sem olho humano
+    (`--gravar-revogacao`). A lei-quadro pede o texto integral.
+
+    A lei-quadro só entra antes de 2019: revogação municipal posterior ao ban
+    estadual não muda o que vigorava em 2015–2018, e sem o corte toda lei de
+    meio ambiente de uma década viraria candidata.
     """
     vistas, saida, limite = set(), [], _data_iso(data_lei)
     for lei in leis:
@@ -348,8 +376,11 @@ def candidatas_revogacao(leis: list[dict], numero_lei: str, data_lei: str) -> li
         e = sem_acento(lei["ementa"])
         cita = cita_a_lei(lei["ementa"], numero_lei)
         revoga = "revog" in e
-        if cita or (revoga and _e_do_tema(lei["ementa"])):
-            saida.append({**lei, "cita_o_numero": cita, "fala_em_revogar": revoga})
+        quadro = _e_lei_quadro(lei["ementa"])
+        antes_do_ban = data[:4] < str(ANO_BAN_ESTADUAL)
+        if cita or (revoga and _e_do_tema(lei["ementa"])) or (quadro and antes_do_ban):
+            saida.append({**lei, "cita_o_numero": cita, "fala_em_revogar": revoga,
+                          "lei_quadro": quadro})
     return sorted(saida, key=lambda x: x["data_lei"])
 
 
@@ -361,7 +392,8 @@ def busca_revogacao(plataforma: str, base: str, numero_lei: str, data_lei: str,
         acervo, erros, _ = _acervo_plataforma_b(base)
         return {"candidatas": candidatas_revogacao(acervo, numero_lei, data_lei),
                 "erros": erros, "termos": 1}
-    termos = TERMOS_REVOGACAO + tuple(sorted(variantes_do_numero(numero_lei)))
+    termos = (TERMOS_REVOGACAO + tuple(sorted(variantes_do_numero(numero_lei)))
+              + TERMOS_LEI_QUADRO)
     leis, erros = [], 0
     for termo in termos:
         url = f"{base}/leis.php?descr={urllib.parse.quote(termo)}"
@@ -402,9 +434,11 @@ def roda_revogacao(tabela: pd.DataFrame, gravar: bool) -> tuple[pd.DataFrame, li
                          f"({linha['data_lei']}), plataforma {plataforma}, "
                          f"{r['termos'] - r['erros']}/{r['termos']} buscas ok")
         for c in r["candidatas"]:
-            marcas = ("cita o número" if c["cita_o_numero"] else "") + \
-                     (" + revoga" if c["fala_em_revogar"] else "")
-            relatorio.append(f"     >>> Lei {c['numero_lei']}  {c['data_lei']}  [{marcas.strip(' +')}]")
+            marcas = [m for m, sim in (("cita o número", c["cita_o_numero"]),
+                                       ("revoga", c["fala_em_revogar"]),
+                                       ("lei-quadro: ler o texto integral",
+                                        c.get("lei_quadro", False))) if sim]
+            relatorio.append(f"     >>> Lei {c['numero_lei']}  {c['data_lei']}  [{' + '.join(marcas)}]")
             relatorio.append(f"         {c['ementa'][:110]}")
         if not r["candidatas"]:
             relatorio.append("     nenhuma candidata"
