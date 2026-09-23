@@ -53,7 +53,20 @@ inclinação. Cada corte placebo grava também o nível (`nivel`: média de dy d
 de dose > 0 menos a dos de dose = 0), e o relatório compara o nível real com
 os placebos. É a pergunta que o −36 g da §6.2 tem de responder.
 
-Saída: `data/processed/spt_pretrend__<desfecho>.csv`
+🔴 BUG CORRIGIDO EM 2026-09-23: OS PLACEBOS USAVAM O PÓS-BAN
+------------------------------------------------------------
+Até esta data o laço passava o painel INTEIRO a `primeira_diferenca`, que
+monta o pseudo-pós com `t >= corte` e sem teto. Cada placebo "pré-ban" levava
+junto os 48 meses de 2019–2022, e o comentário "só o pré-período" dizia o
+contrário do que o código fazia. Achado da auditoria de 2026-09-23
+(`docs/revisao/auditoria-2026-09-23/`), conferido aqui. Agora o painel é
+cortado em [--inicio; --corte-pre] ANTES de montar os placebos, e janela pré
+que alcance 2019 é recusada. No painel real o nível placebo muda de sinal:
+−7,9, −7,9 e −12,9 g com o pós-ban dentro; +17,6, +25,9 e +20,4 g sem ele
+(definição 1; +20,1, +28,1 e +21,6 g na definição 4). Os CSV antigos
+não valem como placebo pré-ban.
+
+Saída: `data/processed/spt_pretrend__<desfecho>__d0-<def>.csv`
 """
 
 from __future__ import annotations
@@ -75,6 +88,10 @@ estima = _rb.estima
 erro_padrao_ingenuo = _rb.erro_padrao_ingenuo
 inferencia_aleatorizacao = _rb.inferencia_aleatorizacao
 nivel = _rb.nivel
+zeros_suspeitos = _rb.zeros_suspeitos
+aplica_d_zero = _rb.aplica_d_zero
+_ep_welch = _rb._ep_welch
+_gl_welch = _rb._gl_welch
 _saida_utf8 = _rb._saida_utf8
 N_BOOT = _rb.N_BOOT
 SEED = _rb.SEED
@@ -93,6 +110,29 @@ def _t(aamm: str) -> int:
 
 def _rotulo(t: int) -> str:
     return f"{t // 12}-{t % 12 + 1:02d}"
+
+
+def so_pre_periodo(painel: pd.DataFrame, t_inicio: int, t_fim: int) -> pd.DataFrame:
+    """O painel restrito a [t_inicio; t_fim], antes de qualquer colapso.
+
+    Cortar só os cortes não basta: `primeira_diferenca` toma todo `t >= b`
+    como pseudo-pós. É aqui que o placebo deixa de ver o ban.
+    """
+    t = painel["ano"] * 12 + painel["mes"] - 1
+    return painel.loc[t.between(t_inicio, t_fim)].copy()
+
+
+def nivel_welch(dados: pd.DataFrame) -> dict:
+    """Nível com EP e p de Welch (t de Satterthwaite), para cada corte."""
+    from scipy.stats import t as dist_t
+    d, y = dados["dose"].to_numpy(float), dados["dy"].to_numpy(float)
+    y_t, y_c = y[d > 0], y[d <= 0]
+    ep, gl = _ep_welch(y_t, y_c), _gl_welch(y_t, y_c)
+    est = nivel(dados)
+    ok = np.isfinite(est) and np.isfinite(ep) and ep > 0 and np.isfinite(gl)
+    return {"nivel": est, "nivel_ep_welch": ep,
+            "nivel_p_welch": float(2 * dist_t.sf(abs(est / ep), gl)) if ok else np.nan,
+            "n_controles": int((d <= 0).sum())}
 
 
 def placebos(t_inicio: int, t_fim: int, gap: int,
@@ -165,13 +205,16 @@ def imprime(res: pd.DataFrame, desfecho: str, real: dict | None,
         if "nivel" in res.columns and not np.isnan(real.get("nivel", np.nan)):
             print("-" * 84)
             print("E O NÍVEL — o ATT(d|d) agregado, que é o número da §6.2:")
-            print(f"  real {real['nivel']:+.3f}   placebos: "
-                  + ", ".join(f"{v:+.3f}" for v in res["nivel"]))
+            print(f"  real {real['nivel']:+.3f}")
+            for _, r in res.iterrows():
+                print(f"  placebo {r['corte']:<18} nível {r['nivel']:+9.3f}  "
+                      f"EP Welch {r['nivel_ep_welch']:7.3f}  p {r['nivel_p_welch']:.3f}")
             maior_n = (res["nivel"].abs() >= abs(real["nivel"])).sum()
             print(f"  cortes placebo com nível ao menos tão grande em módulo: "
                   f"{maior_n} de {n_tot}")
-            print("  ⚠️ Com poucos cortes, isto não é p-valor. É a pergunta que o")
-            print("     parecer faz ao −36 g: ele está fora do ruído de pré-período?")
+            print("  ⚠️ Com poucos cortes, isto não é p-valor, e os cortes se")
+            print("     sobrepõem. É a pergunta que o parecer faz ao −36 g: de que")
+            print("     tamanho é o nível quando não existe ban nenhum?")
     print(barra)
 
 
@@ -190,6 +233,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--largura-min", type=int, default=12,
                         help="meses mínimos de cada lado do corte placebo")
     parser.add_argument("--alfa", type=float, default=0.05)
+    parser.add_argument("--d-zero", choices=("1", "4"), default="1",
+                        help="construção do d = 0, como no 04 (o `make real` passa D_ZERO)")
+    parser.add_argument("--aptidao-p", type=float, default=0.75)
     parser.add_argument("--n-boot", type=int, default=N_BOOT)
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
@@ -205,7 +251,21 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     t_ini, t_pre, t_pos = _t(args.inicio), _t(args.corte_pre), _t(args.corte_pos)
+    if not (t_ini <= t_pre < BAN_T) or t_pos <= t_pre:
+        print("✘ o placebo exige início <= corte pré < 2019-01 e corte pós > corte pré.")
+        return 1
     gap = t_pos - t_pre
+
+    suspeitos: set = set()
+    if args.d_zero == "4":
+        try:
+            suspeitos = zeros_suspeitos(painel, args.aptidao_p)
+        except ValueError as erro:
+            print(f"✘ {erro}")
+            return 1
+
+    # 🔴 O corte que faltava: nada fora de [início; corte pré] entra no placebo.
+    painel_pre = so_pre_periodo(painel, t_ini, t_pre)
 
     cortes = placebos(t_ini, t_pre, gap, args.largura_min)
     if not cortes:
@@ -220,9 +280,9 @@ def main(argv: list[str] | None = None) -> int:
 
     linhas = []
     for a, b in cortes:
-        dados = primeira_diferenca(painel, args.desfecho, a, b)
-        # só o pré-período: nada depois do ban pode entrar
-        dados = dados[dados["dose"].notna()]
+        # pseudo-pré = [início; a], pseudo-pós = [b; corte pré]
+        dados = primeira_diferenca(painel_pre, args.desfecho, a, b)
+        dados = aplica_d_zero(dados[dados["dose"].notna()], suspeitos)
         if len(dados) < 10:
             continue
         beta = estima(dados)
@@ -231,6 +291,7 @@ def main(argv: list[str] | None = None) -> int:
             "corte": f"{_rotulo(a)} / {_rotulo(b)}",
             "t_pre": a,
             "t_pos": b,
+            "fim_pseudo_pos": _rotulo(t_pre),
             "n_municipios": len(dados),
             "beta": beta,
             "ep_ingenuo": erro_padrao_ingenuo(dados),
@@ -238,7 +299,8 @@ def main(argv: list[str] | None = None) -> int:
             "ic_baixo": rnd["ic_baixo"],
             "ic_alto": rnd["ic_alto"],
             # o nível, que é o ATT(d|d) agregado: comentário 4 do parecer
-            "nivel": nivel(dados),
+            **nivel_welch(dados),
+            "d_zero": args.d_zero,
         })
 
     if not linhas:
@@ -247,8 +309,8 @@ def main(argv: list[str] | None = None) -> int:
 
     res = pd.DataFrame(linhas)
 
-    # o desenho real, para comparação
-    reais = primeira_diferenca(painel, args.desfecho, t_pre, t_pos)
+    # o desenho real, para comparação — este, sim, com o pós-ban
+    reais = aplica_d_zero(primeira_diferenca(painel, args.desfecho, t_pre, t_pos), suspeitos)
     real = {"beta": estima(reais),
             "p": inferencia_aleatorizacao(reais, args.n_boot, args.seed)["p"],
             "nivel": nivel(reais)}
@@ -256,7 +318,7 @@ def main(argv: list[str] | None = None) -> int:
     imprime(res, args.desfecho, real, args.alfa)
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    destino = args.out_dir / f"spt_pretrend__{args.desfecho}.csv"
+    destino = args.out_dir / f"spt_pretrend__{args.desfecho}__d0-{args.d_zero}.csv"
     res.to_csv(destino, index=False, encoding="utf-8")
     print(f"gravado: {destino}")
     return 0

@@ -148,6 +148,16 @@ validar; (iii) com antecipação desde 18/12/2018, um placebo em 2017 deixa apen
 
 ### 4.1 Diagnóstico 1 — as duas curvas lado a lado (Teorema C.1)
 
+> ⚠️ **ERRATA de 2026-09-23 — este diagnóstico não existe.** Pelo Teorema C.1, a
+> expressão E[ΔY|D=d] − E[ΔY|D=0] identifica ATT(d|d) sob PT e **a mesma
+> expressão** identifica ATE(d) sob SPT. Não há duas curvas estimadas de forma
+> independente para pôr lado a lado, e rodar `level` contra `slope` compara uma
+> função com a derivada dela. O compromisso abaixo ("a decisão é tomada por este
+> diagnóstico") não tem objeto. A implicação testável é a do pré-período
+> (`10_spt_pretrend.py`), que falsifica e não valida. Achado da auditoria
+> externa de 2026-09-23; ver `docs/ars/20-resposta-a-auditoria-2026-09-23.md`
+> §3.2. O texto original fica abaixo, como registro.
+
 Estimar e plotar **`ATT(d|d)`** (identificada sob PT) contra **`ATE(d)`**
 (identificada sob SPT). Pelo Teorema C.1, se PT e SPT valem, as duas coincidem.
 

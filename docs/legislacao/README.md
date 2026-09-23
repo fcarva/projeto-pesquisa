@@ -25,14 +25,15 @@ Drive, não no repositório.
 | **20/11/2009** | ✅ **CONFERIDO.** Limoeiro do Norte proíbe a pulverização aérea pela **Lei Municipal 1.478/2009** — *"dispõe sobre a proibição do uso de aeronaves nas pulverizações de lavouras no município de Limoeiro do Norte"*. Fonte primária: `camaralimoeirodonorte.ce.gov.br/leis/549` (consulta 2026-09-21). O art. 29 da lei estadual autoriza o município a legislar supletivamente. ⚠️ Ver a ameaça abaixo — ela agora tem número. |
 | **21/04/2010** | Assassinato de José Maria Filho, o Zé Maria do Tomé, que defendia a lei municipal. |
 | **20/05/2010** | ⚠️ **Lei 1.478/2009 REVOGADA** pela Câmara de Limoeiro do Norte, um mês após o assassinato. Fontes **secundárias** e concordantes: CPT, nota de 23/04/2014, reproduzida pela Terra de Direitos (*"A lei que proibia a pulverização aérea foi revogada em dia 20 de maio de 2010, um mês após o assassinato de Zé Maria"*), e MST, 16/01/2019. ⚠️ **Não há lei com esta data** no acervo (bloco CONTESTADO abaixo): é, provavelmente, a data da **votação**. Consequência: **a contaminação do pré-período 2015–2018 é nula** — ver abaixo e `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5. |
-| **26/05/2010** | ✅ **Lei Municipal 1.511/2010** — *"Dispõe sobre a política ambiental do município de Limoeiro do Norte e dá outras providências"* (`camaralimoeirodonorte.ce.gov.br/leis/581`). **É a revogadora**: a revogação da 1.478 está num artigo do corpo, não na ementa (bloco RESOLVIDO abaixo). ⬜ Texto integral a conferir. |
+| **26/05/2010** | ✅ **Lei Municipal 1.511/2010** — *"Dispõe sobre a política ambiental do município de Limoeiro do Norte e dá outras providências"* (`camaralimoeirodonorte.ce.gov.br/leis/581`). **É a revogadora**: **art. 212**, *"Fica revogada a Lei nº. 1.478, de 20 de novembro de 2.009."* (PDF digitalizado da Câmara, p. 65; lido pela auditoria de 2026-09-23 — bloco CONFERIDO abaixo). ⚠️ E a mesma lei **regula** a pulverização aérea: o **art. 214**, na mesma página, a submete a condições. |
+| **27/08/2018** | 🆕 **Lei Municipal 2.054/2018** de Limoeiro (política ambiental), arts. 152–159 (lidos pela auditoria de 2026-09-23). O art. 153 mantém a pulverização aérea **condicionada**: afastamento de 1.000/500 m, **aviso prévio de 5 dias**, comunicação dos produtos, multa, suspensão e proibição por reincidência. O art. 155 prevê exame da água e suspensão diante de contaminação. **Não é novo ban.** Em agosto de 2018 o município ainda regulava a aplicação aérea, e os avisos prévios são registro a pedir (Pedido E, `lai-limoeiro-avisos-previos-minuta.md`). ⚠️ Cláusula de vigência não localizada no anexo. |
 | **24/02/2015** | **PL 18/2015 apresentado** por Renato Roseno. ⚠️ **Marco de notícia** — a janela pré-ban 2015–2018 começa *depois* disto. |
 | **18/12/2018** | ALECE aprova por unanimidade, após 4 anos de tramitação. **Marco de certeza.** |
 | **08/01/2019** | Lei 16.820/2019 sancionada por Camilo Sobreira de Santana. |
 | **09/01/2019** | Publicação no D.O. O art. 2º diz "entra em vigor na data de sua publicação" — **é esta a data de vigência**. |
 | **mai/2023** | STF julga a lei constitucional (ADI 6137, rel. min. Cármen Lúcia, unânime). |
 | **19/12/2024** | Lei 19.135/2024 dá nova redação ao art. 28-B: exceção para drones. |
-| **2025** | ADI 7794 (PSOL) contra a Lei 19.135/2024, rel. min. Luiz Fux. Pendente. |
+| **2025** | ADI 7794 (PSOL) contra a Lei 19.135/2024, rel. min. Luiz Fux (notícia do STF, 12/03/2025). ⚠️ Andamento em set/2026 **não certificado** (auditoria de 2026-09-23): não escrever "pendente", "suspensa" ou "validada" sem o andamento primário. |
 
 **Precisão da data.** Sanção em 08/01, publicação e vigência em 09/01. Num painel
 mensal a distinção não muda nada — ambas caem em janeiro de 2019 —, mas o texto
@@ -148,6 +149,20 @@ e é a 6ª maior dose — não é unidade de borda.
 > **O que isto devolve.** A cadeia que o bloco acima suspendeu — flag 0 do
 > `CLAUDE.md`, `data_revogacao`, bans vigentes no painel, §5 do paper — volta
 > a valer, com a data e a lei corrigidas. Limoeiro é tratamento genuíno em 2019.
+>
+> ### ✅ CONFERIDO em 2026-09-23: o artigo revogatório é o 212
+>
+> | fonte | o que diz | natureza |
+> |---|---|---|
+> | Lei 1.511/2010, anexo em `/arquivos/581/Leis_1511_2010_0000001.pdf`, **p. 65** | **art. 212**: *"Fica revogada a Lei nº. 1.478, de 20 de novembro de 2.009."* Na mesma página começa o art. 214, que submete a pulverização aérea a condições; p. 67: art. 218, vigência na publicação, assinatura de 26/05/2010 | primária, **lida pela auditoria externa de 2026-09-23** (PDF de 68 páginas sem camada de texto, lido por imagem; SHA-256 `affb588fddf86d4e57df5baaaa16c9d6e10f4f81138f1165dad0690603811e83`). Não relida nesta sessão: o proxy bloqueia o domínio |
+> | acórdão indexado no Jusbrasil | *"... PULVERIZAÇÃO. SUPERVENIENTE REVOGAÇÃO DA LEI Nº 1.478/2009 PELA LEI Nº 1.511/2010. PERDA DE INTERESSE RECURSAL. EXTINÇÃO DO FEITO SEM RESOLUÇÃO DE MÉRITO ..."* | judicial, trecho pelo índice de busca; tribunal e número ⬜ a identificar |
+>
+> A fonte passou a `primaria` no registro e na semente do script 08. Duas
+> ressalvas continuam: a assinatura não comprova a publicação municipal, e a
+> revogação não diz quando as empresas voltaram a voar. O art. 214, que
+> **regula** a pulverização aérea, e o art. 153 da Lei 2.054/2018 são indício de
+> que a prática existia para ser regulada, não prova de voo. Ver
+> `docs/ars/20-resposta-a-auditoria-2026-09-23.md` §4.
 
 > ⚠️ **Corrigido em 2026-09-22: a lei foi revogada em maio de 2010** (Lei
 > 1.511, de 26/05/2010; cronologia acima). O ban durou seis meses, e em 2015–2018 Limoeiro **não** estava sob

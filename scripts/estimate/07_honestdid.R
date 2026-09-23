@@ -52,7 +52,7 @@ suppressPackageStartupMessages({
 
 args <- commandArgs(trailingOnly = TRUE)
 CONHECIDOS <- c("--painel", "--desfecho", "--saida", "--seed", "--aptidao-p",
-                "--fracao-decil", "--ano-ban")
+                "--fracao-decil", "--ano-ban", "--corte-pre", "--corte-pos")
 if ("--help" %in% args || "-h" %in% args) {
   cat("E7-ter — sensibilidade HonestDiD (Rambachan & Roth)\n\n")
   cat("  --painel        parquet do painel [data/processed/painel_ensaio1.parquet]\n")
@@ -60,6 +60,8 @@ if ("--help" %in% args || "-h" %in% args) {
   cat("  --fracao-decil  fração do topo que é 'tratado' [0.10]\n")
   cat("  --aptidao-p     percentil de aptidão que define o zero crível [0.75]\n")
   cat("  --ano-ban       ano de vigência [2019]\n")
+  cat("  --corte-pre     último mês do pré [2018-12]\n")
+  cat("  --corte-pos     primeiro mês do pós [2020-01]; meses entre os dois saem\n")
   cat("  --seed          semente [20190613]\n\n")
   cat("⚠️ Tratamento BINÁRIO, não a dose contínua. Ver o cabeçalho.\n")
   quit(status = 0)
@@ -77,6 +79,8 @@ fracao <- as.numeric(le("--fracao-decil", "0.10"))
 aptidao_p <- as.numeric(le("--aptidao-p", "0.75"))
 ano_ban <- as.integer(le("--ano-ban", "2019"))
 semente <- as.integer(le("--seed", "20190613"))
+corte_pre <- le("--corte-pre", "2018-12")
+corte_pos <- le("--corte-pos", "2020-01")
 set.seed(semente)
 
 barra <- strrep("=", 84)
@@ -102,6 +106,19 @@ if (length(controles) < 5) {
 
 amostra <- painel[cod_ibge6 %in% c(tratados, controles)]
 amostra[, tratado := as.integer(cod_ibge6 %in% tratados)]
+# ⚠️ A MESMA EXCLUSÃO DE COORTES DO 03_contdid.R (auditoria de 2026-09-23). Até
+# esta data o ano de 2019 entrava INTEIRO no pós, com os nascimentos de
+# jan–set/2019, cuja gestação atravessa o ban e que o contdid descarta. As
+# linhas binárias da §6 avaliavam outra exposição, e não só outra inferência.
+# Com agregação ANUAL, o análogo do corte de 2019-10 é tirar 2019 inteiro: meio
+# ano viraria célula anual de três meses. O pós começa em 2020. Para reproduzir
+# o número antigo: --corte-pos 2019-01.
+t_de <- function(txt) { p <- as.integer(strsplit(txt, "-")[[1]]); p[1] * 12L + p[2] - 1L }
+amostra[, t_mes := ano * 12L + mes - 1L]
+n_antes <- nrow(amostra)
+amostra <- amostra[t_mes <= t_de(corte_pre) | t_mes >= t_de(corte_pos)]
+cat("coortes de transição fora: ", n_antes - nrow(amostra), " células (pré <= ",
+    corte_pre, " | pós >= ", corte_pos, ")\n", sep = "")
 # ⚠️ Agregação ANUAL de propósito. Com 96 meses o HonestDiD faria busca em grade
 # sobre 48 períodos pós — caro e sem ganho: a exposição é gestacional, e o
 # desenho já colapsa pré/pós no E6.
@@ -171,7 +188,8 @@ cat(barra, "\n")
 dir.create(saida, recursive = TRUE, showWarnings = FALSE)
 tab[, `:=`(desfecho = desfecho, n_tratados = length(tratados),
            n_controles = length(controles), n_pre = n_pre, n_pos = n_pos,
-           ic_orig_lb = orig$lb, ic_orig_ub = orig$ub)]
+           ic_orig_lb = orig$lb, ic_orig_ub = orig$ub,
+           corte_pre = corte_pre, corte_pos = corte_pos)]
 destino <- file.path(saida, sprintf("honestdid__%s.csv", desfecho))
 fwrite(tab, destino)
 cat("\n[ok]", destino, "\n")

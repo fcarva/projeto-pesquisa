@@ -149,9 +149,15 @@ prespec-ok:
 # transporte que funciona (docs/ars/15 §6) e falha DURO quando não funciona.
 # A linha do 10 já era explícita (`--fonte pysus`) pela mesma razão; só mudou
 # qual transporte é o que está de pé.
+# ⚠️ O 03 (óbito fetal) ficou de fora dessa regra até 2026-09-23 e rodava com
+# `--fonte auto`, que termina em simulado (auditoria de 2026-09-23). Agora é
+# `--fonte dofet`, o arquivo nacional de óbito fetal, que falha duro.
+# ⚠️ E o D_ZERO vai também para o 04, o 09 e o 10: até 2026-09-23 só o contdid
+# o recebia, e a inferência do nível saía com 15 controles enquanto o agregado
+# de −36,19 g tem 14.
 real: prespec-ok cultura-ok
 	$(PY) scripts/data_prep/02_clean_births.py       --fonte ftp
-	$(PY) scripts/data_prep/03_clean_fetal_deaths.py --fonte auto \
+	$(PY) scripts/data_prep/03_clean_fetal_deaths.py --fonte dofet \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet
 	$(PY) scripts/data_prep/04_clean_poisoning.py    --fonte ftp
 	$(PY) scripts/data_prep/10_clean_sinan_iexo.py   --fonte ftp
@@ -162,7 +168,7 @@ real: prespec-ok cultura-ok
 	$(PY) scripts/build_panel/05_build_panel.py --cultura "$(CULTURA)" --fonte real
 	Rscript scripts/estimate/03_contdid.R --desfecho $(DESFECHO) --d-zero $(D_ZERO)
 	$(PY) scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.parquet \
-	    --desfecho $(DESFECHO) $(if $(MDE),--mde $(MDE),)
+	    --desfecho $(DESFECHO) --d-zero $(D_ZERO) $(if $(MDE),--mde $(MDE),)
 	Rscript scripts/estimate/06_pretrends.R --desfecho $(DESFECHO)
 	Rscript scripts/estimate/07_honestdid.R --desfecho $(DESFECHO)
 	Rscript scripts/estimate/08_synthdid.R --desfecho $(DESFECHO)
@@ -170,9 +176,10 @@ real: prespec-ok cultura-ok
 #	§6 da pré-especificação mandava e que não existia; o 10 é a sonda do SPT que
 #	o CGS §6.3 propõe — a única hipótese que o alvo primário precisava e que
 #	nenhum outro passo deste alvo tocava. Nenhum dos dois usa R.
-	$(PY) scripts/estimate/09_holm.py --painel data/processed/painel_ensaio1.parquet
+	$(PY) scripts/estimate/09_holm.py --painel data/processed/painel_ensaio1.parquet \
+	    --d-zero $(D_ZERO)
 	$(PY) scripts/estimate/10_spt_pretrend.py --painel data/processed/painel_ensaio1.parquet \
-	    --desfecho $(DESFECHO)
+	    --desfecho $(DESFECHO) --d-zero $(D_ZERO)
 
 # ⚠️ FORA de `real` DE PROPÓSITO. A varredura é dezenas de requisições a portais
 # de câmara, e o produto — docs/legislacao/bans-municipais-ce.csv — é COMMITADO.

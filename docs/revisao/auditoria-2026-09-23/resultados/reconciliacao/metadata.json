@@ -1,0 +1,35 @@
+{
+  "source": "C:\\Users\\DELL\\Documents\\projeto-pesquisa\\projeto-pesquisa",
+  "n_cells": 17664,
+  "n_units": 184,
+  "years": [
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "births": 1001709,
+  "cells_weight_missing": 10,
+  "gaez_p75": 0.4825389550870761,
+  "excluded_zero": [
+    "230523"
+  ],
+  "n_t": 169,
+  "n_zero": 15,
+  "n_zero4": 14,
+  "n_top": 17,
+  "aero": [
+    "230040",
+    "230700",
+    "230760",
+    "230810",
+    "231126",
+    "231140",
+    "231150"
+  ],
+  "n_covid_cells": 4416
+}

@@ -1,0 +1,123 @@
+{
+  "created_utc": "2026-09-23T11:16:50.072826+00:00",
+  "source_repository": "C:\\Users\\DELL\\Documents\\projeto-pesquisa\\projeto-pesquisa",
+  "source_HEAD": "4ab2c93971fa64d03393405428f6518950c9dada",
+  "audited_clone_HEAD": "8d3a31ea2680e530d4ea3cee6134531be0d853fe",
+  "SOURCE": "C:\\Users\\DELL\\Documents\\projeto-pesquisa\\projeto-pesquisa",
+  "PANEL": "C:\\Users\\DELL\\Documents\\projeto-pesquisa\\projeto-pesquisa\\data\\processed\\painel_ensaio1.parquet",
+  "WORKSPACE": "C:\\Users\\DELL\\Documents\\Codex\\2026-09-23\\prior-conversation-with-codex-conversation-role",
+  "original_data_unchanged_sha256": {
+    "painel_ensaio1.parquet": {
+      "sha256_before": "08b8fd390756fe6d8960e2e61c731fa9c97515ded21dc708affbb8d4c1973f1e",
+      "sha256_after": "08b8fd390756fe6d8960e2e61c731fa9c97515ded21dc708affbb8d4c1973f1e"
+    },
+    "painel_ensaio1__simulado.parquet": {
+      "sha256_before": "d6b7a37791a5891354bd3abf5b6b243f9adc24795e008a0fa56af46dec919f6a",
+      "sha256_after": "d6b7a37791a5891354bd3abf5b6b243f9adc24795e008a0fa56af46dec919f6a"
+    },
+    "nascimentos_ce_muni_mes.parquet": {
+      "sha256_before": "97627d955d1c293b9757f683ccb4ae810fd70f02ec5f3fd167445c5f3ae4dcdb",
+      "sha256_after": "97627d955d1c293b9757f683ccb4ae810fd70f02ec5f3fd167445c5f3ae4dcdb"
+    },
+    "obitos_fetais_ce_muni_mes.parquet": {
+      "sha256_before": "40f5b63d59ea0d62b085a7dca5e8c95eddbe28a57b9d3249e6e83af0e4f50206",
+      "sha256_after": "40f5b63d59ea0d62b085a7dca5e8c95eddbe28a57b9d3249e6e83af0e4f50206"
+    },
+    "intoxicacao_ce_muni_mes.parquet": {
+      "sha256_before": "d95f6ba159c55bd838bad239ad5765896faacc912f35e8b614ce373746681b8a",
+      "sha256_after": "d95f6ba159c55bd838bad239ad5765896faacc912f35e8b614ce373746681b8a"
+    },
+    "sinan_iexo_ce_muni_mes.parquet": {
+      "sha256_before": "1b2d1b881cc14647a0b064c60d2b0067c32f67e096ff5081f5bd5d3e9ec2159a",
+      "sha256_after": "1b2d1b881cc14647a0b064c60d2b0067c32f67e096ff5081f5bd5d3e9ec2159a"
+    },
+    "pam_ce_muni_cultura_media__sidra.parquet": {
+      "sha256_before": "63393c7383eb4269621d439faba4861facfb386bba579d86449c0df80dcfe42e",
+      "sha256_after": "63393c7383eb4269621d439faba4861facfb386bba579d86449c0df80dcfe42e"
+    },
+    "gaez_aptidao_muni.parquet": {
+      "sha256_before": "2a121236126abfc15f1117b8a5230ec43730c0c25f592e18f839f51d1e10a172",
+      "sha256_after": "2a121236126abfc15f1117b8a5230ec43730c0c25f592e18f839f51d1e10a172"
+    },
+    "populacao_ce_muni_ano.parquet": {
+      "sha256_before": "4e93634df0b20e78661656f5884bda1a089d66d88438a71bf8ec9a1b4977e20d",
+      "sha256_after": "4e93634df0b20e78661656f5884bda1a089d66d88438a71bf8ec9a1b4977e20d"
+    },
+    "nascimentos_ce_muni_mes__uf22-23.parquet": {
+      "sha256_before": "ea7308f0db13fe870e9ee60f6671a9c94967ae943f9b8a54017669980343198f",
+      "sha256_after": "ea7308f0db13fe870e9ee60f6671a9c94967ae943f9b8a54017669980343198f"
+    },
+    "nascimentos_ce_muni_mes__uf23-24.parquet": {
+      "sha256_before": "eabbdb882cd33e237ef3cd958a2eb2fbb20e6b4a231ca4e131cc75983d08f806",
+      "sha256_after": "eabbdb882cd33e237ef3cd958a2eb2fbb20e6b4a231ca4e131cc75983d08f806"
+    },
+    "nascimentos_ce_muni_mes__uf23-26.parquet": {
+      "sha256_before": "b31e7457cd9bb351846c09e72c481a784b4c9ff1344473c5380925e138b59fec",
+      "sha256_after": "b31e7457cd9bb351846c09e72c481a784b4c9ff1344473c5380925e138b59fec"
+    }
+  },
+  "python": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "numpy": "2.4.2",
+  "pandas": "2.3.3",
+  "scipy": "1.17.0",
+  "R": {
+    "version": "4.6.1",
+    "path": "C:/Program Files/R/R-4.6.1/bin/Rscript.exe",
+    "library": "C:\\Users\\DELL\\Documents\\projeto-pesquisa\\projeto-pesquisa\\renv\\library\\windows\\R-4.6\\x86_64-w64-mingw32",
+    "contdid": "0.1.1",
+    "contdid_sha": "5cfec81a82fc8cfeffb6b7b822a0eded5deafc91",
+    "ptetools": "1.0.2",
+    "ptetools_sha": "bda4aa51fae7721d34f2e5111ecff8e130d8babe",
+    "npiv": "0.1.3",
+    "HonestDiD": "0.2.8",
+    "HonestDiD_sha": "6813f02ed38f0b63bdca6915604b2eac90491303",
+    "synthdid": "0.0.9",
+    "synthdid_sha": "70c1ce3eac58e28c30b67435ca377bb48baa9b8a"
+  },
+  "seed": 20190613,
+  "original_python_bootstrap_repetitions": 2000,
+  "original_contdid_biters": 1000,
+  "new_inference_status": "exploratory audit diagnostics, not retrospective preregistration",
+  "commands_readable_templates": [
+    "python -B work/audita_paineis_local.py",
+    "python -B work/audit_existing_results.py",
+    "python -B work/empirical_audit.py",
+    "python -B work/check_empirical_outputs.py",
+    "python -B SOURCE/scripts/estimate/04_robustness.py --painel PANEL --desfecho peso_medio --out-dir work/empirical/robustness-peso-original",
+    "python -B SOURCE/scripts/estimate/09_holm.py --painel PANEL --out-dir work/empirical/holm-original",
+    "python -B SOURCE/scripts/estimate/10_spt_pretrend.py --painel PANEL --out-dir work/empirical/spt-original",
+    "Rscript --vanilla work/run_original_contdid.R --painel PANEL --desfecho peso_medio --d-zero 4 --saida work/empirical/cgs-peso-d4-original",
+    "Rscript --vanilla work/run_original_contdid.R --painel PANEL --desfecho taxa_obito_fetal --d-zero 4 --saida work/empirical/cgs-fetal-d4-original",
+    "AUDIT_R_TARGET=07_honestdid.R; Rscript --vanilla work/run_original_sensitivity.R --painel PANEL --saida work/empirical/honest-original",
+    "AUDIT_R_TARGET=08_synthdid.R; Rscript --vanilla work/run_original_sensitivity.R --painel PANEL --saida work/empirical/synth-original",
+    "python -B work/projeto-pesquisa/scripts/estimate/10_spt_pretrend.py --painel PANEL --out-dir work/empirical/spt-corrected",
+    "python -B work/projeto-pesquisa/scripts/estimate/10_spt_pretrend.py --painel PANEL --desfecho taxa_obito_fetal --out-dir work/empirical/spt-corrected",
+    "python -B -m pytest tests/test_data_prep.py tests/test_pretrend_window.py -q --disable-warnings --maxfail=3 --basetemp WORKSPACE/work/placebo-tests-complete"
+  ],
+  "powershell_environment_note": "Set AUDIT_R_TARGET with $env:AUDIT_R_TARGET; commands execute from WORKSPACE except pytest from work/projeto-pesquisa. Use python -B and Rscript --vanilla.",
+  "tests": {
+    "original_regressions": "2 expected failures when outcomes outside pre-window are perturbed",
+    "patched_regressions": "2 passed",
+    "full_suite": "276 passed, 2 warnings in 70.37s",
+    "diff_check": "passed"
+  },
+  "limitations": [
+    "No causal identification is established by numeric reproduction.",
+    "Fetal curve estimates and standard errors reproduced; historical bootstrap critical values did not.",
+    "Raw individual health records were not reprocessed.",
+    "SIH coverage must be resolved before replacing absent cells with zero.",
+    "Scripts use the user-provided local path; original data and R library are required for reruns."
+  ],
+  "patch_sha256": "e99fad295f871576f418d9a9a1c6aad61ab39ad80083bbffa862d228acb3138f",
+  "report_sha256": {
+    "adendo-integridade-paineis.md": "e24d099ed8dd3aba95ad01467e66cca5af0bf9a1b4b1ab1a3c13def819133420",
+    "adendo-resultados-existentes.md": "daed57daddb4b471e5d30a71c9d585752ce01667211eb815b7e8b1b456da92c7",
+    "auditoria-empirica-2026-09-23.md": "ddc146699d6578a81dd4c2f2da510feeb14dabf76410d95dd469ec4b369921b0",
+    "auditoria-integral-2026-09-23.md": "a2755a5973e5a3cb67f729a84f9ea29e4aa6dd968421b1c03d9dabaf81d55fbe",
+    "parecer-codigo-reprodutibilidade.md": "0f6e90b7b1d49fa31b0baf991a6d7d66b98dc8895e6b8dbe599f9e7227e308fb",
+    "parecer-fontes-primarias.md": "3860fc7d9f689f628a56234a87ccf16511bd36687b29784c8518771f41f9ead3",
+    "parecer-identificacao.md": "933bfbf3e1b3c7b64ba5af64dea369ac7e29ebaa9a3e1166df2d556750f16dce",
+    "parecer-teoria-custos.md": "e813554c6e69ead5faf64cdbe747e18c6b2534ac54bfda8f2c9a4e3406190005",
+    "revisao-final-auditoria.md": "5aec2a8880aef134e6ccfe8e2831714fdb51d16cb1e8ab254c120538b28a722f"
+  }
+}

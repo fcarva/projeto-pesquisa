@@ -1,5 +1,21 @@
 # 16 — O que a diluição de fato implica: Corolário 1, a revogação de Limoeiro e a calibração de poder
 
+> ⚠️ **ERRATA de 2026-09-23** (auditoria externa; `docs/ars/20-resposta-a-auditoria-2026-09-23.md` §§1.5 e 3):
+> 1. **Os 33,4 g são o MDE do decil contra os 167 restantes**, não do contraste
+>    que os estimadores do decil usam (17 × 14, MDE ≈ 52–55 g) nem do agregado
+>    (169 × 14, ≈ 45–56 g). O "poder ≤ 11%" deste doc vira **≈ 8%** no 17 × 14.
+>    O script 12 passou a ler o MDE do `mde_desenhos.csv`.
+> 2. **"Sem falso negativo" vale para 2006**, não para 2018: o Censo não vê
+>    prestador de fora, mudança entre 2006 e 2018, deriva nem controle vetorial.
+>    θ/VPP é cenário, com VPP e falso negativo de 2018 desconhecidos.
+> 3. **"Aumentar N sem aumentar o VPP não resolve"** é falso como regra: com
+>    VPP fixo, mais N reduz o EP. O que vale aqui é que, no Ceará, as unidades
+>    que entrariam têm VPP menor, e a mistura piora mais depressa do que o EP cai.
+> 4. **80–150 g** (Calzada et al.) é cenário de intensificação sazonal sob
+>    exposição alta, não teto transportável: "não passa de" e "impossível"
+>    valem para a grade, não para o mundo.
+
+
 *2026-09-22, sessão remota. Continua `12-rota1-fase2-medida.md` e
 `auditoria-mensuracao-do-tratamento.md`, e **corrige os dois em quatro
 pontos**. Foi escrito em paralelo ao `15-gate-rota1-resultado.md` da máquina

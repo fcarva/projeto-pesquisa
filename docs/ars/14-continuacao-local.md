@@ -19,7 +19,7 @@ git fetch origin
 git switch claude/exciting-noether-17cl74
 git pull origin claude/exciting-noether-17cl74
 pip install -r requirements.txt      # openpyxl é novo
-python -m pytest tests/ -q           # esperado: 274 passed (3 exigem requirements-geo.txt)
+python -m pytest tests/ -q           # esperado: 294 passed (3 exigem requirements-geo.txt)
 ```
 
 Puxar a conversa inteira em vez de só o código: `claude --teleport
@@ -93,6 +93,13 @@ reabre.
 
 ## 3-ter. Parecer de 2026-09-22 — o que rodar (20 min)
 
+> ✅ **Feito pela auditoria de 2026-09-23, no painel real** (doc 20 §1). O
+> `nivel` deu −35,33 g com 15 controles e −36,19 g com 14: a premissa do doc 17
+> §1 vale. O item 1 abaixo pedia −36,19 g, mas o script rodava com a definição
+> 1; agora o `make real` passa `D_ZERO=4`. Os placebos do item 4 estavam
+> contaminados pelo pós-ban (corrigido). Os nomes de saída mudaram: levam
+> `__<desfecho>__d0-<def>`. O que rodar agora está no §3-sexies.
+
 Resposta completa em `docs/ars/17-resposta-ao-feedback-2026-09-22.md`. O que
 precisa de dado real:
 
@@ -135,6 +142,13 @@ os três:
 
 ## 3-quinquies. ARS, rodada 18, Fase 2 — o que decide as rotas (≈2 h)
 
+> 🟡 **Estado em 2026-09-23** (doc 20 §§4 e 6). **Item 3 feito** pela auditoria,
+> só no Ceará: MDE do calendário de 82,5 g, δ mínimo de 165 g com f = 0,5. A R3
+> não tem poder. **Itens 1 e 2 em parte**: nenhuma decisão primária de 2011
+> achada, e há indícios de aplicação em Limoeiro em 2018. Continuam valendo.
+> **Item 4:** o Pedido D foi corrigido (art. 12, VI; art. 14, III) e espera
+> protocolo.
+
 A Fase 2 (`docs/ars/19-medida-e-desenho-fase2-investigacao.md`) terminou com uma
 matriz de decisão e um nó: **a pulverização aérea continuou na Chapada depois de
 2011?** Em ordem:
@@ -151,6 +165,23 @@ matriz de decisão e um nó: **a pulverização aérea continuou na Chapada depo
 
 Se os passos 1 e 2 mostrarem que a pulverização parou em 2011, as rotas R2 a R5
 perdem o grupo tratado, e a resposta do Ensaio 1 é a R8 (doc 19 §5).
+
+## 3-sexies. Auditoria de 2026-09-23 — o que rodar agora (≈1 h)
+
+A lista está em `docs/ars/20-resposta-a-auditoria-2026-09-23.md` §9:
+
+1. `make real` com o código corrigido.
+2. `make mde-desenhos` e `make mde-calendario`.
+3. Ler, na ordem:
+   - a banda com `ep_m0` da curva de nível (previsão: nenhum ponto exclui o zero);
+   - o teste do piso;
+   - os placebos corrigidos;
+   - a família B de Holm;
+   - o SDID e o HonestDiD com 2020–2022 como pós;
+   - as linhas de 17×14 e 169×14 do `mde_desenhos.csv`.
+4. Cinco minutos sobre os `.dbc` do SINASC: há campo de bairro ou localidade de
+   residência preenchido para 230760 e 231150? Se houver, a fração exposta
+   deixa de ser grade (doc 20 §6).
 
 ## 4. Crossref antes de qualquer `.bib` (30 min)
 
@@ -175,6 +206,11 @@ texto proposto para a §7.2 já a cita). Só depois entram no `.bib`.
   §3 (art. 66 verbatim no Planalto; lei de criação da ADAGRI; objeto das
   Portarias 814/2022, 2/2024, 16/2025) → protocolar no Ceará Transparente.
 - **SEMACE (Pedidos A/B):** `docs/legislacao/lai-semace-minuta.md`.
+- **Prefeitura de Limoeiro do Norte (Pedido E, 🆕 2026-09-23):** avisos prévios
+  de pulverização aérea exigidos pela Lei 1.511/2010 (art. 214) e pela Lei
+  2.054/2018 (art. 153), 2010–2019: `docs/legislacao/lai-limoeiro-avisos-previos-minuta.md`
+  → e-SIC municipal. É o único registro que dataria cada aplicação no principal
+  tratado.
 - **MAPA (Pedido D, 🆕 2026-09-23):** relatórios mensais de aviação agrícola
   com operação no Ceará, 2008–2024 (IN MAPA nº 2/2008, art. 14):
   `docs/legislacao/lai-mapa-relatorios-mensais-minuta.md` → Fala.BR. Pode ser

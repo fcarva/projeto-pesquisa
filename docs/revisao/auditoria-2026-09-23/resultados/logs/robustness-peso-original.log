@@ -1,0 +1,47 @@
+====================================================================================
+E7 — INFERÊNCIA E GATE DO MDE | desfecho: peso_medio
+====================================================================================
+municípios: 184  (dose > 0: 169 | dose = 0: 15)
+estimativa (inclinação dy ~ dose): +6.808
+------------------------------------------------------------------------------------
+OS TRÊS PROCEDIMENTOS — o achado é a DISTÂNCIA entre eles
+  cluster-robusto ingênuo   EP 20.204   p = 0.736   ← linha de base a desmentir
+  wild cluster bootstrap                  p = 0.757   ← sub-rejeita com poucos tratados
+  análise de permutação da dose           p = 0.793   ← sem assintótico; exige intercambiabilidade
+     IC 95%, atalho (β̂ − quantis do nulo): [-46.454, +57.845]
+     IC 95%, inversão do teste:          [-45.782, +59.796]
+     ⚠️ permutação global: supõe dose intercambiável entre TODOS os
+        municípios, o que a aptidão desmente. É análise de permutação,
+        não inferência exata (parecer de 2026-09-22, comentário 3).
+------------------------------------------------------------------------------------
+O NÍVEL — o ATT(d|d) agregado, com a inferência no MESMO estimando
+  média(dy | dose>0) − média(dy | dose=0) = -35.329   (169 tratados × 15 controles)
+  EP de Welch 14.424   p = 0.014   ← assintótico nos dois grupos; o mais otimista
+  wild bootstrap (nulo imposto)   p = 0.022
+  permutação do rótulo            p = 0.024   ← análise, não exata
+  jackknife dos controles: [-41.701, -28.871]   (sem 230445 / sem 230490)
+  ⚠️ 15 controles. O lado escasso do nível é o de
+     CONTROLE, não o de tratados. As especificações binárias da §6
+     reutilizam o mesmo grupo: concordarem não é independência.
+  dy médio por faixa — o nível cresce com a dose, ou é só o zero?
+    dose = 0                 n=  15  dose média 0.000  dy   +18.593  (EP 14.006)
+    dose > 0, faixa 1/3      n=  56  dose média 0.001  dy   -18.485  (EP 6.657)
+    dose > 0, faixa 2/3      n=  56  dose média 0.003  dy   -21.143  (EP 5.339)
+    dose > 0, faixa 3/3      n=  57  dose média 0.141  dy   -10.690  (EP 5.857)
+------------------------------------------------------------------------------------
+GATE DO E7 — o efeito supera o MDE do próprio desenho?
+  MDE não informado. Rode o script 01 com --nascimentos e passe --mde.
+------------------------------------------------------------------------------------
+SENSIBILIDADE AO GRUPO d = 0 — a dispersão É a incerteza sobre o nível
+  (o sieve centra a curva em mean(dy[dose==0]); trocar o zero desloca tudo)
+  base (PAM, área nula)              n_zero=  15  β=+6.808  Δ=+0.000
+  def. 4 — aptidão GAEZ > p75        n_zero=  14  β=+7.120  Δ=+0.313
+  amplitude entre definições: 0.313
+====================================================================================
+✅ Sensibilidade ao zero inclui a DEFINIÇÃO 4 (aptidão FAO-GAEZ),
+   ratificada na pré-especificação de 2026-09-21.
+   ⚠️ A definição 3 (cadastro aeroagrícola) segue impossível: o
+      SIPEAGRO não tem profundidade histórica, e a LAI à SEMACE é
+      a única rota para o pré-ban. Ver lacunas-de-dados.md §1-bis.
+[ok] work\empirical\robustness-peso-original\robustez_inferencia.csv
+[ok] work\empirical\robustness-peso-original\robustez_perfil_dose.csv

@@ -128,6 +128,12 @@ def fronteira(cs: np.ndarray, sigma: float,
     for c in cs:
         if beta_faixa is None:
             conclusao, delta_lo, delta_hi = "indeterminado", np.nan, np.nan
+        elif sigma == 0:
+            # Sem incerteza de custo os dois instrumentos ótimos entregam o
+            # mesmo bem-estar: Δ = 0 para qualquer β. Até 2026-09-23 a coluna
+            # dizia "proibição" ou "taxa" pela comparação de inclinações,
+            # contra a própria fórmula (auditoria de 2026-09-23).
+            conclusao, delta_lo, delta_hi = "empate", 0.0, 0.0
         else:
             b_lo, b_hi = beta_faixa
             delta_lo = vantagem_preco(b_hi, c, sigma)   # beta alto -> Delta baixo

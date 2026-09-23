@@ -62,6 +62,21 @@ OS DESENHOS
 | `chapada2_vs_rn` | Limoeiro + Quixeré | todo o RN | ~1 |
 | `quixere_vs_ride_rn` | só Quixeré | RIDE potiguar | ~1 — para o caso de a revogação de Limoeiro não se confirmar |
 | `aeronave_ce_vs_ce_sem` | os 7 do CE com aplicação aérea | CE sem aplicação aérea | ~1 — a Rota 3 dentro do estado |
+| `decil17_vs_ce_zero_gaez` | decil canônico (17) | dose zero sem os de aptidão GAEZ > p75 (14) | 2/17 — o contraste que 07/08 **estimam** |
+| `positivos_vs_ce_dose_zero` | os 169 de área positiva | dose zero (15) | 7/169 — o agregado do contdid, definição 1 |
+| `positivos_vs_ce_zero_gaez` | os 169 de área positiva | dose zero, definição 4 (14) | 7/169 — **o estimando principal**, o do −36,19 g |
+
+⚠️ CORRIGIDO EM 2026-09-23 (auditoria). Duas coisas:
+
+1. Os 33,4 g eram o MDE de **17×167**, e o projeto os usava como MDE dos
+   estimadores do decil (17×14) e até do agregado (169×14). Os três últimos
+   desenhos da tabela são os contrastes que o projeto de fato estima; com o
+   GAEZ ausente, os dois com o corte GAEZ saem `ausente`.
+2. σ² e τ² eram calibrados no painel inteiro, CE+RN, mesmo para desenho só do
+   Ceará. Agora cada desenho calibra no universo das UFs das suas unidades
+   (coluna `universo_calibracao`): CE para os internos, CE+RN para os de
+   fronteira. No painel real, σ vai de 597 g (CE) a 588 g (CE+RN), e τ de 25 g
+   a 34 g.
 
 Os códigos de Limoeiro e Quixeré vêm do Censo Agro 2006 (script 13) e a RIDE
 potiguar do script 15; os decis saem do PAM. Nada disso escolhe a
@@ -315,22 +330,54 @@ def avalia_desenho(nome: str, tratados, controles, variacao: pd.DataFrame,
     return linha
 
 
+def zeros_gaez_suspeitos(gaez: pd.DataFrame, zeros: set[str],
+                         aptidao_p: float = 0.75) -> set[str]:
+    """Definição 4: zeros com aptidão acima do percentil, como no 03/04/07/08.
+
+    O corte é o quantil sobre os municípios do Ceará na tabela GAEZ. Zero sem
+    aptidão é erro, não controle — a mesma regra do 04 (auditoria de 2026-09-23).
+    """
+    g = gaez.assign(cod_ibge6=gaez["cod_ibge6"].astype(str).str[:6])
+    g = g[g["cod_ibge6"].str.startswith("23")].drop_duplicates("cod_ibge6")
+    apt = g.set_index("cod_ibge6")["aptidao_gaez"]
+    sem = sorted(z for z in zeros if pd.isna(apt.get(z, np.nan)))
+    if sem:
+        raise ValueError(f"município(s) de dose zero sem aptidão GAEZ: {sem}")
+    corte = apt.quantile(aptidao_p)
+    return {z for z in zeros if apt[z] > corte}
+
+
 def desenhos_padrao(variacao: pd.DataFrame, pam: pd.DataFrame | None,
-                    censo: pd.DataFrame | None, cultura: str) -> list[dict]:
-    """Os seis desenhos da tabela do docstring, cada um com o que tiver de insumo."""
+                    censo: pd.DataFrame | None, cultura: str,
+                    gaez: pd.DataFrame | None = None) -> list[dict]:
+    """Os desenhos da tabela do docstring, cada um com o que tiver de insumo."""
     ce = {c for c in variacao.index if c.startswith("23")}
     rn = {c for c in variacao.index if c.startswith("24")}
     especs = []
     if pam is not None:
         decil = decil_superior(pam, cultura)
-        vpp_decil = (len(decil & com_aeronave(censo)) / len(decil)
-                     if censo is not None else 2 / 17)
+        aero = com_aeronave(censo) if censo is not None else set()
+        vpp_decil = len(decil & aero) / len(decil) if censo is not None else 2 / 17
+        zero_ce = dose_zero(pam, cultura, ce)
+        positivos = ce - zero_ce
+        vpp_pos = (len(positivos & aero) / len(positivos)
+                   if censo is not None and positivos else 7 / 169)
         especs += [
             ("decil17_vs_ce_outros", decil, ce - decil, vpp_decil,
-             "benchmark: a conta que deu os 33,4 g"),
-            ("decil17_vs_ce_dose_zero", decil, dose_zero(pam, cultura, ce),
-             vpp_decil, "o grupo de comparação dos scripts 07/08 (sem o corte GAEZ)"),
+             "benchmark: a conta que deu os 33,4 g (17×167) — não é contraste estimado"),
+            ("decil17_vs_ce_dose_zero", decil, zero_ce,
+             vpp_decil, "o grupo de comparação dos scripts 07/08 sem o corte GAEZ"),
+            ("positivos_vs_ce_dose_zero", positivos, zero_ce, vpp_pos,
+             "o agregado do contdid, definição 1"),
         ]
+        if gaez is not None:
+            zero4 = zero_ce - zeros_gaez_suspeitos(gaez, zero_ce)
+            especs += [
+                ("decil17_vs_ce_zero_gaez", decil, zero4, vpp_decil,
+                 "o contraste que 07/08 estimam (definição 4)"),
+                ("positivos_vs_ce_zero_gaez", positivos, zero4, vpp_pos,
+                 "o estimando principal: o agregado do contdid, definição 4"),
+            ]
     ride = ride_chapada_rn()
     especs += [
         ("chapada2_vs_ride_rn", set(TRATADOS_CHAPADA), ride, 1.0,
@@ -349,16 +396,25 @@ def desenhos_padrao(variacao: pd.DataFrame, pam: pd.DataFrame | None,
     return especs
 
 
-def imprime(resultados: pd.DataFrame, sigma2: float, tau2: float,
-            n_unidades: int) -> None:
+def calibracao(painel: pd.DataFrame, ufs: tuple[str, ...]) -> tuple[float, float]:
+    """σ² e τ² no universo das UFs dadas. Desenho só do CE calibra no CE."""
+    sub = painel[painel["cod_ibge6"].astype(str).str[:2].isin(ufs)]
+    s2 = variancia_individual(sub)
+    return s2, heterogeneidade(variacao_placebo(sub), s2)
+
+
+def imprime(resultados: pd.DataFrame, n_unidades: int) -> None:
     barra = "=" * 96
     print(barra)
     print("MDE DOS DESENHOS CANDIDATOS — só pré-período "
           f"({min(ANOS_PRE)}–{max(ANOS_PRE)}), nada estimado")
     print(barra)
-    print(f"  σ individual (mês a mês, conservador): {math.sqrt(sigma2):6.0f} g   "
-          f"τ (heterogeneidade real): {math.sqrt(tau2):5.1f} g   "
-          f"({n_unidades} municípios)")
+    for uni, bloco in resultados.dropna(subset=["sigma_individual_g"]).groupby(
+            "universo_calibracao"):
+        r = bloco.iloc[0]
+        print(f"  calibração {uni}: σ individual {r['sigma_individual_g']:6.0f} g   "
+              f"τ (heterogeneidade real) {r['tau_g']:5.1f} g")
+    print(f"  ({n_unidades} municípios no painel)")
     print()
     print(f"  {'desenho':<26} {'g1':>3} {'g0':>4} {'nasc/ano T':>10} "
           f"{'MDE agr.':>9} {'MDE unid.':>10} {'poder f.25':>11} {'poder f.50':>11}")
@@ -380,6 +436,10 @@ def imprime(resultados: pd.DataFrame, sigma2: float, tau2: float,
     print(barra)
 
 
+def ufs_painel(painel: pd.DataFrame) -> list[str]:
+    return sorted(painel["cod_ibge6"].astype(str).str[:2].unique())
+
+
 def main(argv: list[str] | None = None) -> int:
     _saida_utf8()
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -392,6 +452,9 @@ def main(argv: list[str] | None = None) -> int:
                    default=OUT_DIR / "censo_agro_equipamento_ce.csv")
     p.add_argument("--cultura", default="banana",
                    help="Cultura do decil de benchmark (padrão: banana).")
+    p.add_argument("--gaez", type=Path, default=OUT_DIR / "gaez_aptidao_muni.parquet",
+                   help="Aptidão GAEZ do script 06; sem ela, os desenhos da definição 4 "
+                        "ficam de fora.")
     p.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = p.parse_args(argv)
 
@@ -416,20 +479,35 @@ def main(argv: list[str] | None = None) -> int:
     if censo is None:
         print(f"  ⚠️ {args.censo} ausente: sem o desenho da Rota 3 e com VPP do decil = 2/17.")
 
-    variacao = variacao_placebo(painel)
-    sigma2 = variancia_individual(painel)
-    tau2 = heterogeneidade(variacao, sigma2)
+    gaez = pd.read_parquet(args.gaez) if args.gaez.exists() else None
+    if gaez is None:
+        print(f"  ⚠️ {args.gaez} ausente: sem os desenhos da definição 4 (17×14 e 169×14).")
 
-    linhas = [avalia_desenho(nome, t, c, variacao, sigma2, tau2, vpp, nota)
-              for nome, t, c, vpp, nota in desenhos_padrao(variacao, pam, censo,
-                                                            args.cultura)]
+    variacao = variacao_placebo(painel)
+    try:
+        especs = desenhos_padrao(variacao, pam, censo, args.cultura, gaez)
+    except ValueError as erro:
+        print(f"[erro] {erro}")
+        return 1
+
+    calibradas: dict[tuple[str, ...], tuple[float, float]] = {}
+    linhas = []
+    for nome, t, c, vpp, nota in especs:
+        ufs = tuple(sorted({str(x)[:2] for x in set(t) | set(c)} & set(ufs_painel(painel))))
+        if ufs and ufs not in calibradas:
+            calibradas[ufs] = calibracao(painel, ufs)
+        sigma2, tau2 = calibradas.get(ufs, (float("nan"), float("nan")))
+        linha = avalia_desenho(nome, t, c, variacao, sigma2, tau2, vpp, nota)
+        linha.update({"universo_calibracao": "+".join(ufs),
+                      "sigma_individual_g": math.sqrt(sigma2) if sigma2 == sigma2 else np.nan,
+                      "tau_g": math.sqrt(tau2) if tau2 == tau2 else np.nan})
+        linhas.append(linha)
     resultados = pd.DataFrame(linhas)
-    imprime(resultados, sigma2, tau2, len(variacao))
+    imprime(resultados, len(variacao))
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     destino = args.out_dir / "mde_desenhos.csv"
-    resultados.assign(sigma_individual_g=math.sqrt(sigma2), tau_g=math.sqrt(tau2),
-                      painel=args.painel.name, extraido_em=date.today().isoformat()
+    resultados.assign(painel=args.painel.name, extraido_em=date.today().isoformat()
                       ).to_csv(destino, index=False, encoding="utf-8")
     print(f"gravado: {destino}")
     return 0

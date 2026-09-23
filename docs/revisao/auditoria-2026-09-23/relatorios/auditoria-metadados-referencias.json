@@ -1,0 +1,4343 @@
+{
+  "retrieved_at": "2026-09-23T05:33:28.436415+00:00",
+  "semantic_scholar": {
+    "status": "S2-API-UNAVAILABLE",
+    "reason": "HTTP Error 429: "
+  },
+  "scope": "Existence and metadata only; not verification that sources support manuscript claims.",
+  "records": [
+    {
+      "key": "dias2023down",
+      "local_title": "Down the River: Glyphosate Use in Agriculture and Birth Outcomes of Surrounding Populations",
+      "local_year": "2023",
+      "doi": "10.1093/restud/rdad011",
+      "status": "METADATA_RETRIEVED",
+      "title": "Down the River: Glyphosate Use in Agriculture and Birth Outcomes of Surrounding Populations",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Mateus",
+          "family": "Dias",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Princeton University"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Rudi",
+          "family": "Rocha",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Sao Paulo School of Business Administration – Getulio Vargas Foundation"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Rodrigo R",
+          "family": "Soares",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Insper"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2023,
+            2,
+            6
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2023,
+            11,
+            8
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2023,
+            2,
+            6
+          ]
+        ]
+      },
+      "journal": [
+        "Review of Economic Studies"
+      ],
+      "volume": "90",
+      "issue": "6",
+      "page": "2943-2981",
+      "url": "https://doi.org/10.1093/restud/rdad011",
+      "links": [
+        {
+          "URL": "https://academic.oup.com/restud/advance-article-pdf/doi/10.1093/restud/rdad011/50448558/rdad011.pdf",
+          "content-type": "application/pdf",
+          "content-version": "am",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/90/6/2943/52976694/rdad011.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/90/6/2943/52976694/rdad011.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "reynier2025glyphosate",
+      "local_title": "Glyphosate exposure and {GM} seed rollout unequally reduced perinatal health",
+      "local_year": "2025",
+      "doi": "10.1073/pnas.2413013121",
+      "status": "METADATA_RETRIEVED",
+      "title": "Glyphosate exposure and GM seed rollout unequally reduced perinatal health",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "ORCID": "https://orcid.org/0000-0003-4097-5622",
+          "authenticated-orcid": false,
+          "given": "Emmett",
+          "family": "Reynier",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Department of Economics",
+              "place": [
+                "Eugene"
+              ]
+            },
+            {
+              "name": "University of Oregon",
+              "place": [
+                "Eugene"
+              ]
+            },
+            {
+              "name": "Oak Ridge Institute for Science and Education Research Fellow",
+              "place": [
+                "Washington"
+              ]
+            },
+            {
+              "name": "Water Economics Center",
+              "place": [
+                "Washington"
+              ]
+            },
+            {
+              "name": "Office of Water",
+              "place": [
+                "Washington"
+              ]
+            },
+            {
+              "name": "United States Environmental Protection Agency",
+              "place": [
+                "Washington"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0002-9862-8677",
+          "authenticated-orcid": false,
+          "given": "Edward",
+          "family": "Rubin",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Economics",
+              "place": [
+                "Eugene"
+              ]
+            },
+            {
+              "name": "University of Oregon",
+              "place": [
+                "Eugene"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2025,
+            1,
+            14
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2025,
+            1,
+            21
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2025,
+            1,
+            14
+          ]
+        ]
+      },
+      "journal": [
+        "Proceedings of the National Academy of Sciences"
+      ],
+      "volume": "122",
+      "issue": "3",
+      "page": null,
+      "url": "https://doi.org/10.1073/pnas.2413013121",
+      "links": [
+        {
+          "URL": "https://pnas.org/doi/pdf/10.1073/pnas.2413013121",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "camacho2017health",
+      "local_title": "The health consequences of aerial spraying illicit crops: The case of Colombia",
+      "local_year": "2017",
+      "doi": "10.1016/j.jhealeco.2017.04.005",
+      "status": "METADATA_RETRIEVED",
+      "title": "The health consequences of aerial spraying illicit crops: The case of Colombia",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Adriana",
+          "family": "Camacho",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Daniel",
+          "family": "Mejía",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2017,
+            7
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2017,
+            7
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Health Economics"
+      ],
+      "volume": "54",
+      "issue": null,
+      "page": "147-160",
+      "url": "https://doi.org/10.1016/j.jhealeco.2017.04.005",
+      "links": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0167629617303922?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0167629617303922?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "key": "larsen2017agricultural",
+      "local_title": "Agricultural pesticide use and adverse birth outcomes in the San Joaquin Valley of California",
+      "local_year": "2017",
+      "doi": "10.1038/s41467-017-00349-2",
+      "status": "METADATA_RETRIEVED",
+      "title": "Agricultural pesticide use and adverse birth outcomes in the San Joaquin Valley of California",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Ashley E.",
+          "family": "Larsen",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Steven D.",
+          "family": "Gaines",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Olivier",
+          "family": "Deschênes",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2017,
+            8,
+            29
+          ]
+        ]
+      },
+      "published_print": null,
+      "published_online": {
+        "date-parts": [
+          [
+            2017,
+            8,
+            29
+          ]
+        ]
+      },
+      "journal": [
+        "Nature Communications"
+      ],
+      "volume": "8",
+      "issue": "1",
+      "page": null,
+      "url": "https://doi.org/10.1038/s41467-017-00349-2",
+      "links": [
+        {
+          "URL": "https://www.nature.com/articles/s41467-017-00349-2",
+          "content-type": "text/html",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://www.nature.com/articles/s41467-017-00349-2.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://www.nature.com/articles/s41467-017-00349-2.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "frank2024ecosystem",
+      "local_title": "The economic impacts of ecosystem disruptions: Costs from substituting biological pest control",
+      "local_year": "2024",
+      "doi": "10.1126/science.adg0344",
+      "status": "METADATA_RETRIEVED",
+      "title": "The economic impacts of ecosystem disruptions: Costs from substituting biological pest control",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "ORCID": "https://orcid.org/0000-0002-5876-5319",
+          "authenticated-orcid": true,
+          "given": "Eyal G.",
+          "family": "Frank",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Harris School of Public Policy, University of Chicago, Chicago, IL, USA."
+            },
+            {
+              "name": "Center for Economic Policy Research, Paris, France."
+            },
+            {
+              "name": "National Bureau of Economic Research, Cambridge, MA, USA."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            9,
+            6
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2024,
+            9,
+            6
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Science"
+      ],
+      "volume": "385",
+      "issue": "6713",
+      "page": null,
+      "url": "https://doi.org/10.1126/science.adg0344",
+      "links": [
+        {
+          "URL": "https://www.science.org/doi/pdf/10.1126/science.adg0344",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "frank2024vultures",
+      "local_title": "The Social Costs of Keystone Species Collapse: Evidence from the Decline of Vultures in India",
+      "local_year": "2024",
+      "doi": "10.1257/aer.20230016",
+      "status": "METADATA_RETRIEVED",
+      "title": "The Social Costs of Keystone Species Collapse: Evidence from the Decline of Vultures in India",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Eyal",
+          "family": "Frank",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "University of Chicago, CEPR, and NBER (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Anant",
+          "family": "Sudarshan",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "University of Warwick and CEPR (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            10,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2024,
+            10,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "American Economic Review"
+      ],
+      "volume": "114",
+      "issue": "10",
+      "page": "3007-3040",
+      "url": "https://doi.org/10.1257/aer.20230016",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/aer.20230016",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "sorensen2025birth",
+      "local_title": "Birth outcome effects of nitrate contamination in drinking water",
+      "local_year": "2025",
+      "doi": "10.1016/j.jeem.2025.103197",
+      "status": "METADATA_RETRIEVED",
+      "title": "Birth outcome effects of nitrate contamination in drinking water",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "ORCID": "https://orcid.org/0009-0009-2584-3649",
+          "authenticated-orcid": false,
+          "given": "Elizabeth",
+          "family": "Sorensen Montoya",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2025,
+            9
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2025,
+            9
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Environmental Economics and Management"
+      ],
+      "volume": "133",
+      "issue": null,
+      "page": "103197",
+      "url": "https://doi.org/10.1016/j.jeem.2025.103197",
+      "links": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0095069625000816?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0095069625000816?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "key": "callaway2024continuous",
+      "local_title": "Difference-in-differences with a Continuous Treatment",
+      "local_year": "2024",
+      "doi": "10.3386/w32117",
+      "status": "METADATA_RETRIEVED",
+      "title": "Difference-in-differences with a Continuous Treatment",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Brantly",
+          "family": "Callaway",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Andrew",
+          "family": "Goodman-Bacon",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Pedro",
+          "family": "Sant'Anna",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            2
+          ]
+        ]
+      },
+      "published_print": null,
+      "published_online": {
+        "date-parts": [
+          [
+            2024,
+            2
+          ]
+        ]
+      },
+      "journal": [],
+      "volume": null,
+      "issue": null,
+      "page": null,
+      "url": "https://doi.org/10.3386/w32117",
+      "links": [],
+      "previous_attempt": {
+        "status": "UNRESOLVED",
+        "reason": "HTTP Error 429: Too Many Requests"
+      }
+    },
+    {
+      "key": "callaway2024eventstudy",
+      "local_title": "Event Studies with a Continuous Treatment",
+      "local_year": "2024",
+      "doi": "10.1257/pandp.20241047",
+      "status": "METADATA_RETRIEVED",
+      "title": "Event Studies with a Continuous Treatment",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Brantly",
+          "family": "Callaway",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "University of Georgia (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Andrew",
+          "family": "Goodman-Bacon",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Federal Reserve Bank of Minneapolis (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Pedro H. C.",
+          "family": "Sant'Anna",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Emory University (email: )."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            5,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2024,
+            5,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "AEA Papers and Proceedings"
+      ],
+      "volume": "114",
+      "issue": null,
+      "page": "601-605",
+      "url": "https://doi.org/10.1257/pandp.20241047",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/pandp.20241047",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "weitzman1974",
+      "local_title": "Prices vs. Quantities",
+      "local_year": "1974",
+      "doi": "10.2307/2296698",
+      "status": "METADATA_RETRIEVED",
+      "title": "Prices vs. Quantities",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Martin L.",
+          "family": "Weitzman",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            1974,
+            10
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            1974,
+            10
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "The Review of Economic Studies"
+      ],
+      "volume": "41",
+      "issue": "4",
+      "page": "477",
+      "url": "https://doi.org/10.2307/2296698",
+      "links": [
+        {
+          "URL": "http://academic.oup.com/restud/article-pdf/41/4/477/4411700/41-4-477.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "coase1960",
+      "local_title": "The Problem of Social Cost",
+      "local_year": "1960",
+      "doi": "10.1086/466560",
+      "status": "METADATA_RETRIEVED",
+      "title": "The Problem of Social Cost",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "R. H.",
+          "family": "Coase",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            1960,
+            10
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            1960,
+            10
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "The Journal of Law and Economics"
+      ],
+      "volume": "3",
+      "issue": null,
+      "page": "1-44",
+      "url": "https://doi.org/10.1086/466560",
+      "links": [
+        {
+          "URL": "http://www.journals.uchicago.edu/doi/pdf/10.1086/466560",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "helfand1995",
+      "local_title": "Regulating Nonpoint Source Pollution Under Heterogeneous Conditions",
+      "local_year": "1995",
+      "doi": "10.2307/1243825",
+      "status": "METADATA_RETRIEVED",
+      "title": "Regulating Nonpoint Source Pollution Under Heterogeneous Conditions",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Gloria E.",
+          "family": "Helfand",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Department of Agricultural Economics University of California Davis"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Brett W.",
+          "family": "House",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            1995,
+            11
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            1995,
+            11
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            1995,
+            11
+          ]
+        ]
+      },
+      "journal": [
+        "American Journal of Agricultural Economics"
+      ],
+      "volume": "77",
+      "issue": "4",
+      "page": "1024-1032",
+      "url": "https://doi.org/10.2307/1243825",
+      "links": [
+        {
+          "URL": "https://api.wiley.com/onlinelibrary/tdm/v1/articles/10.2307%2F1243825",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.2307/1243825",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.2307/1243825",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "lichtenberg1988",
+      "local_title": "Marginal Analysis of Welfare Costs of Environmental Policies: The Case of Pesticide Regulation",
+      "local_year": "1988",
+      "doi": "10.2307/1241928",
+      "status": "METADATA_RETRIEVED",
+      "title": "Marginal Analysis of Welfare Costs of Environmental Policies: The Case of Pesticide Regulation",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Erik",
+          "family": "Lichtenberg",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Department of Agricultural and Resource Economics University of Maryland"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Douglas D.",
+          "family": "Parker",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Agricultural and Resource Economics University of California Berkeley"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "David",
+          "family": "Zilberman",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Agricultural and Resource Economics University of California Berkeley"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            1988,
+            11
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            1988,
+            11
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            1988,
+            11
+          ]
+        ]
+      },
+      "journal": [
+        "American Journal of Agricultural Economics"
+      ],
+      "volume": "70",
+      "issue": "4",
+      "page": "867-874",
+      "url": "https://doi.org/10.2307/1241928",
+      "links": [
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.2307/1241928",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.2307/1241928",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "skevas2012",
+      "local_title": "Can economic incentives encourage actual reductions in pesticide use and environmental spillovers?",
+      "local_year": "2012",
+      "doi": "10.1111/j.1574-0862.2012.00581.x",
+      "status": "METADATA_RETRIEVED",
+      "title": "Can economic incentives encourage actual reductions in pesticide use and environmental spillovers?",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Theodoros",
+          "family": "Skevas",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Spiro E.",
+          "family": "Stefanou",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Alfons Oude",
+          "family": "Lansink",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2012,
+            3,
+            30
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2012,
+            5
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2012,
+            3,
+            30
+          ]
+        ]
+      },
+      "journal": [
+        "Agricultural Economics"
+      ],
+      "volume": "43",
+      "issue": "3",
+      "page": "267-276",
+      "url": "https://doi.org/10.1111/j.1574-0862.2012.00581.x",
+      "links": [
+        {
+          "URL": "https://api.wiley.com/onlinelibrary/tdm/v1/articles/10.1111%2Fj.1574-0862.2012.00581.x",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1574-0862.2012.00581.x",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "fernandezcornejo1998",
+      "local_title": "Issues in the Economics of Pesticide Use in Agriculture: A Review of the Empirical Evidence",
+      "local_year": "1998",
+      "doi": "10.2307/1350002",
+      "status": "METADATA_RETRIEVED",
+      "title": "Issues in the Economics of Pesticide Use in Agriculture: A Review of the Empirical Evidence",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Jorge",
+          "family": "Fernandez-Cornejo",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Economic Research Service U.S. Department of Agriculture"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Sharon",
+          "family": "Jans",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Economic Research Service U.S. Department of Agriculture"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Mark",
+          "family": "Smith",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Economic Research Service U.S. Department of Agriculture"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            1998,
+            10
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            1998,
+            10
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            1998,
+            10
+          ]
+        ]
+      },
+      "journal": [
+        "Applied Economic Perspectives and Policy"
+      ],
+      "volume": "20",
+      "issue": "2",
+      "page": "462-488",
+      "url": "https://doi.org/10.2307/1350002",
+      "links": [
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.2307/1350002",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.2307/1350002",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "roth2002engineer",
+      "local_title": "The Economist as Engineer: Game Theory, Experimentation, and Computation as Tools for Design Economics",
+      "local_year": "2002",
+      "doi": "10.1111/1468-0262.00335",
+      "status": "METADATA_RETRIEVED",
+      "title": "The Economist as Engineer: Game Theory, Experimentation, and Computation as Tools for Design Economics",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Alvin E.",
+          "family": "Roth",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2002,
+            7
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2002,
+            7
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Econometrica"
+      ],
+      "volume": "70",
+      "issue": "4",
+      "page": "1341-1378",
+      "url": "https://doi.org/10.1111/1468-0262.00335",
+      "links": [
+        {
+          "URL": "https://api.wiley.com/onlinelibrary/tdm/v1/articles/10.1111%2F1468-0262.00335",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/1468-0262.00335",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ],
+      "previous_attempt": {
+        "status": "UNRESOLVED",
+        "reason": "HTTP Error 429: Too Many Requests"
+      }
+    },
+    {
+      "key": "bocker2020glyphosate",
+      "local_title": "An economic and environmental assessment of a glyphosate ban for the example of maize production",
+      "local_year": "2019",
+      "doi": "10.1093/erae/jby050",
+      "status": "METADATA_RETRIEVED",
+      "title": "An economic and environmental assessment of a glyphosate ban for the example of maize production",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Thomas",
+          "family": "Böcker",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Agricultural Economics and Policy Group, ETH Zürich, Switzerland"
+            },
+            {
+              "name": "Institute for Food and Resource Economics, Rheinische Friedrich-Wilhelms-Universität Bonn, Germany"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Wolfgang",
+          "family": "Britz",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Institute for Food and Resource Economics, Rheinische Friedrich-Wilhelms-Universität Bonn, Germany"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Niklas",
+          "family": "Möhring",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Agricultural Economics and Policy Group, ETH Zürich, Switzerland"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Robert",
+          "family": "Finger",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Agricultural Economics and Policy Group, ETH Zürich, Switzerland"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2019,
+            2,
+            5
+          ]
+        ]
+      },
+      "published_print": null,
+      "published_online": {
+        "date-parts": [
+          [
+            2019,
+            2,
+            5
+          ]
+        ]
+      },
+      "journal": [
+        "European Review of Agricultural Economics"
+      ],
+      "volume": null,
+      "issue": null,
+      "page": null,
+      "url": "https://doi.org/10.1093/erae/jby050",
+      "links": [
+        {
+          "URL": "http://academic.oup.com/erae/advance-article-pdf/doi/10.1093/erae/jby050/27990397/jby050.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "finger2024europe",
+      "local_title": "Europe's ambitious pesticide policy and its impact on agriculture and food systems",
+      "local_year": "2024",
+      "doi": "10.1111/agec.12817",
+      "status": "METADATA_RETRIEVED",
+      "title": "Europe's ambitious pesticide policy and its impact on agriculture and food systems",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Robert",
+          "family": "Finger",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "ETH Zürich  Zürich Switzerland"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            2,
+            15
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2024,
+            3
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2024,
+            2,
+            15
+          ]
+        ]
+      },
+      "journal": [
+        "Agricultural Economics"
+      ],
+      "volume": "55",
+      "issue": "2",
+      "page": "265-269",
+      "url": "https://doi.org/10.1111/agec.12817",
+      "links": [
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/agec.12817",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "voica2021trading",
+      "local_title": "Trading risk for ambiguity: Production versus health under pesticide application",
+      "local_year": "2021",
+      "doi": "10.1111/ajae.12266",
+      "status": "METADATA_RETRIEVED",
+      "title": "Trading risk for ambiguity: Production versus health under pesticide application",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Daniel C.",
+          "family": "Voica",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "School of Economics and Finance Massey University  Palmerston North New Zealand"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Troy G.",
+          "family": "Schmitz",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "W.P. Carey Morrison School of Agribusiness Arizona State University  Phoenix Arizona USA"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            10,
+            18
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2022,
+            8
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2021,
+            10,
+            18
+          ]
+        ]
+      },
+      "journal": [
+        "American Journal of Agricultural Economics"
+      ],
+      "volume": "104",
+      "issue": "4",
+      "page": "1327-1342",
+      "url": "https://doi.org/10.1111/ajae.12266",
+      "links": [
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/ajae.12266",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/full-xml/10.1111/ajae.12266",
+          "content-type": "application/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/ajae.12266",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ],
+      "previous_attempt": {
+        "status": "UNRESOLVED",
+        "reason": "HTTP Error 429: Too Many Requests"
+      }
+    },
+    {
+      "key": "chatzimichael2021pesticide",
+      "local_title": "Pesticide use, health impairments and economic losses under rational farmers behavior",
+      "local_year": "2021",
+      "doi": "10.1111/ajae.12244",
+      "status": "METADATA_RETRIEVED",
+      "title": "Pesticide use, health impairments and economic losses under rational farmers behavior",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Konstantinos",
+          "family": "Chatzimichael",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Department of Agricultural Economics &amp; Rural Development Agricultural University of Athens  Athens Greece"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Margarita",
+          "family": "Genius",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Economics, School of Social Sciences University of Crete  Rethymnon Greece"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Vangelis",
+          "family": "Tzouvelekas",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Economics, School of Social Sciences University of Crete  Rethymnon Greece"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            7,
+            26
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2022,
+            3
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2021,
+            7,
+            26
+          ]
+        ]
+      },
+      "journal": [
+        "American Journal of Agricultural Economics"
+      ],
+      "volume": "104",
+      "issue": "2",
+      "page": "765-790",
+      "url": "https://doi.org/10.1111/ajae.12244",
+      "links": [
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/ajae.12244",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/full-xml/10.1111/ajae.12244",
+          "content-type": "application/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/ajae.12244",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "roth2023trending",
+      "local_title": "What's trending in difference-in-differences? A synthesis of the recent econometrics literature",
+      "local_year": "2023",
+      "doi": "10.1016/j.jeconom.2023.03.008",
+      "status": "METADATA_RETRIEVED",
+      "title": "What’s trending in difference-in-differences? A synthesis of the recent econometrics literature",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Jonathan",
+          "family": "Roth",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Pedro H.C.",
+          "family": "Sant’Anna",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Alyssa",
+          "family": "Bilinski",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "John",
+          "family": "Poe",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2023,
+            8
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2023,
+            8
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Econometrics"
+      ],
+      "volume": "235",
+      "issue": "2",
+      "page": "2218-2244",
+      "url": "https://doi.org/10.1016/j.jeconom.2023.03.008",
+      "links": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407623001318?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407623001318?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "key": "rambachan2023credible",
+      "local_title": "A More Credible Approach to Parallel Trends",
+      "local_year": "2023",
+      "doi": "10.1093/restud/rdad018",
+      "status": "METADATA_RETRIEVED",
+      "title": "A More Credible Approach to Parallel Trends",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Ashesh",
+          "family": "Rambachan",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Microsoft Research New England and MIT"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Jonathan",
+          "family": "Roth",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Brown University"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2023,
+            2,
+            15
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2023,
+            9,
+            5
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2023,
+            2,
+            15
+          ]
+        ]
+      },
+      "journal": [
+        "Review of Economic Studies"
+      ],
+      "volume": "90",
+      "issue": "5",
+      "page": "2555-2591",
+      "url": "https://doi.org/10.1093/restud/rdad018",
+      "links": [
+        {
+          "URL": "https://academic.oup.com/restud/advance-article-pdf/doi/10.1093/restud/rdad018/50448637/rdad018.pdf",
+          "content-type": "application/pdf",
+          "content-version": "am",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/90/5/2555/51356029/rdad018.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/90/5/2555/51356029/rdad018.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "callaway2021multiple",
+      "local_title": "{Difference-in-Differences} with multiple time periods",
+      "local_year": "2021",
+      "doi": "10.1016/j.jeconom.2020.12.001",
+      "status": "METADATA_RETRIEVED",
+      "title": "Difference-in-Differences with multiple time periods",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Brantly",
+          "family": "Callaway",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Pedro H.C.",
+          "family": "Sant’Anna",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Econometrics"
+      ],
+      "volume": "225",
+      "issue": "2",
+      "page": "200-230",
+      "url": "https://doi.org/10.1016/j.jeconom.2020.12.001",
+      "links": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407620303948?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407620303948?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "key": "goodmanbacon2021",
+      "local_title": "Difference-in-differences with variation in treatment timing",
+      "local_year": "2021",
+      "doi": "10.1016/j.jeconom.2021.03.014",
+      "status": "METADATA_RETRIEVED",
+      "title": "Difference-in-differences with variation in treatment timing",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Andrew",
+          "family": "Goodman-Bacon",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Econometrics"
+      ],
+      "volume": "225",
+      "issue": "2",
+      "page": "254-277",
+      "url": "https://doi.org/10.1016/j.jeconom.2021.03.014",
+      "links": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407621001445?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407621001445?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "key": "dechaisemartin2020",
+      "local_title": "{Two-Way} Fixed Effects Estimators with Heterogeneous Treatment Effects",
+      "local_year": "2020",
+      "doi": "10.1257/aer.20181169",
+      "status": "METADATA_RETRIEVED",
+      "title": "Two-Way Fixed Effects Estimators with Heterogeneous Treatment Effects",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Clément",
+          "family": "de Chaisemartin",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "University of California at Santa Barbara (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Xavier",
+          "family": "D’Haultfœuille",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "CREST-ENSAE (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2020,
+            9,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2020,
+            9,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "American Economic Review"
+      ],
+      "volume": "110",
+      "issue": "9",
+      "page": "2964-2996",
+      "url": "https://doi.org/10.1257/aer.20181169",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/aer.20181169",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "sunabraham2021",
+      "local_title": "Estimating dynamic treatment effects in event studies with heterogeneous treatment effects",
+      "local_year": "2021",
+      "doi": "10.1016/j.jeconom.2020.09.006",
+      "status": "METADATA_RETRIEVED",
+      "title": "Estimating dynamic treatment effects in event studies with heterogeneous treatment effects",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Liyang",
+          "family": "Sun",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Sarah",
+          "family": "Abraham",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Econometrics"
+      ],
+      "volume": "225",
+      "issue": "2",
+      "page": "175-199",
+      "url": "https://doi.org/10.1016/j.jeconom.2020.09.006",
+      "links": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S030440762030378X?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S030440762030378X?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "key": "borusyak2024",
+      "local_title": "Revisiting {Event-Study} Designs: Robust and Efficient Estimation",
+      "local_year": "2024",
+      "doi": "10.1093/restud/rdae007",
+      "status": "METADATA_RETRIEVED",
+      "title": "Revisiting Event-Study Designs: Robust and Efficient Estimation",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Kirill",
+          "family": "Borusyak",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "UC Berkeley ,",
+              "place": [
+                "USA"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Xavier",
+          "family": "Jaravel",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "LSE ,",
+              "place": [
+                "UK"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Jann",
+          "family": "Spiess",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Stanford University ,",
+              "place": [
+                "USA"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            2,
+            6
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2024,
+            11,
+            8
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2024,
+            2,
+            6
+          ]
+        ]
+      },
+      "journal": [
+        "Review of Economic Studies"
+      ],
+      "volume": "91",
+      "issue": "6",
+      "page": "3253-3285",
+      "url": "https://doi.org/10.1093/restud/rdae007",
+      "links": [
+        {
+          "URL": "https://academic.oup.com/restud/advance-article-pdf/doi/10.1093/restud/rdae007/56643619/rdae007.pdf",
+          "content-type": "application/pdf",
+          "content-version": "am",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/91/6/3253/60441633/rdae007.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/91/6/3253/60441633/rdae007.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "santanna2020drdid",
+      "local_title": "Doubly robust difference-in-differences estimators",
+      "local_year": "2020",
+      "doi": "10.1016/j.jeconom.2020.06.003",
+      "status": "METADATA_RETRIEVED",
+      "title": "Doubly robust difference-in-differences estimators",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Pedro H.C.",
+          "family": "Sant’Anna",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Jun",
+          "family": "Zhao",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2020,
+            11
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2020,
+            11
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Econometrics"
+      ],
+      "volume": "219",
+      "issue": "1",
+      "page": "101-122",
+      "url": "https://doi.org/10.1016/j.jeconom.2020.06.003",
+      "links": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407620301901?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0304407620301901?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "key": "arkhangelsky2021sdid",
+      "local_title": "Synthetic {Difference-in-Differences}",
+      "local_year": "2021",
+      "doi": "10.1257/aer.20190159",
+      "status": "METADATA_RETRIEVED",
+      "title": "Synthetic Difference-in-Differences",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Dmitry",
+          "family": "Arkhangelsky",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "CEMFI, Madrid (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Susan",
+          "family": "Athey",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Graduate School of Business, Stanford University, SIEPR, and NBER (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "David A.",
+          "family": "Hirshberg",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Quantitative Theory and Methods, Emory University (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Guido W.",
+          "family": "Imbens",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Graduate School of Business and Department of Economics, Stanford University, SIEPR, and NBER (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Stefan",
+          "family": "Wager",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Graduate School of Business, and of Statistics (by courtesy), Stanford University (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            12,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2021,
+            12,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "American Economic Review"
+      ],
+      "volume": "111",
+      "issue": "12",
+      "page": "4088-4118",
+      "url": "https://doi.org/10.1257/aer.20190159",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/aer.20190159",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "conley2011",
+      "local_title": "Inference with {``Difference} in Differences'' with a Small Number of Policy Changes",
+      "local_year": "2011",
+      "doi": "10.1162/rest_a_00049",
+      "status": "METADATA_RETRIEVED",
+      "title": "Inference with “Difference in Differences” with a Small Number of Policy Changes",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Timothy G.",
+          "family": "Conley",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Christopher R.",
+          "family": "Taber",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2011,
+            2
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2011,
+            2
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Review of Economics and Statistics"
+      ],
+      "volume": "93",
+      "issue": "1",
+      "page": "113-125",
+      "url": "https://doi.org/10.1162/rest_a_00049",
+      "links": [
+        {
+          "URL": "http://www.mitpressjournals.org/doi/pdf/10.1162/REST_a_00049",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "cameron2008wild",
+      "local_title": "{Bootstrap-Based} Improvements for Inference with Clustered Errors",
+      "local_year": "2008",
+      "doi": "10.1162/rest.90.3.414",
+      "status": "METADATA_RETRIEVED",
+      "title": "Bootstrap-Based Improvements for Inference with Clustered Errors",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "A. Colin",
+          "family": "Cameron",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Jonah B.",
+          "family": "Gelbach",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Douglas L.",
+          "family": "Miller",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2008,
+            8
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2008,
+            8
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Review of Economics and Statistics"
+      ],
+      "volume": "90",
+      "issue": "3",
+      "page": "414-427",
+      "url": "https://doi.org/10.1162/rest.90.3.414",
+      "links": [
+        {
+          "URL": "http://www.mitpressjournals.org/doi/pdf/10.1162/rest.90.3.414",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "canay2021wild",
+      "local_title": "The Wild Bootstrap with a {``Small''} Number of {``Large''} Clusters",
+      "local_year": "2021",
+      "doi": "10.1162/rest_a_00887",
+      "status": "METADATA_RETRIEVED",
+      "title": "The Wild Bootstrap with a “Small” Number of “Large” Clusters",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Ivan A.",
+          "family": "Canay",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Northwestern University"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Andres",
+          "family": "Santos",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "UCLA"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Azeem M.",
+          "family": "Shaikh",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "University of Chicago"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            5
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2021,
+            5,
+            14
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2021,
+            5,
+            10
+          ]
+        ]
+      },
+      "journal": [
+        "The Review of Economics and Statistics"
+      ],
+      "volume": "103",
+      "issue": "2",
+      "page": "346-363",
+      "url": "https://doi.org/10.1162/rest_a_00887",
+      "links": [
+        {
+          "URL": "http://direct.mit.edu/rest/article-pdf/103/2/346/1915882/rest_a_00887.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "http://direct.mit.edu/rest/article-pdf/103/2/346/1915882/rest_a_00887.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "baker2026practitioner",
+      "local_title": "{Difference-in-Differences} Designs: A Practitioner's Guide",
+      "local_year": "2026",
+      "doi": "10.1257/jel.20251650",
+      "status": "METADATA_RETRIEVED",
+      "title": "Difference-in-Differences Designs: A Practitioner’s Guide",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Andrew",
+          "family": "Baker",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "University of California, Berkeley."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Brantly",
+          "family": "Callaway",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "University of Georgia."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Scott",
+          "family": "Cunningham",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Baylor University."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Andrew",
+          "family": "Goodman-Bacon",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Opportunity and Inclusive Growth Institute, Federal Reserve Bank of Minneapolis."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Pedro H. C.",
+          "family": "Sant’Anna",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Emory University."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2026,
+            6,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2026,
+            6,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of Economic Literature"
+      ],
+      "volume": "64",
+      "issue": "2",
+      "page": "498-557",
+      "url": "https://doi.org/10.1257/jel.20251650",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/jel.20251650",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "henningsen2025causal",
+      "local_title": "Estimating Causal Effects With Observational Data: Guidelines for Agricultural and Applied Economists",
+      "local_year": "2025",
+      "doi": "10.1111/1477-9552.70019",
+      "status": "METADATA_RETRIEVED",
+      "title": "Estimating Causal Effects With Observational Data: Guidelines for Agricultural and Applied Economists",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "ORCID": "https://orcid.org/0000-0002-6720-0264",
+          "authenticated-orcid": false,
+          "given": "Arne",
+          "family": "Henningsen",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Department of Food and Resource Economics University of Copenhagen  Frederiksberg C Denmark"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0003-0256-809X",
+          "authenticated-orcid": false,
+          "given": "Guy",
+          "family": "Low",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Business Economics Group Wageningen University &amp; Research  Wageningen the Netherlands"
+            },
+            {
+              "name": "Department of Agricultural Economics and Rural Development University of Göttingen  Göttingen Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0002-1344-6023",
+          "authenticated-orcid": false,
+          "given": "David",
+          "family": "Wuepper",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Land Economics Group, Institute for Food and Resource Economics University of Bonn  Bonn Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0001-5853-0942",
+          "authenticated-orcid": false,
+          "given": "Tobias",
+          "family": "Dalhaus",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Business Economics Group Wageningen University &amp; Research  Wageningen the Netherlands"
+            },
+            {
+              "name": "Agribusiness, Sustainable Food Systems Research Centre Rhine‐Waal University of Applied Sciences  Kleve Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0003-3791-3615",
+          "authenticated-orcid": false,
+          "given": "Hugo",
+          "family": "Storm",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Data Science in Agricultural Economics, Institute for Food and Resource Economics University of Bonn  Bonn Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0002-6080-1390",
+          "authenticated-orcid": false,
+          "given": "Dagim",
+          "family": "Belay",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Food and Resource Economics University of Copenhagen  Frederiksberg C Denmark"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0003-2668-6824",
+          "authenticated-orcid": false,
+          "given": "Stefan",
+          "family": "Hirsch",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Management in Agribusiness University of Hohenheim  Stuttgart Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2025,
+            12,
+            23
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2026,
+            6
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2025,
+            12,
+            23
+          ]
+        ]
+      },
+      "journal": [
+        "Journal of Agricultural Economics"
+      ],
+      "volume": "77",
+      "issue": "2",
+      "page": "356-382",
+      "url": "https://doi.org/10.1111/1477-9552.70019",
+      "links": [
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/1477-9552.70019",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/full-xml/10.1111/1477-9552.70019",
+          "content-type": "application/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/1477-9552.70019",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "bravoureta2020psmdid",
+      "local_title": "Technology and Technical Efficiency Change: Evidence from a Difference in Differences Selectivity Corrected Stochastic Production Frontier Model",
+      "local_year": "2020",
+      "doi": "10.1111/ajae.12112",
+      "status": "METADATA_RETRIEVED",
+      "title": "<scp>Technology and Technical Efficiency Change: Evidence from a Difference in Differences Selectivity Corrected Stochastic Production Frontier Model</scp>",
+      "similarity": 0.9769,
+      "authors": [
+        {
+          "given": "Boris E.",
+          "family": "Bravo‐Ureta",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Mario",
+          "family": "González‐Flores",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "William",
+          "family": "Greene",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "ORCID": "https://orcid.org/0000-0002-7322-7201",
+          "authenticated-orcid": false,
+          "given": "Daniel",
+          "family": "Solís",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2020,
+            7,
+            12
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2021,
+            1
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2020,
+            7,
+            12
+          ]
+        ]
+      },
+      "journal": [
+        "American Journal of Agricultural Economics"
+      ],
+      "volume": "103",
+      "issue": "1",
+      "page": "362-385",
+      "url": "https://doi.org/10.1111/ajae.12112",
+      "links": [
+        {
+          "URL": "https://api.wiley.com/onlinelibrary/tdm/v1/articles/10.1111%2Fajae.12112",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/ajae.12112",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/full-xml/10.1111/ajae.12112",
+          "content-type": "application/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/ajae.12112",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "bustos2016agricultural",
+      "local_title": "Agricultural Productivity and Structural Transformation: Evidence from Brazil",
+      "local_year": "2016",
+      "doi": "10.1257/aer.20131061",
+      "status": "METADATA_RETRIEVED",
+      "title": "Agricultural Productivity and Structural Transformation: Evidence from Brazil",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Paula",
+          "family": "Bustos",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "CEMFI, Casado del Alisal 5, 28014 Madrid (e-mail: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Bruno",
+          "family": "Caprettini",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "University of Zurich, Schönberggasse 1, CH-8001 Zurich (e-mail: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Jacopo",
+          "family": "Ponticelli",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "University of Chicago Booth School of Business, 5807 South Woodlawn Avenue, Chicago, IL 60637 (e-mail: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2016,
+            6,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2016,
+            6,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "American Economic Review"
+      ],
+      "volume": "106",
+      "issue": "6",
+      "page": "1320-1365",
+      "url": "https://doi.org/10.1257/aer.20131061",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/aer.20131061",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "greenstone2014india",
+      "local_title": "Environmental Regulations, Air and Water Pollution, and Infant Mortality in India",
+      "local_year": "2014",
+      "doi": "10.1257/aer.104.10.3038",
+      "status": "METADATA_RETRIEVED",
+      "title": "Environmental Regulations, Air and Water Pollution, and Infant Mortality in India",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Michael",
+          "family": "Greenstone",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "MIT Department of Economics, E52-359, 50 Memorial Drive, Cambridge, MA 02142-1347 (e-mail: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Rema",
+          "family": "Hanna",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Harvard Kennedy School, 79 JFK Street (Mailbox 26), Cambridge, MA 02138, and National Bureau of Economic Research, Bureau for Research and Economic Analysis of Development (e-mail: )."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2014,
+            10,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2014,
+            10,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "American Economic Review"
+      ],
+      "volume": "104",
+      "issue": "10",
+      "page": "3038-3072",
+      "url": "https://doi.org/10.1257/aer.104.10.3038",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/aer.104.10.3038",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "keiser2018cwa",
+      "local_title": "Consequences of the Clean Water Act and the Demand for Water Quality",
+      "local_year": "2018",
+      "doi": "10.1093/qje/qjy019",
+      "status": "METADATA_RETRIEVED",
+      "title": "Consequences of the Clean Water Act and the Demand for Water Quality*",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "David A",
+          "family": "Keiser",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Iowa State and Center for Agricultural Research and Development"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Joseph S",
+          "family": "Shapiro",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "University of California, Berkeley and National Bureau of Economic Research"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2018,
+            9,
+            7
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2019,
+            2,
+            1
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2018,
+            9,
+            7
+          ]
+        ]
+      },
+      "journal": [
+        "The Quarterly Journal of Economics"
+      ],
+      "volume": "134",
+      "issue": "1",
+      "page": "349-396",
+      "url": "https://doi.org/10.1093/qje/qjy019",
+      "links": [
+        {
+          "URL": "http://academic.oup.com/qje/article-pdf/134/1/349/27494564/qjy019.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "shirangi2010living",
+      "local_title": "Living near agricultural pesticide applications and the risk of adverse reproductive outcomes: a review of the literature",
+      "local_year": "2010",
+      "doi": "10.1111/j.1365-3016.2010.01165.x",
+      "status": "METADATA_RETRIEVED",
+      "title": "Living near agricultural pesticide applications and the risk of adverse reproductive outcomes: a review of the literature",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Adeleh",
+          "family": "Shirangi",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Mark",
+          "family": "Nieuwenhuijsen",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Danielle",
+          "family": "Vienneau",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "C.D'Arcy J.",
+          "family": "Holman",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2010,
+            12,
+            9
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2011,
+            3
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2010,
+            12,
+            9
+          ]
+        ]
+      },
+      "journal": [
+        "Paediatric and Perinatal Epidemiology"
+      ],
+      "volume": "25",
+      "issue": "2",
+      "page": "172-191",
+      "url": "https://doi.org/10.1111/j.1365-3016.2010.01165.x",
+      "links": [
+        {
+          "URL": "https://api.wiley.com/onlinelibrary/tdm/v1/articles/10.1111%2Fj.1365-3016.2010.01165.x",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-3016.2010.01165.x",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "rocha2017chapada",
+      "local_title": "Produção de vulnerabilidades em saúde: o trabalho das mulheres em empresas agrícolas da Chapada do Apodi, Ceará",
+      "local_year": "2017",
+      "doi": "10.1590/0103-11042017s206",
+      "status": "METADATA_RETRIEVED",
+      "title": "Produção de vulnerabilidades em saúde: o trabalho das mulheres em empresas agrícolas da Chapada do Apodi, Ceará",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Mayara Melo",
+          "family": "Rocha",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Universidade Federal do Ceará,  Brazil"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Raquel Maria",
+          "family": "Rigotto",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Universidade Federal do Ceará,  Brazil"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2017,
+            6
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2017,
+            6
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Saúde em Debate"
+      ],
+      "volume": "41",
+      "issue": "spe2",
+      "page": "63-79",
+      "url": "https://doi.org/10.1590/0103-11042017s206",
+      "links": [
+        {
+          "URL": "http://www.scielo.br/pdf/sdeb/v41nspe2/0103-1104-sdeb-41-spe2-0063.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "calzada2023bananas",
+      "local_title": "The Hidden Cost of Bananas: The Effects of Pesticides on Newborns’ Health",
+      "local_year": "2023",
+      "doi": "10.1086/725349",
+      "status": "METADATA_RETRIEVED",
+      "title": "The Hidden Cost of Bananas: The Effects of Pesticides on Newborns’ Health",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Joan",
+          "family": "Calzada",
+          "sequence": "first",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Meritxell",
+          "family": "Gisbert",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Bernard",
+          "family": "Moscoso",
+          "sequence": "additional",
+          "affiliation": [],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2023,
+            11,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2023,
+            11,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Journal of the Association of Environmental and Resource Economists"
+      ],
+      "volume": "10",
+      "issue": "6",
+      "page": "1623-1663",
+      "url": "https://doi.org/10.1086/725349",
+      "links": [
+        {
+          "URL": "https://www.journals.uchicago.edu/doi/pdf/10.1086/725349",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "neginegi2025misclassified",
+      "local_title": "Difference‐in‐Differences With a Misclassified Treatment",
+      "local_year": "2025",
+      "doi": "10.1002/jae.3116",
+      "status": "METADATA_RETRIEVED",
+      "title": "Difference‐in‐Differences With a Misclassified Treatment",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Akanksha",
+          "family": "Negi",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Department of Econometrics and Business Statistics Monash University  Melbourne Australia"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Digvijay S.",
+          "family": "Negi",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Economics Ashoka University  Sonipat India"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2025,
+            2,
+            6
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2025,
+            6
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2025,
+            2,
+            6
+          ]
+        ]
+      },
+      "journal": [
+        "Journal of Applied Econometrics"
+      ],
+      "volume": "40",
+      "issue": "4",
+      "page": "411-423",
+      "url": "https://doi.org/10.1002/jae.3116",
+      "links": [
+        {
+          "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/jae.3116",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "sasaki2024extreme",
+      "local_title": "Extreme Changes in Changes",
+      "local_year": "2024",
+      "doi": "10.1080/07350015.2023.2249509",
+      "status": "METADATA_RETRIEVED",
+      "title": "Extreme Changes in Changes",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Yuya",
+          "family": "Sasaki",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Vanderbilt University, Nashville, TN"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        },
+        {
+          "given": "Yulong",
+          "family": "Wang",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Syracuse University, Syracuse, NY"
+            }
+          ],
+          "role": [
+            {
+              "role": "author",
+              "vocabulary": "crossref"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2023,
+            9,
+            21
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2024,
+            4,
+            2
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2023,
+            9,
+            21
+          ]
+        ]
+      },
+      "journal": [
+        "Journal of Business &amp; Economic Statistics"
+      ],
+      "volume": "42",
+      "issue": "2",
+      "page": "812-824",
+      "url": "https://doi.org/10.1080/07350015.2023.2249509",
+      "links": [
+        {
+          "URL": "https://www.tandfonline.com/doi/pdf/10.1080/07350015.2023.2249509",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "rull2003misclassification",
+      "local_title": "Historical pesticide exposure in California using pesticide use reports and land-use surveys: an assessment of misclassification error and bias",
+      "local_year": "2003",
+      "doi": "10.1289/ehp.6118",
+      "status": "METADATA_RETRIEVED",
+      "title": "Historical pesticide exposure in California using pesticide use reports and land-use surveys: an assessment of misclassification error and bias.",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Rudolph P",
+          "family": "Rull",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Department of Epidemiology, School of Public Health, University of California-Los Angeles, Los Angeles, California 90095-1772, USA."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Beate",
+          "family": "Ritz",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Department of Epidemiology, School of Public Health, University of California-Los Angeles, Los Angeles, California 90095-1772, USA."
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2003,
+            10,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2003,
+            10,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "Environmental Health Perspectives"
+      ],
+      "volume": "111",
+      "issue": "13",
+      "page": "1582-1589",
+      "url": "https://doi.org/10.1289/ehp.6118",
+      "links": [
+        {
+          "URL": "https://pubs.acs.org/evhpaz/article-pdf/111/13/1582/66379161/ehp.6118.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://pubs.acs.org/evhpaz/article-pdf/111/13/1582/66379161/ehp.6118.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "borusyak2022shiftshare",
+      "local_title": "Quasi-Experimental Shift-Share Research Designs",
+      "local_year": "2022",
+      "doi": "10.1093/restud/rdab030",
+      "status": "METADATA_RETRIEVED",
+      "title": "Quasi-Experimental Shift-Share Research Designs",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Kirill",
+          "family": "Borusyak",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "University College London and CEPR"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Peter",
+          "family": "Hull",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Brown University and NBER"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Xavier",
+          "family": "Jaravel",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "London School of Economics and CEPR"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            6,
+            8
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2022,
+            1,
+            10
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2021,
+            6,
+            8
+          ]
+        ]
+      },
+      "journal": [
+        "The Review of Economic Studies"
+      ],
+      "volume": "89",
+      "issue": "1",
+      "page": "181-213",
+      "url": "https://doi.org/10.1093/restud/rdab030",
+      "links": [
+        {
+          "URL": "http://academic.oup.com/restud/advance-article-pdf/doi/10.1093/restud/rdab030/39835172/rdab030.pdf",
+          "content-type": "application/pdf",
+          "content-version": "am",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/89/1/181/42137346/rdab030.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/restud/article-pdf/89/1/181/42137346/rdab030.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "borusyak2025formula",
+      "local_title": "Design-based identification with formula instruments: a review",
+      "local_year": "2025",
+      "doi": "10.1093/ectj/utae003",
+      "status": "METADATA_RETRIEVED",
+      "title": "Design-based identification with formula instruments: a review",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Kirill",
+          "family": "Borusyak",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "UC Berkeley, 222 Giannini Hall, Berkeley, CA 94720 ,",
+              "place": [
+                "USA"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Peter",
+          "family": "Hull",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Brown University, 64 Waterman Street, Providence, RI 02912 ,",
+              "place": [
+                "USA"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Xavier",
+          "family": "Jaravel",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "London School of Economics, Houghton Street, London WC2A 2AE ,",
+              "place": [
+                "UK"
+              ]
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            1,
+            27
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2025,
+            3,
+            8
+          ]
+        ]
+      },
+      "published_online": {
+        "date-parts": [
+          [
+            2024,
+            1,
+            27
+          ]
+        ]
+      },
+      "journal": [
+        "The Econometrics Journal"
+      ],
+      "volume": "28",
+      "issue": "1",
+      "page": "83-108",
+      "url": "https://doi.org/10.1093/ectj/utae003",
+      "links": [
+        {
+          "URL": "https://academic.oup.com/ectj/advance-article-pdf/doi/10.1093/ectj/utae003/56662602/utae003.pdf",
+          "content-type": "application/pdf",
+          "content-version": "am",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/ectj/article-pdf/28/1/83/56662602/utae003.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/ectj/article-pdf/28/1/83/56662602/utae003.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "key": "goldsmithpinkham2020bartik",
+      "local_title": "Bartik Instruments: What, When, Why, and How",
+      "local_year": "2020",
+      "doi": "10.1257/aer.20181047",
+      "status": "METADATA_RETRIEVED",
+      "title": "Bartik Instruments: What, When, Why, and How",
+      "similarity": 1.0,
+      "authors": [
+        {
+          "given": "Paul",
+          "family": "Goldsmith-Pinkham",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Yale School of Management (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Isaac",
+          "family": "Sorkin",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Stanford University and NBER (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Henry",
+          "family": "Swift",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Unaffiliated (email: )"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2020,
+            8,
+            1
+          ]
+        ]
+      },
+      "published_print": {
+        "date-parts": [
+          [
+            2020,
+            8,
+            1
+          ]
+        ]
+      },
+      "published_online": null,
+      "journal": [
+        "American Economic Review"
+      ],
+      "volume": "110",
+      "issue": "8",
+      "page": "2586-2624",
+      "url": "https://doi.org/10.1257/aer.20181047",
+      "links": [
+        {
+          "URL": "https://pubs.aeaweb.org/doi/pdf/10.1257/aer.20181047",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed 
+2: Setting LC_CTYPE=C.UTF-8 failed 
+3: Setting LC_MONETARY=C.UTF-8 failed 
+4: Setting LC_TIME=C.UTF-8 failed 
+[1] "English_United States.utf8"
+==================================================================================== 
+E6 — CGS TRATAMENTO CONTÍNUO | desfecho: taxa_obito_fetal 
+==================================================================================== 
+municípios: 184 | períodos: 96 | células: 17664 
+
+d = 0 pela DEFINIÇÃO 4 (aptidão GAEZ, §5.3) — ratificada na pré-especificação
+  corte de aptidão (p 75 ): 0.483 
+  zeros por área    : 15 
+  zeros SUSPEITOS descartados (área nula + aptidão alta): 1 
+  controles restantes: 14 
+fonte do painel: real 
+[aviso] 9 células com desfecho ausente.
+[aviso] O pacote NÃO aceita painel desbalanceado:
+[aviso]   if (allow_unbalanced_panel) stop('unbalanced panel not currently supported')
+[aviso] Células ausentes serão descartadas, e o painel rebalanceado.
+
+coortes de transição descartadas: 1647 (9.4%)
+  pré  <= 2018-12 | pós >= 2019-10
+  ⚠️ São as coortes cuja gestação atravessa o ban. Descartar é a escolha
+     conservadora; incluí-las embute atenuação. Ajuste com --corte-pre/pos.
+  g: tratados 169 | nunca-tratados 14 
+  municípios com os dois períodos: 183 
+
+====================================================================================
+1. CURVA DOSE-RESPOSTA — sieve não-paramétrico (CCK), 2 períodos
+==================================================================================== 
+
+  target_parameter = level   -> ATT(d|d), sob Assumption PT 
+  [ok] work/empirical/cgs-fetal-d4-original/cgs_curva_level__taxa_obito_fetal__d0-4.csv 
+       agregado: 0.00018  (ep 0.00207)  IC95% [-0.00389 ; 0.00424]
+       meia-largura do IC: 0.0041 (unidade do desfecho)
+       ⚠️ o piso de 15 g é do PESO — não há piso pré-especificado
+          para este desfecho, então NÃO há teste de falsificação aqui.
+
+  target_parameter = slope   -> ACR(d), exige Assumption SPT (NÃO testável) 
+  [ok] work/empirical/cgs-fetal-d4-original/cgs_curva_slope__taxa_obito_fetal__d0-4.csv 
+       ⚠️ ACR agregado é média SIMPLES de uma derivada NÃO LINEAR.
+          Não leve o número cru para o texto. A decomposição por
+          faixa de dose mostra por quê:
+
+          faixa de dose      n      ACR        ep   ep/|ACR|
+          < 0,1%           48      -2.9      16.4      5.70  <- não identificado
+          0,1 a 1%         68       0.7       5.9      8.63  <- não identificado
+          1 a 5%           23       0.1       0.2      1.30  <- não identificado
+          5 a 20%          17       0.0       0.0      1.26  <- não identificado
+          > 20%            13      -0.0       0.0      1.60  <- não identificado
+
+          ⚠️ A média é dominada pelos pontos de dose quase nula, onde
+             o ep SUPERA a estimativa. E a magnitude ali é artefato de
+             UNIDADE: naquela faixa a dose varia ~0,0009, então -9.138 g
+             por unidade de dose implica cerca de -8,6 g de efeito real.
+          ⚠️ Use a curva ATT(d|d), que é estável entre as faixas.
+       agregado: -0.52088  (ep 0.77670)  IC95% [-2.04322 ; 1.00146]
+       meia-largura do IC: 1.5223 (unidade do desfecho)
+       ⚠️ o piso de 15 g é do PESO — não há piso pré-especificado
+          para este desfecho, então NÃO há teste de falsificação aqui.
+
+====================================================================================
+2. DIAGNÓSTICO DO TEOREMA C.1 — ATT(d|d) converge com ATE(d)?
+==================================================================================== 
+PT + SPT juntas implicam ATT(d|d) = ATE(d). Divergência é INFORMAÇÃO:
+quer dizer que a SPT (strong parallel trends) não se sustenta, e o
+resultado principal migra para os limites da §5.1 — compromisso já
+registrado em docs/ars/03-modelagem-ensaio1.md §4.1.
+
+Os dois rodaram. Compare `cgs_curva_level.csv` com `cgs_curva_slope.csv`.
+⚠️ Este script NÃO decide se convergem — a leitura é sua, e o critério
+   tem de estar escrito ANTES de olhar o coeficiente.
+
+====================================================================================
+3. EVENT STUDY — paramétrico, painel mensal (rodada SEPARADA da curva)
+==================================================================================== 
+  painel balanceado: 182 municípios × 96 meses
+  [ok] work/empirical/cgs-fetal-d4-original/cgs_eventstudy__taxa_obito_fetal__d0-4.csv 
+  ⚠️ TODOS os 48 períodos PÓS saíram NA — limitação do pacote com
+     coorte única. O que está no CSV é teste de PRÉ-TENDÊNCIAS, não
+     event study. A trajetória dinâmica pós-ban não sai daqui.
+       leads (t < 0): 47 | fora do zero pela banda: 0 (0%)
+       |média dos leads|: 0.00 | maior |lead|: 0.01
+       meia-largura mediana dos leads: 0.0 g
+       ⚠️ contra o piso de 15 g da §5: 0.0x MAIOR
+          Uma violação do tamanho que se procura seria INVISÍVEL.
+          Leads dentro do zero não provam paralelismo — provam falta
+          de poder para rejeitá-lo. É o que o `pretrends` quantifica.
+
+====================================================================================
+O QUE LEVAR PARA O TEXTO
+==================================================================================== 
+• A curva e o event study vêm de estimadores DIFERENTES (sieve vs.
+  paramétrico) e de agregações diferentes. Não é uma rodada só.
+• ⚠️ O sieve centra a curva na variação média do grupo dose = 0
+  (`m0 <- mean(dy[dose == 0])`). Contaminação do zero DESLOCA o nível da
+  curva inteira — não é ruído. Rode as quatro construções de zero da
+  §5.3 e reporte a dispersão entre elas.
+• ⚠️ Covariáveis não entram no CGS. Ajuste municipal só por outra via.
+• O próximo passo é a robustez: Conley–Taber e wild-cluster bootstrap,
+  porque poucos clusters tratados + desfecho raro não perdoam inferência
+  assintótica. Ver scripts/estimate/04_robustness.py.
+==================================================================================== 
+There were 50 or more warnings (use warnings() to see the first 50)

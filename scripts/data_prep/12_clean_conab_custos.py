@@ -27,6 +27,26 @@ Isso é exatamente o par que a substituição aéreo→terrestre precisa, medido
 
    Essa não é uma limitação chata: é um resultado. Ver `--interpretar`.
 
+🔴 CORRIGIDO EM 2026-09-23: A LEITURA PERDIA A MAIOR PARTE DA SÉRIE
+------------------------------------------------------------------
+A auditoria de 2026-09-23 reexecutou este extrator na planilha oficial (88 abas
+região–UF–ano) e contou 72/88 custos de avião, 69/88 de trator e 57/88 custos
+totais AUSENTES. Duas causas, as duas daqui:
+
+1. **Rótulo casado por prefixo literal.** As abas antigas escrevem
+   "1 - Operação com avião"; o código exigia "2 - Operação com Avião". Agora o
+   rótulo é normalizado (sem numeração, sem acento, sem caixa) antes de casar.
+2. **Ausente virava zero** (`fillna(0.0)`), e a contagem "avião e trator nunca
+   aparecem juntos" era feita sobre esses zeros. A conclusão de que as duas
+   tecnologias são "mutuamente exclusivas" e de que o trator é "a escolha da
+   maioria" não se sustenta e saiu do relatório. Agora ausente fica ausente, e
+   a contagem separa positivo, zero e ausente.
+
+E o item de máquinas mudou de categoria entre os leiautes: as abas antigas têm
+"Operação com máquinas próprias" e "Aluguel de máquinas/serviços", não
+"Tratores e Colheitadeiras". Não são o mesmo item, e a coluna `leiaute` diz
+qual é qual em vez de fingir série contínua.
+
 Saída: `data/processed/conab_custo_aviao_banana.csv`
 """
 
@@ -35,6 +55,7 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 import pandas as pd
@@ -48,14 +69,27 @@ RAIZ = Path(__file__).resolve().parents[2]
 BRUTO = RAIZ / "data" / "raw" / "conab" / "custos_banana_2008_2025.xlsx"
 OUT_DIR = RAIZ / "data" / "processed"
 
-# As linhas que importam, por prefixo do rótulo na coluna DISCRIMINAÇÃO.
+# As linhas que importam, pelo início do rótulo NORMALIZADO (sem a numeração
+# do item, sem acento, em minúsculas) na coluna DISCRIMINAÇÃO. A numeração muda
+# entre leiautes ("1 - Operação com avião" nas abas antigas, "2 - Operação com
+# Avião" nas novas); o texto, não.
 ALVOS = {
-    "custo_aviao": "2 - Operação com Avião",
-    "custo_tratores": "3.1 - Tratores e Colheitade",
-    "custo_agrotoxicos": "10 - Agrotóxicos",
-    "custo_mao_obra": "6 - Mão de obra",
-    "custo_total": "CUSTO TOTAL",
+    "custo_aviao": "operacao com aviao",
+    "custo_tratores": "tratores e colheitade",
+    "custo_agrotoxicos": "agrotoxicos",
+    "custo_mao_obra": "mao de obra",
+    "custo_total": "custo total",
 }
+# Marca do leiaute antigo, em que máquinas não é "Tratores e Colheitadeiras".
+LEIAUTE_ANTIGO = "operacao com maquinas proprias"
+
+
+def normaliza_rotulo(rotulo: str) -> str:
+    """Sem acento, sem caixa, sem a numeração do item ("3.1 - "), sem hífen."""
+    s = unicodedata.normalize("NFKD", str(rotulo)).encode("ascii", "ignore").decode()
+    s = s.replace("\t", " ").strip().casefold()
+    s = re.sub(r"^\d+(\.\d+)*\s*-\s*", "", s)
+    return re.sub(r"\s+", " ", s.replace("-", " ")).strip()
 
 
 def _num(x) -> float:
@@ -83,16 +117,26 @@ def le_aba(xl: pd.ExcelFile, aba: str) -> dict | None:
             reg["produtividade_kg_ha"] = _num(p.group(1).replace(".", "").replace(",", "."))
 
     achados = {}
+    leiaute = "novo"
     for _, row in df.iterrows():
-        rotulo = str(row.iloc[0]) if pd.notna(row.iloc[0]) else ""
-        rotulo = rotulo.replace("\t", "").strip()
+        rotulo = normaliza_rotulo(row.iloc[0]) if pd.notna(row.iloc[0]) else ""
+        if rotulo.startswith(LEIAUTE_ANTIGO):
+            leiaute = "antigo"
         for chave, prefixo in ALVOS.items():
             if chave in achados:
                 continue
             if rotulo.startswith(prefixo):
                 achados[chave] = _num(row.iloc[1])
     reg.update(achados)
+    reg["leiaute"] = leiaute
     return reg
+
+
+def contagem(tb: pd.DataFrame, coluna: str) -> dict:
+    """Positivo, zero e AUSENTE, separados. Ausente não é zero."""
+    serie = tb[coluna] if coluna in tb.columns else pd.Series(dtype=float)
+    return {"positivo": int((serie > 0).sum()), "zero": int((serie == 0).sum()),
+            "ausente": int(serie.isna().sum() + (len(tb) - len(serie)))}
 
 
 def interpreta(tb: pd.DataFrame) -> None:
@@ -100,107 +144,58 @@ def interpreta(tb: pd.DataFrame) -> None:
     print(barra)
     print("E11 — O LADO DO CUSTO: 'Operação com Avião' na bananicultura (Conab)")
     print(barra)
-
-    n_av = int((tb["custo_aviao"] > 0).sum())
-    n_tr = int((tb["custo_tratores"] > 0).sum())
-    n_amb = int(((tb["custo_aviao"] > 0) & (tb["custo_tratores"] > 0)).sum())
     print(f"  sistemas na série: {len(tb)}  ({tb['ano'].min()}–{tb['ano'].max()}, "
           f"UFs: {', '.join(sorted(tb['uf'].unique()))})")
-    print(f"  com avião > 0     : {n_av}")
-    print(f"  com tratores > 0  : {n_tr}")
-    print(f"  com AMBOS > 0     : {n_amb}")
+    n_antigo = int((tb.get("leiaute", pd.Series(dtype=str)) == "antigo").sum())
+    print(f"  abas no leiaute antigo (máquinas ≠ 'Tratores e Colheitadeiras'): {n_antigo}")
+    print()
+    print(f"  {'item':<24} {'positivo':>9} {'zero':>6} {'ausente':>8}")
+    for col, rot in (("custo_aviao", "operação com avião"),
+                     ("custo_tratores", "tratores e colheitad."),
+                     ("custo_total", "custo total")):
+        c = contagem(tb, col)
+        print(f"  {rot:<24} {c['positivo']:>9} {c['zero']:>6} {c['ausente']:>8}")
+    print("  ⚠️ Ausente é rótulo não achado ou célula vazia, NÃO custo zero.")
     print("-" * 84)
 
     av = tb[tb["custo_aviao"] > 0]
     if len(av):
-        print("CUSTO DE OPERAÇÃO COM AVIÃO, onde é usado")
+        sistemas = av["aba"].str.replace(r"-\d{4}$", "", regex=True).nunique()
+        print("CUSTO DE OPERAÇÃO COM AVIÃO, onde a planilha o registra")
+        print(f"  registros: {len(av)}  |  sistemas/localidades distintos: {sistemas}")
         print(f"  mediana : R$ {av['custo_aviao'].median():,.2f} / ha")
         print(f"  faixa   : R$ {av['custo_aviao'].min():,.2f} a "
               f"R$ {av['custo_aviao'].max():,.2f} / ha")
         share = 100 * av["custo_aviao"] / av["custo_total"]
-        print(f"  como % do custo TOTAL: mediana {share.median():.2f}%  "
-              f"(máx {share.max():.2f}%)")
-        print()
-        print("  ⚠️ ORDEM DE GRANDEZA — e ela muda a leitura do problema.")
-        print(f"     O custo total da banana é da ordem de "
-              f"R$ {av['custo_total'].median():,.0f}/ha.")
-        print("     A aplicação aérea é uma fração de UM POR CENTO disso. Mesmo")
-        print("     que a substituição DOBRE esse item, o efeito sobre o custo de")
-        print("     produção fica abaixo do ruído anual de fertilizante, que")
-        print("     sozinho responde por perto de 45% do custeio.")
+        if share.notna().any():
+            print(f"  como % do custo TOTAL: mediana {share.median():.2f}%  "
+                  f"(máx {share.max():.2f}%)")
+        print("  ⚠️ Poucos registros, e podem ser o MESMO sistema em anos seguidos:")
+        print("     não são tecnologias independentes, nem amostra de produtores,")
+        print("     nem Ceará, nem 2018. Custo contábil de uma operação também não")
+        print("     é custo de abatimento: perda de rendimento, capital e escassez")
+        print("     de substituto não aparecem nesta linha.")
     print("-" * 84)
 
-    tr = tb[tb["custo_tratores"] > 0]
-    print("A COMPARAÇÃO QUE PARECE ESTAR AQUI — E QUE NÃO ESTÁ")
-    if len(av) and len(tr):
-        print(f"  item 'Operação com Avião'      : mediana R$ {av['custo_aviao'].median():>9,.2f}/ha")
-        print(f"  item 'Tratores e Colheitadeiras': mediana R$ {tr['custo_tratores'].median():>9,.2f}/ha")
-        print()
-        print("  ⚠️ NÃO SUBTRAIA ESSES DOIS. A diferença não é o custo de")
-        print("     abatimento, por três razões, e cada uma sozinha já basta:")
-        print()
-        print("     1. Os itens não são comparáveis. 'Avião' é só pulverização;")
-        print("        'Tratores e Colheitadeiras' é TODA a operação tratorizada —")
-        print("        preparo, transporte, colheita. Diferenciar mede sobretudo o")
-        print("        que o trator faz além de pulverizar.")
-        ufs_av = ", ".join(sorted(av["uf"].unique()))
-        ufs_tr = ", ".join(sorted(tr["uf"].unique()))
-        print(f"     2. As amostras não se sobrepõem geograficamente: avião em"
-              f" {ufs_av}, trator em {ufs_tr}.")
-        print(f"        Produtividade mediana difere — {av['produtividade_kg_ha'].median():,.0f}"
-              f" contra {tr['produtividade_kg_ha'].median():,.0f} kg/ha.")
-        print("     3. A escolha de tecnologia é ENDÓGENA ao sistema. Quem voa")
-        print("        escolheu voar; o contrafactual não é o sistema do vizinho.")
+    print("O QUE ESTA FONTE NÃO SUSTENTA (auditoria de 2026-09-23)")
+    print("  • Que avião e trator sejam MUTUAMENTE EXCLUSIVOS: com a maior parte")
+    print("    das células ausente, 'nunca aparecem juntos' não é evidência; e")
+    print("    'Tratores e Colheitadeiras' é TODA a operação tratorizada, não a")
+    print("    pulverização terrestre.")
+    print("  • Que a aplicação terrestre seja 'a escolha da maioria' do setor.")
+    print("  • Que o choque de custo do ban seja pequeno.")
     print("-" * 84)
 
-    print("⭐ O QUE A FONTE ENTREGA DE FATO, E É MAIS ÚTIL QUE UM PREÇO")
-    print(f"  Dos {len(tb)} sistemas, {n_av} usam avião, {n_tr} usam trator e"
-          f" {n_amb} usam AMBOS.")
-    print()
-    print("  As duas tecnologias são MUTUAMENTE EXCLUSIVAS na prática registrada,")
-    print("  e as duas estão em uso comercial na bananicultura brasileira. Ou")
-    print("  seja: a aplicação terrestre não é só tecnicamente possível — ela é")
-    print("  a escolha corrente da MAIORIA dos sistemas que a Conab acompanha.")
-    print()
-    print("  ⚠️ Isso é insumo para a tabela de ameaças do Ensaio 1, não só para o")
-    print("     Ensaio 2: a substituição que o ban força já era praticada por")
-    print("     parte do setor antes dele, o que torna o 'choque' de custo menor")
-    print("     do que a retórica do contencioso judicial sugeria.")
-    print("-" * 84)
-
-    print("⚠️ O QUE ESTE NÚMERO É, E O QUE WEITZMAN PRECISA")
-    print("  Isto é NÍVEL de custo por hectare, e a regra de Weitzman compara")
-    print("  INCLINAÇÕES de curvas marginais. ⚠️ Esta fonte NÃO determina c.")
-    print()
-    print("  O que decide c é a HETEROGENEIDADE do custo de conversão entre")
-    print("  produtores — terreno, porte do bananal, tamanho do talhão —, e a")
-    print("  planilha da Conab, que reporta sistema típico, não enxerga isso.")
-    print("  Os dois casos seguem abertos, e importam:")
-    print()
-    print("    c ~ 0  (prêmio de conversão ~ igual para todos)")
-    print("           Delta = (sigma²/2c²)(c - beta) -> -infinito se beta > 0")
-    print("           => a QUANTIDADE domina, e a conclusão NÃO depende de saber")
-    print("              quanto vale beta: basta beta > 0.")
-    print("           Intuição: com custo marginal plano, a taxa ou fica acima")
-    print("           dele (todos abatem tudo) ou abaixo (ninguém abate); um")
-    print("           choque minúsculo vira o resultado. A cota não tem isso.")
-    print()
-    print("    c >> 0 (conversão muito mais cara para alguns)")
-    print("           volta a valer a comparação usual, e beta é indispensável.")
-    print()
-    print("  ⭐ O valor desta fonte é ter tornado a PERGUNTA menor: o Ensaio 2 não")
-    print("     precisa mais medir c na escala certa — precisa saber se o prêmio")
-    print("     de conversão é homogêneo entre produtores. Isso é pergunta de")
-    print("     levantamento setorial, não de econometria.")
-    print("-" * 84)
-    print("⚠️ O QUE ISSO REDUZ, E O QUE NÃO RESOLVE")
-    print("  A pergunta do Ensaio 2 deixa de ser 'quanto vale beta?' e passa a ser")
-    print("  'beta é afastado de zero?' — exigência MUITO mais fraca, que um")
-    print("  desenho com pouco poder ainda pode conseguir responder.")
-    print()
-    print("  ⚠️ Mas NÃO está respondida. Se beta = 0 (dose-resposta exatamente")
-    print("     linear), o sinal se inverte e a taxa domina. O Ensaio 1 não")
-    print("     distingue os dois casos.")
+    print("⚠️ NÍVEL NÃO É INCLINAÇÃO, E O CASO c → 0 NÃO DECIDE NADA SOZINHO")
+    print("  Weitzman compara inclinações de curvas marginais; custo por hectare")
+    print("  é nível. Com prêmio de conversão igual para todos, C'' = 0, e a")
+    print("  fórmula local Δ = σ²(c − β)/(2c²) diverge quando c → 0.")
+    print("  ⚠️ A divergência é da APROXIMAÇÃO LOCAL, não do bem-estar: com")
+    print("     abatimento limitado a [0, Q] e choques de esperança finita, a")
+    print("     diferença entre taxa e cota é finita. Não é vantagem infinita da")
+    print("     quantidade. E proibir é o canto da cota, não a cota ótima do")
+    print("     modelo: mostrar que a cota ótima vence a taxa ótima não mostra")
+    print("     que a proibição total vence.")
     print(barra)
 
 
@@ -227,7 +222,7 @@ def main(argv: list[str] | None = None) -> int:
     for c in ALVOS:
         if c not in tb.columns:
             tb[c] = float("nan")
-        tb[c] = tb[c].fillna(0.0)
+        # ⚠️ sem fillna(0): ausente não é zero (auditoria de 2026-09-23)
 
     interpreta(tb)
 

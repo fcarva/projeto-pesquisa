@@ -97,8 +97,18 @@ GDAL/PROJ/GEOS são pesados e brigam, e o pipeline 01–05 não precisa deles.
 | ~~**MAPA**~~ ✅ **é DADO ABERTO** — LAI desnecessária | `dados.agricultura.gov.br/dataset/sipeagro`, CC-BY | ⚠️ mas **não serve à definição 3** — ver §1-bis |
 | **SEMACE / ANAC / SINDAG** | protocolar a LAI (minuta em `07-layer4-*.md`) | 20 dias + 10. **Único com relógio externo** |
 | **Bans municipais < 2019** ⚠️ | levantamento legislativo. **Fase 1 = decil superior (~30)**, não os 184 | nenhum, mas é anterior ao Gate 1 em importância. ✅ **1 achado já confirmado** |
+| 🆕 **Limoeiro — avisos prévios de pulverização aérea** (2026-09-23) | LAI municipal, Pedido E: `docs/legislacao/lai-limoeiro-avisos-previos-minuta.md`. A Lei 1.511/2010 (art. 214) e a 2.054/2018 (art. 153) exigiam aviso de 5 dias e comunicação dos produtos | prazo da LAI municipal. Único registro que dataria cada aplicação aérea no principal tratado |
+| **MAPA — relatórios mensais** (Pedido D) | Fala.BR, `lai-mapa-relatorios-mensais-minuta.md`, corrigido em 2026-09-23: art. 12, VI (outra UF) e art. 14, III (mês sem atividade) | 20 dias + 10 |
 
 Nenhum script resolve estas. Precisam de uma pessoa.
+
+⚠️ **SIH (canal secundário do A5) não está operacional no painel** (auditoria de
+2026-09-23): 46 das 17.664 células têm taxa observada, porque só entram as
+células com algum CID selecionado. No contraste principal sobram 3 municípios
+positivos e nenhum controle. Os 96 arquivos RDCE de 2015–2022 estão todos
+presentes, mas pôr zero exige registrar a cobertura por **competência** (mês de
+faturamento, não de internação) antes. Até lá, o SIH não entra em DiD. O canal A5
+é o SINAN (pré-especificação §6), que tem a grade inteira.
 
 ⚠️ **O segundo deixou de ser condicional em 2026-09-21.** Limoeiro do Norte
 proibiu pela **Lei Municipal 1.478, de 20/11/2009** — conferido em fonte primária

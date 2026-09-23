@@ -129,17 +129,18 @@ SEMENTE_CONFIRMADA = {
         "data_consulta": "2026-09-21",
         "escopo": "total",
         "confianca": "confirmado",
-        # ⚠️ Revogadora IDENTIFICADA, mas a revogação ainda é fonte secundária:
-        # a Lei 1.511, de 26/05/2010 ("Dispõe sobre a política ambiental do
-        # município"), traz a revogação num artigo do corpo, não na ementa
-        # (Diário do Nordeste, abr/2010; G1, 31/10/2024). O 20/05/2010 da CPT
-        # é, provavelmente, a data da votação. Texto integral a conferir —
-        # ver docs/legislacao/README.md e docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5.
+        # ✅ Revogação por ARTIGO identificado (2026-09-23): o art. 212 da Lei
+        # 1.511, de 26/05/2010 ("Dispõe sobre a política ambiental do
+        # município"), diz "Fica revogada a Lei nº. 1.478, de 20 de novembro de
+        # 2.009" (PDF da Câmara, p. 65). Lido pela auditoria de 2026-09-23, não
+        # por esta sessão (o proxy bloqueia o domínio), e corroborado por
+        # acórdão indexado que extinguiu recurso pela revogação superveniente.
+        # Ver docs/ars/20-resposta-a-auditoria-2026-09-23.md §4.
         "data_revogacao": "2010-05-26",
-        "fonte_revogacao": ("secundaria, revogadora identificada: Lei 1.511 de "
-                            "26/05/2010 (politica ambiental; revogacao num artigo "
-                            "do corpo); CPT 2014 da 20/05/2010, provavel votacao; "
-                            "texto integral a conferir"),
+        "fonte_revogacao": ("primaria, lida pela auditoria de 2026-09-23: art. 212 "
+                            "da Lei 1.511 de 26/05/2010 (politica ambiental; PDF da "
+                            "Camara, p. 65); corroborada por acordao indexado "
+                            "(revogacao superveniente, perda de interesse recursal)"),
     }
 }
 

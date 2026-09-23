@@ -78,7 +78,11 @@ NOME_SAIDA = "painel_ensaio1"
 BAN_ANO, BAN_MES = 2019, 1          # vigência: 09/01/2019
 NOTICIA_ANO, NOTICIA_MES = 2015, 2  # PL 18/2015 apresentado em 24/02/2015
 CERTEZA_ANO, CERTEZA_MES = 2018, 12 # aprovação unânime na ALECE, 18/12/2018
-FIM_ANO, FIM_MES = 2024, 12         # Lei 19.135/2024 (drones), 19/12/2024
+FIM_ANO, FIM_MES = 2024, 11         # Lei 19.135/2024 (drones), 19/12/2024
+# ⚠️ Corrigido em 2026-09-23 (auditoria): a mudança vale desde 19/12/2024, e o
+# painel é mensal. Com dezembro inteiro, entravam nascimentos de depois da
+# exceção de drones. Excluir o mês é o corte conservador que o painel mensal
+# permite; o corte no dia exigiria filtrar DTNASC antes do colapso (script 02).
 
 # Janela gestacional FIXA, em meses. 40 semanas ≈ 9,2 meses; 9 é o arredondamento
 # que a literatura perinatal usa. ⚠️ Fixa de propósito — ver a nota no topo.
@@ -195,6 +199,20 @@ def grade_completa(municipios, inicio: tuple[int, int], fim: tuple[int, int]) ->
     return grade.drop(columns="periodo")
 
 
+def _fonte_do_bloco(bloco: pd.DataFrame) -> str:
+    """A proveniência gravada pelo script que produziu o componente."""
+    if "fonte" not in bloco.columns:
+        return "desconhecida"
+    valores = sorted({str(v) for v in bloco["fonte"].dropna().unique()})
+    return "+".join(valores) if valores else "desconhecida"
+
+
+def componentes_simulados(painel: pd.DataFrame) -> list[str]:
+    """Colunas `fonte_*` que dizem simulado. Painel real não pode ter nenhuma."""
+    return [c for c in painel.columns
+            if c.startswith("fonte_") and painel[c].astype(str).str.contains("simulado").any()]
+
+
 def junta_desfechos(grade: pd.DataFrame, fontes: dict[str, pd.DataFrame]) -> pd.DataFrame:
     """Left-join de cada painel de desfecho sobre a grade balanceada."""
     chave = ["cod_ibge6", "ano", "mes"]
@@ -205,6 +223,11 @@ def junta_desfechos(grade: pd.DataFrame, fontes: dict[str, pd.DataFrame]) -> pd.
             continue
         bloco = df.copy()
         bloco["cod_ibge6"] = bloco["cod_ibge6"].astype(str)
+        # ⚠️ A proveniência de cada componente sobrevive ao join (auditoria de
+        # 2026-09-23): antes a coluna `fonte` era descartada aqui, e o rótulo
+        # do painel saía do nome do arquivo da PAM. Um componente simulado mal
+        # nomeado virava "real" sem deixar rastro.
+        painel[f"fonte_{nome}"] = _fonte_do_bloco(bloco)
         bloco = bloco.drop(columns=[c for c in ("fonte",) if c in bloco.columns])
         # sufixo evita colisão silenciosa: 02 e 03 têm n_peso_valido, por exemplo
         colisoes = set(bloco.columns) & set(painel.columns) - set(chave)
@@ -346,7 +369,8 @@ def monta_painel(
     if fim is None:
         anos = [d["ano"].max() for d in (nascimentos, fetais, intoxicacao) if d is not None]
         ano_fim = min(max(anos), FIM_ANO) if anos else FIM_ANO
-        fim = (int(ano_fim), 12)
+        fim = (int(ano_fim), FIM_MES if int(ano_fim) == FIM_ANO else 12)
+    fim = min(tuple(fim), (FIM_ANO, FIM_MES))   # nunca depois da exceção de drones
 
     grade = grade_completa(dose["cod_ibge6"], inicio, fim)
     painel = junta_desfechos(
@@ -362,6 +386,7 @@ def monta_painel(
     if sinan is not None and not sinan.empty:
         bloco = sinan.copy()
         bloco["cod_ibge6"] = bloco["cod_ibge6"].astype(str)
+        painel["fonte_sinan"] = _fonte_do_bloco(bloco)
         bloco = bloco.drop(columns=[c for c in ("fonte",) if c in bloco.columns])
         chave = ["cod_ibge6", "ano", "mes"]
         bloco = bloco.rename(columns={c: f"sinan_{c}" for c in bloco.columns
@@ -664,6 +689,11 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     fonte_rotulo = "simulado" if sufixo else "real"
+    simulados = componentes_simulados(painel)
+    if fonte_rotulo == "real" and simulados:
+        print(f"[erro] componente(s) simulado(s) num painel que seria rotulado real: {simulados}")
+        print("       Refaça o componente pela fonte real; o painel não é gravado.")
+        return 1
     painel["fonte"] = fonte_rotulo
     imprime_resumo(painel, args.cultura, fonte_rotulo)
 

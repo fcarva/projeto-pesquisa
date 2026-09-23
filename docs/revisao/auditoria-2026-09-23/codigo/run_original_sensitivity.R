@@ -1,0 +1,6 @@
+.libPaths(c("C:/Users/DELL/Documents/projeto-pesquisa/projeto-pesquisa/renv/library/windows/R-4.6/x86_64-w64-mingw32", .libPaths()))
+Sys.setlocale("LC_CTYPE", "English_United States.utf8")
+Sys.setenv(LANGUAGE="en")
+target <- Sys.getenv("AUDIT_R_TARGET")
+stopifnot(target %in% c("07_honestdid.R", "08_synthdid.R"))
+source(file.path("C:/Users/DELL/Documents/projeto-pesquisa/projeto-pesquisa/scripts/estimate",target), encoding="UTF-8")

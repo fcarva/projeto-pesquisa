@@ -44,11 +44,24 @@ OS TRÊS PROCEDIMENTOS, E O QUE CADA UM SUPÕE
    errado; a lógica é a mesma — não confiar no assintótico —, o procedimento não.
 
 ────────────────────────────────────────────────────────────────────────────
-O GATE DO E7
+O MDE NÃO É RÉGUA DO RESULTADO (corrigido em 2026-09-23)
 ────────────────────────────────────────────────────────────────────────────
-**O efeito estimado supera o MDE do próprio desenho?** Se não, o resultado é um
-**limite superior informativo**, e é assim que tem de ser escrito. Reportar
-coeficiente abaixo do próprio MDE como achado é o erro que a banca pega.
+Até 2026-09-23 este script classificava a estimativa pelo MDE: abaixo dele,
+"não é achado, é limite superior informativo". A auditoria de 2026-09-23
+(`docs/revisao/auditoria-2026-09-23/`) mostrou que a regra é falsa. O MDE é
+propriedade de PLANEJAMENTO: com 80% de poder e 5% bilateral, MDE ≈ 2,8·EP,
+e a significância começa em 1,96·EP. Uma estimativa de 2,2·EP fica abaixo do
+MDE e rejeita o zero. Limite superior sai de intervalo ou de teste
+direcional, nunca da desigualdade |β̂| < MDE. O MDE passado por `--mde` vem
+do script 01, que é do contraste decil × resto (17×167), e não se compara
+nem com a inclinação daqui (g por unidade de dose) nem com o nível (169 ×
+controles). O relatório o imprime como informação de desenho, e só.
+
+O piso de 15 g da §5 da pré-especificação também era lido pela largura do
+IC. Largura não testa efeito mínimo: IC [20; 30] tem meia-largura 5 e não
+exclui +15. O teste certo está em `teste_piso`: o benefício de 15 g ou mais
+é rejeitado quando o limite superior do IC de 95% fica abaixo de +15, e a
+equivalência a ±15 g é o TOST.
 
 ⚠️ **E a sensibilidade ao grupo `d = 0` não é opcional.** O sieve do `contdid`
 centra a curva em `mean(dy[dose == 0])` — contaminação do zero **desloca o nível
@@ -58,7 +71,12 @@ sobre o nível.
 
 Uso:
     python scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1__simulado.parquet
-    python scripts/estimate/04_robustness.py --desfecho taxa_baixo_peso --mde 33
+    python scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.parquet --d-zero 4
+
+Saída: `robustez_inferencia__<desfecho>__d0-<def>.csv` e
+`robustez_perfil_dose__<desfecho>__d0-<def>.csv`, no padrão de nome do
+03_contdid.R. Até 2026-09-23 os nomes eram fixos, e rodar o fetal depois do
+peso apagava o peso.
 """
 
 from __future__ import annotations
@@ -74,6 +92,10 @@ SEED = 20190613
 N_BOOT = 2000
 ALPHA = 0.05
 OUT_DIR = Path("data/processed")
+# Piso de efeito da §5 da pré-especificação, em gramas de PESO. Não vale para
+# taxa: aplicado a `taxa_obito_fetal`, qualquer IC "passaria".
+PISO_G = 15.0
+DESFECHOS_EM_GRAMAS = ("peso_medio",)
 
 
 # --------------------------------------------------------------------------
@@ -334,10 +356,85 @@ def nivel(dados: pd.DataFrame) -> float:
     return float(y[trat].mean() - y[ctrl].mean())
 
 
+def zeros_suspeitos(painel: pd.DataFrame, aptidao_p: float = 0.75) -> set:
+    """Definição 4 da §5.3: zeros de área com aptidão GAEZ acima do percentil.
+
+    A mesma regra do 03_contdid.R: o corte é o quantil `aptidao_p` da aptidão
+    sobre todos os municípios, e sai do grupo de comparação o município de
+    área nula com aptidão acima dele. Com o painel real, sai 1 dos 15 (230523),
+    e ficam os 14 do agregado de −36,19 g.
+
+    ⚠️ Zero sem aptidão é ERRO, não controle (auditoria de 2026-09-23). Antes,
+    o R mantinha esse município, porque `NA > corte` não é verdadeiro, e o
+    07/08 o descartava, porque `NA <= corte` também não. As duas rotas diziam
+    "definição 4" com amostras diferentes.
+    """
+    if "aptidao_gaez" not in painel.columns:
+        raise ValueError("a definição 4 exige `aptidao_gaez` no painel. Rode antes: make gaez")
+    por_muni = painel.drop_duplicates("cod_ibge6")[["cod_ibge6", "dose", "aptidao_gaez"]]
+    zeros = por_muni[por_muni["dose"] <= 0]
+    sem = zeros.loc[zeros["aptidao_gaez"].isna(), "cod_ibge6"].tolist()
+    if sem:
+        raise ValueError(f"município(s) de dose zero sem aptidão GAEZ: {sem}. "
+                         "A definição 4 não decide o lado deles.")
+    corte = por_muni["aptidao_gaez"].quantile(aptidao_p)
+    return set(zeros.loc[zeros["aptidao_gaez"] > corte, "cod_ibge6"])
+
+
+def aplica_d_zero(dados: pd.DataFrame, suspeitos: set) -> pd.DataFrame:
+    """Tira do grupo de comparação os zeros suspeitos. Os tratados não mudam."""
+    fora = dados["cod_ibge6"].isin(suspeitos) & (dados["dose"] <= 0)
+    return dados[~fora].reset_index(drop=True)
+
+
 def _ep_welch(y_t: np.ndarray, y_c: np.ndarray) -> float:
     if len(y_t) < 2 or len(y_c) < 2:
         return np.nan
     return float(np.sqrt(y_t.var(ddof=1) / len(y_t) + y_c.var(ddof=1) / len(y_c)))
+
+
+def _gl_welch(y_t: np.ndarray, y_c: np.ndarray) -> float:
+    """Graus de liberdade de Welch–Satterthwaite.
+
+    Com 14 controles e 169 tratados ficam perto de 14, porque quase toda a
+    variância vem da média dos controles: a cauda é a de uma t com ~14 gl, e
+    não a normal que o `p_welch` usava até 2026-09-23.
+    """
+    if len(y_t) < 2 or len(y_c) < 2:
+        return np.nan
+    v_t = y_t.var(ddof=1) / len(y_t)
+    v_c = y_c.var(ddof=1) / len(y_c)
+    den = v_t**2 / (len(y_t) - 1) + v_c**2 / (len(y_c) - 1)
+    return float((v_t + v_c) ** 2 / den) if den > 0 else np.nan
+
+
+def teste_piso(est: float, ep: float, gl: float, piso: float = PISO_G,
+               alfa: float = ALPHA) -> dict:
+    """O piso de 15 g da §5, testado como teste, e não pela largura do IC.
+
+    - **Benefício ≥ piso rejeitado** quando o limite superior do IC de 95% fica
+      abaixo de `+piso`. É o teste unilateral de H0: θ ≥ piso, a 2,5%, e usa o
+      mesmo IC de 95% com que a §5 foi escrita. `p_beneficio_piso` é o p dele.
+    - **Equivalência a ±piso** pelo TOST: os dois testes unilaterais a `alfa`,
+      que é o mesmo que o IC de 90% caber dentro de (−piso; +piso).
+
+    A regra antiga, `1,96·EP ≤ piso`, ignora o centro: IC [20; 30] passaria e
+    IC [−66,5; −5,9] não, embora o segundo exclua +15 e o primeiro não.
+    """
+    from scipy.stats import t as dist_t
+    if not (np.isfinite(est) and np.isfinite(ep) and ep > 0 and np.isfinite(gl)):
+        return {"ic_baixo": np.nan, "ic_alto": np.nan, "p_beneficio_piso": np.nan,
+                "rejeita_beneficio_piso": False, "p_equivalencia": np.nan,
+                "equivalente_piso": False}
+    q = dist_t.ppf(1 - alfa / 2, gl)
+    ic_baixo, ic_alto = est - q * ep, est + q * ep
+    p_sup = float(dist_t.cdf((est - piso) / ep, gl))       # H0: θ ≥ +piso
+    p_inf = float(dist_t.sf((est + piso) / ep, gl))        # H0: θ ≤ −piso
+    p_equiv = max(p_sup, p_inf)
+    return {"ic_baixo": float(ic_baixo), "ic_alto": float(ic_alto),
+            "p_beneficio_piso": p_sup,
+            "rejeita_beneficio_piso": bool(ic_alto < piso),
+            "p_equivalencia": p_equiv, "equivalente_piso": bool(p_equiv < alfa)}
 
 
 def _t_nivel(d: np.ndarray, y: np.ndarray) -> float:
@@ -347,12 +444,13 @@ def _t_nivel(d: np.ndarray, y: np.ndarray) -> float:
 
 
 def inferencia_nivel(dados: pd.DataFrame, n_boot: int = N_BOOT, seed: int = SEED,
-                     estratos: str | None = None) -> dict:
+                     estratos: str | None = None, piso: float | None = None) -> dict:
     """O nível e quatro leituras da incerteza dele. Nenhuma vale sozinha.
 
-    1. **EP de Welch**, heterocedástico e assintótico nos DOIS grupos. Com 15
-       controles, é a leitura mais próxima do EP que o contdid reporta, e a
-       mais otimista.
+    1. **Welch**, heterocedástico. `p_welch` e o IC usam a t com graus de
+       liberdade de Welch–Satterthwaite (`gl_welch`); `p_normal` é a cauda
+       normal que este campo usava até 2026-09-23, mantida para comparação.
+       Com 14 ou 15 controles, a diferença entre as duas não é detalhe.
     2. **Wild bootstrap** com o nulo imposto: pesos de Rademacher sobre os
        resíduos em torno da média comum, estatística t de Welch. ⚠️ Com poucos
        clusters num dos grupos ele pode errar (Canay, Santos & Shaikh 2021
@@ -363,23 +461,34 @@ def inferencia_nivel(dados: pd.DataFrame, n_boot: int = N_BOOT, seed: int = SEED
        municípios. `estratos` restringe a permutação a dentro de cada estrato.
     4. **Jackknife dos controles**: o nível sem cada um dos controles. Com 15,
        um só pode mover tudo. É a pergunta "quem está fazendo o número?".
+
+    Com `piso` (gramas), acrescenta o teste do piso da §5 (`teste_piso`).
     """
+    from scipy.stats import t as dist_t
     d = dados["dose"].to_numpy(float)
     y = dados["dy"].to_numpy(float)
     trat, ctrl = d > 0, d <= 0
     n_t, n_c = int(trat.sum()), int(ctrl.sum())
-    vazio = {"nivel": np.nan, "ep_welch": np.nan, "p_welch": np.nan,
-             "p_wcb": np.nan, "p_perm": np.nan, "jack_min": np.nan,
-             "jack_max": np.nan, "jack_cod_min": "", "jack_cod_max": "",
-             "n_tratados": n_t, "n_controles": n_c}
+    vazio = {"nivel": np.nan, "ep_welch": np.nan, "gl_welch": np.nan,
+             "p_welch": np.nan, "p_normal": np.nan, "ic_baixo": np.nan,
+             "ic_alto": np.nan, "p_wcb": np.nan, "p_perm": np.nan,
+             "jack_min": np.nan, "jack_max": np.nan, "jack_cod_min": "",
+             "jack_cod_max": "", "n_tratados": n_t, "n_controles": n_c}
+    if piso is not None:
+        vazio.update({"p_beneficio_piso": np.nan, "rejeita_beneficio_piso": False,
+                      "p_equivalencia": np.nan, "equivalente_piso": False})
     if n_t < 2 or n_c < 2:
         return vazio
 
     from math import erfc, sqrt
     est = float(y[trat].mean() - y[ctrl].mean())
     ep = _ep_welch(y[trat], y[ctrl])
+    gl = _gl_welch(y[trat], y[ctrl])
     t_obs = est / ep if ep > 0 else np.nan
-    p_welch = erfc(abs(t_obs) / sqrt(2)) if not np.isnan(t_obs) else np.nan
+    p_normal = erfc(abs(t_obs) / sqrt(2)) if not np.isnan(t_obs) else np.nan
+    p_welch = (float(2 * dist_t.sf(abs(t_obs), gl))
+               if np.isfinite(t_obs) and np.isfinite(gl) else np.nan)
+    q = dist_t.ppf(1 - ALPHA / 2, gl) if np.isfinite(gl) else np.nan
 
     rng = np.random.default_rng(seed)
     resid = y - y.mean()
@@ -403,10 +512,16 @@ def inferencia_nivel(dados: pd.DataFrame, n_boot: int = N_BOOT, seed: int = SEED
         jack[cods[i]] = float(y[manter & trat].mean() - y[manter & ctrl].mean())
     cod_min = min(jack, key=jack.get)
     cod_max = max(jack, key=jack.get)
-    return {"nivel": est, "ep_welch": ep, "p_welch": p_welch, "p_wcb": p_wcb,
-            "p_perm": p_perm, "jack_min": jack[cod_min], "jack_max": jack[cod_max],
-            "jack_cod_min": cod_min, "jack_cod_max": cod_max,
-            "n_tratados": n_t, "n_controles": n_c}
+    saida = {"nivel": est, "ep_welch": ep, "gl_welch": gl, "p_welch": p_welch,
+             "p_normal": p_normal, "ic_baixo": est - q * ep, "ic_alto": est + q * ep,
+             "p_wcb": p_wcb, "p_perm": p_perm, "jack_min": jack[cod_min],
+             "jack_max": jack[cod_max], "jack_cod_min": cod_min,
+             "jack_cod_max": cod_max, "n_tratados": n_t, "n_controles": n_c}
+    if piso is not None:
+        tp = teste_piso(est, ep, gl, piso)
+        saida.update({k: tp[k] for k in ("p_beneficio_piso", "rejeita_beneficio_piso",
+                                         "p_equivalencia", "equivalente_piso")})
+    return saida
 
 
 def perfil_por_faixa(dados: pd.DataFrame, n_faixas: int = 3) -> pd.DataFrame:
@@ -459,16 +574,20 @@ def sensibilidade_zero(dados: pd.DataFrame,
     art. 28-B).
     """
     linhas = [{"definicao": "base (PAM, área nula)", "n_zero": int((dados["dose"] <= 0).sum()),
-               "estimativa": estima(dados)}]
+               "estimativa": estima(dados), "nivel": nivel(dados)}]
     for nome, excluir in definicoes.items():
-        recorte = dados[~(dados["cod_ibge6"].isin(excluir) & (dados["dose"] <= 0))]
+        recorte = aplica_d_zero(dados, excluir)
         linhas.append({
             "definicao": nome,
             "n_zero": int((recorte["dose"] <= 0).sum()),
             "estimativa": estima(recorte),
+            # o nível também: até 2026-09-23 a tabela só trazia a inclinação,
+            # e o rótulo falava do nível (auditoria de 2026-09-23)
+            "nivel": nivel(recorte),
         })
     tabela = pd.DataFrame(linhas)
     tabela["desloc_vs_base"] = tabela["estimativa"] - tabela["estimativa"].iloc[0]
+    tabela["desloc_nivel"] = tabela["nivel"] - tabela["nivel"].iloc[0]
     return tabela
 
 
@@ -481,10 +600,11 @@ def imprime_relatorio(dados: pd.DataFrame, desfecho: str, mde: float | None,
     barra = "=" * 84
     beta = resultados["estimativa"]
     print(barra)
-    print(f"E7 — INFERÊNCIA E GATE DO MDE | desfecho: {desfecho}")
+    print(f"E7 — INFERÊNCIA NO MESMO ESTIMANDO | desfecho: {desfecho}")
     print(barra)
     n_pos = int((dados["dose"] > 0).sum())
-    print(f"municípios: {len(dados)}  (dose > 0: {n_pos} | dose = 0: {len(dados) - n_pos})")
+    print(f"municípios: {len(dados)}  (dose > 0: {n_pos} | dose = 0: {len(dados) - n_pos})"
+          f"  | d = 0 pela {resultados.get('rotulo_d_zero', 'definição 1')}")
     print(f"estimativa (inclinação dy ~ dose): {beta:+.3f}")
     print("-" * 84)
 
@@ -522,8 +642,10 @@ def imprime_relatorio(dados: pd.DataFrame, desfecho: str, mde: float | None,
         print("O NÍVEL — o ATT(d|d) agregado, com a inferência no MESMO estimando")
         print(f"  média(dy | dose>0) − média(dy | dose=0) = {niv['nivel']:+.3f}"
               f"   ({niv['n_tratados']} tratados × {niv['n_controles']} controles)")
-        print(f"  EP de Welch {niv['ep_welch']:.3f}   p = {niv['p_welch']:.3f}"
-              "   ← assintótico nos dois grupos; o mais otimista")
+        print(f"  Welch: EP {niv['ep_welch']:.3f}, {niv['gl_welch']:.1f} gl   "
+              f"IC 95% [{niv['ic_baixo']:+.3f}; {niv['ic_alto']:+.3f}]   p = {niv['p_welch']:.3f}")
+        print(f"     (cauda normal, a leitura de antes: p = {niv['p_normal']:.3f} — otimista"
+              " com poucos controles)")
         print(f"  wild bootstrap (nulo imposto)   p = {niv['p_wcb']:.3f}")
         print(f"  permutação do rótulo            p = {niv['p_perm']:.3f}"
               "   ← análise, não exata")
@@ -533,6 +655,20 @@ def imprime_relatorio(dados: pd.DataFrame, desfecho: str, mde: float | None,
             print(f"  ⚠️ {niv['n_controles']} controles. O lado escasso do nível é o de")
             print("     CONTROLE, não o de tratados. As especificações binárias da §6")
             print("     reutilizam o mesmo grupo: concordarem não é independência.")
+        if "p_beneficio_piso" in niv:
+            print(f"  PISO DE {PISO_G:.0f} g DA §5 — testado, não pela largura do IC:")
+            if niv["rejeita_beneficio_piso"]:
+                print(f"    benefício ≥ {PISO_G:.0f} g: REJEITADO (o IC fica abaixo de "
+                      f"+{PISO_G:.0f}; p unilateral = {niv['p_beneficio_piso']:.4f})")
+            else:
+                print(f"    benefício ≥ {PISO_G:.0f} g: não rejeitado "
+                      f"(p unilateral = {niv['p_beneficio_piso']:.4f})")
+            print(f"    equivalência a ±{PISO_G:.0f} g (TOST): "
+                  + ("SIM" if niv["equivalente_piso"] else "não")
+                  + f"  (p = {niv['p_equivalencia']:.4f})")
+            print("    ⚠️ Sob PT e com a inferência de Welch valendo. E é o estimando")
+            print("       diluído: rejeitar +15 g aqui não diz nada sobre o efeito")
+            print("       onde havia avião (VPP ≈ 7/169 em 2006).")
         perfil = resultados.get("perfil")
         if perfil is not None and len(perfil) > 1:
             print("  dy médio por faixa — o nível cresce com a dose, ou é só o zero?")
@@ -541,17 +677,16 @@ def imprime_relatorio(dados: pd.DataFrame, desfecho: str, mde: float | None,
                       f"  dy {r['dy_medio']:+9.3f}  (EP {r['ep']:.3f})")
 
     print("-" * 84)
-    print("GATE DO E7 — o efeito supera o MDE do próprio desenho?")
+    print("MDE — informação de PLANEJAMENTO, não régua do resultado")
     if mde is None:
-        print("  MDE não informado. Rode o script 01 com --nascimentos e passe --mde.")
-    elif abs(beta) >= mde:
-        print(f"  |{beta:+.3f}| >= MDE {mde:.3f}  ✔ o efeito é maior que o piso detectável.")
+        print("  MDE não informado. Para o MDE de cada contraste: make mde-desenhos.")
     else:
-        print(f"  |{beta:+.3f}| <  MDE {mde:.3f}  ✘")
-        print("  ⚠️ O coeficiente está ABAIXO do mínimo que o desenho detecta.")
-        print("     Ele NÃO é um achado — é um limite superior informativo, e é")
-        print("     assim que tem de ser escrito. Reportar como achado é o erro")
-        print("     que a banca pega.")
+        print(f"  MDE informado: {mde:.1f} g (80% de poder, 5% bilateral, aprox. normal).")
+        print("  ⚠️ A estimativa NÃO se classifica por ele: MDE ≈ 2,8·EP e a")
+        print("     significância começa em 1,96·EP, então uma estimativa abaixo do")
+        print("     MDE pode rejeitar o zero. O que se reporta é o IC. E o MDE do")
+        print("     script 01 é do decil × resto (17×167): nem a inclinação (g por")
+        print("     unidade de dose) nem o nível (169 × controles) são esse contraste.")
 
     if sens is not None and len(sens) > 1:
         print("-" * 84)
@@ -559,12 +694,10 @@ def imprime_relatorio(dados: pd.DataFrame, desfecho: str, mde: float | None,
         print("  (o sieve centra a curva em mean(dy[dose==0]); trocar o zero desloca tudo)")
         for _, r in sens.iterrows():
             print(f"  {r['definicao']:<34} n_zero={r['n_zero']:>4}  "
-                  f"β={r['estimativa']:+.3f}  Δ={r['desloc_vs_base']:+.3f}")
-        amplitude = sens["estimativa"].max() - sens["estimativa"].min()
-        print(f"  amplitude entre definições: {amplitude:.3f}")
-        if mde and amplitude > mde:
-            print("  ⚠️ A amplitude entre as definições de zero SUPERA o MDE.")
-            print("     A escolha do zero move mais que o efeito que se quer medir.")
+                  f"β={r['estimativa']:+.3f}  nível={r['nivel']:+.3f}  "
+                  f"Δnível={r['desloc_nivel']:+.3f}")
+        print(f"  amplitude do nível entre definições: "
+              f"{sens['nivel'].max() - sens['nivel'].min():.3f}")
     print(barra)
 
 
@@ -601,7 +734,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--corte-pre", default="2018-12")
     parser.add_argument("--corte-pos", default="2019-10")
     parser.add_argument("--mde", type=float, default=None,
-                        help="MDE do desenho, do script 01 (mde_agrupado_g).")
+                        help="MDE do desenho, só como informação (não classifica a "
+                             "estimativa). O de cada contraste: make mde-desenhos.")
+    parser.add_argument("--d-zero", choices=("1", "4"), default="1",
+                        help="construção do d = 0 da inferência principal: 1 = área "
+                             "nula; 4 = área nula e aptidão GAEZ <= p75, a ratificada, "
+                             "que o `make real` passa (D_ZERO). A tabela de "
+                             "sensibilidade traz as duas de qualquer forma.")
+    parser.add_argument("--piso", type=float, default=PISO_G,
+                        help="piso da §5 em gramas; só para desfecho em gramas.")
     parser.add_argument("--aptidao-p", type=float, default=0.75,
                         help="percentil de aptidão GAEZ acima do qual o zero é "
                              "SUSPEITO (definição 4 da §5.3). ⚠️ p75 deixa 14 de "
@@ -636,6 +777,21 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[erro] Só {len(dados)} municípios com pré e pós. Nada a inferir.")
         return 1
 
+    # A tabela de sensibilidade usa `todos`; a inferência, a definição pedida.
+    todos = dados
+    suspeitos: set = set()
+    if args.d_zero == "4":
+        try:
+            suspeitos = zeros_suspeitos(painel, args.aptidao_p)
+        except ValueError as erro:
+            print(f"[erro] {erro}")
+            return 1
+        dados = aplica_d_zero(todos, suspeitos)
+    rotulo_d_zero = (f"definição 4 (aptidão GAEZ <= p{int(args.aptidao_p * 100)}; "
+                     f"{len(suspeitos)} zero(s) fora)" if args.d_zero == "4"
+                     else "definição 1 (área nula)")
+    piso = args.piso if args.desfecho in DESFECHOS_EM_GRAMAS else None
+
     beta = estima(dados)
     ep = erro_padrao_ingenuo(dados)
     from math import erfc, sqrt
@@ -659,9 +815,11 @@ def main(argv: list[str] | None = None) -> int:
         "aleatorizacao": inferencia_aleatorizacao(dados, args.n_boot, args.seed,
                                                   estratos=estratos),
         "inversao": ic_inversao(dados, args.n_boot, args.seed, estratos=estratos),
-        "nivel": inferencia_nivel(dados, args.n_boot, args.seed, estratos=estratos),
+        "nivel": inferencia_nivel(dados, args.n_boot, args.seed, estratos=estratos,
+                                  piso=piso),
         "perfil": perfil_por_faixa(dados),
         "estratos": rotulo_estratos,
+        "rotulo_d_zero": rotulo_d_zero,
     }
     # ⚠️ ATUALIZADO 2026-09-21: o FAO-GAEZ FOI adquirido, e a definição 4 da §5.3
     # passa a rodar. A mensagem anterior — "dependem de GAEZ, ainda não
@@ -669,14 +827,13 @@ def main(argv: list[str] | None = None) -> int:
     # quando ela já era calculável.
     definicoes = {}
     if "aptidao_gaez" in painel.columns:
-        por_muni = (painel.drop_duplicates("cod_ibge6")
-                    [["cod_ibge6", "dose", "aptidao_gaez"]].dropna(subset=["aptidao_gaez"]))
-        corte = por_muni["aptidao_gaez"].quantile(args.aptidao_p)
-        suspeitos = set(por_muni.loc[(por_muni["dose"] <= 0)
-                                     & (por_muni["aptidao_gaez"] > corte), "cod_ibge6"])
-        definicoes[f"def. 4 — aptidão GAEZ > p{int(args.aptidao_p*100)}"] = suspeitos
+        try:
+            definicoes[f"def. 4 — aptidão GAEZ > p{int(args.aptidao_p*100)}"] = \
+                zeros_suspeitos(painel, args.aptidao_p)
+        except ValueError as erro:
+            print(f"[aviso] definição 4 fora da tabela de sensibilidade: {erro}")
 
-    sens = sensibilidade_zero(dados, definicoes)
+    sens = sensibilidade_zero(todos, definicoes)
 
     imprime_relatorio(dados, args.desfecho, args.mde, resultados, sens)
     if definicoes:
@@ -701,14 +858,22 @@ def main(argv: list[str] | None = None) -> int:
              "estratos": rotulo_estratos or "global",
              **{f"nivel_{k}" if k != "nivel" else "nivel": v
                 for k, v in resultados["nivel"].items()},
-             "mde": args.mde, "n_municipios": len(dados),
+             "mde": args.mde, "n_municipios": len(dados), "d_zero": args.d_zero,
+             "piso_g": piso if piso is not None else np.nan,
+             "corte_pre": args.corte_pre, "corte_pos": args.corte_pos,
+             "seed": args.seed, "n_boot": args.n_boot,
              "fonte": painel["fonte"].iloc[0] if "fonte" in painel else "?"}
-    destino = args.out_dir / "robustez_inferencia.csv"
+    sufixo = f"__{args.desfecho}__d0-{args.d_zero}"
+    destino = args.out_dir / f"robustez_inferencia{sufixo}.csv"
     pd.DataFrame([linha]).to_csv(destino, index=False)
     print(f"[ok] {destino}")
-    destino_perfil = args.out_dir / "robustez_perfil_dose.csv"
-    resultados["perfil"].assign(desfecho=args.desfecho).to_csv(destino_perfil, index=False)
+    destino_perfil = args.out_dir / f"robustez_perfil_dose{sufixo}.csv"
+    resultados["perfil"].assign(desfecho=args.desfecho, d_zero=args.d_zero).to_csv(
+        destino_perfil, index=False)
     print(f"[ok] {destino_perfil}")
+    destino_sens = args.out_dir / f"robustez_sensibilidade_zero{sufixo}.csv"
+    sens.assign(desfecho=args.desfecho).to_csv(destino_sens, index=False)
+    print(f"[ok] {destino_sens}")
     return 0
 
 

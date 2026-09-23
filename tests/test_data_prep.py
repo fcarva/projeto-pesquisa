@@ -380,6 +380,23 @@ def test_makefile_alvo_real_nunca_cai_no_simulado():
         linha = next(l for l in receita.splitlines() if script in l)
         assert "--fonte ftp" in linha, (script, linha)
         assert "--fonte auto" not in linha
+    # ⚠️ O teste deixava o 03 de fora, e o 03 rodava com `--fonte auto`: passava
+    # verde com o furo dentro (auditoria de 2026-09-23). Agora nenhuma linha da
+    # receita pode ter `auto` nem `simulado`.
+    assert "--fonte dofet" in next(l for l in receita.splitlines()
+                                   if "03_clean_fetal_deaths.py" in l)
+    assert "--fonte auto" not in receita and "--fonte simulado" not in receita
+
+
+def test_makefile_passa_a_definicao_do_zero_a_toda_a_inferencia():
+    """O agregado de −36,19 g é da definição 4 (14 controles). Até 2026-09-23 só
+    o contdid recebia D_ZERO, e o nível do 04 saía com 15."""
+    texto = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    inicio = texto.index("real: prespec-ok")
+    receita = texto[inicio:texto.index("\nvarredura:", inicio)].replace("\\\n", " ")
+    for script in ("03_contdid.R", "04_robustness.py", "09_holm.py", "10_spt_pretrend.py"):
+        comando = next(l for l in receita.splitlines() if script in l)
+        assert "--d-zero $(D_ZERO)" in comando, (script, comando)
 
 
 # --------------------------------------------------------------------------
@@ -969,6 +986,29 @@ def test_juncao_preserva_toda_a_chave_do_painel_de_nascimentos():
     so_nasc = junto[junto["n_obito_fetal"] == 0]
     assert len(so_nasc) > 0
     assert (so_nasc["taxa_obito_fetal"] == 0).all()
+
+
+def test_ano_sem_sim_fica_ausente_e_nao_vira_taxa_zero():
+    """🔴 Contraexemplo da auditoria de 2026-09-23: SIM até 2022, SINASC até
+    2024. O `fillna(0)` antigo dava taxa 0,0196; 0; 0 — uma queda pós-ban
+    fabricada no segundo desfecho confirmatório. Fora da cobertura, é ausente."""
+    painel_fetal = pd.DataFrame({
+        "cod_ibge6": ["230440"], "ano": [2022], "mes": [1],
+        "n_obito_fetal": [2], "n_obito_fetal_22sem": [2], "n_limiar_valido": [2],
+        "n_peso_valido": [2], "n_gest_valido": [2]})
+    painel_nasc = pd.DataFrame({"cod_ibge6": ["230440"] * 3, "ano": [2022, 2023, 2024],
+                                "mes": [1, 1, 1], "n_nascimentos": [100, 100, 100]})
+    junto = fetal.junta_denominador(painel_fetal, painel_nasc).set_index("ano")
+    assert junto.loc[2022, "taxa_obito_fetal"] == pytest.approx(2 / 102)
+    assert np.isnan(junto.loc[2023, "taxa_obito_fetal"])
+    assert np.isnan(junto.loc[2024, "taxa_obito_fetal"])
+    assert pd.isna(junto.loc[2024, "n_obito_fetal"])
+    assert list(junto["sim_ano_coberto"]) == [True, False, False]
+    # e a cobertura explícita manda sobre a inferida
+    junto2 = fetal.junta_denominador(painel_fetal, painel_nasc,
+                                     anos_cobertos={2022, 2023}).set_index("ano")
+    assert junto2.loc[2023, "taxa_obito_fetal"] == 0.0
+    assert np.isnan(junto2.loc[2024, "taxa_obito_fetal"])
 
 
 # --------------------------------------------------------------------------
@@ -1625,6 +1665,34 @@ def test_colunas_homonimas_dos_desfechos_nao_se_sobrescrevem():
     assert saida["n_peso_valido_fetal"].iloc[0] == 2   # o do 03 ganha sufixo
 
 
+def test_painel_nao_passa_de_novembro_de_2024():
+    """A exceção de drones vale desde 19/12/2024, e o painel é mensal: dezembro
+    inteiro misturava nascimentos de antes e de depois (auditoria de 2026-09-23)."""
+    pam = pd.DataFrame({"cod_ibge6": ["230440"], "cultura": ["Melão"], "area_ha_media": [10.0]})
+    n = pd.DataFrame({"cod_ibge6": ["230440"] * 2, "ano": [2024, 2024], "mes": [11, 12],
+                      "n_nascimentos": [40, 41]})
+    saida = painel.monta_painel(pam, "Melão", n, inicio=(2024, 10))
+    assert (saida["ano"] * 12 + saida["mes"]).max() == 2024 * 12 + 11
+    # e pedir dezembro explicitamente também não passa
+    saida = painel.monta_painel(pam, "Melão", n, inicio=(2024, 10), fim=(2024, 12))
+    assert (saida["ano"] * 12 + saida["mes"]).max() == 2024 * 12 + 11
+
+
+def test_proveniencia_de_cada_componente_sobrevive_ao_join():
+    """Antes a coluna `fonte` de cada componente era descartada no join, e o
+    rótulo do painel vinha do nome do arquivo da PAM: um componente simulado
+    mal nomeado virava "real" sem rastro (auditoria de 2026-09-23)."""
+    pam = pd.DataFrame({"cod_ibge6": ["230440"], "cultura": ["Melão"], "area_ha_media": [10.0]})
+    n = pd.DataFrame({"cod_ibge6": ["230440"], "ano": [2018], "mes": [6],
+                      "n_nascimentos": [50], "fonte": ["ftp"]})
+    f = pd.DataFrame({"cod_ibge6": ["230440"], "ano": [2018], "mes": [6],
+                      "n_obito_fetal": [2], "fonte": ["simulado"]})
+    saida = painel.monta_painel(pam, "Melão", n, f, inicio=(2018, 6), fim=(2018, 6))
+    assert saida["fonte_nasc"].iloc[0] == "ftp"
+    assert saida["fonte_fetal"].iloc[0] == "simulado"
+    assert painel.componentes_simulados(saida) == ["fonte_fetal"]
+
+
 # --------------------------------------------------------------------------
 # E7 — inferência: o que importa é ser CALIBRADA, não só rodar
 # --------------------------------------------------------------------------
@@ -1821,12 +1889,16 @@ def test_main_do_04_grava_nivel_e_inversao(tmp_path):
     painel = _painel_sintetico(tmp_path / "painel.parquet", n_muni=40)
     assert robust.main(["--painel", str(painel), "--n-boot", "60",
                         "--out-dir", str(tmp_path)]) == 0
-    r = pd.read_csv(tmp_path / "robustez_inferencia.csv").iloc[0]
+    # o nome leva desfecho e definição do zero: rodar o fetal não apaga o peso
+    r = pd.read_csv(tmp_path / "robustez_inferencia__peso_medio__d0-1.csv").iloc[0]
     for col in ("nivel", "nivel_p_wcb", "nivel_p_perm", "nivel_jack_min",
-                "ic_inv_baixo", "ic_inv_alto"):
+                "nivel_p_welch", "nivel_gl_welch", "nivel_ic_baixo", "nivel_ic_alto",
+                "nivel_p_beneficio_piso", "ic_inv_baixo", "ic_inv_alto"):
         assert col in r.index and not pd.isna(r[col]), col
     assert r["estratos"] == "global"
     assert r["nivel_n_controles"] == 10
+    assert str(r["d_zero"]) == "1"
+    assert (tmp_path / "robustez_sensibilidade_zero__peso_medio__d0-1.csv").exists()
 
 
 def test_estratos_de_aptidao_exigem_a_coluna(tmp_path):
@@ -1838,7 +1910,7 @@ def test_estratos_de_aptidao_exigem_a_coluna(tmp_path):
     p["aptidao_gaez"] = (p["cod_ibge6"] % 7) / 7.0
     p.to_parquet(painel)
     assert robust.main(args) == 0
-    r = pd.read_csv(tmp_path / "robustez_inferencia.csv").iloc[0]
+    r = pd.read_csv(tmp_path / "robustez_inferencia__peso_medio__d0-1.csv").iloc[0]
     assert r["estratos"] == "3 faixas de aptidão GAEZ"
 
 
@@ -2418,15 +2490,16 @@ def test_csv_de_bans_anterior_a_revogacao_ainda_carrega(tmp_path):
 
 def test_registro_commitado_traz_a_revogacao_de_limoeiro():
     """O CSV de `docs/legislacao/` é o que o painel lê. A revogação tem de
-    estar nele, com a fonte dita — e dita como secundária enquanto o texto
-    integral da revogadora (Lei 1.511, de 26/05/2010) não for lido."""
+    estar nele, com a fonte dita. Desde 2026-09-23 a fonte é o artigo 212 da
+    revogadora (Lei 1.511, de 26/05/2010), lido pela auditoria externa."""
     b = pd.read_csv(RAIZ / "docs/legislacao/bans-municipais-ce.csv",
                     dtype=str, comment="#").fillna("")
     lim = b[b.cod_ibge6 == "230760"].iloc[0]
     assert lim["data_lei"] == "2009-11-20"
     assert lim["data_revogacao"] == "2010-05-26"
     assert "1.511" in lim["fonte_revogacao"]
-    assert "secundaria" in lim["fonte_revogacao"]
+    assert lim["fonte_revogacao"].startswith("primaria")
+    assert "art. 212" in lim["fonte_revogacao"]
 
 
 def test_semente_e_registro_concordam_na_revogacao_de_limoeiro():
@@ -2439,6 +2512,7 @@ def test_semente_e_registro_concordam_na_revogacao_de_limoeiro():
     semente = alvos.SEMENTE_CONFIRMADA["230760"]
     assert semente["data_revogacao"] == lim["data_revogacao"]
     assert "1.511" in semente["fonte_revogacao"]
+    assert semente["fonte_revogacao"].split(",")[0] == lim["fonte_revogacao"].split(",")[0]
 
 
 # --------------------------------------------------------------------------
@@ -2809,11 +2883,12 @@ def test_holm_e_spt_sobrevivem_a_cp1252(tmp_path):
     ):
         _exige_saida_limpa(_roda_sob_cp1252(args, tmp_path))
 
-    assert (tmp_path / "holm_confirmatorios.csv").exists()
-    assert (tmp_path / "spt_pretrend__peso_medio.csv").exists()
+    assert (tmp_path / "holm_confirmatorios__d0-1.csv").exists()
+    assert (tmp_path / "spt_pretrend__peso_medio__d0-1.csv").exists()
     # o nível entra nos cortes placebo (parecer de 2026-09-22, comentário 4)
-    spt = pd.read_csv(tmp_path / "spt_pretrend__peso_medio.csv")
+    spt = pd.read_csv(tmp_path / "spt_pretrend__peso_medio__d0-1.csv")
     assert "nivel" in spt.columns and spt["nivel"].notna().all()
+    assert spt["nivel_p_welch"].between(0, 1).all()
 
 
 def test_holm_grava_as_duas_hipoteses_confirmatorias(tmp_path):
@@ -2824,13 +2899,142 @@ def test_holm_grava_as_duas_hipoteses_confirmatorias(tmp_path):
         tmp_path)
     _exige_saida_limpa(r)
 
-    res = pd.read_csv(tmp_path / "holm_confirmatorios.csv")
-    assert len(res) == 2, "a família confirmatória tem de sair completa"
-    assert set(res["desfecho"]) == {"peso_medio", "taxa_obito_fetal"}
+    res = pd.read_csv(tmp_path / "holm_confirmatorios__d0-1.csv")
+    # duas famílias, e a do nível diz que é pós-resultado
+    assert set(res["familia"]) == {"confirmatoria_original", "nivel_pos_resultado"}
+    for _, bloco in res.groupby("familia"):
+        assert len(bloco) == 2, "cada família tem de sair completa"
+        assert set(bloco["desfecho"]) == {"peso_medio", "taxa_obito_fetal"}
+        assert bloco["completa"].all()
     for col in ("p_uni_holm", "p_rnd_holm", "p_wcb_holm"):
         assert (res[col] >= res[col.replace("_holm", "")] - 1e-9).all(), \
             f"{col}: p ajustado nunca pode ser MENOR que o bruto"
         assert (res[col] <= 1.0).all()
+    b = res[res["familia"] == "nivel_pos_resultado"]
+    assert b["p_welch"].notna().all() and b["hipotese"].str.contains("ATT").all()
+
+
+# --------------------------------------------------------------------------
+# Auditoria de 2026-09-23 — cada teste reproduz um contraexemplo dela
+# (docs/revisao/auditoria-2026-09-23/). Todos falhavam com o código anterior.
+# --------------------------------------------------------------------------
+
+@pytest.mark.parametrize("fora", ["antes_do_inicio", "depois_do_corte_pre"])
+def test_placebo_ignora_o_desfecho_fora_da_janela_pre(tmp_path, fora):
+    """🔴 O bug dos placebos: o pseudo-pós era `t >= corte`, sem teto, e cada
+    placebo "pré-ban" levava junto 2019–2022. Mexer no desfecho fora de
+    [início; corte pré] não pode mudar nenhum placebo."""
+    meses = pd.period_range("2014-01", "2022-12", freq="M")
+    linhas = [(230000 + i, m.year, m.month, i / 11, 3200 + i + np.sin(k + i))
+              for i in range(12) for k, m in enumerate(meses)]
+    base = pd.DataFrame(linhas, columns=["cod_ibge6", "ano", "mes", "dose", "peso_medio"])
+    alterado = base.copy()
+    mascara = alterado["ano"].lt(2015) if fora == "antes_do_inicio" else alterado["ano"].gt(2018)
+    alterado.loc[mascara, "peso_medio"] += 10_000 * alterado.loc[mascara, "dose"]
+    saidas = []
+    for nome, painel in (("base", base), ("alterado", alterado)):
+        caminho = tmp_path / f"{nome}.parquet"
+        painel.to_parquet(caminho, index=False)
+        assert spt_mod.main(["--painel", str(caminho), "--out-dir", str(tmp_path / nome),
+                             "--n-boot", "20", "--inicio", "2015-01"]) == 0
+        saidas.append(pd.read_csv(tmp_path / nome / "spt_pretrend__peso_medio__d0-1.csv"))
+    pd.testing.assert_frame_equal(saidas[0], saidas[1])
+
+
+def test_placebo_recusa_janela_pre_que_alcanca_o_ban(tmp_path):
+    painel = _painel_sintetico(tmp_path / "painel.parquet", n_muni=20)
+    assert spt_mod.main(["--painel", str(painel), "--out-dir", str(tmp_path),
+                         "--corte-pre", "2019-03", "--corte-pos", "2019-10"]) == 1
+
+
+def test_holm_preserva_o_nulo_e_nao_o_premia():
+    """`holm([nan, 0,04])` devolvia `[0,08; 0,08]`: o teste ausente ganhava p."""
+    aj = holm_mod.holm([np.nan, 0.04])
+    assert np.isnan(aj[0])
+    assert aj[1] == pytest.approx(0.08)       # m continua 2: o conservador
+    aj3 = holm_mod.holm([0.01, np.nan, 0.03])
+    assert np.isnan(aj3[1])
+    assert aj3[0] == pytest.approx(0.03) and aj3[2] == pytest.approx(0.06)
+
+
+def test_holm_com_desfecho_ausente_marca_a_familia_incompleta(tmp_path):
+    painel = pd.read_parquet(_painel_sintetico(tmp_path / "p.parquet", n_muni=24))
+    caminho = tmp_path / "sem_fetal.parquet"
+    painel.drop(columns="taxa_obito_fetal").to_parquet(caminho)
+    assert holm_mod.main(["--painel", str(caminho), "--n-boot", "30",
+                          "--out-dir", str(tmp_path)]) == 0
+    res = pd.read_csv(tmp_path / "holm_confirmatorios__d0-1.csv")
+    assert len(res) == 4 and not res["completa"].any()
+    fetal = res[res["desfecho"] == "taxa_obito_fetal"]
+    assert fetal["p_rnd_holm"].isna().all()
+
+
+def test_nivel_e_inclinacao_podem_ter_sinais_opostos():
+    """Por que o Holm da inclinação não corrige o nível: são funcionais
+    diferentes, e nem o sinal precisa coincidir (contraexemplo da auditoria)."""
+    dados = pd.DataFrame({"cod_ibge6": list("abcd"), "dose": [0, 0, 0.1, 1.0],
+                          "dy": [0.0, 0.0, -100.0, 10.0]})
+    assert robust.nivel(dados) == pytest.approx(-45.0)
+    assert robust.estima(dados) == pytest.approx(34.98, abs=0.01)
+
+
+def test_piso_e_teste_e_nao_largura_de_ic():
+    """IC [20; 30] tem meia-largura 5 < 15 e NÃO exclui +15; o antigo
+    `1,96·EP <= 15` dizia que falsificava. E o −36,19 g da §6.2, com o EP e os
+    graus de liberdade de Welch do painel real, exclui +15, que a regra antiga
+    dizia não excluir por ser "largo demais"."""
+    alto = robust.teste_piso(25.0, 2.5, 30)
+    assert 1.96 * 2.5 <= 15                     # a regra antiga diria "falsifica"
+    assert not alto["rejeita_beneficio_piso"]
+    real = robust.teste_piso(-36.19236865852589, 15.406834244275627, 14.402072274399735)
+    assert real["ic_baixo"] == pytest.approx(-69.1504, abs=1e-3)
+    assert real["ic_alto"] == pytest.approx(-3.2343, abs=1e-3)
+    assert real["rejeita_beneficio_piso"] and not real["equivalente_piso"]
+    zero = robust.teste_piso(0.5, 3.0, 40)
+    assert zero["equivalente_piso"] and zero["rejeita_beneficio_piso"]
+
+
+def test_welch_do_nivel_bate_com_o_scipy():
+    from scipy import stats
+    rng = np.random.default_rng(11)
+    y_t, y_c = rng.normal(-17, 60, 169), rng.normal(19, 55, 14)
+    dados = pd.DataFrame({"cod_ibge6": [str(i) for i in range(183)],
+                          "dose": np.r_[np.full(169, 0.3), np.zeros(14)],
+                          "dy": np.r_[y_t, y_c]})
+    r = robust.inferencia_nivel(dados, n_boot=50, seed=1)
+    ref = stats.ttest_ind(y_t, y_c, equal_var=False)
+    assert r["p_welch"] == pytest.approx(ref.pvalue)
+    assert r["gl_welch"] == pytest.approx(ref.df)
+    assert r["p_normal"] < r["p_welch"]          # a cauda normal era otimista
+
+
+def test_definicao_4_tira_o_zero_de_aptidao_alta_e_recusa_zero_sem_aptidao():
+    painel = pd.DataFrame({
+        "cod_ibge6": ["a", "b", "c", "d", "e", "f", "g", "h"],
+        "dose": [0, 0, 0, 0.2, 0.4, 0.6, 0.8, 1.0],
+        "aptidao_gaez": [0.9, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]})
+    assert robust.zeros_suspeitos(painel, 0.75) == {"a"}
+    dados = painel.assign(dy=0.0)
+    assert set(robust.aplica_d_zero(dados, {"a"})["cod_ibge6"]) == set("bcdefgh")
+    com_buraco = painel.assign(aptidao_gaez=[0.9, np.nan, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7])
+    with pytest.raises(ValueError, match="sem aptidão"):
+        robust.zeros_suspeitos(com_buraco, 0.75)
+
+
+def test_04_com_definicao_4_usa_menos_controles_e_grava_no_nome(tmp_path):
+    caminho = _painel_sintetico(tmp_path / "painel.parquet", n_muni=40)
+    p = pd.read_parquet(caminho)
+    zeros = sorted(p.loc[p["dose"] <= 0, "cod_ibge6"].unique())
+    p["aptidao_gaez"] = 0.1
+    p.loc[p["cod_ibge6"] == zeros[0], "aptidao_gaez"] = 0.99
+    p.to_parquet(caminho)
+    assert robust.main(["--painel", str(caminho), "--n-boot", "40", "--d-zero", "4",
+                        "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "robustez_inferencia__peso_medio__d0-4.csv").iloc[0]
+    assert r["nivel_n_controles"] == len(zeros) - 1
+    sens = pd.read_csv(tmp_path / "robustez_sensibilidade_zero__peso_medio__d0-4.csv")
+    assert list(sens["n_zero"]) == [len(zeros), len(zeros) - 1]
+    assert sens["nivel"].notna().all()
 
 
 # --------------------------------------------------------------------------
@@ -2874,6 +3078,15 @@ def test_weitzman_com_calibracao_conclui_nos_extremos():
     assert (fr["conclusao"] == "indeterminado").any(), "a faixa tem de cruzar"
 
 
+def test_weitzman_sem_incerteza_empata():
+    """Com σ = 0, Δ = 0 para todo β: os instrumentos ótimos empatam. A coluna
+    dizia "proibição"/"taxa" pela inclinação (auditoria de 2026-09-23)."""
+    fr = wtz.fronteira(np.linspace(1, 60, 9), sigma=0.0, beta_faixa=(40.0, 55.0))
+    assert (fr["conclusao"] == "empate").all()
+    assert (fr["delta_min"] == 0).all() and (fr["delta_max"] == 0).all()
+    assert wtz.vantagem_preco(beta=50.0, c=5.0, sigma=0.0) == 0.0
+
+
 # --------------------------------------------------------------------------
 # 12_clean_conab_custos.py — o lado do custo da inversao de Weitzman
 # --------------------------------------------------------------------------
@@ -2885,7 +3098,50 @@ def test_conab_alvos_cobrem_aviao_e_trator():
     """Os dois itens de linha que a substituicao aereo->terrestre precisa."""
     assert "custo_aviao" in conab.ALVOS
     assert "custo_tratores" in conab.ALVOS
-    assert conab.ALVOS["custo_aviao"].startswith("2 - Opera")
+    assert conab.ALVOS["custo_aviao"] == "operacao com aviao"
+
+
+class _XLFalso:
+    """ExcelFile mínimo: uma aba = lista de linhas (rótulo, valor)."""
+    def __init__(self, abas):
+        self.abas = abas
+
+    def parse(self, aba, header=None):
+        return pd.DataFrame(self.abas[aba])
+
+
+def test_conab_le_os_dois_leiautes_do_rotulo_de_aviao():
+    """🔴 As abas antigas escrevem "1 - Operação com avião"; o prefixo literal
+    "2 - Operação com Avião" as perdia (auditoria de 2026-09-23: 72/88 aviões
+    ausentes na planilha oficial)."""
+    xl = _XLFalso({
+        "B. Terra-Bom Jesus Lapa-BA-2012": [["  1 - Operação com avião", 0],
+                                             ["  2 - Operação com máquinas próprias", 0],
+                                             ["CUSTO TOTAL", 9000.0]],
+        "B. Prata-Bom Jesus Lapa-BA-2021": [["2 - Operação com Avião", 280.0],
+                                             ["3.1 - Tratores e Colheitadeiras", 0.0],
+                                             ["CUSTO TOTAL", 21801.2]],
+    })
+    antiga = conab.le_aba(xl, "B. Terra-Bom Jesus Lapa-BA-2012")
+    nova = conab.le_aba(xl, "B. Prata-Bom Jesus Lapa-BA-2021")
+    assert antiga["custo_aviao"] == 0.0 and nova["custo_aviao"] == 280.0
+    assert antiga["leiaute"] == "antigo" and nova["leiaute"] == "novo"
+    # no leiaute antigo não há "Tratores e Colheitadeiras": fica AUSENTE
+    assert "custo_tratores" not in antiga
+    tb = pd.DataFrame([antiga, nova])
+    assert conab.contagem(tb, "custo_tratores") == {"positivo": 0, "zero": 1, "ausente": 1}
+
+
+def test_conab_main_nao_transforma_ausente_em_zero(tmp_path, monkeypatch):
+    xl = _XLFalso({"B. Prata-Norte-MG-2015": [["2 - Operação com Avião", 300.0]]})
+    xl.sheet_names = list(xl.abas)
+    monkeypatch.setattr(conab.pd, "ExcelFile", lambda caminho: xl)
+    bruto = tmp_path / "custos.xlsx"
+    bruto.write_bytes(b"x")
+    assert conab.main(["--bruto", str(bruto), "--out-dir", str(tmp_path)]) == 0
+    tb = pd.read_csv(tmp_path / "conab_custo_aviao_banana.csv")
+    assert tb["custo_aviao"].iloc[0] == 300.0
+    assert tb["custo_tratores"].isna().all() and tb["custo_total"].isna().all()
 
 
 def test_conab_num_tolera_texto():
@@ -3378,6 +3634,25 @@ def test_sinal_esperado_com_o_vpp_do_censo_fica_abaixo_do_mde_com_folga():
         misc.sinal_esperado(0.5, 0.5, -1.0)
 
 
+def test_calibracao_usa_o_mde_do_contraste_estimado_e_nao_os_33_g(tmp_path):
+    """🔴 Os 33,4 g são do 17×167; os estimadores do decil usam 17×14
+    (auditoria de 2026-09-23). O script lê o MDE do script 13 e avisa quando
+    cai no legado."""
+    tb = pd.DataFrame({"desenho": ["decil17_vs_ce_outros", "decil17_vs_ce_zero_gaez"],
+                       "veredito": ["calculado", "calculado"],
+                       "mde_por_unidade_g": [30.47, 52.32]})
+    tb.to_csv(tmp_path / "mde_desenhos.csv", index=False)
+    mde, rotulo = misc.mde_do_desenho(tmp_path / "mde_desenhos.csv")
+    assert mde == pytest.approx(52.32) and "decil17_vs_ce_zero_gaez" in rotulo
+    assert misc.mde_do_desenho(tmp_path / "nao.csv") is None
+    assert misc.main(["--mde-desenhos", str(tmp_path / "mde_desenhos.csv"),
+                      "--out-dir", str(tmp_path)]) == 0
+    cal = pd.read_csv(tmp_path / "calibracao_sinal_esperado.csv")
+    assert np.allclose(cal["mde_g"], 52.32)
+    # com o MDE certo, o poder contra θ = 2/17 · 0,5 · 150 cai abaixo de 8%
+    assert misc.poder_aproximado(misc.sinal_esperado(2 / 17, 0.5, 150.0), 52.32) < 0.08
+
+
 def test_vpp_de_equilibrio_acima_de_um_e_impossivel():
     # θ = −21,85 com f = 0,25 e δ = 80 exigiria VPP > 1: nem o grupo inteiro
     # tratado produz esse θ. Com f = 0,5 e δ = 150 exige ~0,29 — cinco dos 17.
@@ -3692,6 +3967,39 @@ def test_main_com_painel_so_do_ceara_nao_calcula_a_fronteira(tmp_path):
                   "veredito"] == "ausente").all()
 
 
+def test_desenho_do_ceara_calibra_no_ceara_mesmo_com_o_rn_no_painel(tmp_path):
+    """🔴 O mde_desenhos.csv salvo calibrava σ/τ no painel CE+RN até para os
+    contrastes internos do Ceará (auditoria de 2026-09-23). Aqui o RN tem
+    tendência enorme; o desenho do CE não pode herdá-la."""
+    # 28 produtores + Limoeiro e Quixeré (30 positivos) e 10 de área nula
+    codigos = ["230760", "231150"] + [f"23{i:04d}" for i in range(38)]
+    ce = {c: 60 for c in codigos}
+    rn = {f"24{i:04d}": 60 for i in range(40)}
+    painel = pd.concat([_painel_mde(ce, tau=5.0, seed=1), _painel_mde(rn, tau=80.0, seed=2)])
+    caminho = tmp_path / "painel.parquet"
+    painel.to_parquet(caminho, index=False)
+    pam = pd.DataFrame({"cod_ibge6": codigos, "cultura": "Banana (cacho)",
+                        "area_ha_media": [float(40 - i) if i < 30 else 0.0
+                                          for i in range(40)]})
+    pam.to_parquet(tmp_path / "pam.parquet")
+    # um zero só com aptidão alta: é ele que a definição 4 tira
+    aptidao = [i / 100 for i in range(30)] + [0.01] * 9 + [0.99]
+    gaez = pd.DataFrame({"cod_ibge6": codigos, "aptidao_gaez": aptidao})
+    gaez.to_parquet(tmp_path / "gaez.parquet")
+    assert mde.main(["--painel", str(caminho), "--pam", str(tmp_path / "pam.parquet"),
+                     "--censo", str(tmp_path / "nao.csv"), "--gaez", str(tmp_path / "gaez.parquet"),
+                     "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "mde_desenhos.csv", dtype={"universo_calibracao": str}
+                    ).set_index("desenho")
+    assert r.loc["decil17_vs_ce_outros", "universo_calibracao"] == "23"
+    assert r.loc["chapada2_vs_rn", "universo_calibracao"] == "23+24"
+    assert r.loc["decil17_vs_ce_outros", "tau_g"] < 20 < r.loc["chapada2_vs_rn", "tau_g"]
+    # os contrastes que o projeto estima, com o corte GAEZ tirando o zero suspeito
+    assert r.loc["positivos_vs_ce_dose_zero", ["g1", "g0"]].tolist() == [30, 10]
+    assert r.loc["positivos_vs_ce_zero_gaez", ["g1", "g0"]].tolist() == [30, 9]
+    assert r.loc["decil17_vs_ce_zero_gaez", "g0"] == 9
+
+
 # --------------------------------------------------------------------------
 # Revogação no script 09 — lei achada não é lei vigente
 # --------------------------------------------------------------------------
@@ -3882,3 +4190,19 @@ def test_main_do_calendario_grava_e_recusa_entrada_invalida(tmp_path):
     assert set(r.index) == {"nivel", "calendario"}
     assert (r["g1"] == 3).all()
     assert r.loc["calendario", "meses_pico"] == "2,3,4,5"
+
+
+def test_calendario_so_usa_o_ceara_a_menos_que_se_peca(tmp_path):
+    """🔴 O mde_calendario.csv salvo era 7×344: o painel era CE+RN e o RN entrava
+    como controle de um desenho do Ceará (auditoria de 2026-09-23)."""
+    unidades = {**{f"23{i:04d}": 60 for i in range(30)}, **{f"24{i:04d}": 60 for i in range(20)}}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades, anos=range(2015, 2019)).to_parquet(caminho, index=False)
+    base = ["--painel", str(caminho), "--out-dir", str(tmp_path),
+            "--tratados", "230000,230001"]
+    assert cal.main(base) == 0
+    r = pd.read_csv(tmp_path / "mde_calendario.csv", dtype={"universo": str}).set_index("desenho")
+    assert (r["g0"] == 28).all() and (r["universo"] == "23").all()
+    assert cal.main(base + ["--ufs", "23,24"]) == 0
+    r = pd.read_csv(tmp_path / "mde_calendario.csv", dtype={"universo": str}).set_index("desenho")
+    assert (r["g0"] == 48).all() and (r["universo"] == "23+24").all()

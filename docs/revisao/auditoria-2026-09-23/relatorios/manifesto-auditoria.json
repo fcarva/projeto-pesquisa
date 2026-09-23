@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-09-23T05:45:25.225897+00:00",
+  "kind": "Audit execution record; not an ARS schema-validated passport or empirical replication guarantee",
+  "project_commit": "8d3a31ea2680e530d4ea3cee6134531be0d853fe",
+  "ars_commit": "86b8d8b180a6ed2d9e0e517ba5245af15b45bdc1",
+  "requested_model": "gpt-6-astra",
+  "explicitly_configured_subagents": [
+    "auditoria_identificacao",
+    "auditoria_fontes",
+    "auditoria_codigo",
+    "revisao_final"
+  ],
+  "manuscript_modified": false,
+  "project_code_modified": false,
+  "real_effects_reestimated": false,
+  "existing_tests": {
+    "passed": 274,
+    "warnings": 2,
+    "command": "python -m pytest tests/test_data_prep.py -q --disable-warnings --maxfail=5 --basetemp <workspace>/work/auditoria-code-pytest"
+  },
+  "additional_checks": [
+    "work/auditoria_code_checks.py",
+    "work/audit_conab.py",
+    "work/audit_bibliography.py"
+  ],
+  "bibliography_scope": "47 Crossref metadata records; not verification of every cited claim",
+  "source_file_hashes": {
+    "conab-banana.xlsx": "ec690b88b91a8314d6562aca099e5b727bf29bd23aeef11b8778cbf4a1f7cfe9",
+    "lei1511.pdf": "affb588fddf86d4e57df5baaaa16c9d6e10f4f81138f1165dad0690603811e83",
+    "lei2054.pdf": "37b6b23586c180fae26684fe3d4d3e0b1c409ced8a73bbd007d04dcf206c116d",
+    "skevas2012.pdf": "530f506a387b935040c46b96061d57d743c09b8d19f7d7b5ddc05b7a12470005"
+  },
+  "deliverable_hashes": {
+    "auditoria-integral-2026-09-23.md": "a2755a5973e5a3cb67f729a84f9ea29e4aa6dd968421b1c03d9dabaf81d55fbe",
+    "parecer-identificacao.md": "933bfbf3e1b3c7b64ba5af64dea369ac7e29ebaa9a3e1166df2d556750f16dce",
+    "parecer-codigo-reprodutibilidade.md": "0f6e90b7b1d49fa31b0baf991a6d7d66b98dc8895e6b8dbe599f9e7227e308fb",
+    "parecer-fontes-primarias.md": "3860fc7d9f689f628a56234a87ccf16511bd36687b29784c8518771f41f9ead3",
+    "parecer-teoria-custos.md": "e813554c6e69ead5faf64cdbe747e18c6b2534ac54bfda8f2c9a4e3406190005",
+    "revisao-final-auditoria.md": "5aec2a8880aef134e6ccfe8e2831714fdb51d16cb1e8ab254c120538b28a722f",
+    "auditoria-metadados-referencias.json": "35e479e42fa3b751ae2f9330cbb60d00b1e4d15976868a3640aca5ecf795d047",
+    "auditoria-conab.json": "ad794d22a73039d9ae726e88d9138647e397320aeedf82b13ff4702d0cd91768"
+  },
+  "limitations": [
+    "No raw individual data acquired; project data not present in clone",
+    "No R estimators executed",
+    "No claim of independent error processes or calibrated review",
+    "Historical run contamination not established by synthetic counterexamples"
+  ]
+}

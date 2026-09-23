@@ -238,6 +238,12 @@ depois do Censo Agro: 15 dos 17 do decil sem aeronave, 7 dos 169 no agregado. A
 concordância entre MDE previsto (33,4 g) e meia-largura realizada (30,3 g)
 valida o diagnóstico **amostral** da especificação, e só ele. Texto na §7.4.
 
+> ⚠️ **ERRATA de 2026-09-23 (auditoria externa):** a frase acima está errada. MDE
+> (≈ 2,8·EP) e meia-largura (1,96·EP) são objetos diferentes: 33,4 g de MDE
+> implicam 23,4 g de meia-largura, e 30,3 g de meia-largura implicam 43,3 g de
+> MDE. E os dois vêm de contrastes diferentes (17 × 167 contra 169 × 14). A
+> concordância não valida nada. Ver `docs/ars/20-resposta-a-auditoria-2026-09-23.md` §3.1.
+
 ### 6 — A §7.2 confunde imprecisão com não identificação ✔ procede
 
 A curva é identificada sob SPT, que é hipótese mantida e só falsificável. O que
@@ -435,6 +441,13 @@ formulador × objetivo do desenho".
 ---
 
 ## 7. Textos propostos (não aplicados)
+
+> ⚠️ **ERRATA de 2026-09-23 — 7.1 e 7.4 foram substituídos pelo doc 20 §7.**
+> A primeira razão do 7.1 ("a meia-largura é o dobro do piso") não é razão:
+> largura não testa efeito mínimo, e, testado como teste, o piso de 15 g é
+> rejeitado pelo −36,19 g. O fecho do 7.4 compara MDE com meia-largura. Os
+> colchetes do 7.1 e do 7.2 já têm número (doc 20 §1.1). Os dois textos ficam
+> abaixo como registro, e **não devem ir para o `.tex`**.
 
 Em português, prontos para ir ao `.tex`. Os números entre colchetes saem do
 `make real`.

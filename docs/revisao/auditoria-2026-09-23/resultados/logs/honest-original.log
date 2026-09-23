@@ -1,0 +1,54 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed 
+2: Setting LC_CTYPE=C.UTF-8 failed 
+3: Setting LC_MONETARY=C.UTF-8 failed 
+4: Setting LC_TIME=C.UTF-8 failed 
+[1] "English_United States.utf8"
+==================================================================================== 
+E7-ter — HONESTDID | peso_medio 
+==================================================================================== 
+⚠️ Tratamento BINÁRIO (decil superior), não a dose contínua. Outro estimando
+   que a curva do E6 — ver o cabeçalho deste script.
+
+tratados (decil superior): 17 | controles (d=0 def. 4): 14 
+períodos: 3 pré + 4 pós (referência: -1)
+betahat: -24.75 1.9 14.31 -16.48 -21.19 -25.07 -33.21 
+
+====================================================================================
+IC ORIGINAL (média dos 4 períodos pós, paralelismo PERFEITO)
+==================================================================================== 
+  [-72.92 ; 24.94]
+  ⚠️ JÁ COBRE ZERO sob paralelismo perfeito. O valor de quebra é 0, e a
+     leitura correta NÃO é 'o resultado é frágil' — é que nunca houve
+     significância para ser destruída. O HonestDiD não conserta poder.
+
+====================================================================================
+SENSIBILIDADE — magnitudes relativas (Rambachan & Roth)
+==================================================================================== 
+Mbar = quão grande pode ser a violação PÓS em relação à MAIOR violação PRÉ
+observada. Mbar = 1 significa 'tão grande quanto o pior desvio pré'.
+
+  Mbar = 0.00 : [   -72.47 ;     24.49]   largura    96.96 g
+  Mbar = 0.25 : [   -93.46 ;     47.48]   largura   140.94 g
+  Mbar = 0.50 : [  -130.44 ;     79.46]   largura   209.91 g
+  Mbar = 0.75 : [  -173.42 ;    117.45]   largura   290.87 g
+  Mbar = 1.00 : [  -217.40 ;    161.43]   largura   378.83 g
+  Mbar = 1.50 : [  -306.36 ;    249.39]   largura   555.75 g
+  Mbar = 2.00 : [  -395.32 ;    339.35]   largura   734.67 g
+
+====================================================================================
+COMO LER — e o que este script NÃO diz
+==================================================================================== 
+  • ⚠️ Isto NÃO é a curva. É ATT binário do decil superior, de um
+    estimador diferente do E6. O texto tem de dizer de qual objeto fala.
+  • ✅ TWFE é válido aqui porque a adoção é SIMULTÂNEA e há nunca-tratado
+    limpo — não há a comparação ruim de Goodman-Bacon a fazer.
+  • ⚠️ Com 3 períodos pré, a calibragem de Mbar é frágil: ela se
+    ancora na maior violação pré OBSERVADA, e com poucos pontos essa
+    referência é ela mesma ruidosa.
+  • A largura crescendo rápido com Mbar é o preço da hipótese de
+    paralelismo. Se o intervalo já é vazio de informação em Mbar baixo,
+    o desenho só fala sob hipótese quase perfeita — e isso é resultado.
+==================================================================================== 
+
+[ok] work/empirical/honest-original/honestdid__peso_medio.csv 

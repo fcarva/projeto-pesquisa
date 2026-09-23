@@ -1,0 +1,27 @@
+====================================================================================
+E8 — CORREÇÃO DE HOLM SOBRE A FAMÍLIA CONFIRMATÓRIA
+====================================================================================
+A §6 da pré-especificação declara DUAS hipóteses e manda corrigir por
+Holm. São estas, com a direção que ela fixou antes de qualquer dado:
+
+  H1: ACR(d) > 0 — remover a exposição aumenta o peso ao nascer
+      desfecho = peso_medio  |  β = +6.80753
+  H2: ACR(d) < 0 — o ban reduz o óbito fetal
+      desfecho = taxa_obito_fetal  |  β = -0.00244
+------------------------------------------------------------------------------------
+p BRUTO e p AJUSTADO POR HOLM — os três procedimentos
+
+  hipótese                   procedimento         p bruto    p Holm
+  ------------------------------------------------------------------
+  H1 peso_medio              unilateral (§6)       0.3940    0.4270
+                             bilateral aleat.      0.7935    0.8660
+                             wild cluster          0.7570    0.7570
+  H2 taxa_obito_fetal        unilateral (§6)       0.2135    0.4270
+                             bilateral aleat.      0.4330    0.8660
+                             wild cluster          0.1900    0.3800
+------------------------------------------------------------------------------------
+✔  Nenhuma hipótese confirmatória rejeita a 5%, nem antes nem depois
+   de Holm. A correção não muda a conclusão — e o valor de tê-la
+   rodado é que isso agora é fato verificado, não expectativa.
+====================================================================================
+gravado: work\empirical\holm-original\holm_confirmatorios.csv

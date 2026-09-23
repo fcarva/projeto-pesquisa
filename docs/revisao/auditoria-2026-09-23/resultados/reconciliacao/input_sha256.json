@@ -1,0 +1,10 @@
+{
+  "painel_ensaio1.parquet": "08b8fd390756fe6d8960e2e61c731fa9c97515ded21dc708affbb8d4c1973f1e",
+  "nascimentos_ce_muni_mes.parquet": "97627d955d1c293b9757f683ccb4ae810fd70f02ec5f3fd167445c5f3ae4dcdb",
+  "nascimentos_ce_muni_mes__uf23-24.parquet": "eabbdb882cd33e237ef3cd958a2eb2fbb20e6b4a231ca4e131cc75983d08f806",
+  "censo_agro_equipamento_ce.csv": "a24184257e2195f00bc5d35ab7b11e7f979da7cb0ee08690b0c2694b4884b53d",
+  "mde_desenhos.csv": "a204c5211c551e56fcccb3fa1c278c647f363e025d86192f2c23bcd993e89637",
+  "mde_calendario.csv": "5ce5e32be28cf017eae2582e3247a4a5990ea50a606f8ef2964a4505e86a3fa8",
+  "robustez_inferencia.csv": "8ff436e21d3081f12e02a21f80de8cff16c6bbb587cf1d76d98e00e715f1e290",
+  "holm_confirmatorios.csv": "daca5d397612c5eeedb0c336d531289119bdf35a0e0e1f58bf8e6086a7e476c2"
+}

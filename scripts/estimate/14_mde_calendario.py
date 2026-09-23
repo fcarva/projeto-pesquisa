@@ -259,7 +259,7 @@ def imprime(res: pd.DataFrame, tratados) -> None:
     print("    sobre o hiato entre coortes de pico e fora dele.")
     print("  • δ mínimo: o efeito sobre o bebê exposto no pico que o desenho precisa")
     print("    para ter 80% de poder, dada a fração f exposta. É a coluna comparável")
-    print("    entre os dois desenhos, e o que se põe contra os 38–89 g de Calzada et al.")
+    print("    entre os dois desenhos, e o que se põe contra os 80–150 g de Calzada et al.")
     print("  • Sob a hipótese sazonal. Se a pulverização não tiver pico, o calendário")
     print("    não tem sinal e o δ mínimo dele não se aplica.")
     print(barra)
@@ -276,6 +276,9 @@ def main(argv: list[str] | None = None) -> int:
                    help="códigos IBGE6 separados por vírgula; substitui o Censo 2006")
     p.add_argument("--meses-pico", default=",".join(map(str, MESES_PICO_PADRAO)),
                    help="meses do calendário com pulverização intensa (HIPÓTESE)")
+    p.add_argument("--ufs", default="23",
+                   help="UFs do universo de controles e da calibração, separadas por "
+                        "vírgula. Padrão: só o Ceará, porque o desenho é intraestadual.")
     p.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = p.parse_args(argv)
 
@@ -284,6 +287,18 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     painel = pd.read_parquet(args.painel)
     painel["cod_ibge6"] = painel["cod_ibge6"].astype(str)
+    # ⚠️ O universo é explícito (auditoria de 2026-09-23). O mde_calendario.csv
+    # salvo tinha 7 tratados contra 344 controles porque o painel era o CE+RN:
+    # o RN entrava como controle e calibrava a variância de um desenho que é do
+    # Ceará. Controle de outra UF é outro desenho, e só entra se pedido.
+    ufs = tuple(u.strip() for u in args.ufs.split(",") if u.strip())
+    fora = sorted(set(painel["cod_ibge6"].str[:2]) - set(ufs))
+    if fora:
+        print(f"  universo restrito às UFs {', '.join(ufs)}; fora do cálculo: {', '.join(fora)}")
+    painel = painel[painel["cod_ibge6"].str[:2].isin(ufs)]
+    if painel.empty:
+        print(f"[erro] nenhum município das UFs {ufs} no painel.")
+        return 1
 
     if args.tratados:
         tratados = {c.strip() for c in args.tratados.split(",") if c.strip()}
@@ -310,7 +325,7 @@ def main(argv: list[str] | None = None) -> int:
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     destino = args.out_dir / "mde_calendario.csv"
-    res.assign(origem_tratados=origem, painel=args.painel.name,
+    res.assign(origem_tratados=origem, painel=args.painel.name, universo="+".join(ufs),
                extraido_em=date.today().isoformat()).to_csv(destino, index=False,
                                                             encoding="utf-8")
     print(f"gravado: {destino}")

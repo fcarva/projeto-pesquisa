@@ -389,7 +389,8 @@ def colapsa_muni_mes(individual: pd.DataFrame) -> pd.DataFrame:
     return painel.sort_values(["cod_ibge6", "ano", "mes"]).reset_index(drop=True)
 
 
-def junta_denominador(painel_fetal: pd.DataFrame, painel_nasc: pd.DataFrame) -> pd.DataFrame:
+def junta_denominador(painel_fetal: pd.DataFrame, painel_nasc: pd.DataFrame,
+                      anos_cobertos: set[int] | None = None) -> pd.DataFrame:
     """Acrescenta a taxa de óbito fetal usando o painel de nascidos vivos.
 
     Denominador = nascidos vivos + óbitos fetais, não só nascidos vivos. A
@@ -401,28 +402,48 @@ def junta_denominador(painel_fetal: pd.DataFrame, painel_nasc: pd.DataFrame) -> 
     informação (taxa zero), não ausência, e some numa junção interna. O
     contrário — óbito sem nascimento registrado — não deveria acontecer e sai
     marcado em `sem_denominador` para inspeção.
+
+    ⚠️ ZERO SÓ DENTRO DA COBERTURA (auditoria de 2026-09-23). Município-mês sem
+    óbito fetal num ano que o SIM cobre é zero legítimo. Ano que o SIM não cobre
+    é AUSÊNCIA: com SINASC até 2024 e SIM até 2022, o `fillna(0)` antigo punha
+    taxa zero em 2023–2024 e fabricava uma queda pós-ban no segundo desfecho
+    confirmatório — e uma falsa história de seleção para nascido vivo. É a mesma
+    regra que o 05 já aplicava ao SINAN. `anos_cobertos` é o conjunto de anos
+    com registro na fonte; sem ele, os anos presentes em `painel_fetal`, o que
+    no Ceará basta: todo ano coberto tem centenas de óbitos fetais.
     """
     nasc = painel_nasc[["cod_ibge6", "ano", "mes", "n_nascimentos"]].copy()
     nasc["cod_ibge6"] = nasc["cod_ibge6"].astype(str)
     fetal = painel_fetal.copy()
     fetal["cod_ibge6"] = fetal["cod_ibge6"].astype(str)
+    if anos_cobertos is None:
+        anos_cobertos = set(fetal["ano"].unique())
 
     junto = fetal.merge(nasc, on=["cod_ibge6", "ano", "mes"], how="outer")
+    dentro = junto["ano"].isin({int(a) for a in anos_cobertos})
+    junto["sim_ano_coberto"] = dentro
     contagens = ["n_obito_fetal", "n_obito_fetal_22sem", "n_limiar_valido",
                  "n_peso_valido", "n_gest_valido"]
     for col in contagens:
-        junto[col] = junto[col].fillna(0).astype(int)
-    junto["celula_pequena"] = junto["n_obito_fetal"] < CELULA_PEQUENA
+        # dentro da cobertura, ausente é zero; fora, continua ausente
+        junto[col] = junto[col].where(~dentro, junto[col].fillna(0)).astype("Int64")
+    junto["celula_pequena"] = (junto["n_obito_fetal"] < CELULA_PEQUENA).fillna(False).astype(bool)
 
-    junto["sem_denominador"] = junto["n_nascimentos"].isna() & (junto["n_obito_fetal"] > 0)
+    junto["sem_denominador"] = (junto["n_nascimentos"].isna()
+                                & (junto["n_obito_fetal"] > 0).fillna(False)).astype(bool)
     nascidos = junto["n_nascimentos"].fillna(0)
-    coorte = nascidos + junto["n_obito_fetal"]
+    obitos = junto["n_obito_fetal"].astype(float)
+    coorte = nascidos + obitos
     junto["n_nascimentos"] = nascidos.astype(int)
-    junto["coorte_registrada"] = coorte.astype(int)
-    junto["taxa_obito_fetal"] = np.where(coorte > 0, junto["n_obito_fetal"] / coorte, np.nan)
+    junto["coorte_registrada"] = coorte.astype("Int64")
+    junto["taxa_obito_fetal"] = np.where(dentro & (coorte > 0), obitos / coorte, np.nan)
     junto["taxa_obito_fetal_22sem"] = np.where(
-        coorte > 0, junto["n_obito_fetal_22sem"] / coorte, np.nan
+        dentro & (coorte > 0), junto["n_obito_fetal_22sem"].astype(float) / coorte, np.nan
     )
+    fora = sorted(set(junto.loc[~dentro, "ano"].astype(int)))
+    if fora:
+        print(f"[aviso] SIM sem cobertura em {fora}: óbito fetal e taxa ficam AUSENTES "
+              "nesses anos, não zero.")
     return junto.sort_values(["cod_ibge6", "ano", "mes"]).reset_index(drop=True)
 
 
@@ -874,7 +895,8 @@ def main(argv: list[str] | None = None) -> int:
     tem_denominador = False
     if args.nascimentos is not None:
         try:
-            painel = junta_denominador(painel, pd.read_parquet(args.nascimentos))
+            painel = junta_denominador(painel, pd.read_parquet(args.nascimentos),
+                                       anos_cobertos=set(individual["ano"].astype(int)))
             tem_denominador = True
         except Exception as erro:  # noqa: BLE001
             print(f"[aviso] taxa não calculada ({type(erro).__name__}: {erro}).")

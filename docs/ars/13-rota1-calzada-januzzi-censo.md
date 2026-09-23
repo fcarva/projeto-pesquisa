@@ -184,6 +184,14 @@ nenhum efeito significativo** sobre baixo peso, prematuridade, mortalidade
 infantil ou câncer infantil nos modelos com efeitos fixos; associações positivas
 no *pooled* desaparecem com os efeitos fixos.
 
+> ⚠️ **ERRATA de 2026-09-23 — há duas versões, com resultados diferentes.** O
+> artigo apresentado no ENABER 2025 (Januzzi, Cardoso e Rodrigues), com o mesmo
+> universo, reporta que *"each additional kilogram of pesticide applied per
+> hectare increases the incidence of low birth weight by 1.2 cases per 1,000
+> live births"* (resumo pelo índice do Semantic Scholar; PDF nos anais da BRSA,
+> bloqueado pelo proxy). O "nulo" acima é o da **dissertação**. Citar a versão, e
+> não "o nulo de Januzzi". Achado da auditoria de 2026-09-23 (doc 20 §4).
+
 ### 3.1 O índice não enxerga o Ceará
 
 As sete culturas são soja, algodão, milho, cana, café, arroz e feijão — as que o

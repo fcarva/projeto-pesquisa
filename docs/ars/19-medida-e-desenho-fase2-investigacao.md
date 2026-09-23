@@ -140,6 +140,12 @@ não há efeito a ver.
 
 ## 5. Síntese: matriz de decisão (Fase 3, preliminar)
 
+> ✅ **Atualizada em 2026-09-23 com os números reais:** `docs/ars/20-resposta-a-auditoria-2026-09-23.md` §6.
+> A R3 foi calculada e **não tem poder** (δ mínimo de 165 g com f = 0,5, só
+> Ceará). O "33,4 g" da R1 é do decil × resto, e não do contraste estimado. O nó
+> de 2011 afrouxou, com indícios de aplicação em Limoeiro em 2018. E entrou uma
+> R9: medir o tratamento em Limoeiro pelos avisos prévios municipais.
+
 MDE em gramas sobre a média do grupo. "δ mínimo" é o efeito sobre o bebê exposto
 que o desenho precisa para 80% de poder. Os números reais saem do painel local.
 
@@ -168,8 +174,8 @@ o que já existe, e R4 o melhor com o Pedido D.
 | **Seleção a dedo** | a busca procurou contra-evidência e achou: a proibição de 2011 (§2.3) enfraquece a premissa de todas as rotas novas, e está no topo. Winchester et al. entra como advertência, não como apoio |
 | **Viés de confirmação** | o desenho de calendário foi promovido pela analogia com Calzada. Mas lá a fumigação é **o ano inteiro, com pico**. Aqui a diferença tripla mede só o diferencial do pico, e sem pico mede zero por construção |
 | **Cadeia lógica** | relatório mensal → VPP e calendário → diferença tripla → poder. O elo fraco não é o método: é a existência do dado e a fração exposta *f* |
-| **Explicações alternativas** | (i) a **pandemia de 2020–2021** muda sazonalidade de concepção e pré-natal, possivelmente de modo diferente em municípios agrícolas; (ii) o fim da seca de 2012–2017 muda a pressão de sigatoka e a pulverização terrestre na estação chuvosa. Isso é substituição (flag 3), parte do efeito do ban e não confundidor, mas muda o que o hiato mede |
-| **"E daí?"** | se a pulverização continuou e o script 14 der δ mínimo compatível com 38–89 g para *f* plausível, o projeto tem um desenho que responde à crítica central do parecer. Se não, R8 é a resposta, e agora com razão documentada |
+| **Explicações alternativas** | (i) a **pandemia de 2020–2021** muda sazonalidade de concepção e pré-natal, possivelmente de modo diferente em municípios agrícolas; (ii) o fim da seca de 2012–2017 muda a pressão de sigatoka e a pulverização terrestre na estação chuvosa. ⚠️ *Errata de 2026-09-23:* a versão anterior dizia que isso "é substituição, parte do efeito do ban e não confundidor". Só é, se for causado pelo ban. Clima que mudaria aplicação e saúde mesmo sem ban é **confundidor** do hiato (doc 20 §3.4) |
+| **"E daí?"** | se a pulverização continuou e o script 14 der δ mínimo compatível com 38–89 g (⚠️ working paper; a versão publicada fala em 80–150 g, e as duas não se misturam) para *f* plausível, o projeto tem um desenho que responde à crítica central do parecer. Se não, R8 é a resposta, e agora com razão documentada |
 
 **Condições para a Fase 3 final:**
 1. rodar `make mde-calendario` e o script 13 no painel local;

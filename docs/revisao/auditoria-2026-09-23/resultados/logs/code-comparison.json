@@ -1,0 +1,242 @@
+[
+  {
+    "path": "scripts/build_panel/05_build_panel.py",
+    "local_sha256": "eefb2fb6c508517243b5f5d0156a5b4e65e5d3aed26407424ae9e3db94128a97",
+    "audited_sha256": "eefb2fb6c508517243b5f5d0156a5b4e65e5d3aed26407424ae9e3db94128a97",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/00_export_datazoom.R",
+    "local_sha256": "ee9d1026a4a9eafe4faaa6d3c4d293d7885a2a1dd1cbb71838bb9a236d357ebb",
+    "audited_sha256": "ee9d1026a4a9eafe4faaa6d3c4d293d7885a2a1dd1cbb71838bb9a236d357ebb",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/01_check_dose_variation.py",
+    "local_sha256": "4a98a92d3325a508e25be51dec4ceb0437836a4dc4945069a97a289bc0a2c545",
+    "audited_sha256": "4a98a92d3325a508e25be51dec4ceb0437836a4dc4945069a97a289bc0a2c545",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/02_clean_births.py",
+    "local_sha256": "e553dde2b7f6ad71062763c11b7a0eeef3b781aa4c4685fad134002c9acfd6c8",
+    "audited_sha256": "e553dde2b7f6ad71062763c11b7a0eeef3b781aa4c4685fad134002c9acfd6c8",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/03_clean_fetal_deaths.py",
+    "local_sha256": "f3f6a21d02ab56a89a966c7f55c0148d9ade1a71b642bef2cf5dfcc61909ad86",
+    "audited_sha256": "f3f6a21d02ab56a89a966c7f55c0148d9ade1a71b642bef2cf5dfcc61909ad86",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/04_clean_poisoning.py",
+    "local_sha256": "fd25c423f1e17adee33ea2ff13f69dabff04838c4836e72c048abd6136d2714f",
+    "audited_sha256": "fd25c423f1e17adee33ea2ff13f69dabff04838c4836e72c048abd6136d2714f",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/06_build_gaez.py",
+    "local_sha256": "078ad49a9cae3a193e89a6db77d37d6c76fcfb6facee1163ef66457cf2f1bcdf",
+    "audited_sha256": "078ad49a9cae3a193e89a6db77d37d6c76fcfb6facee1163ef66457cf2f1bcdf",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/07_diagnose_trend_sd.py",
+    "local_sha256": "b9c817d274bf72758e844ad58f1cf9f90a2b3c91e695c9d5111c001c2baa34b6",
+    "audited_sha256": "b9c817d274bf72758e844ad58f1cf9f90a2b3c91e695c9d5111c001c2baa34b6",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/08_alvos_legislativos.py",
+    "local_sha256": "de36d2b1467b47703ab0673af0e56a09a89d30b59f62c06c5c47a40ce8387758",
+    "audited_sha256": "de36d2b1467b47703ab0673af0e56a09a89d30b59f62c06c5c47a40ce8387758",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/09_varre_camaras.py",
+    "local_sha256": "190ae23fb27675419730d172ab9cefbc6225c056245cb25675ff7d91782af2a5",
+    "audited_sha256": "190ae23fb27675419730d172ab9cefbc6225c056245cb25675ff7d91782af2a5",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/10_clean_sinan_iexo.py",
+    "local_sha256": "62f752bf5a78d94175d643b3978de49a898b8100f5a4aaf95640a470981f4ff2",
+    "audited_sha256": "62f752bf5a78d94175d643b3978de49a898b8100f5a4aaf95640a470981f4ff2",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/11_clean_populacao.py",
+    "local_sha256": "ce8f4fc3946fe202b504f05ac00232a63654280e6ad638aa1a89ed6d8cac2898",
+    "audited_sha256": "ce8f4fc3946fe202b504f05ac00232a63654280e6ad638aa1a89ed6d8cac2898",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/12_clean_conab_custos.py",
+    "local_sha256": "0af9d9d6b3db2457d6996733690bbcb1cc1b77f99849647121a27dfad6f36f78",
+    "audited_sha256": "d479a56e2d42623a637197498baec40fa35915cec47fc997e62dffcb6a340cd2",
+    "same": false
+  },
+  {
+    "path": "scripts/data_prep/13_censo_agro_equipamento.py",
+    "local_sha256": "d6460b981d7257df7766f845a9ff8f9ad485675e2fad2d59f9d954f009ff92f8",
+    "audited_sha256": "d6460b981d7257df7766f845a9ff8f9ad485675e2fad2d59f9d954f009ff92f8",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/14_gate_fronteira.py",
+    "local_sha256": "1faafab53b96db690c3a92a06114fbc8cae4e056691ed1e3eb9967b8eb970dd0",
+    "audited_sha256": "1faafab53b96db690c3a92a06114fbc8cae4e056691ed1e3eb9967b8eb970dd0",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/15_censo_demografico.py",
+    "local_sha256": "162271f3e7b3b124e2c3212970f2b8f0a5073e940fdd9efb73fa3f46d5249ed0",
+    "audited_sha256": "162271f3e7b3b124e2c3212970f2b8f0a5073e940fdd9efb73fa3f46d5249ed0",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/16_fronteira_geografica.py",
+    "local_sha256": "eccfaa11f6702ae55aac1be3eb428d93141070278824db8fabc7fe02bf0eeff8",
+    "audited_sha256": "eccfaa11f6702ae55aac1be3eb428d93141070278824db8fabc7fe02bf0eeff8",
+    "same": true
+  },
+  {
+    "path": "scripts/data_prep/17_audita_sisagua.py",
+    "local_sha256": "b55e005691596ba9279270401d92620bc288ec3b2c0aa8b840cdd8a7070c9f6a",
+    "audited_sha256": "b55e005691596ba9279270401d92620bc288ec3b2c0aa8b840cdd8a7070c9f6a",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/03_contdid.R",
+    "local_sha256": "af3688a518d686442a1ab51c29ec3638bd53cdf5b207ebd6c8f8146a9da68e94",
+    "audited_sha256": "af3688a518d686442a1ab51c29ec3638bd53cdf5b207ebd6c8f8146a9da68e94",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/04_robustness.py",
+    "local_sha256": "154f25d7b70f3a5145621b6b5a69183b5197aa3dc9b6fe08b79b8623427ea1b3",
+    "audited_sha256": "154f25d7b70f3a5145621b6b5a69183b5197aa3dc9b6fe08b79b8623427ea1b3",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/06_pretrends.R",
+    "local_sha256": "33274bae89174762c0fcfc97b9ef147ce5b9b475fe1011735bfd49a489a6abb9",
+    "audited_sha256": "b284495f1744423061937b90c49d20e95ff6d55ec39503dd2efabec4aceee775",
+    "same": false
+  },
+  {
+    "path": "scripts/estimate/07_honestdid.R",
+    "local_sha256": "518e8ffcec8c3407a2c9e35f185c44747bffb5eb6211f825f0f6cc9dedab59f7",
+    "audited_sha256": "d99a01fbc292f9aae9537855b6b9615affd60deeda9c4a558d0b72b0c31abca5",
+    "same": false
+  },
+  {
+    "path": "scripts/estimate/08_synthdid.R",
+    "local_sha256": "54999c907ccec008e5124bbfd4c44d5fc35768d12ab8901a57ad2dcec6f8f9a5",
+    "audited_sha256": "855989b58e5d1b11831a7c9598446c72d5e4e06f7f4299f7a43653852a6b408b",
+    "same": false
+  },
+  {
+    "path": "scripts/estimate/09_holm.py",
+    "local_sha256": "32f6366a1810638d49d876292c7f5fe5d3c1871f0c0eaa8852dcb3ee14f52ee0",
+    "audited_sha256": "32cd05d1a6d60dc5e9f69e6a7368d385cab8a5818a891120c3f48358cf124725",
+    "same": false
+  },
+  {
+    "path": "scripts/estimate/10_spt_pretrend.py",
+    "local_sha256": "36ddac756b8a696f42220f5c7b7361d502c0b95fabf8faeadd2784ec5c31dda9",
+    "audited_sha256": "36ddac756b8a696f42220f5c7b7361d502c0b95fabf8faeadd2784ec5c31dda9",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/11_weitzman_inversao.py",
+    "local_sha256": "3f5da9706c332412e3715b28bf81f2168f6579cf9917f12de47959aad0a651fa",
+    "audited_sha256": "3f5da9706c332412e3715b28bf81f2168f6579cf9917f12de47959aad0a651fa",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/12_erro_de_classificacao.py",
+    "local_sha256": "ba0ac999dfd5def21dbba94e220511f1cb57bd2f7e5be50709928b76828a450c",
+    "audited_sha256": "ba0ac999dfd5def21dbba94e220511f1cb57bd2f7e5be50709928b76828a450c",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/13_mde_desenhos.py",
+    "local_sha256": "61c424ab2221c3b13f4445ed85fbb1bbe7d4ce734bb70438d7e74dfa724fae69",
+    "audited_sha256": "61c424ab2221c3b13f4445ed85fbb1bbe7d4ce734bb70438d7e74dfa724fae69",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/14_mde_calendario.py",
+    "local_sha256": "ff2d80ccbefa4b50671325c5099be396ddff4bf4a6e5d4953f53875747af9671",
+    "audited_sha256": "ff2d80ccbefa4b50671325c5099be396ddff4bf4a6e5d4953f53875747af9671",
+    "same": true
+  },
+  {
+    "path": "scripts/estimate/setup_r.R",
+    "local_sha256": "57e0205dea0bfcd1e57ae2cd06f3b73237bed591261d0bfe65eed01e92e8c88e",
+    "audited_sha256": "57e0205dea0bfcd1e57ae2cd06f3b73237bed591261d0bfe65eed01e92e8c88e",
+    "same": true
+  },
+  {
+    "path": "paper/main.tex",
+    "local_sha256": "ce6d1c2f0ced2fd83b49abe2973c960c3caf90554960d3eaaeb7229211ba99ab",
+    "audited_sha256": "ce6d1c2f0ced2fd83b49abe2973c960c3caf90554960d3eaaeb7229211ba99ab",
+    "same": true
+  },
+  {
+    "path": "paper/referencias.bib",
+    "local_sha256": "bf51980e7c825617c81de307e58ad2acf97c78b6c1ece439f2b972d859439f1f",
+    "audited_sha256": "bf51980e7c825617c81de307e58ad2acf97c78b6c1ece439f2b972d859439f1f",
+    "same": true
+  },
+  {
+    "path": "paper/secoes/01-introducao.tex",
+    "local_sha256": "6ae8ec853ba5403e979125f663c8f7a3328f9517deca8705816922a370be4741",
+    "audited_sha256": "6ae8ec853ba5403e979125f663c8f7a3328f9517deca8705816922a370be4741",
+    "same": true
+  },
+  {
+    "path": "paper/secoes/02-background.tex",
+    "local_sha256": "2c8b9fbc422b35f61f12a88b08d106edf1c676b36d2175e15458270d420bd679",
+    "audited_sha256": "2c8b9fbc422b35f61f12a88b08d106edf1c676b36d2175e15458270d420bd679",
+    "same": true
+  },
+  {
+    "path": "paper/secoes/03-teoria.tex",
+    "local_sha256": "2c147035da54f0dd1ca486ae842a8b5482e0d87ef24b7600f8d45f9586977975",
+    "audited_sha256": "2c147035da54f0dd1ca486ae842a8b5482e0d87ef24b7600f8d45f9586977975",
+    "same": true
+  },
+  {
+    "path": "paper/secoes/04-identificacao.tex",
+    "local_sha256": "8291750acc5e6e491481336034efcdb2ca4eb0e386ff0f6352d3458b6a7b8e45",
+    "audited_sha256": "8291750acc5e6e491481336034efcdb2ca4eb0e386ff0f6352d3458b6a7b8e45",
+    "same": true
+  },
+  {
+    "path": "paper/secoes/05-dados.tex",
+    "local_sha256": "cff945be2f78f847b8949b798dc0435506eef54eea6bf4b728e9bc4af7169cd9",
+    "audited_sha256": "cff945be2f78f847b8949b798dc0435506eef54eea6bf4b728e9bc4af7169cd9",
+    "same": true
+  },
+  {
+    "path": "paper/secoes/06-diagnostico-poder.tex",
+    "local_sha256": "611229c8a012a9c8807e3ac5979f636b6446eab13f1f98902992c8ba994e5d77",
+    "audited_sha256": "611229c8a012a9c8807e3ac5979f636b6446eab13f1f98902992c8ba994e5d77",
+    "same": true
+  },
+  {
+    "path": "paper/secoes/07-conclusao.tex",
+    "local_sha256": "8c12129f74054d3f3d56acc7797513e33d633890501bb2d4b5078127b9c2e397",
+    "audited_sha256": "74ad165d00616ec0b7506de3c4d885f8e0060b948104c33d1bc63ab516aff0d9",
+    "same": false
+  },
+  {
+    "path": "tests/test_data_prep.py",
+    "local_sha256": "584d144fa462fab58b590674a8a7919b81cb1bbe538364675f8a17c677fd1281",
+    "audited_sha256": "584d144fa462fab58b590674a8a7919b81cb1bbe538364675f8a17c677fd1281",
+    "same": true
+  }
+]

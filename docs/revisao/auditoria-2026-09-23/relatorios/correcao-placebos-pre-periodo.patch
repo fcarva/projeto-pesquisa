@@ -1,0 +1,73 @@
+diff --git a/scripts/estimate/10_spt_pretrend.py b/scripts/estimate/10_spt_pretrend.py
+index 5a0c0bc..07b45af 100644
+--- a/scripts/estimate/10_spt_pretrend.py
++++ b/scripts/estimate/10_spt_pretrend.py
+@@ -205,8 +205,17 @@ def main(argv: list[str] | None = None) -> int:
+         return 1
+ 
+     t_ini, t_pre, t_pos = _t(args.inicio), _t(args.corte_pre), _t(args.corte_pos)
++    if not t_ini <= t_pre < BAN_T or t_pos <= t_pre:
++        print("✘ os placebos exigem início <= corte pré < 2019-01 e corte pós > corte pré.")
++        return 1
+     gap = t_pos - t_pre
+ 
++    # primeira_diferenca usa todo t >= b no pseudo-pós. Limitar apenas os
++    # cortes não exclui 2019 em diante: é preciso restringir os dados antes
++    # do colapso. --inicio também delimita as observações, não só os cortes.
++    tempos = painel["ano"] * 12 + painel["mes"] - 1
++    painel_pre = painel.loc[tempos.between(t_ini, t_pre)].copy()
++
+     cortes = placebos(t_ini, t_pre, gap, args.largura_min)
+     if not cortes:
+         print("✘ pré-período curto demais para qualquer corte placebo com")
+@@ -220,8 +229,7 @@ def main(argv: list[str] | None = None) -> int:
+ 
+     linhas = []
+     for a, b in cortes:
+-        dados = primeira_diferenca(painel, args.desfecho, a, b)
+-        # só o pré-período: nada depois do ban pode entrar
++        dados = primeira_diferenca(painel_pre, args.desfecho, a, b)
+         dados = dados[dados["dose"].notna()]
+         if len(dados) < 10:
+             continue
+diff --git a/tests/test_pretrend_window.py b/tests/test_pretrend_window.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_pretrend_window.py
+@@ -0,0 +1,36 @@
++"""Placebos must be invariant to outcomes outside their pre-policy window."""
++import importlib.util
++import os
++from pathlib import Path
++
++import numpy as np
++import pandas as pd
++import pytest
++
++
++@pytest.mark.parametrize("outside", ["before_start", "after_end"])
++def test_placebo_ignores_outcomes_outside_pre_window(tmp_path, outside):
++    default = Path(__file__).resolve().parents[1] / "scripts/estimate/10_spt_pretrend.py"
++    target = Path(os.environ.get("AUDIT_SPT_SCRIPT", str(default)))
++    spec = importlib.util.spec_from_file_location("spt_window_test", target)
++    mod = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(mod)
++    months = pd.period_range("2014-01", "2022-12", freq="M")
++    rows = [
++        (f"239{i:03d}", p.year, p.month, i / 11,
++         3200 + i + np.sin(k + i))
++        for i in range(12) for k, p in enumerate(months)
++    ]
++    panel = pd.DataFrame(rows, columns=["cod_ibge6", "ano", "mes", "dose", "peso_medio"])
++    altered = panel.copy()
++    mask = altered.ano.lt(2015) if outside == "before_start" else altered.ano.gt(2018)
++    altered.loc[mask, "peso_medio"] += 10000 * altered.loc[mask, "dose"]
++    results = []
++    for name, data in [("baseline", panel), ("altered", altered)]:
++        path = tmp_path / f"{name}.parquet"
++        data.to_parquet(path, index=False)
++        out = tmp_path / name
++        assert mod.main(["--painel", str(path), "--out-dir", str(out),
++                         "--n-boot", "20", "--inicio", "2015-01"]) == 0
++        results.append(pd.read_csv(out / "spt_pretrend__peso_medio.csv"))
++    pd.testing.assert_frame_equal(results[0], results[1])

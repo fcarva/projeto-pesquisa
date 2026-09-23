@@ -1,0 +1,54 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed 
+2: Setting LC_CTYPE=C.UTF-8 failed 
+3: Setting LC_MONETARY=C.UTF-8 failed 
+4: Setting LC_TIME=C.UTF-8 failed 
+[1] "English_United States.utf8"
+==================================================================================== 
+E7-quater — SYNTHETIC DiD (INTRAESTADUAL) | peso_medio 
+==================================================================================== 
+⚠️ NÃO é o SDID estadual do CLAUDE.md: aquele precisa de outros estados,
+   e o SINASC nacional não foi adquirido. Este é município × município.
+
+doadores (d = 0): 14 | tratados: 17 
+períodos pré: 4 | pós: 4 
+
+⚠️ MAIS TRATADOS QUE DOADORES (17 contra 14).
+   O sintético é montado com um conjunto pequeno, e o erro-padrão por
+   PLACEBO fica indisponível — o pacote exige mais controles que tratados.
+
+====================================================================================
+TRÊS ESTIMADORES SOBRE A MESMA MATRIZ — o informativo é a DISTÂNCIA
+==================================================================================== 
+  synthdid   tau =   -20.16 g   ep  18.50 (jack) /  21.16 (boot)   IC95% [  -56.43 ;    16.10]
+  sc         tau =   -34.64 g   ep  16.73 (jack) /  23.27 (boot)   IC95% [  -67.43 ;    -1.85]
+  did        tau =   -21.85 g   ep  19.23 (jack) /  19.46 (boot)   IC95% [  -59.54 ;    15.84]
+
+  amplitude entre os três: 14.48 g
+
+  ⚠️⚠️ ATENÇÃO — 1 de 3 estimadores excluem zero, e os outros não:
+       sc: -34.64 g, IC [-67.43 ; -1.85]
+
+     Os três rodam sobre A MESMA MATRIZ. Divergirem quanto a excluir
+     zero não é evidência a favor do que exclui — é evidência de que o
+     resultado depende do estimador.
+
+     ⚠️ E NENHUM destes é confirmatório. Reportar um exploratório que
+        cruzou a linha como se fosse achado é o M1 acontecendo.
+
+====================================================================================
+COMO LER — e o que este script NÃO diz
+==================================================================================== 
+  • ⚠️ NÃO é o SDID estadual. Aquele responde 'o Ceará mudou em relação a
+    um Ceará sintético'; este responde 'os municípios de dose alta mudaram
+    em relação aos de dose zero'. Perguntas diferentes.
+  • A distância entre `sc` e `did` mede quanto o RE-PESO das unidades está
+    fazendo. Se for grande, o resultado depende de quem entra no sintético.
+  • ⚠️ Se o `d = 0` está contaminado por controle vetorial aéreo (flag 5),
+    o sintético é montado com unidades PARCIALMENTE TRATADAS. O SDID não
+    conserta isso — ele herda.
+  • ⚠️ O gate do E7 continua valendo: coeficiente abaixo do MDE do desenho
+    NÃO é achado, por mais elegante que seja o estimador.
+==================================================================================== 
+
+[ok] work/empirical/synth-original/synthdid__peso_medio.csv 

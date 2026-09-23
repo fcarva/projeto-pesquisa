@@ -1,0 +1,37 @@
+pré-período: 2015-01 .. 2018-12  (gap do desenho real: 10 meses)
+cortes placebo construídos: 3
+
+====================================================================================
+E9 — INCLINAÇÃO EM DOSE NO PRÉ-PERÍODO (sonda do SPT) | peso_medio
+====================================================================================
+Implicação comum ao PT e ao SPT (CGS §6.3): antes do tratamento, a
+relação entre VARIAÇÃO do desfecho e dose deve ser zero.
+
+⚠️ Passar NÃO valida o SPT — a implicação é comum às duas hipóteses.
+   Rejeitar, sim, é evidência CONTRA ele, e contra a leitura causal
+   da curva ACR(d), que a pré-especificação declarou alvo primário.
+------------------------------------------------------------------------------------
+  corte placebo         n    inclinação  p (aleat.)  
+  --------------------------------------------------------
+  2016-01 / 2016-11   184      31.36924      0.3030
+  2016-07 / 2017-05   184      33.86038      0.2590
+  2017-01 / 2017-11   184      19.67835      0.5190
+------------------------------------------------------------------------------------
+✔  NENHUM dos 3 cortes placebo rejeita a 5%.
+   A implicação pré-tratamento comum a PT e SPT NÃO é violada onde
+   se consegue olhar. Isso é evidência a favor, e é o mais forte
+   que este teste consegue ser — ele não valida o SPT.
+------------------------------------------------------------------------------------
+PARA COMPARAR — a mesma forma reduzida no desenho de verdade:
+  inclinação +6.80753   p = 0.7935
+  cortes placebo com inclinação ao menos tão grande em módulo: 3 de 3
+  ⚠️ A maioria dos placebos produz inclinação tão grande quanto a
+     real. O desenho não separa o efeito do ruído de pré-período.
+------------------------------------------------------------------------------------
+E O NÍVEL — o ATT(d|d) agregado, que é o número da §6.2:
+  real -35.329   placebos: +17.610, +25.919, +20.359
+  cortes placebo com nível ao menos tão grande em módulo: 0 de 3
+  ⚠️ Com poucos cortes, isto não é p-valor. É a pergunta que o
+     parecer faz ao −36 g: ele está fora do ruído de pré-período?
+====================================================================================
+gravado: work\empirical\spt-corrected\spt_pretrend__peso_medio.csv

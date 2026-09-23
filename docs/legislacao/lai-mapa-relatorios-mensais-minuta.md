@@ -18,8 +18,10 @@ mês.
 | elo | norma | estado da verificação |
 |---|---|---|
 | Cada operação de aviação agrícola gera **relatório operacional** (Anexo I): lavoura, mapa DGPS das faixas, produto, área, meteorologia. A redação anterior à IN 37/2020 incluía cópia do receituário | IN MAPA nº 2/2008, **art. 9º** | trecho pelo índice de busca ⬜ texto integral |
-| O relatório operacional fica com a empresa, por **no mínimo 2 anos** | IN MAPA nº 2/2008 | resumo de buscador ⬜. Os de 2015–2018 provavelmente já foram descartados. Por isso o pedido mira o mensal |
-| Toda empresa de aviação agrícola, pessoa física ou jurídica, entrega **relatório mensal** (Anexo V) à SFA, até o 15º dia do mês seguinte. Se tem sede em outra UF, entrega à SFA **do estado onde atuou** | IN MAPA nº 2/2008, **art. 14** | trecho literal do caput pelo índice de busca; regra da outra UF por resumo de buscador ⬜ |
+| O relatório operacional fica com a empresa, por **no mínimo 2 anos** | IN MAPA nº 2/2008, **art. 9º, §9º** | lido pela auditoria de 2026-09-23 no PDF consolidado. ⚠️ É guarda **mínima**, não ordem de descarte. O mapa DGPS só existe quando o equipamento grava (**§8º**) |
+| Toda empresa de aviação agrícola, pessoa física ou jurídica, entrega **relatório mensal** (Anexo V) à SFA até o 15º dia do mês seguinte, com **município, cultura, área trabalhada e produtos comerciais**, sem dose nem quantidade aplicada | IN MAPA nº 2/2008, **art. 14** | caput pelo índice de busca; campos lidos pela auditoria de 2026-09-23 |
+| Mês **sem atividade** também gera documento: declaração de ausência de atividade | IN MAPA nº 2/2008, **art. 14, III** | lido pela auditoria de 2026-09-23. ⚠️ É o que distingue "não voou" de "não entregou", e o pedido o pede à parte (item 7) |
+| Operador de **outra UF** remete o relatório à SFA **do estado onde atuou**, sem prejuízo de informar a de origem | IN MAPA nº 2/2008, **art. 12, VI** (e não o art. 14) | lido pela auditoria de 2026-09-23; corrigido aqui na mesma data |
 | As SFAs recebiam e contavam esses relatórios | Relatório de gestão 2012 da SFA-SP: indicador "Recebimento de Relatórios Mensais (Irrav)" | trecho pelo índice de busca: indício de prática |
 | Desde abril de 2023, o envio é por peticionamento no SEI | página "Relatórios mensais" do MAPA; SINDAG, 07/04/2023 | índice de busca |
 
@@ -69,9 +71,11 @@ fecha a rota e registra por quê.
 > A **Instrução Normativa MAPA nº 2, de 3 de janeiro de 2008**, obriga as
 > empresas de aviação agrícola, pessoa física ou jurídica, a apresentar
 > **relatório mensal** de suas atividades, conforme o **Anexo V**, à
-> Superintendência Federal de Agricultura (**art. 14**). Quando a empresa tem
+> Superintendência Federal de Agricultura (**art. 14**), inclusive declaração
+> quando não houver atividade no mês (**art. 14, III**). Quando a empresa tem
 > sede em outra unidade da federação, o relatório vai à Superintendência do
-> estado onde a operação foi realizada. O pedido recai sobre esses relatórios.
+> estado onde a operação foi realizada (**art. 12, VI**). O pedido recai sobre
+> esses relatórios e declarações.
 >
 > Solicito, para o período de **1º de janeiro de 2008 a 31 de dezembro de
 > 2024**, ou para a parte dele que este Ministério detenha:
@@ -84,9 +88,9 @@ fecha a rota e registra por quê.
 >
 > 2. Caso essas informações estejam em **base de dados ou sistema**, extrato
 >    contendo, para cada registro: **município** da aplicação, **mês e ano**,
->    **cultura**, **área tratada** (ha), **produto ou ingrediente ativo**,
->    **tipo de aeronave** e **empresa ou operador** (razão social e CNPJ, quando
->    pessoa jurídica).
+>    **tipo de serviço**, **cultura**, **área trabalhada** (ha), **produtos
+>    utilizados** e **empresa ou operador** (razão social e CNPJ, quando pessoa
+>    jurídica), além de qualquer outro campo que o registro contenha.
 >
 > 3. Caso o MAPA detenha **relatórios operacionais** (art. 9º e Anexo I da IN
 >    MAPA nº 2/2008) de operações no Ceará no mesmo período, por exemplo
@@ -105,6 +109,10 @@ fecha a rota e registra por quê.
 >    exige das empresas (município e período de atuação, tipo de serviço e
 >    cultura a ser tratada, localização do pátio de descontaminação),
 >    referentes a operações no Estado do Ceará no mesmo período.
+>
+> 7. Cópia das **declarações de ausência de atividade** (art. 14, III) de
+>    empresas registradas ou com operação no Ceará no mesmo período, ou, se
+>    houver, do controle que as registre.
 >
 > **Sobre a forma:** solicito os dados **tal como constam** dos arquivos ou da
 > base, em formato aberto e legível por máquina quando existirem nesse formato
@@ -153,13 +161,15 @@ pedido cobriria 2019–2021, que o SIPEAGRO não alcança.
 - [ ] **A redação vigente em 2010–2018.** O PDF consolidado mostra as
       "redações anteriores". Confirmar que o art. 14 e o Anexo V valiam assim
       na janela.
-- [ ] **A regra da empresa de outra UF** (entrega à SFA do estado onde atuou)
-      está no texto, e não só no resumo do buscador. Se não estiver, trocar o
-      item 1 para "recebidos por qualquer unidade do MAPA, referentes a
-      operações no Ceará".
-- [ ] **Campos do Anexo V.** Se não tiver município, o item 2 continua
-      valendo (a base pode ter mais do que o formulário), mas a expectativa
-      muda: ver §4.
+- [x] **A regra da empresa de outra UF** (entrega à SFA do estado onde atuou)
+      está no texto: **art. 12, VI**, lido pela auditoria de 2026-09-23. O
+      pedido citava o art. 14; corrigido. ⬜ Conferir na redação de 2010–2018.
+- [x] **Declaração de mês sem atividade**: art. 14, III (auditoria de
+      2026-09-23). Entrou como item 7.
+- [x] **Campos do Anexo V**: município, cultura, área trabalhada e produtos
+      comerciais, **sem dose** (auditoria de 2026-09-23). O relatório mede
+      método, calendário e hectare-serviço, não quantidade de ingrediente ativo
+      nem exposição.
 - [ ] Protocolar no Fala.BR e registrar número e data em
       `docs/lacunas-de-dados.md`.
 

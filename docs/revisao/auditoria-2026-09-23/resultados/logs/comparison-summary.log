@@ -1,0 +1,248 @@
+{
+  "csv_comparisons": [
+    {
+      "file": "cgs_curva_level__peso_medio__d0-4.csv",
+      "run": "cgs-peso-d4-original",
+      "rows_rerun": 169,
+      "rows_saved": 169,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {}
+    },
+    {
+      "file": "cgs_curva_slope__peso_medio__d0-4.csv",
+      "run": "cgs-peso-d4-original",
+      "rows_rerun": 169,
+      "rows_saved": 169,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {}
+    },
+    {
+      "file": "cgs_eventstudy__peso_medio__d0-4.csv",
+      "run": "cgs-peso-d4-original",
+      "rows_rerun": 95,
+      "rows_saved": 95,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {}
+    },
+    {
+      "file": "cgs_curva_level__taxa_obito_fetal__d0-4.csv",
+      "run": "cgs-fetal-d4-original",
+      "rows_rerun": 169,
+      "rows_saved": 169,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {
+        "ic_inf": {
+          "count": 169,
+          "max_abs": 0.0015104016915502005
+        },
+        "ic_sup": {
+          "count": 169,
+          "max_abs": 0.0015104016915502005
+        },
+        "meia_largura": {
+          "count": 169,
+          "max_abs": 0.0015104016915502005
+        },
+        "valor_critico": {
+          "count": 169,
+          "max_abs": 0.5104507101915301
+        }
+      }
+    },
+    {
+      "file": "cgs_curva_slope__taxa_obito_fetal__d0-4.csv",
+      "run": "cgs-fetal-d4-original",
+      "rows_rerun": 169,
+      "rows_saved": 169,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {
+        "ic_inf": {
+          "count": 169,
+          "max_abs": 1.4353775080770106
+        },
+        "ic_sup": {
+          "count": 169,
+          "max_abs": 1.4353775080770106
+        },
+        "meia_largura": {
+          "count": 169,
+          "max_abs": 1.4353775080770106
+        },
+        "valor_critico": {
+          "count": 169,
+          "max_abs": 0.023891473438450106
+        }
+      }
+    },
+    {
+      "file": "holm_confirmatorios.csv",
+      "run": "holm-original",
+      "rows_rerun": 2,
+      "rows_saved": 2,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {}
+    },
+    {
+      "file": "robustez_inferencia.csv",
+      "run": "robustness-peso-original",
+      "rows_rerun": 1,
+      "rows_saved": 1,
+      "rerun_only_columns": [
+        "estratos",
+        "ic_inv_alto",
+        "ic_inv_baixo",
+        "nivel",
+        "nivel_ep_welch",
+        "nivel_jack_cod_max",
+        "nivel_jack_cod_min",
+        "nivel_jack_max",
+        "nivel_jack_min",
+        "nivel_n_controles",
+        "nivel_n_tratados",
+        "nivel_p_perm",
+        "nivel_p_wcb",
+        "nivel_p_welch"
+      ],
+      "saved_only_columns": [],
+      "different_columns": {
+        "mde": {
+          "count": 1,
+          "max_abs": null
+        }
+      }
+    },
+    {
+      "file": "synthdid__peso_medio.csv",
+      "run": "synth-original",
+      "rows_rerun": 3,
+      "rows_saved": 3,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {}
+    },
+    {
+      "file": "honestdid__peso_medio.csv",
+      "run": "honest-original",
+      "rows_rerun": 7,
+      "rows_saved": 7,
+      "rerun_only_columns": [],
+      "saved_only_columns": [],
+      "different_columns": {}
+    },
+    {
+      "file": "spt_pretrend__peso_medio.csv",
+      "run": "spt-original",
+      "rows_rerun": 3,
+      "rows_saved": 3,
+      "rerun_only_columns": [
+        "nivel"
+      ],
+      "saved_only_columns": [],
+      "different_columns": {}
+    }
+  ],
+  "channels": [
+    {
+      "outcome": "peso_medio",
+      "nonmissing_cells": 17654,
+      "missing_cells": 10,
+      "zero_cells": 0,
+      "paired_positive_d4": 169,
+      "paired_controls_d4": 14
+    },
+    {
+      "outcome": "taxa_baixo_peso",
+      "nonmissing_cells": 17654,
+      "missing_cells": 10,
+      "zero_cells": 3721,
+      "paired_positive_d4": 169,
+      "paired_controls_d4": 14
+    },
+    {
+      "outcome": "taxa_prematuridade",
+      "nonmissing_cells": 17654,
+      "missing_cells": 10,
+      "zero_cells": 2240,
+      "paired_positive_d4": 169,
+      "paired_controls_d4": 14
+    },
+    {
+      "outcome": "taxa_obito_fetal",
+      "nonmissing_cells": 17655,
+      "missing_cells": 9,
+      "zero_cells": 12007,
+      "paired_positive_d4": 169,
+      "paired_controls_d4": 14
+    },
+    {
+      "outcome": "taxa_obito_fetal_22sem",
+      "nonmissing_cells": 17655,
+      "missing_cells": 9,
+      "zero_cells": 12174,
+      "paired_positive_d4": 169,
+      "paired_controls_d4": 14
+    },
+    {
+      "outcome": "taxa_sih_acidental_100k",
+      "nonmissing_cells": 46,
+      "missing_cells": 17618,
+      "zero_cells": 45,
+      "paired_positive_d4": 3,
+      "paired_controls_d4": 0
+    },
+    {
+      "outcome": "taxa_sih_t60_100k",
+      "nonmissing_cells": 46,
+      "missing_cells": 17618,
+      "zero_cells": 2,
+      "paired_positive_d4": 3,
+      "paired_controls_d4": 0
+    },
+    {
+      "outcome": "taxa_sinan_agricola_100k",
+      "nonmissing_cells": 17664,
+      "missing_cells": 0,
+      "zero_cells": 16958,
+      "paired_positive_d4": 169,
+      "paired_controls_d4": 14
+    },
+    {
+      "outcome": "taxa_sinan_agricola_nao_intencional_100k",
+      "nonmissing_cells": 17664,
+      "missing_cells": 0,
+      "zero_cells": 17394,
+      "paired_positive_d4": 169,
+      "paired_controls_d4": 14
+    }
+  ],
+  "sih_inventory": {
+    "rd_files": 96,
+    "expected_2015_2022": 96,
+    "missing_expected": [],
+    "empty_files": [],
+    "processed_sih_rows": 46
+  },
+  "fetal_denominator_flag": {
+    "cells_flagged": 1,
+    "years": [
+      2016
+    ],
+    "groups": [
+      "positive"
+    ],
+    "rates": [
+      1.0
+    ],
+    "n_fetal": 1.0
+  },
+  "notes": [
+    "CSV equality tolerances rtol=1e-8, atol=1e-10.",
+    "Presence of SIH monthly files is not validation of all admission-date coverage or source completeness."
+  ]
+}

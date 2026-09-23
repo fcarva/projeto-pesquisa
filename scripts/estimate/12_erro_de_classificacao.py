@@ -133,8 +133,14 @@ import pandas as pd
 RAIZ = Path(__file__).resolve().parents[2]
 OUT_DIR = RAIZ / "data" / "processed"
 
-# MDE do desenho (§6 do paper): 80% de poder, teste bilateral a 5%.
+# ⚠️ CORRIGIDO EM 2026-09-23 (auditoria). Os 33,4 g são o MDE do benchmark
+# decil × resto (17×167), não do contraste que os estimadores do decil usam
+# (17×14, definição 4) nem do agregado (169×14). Continuam aqui só como último
+# recurso, e o relatório avisa quando são eles. O MDE vem de `--mde` ou do
+# `mde_desenhos.csv` do script 13, na linha do contraste de fato estimado.
 MDE_G = 33.4
+MDE_LEGADO_ROTULO = "33,4 g — benchmark 17×167, NÃO é o MDE do contraste estimado"
+DESENHOS_DO_DECIL = ("decil17_vs_ce_zero_gaez", "decil17_vs_ce_dose_zero")
 ALFA = 0.05
 PODER_NO_MDE = 0.80
 
@@ -146,8 +152,10 @@ PUBLICADOS = {
     # Limoeiro do Norte (18 estab.) e Quixeré (9): ranks 6 e 13 de 169 na
     # banana, logo DENTRO dos 17 e dos 19.
     "municipios_decil_com_aeronave": 2,
-    # Nenhum dos 7 tem dose zero (flag 5): o grupo de comparação não tem
-    # falso negativo.
+    # Nenhum dos 7 tem dose zero (flag 5): o grupo de comparação não tinha
+    # falso negativo EM 2006. ⚠️ Isso não verifica 2018 (auditoria de
+    # 2026-09-23): aplicação por prestador, mudança entre 2006 e 2018, deriva e
+    # controle vetorial ficam de fora do Censo.
     "falso_negativo_no_controle": 0,
 }
 # ✅ Divergência 17 × 19 RESOLVIDA em 2026-09-22, contra os artefatos: a banana
@@ -428,8 +436,21 @@ def tabela_calibracao(cenarios: dict[str, float] = CENARIOS_VPP,
     return pd.DataFrame(linhas)
 
 
+def mde_do_desenho(caminho: Path, desenhos=DESENHOS_DO_DECIL) -> tuple[float, str] | None:
+    """O MDE por unidade do contraste do decil, do `mde_desenhos.csv` (script 13)."""
+    if not caminho.exists():
+        return None
+    tb = pd.read_csv(caminho)
+    for nome in desenhos:
+        linha = tb[(tb["desenho"] == nome) & (tb.get("veredito") == "calculado")]
+        if len(linha) and pd.notna(linha["mde_por_unidade_g"].iloc[0]):
+            return float(linha["mde_por_unidade_g"].iloc[0]), f"{nome}, MDE por unidade ({caminho.name})"
+    return None
+
+
 def imprime(metricas: list[dict], limites: pd.DataFrame,
-            calibracao: pd.DataFrame, coeficientes: dict[str, float]) -> None:
+            calibracao: pd.DataFrame, coeficientes: dict[str, float],
+            mde: float = MDE_G, rotulo_mde: str = MDE_LEGADO_ROTULO) -> None:
     barra = "=" * 84
     print(barra)
     print("ERRO DE CLASSIFICAÇÃO DA DOSE — a flag 7, medida")
@@ -453,6 +474,8 @@ def imprime(metricas: list[dict], limites: pd.DataFrame,
     print("  LIMITES DO ATT (Corolário 1, Denteh & Kédagni) — pontuais, não IC:")
     print("  Sem falso negativo, θ = VPP·ATT para erro ARBITRÁRIO: o sinal não")
     print("  inverte, e o ATT fica entre θ e θ/VPP.")
+    print("  ⚠️ CENÁRIO, não correção: o VPP é o de 2006, e o Censo não verifica")
+    print("     nem o tratamento nem a ausência de falso negativo em 2018.")
     print()
     for est in limites["estimador"].unique():
         sub = limites[limites["estimador"] == est]
@@ -463,8 +486,12 @@ def imprime(metricas: list[dict], limites: pd.DataFrame,
     print(barra)
     print("  CALIBRAÇÃO — o sinal que o desenho poderia ver (θ = VPP · f · δ)")
     print("  δ = efeito individual sob exposição alta, Calzada et al. (2023, resumo);")
-    print(f"  f = fração exposta (DESCONHECIDA, grade). MDE = {MDE_G} g, "
-          f"ep implícito = {erro_padrao_do_mde():.1f} g.")
+    print(f"  f = fração exposta (DESCONHECIDA, grade). MDE = {mde:.1f} g "
+          f"({rotulo_mde}), ep implícito = {erro_padrao_do_mde(mde):.1f} g.")
+    if rotulo_mde == MDE_LEGADO_ROTULO:
+        print("  ⚠️ Sem --mde e sem mde_desenhos.csv: o poder abaixo é o do benchmark")
+        print("     17×167, OTIMISTA para o 17×14 que os estimadores usam. Rode")
+        print("     make mde-desenhos (ou passe --mde) antes de citar estes números.")
     print()
     print(f"  {'cenário':<24} {'VPP':>5} {'f':>5} "
           + "".join(f"{f'δ={d:.0f}':>9}{'poder':>7}" for d in EFEITOS_INDIVIDUAIS_G))
@@ -497,6 +524,10 @@ def main(argv: list[str] | None = None) -> int:
                    help="Parquet do script 01. Exige --censo.")
     p.add_argument("--cultura", default="banana",
                    help="Cultura-âncora para o decil (padrão: banana).")
+    p.add_argument("--mde", type=float, default=None,
+                   help="MDE (g) do contraste calibrado. Sem ele, lê --mde-desenhos.")
+    p.add_argument("--mde-desenhos", type=Path, default=OUT_DIR / "mde_desenhos.csv",
+                   help="saída do script 13; usa a linha do decil com o corte GAEZ.")
     p.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = p.parse_args(argv)
 
@@ -527,9 +558,14 @@ def main(argv: list[str] | None = None) -> int:
         [tabela_limites(theta, lambdas, rotulo) for rotulo, theta in coeficientes.items()],
         ignore_index=True,
     )
-    calibracao = tabela_calibracao()
+    if args.mde is not None:
+        mde, rotulo_mde = args.mde, "passado em --mde"
+    else:
+        achado = mde_do_desenho(args.mde_desenhos)
+        mde, rotulo_mde = achado if achado else (MDE_G, MDE_LEGADO_ROTULO)
+    calibracao = tabela_calibracao(mde=mde)
 
-    imprime(metricas, limites, calibracao, coeficientes)
+    imprime(metricas, limites, calibracao, coeficientes, mde, rotulo_mde)
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     hoje = date.today().isoformat()
@@ -543,8 +579,8 @@ def main(argv: list[str] | None = None) -> int:
     saida["extraido_em"] = hoje
     saida.to_csv(destino, index=False, encoding="utf-8")
     destino_cal = args.out_dir / "calibracao_sinal_esperado.csv"
-    calibracao.assign(extraido_em=hoje).to_csv(destino_cal, index=False,
-                                               encoding="utf-8")
+    calibracao.assign(mde_g=mde, origem_mde=rotulo_mde, extraido_em=hoje).to_csv(
+        destino_cal, index=False, encoding="utf-8")
     print(f"gravado: {destino}")
     print(f"gravado: {destino_cal}")
     return 0

@@ -52,20 +52,23 @@
 # dispersão entre elas é a incerteza sobre o nível.
 #
 # ══════════════════════════════════════════════════════════════════════════════
-# O GATE DO TEOREMA C.1
+# LEVEL E SLOPE NÃO SÃO ATT E ATE — corrigido em 2026-09-23
 # ══════════════════════════════════════════════════════════════════════════════
 # `cont_did` tem `target_parameter = c("level", "slope")`:
-#   "level" -> ATT(d|d), que sai sob paralelismo tradicional (Assumption PT)
-#   "slope" -> ACRT(d|d)/ACR(d), que exige strong parallel trends (Assumption SPT)
+#   "level" -> a curva de nível, E[ΔY|D=d] − E[ΔY|D=0]
+#   "slope" -> a DERIVADA dessa curva em d
 #
-# O Teorema C.1 do CGS diz que PT + SPT juntas implicam ATT(d|d) = ATE(d). Então
-# rodar os dois e comparar É o diagnóstico. **Divergência é informação, não
-# defeito:** se divergirem, o resultado principal migra para os limites da §5.1,
-# conforme o compromisso já registrado em 03-modelagem-ensaio1.md §4.1. A decisão
-# é do diagnóstico, não da estética do coeficiente.
+# ⚠️ Até 2026-09-23 este cabeçalho dizia que rodar os dois e comparar era o
+# diagnóstico do Teorema C.1 (ATT(d|d) = ATE(d)). É falso, e a auditoria de
+# 2026-09-23 mostrou por quê, lendo o próprio teorema (CGS, v4, Apêndice C):
+# sob PT a expressão E[ΔY|D=d] − E[ΔY|D=0] identifica ATT(d|d); sob SPT, a
+# MESMA expressão identifica ATE(d). Não existem duas curvas estimadas de forma
+# independente para comparar: é um objeto, lido sob duas hipóteses. E "level"
+# contra "slope" compara uma função com a derivada dela, em unidades
+# diferentes. A divergência entre os dois arquivos não diz nada sobre o SPT.
 #
-# ⚠️ Este script **não decide** por você. Ele roda os dois, grava os dois, e
-# imprime a comparação.
+# O que existe de testável é a implicação pré-tratamento, comum a PT e SPT:
+# está no 10_spt_pretrend.py, e pode falsificar, não validar.
 #
 # USO
 #   Rscript scripts/estimate/03_contdid.R \
@@ -73,9 +76,14 @@
 #     --desfecho peso_medio \
 #     --saida data/processed
 #
-#   --exposicao   share_gestacao_pos_ban (padrão) | share_tri3_pos_ban | ...
 #   --corte-pre   último mês tratado como pré  (padrão: 2018-12)
 #   --corte-pos   primeiro mês tratado como pós (padrão: 2019-10)
+#
+# ⚠️ `--exposicao` FOI REMOVIDO em 2026-09-23. Era lido e gravado como metadado,
+# mas o colapso usa só os cortes de calendário: trocar de
+# `share_gestacao_pos_ban` para `share_tri3_pos_ban` mudava o rótulo do CSV e
+# não a regressão (auditoria de 2026-09-23). O contraste é o dos cortes, e é
+# isso que a coluna `contraste` das saídas diz. Passar a opção agora é erro.
 
 suppressPackageStartupMessages({
   library(arrow)
@@ -87,7 +95,7 @@ suppressPackageStartupMessages({
 
 args <- commandArgs(trailingOnly = TRUE)
 
-CONHECIDOS <- c("--painel", "--desfecho", "--exposicao", "--saida",
+CONHECIDOS <- c("--painel", "--desfecho", "--saida",
                 "--corte-pre", "--corte-pos", "--biters", "--control-group",
                 "--d-zero", "--aptidao-p", "--seed")
 
@@ -101,8 +109,6 @@ uso <- function() {
   cat("  --painel         parquet do painel   [data/processed/painel_ensaio1.parquet]
 ")
   cat("  --desfecho       coluna do desfecho  [peso_medio]
-")
-  cat("  --exposicao      coluna de exposição [share_gestacao_pos_ban]
 ")
   cat("  --saida          pasta de saída      [data/processed]
 ")
@@ -133,6 +139,12 @@ uso <- function() {
 # 2026-09-21. O portão do `make real` não protege contra isso, porque o script
 # roda sozinho. Um estimador que estima ao receber flag errada é armadilha.
 if ("--help" %in% args || "-h" %in% args) { uso(); quit(status = 0) }
+if ("--exposicao" %in% args) {
+  cat("[erro] --exposicao foi removido em 2026-09-23: o colapso usa só os cortes de\n")
+  cat("       calendário, e a opção mudava o rótulo, não a regressão. Use\n")
+  cat("       --corte-pre/--corte-pos para mudar o contraste.\n")
+  quit(status = 2)
+}
 desconhecidas <- setdiff(grep("^--", args, value = TRUE), CONHECIDOS)
 if (length(desconhecidas) > 0) {
   cat("[erro] opção desconhecida:", paste(desconhecidas, collapse = ", "), "
@@ -149,7 +161,8 @@ le <- function(nome, padrao) {
 
 caminho_painel <- le("--painel", "data/processed/painel_ensaio1.parquet")
 desfecho <- le("--desfecho", "peso_medio")
-exposicao <- le("--exposicao", "share_gestacao_pos_ban")
+# O contraste, por extenso: é o que as saídas gravam no lugar de `exposicao`.
+contraste <- NULL
 saida <- le("--saida", "data/processed")
 corte_pre <- le("--corte-pre", "2018-12")
 corte_pos <- le("--corte-pos", "2019-10")
@@ -235,6 +248,14 @@ if (d_zero == "4") {
     stop("--d-zero 4 exige a coluna `aptidao_gaez` no painel. Rode antes: make gaez")
   }
   por_muni <- unique(painel[, .(cod_ibge6, dose, aptidao_gaez)])
+  # ⚠️ Zero sem aptidão é ERRO (auditoria de 2026-09-23). `NA > corte` não é
+  # verdadeiro, e o município ficava como controle aqui, enquanto o 07/08, com
+  # `aptidao_gaez <= corte`, o descartava: "definição 4" com duas amostras.
+  sem_aptidao <- por_muni[dose == 0 & is.na(aptidao_gaez), cod_ibge6]
+  if (length(sem_aptidao) > 0) {
+    stop("município(s) de dose zero sem aptidão GAEZ: ",
+         paste(sem_aptidao, collapse = ", "), ". A definição 4 não decide o lado deles.")
+  }
   corte <- as.numeric(quantile(por_muni$aptidao_gaez, aptidao_p, na.rm = TRUE))
   suspeitos <- por_muni[dose == 0 & aptidao_gaez > corte, cod_ibge6]
   n_zero <- nrow(por_muni[dose == 0])
@@ -289,6 +310,7 @@ t_de <- function(txt) {
 }
 t_pre <- t_de(corte_pre)
 t_pos <- t_de(corte_pos)
+contraste <- sprintf("corte de calendário: pré <= %s, pós >= %s", corte_pre, corte_pos)
 
 painel[, periodo := fifelse(t <= t_pre, 1L, fifelse(t >= t_pos, 2L, NA_integer_))]
 n_transicao <- painel[is.na(periodo), .N]
@@ -346,7 +368,28 @@ cat(barra, "\n")
 # Os campos, conferidos: `att.d`/`att.d_se`/`att.d_crit.val` para o level,
 # `acrt.d`/`acrt.d_se`/`acrt.d_crit.val` para o slope, mais os agregados
 # `overall_att`/`overall_acrt` e seus erros.
-grava_tidy <- function(obj, arquivo, alvo = "level", extra = list()) {
+# ⚠️ AS BANDAS DA CURVA DE NÍVEL NÃO LEVAM A INCERTEZA DO GRUPO ZERO — conferido
+# em 2026-09-23 no código fixado (contdid 5cfec81, R/cont_did.R, l. 195–221),
+# depois de a auditoria de 2026-09-23 apontar o risco por inspeção. O pacote faz
+# `m0 <- mean(dy[dose == 0])`, centra `dy` nele, roda o `npiv` SÓ nos tratados e
+# toma `att.d_se <- cck_res$asy.se`: m0 entra como constante conhecida. Com 14
+# controles, a média deles tem EP da ordem de 15 g — é ela que faz 95% da
+# variância do agregado. A banda por dose sai estreita demais, e "133 dos 169
+# pontos excluem o zero" era artefato disso. O agregado (`overall_att`) não
+# sofre: sai de outra rotina, que inclui os controles.
+#
+# Correção aproximada: m0 vem dos controles e o npiv dos tratados, amostras
+# independentes, então Var(att.d) = asy.se² + EP(m0)². As colunas `ep_m0`,
+# `ic_inf_m0` e `ic_sup_m0` usam isso com o mesmo valor crítico. Para a
+# DERIVADA nada muda: deslocar a curva por uma constante não mexe na inclinação.
+ep_do_m0 <- function(colapsado) {
+  dy <- colapsado[, .(dy = y[periodo == 2L][1] - y[periodo == 1L][1], dose = dose[1]), by = id]
+  z <- dy[dose == 0 & is.finite(dy), dy]
+  if (length(z) < 2) return(NA_real_)
+  sd(z) / sqrt(length(z))
+}
+
+grava_tidy <- function(obj, arquivo, alvo = "level", extra = list(), ep_m0 = NA_real_) {
   # ⚠️ DUAS CLASSES DE OBJETO, e confundi-las era o que quebrava o event study.
   # A curva (`aggregation = "dose"`) devolve `dose_obj`, com campos `att.d`.
   # O event study (`aggregation = "eventstudy"`) devolve `pte_results`, cuja
@@ -441,11 +484,35 @@ grava_tidy <- function(obj, arquivo, alvo = "level", extra = list()) {
   tidy[, ic_inf := estimativa - valor_critico * erro_padrao]
   tidy[, ic_sup := estimativa + valor_critico * erro_padrao]
   tidy[, meia_largura := valor_critico * erro_padrao]
+  if (alvo == "level" && is.finite(ep_m0)) {
+    tidy[, ep_m0 := ep_m0]
+    tidy[, ic_inf_m0 := estimativa - valor_critico * sqrt(erro_padrao^2 + ep_m0^2)]
+    tidy[, ic_sup_m0 := estimativa + valor_critico * sqrt(erro_padrao^2 + ep_m0^2)]
+    fora_pacote <- tidy[ic_sup < 0 | ic_inf > 0, .N]
+    fora_m0 <- tidy[ic_sup_m0 < 0 | ic_inf_m0 > 0, .N]
+    cat(sprintf("       pontos cuja banda exclui o zero: %d de %d pela banda do pacote;\n",
+                fora_pacote, nrow(tidy)))
+    cat(sprintf("       %d de %d com o EP do grupo zero (%.2f) somado. Use a segunda.\n",
+                fora_m0, nrow(tidy), ep_m0))
+  }
   for (nome in names(extra)) tidy[[nome]] <- extra[[nome]]
   caminho <- file.path(saida, arquivo)
   data.table::fwrite(tidy, caminho)
   cat("  [ok]", caminho, "\n")
   invisible(tidy)
+}
+
+# ⚠️ FALHA DURA (auditoria de 2026-09-23). O `tryCatch` imprimia o erro e o
+# script terminava com status 0: o `make` seguia, e um CSV de rodada anterior,
+# com o mesmo nome, passava por resultado desta. Agora quem falha tem o CSV
+# antigo removido, e o script sai com status 1 no fim.
+falhas <- character(0)
+remove_antigo <- function(arquivo) {
+  caminho <- file.path(saida, arquivo)
+  if (file.exists(caminho)) {
+    file.remove(caminho)
+    cat("  [removido] CSV de rodada anterior:", caminho, "\n")
+  }
 }
 
 resultados <- list()
@@ -468,6 +535,10 @@ for (alvo in c("level", "slope")) {
     error = function(e) { cat("  [erro]", conditionMessage(e), "\n"); NULL }
   )
   resultados[[alvo]] <- res
+  if (is.null(res)) {
+    falhas <- c(falhas, alvo)
+    remove_antigo(sprintf("cgs_curva_%s__%s__d0-%s.csv", alvo, desfecho, d_zero))
+  }
   if (!is.null(res)) {
     # ⚠️ O DESFECHO ENTRA NO NOME. Sem isso, rodar o confirmatório #2
     # (óbito fetal) SOBRESCREVIA os arquivos do #1 (peso), e o único sinal
@@ -480,8 +551,8 @@ for (alvo in c("level", "slope")) {
     # Duas rodadas que se apagam são pior que uma só: dão a impressão de
     # que a sensibilidade foi feita.
     grava_tidy(res, sprintf("cgs_curva_%s__%s__d0-%s.csv", alvo, desfecho, d_zero),
-               alvo = alvo,
-               extra = list(alvo = alvo, desfecho = desfecho, exposicao = exposicao,
+               alvo = alvo, ep_m0 = ep_do_m0(colapsado),
+               extra = list(alvo = alvo, desfecho = desfecho, contraste = contraste,
                             fonte = fonte_painel))
     # O agregado — o número que vai para o texto. `overall_att` é o ATT médio
     # sobre os tratados; `overall_acrt`, o ACR médio.
@@ -553,13 +624,35 @@ for (alvo in c("level", "slope")) {
       # não significa nada para uma taxa. Aplicá-lo a `taxa_obito_fetal` daria
       # "falsifica SIM" trivialmente, porque a meia-largura de uma proporção é
       # sempre << 15. Falso conforto, e do tipo que passa despercebido.
-      if (desfecho == "peso_medio") {
-        cat(sprintf("       meia-largura do IC: %.2f g  |  piso pré-especificado: 15 g
+      # ⚠️ CORRIGIDO EM 2026-09-23 (auditoria). Até esta data a pergunta
+      # "falsifica 15 g?" olhava só a meia-largura (`1,96·EP <= 15`), que ignora
+      # o centro: IC [20; 30] passava e IC [−66,5; −5,9] não, embora o segundo
+      # exclua +15 e o primeiro não. O piso se testa como teste: benefício de
+      # 15 g ou mais é rejeitado quando o limite superior do IC de 95% fica
+      # abaixo de +15; equivalência a ±15 g é o IC de 90% dentro de (−15; +15).
+      # Para o nível (ATT agregado, não a derivada), que está em gramas.
+      if (desfecho == "peso_medio" && alvo == "level") {
+        ic_sup <- ag_est + 1.96 * ag_se
+        ic90 <- ag_est + c(-1, 1) * qnorm(0.95) * ag_se
+        cat(sprintf("       piso de 15 g da §5 — limite superior do IC 95%%: %+.2f g
+", ic_sup))
+        cat(sprintf("       benefício >= 15 g rejeitado? %s
 ",
-                    1.96 * ag_se))
-        cat(sprintf("       falsifica 15 g? %s
+                    if (ic_sup < 15) "SIM — o IC fica abaixo de +15" else "NAO"))
+        cat(sprintf("       equivalente a ±15 g (TOST, IC 90%% [%+.2f ; %+.2f])? %s
 ",
-                    if (1.96 * ag_se <= 15) "SIM" else "NAO — IC largo demais"))
+                    ic90[1], ic90[2], if (ic90[1] > -15 && ic90[2] < 15) "SIM" else "NAO"))
+        cat("       ⚠️ Sob PT, com o EP do multiplicador (otimista com 14 controles;
+")
+        cat("          o 04_robustness.py refaz com t de Welch). E é o estimando
+")
+        cat("          diluído: não diz nada do efeito onde havia avião.
+")
+      } else if (desfecho == "peso_medio") {
+        cat("       ⚠️ a derivada está em g por unidade de dose: o piso de 15 g
+")
+        cat("          (gramas de efeito) não se aplica a ela.
+")
       } else {
         cat(sprintf("       meia-largura do IC: %.4f (unidade do desfecho)
 ",
@@ -573,24 +666,18 @@ for (alvo in c("level", "slope")) {
   }
 }
 
-# ── 2. o gate do Teorema C.1 ─────────────────────────────────────────────────
+# ── 2. o que level e slope NÃO testam ───────────────────────────────────────
+# Até 2026-09-23 esta seção se chamava "diagnóstico do Teorema C.1" e mandava
+# comparar os dois arquivos. Não há diagnóstico: ver o cabeçalho.
 
 cat("\n", barra, "\n", sep = "")
-cat("2. DIAGNÓSTICO DO TEOREMA C.1 — ATT(d|d) converge com ATE(d)?\n")
+cat("2. LEVEL E SLOPE NÃO SÃO ATT E ATE\n")
 cat(barra, "\n")
-cat("PT + SPT juntas implicam ATT(d|d) = ATE(d). Divergência é INFORMAÇÃO:\n")
-cat("quer dizer que a SPT (strong parallel trends) não se sustenta, e o\n")
-cat("resultado principal migra para os limites da §5.1 — compromisso já\n")
-cat("registrado em docs/ars/03-modelagem-ensaio1.md §4.1.\n\n")
-
-if (!is.null(resultados$level) && !is.null(resultados$slope)) {
-  cat("Os dois rodaram. Compare `cgs_curva_level.csv` com `cgs_curva_slope.csv`.\n")
-  cat("⚠️ Este script NÃO decide se convergem — a leitura é sua, e o critério\n")
-  cat("   tem de estar escrito ANTES de olhar o coeficiente.\n")
-} else {
-  cat("⚠️ Ao menos um dos dois não rodou. Sem os dois, não há diagnóstico —\n")
-  cat("   e sem diagnóstico não se escolhe entre curva e limites.\n")
-}
+cat("Sob PT, a curva de nível é ATT(d|d); sob SPT, a MESMA curva é ATE(d)\n")
+cat("(CGS, Teorema C.1). Não há duas curvas para comparar, e o slope é a\n")
+cat("derivada da curva de nível, em outra unidade. Comparar os dois arquivos\n")
+cat("não testa o SPT. A implicação testável, comum a PT e SPT, é a do\n")
+cat("pré-período: scripts/estimate/10_spt_pretrend.py (falsifica, não valida).\n")
 
 # ── 3. event study (parametrico, painel mensal) ──────────────────────────────
 #
@@ -629,9 +716,14 @@ es <- tryCatch(
   ),
   error = function(e) { cat("  [erro]", conditionMessage(e), "\n"); NULL }
 )
+if (is.null(es)) {
+  falhas <- c(falhas, "eventstudy")
+  remove_antigo(sprintf("cgs_eventstudy__%s__d0-%s.csv", desfecho, d_zero))
+}
 if (!is.null(es)) {
   grava_tidy(es, sprintf("cgs_eventstudy__%s__d0-%s.csv", desfecho, d_zero),
-             extra = list(desfecho = desfecho, exposicao = exposicao, fonte = fonte_painel))
+             extra = list(desfecho = desfecho, contraste = "event study mensal, g = 2019-01",
+                          fonte = fonte_painel))
 }
 
 cat("\n", barra, "\n", sep = "")
@@ -648,3 +740,9 @@ cat("• O próximo passo é a robustez: Conley–Taber e wild-cluster bootstrap
 cat("  porque poucos clusters tratados + desfecho raro não perdoam inferência\n")
 cat("  assintótica. Ver scripts/estimate/04_robustness.py.\n")
 cat(barra, "\n")
+
+if (length(falhas) > 0) {
+  cat("\n[erro] estimação falhou em:", paste(falhas, collapse = ", "),
+      "— saindo com status 1.\n")
+  quit(status = 1)
+}
