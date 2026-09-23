@@ -116,6 +116,23 @@ Ler, nesta ordem:
 
 Os números entram nos colchetes dos textos propostos do doc 17 §7.
 
+## 3-quater. ARS, rodada 18 — o que só a máquina local faz (≈1 h 45)
+
+A Fase 1 (`docs/ars/18-medida-e-desenho-fase1-escopo.md`) espera confirmação
+para abrir a Fase 2. Três passos não dependem dela, e o proxy remoto bloqueia
+os três:
+
+1. **IN MAPA nº 2/2008** consolidada (gov.br, aviação agrícola, legislação):
+   copiar os arts. 9º–14 e os Anexos I e V para `docs/legislacao/`. Depois,
+   passar o checklist de `docs/legislacao/lai-mapa-relatorios-mensais-minuta.md`
+   §3 e protocolar o Pedido D no Fala.BR. É o item com relógio mais longo.
+2. **Relatórios de gestão da SFA-CE, 2010–2018** (gov.br, acesso à
+   informação, prestação de contas): procurar "aviação agrícola". Se houver
+   área aplicada por ano, é a série estadual que responde se a aviação cresceu
+   depois de 2006.
+3. **Calzada et al. (*JAERE*, 2023) inteiro**: de onde veio o calendário de
+   fumigação e como definiram "período intensivo" (doc 18 §3.2).
+
 ## 4. Crossref antes de qualquer `.bib` (30 min)
 
 Procedimento de `docs/referencias-verificadas.md` §7 para: Calzada, Gisbert &
@@ -130,7 +147,8 @@ texto proposto para a §7.2 já a cita). Só depois entram no `.bib`.
   fumigação, a magnitude por trimestre. Só o resumo foi lido.
 - **Camacho & Mejía** — texto completo, pendência antiga.
 - **Calendário de pulverização da banana no CE** — condição para a hipótese
-  sazonal (§6 do doc 13). Sem ele, a hipótese não se escreve.
+  sazonal (§6 do doc 13). Sem ele, a hipótese não se escreve. Os relatórios
+  mensais do Pedido D ao MAPA o dariam por município (doc 18 §3.2).
 
 ## 6. LAI — fora do Claude Code
 
@@ -138,6 +156,11 @@ texto proposto para a §7.2 já a cita). Só depois entram no `.bib`.
   §3 (art. 66 verbatim no Planalto; lei de criação da ADAGRI; objeto das
   Portarias 814/2022, 2/2024, 16/2025) → protocolar no Ceará Transparente.
 - **SEMACE (Pedidos A/B):** `docs/legislacao/lai-semace-minuta.md`.
+- **MAPA (Pedido D, 🆕 2026-09-23):** relatórios mensais de aviação agrícola
+  com operação no Ceará, 2008–2024 (IN MAPA nº 2/2008, art. 14):
+  `docs/legislacao/lai-mapa-relatorios-mensais-minuta.md` → Fala.BR. Pode ser
+  o mais valioso dos quatro: é o registro da aplicação feita, não da receita
+  nem do cadastro (doc 18 §3.1).
 
 ## 7. Para a reunião com o orientador (não decidir sozinho)
 

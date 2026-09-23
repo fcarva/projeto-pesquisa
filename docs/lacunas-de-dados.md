@@ -127,6 +127,15 @@ sabe que não é por barreira administrativa — é porque o registro federal n�
 tem profundidade histórica. A LAI à SEMACE segue valendo, e agora é a **única**
 rota para o pré-período.
 
+> ⚠️ **Corrigido em 2026-09-23 (doc 18 §3.1): "o registro federal não tem
+> profundidade histórica" vale para o SIPEAGRO, não para o MAPA.** A IN MAPA
+> nº 2/2008, art. 14, obriga todo operador aeroagrícola a entregar
+> **relatório mensal** de atividades à SFA do estado onde atuou, desde 2008.
+> Se a SFA-CE guardou os de 2010–2018, eles medem a aplicação aérea por mês,
+> e possivelmente por município. A LAI à SEMACE deixa de ser a única rota.
+> Minuta: `docs/legislacao/lai-mapa-relatorios-mensais-minuta.md` (Pedido D).
+> ⬜ Protocolo: registrar aqui número e data.
+
 ### ✅ Mas duas coisas se aproveitam
 
 **1. Um teste de *enforcement*, que a flag 3 pedia.** No arquivo de
