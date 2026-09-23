@@ -3825,3 +3825,60 @@ def test_rota3_com_municipio_de_aeronave_sem_nascimento_e_ausente(tmp_path):
     r = pd.read_csv(tmp_path / "mde_desenhos.csv").set_index("desenho")
     assert r.loc["aeronave_ce_vs_ce_sem", "veredito"] == "ausente"
     assert "239999" in r.loc["aeronave_ce_vs_ce_sem", "motivo"]
+
+
+# --------------------------------------------------------------------------
+# 14_mde_calendario.py — o desenho de calendário (ARS rodada 18, Fase 2)
+# --------------------------------------------------------------------------
+
+cal = _carrega("14_mde_calendario.py", sub="estimate")
+
+
+def test_exposicao_do_tri1_segue_a_janela_fixa_do_painel():
+    # 1º trimestre = meses t−9, t−8, t−7. Pico padrão: fevereiro a maio.
+    e = cal.exposicao_tri1([11, 10, 2, 6, 1], (2, 3, 4, 5))
+    assert list(np.round(e, 3)) == [1.0, round(2 / 3, 3), round(1 / 3, 3), 0.0, round(2 / 3, 3)]
+    # nascido em novembro: fev–abr; em junho: set–nov; em fevereiro: mai–jul
+    assert list(cal.classifica_coortes([11, 6, 2], (2, 3, 4, 5))) == ["alta", "zero", "parcial"]
+
+
+def test_hiato_recupera_uma_mudanca_plantada_so_no_municipio_certo():
+    unidades = {"230760": 200, **{f"23{i:04d}": 200 for i in range(20)}}
+    p = _painel_mde(unidades, anos=range(2015, 2019), sigma=100.0, seed=9)
+    alta = cal.classifica_coortes(p["mes"]) == "alta"
+    alvo = (p["cod_ibge6"] == "230760") & (p["ano"] >= 2017) & alta
+    p.loc[alvo, "peso_medio"] += 40.0
+    v = cal.variacao_hiato(p)
+    assert v.loc["230760", "delta_hiato"] == pytest.approx(40.0, abs=8.0)
+    outros = v.drop(index="230760")["delta_hiato"]
+    assert outros.abs().mean() < 8.0
+
+
+def test_calendario_cancela_a_heterogeneidade_que_infla_o_nivel():
+    """O mecanismo da Fase 2: tendência própria de cada município (τ) infla o
+    MDE do nível e se cancela no hiato sazonal, que é diferença dentro do
+    município. Sem sazonalidade plantada, o calendário exige δ menor."""
+    unidades = {f"23{i:04d}": 80 for i in range(120)}
+    p = _painel_mde(unidades, anos=range(2015, 2019), sigma=500.0, tau=60.0, seed=4)
+    tratados = [f"23{i:04d}" for i in range(7)]
+    r = cal.compara(p, tratados).set_index("desenho")
+    assert r.loc["nivel", "tau_g"] > 40                     # τ plantado aparece no nível
+    assert r.loc["calendario", "tau_g"] < 20                # e some no hiato
+    assert r.loc["calendario", "mde_por_unidade_g"] < r.loc["nivel", "mde_por_unidade_g"]
+    assert r.loc["calendario", "delta_minimo_f25_g"] < r.loc["nivel", "delta_minimo_f25_g"]
+    assert r.loc["nivel", "fracao_nasc_pico"] == pytest.approx(4 / 12, abs=0.01)
+
+
+def test_main_do_calendario_grava_e_recusa_entrada_invalida(tmp_path):
+    unidades = {f"23{i:04d}": 60 for i in range(40)}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades, anos=range(2015, 2019)).to_parquet(caminho, index=False)
+    base = ["--painel", str(caminho), "--out-dir", str(tmp_path),
+            "--censo", str(tmp_path / "nao.csv")]
+    assert cal.main(base) == 1                               # sem tratados, recusa
+    assert cal.main(base + ["--tratados", "230000,230001", "--meses-pico", "13"]) == 1
+    assert cal.main(base + ["--tratados", "230000,230001,230002"]) == 0
+    r = pd.read_csv(tmp_path / "mde_calendario.csv").set_index("desenho")
+    assert set(r.index) == {"nivel", "calendario"}
+    assert (r["g1"] == 3).all()
+    assert r.loc["calendario", "meses_pico"] == "2,3,4,5"

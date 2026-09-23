@@ -19,7 +19,7 @@ git fetch origin
 git switch claude/exciting-noether-17cl74
 git pull origin claude/exciting-noether-17cl74
 pip install -r requirements.txt      # openpyxl é novo
-python -m pytest tests/ -q           # esperado: 270 passed (3 exigem requirements-geo.txt)
+python -m pytest tests/ -q           # esperado: 274 passed (3 exigem requirements-geo.txt)
 ```
 
 Puxar a conversa inteira em vez de só o código: `claude --teleport
@@ -132,6 +132,25 @@ os três:
    depois de 2006.
 3. **Calzada et al. (*JAERE*, 2023) inteiro**: de onde veio o calendário de
    fumigação e como definiram "período intensivo" (doc 18 §3.2).
+
+## 3-quinquies. ARS, rodada 18, Fase 2 — o que decide as rotas (≈2 h)
+
+A Fase 2 (`docs/ars/19-medida-e-desenho-fase2-investigacao.md`) terminou com uma
+matriz de decisão e um nó: **a pulverização aérea continuou na Chapada depois de
+2011?** Em ordem:
+
+1. **Portal da Justiça Federal no Ceará:** a ação civil pública de julho de 2011
+   (MPF, MPT, MP estadual × FAPIJA, Del Monte Fresh, Frutacor, Tropical
+   Nordeste, Agrícola Famosa). Houve liminar? Sentença?
+2. **A matéria da SEDH de 11/03/2011** (reproduzida pelo SINAIT em 15/03/2011):
+   quem proibiu, por qual instrumento, com que alcance e por quanto tempo.
+3. `make mde-calendario`, e `make mde-calendario PICO=3,4,5,6` como
+   sensibilidade. Ler a coluna de δ mínimo contra os 38–89 g de Calzada et al.
+4. O artigo da "informação prévia de atuação" na IN 2/2008 (item 6 do Pedido D)
+   e o protocolo do Pedido D.
+
+Se os passos 1 e 2 mostrarem que a pulverização parou em 2011, as rotas R2 a R5
+perdem o grupo tratado, e a resposta do Ensaio 1 é a R8 (doc 19 §5).
 
 ## 4. Crossref antes de qualquer `.bib` (30 min)
 

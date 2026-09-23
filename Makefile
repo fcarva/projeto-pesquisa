@@ -61,7 +61,7 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 270 testes (3 exigem requirements-geo.txt)"
+	@echo "make teste     — 274 testes (3 exigem requirements-geo.txt)"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
@@ -71,6 +71,8 @@ ajuda:
 	@echo "make audita-sisagua — canal-água: o que quebra na série, e o que não"
 	@echo "make fronteira-geografica — os tratados estão NA divisa? (geobr)"
 	@echo "make mde-desenhos — quanto poder cada grupo tratado compra (só pré-período)"
+	@echo "make mde-calendario — MDE do desenho de calendário (1º tri no pico) contra o do nível"
+	@echo "                 (PICO=2,3,4,5 é HIPÓTESE; TRATADOS=cód,cód substitui o Censo 2006)"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
 	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
@@ -220,7 +222,7 @@ weitzman: custo-conab
 # o vizinho tinha pulverizacao aerea no pre-ban? (SINDAG diz que o RN nao tem
 # frota; o Censo Agro e quem decide.) Ver docs/ars/11-rota1-fase1-escopo.md.
 # VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
-.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos
+.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos mde-calendario
 VIZINHO ?= 24
 # ⚠️ `sufixo_das_ufs` (scripts 01 e 02) ORDENA as UFs antes de montar o nome:
 # --ufs 23 22 grava `__uf22-23`, nao `__uf23-22`. Montar o sufixo a mao como
@@ -255,6 +257,17 @@ audita-sisagua:
 mde-desenhos:
 	$(PY) scripts/estimate/13_mde_desenhos.py \
 	  --painel data/processed/nascimentos_ce_muni_mes__$(SUFIXO_UF).parquet
+
+# ⚠️ Só o pré-período, como o mde-desenhos. O calendário do pico é HIPÓTESE
+# (quadra chuvosa, por analogia com Calzada et al.) até os relatórios mensais
+# do MAPA chegarem — docs/ars/19-medida-e-desenho-fase2-investigacao.md.
+# Os tratados padrão são os do Censo 2006.
+PICO ?= 2,3,4,5
+mde-calendario:
+	$(PY) scripts/estimate/14_mde_calendario.py \
+	  --painel data/processed/nascimentos_ce_muni_mes.parquet \
+	  --censo data/processed/censo_agro_equipamento_ce.csv \
+	  --meses-pico $(PICO) $(if $(TRATADOS),--tratados $(TRATADOS),)
 
 fronteira-geografica:
 	$(PY) scripts/data_prep/16_fronteira_geografica.py --vizinhos 24 22 26

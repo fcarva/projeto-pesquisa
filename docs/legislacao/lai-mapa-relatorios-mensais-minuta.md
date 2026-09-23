@@ -101,6 +101,11 @@ fecha a rota e registra por quê.
 >    temporalidade aplicada aos relatórios mensais; e (c) da unidade que as
 >    detenha, se outra.
 >
+> 6. Cópia das **informações prévias de atuação** que a IN MAPA nº 2/2008
+>    exige das empresas (município e período de atuação, tipo de serviço e
+>    cultura a ser tratada, localização do pátio de descontaminação),
+>    referentes a operações no Estado do Ceará no mesmo período.
+>
 > **Sobre a forma:** solicito os dados **tal como constam** dos arquivos ou da
 > base, em formato aberto e legível por máquina quando existirem nesse formato
 > (CSV, XLSX ou equivalente). **Não solicito tabulação, agregação, cruzamento ou
@@ -119,6 +124,17 @@ fecha a rota e registra por quê.
 >
 > Caso as informações estejam sob competência de outro órgão, requeiro o
 > encaminhamento nos termos do art. 11, §1º, III da Lei nº 12.527/2011.
+
+**A segunda finalidade, acrescentada na Fase 2 do ARS (doc 19 §2.3).** Em
+11/03/2011 a Secretaria Especial de Direitos Humanos noticiou que as empresas
+de fruticultura da Chapada estavam proibidas de pulverizar por aeronave, e em
+julho de 2011 o MPF, o MPT e o MP estadual pediram a proibição na Justiça
+Federal. Se não houver relatório de aplicação aérea na Chapada depois de 2011,
+o tratamento de 2019 ali era nulo. O pedido mede a prática **e** data o fim
+dela.
+
+⬜ **Antes de protocolar, conferir o artigo do item 6** no texto da IN (a
+lista aparece nos trechos do índice, mas o artigo não foi lido).
 
 **Por que 2008–2024, e não só o pré-ban.** De 2008 a 2018 o registro mede o
 tratamento. De 2019 a 2024 deveria dar zero no Ceará, porque o ban vedava
