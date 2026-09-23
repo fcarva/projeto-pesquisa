@@ -19,7 +19,7 @@ git fetch origin
 git switch claude/exciting-noether-17cl74
 git pull origin claude/exciting-noether-17cl74
 pip install -r requirements.txt      # openpyxl é novo
-python -m pytest tests/ -q           # esperado: 261 passed (3 exigem requirements-geo.txt)
+python -m pytest tests/ -q           # esperado: 270 passed (3 exigem requirements-geo.txt)
 ```
 
 Puxar a conversa inteira em vez de só o código: `claude --teleport

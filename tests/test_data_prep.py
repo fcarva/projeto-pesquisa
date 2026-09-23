@@ -1714,6 +1714,134 @@ def test_primeira_diferenca_usa_a_mesma_forma_do_sieve():
     assert saida["dy"].iloc[0] == pytest.approx(250.0)
 
 
+# --- o nível, a inversão e os estratos (parecer de 2026-09-22, comentários 3 e 4)
+
+def test_nivel_e_a_diferenca_de_medias_do_binarizado():
+    """O ATT(d|d) agregado é E[dy|d>0] − E[dy|d=0]; a dose só decide o lado."""
+    dados = pd.DataFrame({"cod_ibge6": list("abcdef"),
+                          "dose": [0, 0, 0.2, 0.5, 0.9, 1.0],
+                          "dy": [10.0, 20.0, 0.0, 5.0, -5.0, 0.0]})
+    assert robust.nivel(dados) == pytest.approx(0.0 - 15.0)
+
+
+def test_jackknife_acha_o_controle_que_faz_o_nivel():
+    """Com poucos controles, um só pode fazer o número. O jackknife diz qual."""
+    rng = np.random.default_rng(5)
+    n_t, n_c = 80, 8
+    dy = np.concatenate([rng.normal(0, 5, n_t), rng.normal(0, 5, n_c)])
+    dy[-1] = 200.0                                  # um controle anômalo
+    dados = pd.DataFrame({
+        "cod_ibge6": [f"t{i}" for i in range(n_t)] + [f"c{i}" for i in range(n_c)],
+        "dose": np.concatenate([rng.uniform(0.05, 1, n_t), np.zeros(n_c)]),
+        "dy": dy})
+    r = robust.inferencia_nivel(dados, n_boot=200, seed=1)
+    assert (r["n_tratados"], r["n_controles"]) == (n_t, n_c)
+    assert r["jack_cod_max"] == "c7"                # tirá-lo sobe o nível
+    assert r["jack_max"] - r["jack_min"] > 20
+
+
+def test_perfil_mostra_quando_o_nivel_e_so_o_zero():
+    """Nível grande com faixas positivas planas: o número é a margem extensiva
+    (produtor × não produtor), não a dose — que é o que o −36 g precisa checar."""
+    rng = np.random.default_rng(3)
+    dose = np.concatenate([np.zeros(15), rng.uniform(0.01, 1, 90)])
+    dy = rng.normal(0, 1, 105)
+    dy[:15] += 30.0                                  # só o grupo zero se move
+    dados = pd.DataFrame({"cod_ibge6": [str(i) for i in range(105)], "dose": dose, "dy": dy})
+    perfil = robust.perfil_por_faixa(dados, n_faixas=3).set_index("faixa")
+    assert list(perfil["n"]) == [15, 30, 30, 30]
+    assert robust.nivel(dados) == pytest.approx(-30.0, abs=1.0)
+    positivas = perfil.loc[perfil.index != "dose = 0", "dy_medio"]
+    assert positivas.max() - positivas.min() < 1.0     # planas entre si
+    # entre produtores a dose não importa; a inclinação com os zeros dentro
+    # herda o deslocamento deles, e por isso o perfil é o que separa as duas coisas
+    assert abs(robust.estima(dados[dados["dose"] > 0])) < 2.5
+    assert abs(robust.estima(dados)) > 10
+
+
+def test_permutacao_do_rotulo_e_calibrada_sob_o_nulo():
+    rejeicoes = 0
+    for s in range(40):
+        rng = np.random.default_rng(s)
+        dados = pd.DataFrame({
+            "cod_ibge6": [str(i) for i in range(60)],
+            "dose": np.concatenate([np.zeros(15), rng.uniform(0.05, 1, 45)]),
+            "dy": rng.normal(0, 1, 60)})
+        rejeicoes += robust.inferencia_nivel(dados, n_boot=150, seed=s)["p_perm"] < 0.05
+    assert rejeicoes <= 6, f"rejeitou {rejeicoes}/40 sob o nulo (esperado ~2)"
+
+
+def test_permutacao_estratificada_nao_cruza_estratos():
+    rng = np.random.default_rng(0)
+    valores, estratos = np.arange(10.0), np.array(list("aaaaabbbbb"))
+    for _ in range(20):
+        p = robust._permuta(rng, valores, estratos)
+        assert set(p[:5]) == set(range(5)) and set(p[5:]) == set(range(5, 10))
+
+
+def test_sem_estratos_a_permutacao_reproduz_a_de_sempre():
+    """O p já reportado não pode mudar por a função ter ganho uma opção."""
+    dados = _dados_dose(n=40, efeito=2.0, seed=4)
+    novo = robust.inferencia_aleatorizacao(dados, n_perm=300, seed=9)
+    rng = np.random.default_rng(9)
+    nulos = []
+    for _ in range(300):
+        emb = dados[["dose", "dy"]].copy()
+        emb["dose"] = rng.permutation(dados["dose"].to_numpy())
+        nulos.append(robust.estima(emb))
+    beta = robust.estima(dados)
+    assert novo["p"] == pytest.approx((np.abs(np.array(nulos)) >= abs(beta)).mean())
+
+
+def test_inversao_confere_com_a_forca_bruta():
+    """Dentro do IC, a força bruta aceita; fora, rejeita. Mesma semente, mesmas
+    permutações — a versão vetorizada não pode ter mudado o teste."""
+    dados = _dados_dose(n=30, efeito=3.0, ruido=1.0, seed=8)
+    inv = robust.ic_inversao(dados, n_perm=300, seed=2)
+    beta = robust.estima(dados)
+    assert inv["ic_baixo"] < beta < inv["ic_alto"]
+    assert not inv["toca_a_borda_da_grade"]
+
+    def p_bruta(b0):
+        rng = np.random.default_rng(2)
+        ajust = dados.assign(dy=dados["dy"] - b0 * dados["dose"])
+        obs = robust.estima(ajust)
+        nulos = []
+        for _ in range(300):
+            emb = ajust[["dose", "dy"]].copy()
+            emb["dose"] = rng.permutation(dados["dose"].to_numpy())
+            nulos.append(robust.estima(emb))
+        return (np.abs(np.array(nulos)) >= abs(obs) - 1e-12).mean()
+
+    assert p_bruta((inv["ic_baixo"] + beta) / 2) > 0.05
+    assert p_bruta(inv["ic_alto"] + (inv["ic_alto"] - beta)) <= 0.05
+
+
+def test_main_do_04_grava_nivel_e_inversao(tmp_path):
+    painel = _painel_sintetico(tmp_path / "painel.parquet", n_muni=40)
+    assert robust.main(["--painel", str(painel), "--n-boot", "60",
+                        "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "robustez_inferencia.csv").iloc[0]
+    for col in ("nivel", "nivel_p_wcb", "nivel_p_perm", "nivel_jack_min",
+                "ic_inv_baixo", "ic_inv_alto"):
+        assert col in r.index and not pd.isna(r[col]), col
+    assert r["estratos"] == "global"
+    assert r["nivel_n_controles"] == 10
+
+
+def test_estratos_de_aptidao_exigem_a_coluna(tmp_path):
+    painel = _painel_sintetico(tmp_path / "painel.parquet", n_muni=40)
+    args = ["--painel", str(painel), "--n-boot", "60", "--out-dir", str(tmp_path),
+            "--estratos-aptidao", "3"]
+    assert robust.main(args) == 1                   # sem GAEZ, recusa
+    p = pd.read_parquet(painel)
+    p["aptidao_gaez"] = (p["cod_ibge6"] % 7) / 7.0
+    p.to_parquet(painel)
+    assert robust.main(args) == 0
+    r = pd.read_csv(tmp_path / "robustez_inferencia.csv").iloc[0]
+    assert r["estratos"] == "3 faixas de aptidão GAEZ"
+
+
 # --------------------------------------------------------------------------
 # 06 — receita FAO-GAEZ: os três erros que passam verdes
 # --------------------------------------------------------------------------
@@ -2683,6 +2811,9 @@ def test_holm_e_spt_sobrevivem_a_cp1252(tmp_path):
 
     assert (tmp_path / "holm_confirmatorios.csv").exists()
     assert (tmp_path / "spt_pretrend__peso_medio.csv").exists()
+    # o nível entra nos cortes placebo (parecer de 2026-09-22, comentário 4)
+    spt = pd.read_csv(tmp_path / "spt_pretrend__peso_medio.csv")
+    assert "nivel" in spt.columns and spt["nivel"].notna().all()
 
 
 def test_holm_grava_as_duas_hipoteses_confirmatorias(tmp_path):

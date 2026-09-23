@@ -47,6 +47,12 @@ e corte pós), para que o placebo seja comparável e não mais fácil por constr
 ⚠️ Este script NÃO usa o `contdid` e portanto não esbarra na limitação do sieve
 CCK, que não faz event study. É aritmética sobre o painel que já existe.
 
+⚠️ E O NÍVEL ENTRA JUNTO (2026-09-23). O comentário 4 do parecer de 2026-09-22
+pede inferência sobre o próprio ATT(d|d) agregado, e não só sobre a
+inclinação. Cada corte placebo grava também o nível (`nivel`: média de dy dos
+de dose > 0 menos a dos de dose = 0), e o relatório compara o nível real com
+os placebos. É a pergunta que o −36 g da §6.2 tem de responder.
+
 Saída: `data/processed/spt_pretrend__<desfecho>.csv`
 """
 
@@ -68,6 +74,7 @@ primeira_diferenca = _rb.primeira_diferenca
 estima = _rb.estima
 erro_padrao_ingenuo = _rb.erro_padrao_ingenuo
 inferencia_aleatorizacao = _rb.inferencia_aleatorizacao
+nivel = _rb.nivel
 _saida_utf8 = _rb._saida_utf8
 N_BOOT = _rb.N_BOOT
 SEED = _rb.SEED
@@ -155,6 +162,16 @@ def imprime(res: pd.DataFrame, desfecho: str, real: dict | None,
         if maior > n_tot * 0.5:
             print("  ⚠️ A maioria dos placebos produz inclinação tão grande quanto a")
             print("     real. O desenho não separa o efeito do ruído de pré-período.")
+        if "nivel" in res.columns and not np.isnan(real.get("nivel", np.nan)):
+            print("-" * 84)
+            print("E O NÍVEL — o ATT(d|d) agregado, que é o número da §6.2:")
+            print(f"  real {real['nivel']:+.3f}   placebos: "
+                  + ", ".join(f"{v:+.3f}" for v in res["nivel"]))
+            maior_n = (res["nivel"].abs() >= abs(real["nivel"])).sum()
+            print(f"  cortes placebo com nível ao menos tão grande em módulo: "
+                  f"{maior_n} de {n_tot}")
+            print("  ⚠️ Com poucos cortes, isto não é p-valor. É a pergunta que o")
+            print("     parecer faz ao −36 g: ele está fora do ruído de pré-período?")
     print(barra)
 
 
@@ -220,6 +237,8 @@ def main(argv: list[str] | None = None) -> int:
             "p": rnd["p"],
             "ic_baixo": rnd["ic_baixo"],
             "ic_alto": rnd["ic_alto"],
+            # o nível, que é o ATT(d|d) agregado: comentário 4 do parecer
+            "nivel": nivel(dados),
         })
 
     if not linhas:
@@ -231,7 +250,8 @@ def main(argv: list[str] | None = None) -> int:
     # o desenho real, para comparação
     reais = primeira_diferenca(painel, args.desfecho, t_pre, t_pos)
     real = {"beta": estima(reais),
-            "p": inferencia_aleatorizacao(reais, args.n_boot, args.seed)["p"]}
+            "p": inferencia_aleatorizacao(reais, args.n_boot, args.seed)["p"],
+            "nivel": nivel(reais)}
 
     imprime(res, args.desfecho, real, args.alfa)
 
