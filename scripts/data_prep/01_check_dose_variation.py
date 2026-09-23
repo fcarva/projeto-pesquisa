@@ -59,6 +59,12 @@ import pandas as pd
 
 ANOS_PRE_BAN = (2015, 2016, 2017, 2018)  # janela pré-ban (vigência em 09/01/2019)
 UF_CEARA = "23"
+# ⚠️ UFS_PADRAO existe para a Rota 1 (desenho de fronteira CE × estado vizinho).
+# O ban é ESTADUAL: só o Ceará proibiu em 2019. Um grupo de comparação fora da
+# UF 23 é a única forma de comparar municípios que tinham a MESMA agricultura
+# sob regimes regulatórios diferentes — ver docs/auditoria-mensuracao-do-tratamento.md §4.
+# O padrão continua sendo só o Ceará: nada muda para quem não passar --ufs.
+UFS_PADRAO = ("23",)
 OUT_DIR = Path("data/processed")
 # ⚠️ O VALOR da seed é arbitrário e permanece fixo para não churnar dado
 # simulado nem testes. A etiqueta antiga dizia "data de sanção" e estava
@@ -84,6 +90,16 @@ SIDRA_TABELAS = (
 # "in n3 23" = todos os municípios (n6) dentro da UF 23. Se a sua versão do
 # sidrapy não repassar essa sintaxe, troque por uma lista explícita de códigos.
 SIDRA_TERRITORIO = "in n3 23"
+
+
+def territorio_sidra(ufs=UFS_PADRAO) -> str:
+    """Recorte territorial do SIDRA para uma ou mais UFs.
+
+    `in n3 23` pede os municípios (n6) dentro da UF 23; `in n3 23,24` pede os de
+    duas UFs. A API aceita a lista separada por vírgula no mesmo parâmetro, de
+    modo que o desenho de fronteira não exige uma segunda consulta.
+    """
+    return "in n3 " + ",".join(ufs)
 
 # Dois endpoints, dois papéis. O de metadados diz QUAIS códigos existem; o de
 # valores devolve o dado. Usar o primeiro antes do segundo é o que transforma os
@@ -423,7 +439,7 @@ def imprime_verificacao(relatorio: pd.DataFrame) -> bool:
     return tudo_ok
 
 
-def carrega_pam_sidra(anos=ANOS_PRE_BAN, verificar: bool = True) -> pd.DataFrame:
+def carrega_pam_sidra(anos=ANOS_PRE_BAN, verificar: bool = True, ufs=UFS_PADRAO) -> pd.DataFrame:
     """Baixa área plantada por cultura × município do Ceará via SIDRA (PAM/IBGE).
 
     Ordem: preflight de metadados → `sidrapy` → REST direto. O preflight vem
@@ -442,35 +458,69 @@ def carrega_pam_sidra(anos=ANOS_PRE_BAN, verificar: bool = True) -> pd.DataFrame
                 "Corrija SIDRA_TABELAS antes de baixar — a consulta devolveria vazio."
             )
 
+    # ⚠️ UMA UF POR CONSULTA, e não as duas juntas. O SIDRA corta em 50.000
+    # valores por requisição: CE+RN pedem 63.180 e a resposta é 400 (Bad
+    # Request), não um resultado truncado. `in n3 23,24` é sintaxe válida — o
+    # que estoura é o tamanho. Uma UF de cada vez fica em ~31.600, e a união é
+    # conferida depois por `_confere_ufs`.
+    pedacos = [_pam_de_uma_uf(anos, uf) for uf in ufs]
+    df = pd.concat(pedacos, ignore_index=True)
+    _confere_ufs(df, ufs)
+    return df.reset_index(drop=True)
+
+
+def _pam_de_uma_uf(anos, uf: str) -> pd.DataFrame:
+    """Baixa uma UF, com o REST como reserva do sidrapy."""
     try:
-        return _pam_via_sidrapy(anos)
+        return _pam_via_sidrapy(anos, ufs=(uf,))
     except BloqueioDeRede:
         raise
     except Exception as erro:  # noqa: BLE001
-        print(f"[aviso] sidrapy falhou ({type(erro).__name__}: {erro}).")
+        print(f"[aviso] sidrapy falhou na UF {uf} ({type(erro).__name__}: {erro}).")
         print("[aviso] Tentando REST direto em apisidra.ibge.gov.br.")
-        return _pam_via_rest(anos)
+        return _pam_via_rest(anos, ufs=(uf,))
 
 
-def _consulta_sidra(spec: dict, periodo: str) -> str:
+def _consulta_sidra(spec: dict, periodo: str, ufs=UFS_PADRAO) -> str:
     """Monta o caminho de consulta do SIDRA, comum aos dois transportes."""
     return (
-        f"/t/{spec['tabela']}/n6/{SIDRA_TERRITORIO}"
+        f"/t/{spec['tabela']}/n6/{territorio_sidra(ufs)}"
         f"/v/{spec['variavel']}/c{spec['classificacao']}/all/p/{periodo}"
     )
 
 
-def _finaliza_pam(pedacos: list[pd.DataFrame], anos) -> pd.DataFrame:
+def _finaliza_pam(pedacos: list[pd.DataFrame], anos, ufs=UFS_PADRAO) -> pd.DataFrame:
     """Filtro CE + anos, comum aos dois transportes."""
     df = pd.concat(pedacos, ignore_index=True)
-    df = df[df["cod_ibge"].str.startswith(UF_CEARA)]
+    df = df[df["cod_ibge"].str.startswith(tuple(ufs))]
     df = df[df["ano"].isin(anos)]
     if df.empty:
-        raise RuntimeError("SIDRA respondeu, mas nada sobrou após o filtro CE/anos.")
+        raise RuntimeError(
+            f"SIDRA respondeu, mas nada sobrou após o filtro UF={','.join(ufs)}/anos."
+        )
+    # ⚠️ Vazio total não é o único modo de falha. Se UMA das UFs pedidas não
+    # voltar, o artefato sai com `sufixo_das_ufs` no NOME — `__uf23-24` — e
+    # conteúdo de uma UF só; o gate do script 14 então lê a ausência do vizinho
+    # como zero substantivo ("o RN não planta melão") em vez de `ausente`. Foi
+    # o que aconteceu em 2026-09-22, e é a mesma classe de erro da truncagem do
+    # bucket GAEZ: silêncio de fonte virando achado.
+    _confere_ufs(df, ufs)
     return df.reset_index(drop=True)
 
 
-def _pam_via_sidrapy(anos=ANOS_PRE_BAN) -> pd.DataFrame:
+def _confere_ufs(df: pd.DataFrame, ufs) -> None:
+    """Toda UF pedida tem de aparecer no resultado. Ausência não é zero."""
+    presentes = set(df["cod_ibge"].str[:2])
+    faltando = [uf for uf in ufs if uf not in presentes]
+    if faltando:
+        raise RuntimeError(
+            f"SIDRA respondeu, mas a(s) UF(s) {','.join(faltando)} não vieram — "
+            f"só {','.join(sorted(presentes))}. Um artefato com nome de fronteira "
+            "e conteúdo de uma UF só faria o gate ler ausência como zero."
+        )
+
+
+def _pam_via_sidrapy(anos=ANOS_PRE_BAN, ufs=UFS_PADRAO) -> pd.DataFrame:
     """Transporte primário: o pacote `sidrapy`."""
     import sidrapy  # import local: o simulado não deve exigir a dependência
 
@@ -480,7 +530,7 @@ def _pam_via_sidrapy(anos=ANOS_PRE_BAN) -> pd.DataFrame:
         bruto = sidrapy.get_table(
             table_code=spec["tabela"],
             territorial_level="6",
-            ibge_territorial_code=SIDRA_TERRITORIO,
+            ibge_territorial_code=territorio_sidra(ufs),
             variable=spec["variavel"],
             classification=spec["classificacao"],
             categories="all",
@@ -490,10 +540,10 @@ def _pam_via_sidrapy(anos=ANOS_PRE_BAN) -> pd.DataFrame:
         if bruto is None or len(bruto) <= 1:
             raise RuntimeError(f"SIDRA devolveu vazio para a tabela {spec['tabela']}.")
         pedacos.append(_sidra_para_longo(bruto, spec["grupo"]))
-    return _finaliza_pam(pedacos, anos)
+    return _finaliza_pam(pedacos, anos, ufs)
 
 
-def _pam_via_rest(anos=ANOS_PRE_BAN, timeout: int = 120) -> pd.DataFrame:
+def _pam_via_rest(anos=ANOS_PRE_BAN, timeout: int = 120, ufs=UFS_PADRAO) -> pd.DataFrame:
     """Transporte de reserva: REST direto, sem o pacote.
 
     Molde tirado do `agente_macro/collectors/ibge_collector.py` do próprio
@@ -507,7 +557,7 @@ def _pam_via_rest(anos=ANOS_PRE_BAN, timeout: int = 120) -> pd.DataFrame:
     periodo = f"{min(anos)}-{max(anos)}"
     pedacos = []
     for spec in SIDRA_TABELAS:
-        url = SIDRA_VALUES_URL + _consulta_sidra(spec, periodo)
+        url = SIDRA_VALUES_URL + _consulta_sidra(spec, periodo, ufs)
         try:
             resposta = requests.get(url, timeout=timeout)
             resposta.raise_for_status()
@@ -520,7 +570,7 @@ def _pam_via_rest(anos=ANOS_PRE_BAN, timeout: int = 120) -> pd.DataFrame:
         if not isinstance(dados, list) or len(dados) <= 1:
             raise RuntimeError(f"SIDRA devolveu vazio para a tabela {spec['tabela']}.")
         pedacos.append(_sidra_para_longo(pd.DataFrame(dados), spec["grupo"]))
-    return _finaliza_pam(pedacos, anos)
+    return _finaliza_pam(pedacos, anos, ufs)
 
 
 # Quantas linhas varrer procurando o cabeçalho num arquivo baixado à mão. O
@@ -569,7 +619,7 @@ def _tabela_a_partir_dos_rotulos(linhas: list[list], origem: Path) -> pd.DataFra
     )
 
 
-def carrega_pam_arquivo(caminhos: list[Path], anos=ANOS_PRE_BAN) -> pd.DataFrame:
+def carrega_pam_arquivo(caminhos: list[Path], anos=ANOS_PRE_BAN, ufs=UFS_PADRAO) -> pd.DataFrame:
     """Lê tabelas do SIDRA baixadas à mão (.csv / .xlsx), no formato do portal.
 
     Seguro contra o bloqueio de rede, e alinha o script 01 com os scripts 02 e
@@ -600,7 +650,7 @@ def carrega_pam_arquivo(caminhos: list[Path], anos=ANOS_PRE_BAN) -> pd.DataFrame
     # ⚠️ Era `ANOS_PRE_BAN` fixo aqui: `--anos 2010 ... 2014 --fonte arquivo`
     # filtrava para 2015–2018 e devolvia VAZIO, sem erro. A janela tem de
     # chegar até o filtro, senão a D4 não é exercitável pela rota de arquivo.
-    return _finaliza_pam(pedacos, anos)
+    return _finaliza_pam(pedacos, anos, ufs)
 
 
 # --------------------------------------------------------------------------
@@ -669,6 +719,7 @@ def carrega_pam(
     anos=ANOS_PRE_BAN,
     seed: int = SEED,
     caminhos: list[Path] | None = None,
+    ufs=UFS_PADRAO,
 ) -> tuple[pd.DataFrame, str]:
     """Dispatcher: 'sidra' | 'arquivo' | 'simulado' | 'auto'.
 
@@ -680,17 +731,17 @@ def carrega_pam(
     if fonte == "simulado":
         return simula_pam(anos, seed), "simulado"
     if fonte == "arquivo":
-        return carrega_pam_arquivo(caminhos or []), "arquivo"
+        return carrega_pam_arquivo(caminhos or [], anos, ufs), "arquivo"
     if fonte == "sidra":
-        return carrega_pam_sidra(anos), "sidra"
+        return carrega_pam_sidra(anos, ufs=ufs), "sidra"
 
     if caminhos:
         try:
-            return carrega_pam_arquivo(caminhos), "arquivo"
+            return carrega_pam_arquivo(caminhos, anos, ufs), "arquivo"
         except Exception as erro:  # noqa: BLE001
             print(f"[aviso] leitura dos arquivos falhou ({type(erro).__name__}: {erro}).")
     try:
-        return carrega_pam_sidra(anos), "sidra"
+        return carrega_pam_sidra(anos, ufs=ufs), "sidra"
     except BloqueioDeRede as erro:
         print("[aviso] SIDRA inalcançável — e o motivo NÃO é o IBGE:")
         for linha in str(erro).splitlines():
@@ -1034,6 +1085,18 @@ def imprime_relatorio(tabela: pd.DataFrame, fonte: str, anos=ANOS_PRE_BAN) -> No
 # CLI
 # --------------------------------------------------------------------------
 
+def sufixo_das_ufs(ufs, padrao=UFS_PADRAO) -> str:
+    """Sufixo de arquivo para recorte de UF não-padrão. "" quando é só o CE.
+
+    Mesma lógica do `sufixo_da_janela` logo abaixo, e pela mesma razão: sem ele
+    uma rodada `--ufs 23 24` sobrescreveria `pam_ce_muni_cultura_media__sidra.parquet`
+    com dose medida em duas UFs, e o script 05 leria o arquivo de sempre sem
+    nada acusar.
+    """
+    atual = tuple(sorted(ufs))
+    return "" if atual == tuple(sorted(padrao)) else "__uf" + "-".join(atual)
+
+
 def sufixo_da_janela(anos, padrao=ANOS_PRE_BAN) -> str:
     """Sufixo de arquivo para janela de dose não-padrão. "" quando é a padrão.
 
@@ -1107,6 +1170,12 @@ def main(argv: list[str] | None = None) -> int:
                         help="Janela que define a DOSE. ⚠️ Ver a nota sobre a D4 no "
                              "topo deste arquivo antes de mudar.")
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
+    parser.add_argument(
+        "--ufs", nargs="+", default=list(UFS_PADRAO), metavar="COD",
+        help=("Códigos IBGE de UF a consultar no SIDRA (padrão: 23 = Ceará). "
+              "Ex.: --ufs 23 24 para o desenho de fronteira CE x RN. "
+              "Recorte não-padrão grava com sufixo __uf23-24."),
+    )
     args = parser.parse_args(argv)
 
     # ⚠️ Janela não-padrão ganha sufixo no NOME. Sem isso, rodar a sensibilidade
@@ -1114,7 +1183,9 @@ def main(argv: list[str] | None = None) -> int:
     # o script 05 leria o arquivo de sempre, com conteúdo trocado, sem nada
     # acusar. É a mesma classe de erro do `__sidra` que já quebrou o E5.
     janela = tuple(sorted(args.anos))
-    sufixo_janela = sufixo_da_janela(janela)
+    ufs = tuple(str(u).strip() for u in args.ufs)
+    # O sufixo de UF segue a MESMA regra do de janela, e pela mesma razão.
+    sufixo_janela = sufixo_das_ufs(ufs) + sufixo_da_janela(janela)
 
     if args.verificar_codigos:
         try:
@@ -1127,7 +1198,7 @@ def main(argv: list[str] | None = None) -> int:
             return 2
 
     try:
-        bruto, fonte = carrega_pam(args.fonte, janela, args.seed, args.caminho)
+        bruto, fonte = carrega_pam(args.fonte, janela, args.seed, args.caminho, ufs)
     except BloqueioDeRede as erro:
         # Traceback aqui enterraria a mensagem, que é justamente a parte útil:
         # ela diz o que liberar e onde.

@@ -4,85 +4,87 @@
 # ⚠️ 'inconclusivo' NÃO é 'ausente_conferido' — ver o docstring do script e docs/legislacao/README.md §1
 # varredura de câmaras: 2026-09-21 por 09_varre_camaras.py
 # varredura de câmaras: 2026-09-21 por 09_varre_camaras.py
-cod_ibge6,municipio,prioridade,tem_lei,numero_lei,data_lei,ementa,url_fonte,data_consulta,escopo,confianca,motivo_alvo,area_max_ha,rank_melhor
-230100,Aquiraz,1,,,,,,,,nao_verificado,Manga (1º/170); Cana-de-açúcar (7º/120); Coco-da-baía* (10º/165),993.0,1
-230110,Aracati,1,,,,,,,,nao_verificado,Melão (1º/10); Melancia (1º/47); Mamão (3º/105); Castanha de caju (7º/170); Goiaba (9º/86); Manga (12º/170); Coco-da-baía* (14º/165),13771.5,1
-230220,Beberibe,1,,,,,,,,nao_verificado,Castanha de caju (1º/170); Manga (4º/170); Coco-da-baía* (6º/165); Cana-de-açúcar (12º/120),30959.25,1
-230500,Guaraciaba do Norte,1,nao,,,,https://www.cmguaraciabadonorte.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Tomate (1º/71); Cana-de-açúcar (3º/120); Mamão (8º/105); Banana (cacho) (16º/169),1500.0,1
-230535,Icapuí,1,,,,,,,,nao_verificado,Mamão (1º/105); Melancia (2º/47); Coco-da-baía* (11º/165); Castanha de caju (11º/170),10321.0,1
-230630,Itapajé,1,nao,,,,https://www.itapaje.ce.gov.br/leis.php,2026-09-21,,ausente_conferido,Banana (cacho) (1º/169),4774.0,1
-231140,Quixeramobim,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (1º/28); Milho (em grão) (10º/184),10870.0,1
-231180,Russas,1,nao,,,,https://www.camararussas.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Uva (1º/6); Goiaba (1º/86); Banana (cacho) (12º/169); Coco-da-baía* (17º/165); Rigotto et al. (2013),1101.75,1
-231210,Santana do Cariri,1,,,,,,,,nao_verificado,Abacaxi* (1º/5),36.0,1
-231230,São Benedito,1,,,,,,,,nao_verificado,Cana-de-açúcar (1º/120); Tomate (3º/71); Mamão (10º/105),2000.0,1
-231350,Trairi,1,,,,,,,,nao_verificado,Coco-da-baía* (1º/165); Mandioca (5º/172); Castanha de caju (9º/170),11870.75,1
-230230,Bela Cruz,1,,,,,,,,nao_verificado,Castanha de caju (2º/170); Mandioca (8º/172),29583.0,2
-230350,Cascavel,1,,,,,,,,nao_verificado,Manga (2º/170); Castanha de caju (3º/170); Goiaba (5º/86); Cana-de-açúcar (8º/120); Coco-da-baía* (8º/165),17645.25,2
-230655,Itarema,1,,,,,,,,nao_verificado,Coco-da-baía* (2º/165); Melancia (4º/47); Castanha de caju (8º/170); Mandioca (9º/172),12432.25,2
-230700,Jaguaruana,1,,,,,,,,nao_verificado,Sorgo (em grão) (1º/1); Cana-de-açúcar (2º/120); Goiaba (2º/86); Arroz (em casca) (3º/73); Manga (5º/170),1525.0,2
-230850,Mombaça,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (2º/28); Feijão (em grão) (13º/184); Milho (em grão) (15º/184),7344.25,2
-231340,Tianguá,1,nao,,,,https://www.camaratiangua.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Tomate (2º/71); Cana-de-açúcar (4º/120); Mamão (6º/105); Arroz (em casca) (7º/73); Banana (cacho) (14º/169); Manga (15º/170),1300.0,2
-231380,Uruburetama,1,nao,,,,https://www.camarauruburetama.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (2º/169); Manga (14º/170),3186.0,2
-231395,Varjota,1,nao,,,,https://www.camaravarjota.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Mamão (2º/105); Banana (cacho) (15º/169),839.75,2
-230020,Acaraú,1,,,,,,,,nao_verificado,Coco-da-baía* (3º/165); Goiaba (3º/86); Mandioca (10º/172),4414.25,3
-230760,Limoeiro do Norte,1,sim,1478/2009,2009-11-20,Dispõe sobre a proibição do uso de aeronaves nas pulverizações de Lavouras no município de Limoeiro do Norte. 20/11/2009,https://www.camaralimoeirodonorte.ce.gov.br/leis.php?descr=PULVERIZA%C3%87%C3%95ES,2026-09-21,total,confirmado,Melancia (3º/47); Goiaba (4º/86); Arroz (em casca) (5º/73); Banana (cacho) (6º/169); Mamão (9º/105); Rigotto et al. (2013),1857.5,3
-230810,Mauriti,1,,,,,,,,nao_verificado,Manga (3º/170); Milho (em grão) (8º/184),11473.75,3
-231130,Quixadá,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (3º/28),55.0,3
-231160,Redenção,1,nao,,,,https://www.camararedencao.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (3º/169); Arroz (em casca) (6º/73),3068.5,3
-230530,Ibiapina,1,,,,,,,,nao_verificado,Tomate (4º/71); Cana-de-açúcar (10º/120),400.0,4
-230640,Itapipoca,1,nao,,,,https://www.camaraitapipoca.ce.gov.br/,2026-09-21,,ausente_conferido,Mandioca (2º/172); Banana (cacho) (4º/169); Castanha de caju (4º/170); Coco-da-baía* (5º/165); Feijão (em grão) (5º/184); Manga (10º/170); Milho (em grão) (12º/184),15897.25,4
-231025,Paraipaba,1,,,,,,,,nao_verificado,Coco-da-baía* (4º/165); Cana-de-açúcar (5º/120); Mandioca (15º/172),3990.0,4
-231170,Reriutaba,1,,,,,,,,nao_verificado,Mamão (4º/105),171.5,4
-230423,Croatá,1,,,,,,,,nao_verificado,Tomate (5º/71),157.5,5
-230945,Ocara,1,,,,,,,,nao_verificado,Castanha de caju (5º/170),15825.0,5
-230980,Pacoti,1,nao,,,,https://www.cmpacoti.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (5º/169),1955.75,5
-231150,Quixeré,1,nao,,,,https://www.camaraquixere.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Mamão (5º/105); Melancia (5º/47); Manga (7º/170); Goiaba (7º/86); Banana (cacho) (13º/169); Coco-da-baía* (15º/165); Rigotto et al. (2013),1054.75,5
-230395,Chorozinho,1,,,,,,,,nao_verificado,Castanha de caju (6º/170),14321.5,6
-230680,Jaguaribara,1,,,,,,,,nao_verificado,Goiaba (6º/86),53.0,6
-230800,Massapê,1,,,,,,,,nao_verificado,Manga (6º/170),248.5,6
-231360,Ubajara,1,,,,,,,,nao_verificado,Tomate (6º/71); Manga (13º/170),156.25,6
-231410,Viçosa do Ceará,1,,,,,,,,nao_verificado,Arroz (em casca) (1º/73); Cana-de-açúcar (6º/120); Mandioca (16º/172),1200.0,6
-230075,Amontada,1,,,,,,,,nao_verificado,Mandioca (6º/172); Coco-da-baía* (7º/165),3438.75,7
-230140,Aratuba,1,nao,,,,https://www.camaraaratuba.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Tomate (7º/71); Banana (cacho) (8º/169),1725.25,7
-230580,Ipu,1,,,,,,,,nao_verificado,Mamão (7º/105); Manga (11º/170),110.0,7
-230840,Missão Velha,1,nao,,,,https://www.camaramissaovelha.ce.gov.br/,2026-09-21,,ausente_conferido,Banana (cacho) (7º/169); Tomate (8º/71),1742.0,7
-230370,Caucaia,1,,,,,,,,nao_verificado,Manga (8º/170); Coco-da-baía* (12º/165),823.75,8
-230960,Pacajus,1,,,,,,,,nao_verificado,Goiaba (8º/86); Mandioca (18º/172),721.5,8
-230210,Baturité,1,nao,,,,https://www.camarabaturite.ce.gov.br/leis.php,2026-09-21,,ausente_conferido,Manga (9º/170); Banana (cacho) (10º/169),1468.5,9
-230260,Camocim,1,,,,,,,,nao_verificado,Mandioca (7º/172); Coco-da-baía* (9º/165),3306.5,9
-230910,Mulungu,1,nao,,,,https://www.camaramulungu.ce.gov.br/,2026-09-21,,ausente_conferido,Banana (cacho) (9º/169),1485.5,9
-231240,São Gonçalo do Amarante,1,,,,,,,,nao_verificado,Cana-de-açúcar (9º/120); Coco-da-baía* (16º/165),511.5,9
-230425,Cruz,1,,,,,,,,nao_verificado,Castanha de caju (10º/170); Mandioca (11º/172),11713.0,10
-231010,Palmácia,1,nao,,,,https://www.cmpalmacia.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Arroz (em casca) (8º/73); Banana (cacho) (11º/169),1330.25,11
-231085,Pindoretama,1,,,,,,,,nao_verificado,Cana-de-açúcar (11º/120); Manga (17º/170),322.25,11
-231220,Santa Quitéria,1,,,,,,,,nao_verificado,Feijão (em grão) (2º/184); Milho (em grão) (2º/184); Mamão (11º/105),15923.5,11
-230195,Barreira,1,,,,,,,,nao_verificado,Castanha de caju (12º/170),10096.25,12
-230070,Alto Santo,1,,,,,,,,nao_verificado,Castanha de caju (13º/170),9090.75,13
-231020,Paracuru,1,,,,,,,,nao_verificado,Coco-da-baía* (13º/165),693.75,13
-230890,Morrinhos,1,,,,,,,,nao_verificado,Castanha de caju (14º/170); Mandioca (17º/172),8441.0,14
-231000,Palhano,1,,,,,,,,nao_verificado,Mandioca (12º/172); Castanha de caju (15º/170),8266.75,15
-230250,Brejo Santo,1,,,,,,,,nao_verificado,Manga (16º/170),73.5,16
-230445,Fortim,1,,,,,,,,nao_verificado,Castanha de caju (16º/170),8259.0,16
-230290,Capistrano,1,nao,,,,https://www.camaracapistrano.ce.gov.br/,2026-09-21,,ausente_conferido,Banana (cacho) (17º/169),712.0,17
-230780,Marco,1,,,,,,,,nao_verificado,Mandioca (13º/172); Castanha de caju (17º/170),7824.75,17
-230410,Crateús,2,,,,,,,,nao_verificado,Feijão (em grão) (1º/184); Milho (em grão) (1º/184),16306.25,1
-231195,Salitre,2,,,,,,,,nao_verificado,Mandioca (1º/172),4282.0,1
-230870,Morada Nova,2,,,,,,,,nao_verificado,Arroz (em casca) (2º/73); Feijão (em grão) (14º/184),5933.25,2
-230130,Araripe,2,,,,,,,,nao_verificado,Mandioca (3º/172),3840.0,3
-231320,Tamboril,2,,,,,,,,nao_verificado,Feijão (em grão) (3º/184); Milho (em grão) (5º/184),11975.0,3
-231330,Tauá,2,,,,,,,,nao_verificado,Milho (em grão) (3º/184); Feijão (em grão) (4º/184),13625.0,3
-230240,Boa Viagem,2,,,,,,,,nao_verificado,Milho (em grão) (4º/184); Feijão (em grão) (7º/184),12261.5,4
-230470,Granja,2,,,,,,,,nao_verificado,Mandioca (4º/172); Feijão (em grão) (12º/184),6237.5,4
-230550,Iguatu,2,,,,,,,,nao_verificado,Arroz (em casca) (4º/73),430.25,4
-231030,Parambu,2,,,,,,,,nao_verificado,Feijão (em grão) (6º/184); Milho (em grão) (6º/184),11600.0,6
-230940,Novo Oriente,2,,,,,,,,nao_verificado,Milho (em grão) (7º/184); Feijão (em grão) (9º/184),11492.5,7
-230280,Canindé,2,,,,,,,,nao_verificado,Feijão (em grão) (8º/184); Milho (em grão) (11º/184),9245.25,8
-230030,Acopiara,2,,,,,,,,nao_verificado,Milho (em grão) (9º/184); Feijão (em grão) (10º/184),11423.25,9
-230520,Hidrolândia,2,,,,,,,,nao_verificado,Feijão (em grão) (11º/184); Milho (em grão) (16º/184),7167.5,11
-231270,Senador Pompeu,2,,,,,,,,nao_verificado,Milho (em grão) (13º/184); Feijão (em grão) (18º/184),8094.5,13
-230560,Independência,2,,,,,,,,nao_verificado,Milho (em grão) (14º/184); Feijão (em grão) (17º/184),7470.0,14
-231355,Tururu,2,,,,,,,,nao_verificado,Mandioca (14º/172),1620.5,14
-230365,Catunda,2,,,,,,,,nao_verificado,Feijão (em grão) (15º/184),5883.75,15
-231050,Pedra Branca,2,,,,,,,,nao_verificado,Feijão (em grão) (16º/184); Milho (em grão) (17º/184),6823.25,16
-230540,Icó,2,,,,,,,,nao_verificado,Milho (em grão) (18º/184); Feijão (em grão) (19º/184),6755.0,18
-230660,Itatira,2,,,,,,,,nao_verificado,Milho (em grão) (19º/184),6725.0,19
+# 2026-09-22: colunas data_revogacao/fonte_revogacao — Limoeiro (Lei 1.478/2009) revogada em 20/05/2010 segundo CPT 2014 e MST 2019; ver docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5
+# 2026-09-22 (sessao remota): revogadora identificada - Lei 1.511, de 26/05/2010 (politica ambiental; revogacao num artigo do corpo, nao na ementa). 20/05/2010 (CPT) e provavel data da votacao. Texto integral a conferir - ver docs/legislacao/README.md
+cod_ibge6,municipio,prioridade,tem_lei,numero_lei,data_lei,ementa,url_fonte,data_consulta,escopo,confianca,motivo_alvo,area_max_ha,rank_melhor,data_revogacao,fonte_revogacao
+230100,Aquiraz,1,,,,,,,,nao_verificado,Manga (1º/170); Cana-de-açúcar (7º/120); Coco-da-baía* (10º/165),993.0,1,,
+230110,Aracati,1,,,,,,,,nao_verificado,Melão (1º/10); Melancia (1º/47); Mamão (3º/105); Castanha de caju (7º/170); Goiaba (9º/86); Manga (12º/170); Coco-da-baía* (14º/165),13771.5,1,,
+230220,Beberibe,1,,,,,,,,nao_verificado,Castanha de caju (1º/170); Manga (4º/170); Coco-da-baía* (6º/165); Cana-de-açúcar (12º/120),30959.25,1,,
+230500,Guaraciaba do Norte,1,nao,,,,https://www.cmguaraciabadonorte.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Tomate (1º/71); Cana-de-açúcar (3º/120); Mamão (8º/105); Banana (cacho) (16º/169),1500.0,1,,
+230535,Icapuí,1,,,,,,,,nao_verificado,Mamão (1º/105); Melancia (2º/47); Coco-da-baía* (11º/165); Castanha de caju (11º/170),10321.0,1,,
+230630,Itapajé,1,nao,,,,https://www.itapaje.ce.gov.br/leis.php,2026-09-21,,ausente_conferido,Banana (cacho) (1º/169),4774.0,1,,
+231140,Quixeramobim,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (1º/28); Milho (em grão) (10º/184),10870.0,1,,
+231180,Russas,1,nao,,,,https://www.camararussas.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Uva (1º/6); Goiaba (1º/86); Banana (cacho) (12º/169); Coco-da-baía* (17º/165); Rigotto et al. (2013),1101.75,1,,
+231210,Santana do Cariri,1,,,,,,,,nao_verificado,Abacaxi* (1º/5),36.0,1,,
+231230,São Benedito,1,,,,,,,,nao_verificado,Cana-de-açúcar (1º/120); Tomate (3º/71); Mamão (10º/105),2000.0,1,,
+231350,Trairi,1,,,,,,,,nao_verificado,Coco-da-baía* (1º/165); Mandioca (5º/172); Castanha de caju (9º/170),11870.75,1,,
+230230,Bela Cruz,1,,,,,,,,nao_verificado,Castanha de caju (2º/170); Mandioca (8º/172),29583.0,2,,
+230350,Cascavel,1,,,,,,,,nao_verificado,Manga (2º/170); Castanha de caju (3º/170); Goiaba (5º/86); Cana-de-açúcar (8º/120); Coco-da-baía* (8º/165),17645.25,2,,
+230655,Itarema,1,,,,,,,,nao_verificado,Coco-da-baía* (2º/165); Melancia (4º/47); Castanha de caju (8º/170); Mandioca (9º/172),12432.25,2,,
+230700,Jaguaruana,1,,,,,,,,nao_verificado,Sorgo (em grão) (1º/1); Cana-de-açúcar (2º/120); Goiaba (2º/86); Arroz (em casca) (3º/73); Manga (5º/170),1525.0,2,,
+230850,Mombaça,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (2º/28); Feijão (em grão) (13º/184); Milho (em grão) (15º/184),7344.25,2,,
+231340,Tianguá,1,nao,,,,https://www.camaratiangua.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Tomate (2º/71); Cana-de-açúcar (4º/120); Mamão (6º/105); Arroz (em casca) (7º/73); Banana (cacho) (14º/169); Manga (15º/170),1300.0,2,,
+231380,Uruburetama,1,nao,,,,https://www.camarauruburetama.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (2º/169); Manga (14º/170),3186.0,2,,
+231395,Varjota,1,nao,,,,https://www.camaravarjota.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Mamão (2º/105); Banana (cacho) (15º/169),839.75,2,,
+230020,Acaraú,1,,,,,,,,nao_verificado,Coco-da-baía* (3º/165); Goiaba (3º/86); Mandioca (10º/172),4414.25,3,,
+230760,Limoeiro do Norte,1,sim,1478/2009,2009-11-20,Dispõe sobre a proibição do uso de aeronaves nas pulverizações de Lavouras no município de Limoeiro do Norte. 20/11/2009,https://www.camaralimoeirodonorte.ce.gov.br/leis.php?descr=PULVERIZA%C3%87%C3%95ES,2026-09-21,total,confirmado,Melancia (3º/47); Goiaba (4º/86); Arroz (em casca) (5º/73); Banana (cacho) (6º/169); Mamão (9º/105); Rigotto et al. (2013),1857.5,3,2010-05-26,"secundaria, revogadora identificada: Lei 1.511 de 26/05/2010 (Dispoe sobre a politica ambiental do municipio; camaralimoeirodonorte.ce.gov.br/leis/581) - a revogacao esta num artigo do corpo segundo Diario do Nordeste (abr/2010) e G1 (31/10/2024); CPT 2014 da 20/05/2010, provavel data da votacao; texto integral da 1.511 a conferir - ver docs/legislacao/README.md"
+230810,Mauriti,1,,,,,,,,nao_verificado,Manga (3º/170); Milho (em grão) (8º/184),11473.75,3,,
+231130,Quixadá,1,,,,,,,,nao_verificado,Algodão herbáceo (em caroço) (3º/28),55.0,3,,
+231160,Redenção,1,nao,,,,https://www.camararedencao.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (3º/169); Arroz (em casca) (6º/73),3068.5,3,,
+230530,Ibiapina,1,,,,,,,,nao_verificado,Tomate (4º/71); Cana-de-açúcar (10º/120),400.0,4,,
+230640,Itapipoca,1,nao,,,,https://www.camaraitapipoca.ce.gov.br/,2026-09-21,,ausente_conferido,Mandioca (2º/172); Banana (cacho) (4º/169); Castanha de caju (4º/170); Coco-da-baía* (5º/165); Feijão (em grão) (5º/184); Manga (10º/170); Milho (em grão) (12º/184),15897.25,4,,
+231025,Paraipaba,1,,,,,,,,nao_verificado,Coco-da-baía* (4º/165); Cana-de-açúcar (5º/120); Mandioca (15º/172),3990.0,4,,
+231170,Reriutaba,1,,,,,,,,nao_verificado,Mamão (4º/105),171.5,4,,
+230423,Croatá,1,,,,,,,,nao_verificado,Tomate (5º/71),157.5,5,,
+230945,Ocara,1,,,,,,,,nao_verificado,Castanha de caju (5º/170),15825.0,5,,
+230980,Pacoti,1,nao,,,,https://www.cmpacoti.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Banana (cacho) (5º/169),1955.75,5,,
+231150,Quixeré,1,nao,,,,https://www.camaraquixere.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Mamão (5º/105); Melancia (5º/47); Manga (7º/170); Goiaba (7º/86); Banana (cacho) (13º/169); Coco-da-baía* (15º/165); Rigotto et al. (2013),1054.75,5,,
+230395,Chorozinho,1,,,,,,,,nao_verificado,Castanha de caju (6º/170),14321.5,6,,
+230680,Jaguaribara,1,,,,,,,,nao_verificado,Goiaba (6º/86),53.0,6,,
+230800,Massapê,1,,,,,,,,nao_verificado,Manga (6º/170),248.5,6,,
+231360,Ubajara,1,,,,,,,,nao_verificado,Tomate (6º/71); Manga (13º/170),156.25,6,,
+231410,Viçosa do Ceará,1,,,,,,,,nao_verificado,Arroz (em casca) (1º/73); Cana-de-açúcar (6º/120); Mandioca (16º/172),1200.0,6,,
+230075,Amontada,1,,,,,,,,nao_verificado,Mandioca (6º/172); Coco-da-baía* (7º/165),3438.75,7,,
+230140,Aratuba,1,nao,,,,https://www.camaraaratuba.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Tomate (7º/71); Banana (cacho) (8º/169),1725.25,7,,
+230580,Ipu,1,,,,,,,,nao_verificado,Mamão (7º/105); Manga (11º/170),110.0,7,,
+230840,Missão Velha,1,nao,,,,https://www.camaramissaovelha.ce.gov.br/,2026-09-21,,ausente_conferido,Banana (cacho) (7º/169); Tomate (8º/71),1742.0,7,,
+230370,Caucaia,1,,,,,,,,nao_verificado,Manga (8º/170); Coco-da-baía* (12º/165),823.75,8,,
+230960,Pacajus,1,,,,,,,,nao_verificado,Goiaba (8º/86); Mandioca (18º/172),721.5,8,,
+230210,Baturité,1,nao,,,,https://www.camarabaturite.ce.gov.br/leis.php,2026-09-21,,ausente_conferido,Manga (9º/170); Banana (cacho) (10º/169),1468.5,9,,
+230260,Camocim,1,,,,,,,,nao_verificado,Mandioca (7º/172); Coco-da-baía* (9º/165),3306.5,9,,
+230910,Mulungu,1,nao,,,,https://www.camaramulungu.ce.gov.br/,2026-09-21,,ausente_conferido,Banana (cacho) (9º/169),1485.5,9,,
+231240,São Gonçalo do Amarante,1,,,,,,,,nao_verificado,Cana-de-açúcar (9º/120); Coco-da-baía* (16º/165),511.5,9,,
+230425,Cruz,1,,,,,,,,nao_verificado,Castanha de caju (10º/170); Mandioca (11º/172),11713.0,10,,
+231010,Palmácia,1,nao,,,,https://www.cmpalmacia.ce.gov.br/institucional/legislacao/export/?format=json&pagina=2,2026-09-21,,ausente_conferido,Arroz (em casca) (8º/73); Banana (cacho) (11º/169),1330.25,11,,
+231085,Pindoretama,1,,,,,,,,nao_verificado,Cana-de-açúcar (11º/120); Manga (17º/170),322.25,11,,
+231220,Santa Quitéria,1,,,,,,,,nao_verificado,Feijão (em grão) (2º/184); Milho (em grão) (2º/184); Mamão (11º/105),15923.5,11,,
+230195,Barreira,1,,,,,,,,nao_verificado,Castanha de caju (12º/170),10096.25,12,,
+230070,Alto Santo,1,,,,,,,,nao_verificado,Castanha de caju (13º/170),9090.75,13,,
+231020,Paracuru,1,,,,,,,,nao_verificado,Coco-da-baía* (13º/165),693.75,13,,
+230890,Morrinhos,1,,,,,,,,nao_verificado,Castanha de caju (14º/170); Mandioca (17º/172),8441.0,14,,
+231000,Palhano,1,,,,,,,,nao_verificado,Mandioca (12º/172); Castanha de caju (15º/170),8266.75,15,,
+230250,Brejo Santo,1,,,,,,,,nao_verificado,Manga (16º/170),73.5,16,,
+230445,Fortim,1,,,,,,,,nao_verificado,Castanha de caju (16º/170),8259.0,16,,
+230290,Capistrano,1,nao,,,,https://www.camaracapistrano.ce.gov.br/,2026-09-21,,ausente_conferido,Banana (cacho) (17º/169),712.0,17,,
+230780,Marco,1,,,,,,,,nao_verificado,Mandioca (13º/172); Castanha de caju (17º/170),7824.75,17,,
+230410,Crateús,2,,,,,,,,nao_verificado,Feijão (em grão) (1º/184); Milho (em grão) (1º/184),16306.25,1,,
+231195,Salitre,2,,,,,,,,nao_verificado,Mandioca (1º/172),4282.0,1,,
+230870,Morada Nova,2,,,,,,,,nao_verificado,Arroz (em casca) (2º/73); Feijão (em grão) (14º/184),5933.25,2,,
+230130,Araripe,2,,,,,,,,nao_verificado,Mandioca (3º/172),3840.0,3,,
+231320,Tamboril,2,,,,,,,,nao_verificado,Feijão (em grão) (3º/184); Milho (em grão) (5º/184),11975.0,3,,
+231330,Tauá,2,,,,,,,,nao_verificado,Milho (em grão) (3º/184); Feijão (em grão) (4º/184),13625.0,3,,
+230240,Boa Viagem,2,,,,,,,,nao_verificado,Milho (em grão) (4º/184); Feijão (em grão) (7º/184),12261.5,4,,
+230470,Granja,2,,,,,,,,nao_verificado,Mandioca (4º/172); Feijão (em grão) (12º/184),6237.5,4,,
+230550,Iguatu,2,,,,,,,,nao_verificado,Arroz (em casca) (4º/73),430.25,4,,
+231030,Parambu,2,,,,,,,,nao_verificado,Feijão (em grão) (6º/184); Milho (em grão) (6º/184),11600.0,6,,
+230940,Novo Oriente,2,,,,,,,,nao_verificado,Milho (em grão) (7º/184); Feijão (em grão) (9º/184),11492.5,7,,
+230280,Canindé,2,,,,,,,,nao_verificado,Feijão (em grão) (8º/184); Milho (em grão) (11º/184),9245.25,8,,
+230030,Acopiara,2,,,,,,,,nao_verificado,Milho (em grão) (9º/184); Feijão (em grão) (10º/184),11423.25,9,,
+230520,Hidrolândia,2,,,,,,,,nao_verificado,Feijão (em grão) (11º/184); Milho (em grão) (16º/184),7167.5,11,,
+231270,Senador Pompeu,2,,,,,,,,nao_verificado,Milho (em grão) (13º/184); Feijão (em grão) (18º/184),8094.5,13,,
+230560,Independência,2,,,,,,,,nao_verificado,Milho (em grão) (14º/184); Feijão (em grão) (17º/184),7470.0,14,,
+231355,Tururu,2,,,,,,,,nao_verificado,Mandioca (14º/172),1620.5,14,,
+230365,Catunda,2,,,,,,,,nao_verificado,Feijão (em grão) (15º/184),5883.75,15,,
+231050,Pedra Branca,2,,,,,,,,nao_verificado,Feijão (em grão) (16º/184); Milho (em grão) (17º/184),6823.25,16,,
+230540,Icó,2,,,,,,,,nao_verificado,Milho (em grão) (18º/184); Feijão (em grão) (19º/184),6755.0,18,,
+230660,Itatira,2,,,,,,,,nao_verificado,Milho (em grão) (19º/184),6725.0,19,,

@@ -78,6 +78,16 @@ OUT_DIR = Path("data/processed")
 NOME_SAIDA = "sinan_iexo_ce_muni_mes"
 SEED = 20190613          # mesma dos scripts 01–04; semente, não data do ban
 PREFIXO_ARQUIVO = "IEXOBR"
+# FTP do DATASUS — a fonte ORIGINAL, porta 21. O `pysus` 2.10 passa pelo espelho
+# DuckLake em HTTPS, que caiu em 2026-09-22. Ver docs/ars/15 §6.
+# ⚠️ FINAIS e PRELIM são DIRETÓRIOS DIFERENTES, e a diferença é substantiva:
+# em 2026-09-22 o FINAIS ia até 2022 e o PRELIM cobria 2023–2026. Dado
+# preliminar ainda é revisado, e misturá-lo com final sem dizer produziria
+# série cuja quebra viria do estágio de consolidação, não do mundo.
+FTP_DATASUS = "ftp.datasus.gov.br"
+FTP_SINAN_FINAIS = "/dissemin/publicos/SINAN/DADOS/FINAIS"
+FTP_SINAN_PRELIM = "/dissemin/publicos/SINAN/DADOS/PRELIM"
+RAW_DIR = Path("data/raw/sinan")
 CELULA_PEQUENA = 5
 
 # Conferidos contra a Nota Técnica nº 5/2026-CGVAM (§3.5). Ver o docstring.
@@ -122,6 +132,111 @@ def preflight(bloco: pd.DataFrame) -> tuple[bool, list[str]]:
     faltando = [c for c in COLUNAS_ESSENCIAIS if c not in bloco.columns]
     avisos = [c for c in COLUNAS_DESEJADAS if c not in bloco.columns]
     return (not faltando), (faltando + [f"(opcional) {c}" for c in avisos])
+
+
+def le_dbc(caminho: Path) -> pd.DataFrame:
+    """Converte um .dbc do DATASUS e devolve as colunas do desenho, como texto.
+
+    ⚠️ `encoding="latin-1"`: o DBF do DATASUS é cp1252, e ler como UTF-8 quebra
+    em campo com acento. Mesmo que o script 03 faz.
+    """
+    import tempfile
+    from dbfread import DBF
+    import pyreaddbc
+
+    with tempfile.TemporaryDirectory() as temporario:
+        dbf = Path(temporario) / f"{caminho.stem}.dbf"
+        pyreaddbc.dbc2dbf(str(caminho), str(dbf))
+        bloco = pd.DataFrame(iter(DBF(str(dbf), encoding="latin-1", load=False)))
+
+    ok, notas = preflight(bloco)
+    if not ok:
+        raise RuntimeError(f"{caminho.name}: colunas essenciais ausentes: {notas}")
+    presentes = [c for c in COLUNAS_ESSENCIAIS + COLUNAS_DESEJADAS
+                 if c in bloco.columns]
+    return bloco[presentes].astype(str)
+
+
+def baixa_iexo_ftp(anos=ANOS_PADRAO, destino=RAW_DIR, aceitar_preliminar: bool = False,
+                   timeout: int = 60) -> tuple[list[Path], list[int]]:
+    """Baixa `IEXOBR<AA>.dbc` do FTP e devolve (caminhos, anos_preliminares).
+
+    ⚠️ Procura primeiro em FINAIS. Ano que só existe em PRELIM **não entra em
+    silêncio**: sem `aceitar_preliminar`, levanta dizendo qual é e onde está.
+    Com ele, entra e volta na lista de preliminares, que o chamador usa para
+    rotular a proveniência — porque "veio do SINAN" e "veio do SINAN ainda em
+    revisão" não são a mesma afirmação.
+
+    Baixa para `.parte` e só então renomeia.
+    """
+    from ftplib import FTP
+
+    destino = Path(destino)
+    destino.mkdir(parents=True, exist_ok=True)
+    caminhos: list[Path] = []
+    preliminares: list[int] = []
+    so_em_prelim: list[int] = []
+    ausentes: list[str] = []
+
+    with FTP(FTP_DATASUS, timeout=timeout) as ftp:
+        ftp.login()
+        ftp.cwd(FTP_SINAN_FINAIS)
+        em_finais = set(ftp.nlst())
+        ftp.cwd(FTP_SINAN_PRELIM)
+        em_prelim = set(ftp.nlst())
+
+        for ano in anos:
+            nome = f"{PREFIXO_ARQUIVO}{ano % 100:02d}.dbc"
+            if nome in em_finais:
+                diretorio, preliminar = FTP_SINAN_FINAIS, False
+            elif nome in em_prelim:
+                if not aceitar_preliminar:
+                    so_em_prelim.append(ano)
+                    continue
+                diretorio, preliminar = FTP_SINAN_PRELIM, True
+            else:
+                ausentes.append(nome)
+                continue
+
+            alvo = destino / (f"prelim_{nome}" if preliminar else nome)
+            if not (alvo.exists() and alvo.stat().st_size > 0):
+                ftp.cwd(diretorio)
+                parte = alvo.with_suffix(".parte")
+                with open(parte, "wb") as fh:
+                    ftp.retrbinary(f"RETR {nome}", fh.write)
+                parte.replace(alvo)
+            caminhos.append(alvo)
+            if preliminar:
+                preliminares.append(ano)
+            marca = " (PRELIMINAR)" if preliminar else ""
+            print(f"  SINAN/IEXO {ano}: {alvo.name}{marca}")
+
+    if so_em_prelim:
+        raise RuntimeError(
+            f"Ano(s) {', '.join(map(str, so_em_prelim))} só existem em "
+            f"{FTP_SINAN_PRELIM} — o SINAN ainda os revisa. Passe "
+            "--aceitar-preliminar para usá-los assim mesmo; a proveniência "
+            "gravada no painel dirá `ftp_preliminar`."
+        )
+    if ausentes:
+        raise RuntimeError(
+            f"O FTP do DATASUS não tem: {', '.join(ausentes)} "
+            f"(procurado em FINAIS e PRELIM)."
+        )
+    if not caminhos:
+        raise RuntimeError("Nenhum arquivo IEXO baixado do FTP.")
+    return caminhos, preliminares
+
+
+def carrega_de_ftp(anos=ANOS_PADRAO, destino=RAW_DIR,
+                   aceitar_preliminar: bool = False) -> tuple[pd.DataFrame, str]:
+    """Baixa do FTP e lê. Devolve (dado, rótulo de proveniência)."""
+    caminhos, preliminares = baixa_iexo_ftp(anos, destino, aceitar_preliminar)
+    bruto = pd.concat([le_dbc(c) for c in caminhos], ignore_index=True)
+    if preliminares:
+        print(f"  ⚠️ anos preliminares no painel: {', '.join(map(str, preliminares))}")
+        return bruto, "ftp_preliminar"
+    return bruto, "ftp"
 
 
 def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
@@ -319,14 +434,29 @@ def imprime_resumo(individual: pd.DataFrame, painel: pd.DataFrame, fonte: str) -
 def main(argv: list[str] | None = None) -> int:
     _saida_utf8()
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    p.add_argument("--fonte", choices=("auto", "pysus", "simulado"), default="auto")
+    p.add_argument("--fonte", choices=("auto", "pysus", "ftp", "simulado"), default="auto")
+    p.add_argument("--raw-dir", type=Path, default=RAW_DIR,
+                   help="Cache dos .dbc baixados do FTP (padrão: data/raw/sinan).")
+    p.add_argument("--aceitar-preliminar", action="store_true",
+                   help=("Aceita ano que só existe em SINAN/DADOS/PRELIM. "
+                         "⚠️ Dado ainda em revisão; a proveniência vira "
+                         "`ftp_preliminar`."))
     p.add_argument("--anos", type=int, nargs="*", default=list(ANOS_PADRAO))
     p.add_argument("--seed", type=int, default=SEED)
     p.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = p.parse_args(argv)
 
+    def do_ftp():
+        return carrega_de_ftp(tuple(args.anos), args.raw_dir, args.aceitar_preliminar)
+
     if args.fonte == "simulado":
         bruto, fonte = simula_sinan(tuple(args.anos), args.seed), "simulado"
+    elif args.fonte == "ftp":
+        try:
+            bruto, fonte = do_ftp()
+        except Exception as erro:
+            print(f"  ✘ SINAN via FTP falhou: {erro}")
+            return 1
     else:
         try:
             bruto, fonte = carrega_de_pysus(tuple(args.anos)), "pysus"
@@ -334,8 +464,14 @@ def main(argv: list[str] | None = None) -> int:
             if args.fonte == "pysus":
                 print(f"  ✘ SINAN via pysus falhou: {erro}")
                 return 1
-            print(f"  ⚠️ pysus indisponível ({erro}); caindo no simulado.")
-            bruto, fonte = simula_sinan(tuple(args.anos), args.seed), "simulado"
+            print(f"  ⚠️ pysus indisponível ({erro}).")
+            # ⚠️ Antes do simulado, o OUTRO transporte da mesma fonte. O
+            # simulado é último recurso, não segundo — docs/ars/15 §6.
+            try:
+                bruto, fonte = do_ftp()
+            except Exception as erro_ftp:
+                print(f"  ⚠️ FTP também indisponível ({erro_ftp}); caindo no simulado.")
+                bruto, fonte = simula_sinan(tuple(args.anos), args.seed), "simulado"
 
     individual = extrai_ano_mes(classifica(filtra_ceara(bruto)))
     if individual.empty:

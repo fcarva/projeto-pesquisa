@@ -91,6 +91,13 @@ apta.* Isso não testa exclusão, que não é testável.
 
 ### 3.2 ⚠️ Limoeiro do Norte já estava tratado desde 2009
 
+> ⚠️ **Corrigido em 2026-09-22 — o título desta seção não se sustenta.** A lei
+> municipal foi **revogada em maio de 2010**, um mês após o assassinato de Zé
+> Maria do Tomé, por um artigo da Lei 1.511, de 26/05/2010, de política
+> ambiental (texto integral ainda não lido). Em 2015–2018 Limoeiro não
+> estava sob ban, e a contaminação do pré-período é nula. Ver
+> `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5.
+
 A flag deixou de ser hipótese. A **Lei Municipal 1.478, de 20/11/2009**, proíbe
 o uso de aeronaves nas pulverizações — nove anos antes da lei estadual. E o
 município é o **6º de 169** na banana: está *dentro* do grupo tratado.

@@ -61,11 +61,20 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 139 testes"
+	@echo "make teste     — 274 testes (3 exigem requirements-geo.txt)"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
 	@echo "make gaez      — aptidão FAO-GAEZ (exige rasters em data/geo/)"
+	@echo "make erro-classificacao — a flag 7 medida: VPP da dose + limite do ATT"
+	@echo "make censo-demografico — Censo 2022 (censobr): água/esgoto CE x vizinho"
+	@echo "make audita-sisagua — canal-água: o que quebra na série, e o que não"
+	@echo "make fronteira-geografica — os tratados estão NA divisa? (geobr)"
+	@echo "make mde-desenhos — quanto poder cada grupo tratado compra (só pré-período)"
+	@echo "make mde-calendario — MDE do desenho de calendário (1º tri no pico) contra o do nível"
+	@echo "                 (PICO=2,3,4,5 é HIPÓTESE; TRATADOS=cód,cód substitui o Censo 2006)"
+	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
+	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
 	@echo ""
 	@echo "variáveis: CULTURA=<nome>  DESFECHO=<coluna>  MDE=<gramas>  D_ZERO=1|4"
@@ -133,12 +142,19 @@ prespec-ok:
 	}
 	@echo "  [ok] pré-especificação FECHADA — pode rodar contra dado real."
 
+# ⚠️ NENHUM passo daqui pode cair para `simulado`. O alvo `real` existe para
+# rodar contra dado real, e `--fonte auto` termina em simulado quando a rede
+# falha — painel plausível e inventado, dentro do alvo cuja premissa é o
+# oposto. Por isso `--fonte ftp` explícito nos scripts 02, 04 e 10: é o
+# transporte que funciona (docs/ars/15 §6) e falha DURO quando não funciona.
+# A linha do 10 já era explícita (`--fonte pysus`) pela mesma razão; só mudou
+# qual transporte é o que está de pé.
 real: prespec-ok cultura-ok
-	$(PY) scripts/data_prep/02_clean_births.py       --fonte auto
+	$(PY) scripts/data_prep/02_clean_births.py       --fonte ftp
 	$(PY) scripts/data_prep/03_clean_fetal_deaths.py --fonte auto \
 	    --nascimentos data/processed/nascimentos_ce_muni_mes.parquet
-	$(PY) scripts/data_prep/04_clean_poisoning.py    --fonte auto
-	$(PY) scripts/data_prep/10_clean_sinan_iexo.py   --fonte pysus
+	$(PY) scripts/data_prep/04_clean_poisoning.py    --fonte ftp
+	$(PY) scripts/data_prep/10_clean_sinan_iexo.py   --fonte ftp
 	$(PY) scripts/data_prep/11_clean_populacao.py    --fonte sidra
 	$(PY) scripts/data_prep/01_check_dose_variation.py --verificar-codigos
 	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte sidra \
@@ -183,7 +199,7 @@ limpar:
 
 # A inversao de Weitzman e material do ENSAIO 2, nao do pipeline do Ensaio 1:
 # nao le painel, consome as constantes ja estimadas. Alvo proprio, de proposito.
-.PHONY: weitzman custo-conab equipamento
+.PHONY: weitzman custo-conab equipamento erro-classificacao
 custo-conab:
 	$(PY) scripts/data_prep/12_clean_conab_custos.py
 
@@ -192,5 +208,83 @@ custo-conab:
 equipamento:
 	$(PY) scripts/data_prep/13_censo_agro_equipamento.py
 
+# ⚠️ A flag 7, MEDIDA: sensibilidade, especificidade e VPP da dose contra a
+# medida direta de metodo, mais o limite do ATT sob misclassificacao. Roda sem
+# rede a partir dos numeros da secao 5.4; com --censo/--dose recalcula.
+erro-classificacao:
+	$(PY) scripts/estimate/12_erro_de_classificacao.py
+
 weitzman: custo-conab
 	$(PY) scripts/estimate/11_weitzman_inversao.py $(if $(BETA_MIN),--beta-min $(BETA_MIN) --beta-max $(BETA_MAX),)
+
+# --- Rota 1: desenho de fronteira CE x vizinho -----------------------------
+# ⚠️ GATE, nao estimacao. Decide se a Rota 1 e viavel ANTES de investir nela:
+# o vizinho tinha pulverizacao aerea no pre-ban? (SINDAG diz que o RN nao tem
+# frota; o Censo Agro e quem decide.) Ver docs/ars/11-rota1-fase1-escopo.md.
+# VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
+.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos mde-calendario
+VIZINHO ?= 24
+# ⚠️ `sufixo_das_ufs` (scripts 01 e 02) ORDENA as UFs antes de montar o nome:
+# --ufs 23 22 grava `__uf22-23`, nao `__uf23-22`. Montar o sufixo a mao como
+# "uf23-$(VIZINHO)" funcionava para 24 e 26 e QUEBRAVA para 22 — justamente o
+# vizinho que o gate manda tentar quando o RN reprova no G1. `$(sort ...)` e
+# lexical, e com codigos de dois digitos isso coincide com a ordem numerica.
+UFS_ORDENADAS := $(sort 23 $(VIZINHO))
+SUFIXO_UF := uf$(word 1,$(UFS_ORDENADAS))-$(word 2,$(UFS_ORDENADAS))
+
+# Censo 2022 por setor via censobr (GitHub Releases do IPEA). Triagem ESTRUTURAL
+# (agua, esgoto, poco) entre os dois lados da linha. Niveis, nao tendencias.
+censo-demografico:
+	$(PY) scripts/data_prep/15_censo_demografico.py --ufs 23 $(VIZINHO) --verificar-dicionario
+
+equipamento-vizinho:
+	$(PY) scripts/data_prep/13_censo_agro_equipamento.py --uf $(VIZINHO)
+
+# Canal-água. ⚠️ AUDITORIA, não ingestão: mede a fonte, não o efeito. O §1-ter
+# de docs/lacunas-de-dados.md suspendeu o canal, e este alvo diz exatamente o
+# que quebra — e o que NUNCA funcionou, que é a parte pior.
+.PHONY: audita-sisagua
+audita-sisagua:
+	$(PY) scripts/data_prep/17_audita_sisagua.py
+
+# ⚠️ Dimensão que o gate NÃO mede: um vizinho pode passar nos três portões e
+# não servir, porque o grupo tratado está a 300 km da divisa. Exige geobr
+# (requirements-geo.txt) e rede. Ver docs/ars/15 §7.
+# O preço de cada desenho candidato: MDE do decil (benchmark dos 33,4 g), da
+# Chapada (Limoeiro + Quixeré contra o RN) e da Rota 3 (tratado pelo método).
+# ⚠️ So pre-periodo, nada estimado; e o painel tem de ter o RN (make fronteira).
+# Ver docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §11.
+mde-desenhos:
+	$(PY) scripts/estimate/13_mde_desenhos.py \
+	  --painel data/processed/nascimentos_ce_muni_mes__$(SUFIXO_UF).parquet
+
+# ⚠️ Só o pré-período, como o mde-desenhos. O calendário do pico é HIPÓTESE
+# (quadra chuvosa, por analogia com Calzada et al.) até os relatórios mensais
+# do MAPA chegarem — docs/ars/19-medida-e-desenho-fase2-investigacao.md.
+# Os tratados padrão são os do Censo 2006.
+PICO ?= 2,3,4,5
+mde-calendario:
+	$(PY) scripts/estimate/14_mde_calendario.py \
+	  --painel data/processed/nascimentos_ce_muni_mes.parquet \
+	  --censo data/processed/censo_agro_equipamento_ce.csv \
+	  --meses-pico $(PICO) $(if $(TRATADOS),--tratados $(TRATADOS),)
+
+fronteira-geografica:
+	$(PY) scripts/data_prep/16_fronteira_geografica.py --vizinhos 24 22 26
+
+gate-fronteira:
+	$(PY) scripts/data_prep/14_gate_fronteira.py --vizinho $(VIZINHO) \
+	  --pam data/processed/pam_ce_muni_cultura_media__sidra__$(SUFIXO_UF).parquet \
+	  --painel data/processed/nascimentos_ce_muni_mes__$(SUFIXO_UF).parquet
+
+# Ingestao multi-UF + gate, na ordem. ⚠️ Nao monta painel nem estima: a
+# estrategia de identificacao nao muda sem o orientador (CLAUDE.md).
+# ⚠️ O script 02 vai de `--fonte ftp`, nao `pysus`: o pysus passa pelo espelho
+# DuckLake em HTTPS, que caiu em 2026-09-22 enquanto o FTP do DATASUS — a fonte
+# original — respondia em 0,4 s. E aqui nao pode haver queda silenciosa para
+# simulado, porque o que vem depois e um GATE. Ver docs/ars/15 §6.
+fronteira:
+	$(PY) scripts/data_prep/01_check_dose_variation.py --fonte sidra --ufs 23 $(VIZINHO)
+	$(PY) scripts/data_prep/02_clean_births.py --fonte ftp --ufs 23 $(VIZINHO)
+	$(MAKE) censo-demografico VIZINHO=$(VIZINHO)
+	$(MAKE) gate-fronteira VIZINHO=$(VIZINHO)

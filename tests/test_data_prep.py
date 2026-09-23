@@ -37,6 +37,11 @@ intox = _carrega("04_clean_poisoning.py")
 painel = _carrega("05_build_panel.py", sub="build_panel")
 robust = _carrega("04_robustness.py", sub="estimate")
 gaez = _carrega("06_build_gaez.py")
+gate = _carrega("14_gate_fronteira.py")
+misc = _carrega("12_erro_de_classificacao.py", sub="estimate")
+censo = _carrega("15_censo_demografico.py")
+fronteira = _carrega("16_fronteira_geografica.py")
+agua = _carrega("17_audita_sisagua.py")
 
 
 def _medias_e_painel(n_muni: int = 20, sd_ruido: float = 30.0, seed: int = 7):
@@ -114,6 +119,482 @@ def test_media_por_municipio_trata_ausencia_de_linha_como_zero():
     banana_11 = medias.query("cod_ibge == '2390011' and cultura == 'Banana (cacho)'")
     assert banana_11["area_ha_media"].iloc[0] == 0.0
     assert medias["cod_ibge6"].iloc[0] == "239001"  # chave de join com o SINASC
+
+
+# --------------------------------------------------------------------------
+# O transporte FTP do SINASC (02). Existe porque em 2026-09-22 o espelho HTTPS
+# que o pysus usa ficou inalcançável enquanto o FTP do DATASUS — a fonte
+# original — respondia em 0,4 s. Os testes travam o que distingue os dois.
+# --------------------------------------------------------------------------
+
+class _FTPFalso:
+    """FTP do DATASUS de mentira: lista o que existe e escreve bytes fixos."""
+
+    def __init__(self, arquivos, registro):
+        # Lista = mesma listagem em qualquer diretório. Dict {diretório: [...]}
+        # = listagens distintas, que é o que o SINAN exige: FINAIS e PRELIM são
+        # diretórios diferentes e a diferença é substantiva.
+        self._arquivos = arquivos
+        self._registro = registro
+        self._dir = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        return False
+
+    def login(self):
+        self._registro.append("login")
+
+    def cwd(self, diretorio):
+        self._registro.append(("cwd", diretorio))
+        self._dir = diretorio
+
+    def nlst(self):
+        if isinstance(self._arquivos, dict):
+            return list(self._arquivos.get(self._dir, []))
+        return list(self._arquivos)
+
+    def retrbinary(self, comando, escreve):
+        nome = comando.split()[-1]
+        self._registro.append(("retr", nome))
+        escreve(b"dbc-de-mentira")
+
+
+def _instala_ftp_falso(monkeypatch, arquivos):
+    import ftplib
+    registro = []
+    monkeypatch.setattr(
+        ftplib, "FTP", lambda host, timeout=60: _FTPFalso(arquivos, registro)
+    )
+    return registro
+
+
+def test_baixa_sinasc_ftp_traz_os_arquivos_e_nao_deixa_parte(monkeypatch, tmp_path):
+    registro = _instala_ftp_falso(monkeypatch, ["DNCE2015.dbc", "DNRN2015.dbc"])
+    caminhos = nasc.baixa_sinasc_ftp(anos=(2015,), ufs=("23", "24"), destino=tmp_path)
+
+    assert [c.name for c in caminhos] == ["DNCE2015.dbc", "DNRN2015.dbc"]
+    assert all(c.read_bytes() == b"dbc-de-mentira" for c in caminhos)
+    # O `.parte` é renomeado, nunca deixado para trás: um `.dbc` truncado no
+    # cache seria lido como arquivo bom na rodada seguinte.
+    assert list(tmp_path.glob("*.parte")) == []
+    assert ("retr", "DNCE2015.dbc") in registro
+
+
+def test_baixa_sinasc_ftp_nao_rebaixa_o_que_ja_esta_em_cache(monkeypatch, tmp_path):
+    (tmp_path / "DNCE2015.dbc").write_bytes(b"ja-estava-aqui")
+    registro = _instala_ftp_falso(monkeypatch, ["DNCE2015.dbc", "DNCE2016.dbc"])
+
+    caminhos = nasc.baixa_sinasc_ftp(anos=(2015, 2016), ufs=("23",), destino=tmp_path)
+
+    assert len(caminhos) == 2
+    baixados = [n for tipo, n in (r for r in registro if isinstance(r, tuple) and r[0] == "retr")]
+    assert baixados == ["DNCE2016.dbc"]          # só o que faltava
+    assert (tmp_path / "DNCE2015.dbc").read_bytes() == b"ja-estava-aqui"
+
+
+def test_baixa_sinasc_ftp_grita_quando_falta_ano(monkeypatch, tmp_path):
+    """Ano pedido e ausente é erro. Janela cortada pela metade não vira painel."""
+    _instala_ftp_falso(monkeypatch, ["DNCE2015.dbc"])
+    with pytest.raises(RuntimeError, match="DNCE2016.dbc"):
+        nasc.baixa_sinasc_ftp(anos=(2015, 2016), ufs=("23",), destino=tmp_path)
+
+
+def test_dispatcher_usa_o_ftp_antes_de_cair_para_o_simulado(monkeypatch):
+    """O simulado é ÚLTIMO recurso, não segundo.
+
+    Era esta ordem que faltava: com o pysus fora do ar, `auto` ia direto para
+    microdado simulado — que não é evidência — em vez de tentar o outro
+    transporte da mesma fonte.
+    """
+    def pysus_fora(anos, ufs):
+        raise RuntimeError("espelho HTTPS inalcançável")
+
+    chamou = {}
+
+    def ftp_ok(anos=None, ufs=None, destino=None):
+        chamou["ftp"] = True
+        return pd.DataFrame({"CODMUNRES": ["230440"], "DTNASC": ["01012015"],
+                             "PESO": [3200]})
+
+    monkeypatch.setattr(nasc, "carrega_de_pysus", pysus_fora)
+    monkeypatch.setattr(nasc, "carrega_de_ftp", ftp_ok)
+
+    _, fonte = nasc.carrega_nascimentos(fonte="auto", anos=(2015,), ufs=("23",))
+    assert fonte == "ftp"
+    assert chamou.get("ftp")
+
+
+def test_makefile_e_script_concordam_sobre_o_sufixo_de_uf():
+    """O Makefile montava o nome do artefato à mão, e errava para VIZINHO=22.
+
+    `sufixo_das_ufs` ORDENA as UFs: --ufs 23 22 grava `__uf22-23`. O alvo
+    `gate-fronteira` montava "uf23-$(VIZINHO)", que casava para 24 e 26 e
+    quebrava para 22 — justamente o vizinho que o gate manda tentar quando o RN
+    reprova no G1. Agora o Makefile usa $(sort ...); este teste trava os dois
+    lados juntos, porque não há `make` no ambiente de teste para rodar o alvo.
+    """
+    texto = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    # Só as linhas de receita: o comentário que explica o bug cita o nome
+    # antigo de propósito, e não é ele que o `make` executa.
+    receitas = [l for l in texto.splitlines() if not l.lstrip().startswith("#")]
+
+    # O alvo tem de usar a variável, nunca o nome montado à mão.
+    assert any("$(SUFIXO_UF).parquet" in l for l in receitas)
+    assert not any("uf23-$(VIZINHO)" in l for l in receitas)
+
+    for vizinho in ("22", "24", "26"):
+        # O que o `$(sort 23 $(VIZINHO))` do Makefile produz: sort lexical,
+        # sem repetição — reproduzido aqui em Python.
+        ordenadas = sorted({"23", vizinho})
+        do_makefile = f"uf{ordenadas[0]}-{ordenadas[1]}"
+        do_script = dose.sufixo_das_ufs(("23", vizinho)).lstrip("_")
+        assert do_makefile == do_script, (vizinho, do_makefile, do_script)
+
+
+def test_makefile_nao_usa_o_transporte_que_cai_no_gate():
+    """O alvo `fronteira` termina num GATE: queda silenciosa para simulado ali
+    produziria veredito sobre microdado inventado. Por isso `--fonte ftp`."""
+    texto = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    alvo = texto.split("fronteira:", 1)[1]
+    assert "02_clean_births.py --fonte ftp" in alvo
+    assert "02_clean_births.py --fonte pysus" not in alvo
+
+
+# --------------------------------------------------------------------------
+# O transporte FTP do SIH (04). Mesma razão do 02, com um agravante: o SIH é
+# MENSAL — 8 anos são 96 arquivos, e uma conexão reaproveitada vale muito mais.
+# --------------------------------------------------------------------------
+
+def test_baixa_sih_ftp_monta_o_nome_mensal_e_cacheia(monkeypatch, tmp_path):
+    arquivos = [f"RDCE15{m:02d}.dbc" for m in range(1, 13)]
+    (tmp_path / "RDCE1501.dbc").write_bytes(b"ja-estava-aqui")
+    registro = _instala_ftp_falso(monkeypatch, arquivos)
+
+    caminhos = intox.baixa_sih_ftp(anos=(2015,), uf="CE", destino=tmp_path)
+
+    assert len(caminhos) == 12
+    baixados = [n for r in registro if isinstance(r, tuple) and r[0] == "retr"
+                for n in [r[1]]]
+    assert "RDCE1501.dbc" not in baixados      # cache respeitado
+    assert len(baixados) == 11
+    assert list(tmp_path.glob("*.parte")) == []
+
+
+def test_baixa_sih_ftp_recusa_serie_com_mes_faltando(monkeypatch, tmp_path):
+    """Ano de 11 meses produziria queda de internações que o texto leria
+    como efeito. Mês ausente é erro, não buraco silencioso."""
+    _instala_ftp_falso(monkeypatch, [f"RDCE15{m:02d}.dbc" for m in range(1, 12)])
+    with pytest.raises(RuntimeError, match="RDCE1512.dbc"):
+        intox.baixa_sih_ftp(anos=(2015,), uf="CE", destino=tmp_path)
+
+
+def test_sih_so_pega_o_grupo_RD_pelo_nome(monkeypatch, tmp_path):
+    """ER, RJ e SP moram no mesmo diretório e são rejeição e serviços
+    profissionais — entrariam como internação que não houve."""
+    arquivos = ([f"RDCE15{m:02d}.dbc" for m in range(1, 13)]
+                + ["ERCE1501.dbc", "RJCE1501.dbc", "SPCE1501.dbc"])
+    registro = _instala_ftp_falso(monkeypatch, arquivos)
+    caminhos = intox.baixa_sih_ftp(anos=(2015,), uf="CE", destino=tmp_path)
+    assert all(c.name.startswith("RDCE") for c in caminhos)
+
+
+def test_dispatcher_do_sih_usa_ftp_antes_do_simulado(monkeypatch):
+    monkeypatch.setattr(intox, "carrega_de_pysus",
+                        lambda anos: (_ for _ in ()).throw(RuntimeError("espelho fora")))
+    monkeypatch.setattr(intox, "carrega_de_ftp",
+                        lambda anos=None, uf=None, destino=None: pd.DataFrame(
+                            {"MUNIC_RES": ["230440"], "DT_INTER": ["20150101"],
+                             "DIAG_PRINC": ["T600"]}))
+    _, fonte = intox.carrega_internacoes("auto", None, (2015,), 1)
+    assert fonte == "ftp"
+
+
+# --------------------------------------------------------------------------
+# O transporte FTP do SINAN/IEXO (10). O que ele tem de próprio é a separação
+# FINAIS x PRELIM: dado ainda em revisão não pode entrar como final em
+# silêncio, senão a quebra da série vem do estágio de consolidação.
+# --------------------------------------------------------------------------
+
+def _ftp_sinan(monkeypatch, finais, prelim):
+    return _instala_ftp_falso(monkeypatch, {
+        sinan.FTP_SINAN_FINAIS: finais,
+        sinan.FTP_SINAN_PRELIM: prelim,
+    })
+
+
+def test_iexo_prefere_finais_quando_o_ano_esta_nos_dois(monkeypatch, tmp_path):
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], ["IEXOBR15.dbc"])
+    caminhos, preliminares = sinan.baixa_iexo_ftp(anos=(2015,), destino=tmp_path)
+    assert [c.name for c in caminhos] == ["IEXOBR15.dbc"]   # sem prefixo prelim_
+    assert preliminares == []
+
+
+def test_iexo_recusa_ano_que_so_existe_em_prelim(monkeypatch, tmp_path):
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], ["IEXOBR23.dbc"])
+    with pytest.raises(RuntimeError, match="2023"):
+        sinan.baixa_iexo_ftp(anos=(2015, 2023), destino=tmp_path)
+    # E não deixa meio-resultado em disco para a rodada seguinte achar.
+    assert list(tmp_path.glob("*.parte")) == []
+
+
+def test_iexo_aceita_prelim_quando_pedido_e_marca_a_proveniencia(monkeypatch, tmp_path):
+    """Entrar é permitido; entrar sem dizer, não."""
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], ["IEXOBR23.dbc"])
+    caminhos, preliminares = sinan.baixa_iexo_ftp(
+        anos=(2015, 2023), destino=tmp_path, aceitar_preliminar=True)
+
+    assert preliminares == [2023]
+    nomes = sorted(c.name for c in caminhos)
+    assert nomes == ["IEXOBR15.dbc", "prelim_IEXOBR23.dbc"]
+
+
+def test_iexo_grita_quando_o_ano_nao_existe_em_lugar_nenhum(monkeypatch, tmp_path):
+    _ftp_sinan(monkeypatch, ["IEXOBR15.dbc"], [])
+    with pytest.raises(RuntimeError, match="IEXOBR99.dbc"):
+        sinan.baixa_iexo_ftp(anos=(1999,), destino=tmp_path)
+
+
+def test_makefile_alvo_real_nunca_cai_no_simulado():
+    """O alvo `real` roda contra dado REAL por definição.
+
+    `--fonte auto` termina em simulado quando a rede falha — painel plausível e
+    inventado dentro do alvo cuja premissa é o oposto. Os três scripts com dois
+    transportes têm de ir de `--fonte ftp`, que falha duro.
+    """
+    texto = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    linhas = texto.splitlines()
+    inicio = next(i for i, l in enumerate(linhas)
+                  if l.startswith("real: prespec-ok"))
+    receita = []
+    for l in linhas[inicio + 1:]:
+        if l and not l.startswith((chr(9), " ")):
+            break
+        receita.append(l)
+    receita = chr(10).join(receita)
+
+    for script in ("02_clean_births.py", "04_clean_poisoning.py",
+                   "10_clean_sinan_iexo.py"):
+        linha = next(l for l in receita.splitlines() if script in l)
+        assert "--fonte ftp" in linha, (script, linha)
+        assert "--fonte auto" not in linha
+
+
+# --------------------------------------------------------------------------
+# Fronteira geográfica (16). O gate do 14 mede método, suporte e registro e
+# nunca olha o mapa — e um desenho de fronteira é, antes de tudo, uma
+# afirmação geométrica. Os testes rodam sem rede: geometria sintética.
+# --------------------------------------------------------------------------
+
+def _quadrado(x0, y0, lado=10_000):
+    from shapely.geometry import box
+    return box(x0, y0, x0 + lado, y0 + lado)
+
+
+def _malha(nomes_e_caixas):
+    import geopandas as gpd
+    return gpd.GeoDataFrame(
+        {"name_muni": [n for n, _ in nomes_e_caixas],
+         "cod7": [f"23{i:05d}" for i, _ in enumerate(nomes_e_caixas)]},
+        geometry=[g for _, g in nomes_e_caixas],
+        crs=fronteira.CRS_METRICO,
+    )
+
+
+def test_adjacencia_conta_so_quem_encosta_na_divisa():
+    ce = _malha([("Encosta", _quadrado(0, 0)),
+                 ("Longe", _quadrado(100_000, 0)),
+                 ("Encosta2", _quadrado(0, 10_000))])
+    viz = _malha([("Vizinho", _quadrado(10_000, 0, 20_000))])
+
+    r = fronteira.adjacencia(ce, viz, {"2300000", "2300001"})
+    assert r["municipios_ce_na_fronteira"] == 2      # Encosta e Encosta2
+    assert r["tratados_na_fronteira"] == 1           # só Encosta é tratado E toca
+    assert r["tratados_total"] == 2
+    assert r["dist_minima_tratados_km"] == pytest.approx(0.0)
+    assert "Encosta" in r["nomes_tratados_na_fronteira"]
+
+
+def test_adjacencia_mede_em_quilometros_e_nao_em_graus():
+    """⚠️ O geobr entrega EPSG:4674, que é GEOGRÁFICO.
+
+    Medir distância sem reprojetar devolveria graus — número plausível e
+    errado, que é a classe de erro que este repositório persegue. O CRS
+    métrico é parte do contrato da função, não detalhe de implementação.
+    """
+    ce = _malha([("Tratado", _quadrado(0, 0))])
+    viz = _malha([("Vizinho", _quadrado(60_000, 0))])   # 50 km de vão
+    r = fronteira.adjacencia(ce, viz, {"2300000"})
+    assert r["dist_minima_tratados_km"] == pytest.approx(50.0, abs=0.1)
+    assert r["tratados_na_fronteira"] == 0
+
+
+def test_decil_superior_tira_o_decil_sobre_os_POSITIVOS():
+    """A divergência 17 × 19 nasceu exatamente aqui: 169 positivos -> 17,
+    não 184 municípios do estado -> 19. Ver docs/ars/15 §5."""
+    pam = pd.DataFrame({
+        "cod_ibge": [f"23{i:05d}" for i in range(20)],
+        "cultura": ["Banana (cacho)"] * 20,
+        # 10 positivos entre 20 municípios: o decil é 1, não 2
+        "area_ha_media": [100.0, 90.0] + [10.0] * 8 + [0.0] * 10,
+    })
+    assert fronteira.decil_superior(pam, "banana") == {"2300000"}
+
+
+def test_decil_superior_aceita_o_nome_longo_e_o_agregado():
+    base = {"cod_ibge": [f"23{i:05d}" for i in range(10)],
+            "cultura": ["Banana (cacho)"] * 10}
+    valores = [500.0] + [1.0] * 9
+    assert fronteira.decil_superior(
+        pd.DataFrame({**base, "area_ha_media": valores}), "banana") == {"2300000"}
+    assert fronteira.decil_superior(
+        pd.DataFrame({**base, "area_ha": valores}), "banana") == {"2300000"}
+
+
+def test_decil_superior_recusa_cultura_sem_area_positiva():
+    pam = pd.DataFrame({"cod_ibge": ["2300000"], "cultura": ["Banana (cacho)"],
+                        "area_ha_media": [0.0]})
+    with pytest.raises(ValueError, match="área positiva"):
+        fronteira.decil_superior(pam, "banana")
+
+
+def test_tabela_por_tratado_aponta_a_divisa_mais_proxima():
+    ce = _malha([("Perto do RN", _quadrado(0, 0)),
+                 ("Perto do PE", _quadrado(200_000, 0))])
+    malhas = {"CE": ce,
+              "RN": _malha([("RN", _quadrado(20_000, 0))]),
+              "PE": _malha([("PE", _quadrado(220_000, 0))])}
+    t = fronteira.tabela_por_tratado(ce, malhas, {"2300000", "2300001"},
+                                     com_aeronave={"2300000"})
+    linha = t.set_index("municipio")
+    assert linha.loc["Perto do RN", "fronteira_mais_proxima"] == "RN"
+    assert linha.loc["Perto do PE", "fronteira_mais_proxima"] == "PE"
+    assert bool(linha.loc["Perto do RN", "tem_aeronave_2006"]) is True
+    assert bool(linha.loc["Perto do PE", "tem_aeronave_2006"]) is False
+
+
+def test_fronteira_recusa_o_ceara_como_vizinho_e_uf_sem_sigla():
+    assert fronteira.main(["--vizinhos", "23"]) == 1
+    assert fronteira.main(["--vizinhos", "99"]) == 1
+
+
+# --------------------------------------------------------------------------
+# O transporte FTP do DOFET (03). Era `curl` em subprocesso, um processo por
+# arquivo, exigindo curl no PATH; alinhado aos scripts 02, 04 e 10 em
+# 2026-09-22. O teste trava também a MUDANÇA de comportamento: ano ausente
+# levanta, onde antes avisava e seguia.
+# --------------------------------------------------------------------------
+
+def test_baixa_dofet_ftp_usa_uma_conexao_e_respeita_o_cache(monkeypatch, tmp_path):
+    (tmp_path / "DOFET15.dbc").write_bytes(b"ja-estava-aqui")
+    registro = _instala_ftp_falso(monkeypatch, ["DOFET15.dbc", "DOFET16.dbc"])
+
+    caminhos = fetal.baixa_dofet_ftp(anos=(2015, 2016), destino=tmp_path)
+
+    assert [c.name for c in caminhos] == ["DOFET15.dbc", "DOFET16.dbc"]
+    baixados = [r[1] for r in registro if isinstance(r, tuple) and r[0] == "retr"]
+    assert baixados == ["DOFET16.dbc"]                 # o de 2015 veio do cache
+    assert registro.count("login") == 1                # UMA conexão, não uma por ano
+    assert list(tmp_path.glob("*.parte")) == []
+
+
+def test_baixa_dofet_ftp_grita_em_vez_de_encurtar_a_serie(monkeypatch, tmp_path):
+    """A versão com `curl` fazia `continue` num ano indisponível.
+
+    Uma janela de 8 anos que voltasse com 6 produziria série curta sem nada
+    acusar — e o óbito fetal é o desfecho que a flag 6 põe em primeira linha.
+    """
+    _instala_ftp_falso(monkeypatch, ["DOFET15.dbc"])
+    with pytest.raises(RuntimeError, match="DOFET16.dbc"):
+        fetal.baixa_dofet_ftp(anos=(2015, 2016), destino=tmp_path)
+
+
+# --------------------------------------------------------------------------
+# Auditoria do canal-água (17). O §1-ter das lacunas suspendeu o canal com o
+# alerta certo e a explicação errada; estes testes travam as três distinções
+# que a explicação apagava.
+# --------------------------------------------------------------------------
+
+def _sisagua(linhas):
+    """Registros crus no formato do CSV do SISAGUA (texto, vírgula decimal)."""
+    return pd.DataFrame(linhas, columns=[
+        "UF", "Ano", "Parâmetro (demais parâmetros)", "LD", "LQ", "Resultado"])
+
+
+def test_prepara_separa_as_TRES_categorias_de_resultado():
+    """⚠️ São três, não duas. O §1-ter só cita MENOR_LQ, e MENOR_LD é a maior
+    — tratar as duas como uma apaga a distinção que a auditoria precisa."""
+    bruto = _sisagua([
+        ("CE", "2015", "Atrazina - VMP: 2,0 ug/L", "0,1", "0,3", "0,87"),
+        ("CE", "2015", "Atrazina - VMP: 2,0 ug/L", "0,1", "0,3", "MENOR_LD"),
+        ("CE", "2020", "Atrazina - VMP: 2,0 ug/L", "0,1", "0,3", "MENOR_LQ"),
+    ])
+    pronto = agua.prepara(bruto)
+    assert list(pronto["categoria"]) == ["numerico", "MENOR_LD", "MENOR_LQ"]
+    assert pronto["resultado_num"].tolist()[0] == pytest.approx(0.87)
+    assert pronto["resultado_num"].isna().sum() == 2       # categoria não é zero
+    assert pronto["molecula"].unique().tolist() == ["Atrazina"]
+
+
+def test_prepara_nao_transforma_categoria_em_zero():
+    """MENOR_LD virar 0,0 seria o erro que inventa o efeito: 'não detectado'
+    e 'detectado em zero' viram a mesma coisa, e a série ganha variância que
+    não existe."""
+    pronto = agua.prepara(_sisagua([("CE", "2021", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")]))
+    assert pd.isna(pronto["resultado_num"].iloc[0])
+
+
+def test_teste_censura_mostra_que_o_sumico_nao_e_de_sensibilidade():
+    """O teste decisivo: as detecções antigas sobreviveriam ao LQ posterior?
+
+    Aqui três das quatro estão acima do LQ do regime seguinte (0,3). Se o zero
+    posterior fosse censura, elas teriam de reaparecer.
+    """
+    bruto = _sisagua(
+        [("CE", str(a), "Atrazina - VMP: 2", "0,1", "0,3", v)
+         for a, v in [(2015, "0,87"), (2016, "0,50"), (2017, "0,40"), (2018, "0,05")]]
+        + [("CE", str(a), "Atrazina - VMP: 2", "0,1", "0,3", "MENOR_LD")
+           for a in (2020, 2021, 2022, 2023)])
+    r = agua.teste_censura(agua.prepara(bruto), "CE")
+    assert r["n_deteccoes_pre"] == 4
+    assert r["lq_mediano_regime_quebra"] == pytest.approx(0.3)
+    assert r["pct_sobreviveria_ao_lq"] == pytest.approx(75.0)   # 3 de 4
+    assert r["pct_abaixo_do_proprio_lq"] == pytest.approx(25.0)  # só a de 0,05
+
+
+def test_limites_por_ano_expoe_mudanca_de_sensibilidade():
+    """O que o §1-ter não mediu: se o LQ tivesse subido, haveria explicação
+    analítica. Aqui ele CAI, que é o caso real de 2024 (0,30 -> 0,0101)."""
+    bruto = _sisagua([("CE", "2022", "X - VMP: 1", "0,1", "0,3", "MENOR_LD"),
+                      ("CE", "2024", "X - VMP: 1", "0,0031", "0,0101", "0,02")])
+    lim = agua.limites_por_ano(agua.prepara(bruto), "CE").set_index("ano")
+    assert lim.loc[2022, "lq_mediana"] == pytest.approx(0.3)
+    assert lim.loc[2024, "lq_mediana"] == pytest.approx(0.0101)
+
+
+def test_ufs_que_zeram_desfaz_o_fenomeno_so_cearense():
+    """O §1-ter dizia 'não é fenômeno nacional'. Zerar o numérico é comum —
+    e é isso que este recorte mostra."""
+    bruto = _sisagua(
+        [("CE", "2020", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")] * 2
+        + [("PB", "2020", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")] * 2
+        + [("SP", "2020", "X - VMP: 1", "0,1", "0,3", "0,5")] * 2)
+    z = agua.ufs_que_zeram(agua.prepara(bruto)).set_index("ano")
+    assert z.loc[2020, "ufs_com_dado"] == 3
+    assert z.loc[2020, "ufs_com_zero_numerico"] == 2
+    assert "CE" in z.loc[2020, "quais"] and "PB" in z.loc[2020, "quais"]
+
+
+def test_composicao_separa_a_uf_do_resto_do_pais():
+    bruto = _sisagua(
+        [("CE", "2019", "X - VMP: 1", "0,1", "0,3", "0,5")]
+        + [("CE", "2019", "X - VMP: 1", "0,1", "0,3", "MENOR_LD")] * 9
+        + [("SP", "2019", "X - VMP: 1", "0,1", "0,3", "0,5")] * 5)
+    c = agua.composicao_por_ano(agua.prepara(bruto), "CE").set_index("grupo")
+    assert c.loc["CE", "pct_numerico"] == pytest.approx(10.0)
+    assert c.loc["resto do BR", "pct_numerico"] == pytest.approx(100.0)
 
 
 def test_dispersao_separa_cv_com_e_sem_zeros():
@@ -1233,6 +1714,134 @@ def test_primeira_diferenca_usa_a_mesma_forma_do_sieve():
     assert saida["dy"].iloc[0] == pytest.approx(250.0)
 
 
+# --- o nível, a inversão e os estratos (parecer de 2026-09-22, comentários 3 e 4)
+
+def test_nivel_e_a_diferenca_de_medias_do_binarizado():
+    """O ATT(d|d) agregado é E[dy|d>0] − E[dy|d=0]; a dose só decide o lado."""
+    dados = pd.DataFrame({"cod_ibge6": list("abcdef"),
+                          "dose": [0, 0, 0.2, 0.5, 0.9, 1.0],
+                          "dy": [10.0, 20.0, 0.0, 5.0, -5.0, 0.0]})
+    assert robust.nivel(dados) == pytest.approx(0.0 - 15.0)
+
+
+def test_jackknife_acha_o_controle_que_faz_o_nivel():
+    """Com poucos controles, um só pode fazer o número. O jackknife diz qual."""
+    rng = np.random.default_rng(5)
+    n_t, n_c = 80, 8
+    dy = np.concatenate([rng.normal(0, 5, n_t), rng.normal(0, 5, n_c)])
+    dy[-1] = 200.0                                  # um controle anômalo
+    dados = pd.DataFrame({
+        "cod_ibge6": [f"t{i}" for i in range(n_t)] + [f"c{i}" for i in range(n_c)],
+        "dose": np.concatenate([rng.uniform(0.05, 1, n_t), np.zeros(n_c)]),
+        "dy": dy})
+    r = robust.inferencia_nivel(dados, n_boot=200, seed=1)
+    assert (r["n_tratados"], r["n_controles"]) == (n_t, n_c)
+    assert r["jack_cod_max"] == "c7"                # tirá-lo sobe o nível
+    assert r["jack_max"] - r["jack_min"] > 20
+
+
+def test_perfil_mostra_quando_o_nivel_e_so_o_zero():
+    """Nível grande com faixas positivas planas: o número é a margem extensiva
+    (produtor × não produtor), não a dose — que é o que o −36 g precisa checar."""
+    rng = np.random.default_rng(3)
+    dose = np.concatenate([np.zeros(15), rng.uniform(0.01, 1, 90)])
+    dy = rng.normal(0, 1, 105)
+    dy[:15] += 30.0                                  # só o grupo zero se move
+    dados = pd.DataFrame({"cod_ibge6": [str(i) for i in range(105)], "dose": dose, "dy": dy})
+    perfil = robust.perfil_por_faixa(dados, n_faixas=3).set_index("faixa")
+    assert list(perfil["n"]) == [15, 30, 30, 30]
+    assert robust.nivel(dados) == pytest.approx(-30.0, abs=1.0)
+    positivas = perfil.loc[perfil.index != "dose = 0", "dy_medio"]
+    assert positivas.max() - positivas.min() < 1.0     # planas entre si
+    # entre produtores a dose não importa; a inclinação com os zeros dentro
+    # herda o deslocamento deles, e por isso o perfil é o que separa as duas coisas
+    assert abs(robust.estima(dados[dados["dose"] > 0])) < 2.5
+    assert abs(robust.estima(dados)) > 10
+
+
+def test_permutacao_do_rotulo_e_calibrada_sob_o_nulo():
+    rejeicoes = 0
+    for s in range(40):
+        rng = np.random.default_rng(s)
+        dados = pd.DataFrame({
+            "cod_ibge6": [str(i) for i in range(60)],
+            "dose": np.concatenate([np.zeros(15), rng.uniform(0.05, 1, 45)]),
+            "dy": rng.normal(0, 1, 60)})
+        rejeicoes += robust.inferencia_nivel(dados, n_boot=150, seed=s)["p_perm"] < 0.05
+    assert rejeicoes <= 6, f"rejeitou {rejeicoes}/40 sob o nulo (esperado ~2)"
+
+
+def test_permutacao_estratificada_nao_cruza_estratos():
+    rng = np.random.default_rng(0)
+    valores, estratos = np.arange(10.0), np.array(list("aaaaabbbbb"))
+    for _ in range(20):
+        p = robust._permuta(rng, valores, estratos)
+        assert set(p[:5]) == set(range(5)) and set(p[5:]) == set(range(5, 10))
+
+
+def test_sem_estratos_a_permutacao_reproduz_a_de_sempre():
+    """O p já reportado não pode mudar por a função ter ganho uma opção."""
+    dados = _dados_dose(n=40, efeito=2.0, seed=4)
+    novo = robust.inferencia_aleatorizacao(dados, n_perm=300, seed=9)
+    rng = np.random.default_rng(9)
+    nulos = []
+    for _ in range(300):
+        emb = dados[["dose", "dy"]].copy()
+        emb["dose"] = rng.permutation(dados["dose"].to_numpy())
+        nulos.append(robust.estima(emb))
+    beta = robust.estima(dados)
+    assert novo["p"] == pytest.approx((np.abs(np.array(nulos)) >= abs(beta)).mean())
+
+
+def test_inversao_confere_com_a_forca_bruta():
+    """Dentro do IC, a força bruta aceita; fora, rejeita. Mesma semente, mesmas
+    permutações — a versão vetorizada não pode ter mudado o teste."""
+    dados = _dados_dose(n=30, efeito=3.0, ruido=1.0, seed=8)
+    inv = robust.ic_inversao(dados, n_perm=300, seed=2)
+    beta = robust.estima(dados)
+    assert inv["ic_baixo"] < beta < inv["ic_alto"]
+    assert not inv["toca_a_borda_da_grade"]
+
+    def p_bruta(b0):
+        rng = np.random.default_rng(2)
+        ajust = dados.assign(dy=dados["dy"] - b0 * dados["dose"])
+        obs = robust.estima(ajust)
+        nulos = []
+        for _ in range(300):
+            emb = ajust[["dose", "dy"]].copy()
+            emb["dose"] = rng.permutation(dados["dose"].to_numpy())
+            nulos.append(robust.estima(emb))
+        return (np.abs(np.array(nulos)) >= abs(obs) - 1e-12).mean()
+
+    assert p_bruta((inv["ic_baixo"] + beta) / 2) > 0.05
+    assert p_bruta(inv["ic_alto"] + (inv["ic_alto"] - beta)) <= 0.05
+
+
+def test_main_do_04_grava_nivel_e_inversao(tmp_path):
+    painel = _painel_sintetico(tmp_path / "painel.parquet", n_muni=40)
+    assert robust.main(["--painel", str(painel), "--n-boot", "60",
+                        "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "robustez_inferencia.csv").iloc[0]
+    for col in ("nivel", "nivel_p_wcb", "nivel_p_perm", "nivel_jack_min",
+                "ic_inv_baixo", "ic_inv_alto"):
+        assert col in r.index and not pd.isna(r[col]), col
+    assert r["estratos"] == "global"
+    assert r["nivel_n_controles"] == 10
+
+
+def test_estratos_de_aptidao_exigem_a_coluna(tmp_path):
+    painel = _painel_sintetico(tmp_path / "painel.parquet", n_muni=40)
+    args = ["--painel", str(painel), "--n-boot", "60", "--out-dir", str(tmp_path),
+            "--estratos-aptidao", "3"]
+    assert robust.main(args) == 1                   # sem GAEZ, recusa
+    p = pd.read_parquet(painel)
+    p["aptidao_gaez"] = (p["cod_ibge6"] % 7) / 7.0
+    p.to_parquet(painel)
+    assert robust.main(args) == 0
+    r = pd.read_csv(tmp_path / "robustez_inferencia.csv").iloc[0]
+    assert r["estratos"] == "3 faixas de aptidão GAEZ"
+
+
 # --------------------------------------------------------------------------
 # 06 — receita FAO-GAEZ: os três erros que passam verdes
 # --------------------------------------------------------------------------
@@ -1606,6 +2215,25 @@ def test_mesclar_preserva_o_levantamento_manual(tmp_path):
     assert linha["confianca"] == "confirmado"
 
 
+def test_mescla_preserva_a_revogacao(tmp_path):
+    """A coluna de revogação é achado manual, como a lei: uma nova rodada do
+    08 não pode apagá-la — e o `COLUNAS` fixo apagaria, se ela não estivesse
+    na lista."""
+    destino = tmp_path / "bans.csv"
+    primeira = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
+    assert {"data_revogacao", "fonte_revogacao"} <= set(primeira.columns)
+    alvo = primeira.loc[0, "cod_ibge6"]
+    primeira.loc[0, ["tem_lei", "confianca", "data_revogacao", "fonte_revogacao"]] = \
+        ["sim", "confirmado", "2010-05-20", "secundaria: teste"]
+    primeira.to_csv(destino, index=False)
+
+    segunda = alvos.mescla_com_existente(
+        alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {}), destino)
+    linha = segunda[segunda.cod_ibge6 == alvo].iloc[0]
+    assert linha["data_revogacao"] == "2010-05-20"
+    assert linha["fonte_revogacao"] == "secundaria: teste"
+
+
 def test_semente_nao_sobrescreve_varredura_posterior():
     """A semente do Limoeiro preenche o branco, não corrige quem já olhou."""
     base = alvos.monta_alvos(alvos.decil_superior(_pam_sintetico(50)), {})
@@ -1752,6 +2380,65 @@ def test_sem_arquivo_de_bans_o_painel_ainda_monta(tmp_path):
     medias, nasc = _medias_e_painel()
     p = painel.monta_painel(medias, "Melão", nasc, bans=b)
     assert (p["ban_municipal_confianca"] == "nao_verificado").all()
+
+
+def test_ban_revogado_nao_esta_vigente_no_pre_periodo(tmp_path):
+    """⚠️ A regressão de 2026-09-22. Lei achada não é lei vigente: a de
+    Limoeiro (2009) foi revogada em 20/05/2010, e sem a data de revogação o
+    painel dizia "tratado desde 2009" — contaminando um pré-período que não
+    estava contaminado."""
+    c = _csv_bans(tmp_path, [
+        {"cod_ibge6": "230760", "data_lei": "2009-11-20", "confianca": "confirmado",
+         "data_revogacao": "2010-05-20"},
+        {"cod_ibge6": "230999", "data_lei": "2012-03-01", "confianca": "confirmado",
+         "data_revogacao": ""},
+    ])
+    b = painel.carrega_bans_municipais(c).set_index("cod_ibge6")
+    assert b.loc["230760", "ban_municipal_revogado_em"] == pd.Timestamp("2010-05-20")
+    assert pd.isna(b.loc["230999", "ban_municipal_revogado_em"])
+    vigente = painel.ban_vigente_em(b, "2015-01-01")
+    assert not vigente.loc["230760"]      # revogado antes do pré-período
+    assert vigente.loc["230999"]          # sem revogação: segue vigente
+    assert painel.ban_vigente_em(b, "2010-01-01").loc["230760"]
+
+
+def test_csv_de_bans_anterior_a_revogacao_ainda_carrega(tmp_path):
+    """Arquivo velho, sem a coluna nova: NaT, não KeyError."""
+    c = _csv_bans(tmp_path, [{"cod_ibge6": "230760", "data_lei": "2009-11-20",
+                              "confianca": "confirmado"}])
+    b = painel.carrega_bans_municipais(c)
+    assert b["ban_municipal_revogado_em"].isna().all()
+    medias, nasc = _medias_e_painel()
+    p = painel.monta_painel(medias, "Melão", nasc, bans=pd.DataFrame({
+        "cod_ibge6": [medias["cod_ibge6"].iloc[0]],
+        "ban_municipal_data": [pd.Timestamp("2009-11-20")],
+        "ban_municipal_confianca": ["confirmado"]}))
+    assert "ban_municipal_revogado_em" in p.columns
+
+
+def test_registro_commitado_traz_a_revogacao_de_limoeiro():
+    """O CSV de `docs/legislacao/` é o que o painel lê. A revogação tem de
+    estar nele, com a fonte dita — e dita como secundária enquanto o texto
+    integral da revogadora (Lei 1.511, de 26/05/2010) não for lido."""
+    b = pd.read_csv(RAIZ / "docs/legislacao/bans-municipais-ce.csv",
+                    dtype=str, comment="#").fillna("")
+    lim = b[b.cod_ibge6 == "230760"].iloc[0]
+    assert lim["data_lei"] == "2009-11-20"
+    assert lim["data_revogacao"] == "2010-05-26"
+    assert "1.511" in lim["fonte_revogacao"]
+    assert "secundaria" in lim["fonte_revogacao"]
+
+
+def test_semente_e_registro_concordam_na_revogacao_de_limoeiro():
+    """A semente do 08 e o CSV commitado contam a mesma história. Se um for
+    corrigido e o outro não, uma nova rodada do 08 sobre registro vazio
+    ressuscita a data velha."""
+    b = pd.read_csv(RAIZ / "docs/legislacao/bans-municipais-ce.csv",
+                    dtype=str, comment="#").fillna("")
+    lim = b[b.cod_ibge6 == "230760"].iloc[0]
+    semente = alvos.SEMENTE_CONFIRMADA["230760"]
+    assert semente["data_revogacao"] == lim["data_revogacao"]
+    assert "1.511" in semente["fonte_revogacao"]
 
 
 # --------------------------------------------------------------------------
@@ -2124,6 +2811,9 @@ def test_holm_e_spt_sobrevivem_a_cp1252(tmp_path):
 
     assert (tmp_path / "holm_confirmatorios.csv").exists()
     assert (tmp_path / "spt_pretrend__peso_medio.csv").exists()
+    # o nível entra nos cortes placebo (parecer de 2026-09-22, comentário 4)
+    spt = pd.read_csv(tmp_path / "spt_pretrend__peso_medio.csv")
+    assert "nivel" in spt.columns and spt["nivel"].notna().all()
 
 
 def test_holm_grava_as_duas_hipoteses_confirmatorias(tmp_path):
@@ -2251,3 +2941,944 @@ def test_equip_confronta_marca_decil_e_preenche_zero(tmp_path):
     assert m is not None and len(m) == 2
     assert m.loc[m.cod_ibge6 == "230010", "aeronave"].iloc[0] == 0.0
     assert "decil_superior" in m.columns and m["decil_superior"].any()
+
+
+# --------------------------------------------------------------------------
+# Rota 1 — recorte multi-UF (desenho de fronteira CE x vizinho)
+#
+# O ban é ESTADUAL: o grupo de comparação de um desenho de fronteira vive fora
+# da UF 23. Estes testes travam as três coisas que, se quebrarem, quebram em
+# SILÊNCIO — recorte territorial errado no SIDRA, código de "município
+# ignorado" entrando como município, e arquivo multi-UF sobrescrevendo o painel
+# canônico do Ceará. Ver docs/auditoria-mensuracao-do-tratamento.md §4.
+# --------------------------------------------------------------------------
+
+def test_territorio_sidra_uma_uf_preserva_o_comportamento_antigo():
+    assert dose.territorio_sidra(("23",)) == dose.SIDRA_TERRITORIO
+
+
+def test_territorio_sidra_duas_ufs_usa_lista_separada_por_virgula():
+    assert dose.territorio_sidra(("23", "24")) == "in n3 23,24"
+
+
+@pytest.mark.parametrize("modulo", [dose, nasc])
+def test_sufixo_das_ufs_vazio_no_padrao_e_marcado_fora_dele(modulo):
+    # Vazio no padrão: uma rodada só-Ceará não pode mudar de nome de arquivo.
+    assert modulo.sufixo_das_ufs(("23",)) == ""
+    # Fora do padrão o nome MUDA — é o que impede a sobrescrita silenciosa.
+    assert modulo.sufixo_das_ufs(("23", "24")) == "__uf23-24"
+    # E é estável à ordem: --ufs 24 23 grava no mesmo lugar que --ufs 23 24.
+    assert modulo.sufixo_das_ufs(("24", "23")) == modulo.sufixo_das_ufs(("23", "24"))
+
+
+def test_filtra_ufs_mantem_as_duas_ufs_e_descarta_os_dois_ignorados():
+    # 230000 e 240000 são "município ignorado" de CE e RN. Descartar só o do
+    # Ceará deixaria o do RN entrar como se fosse município — e ele tem
+    # nascimentos, então o painel ganharia uma unidade fantasma.
+    df = pd.DataFrame({"CODMUNRES": [
+        "230440",  # Limoeiro do Norte (CE)
+        "240810",  # Mossoró (RN)
+        "230000",  # ignorado CE
+        "240000",  # ignorado RN
+        "355030",  # São Paulo, fora das duas
+    ]})
+    saida = nasc.filtra_ufs(nasc.padroniza_colunas(df), ("23", "24"))
+    assert list(saida["cod_ibge6"]) == ["230440", "240810"]
+
+
+def test_filtra_ceara_continua_sendo_o_caso_de_uma_uf():
+    # A função antiga vira caso particular da nova — se isso quebrar, todo o
+    # pipeline canônico do Ceará muda sem ninguém pedir.
+    df = pd.DataFrame({"CODMUNRES": ["230440", "240810", "230000"]})
+    padronizado = nasc.padroniza_colunas(df)
+    assert (list(nasc.filtra_ceara(padronizado)["cod_ibge6"])
+            == list(nasc.filtra_ufs(padronizado, ("23",))["cod_ibge6"])
+            == ["230440"])
+
+
+def test_sigla_da_uf_falha_alto_em_codigo_desconhecido():
+    # O pysus aceita qualquer string e devolve lista vazia: sem esta guarda,
+    # um código errado viraria "UF sem nascimentos", não "você digitou errado".
+    assert nasc._sigla_da_uf("24") == "RN"
+    with pytest.raises(ValueError, match="SIGLA_POR_UF"):
+        nasc._sigla_da_uf("99")
+
+
+def test_finaliza_pam_filtra_pelo_conjunto_de_ufs_pedido():
+    pedacos = [pd.DataFrame({
+        "cod_ibge": ["230440", "240810", "355030"],
+        "ano": [2017, 2017, 2017],
+        "cultura": ["banana"] * 3,
+        "area_ha": [100.0, 200.0, 300.0],
+    })]
+    so_ce = dose._finaliza_pam(pedacos, (2017,), ("23",))
+    assert list(so_ce["cod_ibge"]) == ["230440"]
+    fronteira = dose._finaliza_pam(pedacos, (2017,), ("23", "24"))
+    assert list(fronteira["cod_ibge"]) == ["230440", "240810"]
+
+
+def test_finaliza_pam_nomeia_as_ufs_quando_o_filtro_esvazia():
+    # A mensagem antiga dizia "filtro CE/anos" mesmo num recorte de duas UFs.
+    pedacos = [pd.DataFrame({
+        "cod_ibge": ["355030"], "ano": [2017],
+        "cultura": ["banana"], "area_ha": [1.0],
+    })]
+    with pytest.raises(RuntimeError, match="23,24"):
+        dose._finaliza_pam(pedacos, (2017,), ("23", "24"))
+
+
+# --------------------------------------------------------------------------
+# Gate da Rota 1 (script 14)
+#
+# A regra que estes testes existem para travar: **'ausente' não é '✘'**.
+# Bloqueio de rede tem de produzir "não verificado", nunca "verificado e
+# reprovado" — as duas coisas pedem ações opostas, e confundi-las já produziu
+# conclusão substantiva errada neste repositório (a truncagem do bucket GAEZ).
+# --------------------------------------------------------------------------
+
+def test_veredito_ausente_em_G1_domina_mesmo_com_o_resto_aprovado():
+    # G2 e G3 ✔ com G1 ausente NÃO é aprovação: é ignorância sobre a única
+    # coisa que estava em dúvida.
+    r = [{"gate": "G1_aeronave", "veredito": "ausente"},
+         {"gate": "G2_melao", "veredito": "✔"},
+         {"gate": "G3_registro", "veredito": "✔"}]
+    assert gate.veredito_agregado(r) == "ausente"
+
+
+def test_veredito_reprova_a_rota_quando_o_vizinho_nao_tinha_aeronave():
+    r = [{"gate": "G1_aeronave", "veredito": "✘"},
+         {"gate": "G2_melao", "veredito": "✔"},
+         {"gate": "G3_registro", "veredito": "✔"}]
+    assert gate.veredito_agregado(r).startswith("✘")
+
+
+def test_veredito_aprova_so_com_os_tres_verdes():
+    r = [{"gate": "G1_aeronave", "veredito": "✔"},
+         {"gate": "G2_melao", "veredito": "✔"},
+         {"gate": "G3_registro", "veredito": "✔"}]
+    assert gate.veredito_agregado(r) == "✔"
+    r[1]["veredito"] = "✘"
+    assert gate.veredito_agregado(r) == "⚠ com ressalva"
+    r[1]["veredito"] = "ausente"
+    assert gate.veredito_agregado(r) == "⚠ parcial"
+
+
+def test_finaliza_pam_recusa_painel_de_fronteira_com_uma_uf_so():
+    """O bug de 2026-09-22: `--ufs 23 24` gravou `__uf23-24` com só o Ceará.
+
+    Vazio total já gritava; faltar UMA das UFs pedidas, não. O gate do script
+    14 então leu a ausência do RN como achado — "o RN não planta melão", ✘ —
+    quando o veredito honesto era `ausente`.
+    """
+    so_ce = pd.DataFrame({
+        "cod_ibge": ["2304400", "2309706"],
+        "ano": [2015, 2015],
+        "cultura": ["Melão", "Melão"],
+        "area_ha": [10.0, 20.0],
+    })
+    with pytest.raises(RuntimeError, match="não vieram"):
+        dose._finaliza_pam([so_ce], (2015,), ("23", "24"))
+
+    # Só o Ceará pedido, só o Ceará devolvido: isso continua válido.
+    assert len(dose._finaliza_pam([so_ce], (2015,), ("23",))) == 2
+
+    com_rn = pd.concat([so_ce, pd.DataFrame({
+        "cod_ibge": ["2408102"], "ano": [2015],
+        "cultura": ["Melão"], "area_ha": [50.0],
+    })], ignore_index=True)
+    assert len(dose._finaliza_pam([com_rn], (2015,), ("23", "24"))) == 3
+
+
+def test_carrega_pam_sidra_consulta_uma_uf_por_vez_e_une(monkeypatch):
+    """Duas coisas de uma vez, e as duas quebraram de verdade em 2026-09-22.
+
+    1. A UF pedida tem de CHEGAR ao transporte: `carrega_pam_sidra` recebia
+       `ufs` e chamava `_pam_via_sidrapy(anos)` sem repassar, caindo no
+       default só-Ceará.
+    2. As UFs têm de ir UMA POR CONSULTA: o SIDRA corta em 50.000 valores e
+       CE+RN juntos pedem 63.180, devolvendo 400.
+    """
+    vistos = []
+
+    def falso_transporte(anos, ufs=None):
+        vistos.append(ufs)
+        (uf,) = ufs                      # uma por consulta, nunca duas
+        return pd.DataFrame({"cod_ibge": [uf + "04400"], "ano": [2015],
+                             "cultura": ["Melão"], "area_ha": [1.0]})
+
+    monkeypatch.setattr(dose, "_pam_via_sidrapy", falso_transporte)
+    saida = dose.carrega_pam_sidra((2015,), verificar=False, ufs=("23", "24"))
+
+    assert vistos == [("23",), ("24",)]
+    assert set(saida["cod_ibge"].str[:2]) == {"23", "24"}
+
+
+def test_carrega_pam_sidra_grita_se_uma_uf_nao_voltar(monkeypatch):
+    """A união também é conferida: UF pedida e ausente não vira zero."""
+    def so_ceara(anos, ufs=None):
+        return pd.DataFrame({"cod_ibge": ["2304400"], "ano": [2015],
+                             "cultura": ["Melão"], "area_ha": [1.0]})
+
+    monkeypatch.setattr(dose, "_pam_via_sidrapy", so_ceara)
+    with pytest.raises(RuntimeError, match="não vieram"):
+        dose.carrega_pam_sidra((2015,), verificar=False, ufs=("23", "24"))
+
+
+def test_suporte_por_cultura_separa_as_ufs_e_ignora_area_zero():
+    medias = pd.DataFrame({
+        "cod_ibge": ["230440", "230970", "240810", "241170", "355030"],
+        "cultura": ["melão"] * 5,
+        # nome real do parquet agregado do script 01; zero não conta, SP fica fora
+        "area_ha_media": [10.0, 0.0, 50.0, 30.0, 999.0],
+    })
+    t = gate.suporte_por_cultura(medias, ("23", "24"))
+    assert t.loc["melão", "23"] == 1      # só Limoeiro tem área > 0
+    assert t.loc["melão", "24"] == 2
+    assert t.loc["melão", "total"] == 3
+
+
+def test_gate_melao_vira_verde_quando_a_ampliacao_fecha_o_suporte():
+    # O encerramento do melão no Gate 1 foi condicional à amostra só-Ceará.
+    # Com poucos municípios continua ✘; com muitos, o suporte fecha.
+    poucos = pd.DataFrame({
+        "cod_ibge": ["230440", "240810"], "cultura": ["melão"] * 2,
+        "area_ha_media": [10.0, 20.0],
+    })
+    assert gate.gate_melao(poucos, "24")["veredito"] == "✘"
+
+    muitos = pd.DataFrame({
+        "cod_ibge": [f"23{i:04d}" for i in range(20)] + [f"24{i:04d}" for i in range(20)],
+        "cultura": ["melão"] * 40, "area_ha_media": [10.0] * 40,
+    })
+    saida = gate.gate_melao(muitos, "24")
+    assert saida["veredito"] == "✔"
+    assert saida["municipios_melao_ce"] == 20
+    assert saida["municipios_melao_total"] == 40
+
+
+def test_suporte_por_cultura_aceita_o_nome_legado_e_grita_sem_coluna():
+    """O bug real: script 01 grava `area_ha_media`, 12 e 14 liam `area_ha`.
+
+    Os testes antigos usavam `area_ha` nos dois lados, então passavam enquanto
+    o artefato de verdade quebrava com KeyError. Aqui os dois nomes valem e a
+    falta dos dois é erro nomeado.
+    """
+    legado = pd.DataFrame({
+        "cod_ibge": ["230440", "240810"], "cultura": ["melão"] * 2,
+        "area_ha": [10.0, 20.0],
+    })
+    t = gate.suporte_por_cultura(legado, ("23", "24"))
+    assert t.loc["melão", "total"] == 2
+
+    sem_area = pd.DataFrame({"cod_ibge": ["230440"], "cultura": ["melão"]})
+    with pytest.raises(KeyError, match="coluna de área"):
+        gate.suporte_por_cultura(sem_area, ("23", "24"))
+
+
+def test_metricas_de_artefatos_le_o_parquet_que_o_script_01_grava(tmp_path):
+    """Caminho nunca exercitado: só `metricas_classificacao` tinha teste.
+
+    Vinte municípios, os dois maiores com aeronave — o decil (k=2) acerta os
+    dois, então VPP = 1 e λ = 0.
+    """
+    censo = pd.DataFrame({
+        "cod_ibge6": [f"23{i:04d}" for i in range(20)],
+        "aeronave": [5.0, 3.0] + [0.0] * 18,
+    })
+    csv = tmp_path / "censo.csv"
+    censo.to_csv(csv, index=False)
+
+    dose = pd.DataFrame({
+        "cod_ibge": [f"23{i:04d}0" for i in range(20)],
+        "cultura": ["Banana (cacho)"] * 20,
+        "area_ha_media": [900.0, 800.0] + [10.0] * 18,
+    })
+    parquet = tmp_path / "pam.parquet"
+    dose.to_parquet(parquet)
+
+    m = misc.metricas_de_artefatos(csv, parquet, "banana")
+    assert m["tamanho_decil"] == 2
+    assert m["vp"] == 2
+    assert m["vpp"] == pytest.approx(1.0)
+    # Todos os 20 têm área positiva: não há grupo de dose zero, logo nenhum
+    # falso negativo no controle, e os dois λ são zero.
+    assert m["fn_controle"] == 0
+    assert m["lambda_amostra"] == pytest.approx(0.0)
+    assert m["lambda_populacao"] == pytest.approx(0.0)
+
+
+def test_gate_melao_sem_pam_devolve_ausente_e_nao_reprovacao():
+    assert gate.gate_melao(None, "24")["veredito"] == "ausente"
+    assert gate.gate_melao(pd.DataFrame(), "24")["veredito"] == "ausente"
+
+
+def test_gate_registro_compara_peso_medio_entre_ufs():
+    painel = pd.DataFrame({
+        "cod_ibge6": ["230440", "230440", "240810", "240810"],
+        "n_nascimentos": [100, 100, 100, 100],
+        "peso_medio": [3200.0, 3200.0, 3210.0, 3210.0],
+    })
+    saida = gate.gate_registro(painel, "24")
+    assert saida["veredito"] == "✔"
+    assert saida["delta_peso_g"] == pytest.approx(-10.0)
+
+    # Diferença grande de nível reprova a TRIAGEM (não a identificação).
+    painel.loc[painel["cod_ibge6"] == "240810", "peso_medio"] = 3000.0
+    assert gate.gate_registro(painel, "24")["veredito"] == "✘"
+
+
+def test_gate_registro_exige_as_duas_ufs_no_painel():
+    # Painel só-Ceará não reprova o vizinho: ele não o observou.
+    painel = pd.DataFrame({
+        "cod_ibge6": ["230440"], "n_nascimentos": [100], "peso_medio": [3200.0],
+    })
+    saida = gate.gate_registro(painel, "24")
+    assert saida["veredito"] == "ausente"
+    assert "não tem as duas UFs" in saida["detalhe"]
+
+
+def test_gate_recusa_o_ceara_como_vizinho():
+    # --vizinho 23 compararia o Ceará consigo mesmo e devolveria zero por
+    # construção, sem nada acusar.
+    assert gate.main(["--vizinho", "23"]) == 1
+
+
+# --------------------------------------------------------------------------
+# Erro de classificação da dose (script 12 de estimate)
+#
+# A flag 7 deixa de ser afirmação qualitativa e vira três métricas padrão.
+# O que estes testes travam é o MECANISMO que Rull & Ritz (2003) descrevem:
+# com prevalência baixa, especificidade alta NÃO salva o VPP — e é o VPP que
+# diz que fração do grupo "tratado" estava de fato tratada.
+# --------------------------------------------------------------------------
+
+def test_metricas_reproduzem_os_numeros_publicados_na_secao_5_4():
+    # 184 municípios, 7 com aeronave, decil de 17 com 2 deles (Limoeiro, Quixeré).
+    # O decil é 17 e não 19: 169 municípios com banana > 0 / 10, verificado
+    # contra os artefatos em 2026-09-22 (ver docs/ars/12 §2).
+    m = misc.metricas_classificacao(184, 7, 17, 2)
+    assert m["sensibilidade"] == pytest.approx(2 / 7)
+    assert m["vpp"] == pytest.approx(2 / 17)
+    assert m["prevalencia"] == pytest.approx(7 / 184)
+    # A matriz tem de fechar nos 184.
+    assert m["vp"] + m["fp"] + m["fn"] + m["vn"] == 184
+
+
+def test_especificidade_alta_nao_salva_o_vpp_com_prevalencia_baixa():
+    # É o mecanismo de Rull & Ritz, e é contraintuitivo o bastante para merecer
+    # teste: 90%+ de especificidade com ~4% de prevalência ainda deixa ~9 de
+    # cada 10 "tratados" sem tratamento.
+    m = misc.metricas_classificacao(184, 7, 17, 2)
+    assert m["especificidade"] > 0.90
+    assert m["vpp"] < 0.15
+
+
+def test_lambda_da_amostra_conta_o_falso_negativo_so_no_grupo_de_comparacao():
+    # ⚠️ A correção de 2026-09-22. Os 5 municípios com aeronave fora do decil
+    # têm dose INTERMEDIÁRIA e não entram no DiD binário, que compara o decil
+    # com dose zero. No grupo de comparação o falso negativo é zero (flag 5),
+    # então λ = 1 − VPP. A conta antiga (5/167) fica rotulada como populacional.
+    m = misc.metricas_classificacao(184, 7, 17, 2, fn_controle=0)
+    assert m["lambda_amostra"] == pytest.approx(1 - 2 / 17)
+    assert m["lambda_populacao"] == pytest.approx((1 - 2 / 17) + 5 / (184 - 17))
+    assert m["corolario"] == 1
+
+
+def test_falso_negativo_no_controle_devolve_o_corolario_5():
+    # Com município tratado no grupo de comparação, o Corolário 1 cai e o
+    # sinal volta a poder inverter — o script tem de dizer qual vale.
+    m = misc.metricas_classificacao(184, 7, 17, 2, fn_controle=1, n_controle=15)
+    assert m["corolario"] == 5
+    assert m["lambda_amostra"] == pytest.approx((1 - 2 / 17) + 1 / 15)
+    with pytest.raises(ValueError, match="n_controle"):
+        misc.metricas_classificacao(184, 7, 17, 2, fn_controle=1)
+    with pytest.raises(ValueError, match="fn_controle"):
+        misc.metricas_classificacao(184, 7, 17, 2, fn_controle=6, n_controle=15)
+
+
+def test_decil_usa_ceil_como_os_estimadores():
+    # `round` divergia do `ceil` dos scripts 07/08 sempre que a parte
+    # fracionária é < 0,5: com 163 produtores dava 16 aqui e 17 lá.
+    assert misc.tamanho_do_decil(169) == 17
+    assert misc.tamanho_do_decil(163) == 17
+    assert misc.tamanho_do_decil(170) == 17
+    assert misc.tamanho_do_decil(171) == 18
+    assert misc.tamanho_do_decil(3) == 1
+
+
+def test_metricas_recusam_matriz_impossivel():
+    # Mais acertos do que positivos verdadeiros existentes.
+    with pytest.raises(ValueError):
+        misc.metricas_classificacao(184, 7, 17, 8)
+    with pytest.raises(ValueError):
+        misc.metricas_classificacao(184, 7, 17, 20)
+
+
+def test_limite_colapsa_no_ponto_quando_nao_ha_misclassificacao():
+    assert misc.limite_corolario5(-21.85, 0.0) == pytest.approx((-21.85, -21.85))
+
+
+def test_limite_afasta_do_zero_e_preserva_o_sinal():
+    inf, sup = misc.limite_corolario5(-21.85, 0.5)
+    assert inf == pytest.approx(-43.70)
+    assert sup == pytest.approx(-21.85)
+    # Coeficiente positivo espelha, e o limite continua ordenado.
+    inf_p, sup_p = misc.limite_corolario5(21.85, 0.5)
+    assert (inf_p, sup_p) == pytest.approx((21.85, 43.70))
+
+
+def test_limite_recusa_lambda_fora_do_intervalo():
+    # λ = 1 significa classificação sem informação: infinito silencioso viraria
+    # número em tabela.
+    for ruim in (1.0, 1.5, -0.1):
+        with pytest.raises(ValueError, match="λ"):
+            misc.limite_corolario5(-21.85, ruim)
+
+
+def test_corolario1_preserva_o_sinal_e_colapsa_sem_erro():
+    # Sem falso negativo, θ = VPP·ATT para erro ARBITRÁRIO: o ATT fica entre
+    # θ e θ/VPP, do mesmo lado do zero.
+    assert misc.limite_corolario1(-21.85, 1.0) == pytest.approx((-21.85, -21.85))
+    inf, sup = misc.limite_corolario1(-21.85, 2 / 17)
+    assert inf == pytest.approx(-21.85 * 17 / 2)
+    assert sup == pytest.approx(-21.85)
+    assert inf < 0 and sup < 0
+    for ruim in (0.0, -0.1, 1.2):
+        with pytest.raises(ValueError, match="vpp_min"):
+            misc.limite_corolario1(-21.85, ruim)
+
+
+def test_tabela_nao_compara_limite_do_att_com_o_mde():
+    # ⚠️ Regressão da leitura errada de 2026-09-22: "o limite passa do MDE,
+    # logo o desenho teria tido poder". O MDE é do estimando θ deste desenho,
+    # e θ é o mesmo nas duas leituras. Quem fala de poder é a calibração.
+    t = misc.tabela_limites(-21.85, [0.3, 0.5], "did")
+    assert "excede_mde" not in t.columns
+    assert t["vpp"].tolist() == pytest.approx([0.7, 0.5])
+    assert t.loc[t["lambda"] == 0.5, "limite_inferior_g"].iloc[0] == pytest.approx(-43.70)
+
+
+def test_poder_aproximado_ancora_no_mde_e_no_alfa():
+    # Por construção: no MDE o poder é 80%; sem efeito, é o tamanho do teste.
+    assert misc.poder_aproximado(misc.MDE_G) == pytest.approx(0.80, abs=1e-6)
+    assert misc.poder_aproximado(0.0) == pytest.approx(0.05, abs=1e-6)
+    assert misc.poder_aproximado(-10.0) == pytest.approx(misc.poder_aproximado(10.0))
+
+
+def test_sinal_esperado_com_o_vpp_do_censo_fica_abaixo_do_mde_com_folga():
+    # O coração da calibração: com VPP = 2/17, nem f = 0,5 com δ = 150 g
+    # passa de ~9 g, e o poder não chega a 12%.
+    theta = misc.sinal_esperado(2 / 17, 0.5, 150.0)
+    assert theta == pytest.approx(150 * 0.5 * 2 / 17)
+    assert theta < 9.0
+    assert misc.poder_aproximado(theta) < 0.12
+    with pytest.raises(ValueError):
+        misc.sinal_esperado(1.2, 0.5, 150.0)
+    with pytest.raises(ValueError):
+        misc.sinal_esperado(0.5, 0.5, -1.0)
+
+
+def test_vpp_de_equilibrio_acima_de_um_e_impossivel():
+    # θ = −21,85 com f = 0,25 e δ = 80 exigiria VPP > 1: nem o grupo inteiro
+    # tratado produz esse θ. Com f = 0,5 e δ = 150 exige ~0,29 — cinco dos 17.
+    assert misc.vpp_de_equilibrio(-21.85, 0.25, 80.0) > 1
+    assert misc.vpp_de_equilibrio(-21.85, 0.5, 150.0) == pytest.approx(21.85 / 75)
+    with pytest.raises(ValueError):
+        misc.vpp_de_equilibrio(-21.85, 0.0, 150.0)
+
+
+def test_metricas_de_artefatos_conta_falso_negativo_na_dose_zero(tmp_path):
+    # Universo de 30: 25 produtores (decil = ceil(2,5) = 3), 5 de dose zero.
+    # Aeronave em 2 do decil, 1 produtor fora do decil e 1 de dose ZERO —
+    # só este último é falso negativo do grupo de comparação.
+    cods = [f"23{i:04d}" for i in range(30)]
+    censo = pd.DataFrame({"cod_ibge6": cods, "aeronave": 0})
+    censo.loc[censo.cod_ibge6.isin(["230000", "230001", "230010", "230027"]),
+              "aeronave"] = 3
+    # `area_ha_media`: é o nome que o script 01 grava no agregado.
+    dose = pd.DataFrame({"cod_ibge": [f"{c}0" for c in cods[:25]],
+                         "cultura": "Banana (cacho)",
+                         "area_ha_media": [float(100 - i) for i in range(25)]})
+    c_csv, d_pq = tmp_path / "censo.csv", tmp_path / "dose.parquet"
+    censo.to_csv(c_csv, index=False)
+    dose.to_parquet(d_pq, index=False)
+    m = misc.metricas_de_artefatos(c_csv, d_pq, "banana")
+    assert m["tamanho_decil"] == 3
+    assert m["vp"] == 2
+    assert m["fn_controle"] == 1          # 230027, dose zero com aeronave
+    assert m["corolario"] == 5
+    assert m["lambda_amostra"] == pytest.approx((1 - 2 / 3) + 1 / 5)
+
+
+# --------------------------------------------------------------------------
+# Censo 2022 via censobr (script 15)
+#
+# O risco que estes testes travam é o silencioso: um código de variável errado
+# não dá erro, dá uma coluna de outra coisa com nome certo. Por isso a
+# verificação contra o dicionário oficial tem teste próprio, e o fechamento das
+# categorias no total de domicílios também.
+# --------------------------------------------------------------------------
+
+def _setores_sinteticos(fator_fechamento: float = 1.0) -> pd.DataFrame:
+    """Dois setores em Limoeiro (CE), um em Mossoró (RN)."""
+    linhas = []
+    for code_state, code_muni, nome, ri, nome_ri, dppo in [
+        (23, 2307601, "Limoeiro do Norte", 230007, "Russas - Limoeiro do Norte", 100),
+        (23, 2307601, "Limoeiro do Norte", 230007, "Russas - Limoeiro do Norte", 100),
+        (24, 2408003, "Mossoró", 240009, "Mossoró", 400),
+    ]:
+        linha = {"code_state": code_state, "code_muni": code_muni, "name_muni": nome,
+                 "code_immediate": ri, "name_immediate": nome_ri}
+        for coluna in censo.VARIAVEIS_2022:
+            linha[coluna] = 0
+        linha["domicilio01_V00001"] = dppo
+        # água: 80% rede, 20% poço raso; esgoto: 50% rede, 50% fossa rudimentar
+        linha["domicilio02_V00111"] = 0.8 * dppo * fator_fechamento
+        linha["domicilio02_V00113"] = 0.2 * dppo * fator_fechamento
+        linha["domicilio02_V00309"] = 0.5 * dppo * fator_fechamento
+        linha["domicilio02_V00312"] = 0.5 * dppo * fator_fechamento
+        linhas.append(linha)
+    return pd.DataFrame(linhas)
+
+
+def test_url_do_censobr_reproduz_a_que_o_pacote_R_monta():
+    # read_tracts() em R: paste0(base, release, "/", ano, "_tracts_", dataset,
+    # "_", release, ".parquet"), com dataset em minúsculas.
+    assert censo.url_setores(2022, "Domicilio") == (
+        "https://github.com/ipea/censobr_prep_data/releases/download/"
+        "v1.0.0/2022_tracts_domicilio_v1.0.0.parquet")
+    assert censo.url_dicionario(2022).endswith("censo_docs/2022_dictionary_tracts.xlsx")
+    assert censo.url_dicionario(2010).endswith(".pdf")
+
+
+def test_verifica_dicionario_passa_quando_os_codigos_conferem():
+    linhas = [(None, None, None, col.split("_", 1)[1], None, f"DPPO, {trecho} etc")
+              for col, (_, trecho) in censo.VARIAVEIS_2022.items()]
+    assert censo.verifica_dicionario(linhas) == []
+
+
+def test_verifica_dicionario_acusa_codigo_trocado_e_codigo_ausente():
+    linhas = [(None, None, None, col.split("_", 1)[1], None, f"DPPO, {trecho}")
+              for col, (_, trecho) in censo.VARIAVEIS_2022.items()]
+    # V00112 (poço profundo) passa a descrever carro-pipa: coluna errada, nome certo.
+    linhas = [l if l[3] != "V00112" else (None, None, None, "V00112", None, "carro-pipa")
+              for l in linhas]
+    linhas = [l for l in linhas if l[3] != "V00316"]
+    problemas = censo.verifica_dicionario(linhas)
+    assert any("V00112" in p and "poço profundo" in p for p in problemas)
+    assert any("V00316" in p and "ausente" in p for p in problemas)
+
+
+def test_agrega_setores_em_municipios_e_fecha_as_categorias():
+    df = _setores_sinteticos().rename(
+        columns={k: v[0] for k, v in censo.VARIAVEIS_2022.items()})
+    m = censo.agrega_municipio(df)
+    assert len(m) == 2
+    limoeiro = m[m["code_muni"] == 2307601].iloc[0]
+    assert limoeiro["dppo"] == 200 and limoeiro["agua_rede_geral"] == 160
+    assert censo.fechamento(m) == pytest.approx({"agua": 1.0, "esgoto": 1.0})
+
+
+def test_agregacao_trata_suprimido_como_zero_e_o_fechamento_denuncia():
+    # Setor com célula suprimida (NaN) não pode quebrar a soma — mas o
+    # fechamento tem de cair, porque aqueles domicílios ficaram sem categoria.
+    df = _setores_sinteticos().rename(
+        columns={k: v[0] for k, v in censo.VARIAVEIS_2022.items()})
+    df.loc[2, "agua_rede_geral"] = float("nan")
+    m = censo.agrega_municipio(df)
+    assert m["agua_rede_geral"].notna().all()
+    assert censo.fechamento(m)["agua"] < 1.0
+
+
+def test_indicadores_separam_media_ponderada_de_media_municipal():
+    # Quando um município grande e um pequeno diferem, as duas médias divergem —
+    # e é a municipal que descreve a unidade do DiD.
+    m = pd.DataFrame({
+        "dppo": [1000, 100],
+        "agua_rede_geral": [1000, 0], "agua_poco_profundo": [0, 0],
+        "agua_poco_raso": [0, 100], "agua_carro_pipa": [0, 0],
+        "esg_rede": [0, 0], "esg_fossa_ligada": [0, 0],
+        "esg_fossa_rudimentar": [1000, 100], "esg_sem_banheiro": [0, 0],
+    })
+    ind = censo.indicadores(m)
+    assert ind["poco"] == pytest.approx(100 / 1100)
+    assert ind["poco_media_municipal"] == pytest.approx(0.5)
+
+
+def test_grupos_usam_codigos_externos_e_somem_fora_do_recorte():
+    df = _setores_sinteticos().rename(
+        columns={k: v[0] for k, v in censo.VARIAVEIS_2022.items()})
+    m = censo.agrega_municipio(df)
+    t = censo.tabela_comparacao(m)
+    assert "CE: RI Russas–Limoeiro" in t.index
+    assert "RN: RIDE Chapada (PLP 98/07)" in t.index   # Mossoró está na RIDE
+    so_ce = censo.tabela_comparacao(m[m["code_state"] == 23])
+    assert not any(rotulo.startswith("RN") for rotulo in so_ce.index)
+
+
+def test_ride_tem_os_21_municipios_do_plp_e_todos_potiguares():
+    assert len(censo.RIDE_CHAPADA_RN) == 21
+    assert all(str(c).startswith("24") for c in censo.RIDE_CHAPADA_RN)
+
+
+def test_baixa_nao_deixa_arquivo_parcial_e_nao_rebaixa(tmp_path):
+    origem = tmp_path / "origem.bin"
+    origem.write_bytes(b"x" * 5000)
+    destino = tmp_path / "cache" / "arquivo.parquet"
+    censo.baixa(origem.as_uri(), destino)
+    assert destino.read_bytes() == b"x" * 5000
+    assert not destino.with_suffix(".parquet.parte").exists()
+    origem.write_bytes(b"MUDOU")          # cache existente não é rebaixado
+    censo.baixa(origem.as_uri(), destino)
+    assert destino.read_bytes() == b"x" * 5000
+
+
+def test_main_recusa_gravar_quando_o_fechamento_nao_fecha(tmp_path):
+    caminho = tmp_path / "setores.parquet"
+    _setores_sinteticos(fator_fechamento=0.5).to_parquet(caminho, index=False)
+    saida = tmp_path / "out"
+    assert censo.main(["--setores", str(caminho), "--out-dir", str(saida)]) == 1
+    assert not saida.exists() or not any(saida.iterdir())
+
+
+def test_main_grava_com_sufixo_de_uf_e_proveniencia(tmp_path):
+    caminho = tmp_path / "setores.parquet"
+    _setores_sinteticos().to_parquet(caminho, index=False)
+    assert censo.main(["--setores", str(caminho), "--out-dir", str(tmp_path)]) == 0
+    csv = pd.read_csv(tmp_path / "censo2022_comparabilidade__uf23-24.csv")
+    assert set(csv["fonte"]) == {"censobr v1.0.0"}
+    assert (tmp_path / "censo2022_domicilios_muni__uf23-24.parquet").exists()
+
+
+# --------------------------------------------------------------------------
+# MDE dos desenhos candidatos (script 13 de estimate)
+#
+# O que estes testes travam: (1) a conta agrupada é a mesma que deu os 33,4 g;
+# (2) o MDE é conta de DESENHO — não pode enxergar o pós-ban; (3) σ e τ saem
+# do painel agregado sem microdado; (4) tratado ausente torna o desenho
+# `ausente`, não menor.
+# --------------------------------------------------------------------------
+
+import json as _json
+import math as _math
+
+mde = _carrega("13_mde_desenhos.py", sub="estimate")
+varre = _carrega("09_varre_camaras.py")
+
+
+def _painel_mde(unidades: dict, anos=range(2015, 2023), sigma=500.0, tau=0.0,
+                seed=3, salto_pos=0.0, tratados=()):
+    """Painel município × mês: `unidades` = {cod: nascimentos/mês}.
+
+    Cada município ganha uma tendência própria entre as metades do pré-período
+    (DP `tau`) e ruído amostral de média mensal (`sigma/√n`). `salto_pos` soma
+    um efeito enorme nos `tratados` a partir de 2019 — o MDE não pode vê-lo.
+    """
+    rng = np.random.default_rng(seed)
+    linhas = []
+    for cod, n in unidades.items():
+        tendencia = rng.normal(0.0, tau) if tau else 0.0
+        base = 3200.0 + rng.normal(0.0, 50.0)
+        for ano in anos:
+            for mes in range(1, 13):
+                mu = base + (tendencia if ano >= 2017 else 0.0)
+                if ano >= 2019 and cod in tratados:
+                    mu += salto_pos
+                linhas.append({"cod_ibge6": cod, "ano": ano, "mes": mes,
+                               "n_nascimentos": n, "n_peso_valido": n,
+                               "peso_medio": rng.normal(mu, sigma / np.sqrt(n))})
+    return pd.DataFrame(linhas)
+
+
+def test_mde_agrupado_e_a_conta_que_deu_os_33_g():
+    # 2,8 × DP × √(1/17 + 1/167): com DP de ~46,9 g é o MDE do cenário base.
+    assert mde.mde_agrupado(46.86, 17, 167) == pytest.approx(
+        2.8 * 46.86 * _math.sqrt(1 / 17 + 1 / 167))
+    assert mde.mde_agrupado(46.86, 17, 167) == pytest.approx(33.4, abs=0.05)
+    assert _math.isnan(mde.mde_agrupado(46.86, 0, 167))
+
+
+def test_mde_nao_enxerga_o_pos_ban():
+    # ⚠️ A regressão que mais importa: um MDE calculado com o pós-ban deixaria de
+    # ser conta de desenho. Um salto de 500 g nos tratados depois de 2019 não
+    # pode mover nada.
+    unidades = {f"23{i:04d}": 30 for i in range(30)}
+    sem = _painel_mde(unidades)
+    com = _painel_mde(unidades, salto_pos=500.0, tratados={"230000", "230001"})
+    pd.testing.assert_frame_equal(mde.variacao_placebo(sem), mde.variacao_placebo(com))
+    assert mde.variancia_individual(sem) == pytest.approx(mde.variancia_individual(com))
+
+
+def test_sigma_individual_sai_do_painel_agregado():
+    # Sem microdado: a variação mês a mês dentro do município devolve σ.
+    painel = _painel_mde({f"23{i:04d}": 30 for i in range(40)}, sigma=500.0)
+    assert _math.sqrt(mde.variancia_individual(painel)) == pytest.approx(500.0, rel=0.05)
+
+
+def test_heterogeneidade_separa_tendencia_real_do_ruido():
+    # τ = 20 g de tendência real, e o ruído amostral por cima; o método do
+    # script 07 tem de devolver os 20, não o total.
+    painel = _painel_mde({f"23{i:04d}": 100 for i in range(200)}, sigma=500.0, tau=20.0)
+    var = mde.variacao_placebo(painel)
+    tau = _math.sqrt(mde.heterogeneidade(var, mde.variancia_individual(painel)))
+    assert tau == pytest.approx(20.0, abs=4.0)
+
+
+def test_municipio_pequeno_custa_mais_poder():
+    # Mesmos controles; tratado de 20 nascimentos/ano contra tratado de 800.
+    var = pd.DataFrame({"n_ini": [40.0, 1600.0] + [400.0] * 20,
+                        "n_fim": [40.0, 1600.0] + [400.0] * 20,
+                        "delta": [0.0] * 22, "delta_script01": [0.0] * 22},
+                       index=["230001", "230002"] + [f"24{i:04d}" for i in range(20)])
+    controles = [f"24{i:04d}" for i in range(20)]
+    pequeno = mde.avalia_desenho("p", {"230001"}, controles, var, 250_000.0, 100.0, 1.0)
+    grande = mde.avalia_desenho("g", {"230002"}, controles, var, 250_000.0, 100.0, 1.0)
+    assert pequeno["mde_por_unidade_g"] > grande["mde_por_unidade_g"]
+
+
+def test_tratado_sem_pre_periodo_torna_o_desenho_ausente():
+    # Calcular sem Limoeiro daria número para um desenho que não é o proposto.
+    var = pd.DataFrame({"n_ini": [300.0] * 5, "n_fim": [300.0] * 5, "delta": [1.0] * 5,
+                        "delta_script01": [1.0] * 5},
+                       index=["231150", "240001", "240002", "240003", "240004"])
+    r = mde.avalia_desenho("chapada2", {"230760", "231150"}, set(var.index), var,
+                           250_000.0, 0.0, 1.0)
+    assert r["veredito"] == "ausente"
+    assert "230760" in r["motivo"]
+    assert "mde_por_unidade_g" not in r
+
+
+def test_decil_do_mde_usa_ceil_sobre_os_positivos():
+    pam = pd.DataFrame({"cod_ibge": [f"23{i:04d}0" for i in range(170)],
+                        "cultura": "Banana (cacho)",
+                        "area_ha_media": [float(200 - i) for i in range(163)] + [0.0] * 7})
+    assert len(mde.decil_superior(pam, "banana")) == 17        # ceil(16,3)
+    assert len(mde.dose_zero(pam, "banana", {f"23{i:04d}" for i in range(170)})) == 7
+
+
+def test_poder_ancora_no_mde_e_no_alfa():
+    assert mde.poder(33.4, 33.4) == pytest.approx(0.80, abs=0.01)
+    assert mde.poder(0.0, 33.4) == pytest.approx(0.05, abs=0.001)
+
+
+def test_main_calcula_a_chapada_e_marca_ausente_o_que_falta(tmp_path):
+    # Painel com Limoeiro, Quixeré, 30 do CE e a RIDE potiguar; sem PAM e sem
+    # Censo, o benchmark e a Rota 3 não entram, e os da Chapada saem calculados.
+    ride = sorted(mde.ride_chapada_rn())
+    unidades = {"230760": 70, "231150": 25, **{f"23{i:04d}": 20 for i in range(30)},
+                **{c: 40 for c in ride}}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades, tau=10.0).to_parquet(caminho, index=False)
+    assert mde.main(["--painel", str(caminho), "--pam", str(tmp_path / "nao.parquet"),
+                     "--censo", str(tmp_path / "nao.csv"),
+                     "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "mde_desenhos.csv").set_index("desenho")
+    assert r.loc["chapada2_vs_ride_rn", "veredito"] == "calculado"
+    assert r.loc["chapada2_vs_ride_rn", "g0"] == len(ride)
+    assert r.loc["quixere_vs_ride_rn", "g1"] == 1
+    assert "decil17_vs_ce_outros" not in r.index         # sem PAM, sem benchmark
+
+
+def test_main_com_painel_so_do_ceara_nao_calcula_a_fronteira(tmp_path):
+    # A lição do doc 15 §4.1: painel de fronteira com uma UF só.
+    unidades = {"230760": 70, "231150": 25, **{f"23{i:04d}": 20 for i in range(30)}}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades).to_parquet(caminho, index=False)
+    assert mde.main(["--painel", str(caminho), "--pam", str(tmp_path / "nao.parquet"),
+                     "--censo", str(tmp_path / "nao.csv"),
+                     "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "mde_desenhos.csv").set_index("desenho")
+    assert (r.loc[["chapada2_vs_ride_rn", "chapada2_vs_rn", "quixere_vs_ride_rn"],
+                  "veredito"] == "ausente").all()
+
+
+# --------------------------------------------------------------------------
+# Revogação no script 09 — lei achada não é lei vigente
+# --------------------------------------------------------------------------
+
+def test_cita_a_lei_casa_as_duas_grafias_e_nao_o_vizinho():
+    assert varre.cita_a_lei("Revoga a Lei Municipal nº 1.478/2009", "1478/2009")
+    assert varre.cita_a_lei("revoga a lei 1478, de 20/11/2009", "1478/2009")
+    assert not varre.cita_a_lei("Altera a Lei nº 11.478", "1478/2009")
+    assert not varre.cita_a_lei("Lei nº 1.4789", "1478/2009")
+
+
+def test_candidatas_sao_so_as_posteriores_e_saem_marcadas():
+    # A 1.512 é fictícia, o caso de livro. A revogadora real de Limoeiro, a
+    # 1.511/2010, não cita o número nem diz "revoga" (teste da lei-quadro abaixo).
+    leis = [
+        {"numero_lei": "1.512/2010", "ano": 2010, "data_lei": "20/05/2010",
+         "ementa": "Revoga a Lei nº 1.478, de 20 de novembro de 2009"},
+        {"numero_lei": "1.400/2008", "ano": 2008, "data_lei": "2008-01-01",
+         "ementa": "Revoga a Lei 1.478"},                     # anterior: fora
+        {"numero_lei": "1.600/2011", "ano": 2011, "data_lei": "2011-03-01",
+         "ementa": "Altera a Lei nº 1.478/2009"},             # cita, não revoga
+    ]
+    c = varre.candidatas_revogacao(leis, "1478/2009", "2009-11-20")
+    assert [x["numero_lei"] for x in c] == ["1.512/2010", "1.600/2011"]
+    assert c[0]["data_lei"] == "2010-05-20"                  # data normalizada
+    assert c[0]["cita_o_numero"] and c[0]["fala_em_revogar"]
+    assert c[1]["cita_o_numero"] and not c[1]["fala_em_revogar"]
+    assert varre.revogadora_inequivoca(c)["numero_lei"] == "1.512/2010"
+
+
+def test_lei_quadro_ambiental_e_candidata_mas_nunca_inequivoca():
+    """O caso real de Limoeiro. A Lei 1.511/2010 revogou a 1.478/2009 num artigo
+    do corpo; a ementa não cita o número nem diz "revoga". Sem a marca de
+    lei-quadro, a busca devolvia "nenhuma candidata" — e a revogação chegou a
+    ser contestada por isso. A marca põe a lei na lista de leitura, e só."""
+    leis = [
+        {"numero_lei": "1510/2010", "ano": 2010, "data_lei": "21/05/2010",
+         "ementa": "Autoriza o Poder Executivo a firmar protocolo de intenções"},
+        {"numero_lei": "1511/2010", "ano": 2010, "data_lei": "26/05/2010",
+         "ementa": "DISPÕE SOBRE A POLÍTICA AMBIENTAL DO MUNICÍPIO DE LIMOEIRO "
+                   "DO NORTE E DÁ OUTRAS PROVIDÊNCIAS."},
+    ]
+    c = varre.candidatas_revogacao(leis, "1478/2009", "2009-11-20")
+    assert [x["numero_lei"] for x in c] == ["1511/2010"]
+    assert c[0]["lei_quadro"]
+    assert not c[0]["cita_o_numero"] and not c[0]["fala_em_revogar"]
+    assert varre.revogadora_inequivoca(c) is None       # ler o texto, não gravar
+
+
+def test_lei_quadro_depois_do_ban_estadual_fica_de_fora():
+    # Revogação municipal de 2020 não muda o que vigorava em 2015–2018.
+    leis = [{"numero_lei": "2300/2020", "ano": 2020, "data_lei": "2020-03-02",
+             "ementa": "Institui o Código Ambiental do Município"}]
+    assert varre.candidatas_revogacao(leis, "1478/2009", "2009-11-20") == []
+
+
+def test_busca_da_plataforma_a_procura_lei_quadro(monkeypatch):
+    urls = []
+    monkeypatch.setattr(varre, "busca_http", lambda url, timeout=35: urls.append(url))
+    r = varre.busca_revogacao("A", "https://x", "1478/2009", "2009-11-20", pausa=0)
+    assert any("descr=AMBIENTAL" in u for u in urls)
+    # rede fora: cada termo é um termo não conferido, não "não revogada"
+    assert r["erros"] == r["termos"] == len(urls)
+    assert r["candidatas"] == []
+
+
+def test_revogadora_ambigua_nao_e_escolhida():
+    # Duas que citam e revogam: o script não escolhe — conferir à mão.
+    c = [{"numero_lei": n, "data_lei": d, "ementa": "Revoga a Lei 1.478",
+          "cita_o_numero": True, "fala_em_revogar": True}
+         for n, d in (("1.512/2010", "2010-05-20"), ("1.520/2010", "2010-06-01"))]
+    assert varre.revogadora_inequivoca(c) is None
+
+
+def test_roda_revogacao_grava_so_a_inequivoca(monkeypatch):
+    tabela = pd.DataFrame([{"cod_ibge6": "230760", "municipio": "Limoeiro do Norte",
+                            "numero_lei": "1478/2009", "data_lei": "2009-11-20",
+                            "confianca": "confirmado", "data_revogacao": "2010-05-20",
+                            "fonte_revogacao": "secundaria: CPT 2014"}])
+    monkeypatch.setattr(varre, "detecta_plataforma", lambda slug: ("A", "https://x"))
+    forte = {"numero_lei": "1.512/2010", "ano": 2010, "data_lei": "2010-05-20",
+             "ementa": "Revoga a Lei nº 1.478/2009", "url_fonte": "https://x/leis.php"}
+    monkeypatch.setattr(varre, "busca_revogacao", lambda *a, **k: {
+        "candidatas": varre.candidatas_revogacao([forte], "1478/2009", "2009-11-20"),
+        "erros": 0, "termos": 6})
+    nova, _ = varre.roda_revogacao(tabela, gravar=True)
+    assert nova.loc[0, "fonte_revogacao"].startswith("primaria: Lei 1.512/2010")
+    # sem --gravar, nada muda
+    igual, _ = varre.roda_revogacao(tabela, gravar=False)
+    assert igual.equals(tabela)
+
+
+def test_acervo_b_nao_descarta_o_que_a_revogacao_precisa(monkeypatch):
+    # A varredura filtra por tema e por ano < 2019; o acervo para a revogação
+    # não pode filtrar — "Revoga a Lei nº 1.478" não fala em aeronave.
+    itens = [{"Número": "1478", "Ano": "2009", "Data": "2009-11-20",
+              "Ementa": "Proíbe o uso de aeronaves nas pulverizações de lavouras"},
+             {"Número": "1512", "Ano": "2010", "Data": "2010-05-20",
+              "Ementa": "Revoga a Lei nº 1.478/2009"}]
+    monkeypatch.setattr(varre, "busca_http", lambda url, timeout=35: _json.dumps(itens))
+    acervo, erros, _ = varre._acervo_plataforma_b("https://x")
+    assert erros == 0 and len(acervo) == 2
+    varredura = varre.varre_plataforma_b("https://x")
+    assert [l["numero_lei"] for l in varredura["leis"]] == ["1478/2009"]
+
+
+def test_coluna_agrupada_replica_a_conta_do_script_01():
+    # O benchmark só serve se for a MESMA conta: médias simples das médias
+    # mensais por metade, como `acrescenta_mde` do script 01 — não a média
+    # ponderada por nascimento que a coluna por unidade usa.
+    painel = _painel_mde({f"23{i:04d}": 5 + 3 * (i % 7) for i in range(25)})
+    var = mde.variacao_placebo(painel)
+    pre = painel[painel["ano"].isin(mde.ANOS_PRE)]
+    ini = pre[pre["ano"] <= 2016].groupby("cod_ibge6")["peso_medio"].mean()
+    fim = pre[pre["ano"] > 2016].groupby("cod_ibge6")["peso_medio"].mean()
+    pd.testing.assert_series_equal((fim - ini).sort_index(),
+                                   var["delta_script01"].sort_index(),
+                                   check_names=False)
+
+
+def test_rota3_com_municipio_de_aeronave_sem_nascimento_e_ausente(tmp_path):
+    # Tratado pelo Censo que não aparece no painel não pode sumir do desenho.
+    unidades = {"230760": 70, "231150": 25, **{f"23{i:04d}": 20 for i in range(30)}}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades).to_parquet(caminho, index=False)
+    censo_csv = tmp_path / "censo.csv"
+    pd.DataFrame({"cod_ibge6": ["230760", "231150", "239999"],
+                  "aeronave": [18, 9, 2]}).to_csv(censo_csv, index=False)
+    assert mde.main(["--painel", str(caminho), "--pam", str(tmp_path / "nao.parquet"),
+                     "--censo", str(censo_csv), "--out-dir", str(tmp_path)]) == 0
+    r = pd.read_csv(tmp_path / "mde_desenhos.csv").set_index("desenho")
+    assert r.loc["aeronave_ce_vs_ce_sem", "veredito"] == "ausente"
+    assert "239999" in r.loc["aeronave_ce_vs_ce_sem", "motivo"]
+
+
+# --------------------------------------------------------------------------
+# 14_mde_calendario.py — o desenho de calendário (ARS rodada 18, Fase 2)
+# --------------------------------------------------------------------------
+
+cal = _carrega("14_mde_calendario.py", sub="estimate")
+
+
+def test_exposicao_do_tri1_segue_a_janela_fixa_do_painel():
+    # 1º trimestre = meses t−9, t−8, t−7. Pico padrão: fevereiro a maio.
+    e = cal.exposicao_tri1([11, 10, 2, 6, 1], (2, 3, 4, 5))
+    assert list(np.round(e, 3)) == [1.0, round(2 / 3, 3), round(1 / 3, 3), 0.0, round(2 / 3, 3)]
+    # nascido em novembro: fev–abr; em junho: set–nov; em fevereiro: mai–jul
+    assert list(cal.classifica_coortes([11, 6, 2], (2, 3, 4, 5))) == ["alta", "zero", "parcial"]
+
+
+def test_hiato_recupera_uma_mudanca_plantada_so_no_municipio_certo():
+    unidades = {"230760": 200, **{f"23{i:04d}": 200 for i in range(20)}}
+    p = _painel_mde(unidades, anos=range(2015, 2019), sigma=100.0, seed=9)
+    alta = cal.classifica_coortes(p["mes"]) == "alta"
+    alvo = (p["cod_ibge6"] == "230760") & (p["ano"] >= 2017) & alta
+    p.loc[alvo, "peso_medio"] += 40.0
+    v = cal.variacao_hiato(p)
+    assert v.loc["230760", "delta_hiato"] == pytest.approx(40.0, abs=8.0)
+    outros = v.drop(index="230760")["delta_hiato"]
+    assert outros.abs().mean() < 8.0
+
+
+def test_calendario_cancela_a_heterogeneidade_que_infla_o_nivel():
+    """O mecanismo da Fase 2: tendência própria de cada município (τ) infla o
+    MDE do nível e se cancela no hiato sazonal, que é diferença dentro do
+    município. Sem sazonalidade plantada, o calendário exige δ menor."""
+    unidades = {f"23{i:04d}": 80 for i in range(120)}
+    p = _painel_mde(unidades, anos=range(2015, 2019), sigma=500.0, tau=60.0, seed=4)
+    tratados = [f"23{i:04d}" for i in range(7)]
+    r = cal.compara(p, tratados).set_index("desenho")
+    assert r.loc["nivel", "tau_g"] > 40                     # τ plantado aparece no nível
+    assert r.loc["calendario", "tau_g"] < 20                # e some no hiato
+    assert r.loc["calendario", "mde_por_unidade_g"] < r.loc["nivel", "mde_por_unidade_g"]
+    assert r.loc["calendario", "delta_minimo_f25_g"] < r.loc["nivel", "delta_minimo_f25_g"]
+    assert r.loc["nivel", "fracao_nasc_pico"] == pytest.approx(4 / 12, abs=0.01)
+
+
+def test_main_do_calendario_grava_e_recusa_entrada_invalida(tmp_path):
+    unidades = {f"23{i:04d}": 60 for i in range(40)}
+    caminho = tmp_path / "painel.parquet"
+    _painel_mde(unidades, anos=range(2015, 2019)).to_parquet(caminho, index=False)
+    base = ["--painel", str(caminho), "--out-dir", str(tmp_path),
+            "--censo", str(tmp_path / "nao.csv")]
+    assert cal.main(base) == 1                               # sem tratados, recusa
+    assert cal.main(base + ["--tratados", "230000,230001", "--meses-pico", "13"]) == 1
+    assert cal.main(base + ["--tratados", "230000,230001,230002"]) == 0
+    r = pd.read_csv(tmp_path / "mde_calendario.csv").set_index("desenho")
+    assert set(r.index) == {"nivel", "calendario"}
+    assert (r["g1"] == 3).all()
+    assert r.loc["calendario", "meses_pico"] == "2,3,4,5"

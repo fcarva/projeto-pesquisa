@@ -86,6 +86,13 @@ UF_CEARA = "23"      # codigo IBGE, para filtrar MUNIC_RES
 UF_SIGLA = "CE"      # sigla, para casar o nome do arquivo do FTP (RDCE<AAMM>.dbc)
 ANOS_PADRAO = (2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
 OUT_DIR = Path("data/processed")
+# FTP do DATASUS — a fonte ORIGINAL, porta 21. O `pysus` 2.10 NÃO lê daqui: ele
+# passa pelo espelho DuckLake em HTTPS, que caiu em 2026-09-22 enquanto este
+# respondia. Ver docs/ars/15 §6. ⚠️ O host responde por ftp://, não por http://
+# — o mesmo aviso que o script 03 já carregava.
+FTP_DATASUS = "ftp.datasus.gov.br"
+FTP_SIH_DIR = "/dissemin/publicos/SIHSUS/200801_/Dados"
+RAW_DIR = Path("data/raw/sih")
 NOME_SAIDA = "intoxicacao_ce_muni_mes"
 SEED = 20190613  # mesma seed dos scripts 01, 02 e 03; semente, não data do ban
 
@@ -322,13 +329,37 @@ def carrega_de_arquivos(caminhos: list[Path]) -> pd.DataFrame:
         raise ValueError("Nenhum caminho informado (use --caminho).")
     pedacos = []
     for caminho in caminhos:
-        if caminho.suffix == ".parquet":
+        if caminho.suffix.lower() == ".dbc":
+            pedacos.append(le_dbc(caminho))
+        elif caminho.suffix == ".parquet":
             pedacos.append(pd.read_parquet(caminho))
         elif caminho.suffix in (".csv", ".gz"):
             pedacos.append(pd.read_csv(caminho, dtype=str, low_memory=False))
         else:
             raise ValueError(f"Extensão não suportada: {caminho}")
     return pd.concat(pedacos, ignore_index=True)
+
+
+def le_dbc(caminho: Path) -> pd.DataFrame:
+    """Converte um .dbc do DATASUS e devolve só as COLUNAS_SIH presentes.
+
+    ⚠️ O recorte de colunas é feito AQUI, arquivo a arquivo, e não no fim: a RD
+    do SIH tem ~110 colunas e 8 anos são 96 arquivos. Acumular tudo inteiro
+    antes de recortar é o que estoura a memória nesta fonte.
+
+    ⚠️ `encoding="latin-1"` não é detalhe: o DBF do DATASUS é cp1252, e ler como
+    UTF-8 quebra em campo com acento. É o mesmo que o script 03 faz.
+    """
+    import tempfile
+    from dbfread import DBF
+    import pyreaddbc
+
+    with tempfile.TemporaryDirectory() as temporario:
+        dbf = Path(temporario) / f"{caminho.stem}.dbf"
+        pyreaddbc.dbc2dbf(str(caminho), str(dbf))
+        bloco = pd.DataFrame(iter(DBF(str(dbf), encoding="latin-1", load=False)))
+    presentes = [c for c in COLUNAS_SIH if c in bloco.columns]
+    return bloco[presentes]
 
 
 # --- SIH via pysus ----------------------------------------------------------
@@ -379,6 +410,72 @@ def carrega_de_pysus(anos=ANOS_PADRAO) -> pd.DataFrame:
     if not pedacos:
         raise RuntimeError("pysus não devolveu arquivos SIH/RD para CE.")
     return pd.concat(pedacos, ignore_index=True)
+
+
+def baixa_sih_ftp(anos=ANOS_PADRAO, uf=UF_SIGLA, destino=RAW_DIR,
+                  timeout: int = 60) -> list[Path]:
+    """Baixa `RD{SIGLA}{AA}{MM}.dbc` do FTP do DATASUS e devolve os caminhos.
+
+    ⚠️ Mesma razão do `--fonte ftp` do script 02: o `pysus` depende do espelho
+    DuckLake em HTTPS, e quando ele cai a fonte original continua de pé. Aqui a
+    diferença pesa mais, porque o SIH é **mensal** — 8 anos são 96 arquivos, e
+    uma conexão FTP reaproveitada é muito mais barata que 96 requisições.
+
+    ⚠️ O grupo é garantido pelo NOME do arquivo (`RD`), como no caminho do
+    pysus: `ER`, `RJ` e `SP` no mesmo diretório são rejeição e serviços
+    profissionais, e entrariam como internação que não houve.
+
+    Baixa para `.parte` e só então renomeia — `.dbc` truncado no cache seria
+    lido como arquivo bom na rodada seguinte.
+    """
+    from ftplib import FTP
+
+    destino = Path(destino)
+    destino.mkdir(parents=True, exist_ok=True)
+    caminhos: list[Path] = []
+    faltando: list[str] = []
+
+    with FTP(FTP_DATASUS, timeout=timeout) as ftp:
+        ftp.login()
+        ftp.cwd(FTP_SIH_DIR)
+        disponiveis = set(ftp.nlst())
+        for ano in anos:
+            baixados_no_ano = 0
+            for mes in range(1, 13):
+                nome = f"RD{uf}{ano % 100:02d}{mes:02d}.dbc"
+                alvo = destino / nome
+                if alvo.exists() and alvo.stat().st_size > 0:
+                    caminhos.append(alvo)
+                    baixados_no_ano += 1
+                    continue
+                if nome not in disponiveis:
+                    faltando.append(nome)
+                    continue
+                parte = alvo.with_suffix(".parte")
+                with open(parte, "wb") as fh:
+                    ftp.retrbinary(f"RETR {nome}", fh.write)
+                parte.replace(alvo)
+                caminhos.append(alvo)
+                baixados_no_ano += 1
+            print(f"  SIH {ano}: {baixados_no_ano:>2}/12 arquivos RD{uf}")
+
+    # ⚠️ Mês pedido e ausente é erro, não série com buraco. Um ano de 11 meses
+    # produziria queda de internações que o texto leria como efeito.
+    if faltando:
+        raise RuntimeError(
+            f"O FTP do DATASUS não tem {len(faltando)} arquivo(s): "
+            f"{', '.join(faltando[:6])}{' ...' if len(faltando) > 6 else ''}. "
+            f"Confira o ano e a sigla em {FTP_SIH_DIR}."
+        )
+    if not caminhos:
+        raise RuntimeError("Nenhum arquivo SIH/RD baixado do FTP.")
+    return caminhos
+
+
+def carrega_de_ftp(anos=ANOS_PADRAO, uf=UF_SIGLA, destino=RAW_DIR) -> pd.DataFrame:
+    """Baixa do FTP e lê, recortando as colunas arquivo a arquivo."""
+    caminhos = baixa_sih_ftp(anos, uf, destino)
+    return pd.concat([le_dbc(c) for c in caminhos], ignore_index=True)
 
 
 def simula_sih(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_ano: int = 3) -> pd.DataFrame:
@@ -458,6 +555,8 @@ def carrega_internacoes(
         return carrega_de_arquivos(caminhos or []), "arquivos"
     if fonte == "pysus":
         return carrega_de_pysus(anos), "pysus"
+    if fonte == "ftp":
+        return carrega_de_ftp(anos), "ftp"
     if caminhos:
         try:
             return carrega_de_arquivos(caminhos), "arquivos"
@@ -467,6 +566,12 @@ def carrega_internacoes(
         return carrega_de_pysus(anos), "pysus"
     except Exception as erro:  # noqa: BLE001
         print(f"[aviso] SIH via pysus indisponível ({type(erro).__name__}: {erro}).")
+    # ⚠️ Antes do simulado, o OUTRO transporte da mesma fonte. O simulado é
+    # último recurso, não segundo — ver docs/ars/15 §6.
+    try:
+        return carrega_de_ftp(anos), "ftp"
+    except Exception as erro:  # noqa: BLE001
+        print(f"[aviso] SIH via FTP indisponível ({type(erro).__name__}: {erro}).")
     print("[aviso] Caindo para SIMULADO — não é evidência.")
     return simula_sih(anos, seed), "simulado"
 
@@ -561,7 +666,7 @@ def _saida_utf8() -> None:
 def main(argv: list[str] | None = None) -> int:
     _saida_utf8()
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("--fonte", choices=("auto", "arquivos", "pysus", "simulado"),
+    parser.add_argument("--fonte", choices=("auto", "arquivos", "pysus", "ftp", "simulado"),
                         default="auto",
                         help="'pysus' baixa a AIH Reduzida direto do DATASUS "
                              "(mensal: 12 arquivos por ano) e dispensa o R.")

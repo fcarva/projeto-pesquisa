@@ -16,3 +16,7 @@ geopandas       # malha municipal do IBGE, ottobacias da ANA
 shapely         # geometria
 pyproj          # reprojeção — GAEZ vem em WGS84, IBGE também, mas conferir
 rasterstats     # estatística zonal: raster x polígono municipal
+geobr           # malha municipal oficial (IPEA). ⚠️ NÃO tem bacia/ottobacia —
+                # conferido em 2026-09-22 no pacote R e no Python; a ANA segue
+                # sendo rota própria. ⚠️ E ele baixa com verificação TLS
+                # DESATIVADA (InsecureRequestWarning). Ver scripts/data_prep/16.

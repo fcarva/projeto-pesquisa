@@ -45,10 +45,29 @@ Norte). Testar só o primeiro faz 4 municípios parecerem "sem site".
   legitimamente. `ausente_conferido` significa "o acervo publicado não tem",
   não "o município não legislou". A §8 da pré-especificação recebe isso como
   ameaça declarada.
+- ⚠️ **Lei achada não é lei vigente.** Quando acha mais de uma lei, o script
+  grava a **primeira** (a mais antiga) — e nunca procura a que a revoga. Foi
+  assim que a Lei 1.478/2009 de Limoeiro ficou registrada como ban vigente,
+  quando ela foi **revogada em maio de 2010** pela Lei 1.511, de 26/05/2010.
+  A revogadora dificilmente tem "aeronave" na ementa, então os `TERMOS` não a
+  pegam — e a de Limoeiro nem sequer diz "revoga": é uma lei de política
+  ambiental com a revogação num artigo do corpo. Todo `confirmado` exige
+  conferência manual de revogação, registrada em `data_revogacao` /
+  `fonte_revogacao` (colunas do script 08). Ver `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5.
 
 Rodar:
 
     python scripts/data_prep/09_varre_camaras.py --prioridade 1
+    python scripts/data_prep/09_varre_camaras.py --revogacao            # só relata
+    python scripts/data_prep/09_varre_camaras.py --revogacao --gravar-revogacao
+
+O modo `--revogacao` procura, para cada `confirmado`, as leis POSTERIORES que
+citam o número da lei achada, que revogam algo do tema, ou que são lei-quadro
+ambiental (política ambiental, meio ambiente, código de posturas) anterior a
+2019. Só grava a candidata inequívoca — a que cita o número E fala em revogar —
+e troca a fonte de "secundaria" para "primaria". O resto sai no relatório para
+conferência à mão. ⚠️ A lei-quadro nunca é inequívoca: a de Limoeiro (Lei
+1.511/2010) revogou num artigo do corpo, e só o texto integral mostra isso.
 """
 
 from __future__ import annotations
@@ -176,32 +195,43 @@ def varre_plataforma_b(base: str, timeout: int = 300) -> dict:
     sem ele vêm 3 registros do ano corrente; com ele, o acervo completo. Sem
     esse truque a varredura concluiria "acervo minúsculo, nada aqui".
     """
+    acervo, erros, url = _acervo_plataforma_b(base, timeout)
+    if erros:
+        return {"leis": [], "erros": 1, "termos": 1, "n_acervo": 0, "url": url}
+    leis = [lei for lei in acervo
+            if lei["ano"] < ANO_BAN_ESTADUAL and _e_do_tema(lei["ementa"])]
+    return {"leis": leis, "erros": 0, "termos": 1, "n_acervo": len(acervo), "url": url}
+
+
+def _acervo_plataforma_b(base: str, timeout: int = 300) -> tuple[list[dict], int, str]:
+    """O acervo INTEIRO da plataforma B, sem filtro — (leis, erros, url).
+
+    Separado da varredura porque a busca de revogação precisa do que a
+    varredura descarta: as leis de depois de 2009 e as que não são do tema
+    ("Revoga a Lei nº 1.478" não fala em aeronave).
+    """
     url = f"{base}/institucional/legislacao/export/?format=json&pagina=2"
     texto = busca_http(url, timeout=timeout)
     if texto is None:
-        return {"leis": [], "erros": 1, "termos": 1, "n_acervo": 0, "url": url}
+        return [], 1, url
     try:
         bruto = json.loads(texto)
     except json.JSONDecodeError:
-        return {"leis": [], "erros": 1, "termos": 1, "n_acervo": 0, "url": url}
+        return [], 1, url
     itens = bruto if isinstance(bruto, list) else bruto.get("results", [])
-
     leis = []
     for item in itens:
         ano = str(item.get("Ano", "")).strip()
-        ementa = str(item.get("Ementa", ""))
-        if not ano.isdigit() or int(ano) >= ANO_BAN_ESTADUAL:
-            continue
-        if not _e_do_tema(ementa):
+        if not ano.isdigit():
             continue
         leis.append({
             "numero_lei": f"{item.get('Número', '?')}/{ano}",
             "ano": int(ano),
             "data_lei": str(item.get("Data", ""))[:10],
-            "ementa": ementa[:200],
+            "ementa": str(item.get("Ementa", ""))[:200],
             "url_fonte": url,
         })
-    return {"leis": leis, "erros": 0, "termos": 1, "n_acervo": len(itens), "url": url}
+    return leis, 0, url
 
 
 def extrai_leis(html: str) -> list[dict]:
@@ -269,6 +299,164 @@ def classifica(resultado: dict) -> tuple[str, str]:
     return "ausente_conferido", "nao"
 
 
+# --------------------------------------------------------------------------
+# Revogação — lei achada não é lei vigente
+# --------------------------------------------------------------------------
+# Acrescentado em 2026-09-22, depois que fontes secundárias mostraram que a Lei
+# 1.478/2009 de Limoeiro foi revogada em maio de 2010 — e a varredura, que parava
+# na primeira lei achada, não tinha como saber. Ver
+# docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md §5.
+
+TERMOS_REVOGACAO = ("REVOGA", "REVOGADA", "REVOGAÇÃO", "REVOGACAO")
+
+# ⚠️ Lei-quadro: a revogação pode morar no CORPO de uma lei ampla, sem número nem
+# "revoga" na ementa. Foi o caso real: a Lei 1.511/2010 de Limoeiro ("Dispõe
+# sobre a política ambiental do município") revogou a 1.478/2009 num artigo, e
+# as buscas por número e por "revoga" voltaram vazias — a sessão local chegou a
+# contestar a revogação por isso. Leis-quadro saem como candidatas A LER, nunca
+# como inequívocas. Temas em minúsculas e sem acento, como `sem_acento` devolve;
+# termos para a busca da plataforma A, que casa palavra inteira.
+TEMAS_LEI_QUADRO = ("politica ambiental", "meio ambiente", "codigo ambiental",
+                    "codigo de posturas")
+TERMOS_LEI_QUADRO = ("AMBIENTAL", "AMBIENTE", "POSTURAS")
+
+
+def variantes_do_numero(numero_lei: str) -> set[str]:
+    """'1478/2009' ou '1.478/2009' → {'1478', '1.478'}: as câmaras escrevem dos dois jeitos."""
+    num = numero_lei.split("/")[0].replace(".", "").strip()
+    if not num.isdigit():
+        return {num}
+    return {num, f"{int(num):,}".replace(",", ".")}
+
+
+def cita_a_lei(ementa: str, numero_lei: str) -> bool:
+    """A ementa cita o número? Casa '1.478' e '1478', mas não '11.478' nem '1.4789'."""
+    e = sem_acento(ementa)
+    return any(re.search(rf"(?<![\d.]){re.escape(v)}(?![\d])", e)
+               for v in variantes_do_numero(numero_lei))
+
+
+def _data_iso(texto: str) -> str:
+    """'20/05/2010' → '2010-05-20'; ISO passa como está. A plataforma B não
+    garante o formato, e comparar datas como texto em formatos diferentes
+    ordena errado sem avisar."""
+    texto = str(texto).strip()[:10]
+    m = re.fullmatch(r"(\d{2})/(\d{2})/(\d{4})", texto)
+    return f"{m.group(3)}-{m.group(2)}-{m.group(1)}" if m else texto
+
+
+def _e_lei_quadro(ementa: str) -> bool:
+    """Lei ampla que pode revogar no corpo sem dizer na ementa (ver TEMAS_LEI_QUADRO)."""
+    e = sem_acento(ementa)
+    return any(t in e for t in TEMAS_LEI_QUADRO)
+
+
+def candidatas_revogacao(leis: list[dict], numero_lei: str, data_lei: str) -> list[dict]:
+    """Leis POSTERIORES à achada que citam o número dela, que revogam algo do
+    tema, ou que são lei-quadro ambiental anterior ao ban estadual.
+
+    ⚠️ Não decide. "Altera a Lei nº 1.478" cita o número e não revoga; "Revoga
+    as Leis nº ..." pode não repetir o tema; e a lei-quadro pode revogar num
+    artigo sem dizer nada na ementa. Por isso cada candidata sai com três
+    marcas — `cita_o_numero`, `fala_em_revogar`, `lei_quadro` — e só a
+    coincidência das duas primeiras autoriza gravar sem olho humano
+    (`--gravar-revogacao`). A lei-quadro pede o texto integral.
+
+    A lei-quadro só entra antes de 2019: revogação municipal posterior ao ban
+    estadual não muda o que vigorava em 2015–2018, e sem o corte toda lei de
+    meio ambiente de uma década viraria candidata.
+    """
+    vistas, saida, limite = set(), [], _data_iso(data_lei)
+    for lei in leis:
+        data = _data_iso(lei["data_lei"])
+        if lei["numero_lei"] in vistas or not data or data <= limite:
+            continue
+        vistas.add(lei["numero_lei"])
+        lei = {**lei, "data_lei": data}
+        e = sem_acento(lei["ementa"])
+        cita = cita_a_lei(lei["ementa"], numero_lei)
+        revoga = "revog" in e
+        quadro = _e_lei_quadro(lei["ementa"])
+        antes_do_ban = data[:4] < str(ANO_BAN_ESTADUAL)
+        if cita or (revoga and _e_do_tema(lei["ementa"])) or (quadro and antes_do_ban):
+            saida.append({**lei, "cita_o_numero": cita, "fala_em_revogar": revoga,
+                          "lei_quadro": quadro})
+    return sorted(saida, key=lambda x: x["data_lei"])
+
+
+def busca_revogacao(plataforma: str, base: str, numero_lei: str, data_lei: str,
+                    pausa: float = 0.3) -> dict:
+    """Candidatas a revogadora, pela plataforma do portal. `erros` tem o mesmo
+    papel da varredura: um termo que falhou é um termo não conferido."""
+    if plataforma == "B":
+        acervo, erros, _ = _acervo_plataforma_b(base)
+        return {"candidatas": candidatas_revogacao(acervo, numero_lei, data_lei),
+                "erros": erros, "termos": 1}
+    termos = (TERMOS_REVOGACAO + tuple(sorted(variantes_do_numero(numero_lei)))
+              + TERMOS_LEI_QUADRO)
+    leis, erros = [], 0
+    for termo in termos:
+        url = f"{base}/leis.php?descr={urllib.parse.quote(termo)}"
+        html = busca_http(url)
+        if html is None:
+            erros += 1
+            continue
+        for lei in extrai_leis(html):
+            leis.append({**lei, "url_fonte": url})
+        time.sleep(pausa)
+    return {"candidatas": candidatas_revogacao(leis, numero_lei, data_lei),
+            "erros": erros, "termos": len(termos)}
+
+
+def revogadora_inequivoca(candidatas: list[dict]) -> dict | None:
+    """A única candidata que cita o número E fala em revogar — ou nenhuma."""
+    fortes = [c for c in candidatas if c["cita_o_numero"] and c["fala_em_revogar"]]
+    return fortes[0] if len(fortes) == 1 else None
+
+
+def roda_revogacao(tabela: pd.DataFrame, gravar: bool) -> tuple[pd.DataFrame, list[str]]:
+    """Para cada `confirmado`, procura a revogadora. Devolve a tabela e o relatório."""
+    relatorio, t = [], tabela.copy()
+    for coluna in ("data_revogacao", "fonte_revogacao"):
+        if coluna not in t.columns:
+            t[coluna] = ""
+    for idx, linha in t[t["confianca"] == "confirmado"].iterrows():
+        cod = linha["cod_ibge6"]
+        if cod not in SLUGS:
+            relatorio.append(f"  ?? {linha['municipio']}: sem slug conhecido")
+            continue
+        plataforma, base = detecta_plataforma(SLUGS[cod])
+        if plataforma not in ("A", "B"):
+            relatorio.append(f"  ?? {linha['municipio']}: plataforma {plataforma} — à mão")
+            continue
+        r = busca_revogacao(plataforma, base, linha["numero_lei"], linha["data_lei"])
+        relatorio.append(f"  {linha['municipio']} — Lei {linha['numero_lei']} "
+                         f"({linha['data_lei']}), plataforma {plataforma}, "
+                         f"{r['termos'] - r['erros']}/{r['termos']} buscas ok")
+        for c in r["candidatas"]:
+            marcas = [m for m, sim in (("cita o número", c["cita_o_numero"]),
+                                       ("revoga", c["fala_em_revogar"]),
+                                       ("lei-quadro: ler o texto integral",
+                                        c.get("lei_quadro", False))) if sim]
+            relatorio.append(f"     >>> Lei {c['numero_lei']}  {c['data_lei']}  [{' + '.join(marcas)}]")
+            relatorio.append(f"         {c['ementa'][:110]}")
+        if not r["candidatas"]:
+            relatorio.append("     nenhuma candidata"
+                             + (" — ⚠️ com busca falhando, isto NÃO é 'não revogada'"
+                                if r["erros"] else ""))
+        achada = revogadora_inequivoca(r["candidatas"])
+        if gravar and achada:
+            t.loc[idx, "data_revogacao"] = achada["data_lei"]
+            t.loc[idx, "fonte_revogacao"] = (
+                f"primaria: Lei {achada['numero_lei']} de {achada['data_lei']} — "
+                f"{achada['ementa'][:90]} ({achada.get('url_fonte', base)})")
+            relatorio.append(f"     ✔ gravada: Lei {achada['numero_lei']} "
+                             f"(antes: {linha.get('data_revogacao', '') or 'vazio'})")
+        elif gravar:
+            relatorio.append("     ✘ não gravada: nenhuma candidata inequívoca — conferir à mão")
+    return t, relatorio
+
+
 def imprime_relatorio(linhas: list[dict]) -> None:
     barra = "=" * 92
     print(barra)
@@ -281,6 +469,9 @@ def imprime_relatorio(linhas: list[dict]) -> None:
         for lei in r.get("achados", []):
             print(f"       >>> Lei {lei['numero_lei']}  {lei['data_lei']}")
             print(f"           {lei['ementa'][:110]}")
+        if r.get("achados"):
+            print("       ⚠️ achada ≠ vigente: conferir revogação à mão "
+                  "(?descr=REVOGA e o número da lei) e gravar data_revogacao.")
     print()
     print(barra)
     print("COMO LER")
@@ -303,6 +494,11 @@ def main(argv: list[str] | None = None) -> int:
                    help="máximo de municípios nesta rodada")
     p.add_argument("--refazer", action="store_true",
                    help="revisita linhas já resolvidas (padrão: não)")
+    p.add_argument("--revogacao", action="store_true",
+                   help="em vez de varrer, procura a revogadora de cada lei 'confirmado'")
+    p.add_argument("--gravar-revogacao", action="store_true",
+                   help="com --revogacao: grava só a candidata inequívoca "
+                        "(cita o número E fala em revogar)")
     args = p.parse_args(argv)
 
     if not args.csv.exists():
@@ -311,6 +507,24 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     tabela = pd.read_csv(args.csv, dtype=str, comment="#").fillna("")
+
+    if args.revogacao:
+        nova, relatorio = roda_revogacao(tabela, gravar=args.gravar_revogacao)
+        print("=" * 92)
+        print("REVOGAÇÃO — lei achada não é lei vigente")
+        print("=" * 92)
+        print("\n".join(relatorio) if relatorio else "  nenhum 'confirmado' no registro")
+        if args.gravar_revogacao and not nova.equals(tabela):
+            cabecalho = [l for l in args.csv.read_text(encoding="utf-8").split("\n")
+                         if l.startswith("#")]
+            with open(args.csv, "w", encoding="utf-8", newline="") as fh:
+                for l in cabecalho:
+                    fh.write(l + "\n")
+                fh.write(f"# revogação conferida: {date.today().isoformat()} "
+                         "por 09_varre_camaras.py --revogacao\n")
+                nova.to_csv(fh, index=False)
+            print(f"gravado: {args.csv}")
+        return 0
     alvo = tabela[tabela["prioridade"].astype(int) <= args.prioridade]
     if not args.refazer:
         alvo = alvo[alvo["confianca"] == "nao_verificado"]

@@ -1,6 +1,9 @@
 pandas
 numpy
 pyarrow
+# Confere os códigos do Censo contra o dicionário oficial (xlsx) do censobr —
+# scripts/data_prep/15, --verificar-dicionario.
+openpyxl
 pyfixest
 sidrapy
 pysus==2.10.0

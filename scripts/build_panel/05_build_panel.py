@@ -278,11 +278,14 @@ def carrega_populacao(in_dir: Path, fonte: str = "auto") -> pd.DataFrame:
 def carrega_bans_municipais(caminho: Path = CAMINHO_BANS) -> pd.DataFrame:
     """Bans municipais anteriores a 2019, do levantamento legislativo.
 
-    Flag 0 do `CLAUDE.md`, e ela deixou de ser hipótese em 2026-09-21: Limoeiro
-    do Norte proíbe a pulverização aérea pela Lei 1.478 de 20/11/2009, e está
-    no decil superior da banana — dentro do grupo tratado.
+    Flag 0 do `CLAUDE.md`: Limoeiro do Norte proibiu a pulverização aérea pela
+    Lei 1.478 de 20/11/2009, e está no decil superior da banana. ⚠️ **E a lei
+    foi revogada pela Lei 1.511, de 26/05/2010** (política ambiental; a
+    revogação está no corpo, não na ementa). Por isso a TERCEIRA coluna: sem a data de
+    revogação, "ban em 2009" lia-se como "tratado desde 2009", e no pré-período
+    de 2015–2018 Limoeiro pulverizava como qualquer vizinho.
 
-    ⚠️ **Devolve DUAS colunas, e a segunda não é decorativa.** Se o painel
+    ⚠️ **Devolve a data E a confiança, e a confiança não é decorativa.** Se o painel
     levasse só a data, `inconclusivo` (ninguém conseguiu conferir) e
     `ausente_conferido` (conferido, não há lei) virariam ambos `NaT` — e a
     distinção que o CSV inteiro existe para preservar morreria na fronteira
@@ -295,14 +298,33 @@ def carrega_bans_municipais(caminho: Path = CAMINHO_BANS) -> pd.DataFrame:
     """
     if not caminho.exists():
         return pd.DataFrame(columns=["cod_ibge6", "ban_municipal_data",
+                                     "ban_municipal_revogado_em",
                                      "ban_municipal_confianca"])
     bruto = pd.read_csv(caminho, dtype=str, comment="#").fillna("")
+    # CSV anterior a 2026-09-22 não tem a coluna: vira NaT, não erro.
+    revogacao = bruto.get("data_revogacao", pd.Series("", index=bruto.index))
     saida = pd.DataFrame({
         "cod_ibge6": bruto["cod_ibge6"].astype(str),
         "ban_municipal_data": pd.to_datetime(bruto["data_lei"], errors="coerce"),
+        "ban_municipal_revogado_em": pd.to_datetime(revogacao, errors="coerce"),
         "ban_municipal_confianca": bruto["confianca"],
     })
     return saida
+
+
+def ban_vigente_em(bans: pd.DataFrame, data: str | pd.Timestamp) -> pd.Series:
+    """Quem estava sob ban municipal VIGENTE na data — não quem teve lei um dia.
+
+    ⚠️ É a pergunta que importa para o pré-período: Limoeiro teve lei em 2009 e
+    não tinha ban em 2015. Recebe o que `carrega_bans_municipais` devolve (ou o
+    painel) e tolera a ausência da coluna de revogação.
+    """
+    data = pd.Timestamp(data)
+    inicio = pd.to_datetime(bans["ban_municipal_data"], errors="coerce")
+    fim = pd.to_datetime(bans.get("ban_municipal_revogado_em",
+                                  pd.Series(pd.NaT, index=bans.index)),
+                         errors="coerce")
+    return (inicio <= data) & (fim.isna() | (fim > data))
 
 
 def monta_painel(
@@ -403,6 +425,8 @@ def monta_painel(
     else:
         painel["ban_municipal_data"] = pd.NaT
         painel["ban_municipal_confianca"] = "nao_verificado"
+    if "ban_municipal_revogado_em" not in painel.columns:
+        painel["ban_municipal_revogado_em"] = pd.NaT
     painel["ban_municipal_confianca"] = (
         painel["ban_municipal_confianca"].fillna("nao_verificado"))
 
@@ -510,11 +534,16 @@ def imprime_resumo(painel: pd.DataFrame, cultura: str, fonte: str) -> None:
         banidos = por_muni[por_muni["ban_municipal_data"].notna()]
         print()
         print("  ⚠️ BANS MUNICIPAIS ANTERIORES A 2019 (flag 0):")
-        print(f"    confirmados (já tratados antes da lei estadual): "
-              f"{len(banidos):3d}")
+        print(f"    confirmados (lei achada no acervo): {len(banidos):3d}")
         for _, linha in banidos.iterrows():
+            revogado = linha.get("ban_municipal_revogado_em", pd.NaT)
+            fim = (f", REVOGADO em {revogado.date()}" if pd.notna(revogado)
+                   else " (sem revogação registrada — conferir)")
             print(f"      {linha['cod_ibge6']}  desde "
-                  f"{linha['ban_municipal_data'].date()}")
+                  f"{linha['ban_municipal_data'].date()}{fim}")
+        vigentes = int(ban_vigente_em(por_muni, "2015-01-01").sum())
+        print(f"    vigentes no início do pré-período (2015-01-01): {vigentes:3d}"
+              "  ← é este número que contamina o pré-período")
         for chave in ("ausente_conferido", "inconclusivo", "nao_verificado"):
             print(f"    {chave:<20} {int(contagem.get(chave, 0)):3d}")
         print("    ⚠️ 'inconclusivo' e 'nao_verificado' NÃO são 'não tratado'. Para")

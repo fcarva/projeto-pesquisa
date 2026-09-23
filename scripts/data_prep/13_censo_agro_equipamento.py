@@ -25,15 +25,19 @@ Isso põe três coisas em cima da mesa, e nenhuma é sobre custo:
    está contaminado por usuários de aeronave — é verificação direta da flag 5,
    e ela passa aqui.
 
-2. ⚠️ **Diluição do tratamento.** Dos 19 municípios do decil superior da banana,
-   **17 não tinham aeronave alguma**. O `d` alto está sendo atribuído a
-   municípios onde o tratamento — remover a pulverização aérea — não tinha o que
-   remover. Isso atenua o ATT por construção, e é problema de DEFINIÇÃO de
-   tratamento, não de poder estatístico.
+2. ⚠️ **Diluição do tratamento.** Dos **17** tratados — o decil dos
+   estimadores, `ceil(10%)` dos 169 produtores —, **15 não tinham nenhum
+   estabelecimento com aplicação por aeronave**. (O `confronta` abaixo marca
+   19, porque usa o quantil 0,9 sobre os 184, zeros incluídos: são os mesmos 17
+   mais o 18º e o 19º. Resolvido em 2026-09-22, `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §1.) O `d`
+   alto está sendo atribuído a municípios onde o tratamento — remover a
+   pulverização aérea — não tinha o que remover. Isso atenua o ATT por
+   construção.
 
-3. ⚠️ **E compõe com a flag 0.** Das 27 aeronaves dentro do decil superior, 18
-   são de Limoeiro do Norte, que proibiu a pulverização aérea em 2009. Sobram
-   **9 aeronaves em Quixeré** como tratamento genuinamente novo em 2019.
+3. ✅ **E NÃO compõe com a flag 0, ao contrário do que se escreveu aqui antes.**
+   Dos 27 estabelecimentos do decil, 18 são de Limoeiro do Norte, cuja lei
+   municipal de 2009 foi **revogada em maio de 2010** (Lei 1.511). Os 27
+   são tratamento genuíno em 2019: VPP = 2/17.
 
 ⚠️ AS RESSALVAS, QUE SÃO SÉRIAS
 --------------------------------
@@ -94,10 +98,20 @@ def _get(url: str, timeout: int = 300):
     return json.loads(b.decode("utf-8"))
 
 
-def municipios_ce() -> list[str]:
-    """Códigos de SETE dígitos. ⚠️ Com seis a API devolve HTTP 500, não vazio."""
-    ms = _get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/23/municipios")
+def municipios_da_uf(uf: str = "23") -> list[str]:
+    """Códigos de SETE dígitos da UF. ⚠️ Com seis a API devolve HTTP 500, não vazio.
+
+    ⚠️ Parametrizado para o gate da Rota 1: a pergunta que decide o desenho de
+    fronteira é se o estado vizinho tinha aeronave no pré-ban, e ela se responde
+    com esta MESMA tabela — trocando só a UF. Ver `14_gate_fronteira.py`.
+    """
+    ms = _get(f"https://servicodados.ibge.gov.br/api/v1/localidades/estados/{uf}/municipios")
     return [str(m["id"]) for m in ms]
+
+
+def municipios_ce() -> list[str]:
+    """Compatibilidade: o Ceará, que é o caso canônico do projeto."""
+    return municipios_da_uf("23")
 
 
 def baixa(ids: list[str], chunk: int = 25, pausa: float = 0.3) -> pd.DataFrame:
@@ -245,11 +259,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--painel", type=Path, default=PAINEL)
     p.add_argument("--out-dir", type=Path, default=OUT_DIR)
     p.add_argument("--chunk", type=int, default=25)
+    p.add_argument("--uf", default="23", metavar="COD",
+                   help="Código IBGE da UF (padrão: 23 = Ceará). 24 = RN.")
     args = p.parse_args(argv)
 
-    print(f"  baixando SIDRA {TABELA}/{PERIODO} para os municípios do CE...")
+    print(f"  baixando SIDRA {TABELA}/{PERIODO} para os municípios da UF {args.uf}...")
     try:
-        ids = municipios_ce()
+        ids = municipios_da_uf(args.uf)
     except Exception as e:
         print(f"✘ não foi possível listar os municípios: {type(e).__name__}")
         return 1
@@ -261,7 +277,10 @@ def main(argv: list[str] | None = None) -> int:
     relata(tb, confronta(tb, args.painel))
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    destino = args.out_dir / "censo_agro_equipamento_ce.csv"
+    # ⚠️ Nome carrega a UF: sem isso uma rodada --uf 24 gravaria por cima do
+    # artefato do Ceará, e o confronto com a dose leria o arquivo errado.
+    sufixo_uf = "ce" if args.uf == "23" else f"uf{args.uf}"
+    destino = args.out_dir / f"censo_agro_equipamento_{sufixo_uf}.csv"
     tb.to_csv(destino, index=False, encoding="utf-8")
     print(f"gravado: {destino}  ({len(tb)} municípios)")
     return 0

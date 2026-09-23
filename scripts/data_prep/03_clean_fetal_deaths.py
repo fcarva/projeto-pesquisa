@@ -598,7 +598,65 @@ def simula_sim(anos=ANOS_PADRAO, seed: int = SEED, n_por_muni_mes: int = 18) -> 
 # ⚠️ E ele é NACIONAL: `DOFET15.dbc`, não `DOFETCE15.dbc`. O recorte do Ceará
 # é feito depois, por CODMUNRES — por isso baixa-se ~3 MB por ano para ficar
 # com ~1,6 mil linhas.
-FTP_DOFET = "ftp://ftp.datasus.gov.br/dissemin/publicos/SIM/CID10/DOFET/DOFET{aa}.dbc"
+FTP_DATASUS = "ftp.datasus.gov.br"
+FTP_DOFET_DIR = "/dissemin/publicos/SIM/CID10/DOFET"
+RAW_DIR = Path("data/raw/dofet")
+# Mantido só para quem referenciava a URL montada; o download não passa mais por
+# aqui. Ver `baixa_dofet_ftp`.
+FTP_DOFET = f"ftp://{FTP_DATASUS}{FTP_DOFET_DIR}/DOFET{{aa}}.dbc"
+
+
+def baixa_dofet_ftp(anos=ANOS_PADRAO, destino=RAW_DIR, timeout: int = 60) -> list[Path]:
+    """Baixa `DOFET<AA>.dbc` do FTP do DATASUS e devolve os caminhos.
+
+    ⚠️ Antes isto chamava `curl` em subprocesso, um processo por arquivo, e
+    exigia `curl` no PATH. Alinhado em 2026-09-22 aos scripts 02, 04 e 10:
+    `ftplib`, sem binário externo, com UMA conexão reaproveitada. Ver
+    `docs/ars/15-gate-rota1-resultado.md` §6.
+
+    ⚠️ E o comportamento mudou num ponto que importa: ano ausente **levanta**,
+    em vez de avisar e seguir. A versão com `curl` fazia `continue`, e uma
+    janela de 8 anos que voltasse com 6 produziria série curta sem nada
+    acusar — a mesma falha silenciosa que as guardas dos outros três scripts
+    existem para impedir.
+
+    Baixa para `.parte` e só então renomeia: `.dbc` truncado no cache seria
+    lido como arquivo bom na rodada seguinte.
+    """
+    from ftplib import FTP
+
+    destino = Path(destino)
+    destino.mkdir(parents=True, exist_ok=True)
+    caminhos: list[Path] = []
+    faltando: list[str] = []
+
+    with FTP(FTP_DATASUS, timeout=timeout) as ftp:
+        ftp.login()
+        ftp.cwd(FTP_DOFET_DIR)
+        disponiveis = set(ftp.nlst())
+        for ano in anos:
+            nome = f"DOFET{ano % 100:02d}.dbc"
+            alvo = destino / nome
+            if alvo.exists() and alvo.stat().st_size > 0:
+                caminhos.append(alvo)
+                continue
+            if nome not in disponiveis:
+                faltando.append(nome)
+                continue
+            parte = alvo.with_suffix(".parte")
+            with open(parte, "wb") as fh:
+                ftp.retrbinary(f"RETR {nome}", fh.write)
+            parte.replace(alvo)
+            caminhos.append(alvo)
+
+    if faltando:
+        raise RuntimeError(
+            f"O FTP do DATASUS não tem: {', '.join(faltando)} em {FTP_DOFET_DIR}. "
+            "Ano fora da série publicada, ou diretório mudado."
+        )
+    if not caminhos:
+        raise RuntimeError("Nenhum DOFET baixado do FTP.")
+    return caminhos
 
 
 def carrega_de_dofet(anos=ANOS_PADRAO, cache: Path | None = None) -> pd.DataFrame:
@@ -607,8 +665,6 @@ def carrega_de_dofet(anos=ANOS_PADRAO, cache: Path | None = None) -> pd.DataFram
     Requer `pyreaddbc` (converte .dbc -> .dbf) e `dbfread` (lê o .dbf). Ambos
     entram junto com o `pysus`, e estão declarados no requirements.txt.
     """
-    import shutil
-    import subprocess
     import tempfile
 
     try:
@@ -620,41 +676,30 @@ def carrega_de_dofet(anos=ANOS_PADRAO, cache: Path | None = None) -> pd.DataFram
             "Ambos estão no requirements.txt."
         ) from erro
 
-    if shutil.which("curl") is None:  # pragma: no cover
-        raise RuntimeError("DOFET é baixado por FTP com `curl`, que não está no PATH.")
-
-    destino = Path(cache) if cache else Path(tempfile.mkdtemp(prefix="dofet_"))
-    destino.mkdir(parents=True, exist_ok=True)
+    caminhos = baixa_dofet_ftp(anos, cache if cache else RAW_DIR)
 
     pedacos = []
-    for ano in anos:
-        aa = f"{ano % 100:02d}"
-        dbc = destino / f"DOFET{aa}.dbc"
-        dbf = destino / f"DOFET{aa}.dbf"
-        if not dbc.exists():
-            url = FTP_DOFET.format(aa=aa)
-            r = subprocess.run(["curl", "-s", "-f", "-m", "300", "-o", str(dbc), url],
-                               capture_output=True)
-            if r.returncode != 0 or not dbc.exists() or dbc.stat().st_size == 0:
-                print(f"[aviso] DOFET{aa} indisponível no FTP (curl {r.returncode}).")
-                dbc.unlink(missing_ok=True)
-                continue
-        if not dbf.exists():
+    for dbc in caminhos:
+        with tempfile.TemporaryDirectory() as temporario:
+            dbf = Path(temporario) / f"{dbc.stem}.dbf"
             pyreaddbc.dbc2dbf(str(dbc), str(dbf))
-        bloco = pd.DataFrame(iter(DBF(str(dbf), encoding="latin-1")))
+            bloco = pd.DataFrame(iter(DBF(str(dbf), encoding="latin-1")))
         # Recorte do Ceará ANTES de acumular: o arquivo é nacional e só ~5% é CE.
         cod = bloco.get("CODMUNRES")
         if cod is None:
-            print(f"[aviso] DOFET{aa} sem CODMUNRES; pulado.")
-            continue
+            raise RuntimeError(
+                f"{dbc.name} sem CODMUNRES — sem ele o recorte do Ceará não existe, "
+                "e seguir produziria painel de outro universo."
+            )
         bloco = bloco[cod.astype(str).str.startswith(UF_CEARA)]
-        print(f"  DOFET{aa}: {len(bloco):>6,} óbitos fetais no Ceará".replace(",", "."))
+        print(f"  {dbc.stem}: {len(bloco):>6,} óbitos fetais no Ceará".replace(",", "."))
         pedacos.append(bloco)
 
     if not pedacos:
         raise RuntimeError(
             "Nenhum DOFET baixado. Confira o acesso a ftp.datasus.gov.br — "
-            "⚠️ o host responde por ftp://, NÃO por http:// (que dá 000)."
+            "⚠️ o host responde por ftp:// na porta 21, NÃO por http:// nem "
+            "https:// (80 e 443 estão fechadas porque não há serviço ali)."
         )
     return pd.concat(pedacos, ignore_index=True)
 

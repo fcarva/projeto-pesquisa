@@ -23,6 +23,9 @@ Drive, não no repositório.
 |---|---|
 | **09/12/1993** | Lei 12.228/1993 — norma-mãe sobre agrotóxicos no Ceará (D.O. 14.12.93). |
 | **20/11/2009** | ✅ **CONFERIDO.** Limoeiro do Norte proíbe a pulverização aérea pela **Lei Municipal 1.478/2009** — *"dispõe sobre a proibição do uso de aeronaves nas pulverizações de lavouras no município de Limoeiro do Norte"*. Fonte primária: `camaralimoeirodonorte.ce.gov.br/leis/549` (consulta 2026-09-21). O art. 29 da lei estadual autoriza o município a legislar supletivamente. ⚠️ Ver a ameaça abaixo — ela agora tem número. |
+| **21/04/2010** | Assassinato de José Maria Filho, o Zé Maria do Tomé, que defendia a lei municipal. |
+| **20/05/2010** | ⚠️ **Lei 1.478/2009 REVOGADA** pela Câmara de Limoeiro do Norte, um mês após o assassinato. Fontes **secundárias** e concordantes: CPT, nota de 23/04/2014, reproduzida pela Terra de Direitos (*"A lei que proibia a pulverização aérea foi revogada em dia 20 de maio de 2010, um mês após o assassinato de Zé Maria"*), e MST, 16/01/2019. ⚠️ **Não há lei com esta data** no acervo (bloco CONTESTADO abaixo): é, provavelmente, a data da **votação**. Consequência: **a contaminação do pré-período 2015–2018 é nula** — ver abaixo e `docs/ars/16-diluicao-corolario1-limoeiro-calibracao.md` §5. |
+| **26/05/2010** | ✅ **Lei Municipal 1.511/2010** — *"Dispõe sobre a política ambiental do município de Limoeiro do Norte e dá outras providências"* (`camaralimoeirodonorte.ce.gov.br/leis/581`). **É a revogadora**: a revogação da 1.478 está num artigo do corpo, não na ementa (bloco RESOLVIDO abaixo). ⬜ Texto integral a conferir. |
 | **24/02/2015** | **PL 18/2015 apresentado** por Renato Roseno. ⚠️ **Marco de notícia** — a janela pré-ban 2015–2018 começa *depois* disto. |
 | **18/12/2018** | ALECE aprova por unanimidade, após 4 anos de tramitação. **Marco de certeza.** |
 | **08/01/2019** | Lei 16.820/2019 sancionada por Camilo Sobreira de Santana. |
@@ -69,6 +72,90 @@ Conferido contra `data/processed/pam_ce_muni_cultura_media__sidra.parquet`:
 O grupo tratado que sustenta o MDE da banana em `gates-resultados-dados-reais.md`
 §6 tem **17 unidades**, e **uma delas está tratada desde 2009**. É ~6% do grupo,
 e é a 6ª maior dose — não é unidade de borda.
+
+> ### ⚠️⚠️ CONTESTADO em 2026-09-22 (sessão local): o acervo COMPLETO não tem a revogadora
+>
+> O item aberto era "lei revogadora a localizar no acervo". Ela foi procurada
+> no **acervo inteiro**, não por busca de termo: o endpoint
+> `camaralimoeirodonorte.ce.gov.br/leis/export` devolve a listagem completa —
+> **2.692 leis municipais**, de 1987 a 2026, com número, data e ementa.
+>
+> | verificação | resultado |
+> |---|---|
+> | leis citando "1478" ou "1.478" | **1** — a própria Lei 1.478/2009 |
+> | leis cuja ementa toca pulverização / agrotóxico / aéreo | **1** — a mesma |
+> | leis com "revog" na ementa (todo o acervo) | 10, **nenhuma** sobre a 1.478 |
+> | **leis datadas de 20/05/2010** | **NENHUMA** |
+>
+> ⚠️ **A data de 20/05/2010 não existe no acervo.** As leis vizinhas são a
+> **1509, de 12/05/2010** (denominação de posto de saúde) e a **1510, de
+> 21/05/2010** (protocolo de intenções). E 2010 está bem coberto — 43 leis,
+> numeração contínua de 1492 a 1535, de fevereiro a dezembro —, então não é
+> lacuna de acervo.
+>
+> **A candidata mais próxima por data e tema é a Lei 1511, de 26/05/2010,
+> "Dispõe sobre a política ambiental do município".** ⚠️ Mas a ementa não cita
+> a 1.478, e a LC 95/1998, art. 9º, exige **revogação expressa com enumeração**
+> — cláusula genérica de "revogam-se as disposições em contrário" não revoga
+> lei anterior específica. É hipótese a conferir no texto integral da 1511, não
+> confirmação.
+>
+> **O que isto muda e o que não muda.** Não prova que a revogação não ocorreu:
+> o acervo lista **ementas**, não textos integrais, e traz só "Lei Municipal" —
+> um decreto não apareceria. Mas o que era "fonte secundária, primária a
+> localizar" passa a ser **"fonte secundária, e a primária foi procurada no
+> acervo completo e não existe"**, que é situação bem mais frágil. ⬜ **A
+> cadeia que depende disto** — flag 0 do `CLAUDE.md`, `data_revogacao` no
+> registro, a contagem de bans vigentes no painel e os fatos da §5 do paper —
+> **fica pendente de decisão do pesquisador com o orientador.**
+>
+> Reproduzir: `python scripts/data_prep/09_varre_camaras.py --revogacao`
+> (rodou contra o site real, 6/6 buscas ok, nenhuma candidata) e a listagem
+> completa em `/leis/export`.
+
+> ### ✅ RESOLVIDO em 2026-09-22 (sessão remota): a revogadora é a Lei 1.511/2010, e a revogação está no corpo, não na ementa
+>
+> A candidata que o bloco acima deixou como hipótese se confirma por três
+> fontes independentes, que ligam a lei de política ambiental à revogação:
+>
+> | fonte | o que diz | natureza |
+> |---|---|---|
+> | Acervo da Câmara, `/leis/581` | Lei **1511/2010**, *"Dispõe sobre a política ambiental do município de Limoeiro do Norte e dá outras providências"*, **26/05/2010**; a página lista arquivos anexos | ✅ primária, **só a ementa** |
+> | *Diário do Nordeste*, "Comissão vai apurar conflitos na Chapada do Apodi" (abr/2010 segundo o buscador, **antes** da votação — ⬜ conferir a data na página; [link](https://diariodonordeste.verdesmares.com.br/editorias/regiao/comissao-vai-apurar-conflitos-na-chapada-do-apodi-1.102378)) | *"... política ambiental, que tem em um de seus artigos a revogação da lei anterior, que proíbe a pulverização aérea."* | secundária, trecho literal pelo índice de busca |
+> | G1 Ceará, 31/10/2024 ([link](https://g1.globo.com/ce/ceara/noticia/2024/10/31/ze-maria-do-tome-o-ambientalista-cearense-assassinado-por-combater-o-uso-de-agrotoxicos-no-ceara.ghtml)) | *"E em maio de 2010, um mês após sua morte, a mesma legislatura votou a lei 1.511, que definia a política ambiental de Limoeiro do Norte."* | secundária, trecho literal pelo índice de busca |
+> | Castro (2011), dissertação UFC ([PDF](https://repositorio.ufc.br/bitstream/riufc/83309/4/2011_dis_fscastro.pdf)) | *"Em fevereiro de 2010, o Prefeito Municipal apresenta à Câmara de Vereadores Projeto de Lei que dispunha sobre a política ambiental do Município e que, em ..."* (o trecho corta aí) | secundária, acadêmica; data a origem do projeto |
+>
+> **Por que a busca não achou.** A revogação é um artigo de uma lei ampla. A
+> ementa da 1.511 não cita a 1.478 nem diz "revoga", então nenhuma das três
+> buscas — número, termo de revogação, tema — podia pegá-la. É um ponto cego
+> do script 09 (`--revogacao`), e ele agora marca leis-quadro ambientais
+> posteriores como candidatas a ler (`lei_quadro`), nunca como inequívocas.
+>
+> **As datas.** O **20/05/2010** da CPT é, provavelmente, a data da votação
+> (o G1 diz "em maio de 2010 ... votou a lei 1.511"); **26/05/2010** é a data
+> da lei no acervo. O registro passou a usar a data da lei. Para o estudo a
+> diferença é nula: as duas estão cinco anos antes da janela 2015–2018.
+>
+> **O que isto resolve.** A objeção do bloco acima via LC 95/1998, art. 9º,
+> não se aplica: segundo o *Diário do Nordeste*, a revogação é **expressa**,
+> num artigo do projeto. Continua **não conferido** se esse artigo sobreviveu
+> à votação sem mudança, e isso só o texto integral mostra (anexo em
+> `/leis/581`, que o proxy da sessão remota bloqueia). Por isso a fonte
+> continua marcada `secundaria` em `bans-municipais-ce.csv`. ⬜ **Passo local,
+> 5 minutos:** abrir o anexo, copiar o artigo revogatório para cá e trocar a
+> fonte para `primaria`.
+>
+> **O que isto devolve.** A cadeia que o bloco acima suspendeu — flag 0 do
+> `CLAUDE.md`, `data_revogacao`, bans vigentes no painel, §5 do paper — volta
+> a valer, com a data e a lei corrigidas. Limoeiro é tratamento genuíno em 2019.
+
+> ⚠️ **Corrigido em 2026-09-22: a lei foi revogada em maio de 2010** (Lei
+> 1.511, de 26/05/2010; cronologia acima). O ban durou seis meses, e em 2015–2018 Limoeiro **não** estava sob
+> proibição. As três consequências listadas abaixo **não se materializam** na
+> janela do estudo; ficam como registro do raciocínio de 2026-09-21. A lição de
+> método: a varredura achou a lei e parou — **lei achada não é lei vigente**.
+> O registro (`bans-municipais-ce.csv`) ganhou `data_revogacao` e
+> `fonte_revogacao`, e o painel passou a contar bans **vigentes** em 2015.
 
 ⚠️ **Isto não é mais uma ameaça a verificar; é um defeito a tratar.** As
 consequências que o esboço antecipava, agora com sujeito conhecido:
