@@ -309,17 +309,20 @@ def ic_inversao(dados: pd.DataFrame, n_perm: int = N_BOOT, seed: int = SEED,
 # inferência robusta sobre OUTRO objeto, a inclinação de +6,81. O parecer pede
 # inferência robusta sobre o próprio ATT(d|d).
 #
-# Sob PT, ATT(d|d) = E[ΔY|D=d] − E[ΔY|D=0]. A média disso entre os tratados é
-# E[ΔY|D>0] − E[ΔY|D=0]: o DiD binarizado. E o sieve, ajustado por MQO com
-# intercepto entre os tratados, tem valores ajustados cuja média é a média de
-# ΔY entre eles. O agregado do contdid É, portanto, esta diferença de médias
-# (a menos de pesos). Por isso a inferência sobre ele pode ser feita aqui,
-# sobre a mesma primeira diferença.
+# Sob PT, ATT(d|d) = E[ΔY|D=d] − E[ΔY|D=0], e a média disso entre os tratados
+# é E[ΔY|D>0] − E[ΔY|D=0]: o DiD binarizado. CONFERIDO NO CÓDIGO fixado no
+# renv.lock: com o sieve, o `overall_att` do contdid (5cfec81, R/cont_did.R,
+# l. 289–317) sai de `ptetools::pte_default`; o `pte_attgt` (ptetools bda4aa5)
+# toma ΔY e roda `DRDID::drdid_panel` só com intercepto e pesos iguais, que é
+# a diferença de médias; e o 03_contdid.R põe g = 2 se dose > 0. O agregado É
+# esta diferença de médias, sem reponderação, e a inferência sobre ele pode ser
+# feita aqui, sobre a mesma primeira diferença.
 #
 # ⚠️ O lado escasso é o de CONTROLE. São 15 municípios de área nula (14 pela
-# definição 4) contra 169 produtores. A variância do nível é dominada pela
-# média dos 15, e todos os estimadores binários da §6 usam os mesmos 15. A
-# coerência de sinal entre eles não é independência.
+# definição 4) contra 169 com área positiva. A variância do nível é dominada
+# pela média dos 15, e as especificações binárias da §6 (decil × zero)
+# reutilizam os mesmos 15. Variam o tratado e o estimando, não o controle:
+# concordância de sinal entre elas não é independência.
 
 def nivel(dados: pd.DataFrame) -> float:
     """ATT(d|d) agregado da primeira diferença: média de dy entre os de dose > 0
@@ -348,7 +351,7 @@ def inferencia_nivel(dados: pd.DataFrame, n_boot: int = N_BOOT, seed: int = SEED
     """O nível e quatro leituras da incerteza dele. Nenhuma vale sozinha.
 
     1. **EP de Welch**, heterocedástico e assintótico nos DOIS grupos. Com 15
-       controles, é a leitura que o multiplicador do contdid aproxima, e a
+       controles, é a leitura mais próxima do EP que o contdid reporta, e a
        mais otimista.
     2. **Wild bootstrap** com o nulo imposto: pesos de Rademacher sobre os
        resíduos em torno da média comum, estatística t de Welch. ⚠️ Com poucos
@@ -528,8 +531,8 @@ def imprime_relatorio(dados: pd.DataFrame, desfecho: str, mde: float | None,
               f"   (sem {niv['jack_cod_min']} / sem {niv['jack_cod_max']})")
         if niv["n_controles"] < 30:
             print(f"  ⚠️ {niv['n_controles']} controles. O lado escasso do nível é o de")
-            print("     CONTROLE, não o de tratados. Todos os estimadores binários da")
-            print("     §6 usam o mesmo grupo, então concordarem não é independência.")
+            print("     CONTROLE, não o de tratados. As especificações binárias da §6")
+            print("     reutilizam o mesmo grupo: concordarem não é independência.")
         perfil = resultados.get("perfil")
         if perfil is not None and len(perfil) > 1:
             print("  dy médio por faixa — o nível cresce com a dose, ou é só o zero?")

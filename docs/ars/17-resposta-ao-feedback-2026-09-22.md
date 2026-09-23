@@ -33,66 +33,114 @@ trata Limoeiro como vigente desde 2009 (commits `ee0b888`, `f91fffd`, e
 
 ## 1. O −36 g, relido: o que o comentário 4 abre
 
+> **Revisto em 2026-09-23**, depois de uma crítica a esta seção que o
+> pesquisador trouxe. A primeira versão tratava o VPP de 2006 como se fosse o
+> tratamento de 2018 e dizia que o paper "já mantém" hipóteses que ele não
+> mantém. As duas coisas procediam. O que segue é calibração sob hipóteses
+> declaradas, não correção identificada do efeito.
+
 O parecerista pediu inferência robusta sobre o próprio \(ATT(d\,|\,d)\). Ao
-montá-la, apareceram quatro coisas que o paper não diz, e elas mudam a leitura
-do número.
+montá-la, apareceram quatro coisas que o paper não diz.
 
 **1.1 O agregado é uma diferença de médias, e o lado escasso é o de
-controle.** Sob PT, \(ATT(d\,|\,d) = E[\Delta Y\,|\,D=d] - E[\Delta Y\,|\,D=0]\).
-A média disso entre os tratados é \(E[\Delta Y\,|\,D>0] - E[\Delta Y\,|\,D=0]\):
-o DiD binarizado. No Ceará são **169 produtores de banana contra 15
-municípios de área nula** (14 pela definição 4). A variância do nível é
-dominada pela média dos 15. A §6.3 atribui a fragilidade do assintótico aos
-"dezessete municípios de dose alta", mas no agregado o problema está no outro
-grupo.
+controle.** Isto está conferido no código, não só no argumento. No sieve (`cck`), o
+`overall_att` do `contdid` não vem da curva: vem de `ptetools::pte_default`
+sobre o painel colapsado (contdid `5cfec81`, `R/cont_did.R`, linhas 289–317,
+o commit fixado no `renv.lock`). O `pte_attgt` do ptetools (`bda4aa5`,
+`R/attgt_functions.R`) toma \(\Delta Y\) e chama `DRDID::drdid_panel` só com
+intercepto e pesos iguais. Isso é a diferença de médias. Como o
+`03_contdid.R` põe `g = 2` se dose > 0 e `g = 0` caso contrário (linha 319),
+\(\text{overall\_att} = E[\Delta Y\,|\,D>0] - E[\Delta Y\,|\,D=0]\), sem
+reponderação. É o DiD binarizado: **169 municípios com área positiva de banana
+contra 15 de área nula** (14 pela definição 4). A variância é dominada pela
+média dos 15. A §6.3 atribui a fragilidade do assintótico aos "dezessete
+municípios de dose alta", mas no agregado o grupo escasso é o outro.
 
-**1.2 Todos os estimadores binários usam os mesmos 15.** O event study do
-HonestDiD, o synthdid, o controle sintético e o DiD simples comparam o decil
-superior com o grupo \(d = 0\). A coerência de sinal da §6.8 ("todos
-negativos") não soma evidência independente. É a trajetória de um mesmo grupo
-de controle vista por quatro lentes.
+**1.2 Os estimadores reutilizam o mesmo pequeno grupo de controle.** O
+\(ATT(d\,|\,d)\) compara os 169 com os 15. O event study do HonestDiD, o
+synthdid, o controle sintético e o DiD simples comparam o decil superior (17)
+com os mesmos 15. O grupo tratado e o estimando variam. O que muda a leitura da
+§6.8 é mais limitado do que a primeira versão dizia: a concordância de sinais
+não constitui quatro evidências independentes, porque todas as especificações
+reutilizam o mesmo pequeno grupo \(d = 0\).
 
-**1.3 Pela diluição medida, −36 g não pode ser efeito diluído do ban.** O
-Corolário 1 de Denteh & Kédagni vale para o binarizado \(D>0\) contra \(D=0\).
-Ele exige PT no \(D\) observado e nenhum falso negativo, e o Censo 2006 mostra
-que nenhum município de dose zero tinha aeronave (flag 5). O falso positivo não
-tinha pulverização aérea a perder, e o efeito nele é zero, salvo transbordamento
-entre municípios. Esse transbordamento teria de ser grande e generalizado para
-mover a média dos 169. Com isso, \(\theta = VPP \cdot ATT\). Entre os 169 produtores, só **7** tinham
-estabelecimento com aplicação por aeronave em 2006, então \(VPP = 7/169 =
-4{,}1\%\).
+**1.3 Calibração: quão exigente seria ler −36 g como efeito diluído do ban.**
+O Corolário 1 de Denteh & Kédagni dá \(\theta = VPP \cdot ATT\) para o
+binarizado \(D>0\) contra \(D=0\). Para isso precisa de três hipóteses, e o
+paper só mantém a primeira:
 
-| leitura de −36,19 g | conta | resultado |
+1. PT no \(D\) observado. É a hipótese de identificação do paper.
+2. Nenhum falso negativo: ninguém no grupo \(d = 0\) exposto à prática
+   proibida. O Censo 2006 a apoia para a aplicação agrícola por aeronave
+   (flag 5). **Não a estabelece** para 2018, e ninguém mediu o controle
+   vetorial aéreo que o §2º do art. 28-B também alcança (comentário 7).
+3. O Censo 2006 classifica corretamente quem pulverizava por avião na véspera
+   da lei. É **hipótese forte**. O dado tem treze anos de defasagem, conta
+   estabelecimentos e não voos, e admite subdeclaração (§§5.4 e 7.4 do paper).
+
+Sob essas hipóteses, e só sob elas, 7 dos 169 municípios com área positiva
+seriam verdadeiros positivos, e \(VPP = 7/169 = 4{,}1\%\):
+
+| calibração pela classificação de 2006 | conta | resultado |
 |---|---|---:|
-| efeito implícito nos genuinamente tratados, agregado dos 169 | −36,19 / (7/169) | **≈ −874 g** |
+| efeito implícito nos verdadeiramente tratados, agregado dos 169 | −36,19 / (7/169) | ≈ −874 g |
 | o mesmo, no decil (2 de 17) | −36,19 / (2/17) | ≈ −308 g |
-| teto de \(\lvert\theta\rvert\) no agregado, com δ = 150 g (topo de Calzada et al. 2023) e **toda** a população exposta (f = 1) | (7/169)·1·150 | **≈ 6 g** |
+| teto de \(\lvert\theta\rvert\) no agregado, com δ = 150 g (topo de Calzada et al. 2023) e **toda** a população exposta (f = 1) | (7/169)·1·150 | ≈ 6 g |
 | teto no decil, mesmas hipóteses generosas | (2/17)·1·150 | ≈ 18 g |
-| VPP que tornaria −36 g compatível com δ = 150 g e f = 1 | 36,19/150 | **≥ 24%**, ou 41 dos 169, contra 7 em 2006 |
+| VPP de 2018 que reconciliaria −36 g com δ = 150 g e f = 1 | 36,19/150 | ≥ 24%, ou 41 dos 169, contra 7 em 2006 |
 
-Sob as hipóteses que o paper já mantém, o −36 g exigiria um dano de ~870 g
-por nascimento exposto, seis vezes o topo do análogo mais próximo (80–150 g,
-Calzada et al. 2023, pelo resumo). A alternativa seria a aviação agrícola ter
-se espalhado de 7 para mais de 40 municípios entre 2006 e 2018, com toda a
-população de cada um exposta. Nenhuma das duas coisas é crível. **O que
-sobra é ruído que o multiplicador subestima com 15 controles, ou tendência
-diferencial entre produtores e não produtores.** As duas são leituras sobre o
-desenho, não sobre o ban.
+Essa magnitude torna difícil interpretar −36,19 g como mera versão atenuada de
+um efeito sanitário plausível: exigiria ~870 g por nascimento exposto, seis
+vezes o topo do análogo mais próximo (80–150 g, Calzada et al. 2023, pelo
+resumo). **O cálculo não identifica o efeito verdadeiro**, porque o Censo de
+2006 não estabelece o status de tratamento em 2018. O que ele mede é quão
+exigente teria de ser a atualização da pulverização aérea para reconciliar a
+estimativa com a interpretação causal pretendida.
 
-**1.4 Nível sem inclinação é a assinatura da margem extensiva.** O nível dá −36
-g, e a inclinação em dose dá +6,81 g por unidade de dose normalizada. Um
-efeito do ban cresceria com a exposição. Uma diferença entre o grupo de área
-nula e os produtores aparece no nível e não na inclinação. ⚠️ A inclinação do
-paper também não está limpa: `estima` regride sobre **todos** os municípios,
-zeros incluídos, e herda parte do deslocamento do grupo zero (teste
-`test_perfil_mostra_quando_o_nivel_e_so_o_zero`). O diagnóstico é o
-**perfil**: \(\Delta Y\) médio no zero e em terços da dose positiva.
+Na calibração baseada em 2006, **quatro explicações permanecem**, e o paper
+não tem como distingui-las:
 
-**1.5 E o "limite superior informativo" não limita o efeito da pulverização.**
-Se \(\lvert\theta\rvert \le 66{,}5\) g, então \(\lvert ATT\rvert \le 66{,}5 /
-0{,}041 \approx 1.600\) g nos genuinamente tratados. O limite só informa sobre o
-estimando de forma reduzida: o efeito do ban segundo a proxy. É o que o
-comentário 5 e o primeiro bloco geral dizem, e aqui com número.
+- o Censo deixou de representar a distribuição da pulverização até 2018, por
+  crescimento da aviação agrícola, subdeclaração ou operações que a contagem de
+  estabelecimentos não capta;
+- o coeficiente reflete diferenças de trajetória entre municípios com e sem
+  área de banana, isto é, violação de PT na margem extensiva;
+- a inferência assintótica subestima a incerteza produzida pelos 15
+  controles;
+- houve exposição omitida no grupo de comparação, por exemplo por controle
+  vetorial aéreo. Aí o Corolário 1 não vale, e a Proposição 1 admite \(\theta\)
+  negativo mesmo com efeito protetor: se o ban removeu exposição dos
+  controles, eles melhoram mais que os tratados.
+
+**O cadastro operacional pré-banimento (LAI à ADAGRI) é o dado que distingue
+as quatro.** As três primeiras se testam em parte com o que o `make real` já
+produz (jackknife, perfil, placebos de nível). A quarta, não.
+
+**1.4 O perfil por faixa de dose: diagnóstico descritivo.** O nível dá −36 g;
+a inclinação em dose dá +6,81 g por unidade de dose normalizada. Um
+deslocamento de nível entre \(D=0\) e \(D>0\) sem gradiente entre as doses
+positivas é mais compatível com uma diferença entre municípios com e sem
+banana do que com uma resposta crescente à intensidade. O perfil mostra onde
+está a variação, mas não identifica a origem dela. ⚠️ A inclinação do paper
+também não é só entre doses positivas: `estima` regride sobre **todos** os
+municípios, zeros incluídos, e herda parte do deslocamento do grupo zero
+(teste `test_perfil_mostra_quando_o_nivel_e_so_o_zero`).
+
+**1.5 E o "limite superior informativo" não limita o efeito da
+pulverização.** O intervalo do coeficiente limita o efeito de forma reduzida
+da proibição segundo a área de banana. Ele não limita o efeito entre os
+municípios efetivamente expostos à pulverização aérea. Na mesma calibração
+condicional de 2006, \(\lvert\theta\rvert \le 66{,}5\) g corresponderia a
+\(\lvert ATT\rvert \le 66{,}5 / 0{,}041 \approx 1.600\) g nos verdadeiramente
+tratados, um limite sem conteúdo. O número herda todas as hipóteses do §1.3. O
+ponto conceitual não depende delas: é o que o comentário 5 e o primeiro bloco
+geral dizem.
+
+**Síntese.** O coeficiente não tem interpretação causal plausível como efeito
+diluído da retirada da pulverização aérea sob a classificação observada em
+2006. Como essa classificação não mede o tratamento verdadeiro em 2018, o
+exercício calibra a severidade do erro de mensuração. Não é correção
+identificada do efeito.
 
 ### O que já roda (commit `0b864e5`)
 
@@ -113,9 +161,11 @@ python scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.
 ```
 
 ⚠️ **Conferência de consistência antes de usar:** o `nivel` do 04 tem de bater
-com os −36,19 g do `03_contdid.R` (a menos de pesos). Se não bater, o agregado
-do contdid não é a diferença de médias que este documento supõe, e o §1 precisa
-ser refeito.
+com os −36,19 g do `03_contdid.R`. A identidade foi conferida no código (§1.1),
+então uma diferença só pode vir da amostra: `BMisc::make_balanced_panel` no R
+contra o `dropna` de `primeira_diferenca` no Python, ou janelas de pré e pós
+diferentes. É o primeiro lugar a procurar, antes de usar qualquer número do
+nível.
 
 ---
 
@@ -176,8 +226,10 @@ procedimento**: nível pelo multiplicador, nível pela inferência que respeita 
 15 controles, inclinação pelos três procedimentos, event study binário pelo
 HonestDiD. O que justifica não tratar o −36 g como achado não é "compatível com
 zero". São três razões, escritas na §7.1: precisão abaixo do critério ex ante,
-inferência no mesmo estimando (números do `make real`) e magnitude incompatível
-com o mecanismo sob a diluição medida.
+inferência no mesmo estimando (números do `make real`) e a calibração pela
+classificação de 2006, que torna implausível lê-lo como efeito diluído do ban.
+A calibração é condicional a hipóteses fortes (§1.3) e não substitui a
+inferência.
 
 ### 5 — A §7.1 superestima a validação da dose ✔ procede
 
@@ -340,7 +392,8 @@ como contexto, não como método.
 1. **Estimando declarado.** Forma reduzida do ban segundo a proxy de
    intensidade da bananicultura (recomendado, e é o que o §1.5 mostra ser o
    único que o desenho limita). A alternativa seria dose-resposta da
-   pulverização aérea, que não se sustenta com VPP de 4%.
+   pulverização aérea. Pela calibração de 2006 (VPP ≈ 4%) ela exigiria o
+   cadastro operacional pré-banimento para se sustentar.
 2. **GAEZ**: linguagem de construção de controle agora, IV como extensão
    declarada (§3).
 3. **Janela da dose**: 2010–2014 como principal ou sensibilidade (§3).
@@ -394,15 +447,24 @@ Em português, prontos para ir ao `.tex`. Os números entre colchetes saem do
 > como achado, e nenhuma delas é compatibilidade com o nulo. A primeira é o
 > critério fixado antes de olhar: a meia-largura, de 30,32 g, é o dobro do
 > piso de 15 g. A segunda é a inferência. O agregado é a diferença entre a
-> variação média dos 169 produtores e a dos 15 municípios de área nula, e com
-> quinze controles o multiplicador é otimista. No mesmo estimando, o
-> \emph{wild bootstrap} dá \(p = [\cdot]\), a análise de permutação dá
-> \(p = [\cdot]\), e retirar um único controle move o número entre \([\cdot]\)
-> e \([\cdot]\) g. A terceira é a magnitude. Sem falso negativo no grupo de
-> comparação, o efeito estimado é a fração genuinamente tratada vezes o efeito
-> nos genuinamente tratados. Com 7 dos 169 municípios produtores usando aeronave,
-> \(-36\) g implicaria \(\approx -870\) g por nascimento exposto, seis vezes o maior
-> efeito do análogo mais próximo \citep{calzada2023bananas}.
+> variação média dos 169 municípios com área positiva de banana e a dos 15 de
+> área nula, e com quinze controles o multiplicador é otimista. No mesmo
+> estimando, o \emph{wild bootstrap} dá \(p = [\cdot]\), a análise de
+> permutação dá \(p = [\cdot]\), e retirar um único controle move o número
+> entre \([\cdot]\) e \([\cdot]\) g. A terceira é uma calibração. Suponha-se
+> que o Censo Agropecuário de 2006 classifique corretamente os municípios que
+> pulverizavam por avião na véspera da lei e que não haja exposição omitida no
+> grupo de comparação, inclusive por controle vetorial. Sob essas hipóteses
+> fortes, 7 dos 169 municípios com dose positiva seriam verdadeiros
+> positivos, e a identidade de correção por classificação incorreta
+> \citep{denteh2022misclassification} implicaria um efeito de
+> aproximadamente \(-874\) g entre os verdadeiramente tratados, seis vezes o
+> maior efeito do análogo mais próximo \citep{calzada2023bananas}. Essa
+> magnitude torna difícil ler o coeficiente como versão atenuada de um efeito
+> sanitário plausível. O cálculo não identifica o efeito verdadeiro, porque o
+> Censo de 2006 não estabelece o status de tratamento em 2018. O que ele mostra
+> é quão exigente teria de ser a atualização da pulverização aérea para
+> reconciliar a estimativa com a leitura causal pretendida.
 
 ### 7.2 §6.3 — a permutação (comentário 3)
 
@@ -434,9 +496,10 @@ Em português, prontos para ir ao `.tex`. Os números entre colchetes saem do
 > declarada, dose construída com variação verificada no PAM, plano de análise
 > datado e versionado, estimação executada e camada de robustez aplicada. A
 > confrontação da dose com o uso de aeronave no Censo Agropecuário de 2006
-> mostrou que ela mede intensidade da bananicultura, não pulverização aérea: 7
-> dos 169 municípios produtores tinham aplicação por aeronave. O que se estima é,
-> portanto, o efeito de forma reduzida do banimento segundo essa proxy. A
+> indica que ela mede intensidade da bananicultura, não pulverização aérea:
+> naquele ano, 7 dos 169 municípios com área positiva de banana tinham
+> aplicação por aeronave. O que se estima é, portanto, o efeito de forma
+> reduzida do banimento segundo essa proxy. A
 > concordância entre o efeito mínimo detectável previsto (33,4 g) e a
 > meia-largura realizada (30,3 g) valida o diagnóstico amostral da
 > especificação. Não valida a mensuração do tratamento nem a identificação do
@@ -483,8 +546,12 @@ identificada"; "não exclui nenhuma região do espaço de parâmetros"; e todo o
 parágrafo "Se o prêmio de conversão for aproximadamente homogêneo, \(c\) tende a
 zero [...] basta que \(\beta > 0\)".
 
-⚠️ `helfand1991` **não está no `.bib`**. O que está é `helfand1995` (Helfand &
-House). Entra depois da passada Crossref (§8).
+⚠️ Duas chaves citadas acima **não estão no `.bib`**. `helfand1991`: o que
+está é `helfand1995` (Helfand & House), e a de 1991 entra depois da passada
+Crossref (§8). `denteh2022misclassification`: Denteh & Kédagni, arXiv:2207.11890,
+já conferida no arXiv (`docs/referencias-verificadas.md`), mas sem entrada no
+`.bib`. É *working paper*; a entrada tem de ser criada a partir do registro do
+arXiv, com a versão (v3) citada.
 
 ---
 
