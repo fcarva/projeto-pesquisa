@@ -91,12 +91,38 @@ trocar `secundaria` por `primaria` em `fonte_revogacao`, no registro e na
 semente do script 08, e rodar os testes. Se o artigo não estiver lá, a flag 0
 reabre.
 
+## 3-ter. Parecer de 2026-09-22 — o que rodar (20 min)
+
+Resposta completa em `docs/ars/17-resposta-ao-feedback-2026-09-22.md`. O que
+precisa de dado real:
+
+```powershell
+make real        # ou, só o que mudou:
+python scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.parquet
+python scripts/estimate/10_spt_pretrend.py --painel data/processed/painel_ensaio1.parquet --desfecho peso_medio
+python scripts/estimate/04_robustness.py --painel data/processed/painel_ensaio1.parquet `
+  --estratos-aptidao 3 --out-dir data/processed/estratos3
+```
+
+Ler, nesta ordem:
+1. `nivel` em `robustez_inferencia.csv` tem de dar ≈ −36,19 g, o agregado do
+   contdid. Se não der, o doc 17 §1 parte de premissa errada: parar e avisar.
+2. `nivel_jack_min`/`nivel_jack_max`: se um único controle move o nível para
+   perto de zero, o −36 g é esse município.
+3. `robustez_perfil_dose.csv`: os terços da dose positiva são planos entre si?
+4. `nivel` nos cortes placebo (`spt_pretrend__peso_medio.csv`): quantos
+   placebos têm nível do tamanho do real?
+5. `ic_inv_baixo`/`ic_inv_alto`: substituem o [−46,45; +57,85] do paper.
+
+Os números entram nos colchetes dos textos propostos do doc 17 §7.
+
 ## 4. Crossref antes de qualquer `.bib` (30 min)
 
 Procedimento de `docs/referencias-verificadas.md` §7 para: Calzada, Gisbert &
 Moscoso (2023); Negi & Negi (2025); Sasaki & Wang (2024); Rull & Ritz (2003);
 Borusyak, Hull & Jaravel (2022, 2025); Goldsmith-Pinkham, Sorkin & Swift
-(2020). Só depois entram no `.bib`.
+(2020); e as marcadas ⬜ na tabela do doc 17 §8 (Helfand 1991 primeiro: o
+texto proposto para a §7.2 já a cita). Só depois entram no `.bib`.
 
 ## 5. Leituras que mudam o texto
 
@@ -121,6 +147,10 @@ Borusyak, Hull & Jaravel (2022, 2025); Goldsmith-Pinkham, Sorkin & Swift
 3. Pré-especificar, para o próximo ciclo, a hipótese sazonal
    (dose × pós × 1º trimestre no pico) e a de cauda (eCIC).
 4. Melão como subpergunta, condicionado ao G2.
+5. As seis decisões que o parecer de 2026-09-22 abriu (doc 17 §5): estimando
+   declarado, GAEZ como instrumento ou construção de controle, janela da dose,
+   vintage até 2024, inferência do nível com 15 controles, e o enquadramento do
+   Ensaio 2.
 
 ## 8. Opcional, baixa prioridade
 

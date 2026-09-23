@@ -289,6 +289,17 @@ A alavanca é o **VPP**, não o N. Reordenando o que já existe:
 | **Rota 2** (eCIC, caudas) | **não** mexe no VPP: a distribuição do grupo "tratado" também é mistura. Ganha sinal na cauda, e a diluição continua | inalterada |
 | baixar o corte de dose | **reduz** o VPP | ✘ desaconselhada pela calibração |
 
+> ⚠️ **Ameaça nova à Rota 1 (2026-09-23, doc 17 §4).** A Portaria MAPA nº 298,
+> de 22/09/2021, regula a aplicação de agrotóxicos por drone em todo o país. No
+> Ceará o art. 28-B vedava toda pulverização aérea até a Lei 19.135/2024, que
+> abriu a exceção para drones. Nos vizinhos, o drone é regulado desde setembro
+> de 2021, então o RN não é "sempre terrestre" no pós-período: é terrestre até
+> 2021 e pode ter drone depois. O contraste da fronteira muda de conteúdo no
+> meio da janela. ⬜ Antes de estimar a fronteira: saber se houve adoção de
+> drone na Chapada potiguar em 2021–2024 (cadastro de operadores do MAPA/SIPEAGRO,
+> que não tem profundidade histórica mas cobre esse período), ou cortar o
+> pós-período da fronteira em set/2021.
+
 ## 8-bis. Como isto se encaixa no gate da máquina local (doc 15)
 
 O `15-gate-rota1-resultado.md` foi escrito sem os achados deste documento, e
