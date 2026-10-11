@@ -1,0 +1,985 @@
+{
+ "block": "SQ2 (companion structured review, methods): estimators and identifying assumptions for a simultaneous (non-staggered) policy shock with a continuous dose, misclassified treatment (false positives) and few control or few treated clusters. Five sub-topics: (a) continuous or multi-valued DiD and dose-response, (b) misclassified or mismeasured treatment, (c) inference with few treated or control clusters, (d) synthetic control or synthetic DiD with few units, (e) agro-climatic suitability (FAO-GAEZ) and formula or shift-share instruments. Search calibration only; nothing was screened.",
+ "query_log": [
+  {
+   "order": 1,
+   "source": "OpenAlex",
+   "query": "indexing check, 9 seed DOIs: filter=doi:10.3386/w32117|10.1002/jae.3116|10.1162/rest_a_00049|10.1162/rest_a_00887|10.1257/aer.20190159|10.1111/ectj.12107|10.1162/rest.90.3.414|10.1093/ectj/utae003|10.1093/restud/rdad011",
+   "count": 9,
+   "note": "All 9 indexed. Primary topics: most T10845 'Advanced Causal Inference Techniques' (subfield 2613). CGM 2008 is T11911 (subfield 2002). DRS 2023 is T10875 (subfield 1110 Plant Science).",
+   "url_or_call": "firecrawl_scrape api.openalex.org/works?filter=doi:...&select=id,doi,title,publication_year,primary_topic"
+  },
+  {
+   "order": 2,
+   "source": "OpenAlex",
+   "query": "filter=doi:10.48550/arxiv.2107.02637|10.48550/arxiv.2207.11890|10.1162/rest_a_00759|10.48550/arxiv.2201.06898|10.1257/aer.20181169",
+   "count": 5,
+   "note": "arXiv seeds indexed under their 10.48550 DOIs. Ferman-Pinto (rest_a_00759) and dCDH 2201.06898 also indexed.",
+   "url_or_call": "firecrawl_scrape OpenAlex doi filter"
+  },
+  {
+   "order": 3,
+   "source": "OpenAlex",
+   "query": "title.search:\"few treated groups and heteroskedasticity\"",
+   "count": 3,
+   "note": "Ferman-Pinto: REStat DOI, Insper repository WP (2015, no DOI), Dataverse replication data 10.7910/dvn/piazwn.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 4,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:\"difference-in-differences\"",
+   "count": 74518,
+   "note": "Syntax test.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 5,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:\"difference in differences\"",
+   "count": 74518,
+   "note": "Same count as order 4, so hyphens are treated as spaces.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 6,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:\"continuous treatment\"",
+   "count": 10175,
+   "note": "Syntax test.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 7,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:\"difference-in-differences\" AND \"continuous treatment\"",
+   "count": 172,
+   "note": "AND is parsed into two ANDed filters (172 is far below 74,518 and 10,175), so boolean AND works.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 8,
+   "source": "OpenAlex",
+   "query": "A1: (\"difference in differences\" OR \"event study\" OR \"two-way fixed effects\" OR \"parallel trends\") AND (\"continuous treatment\" OR \"treatment intensity\" OR \"dose-response\" OR \"multi-valued treatment\" OR \"multivalued treatment\" OR \"non-binary treatment\" OR \"heterogeneous adoption\" OR \"treatment dose\" OR \"stayers\")",
+   "count": 609,
+   "note": "Sub-topic (a), no field filter.",
+   "url_or_call": "firecrawl_scrape OpenAlex title_and_abstract.search"
+  },
+  {
+   "order": 9,
+   "source": "OpenAlex",
+   "query": "A1 left OR-block alone (DiD family)",
+   "count": 107552,
+   "note": "Boolean check: A1 (609) is much smaller than either block alone.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 10,
+   "source": "OpenAlex",
+   "query": "A1 right OR-block alone (dose family)",
+   "count": 184104,
+   "note": "Boolean check.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 11,
+   "source": "OpenAlex",
+   "query": "A1 + doi filter with all 13 seeds",
+   "count": 3,
+   "note": "Retrieved CGS NBER, CGS arXiv and dCDH 2201.06898: 3/3 sub-topic (a) seeds.",
+   "url_or_call": "firecrawl_scrape OpenAlex doi:...|...,title_and_abstract.search:A1"
+  },
+  {
+   "order": 12,
+   "source": "OpenAlex",
+   "query": "A1 group_by=primary_topic.subfield.id (per-page=1)",
+   "count": 609,
+   "note": "Only the top group came back (2002: 147).",
+   "url_or_call": "firecrawl_scrape OpenAlex group_by"
+  },
+  {
+   "order": 13,
+   "source": "OpenAlex",
+   "query": "A1 group_by primary_topic.id and subfield (2 calls)",
+   "count": null,
+   "note": "FAILED: Firecrawl rate limit (about 11 requests per minute).",
+   "url_or_call": "firecrawl_scrape"
+  },
+  {
+   "order": 14,
+   "source": "WebFetch",
+   "query": "api.openalex.org (A1 group_by)",
+   "count": null,
+   "note": "FAILED: getaddrinfo ENOTFOUND (direct network blocked).",
+   "url_or_call": "WebFetch"
+  },
+  {
+   "order": 15,
+   "source": "Parallel web_fetch",
+   "query": "api.openalex.org count",
+   "count": null,
+   "note": "FAILED: Too Many Requests.",
+   "url_or_call": "mcp__Parallel_Search__web_fetch"
+  },
+  {
+   "order": 16,
+   "source": "arXiv/PubMed research index",
+   "query": "difference-in-differences with a continuous treatment dose-response parallel trends [categories econ.EM, k=100]",
+   "count": null,
+   "note": "Ranked, no total count. CGS 2107.02637 rank 6; dCDH 2201.06898 rank 4; Negi & Negi arXiv 2208.02412 rank 56.",
+   "url_or_call": "firecrawl_research_search_papers"
+  },
+  {
+   "order": 17,
+   "source": "OpenAlex",
+   "query": "A1 group_by=primary_topic.subfield.id per-page=12",
+   "count": 609,
+   "note": "2002:147, 2613:69, 3312:41, 2739:24, 2003:22, 3320:22, 2000:20, 3600:20, 1402:18, 2307:16, 3318:14, 2310:10.",
+   "url_or_call": "firecrawl_scrape OpenAlex group_by"
+  },
+  {
+   "order": 18,
+   "source": "OpenAlex",
+   "query": "B1: (\"difference in differences\" OR \"parallel trends\" OR \"treatment effect\" OR \"treatment effects\" OR \"causal effect\" OR \"policy evaluation\" OR \"program evaluation\") AND (misclassification OR misclassified OR \"mismeasured treatment\" OR \"mismeasured binary\" OR \"measurement error in treatment\" OR \"treatment measurement error\" OR \"misreported treatment\" OR \"treatment misreporting\")",
+   "count": 521,
+   "note": "Sub-topic (b), no field filter. Top hits: Lewbel 2007, Negi & Negi (arXiv and JAE), Denteh-Kédagni SSRN.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 19,
+   "source": "OpenAlex",
+   "query": "B1 + doi:10.1002/jae.3116|10.48550/arxiv.2207.11890",
+   "count": 2,
+   "note": "Recall 2/2.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 20,
+   "source": "OpenAlex",
+   "query": "B1 group_by subfield",
+   "count": 521,
+   "note": "2613:230, 2002:19, 2713 Epidemiology:17, 2705:16, 2738:13, 2746:12, 1804:11, 1311:9.",
+   "url_or_call": "firecrawl_scrape OpenAlex group_by"
+  },
+  {
+   "order": 21,
+   "source": "OpenAlex",
+   "query": "C1 (few-cluster and inference phrases only): \"few clusters\" OR \"few treated\" OR \"small number of clusters\" OR \"small number of treated\" OR \"few treated groups\" OR \"few treated units\" OR \"few treated clusters\" OR \"small number of policy changes\" OR \"single treated unit\" OR \"one treated unit\" OR \"unbalanced clusters\" OR \"wild cluster bootstrap\" OR \"wild bootstrap\" OR \"randomization inference\" OR \"conformal inference\"",
+   "count": 5165,
+   "note": "Sub-topic (c), unrestricted.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 22,
+   "source": "OpenAlex",
+   "query": "C2 = C1 AND (\"difference in differences\" OR \"cluster\" OR \"clusters\" OR \"clustered\" OR \"policy\" OR \"panel data\" OR \"treated\")",
+   "count": 3581,
+   "note": "Too large to screen.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 23,
+   "source": "OpenAlex",
+   "query": "C2 + 5 sub-topic (c) seed DOIs",
+   "count": 4,
+   "note": "Missed CGM 2008 (rest.90.3.414).",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 24,
+   "source": "OpenAlex",
+   "query": "abstract_inverted_index check for 5 seeds (CGM, Conley-Taber, DRS, Borusyak-Hull review, CGS)",
+   "count": 5,
+   "note": "The CGM abstract in OpenAlex says 'few (five to thirty) clusters' and 'cluster bootstrap-t', with no 'wild'. The DRS abstract has no GAEZ or suitability vocabulary.",
+   "url_or_call": "firecrawl_scrape OpenAlex select=abstract_inverted_index"
+  },
+  {
+   "order": 25,
+   "source": "OpenAlex",
+   "query": "C2 group_by subfield",
+   "count": 3581,
+   "note": "2613:512, 1702 AI:272, 2002:247, 3103 Astronomy:167, 1705:147, 2003:85, 1312:80, 2208:66, 3312:66, 2000:62. Much of the noise comes from outside economics and statistics.",
+   "url_or_call": "firecrawl_scrape OpenAlex group_by"
+  },
+  {
+   "order": 26,
+   "source": "OpenAlex",
+   "query": "C3 = (C1 phrases + \"clustered errors\" OR \"cluster bootstrap\" OR \"permutation inference\" OR \"cluster-robust inference\") AND (\"difference in differences\" OR cluster OR clusters OR clustered OR \"policy change\" OR \"policy changes\" OR \"treated\"), primary_topic.subfield.id:2002|2613|2000|1804",
+   "count": 1034,
+   "note": "Subfield filter introduced.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 27,
+   "source": "OpenAlex",
+   "query": "C3 filtered + 5 (c) seeds",
+   "count": 5,
+   "note": "Recall 5/5. CGM now retrieved through 'clustered errors' or 'cluster bootstrap'.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 28,
+   "source": "OpenAlex",
+   "query": "C3 without subfield filter",
+   "count": 5579,
+   "note": "The subfield filter removes about 81% of hits.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 29,
+   "source": "OpenAlex",
+   "query": "C4 = C3 with 'treated' replaced in the context block by \"few treated\" OR \"synthetic control\", filtered",
+   "count": 972,
+   "note": "Tightening step.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 30,
+   "source": "OpenAlex",
+   "query": "C4 filtered + 5 (c) seeds",
+   "count": 5,
+   "note": "Recall 5/5.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 31,
+   "source": "OpenAlex",
+   "query": "D1: \"synthetic control\" OR \"synthetic controls\" OR \"synthetic difference in differences\" OR \"synthetic DiD\"",
+   "count": 8317,
+   "note": "Any synthetic-control mention; mostly applied.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 32,
+   "source": "OpenAlex",
+   "query": "D2 = D1 AND (inference OR estimator OR estimators OR \"few treated\" OR \"single treated unit\" OR \"small number\" OR permutation OR placebo OR conformal OR \"bias correction\" OR identification), subfields 2002|2613|2000|1804",
+   "count": 934,
+   "note": "Sub-topic (d) candidate.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 33,
+   "source": "OpenAlex",
+   "query": "title.search: D1 terms, subfields 2002|2613|2000|1804",
+   "count": 898,
+   "note": "Title-only alternative (not adopted).",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 34,
+   "source": "OpenAlex",
+   "query": "D3 / D2-T10845 / D3 recall (3 calls)",
+   "count": null,
+   "note": "FAILED: rate limit; rerun at orders 36-38.",
+   "url_or_call": "firecrawl_scrape"
+  },
+  {
+   "order": 35,
+   "source": "Wiley Scholar Gateway",
+   "query": "difference-in-differences estimation when the treatment indicator is misclassified (false positives in the treated group), identification and bounds",
+   "count": 15,
+   "note": "15 passages from 8 articles. Negi & Negi jae.3116 retrieved (8 passages). Others: AJAE aay017 on misclassification in technology adoption; the rest off-topic.",
+   "url_or_call": "mcp__Scholar_Gateway__semanticSearch topN=15"
+  },
+  {
+   "order": 36,
+   "source": "OpenAlex",
+   "query": "D3 = D1 AND (inference OR \"few treated\" OR \"single treated unit\" OR \"one treated unit\" OR \"small number\" OR \"few units\" OR \"few control\" OR permutation OR conformal OR \"bias correction\"), filtered",
+   "count": 528,
+   "note": "Narrower variant.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 37,
+   "source": "OpenAlex",
+   "query": "D2 with primary_topic.id:T10845 instead of the subfield filter",
+   "count": 483,
+   "note": "Alternative restriction.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 38,
+   "source": "OpenAlex",
+   "query": "D3 filtered + doi:aer.20190159|rest_a_00759|rest_a_00049",
+   "count": 0,
+   "note": "D3 MISSES the SDID seed: its abstract has 'estimator' but no 'inference'. D3 rejected.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 39,
+   "source": "OpenAlex",
+   "query": "D2 filtered + doi:10.1257/aer.20190159",
+   "count": 1,
+   "note": "Recall 1/1. D2 adopted.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 40,
+   "source": "OpenAlex",
+   "query": "A1 + subfields 2002|2613|2000|1804",
+   "count": 240,
+   "note": "Sub-topic (a), filtered.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 41,
+   "source": "OpenAlex",
+   "query": "B1 + subfields 2002|2613|2000|1804",
+   "count": 267,
+   "note": "Sub-topic (b), filtered.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 42,
+   "source": "OpenAlex",
+   "query": "E1: (\"GAEZ\" OR \"Global Agro-Ecological Zones\" OR \"agro-ecological zones\" OR \"agroclimatic suitability\" OR \"agro-climatic suitability\" OR \"crop suitability\" OR \"potential yield\" OR \"potential yields\" OR \"attainable yield\" OR \"soil suitability\" OR \"agricultural suitability\" OR \"land suitability\") AND (\"instrumental variable\" OR \"instrumental variables\" OR instrument OR \"exogenous variation\" OR \"difference in differences\" OR \"identification strategy\" OR \"causal effect\")",
+   "count": 275,
+   "note": "Noisy: 'agro-ecological zones' and the single word 'instrument' pull in agronomy (e.g. 'Vegetation condition index: a potential yield estimator').",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 43,
+   "source": "OpenAlex",
+   "query": "E2 / E-recall / E1 field-filtered (3 calls)",
+   "count": null,
+   "note": "FAILED: rate limit; rerun later.",
+   "url_or_call": "firecrawl_scrape"
+  },
+  {
+   "order": 44,
+   "source": "Web (Parallel)",
+   "query": "site:nber.org difference-in-differences continuous treatment; site:ideas.repec.org difference-in-differences misclassified treatment; site:ssrn.com difference-in-differences continuous treatment stayers; site:nber.org difference-in-differences misclassification",
+   "count": null,
+   "note": "Found CGS (NBER w32117, SSRN 4716682, arXiv), CGS event-study NBER w32118, dCDH SSRN 4011782 and arXiv 2201.06898, D'Haultfoeuille-Hoderlein-Sasaki arXiv 2104.14458, Nguimkeu-Denteh-Tchernis NBER w24117.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 45,
+   "source": "OpenAlex",
+   "query": "(3 calls)",
+   "count": null,
+   "note": "FAILED: rate limit.",
+   "url_or_call": "firecrawl_scrape"
+  },
+  {
+   "order": 46,
+   "source": "Web (Parallel)",
+   "query": "site:nber.org inference few treated clusters difference-in-differences; site:ideas.repec.org few treated groups difference-in-differences inference; site:iza.org wild cluster bootstrap few clusters; few control clusters difference-in-differences inference working paper",
+   "count": null,
+   "note": "Found Ferman-Pinto WP versions (FGV EESP TD 406; MPRA 67665), MacKinnon-Webb RI WPs, Hagemann single treated cluster, Alvarez-Ferman arXiv 2302.03131, Cameron-Miller NBER w35800, SDID NBER w25532.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 47,
+   "source": "OpenAlex",
+   "query": "E2: (\"shift-share\" OR \"shift share\" OR \"Bartik\" OR \"formula instrument\" OR \"formula instruments\" OR \"exposure design\" OR \"exposure designs\" OR \"recentered instrument\" OR \"recentering\") AND (instrument OR instruments OR \"instrumental variable\" OR \"instrumental variables\" OR identification OR inference)",
+   "count": 1669,
+   "note": "Shift-share arm, unrestricted; mostly applied.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 48,
+   "source": "OpenAlex",
+   "query": "E1 phrases (minus agro-ecological zones and land suitability) OR E2 phrases + doi:10.1093/ectj/utae003|10.1093/restud/rdad011",
+   "count": 1,
+   "note": "Borusyak-Hull review retrieved; DRS 2023 missed.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 49,
+   "source": "OpenAlex",
+   "query": "E1' GAEZ terms (no agro-ecological zones or land suitability) AND design terms (+shift-share), primary_topic.field.id:20|33",
+   "count": 10,
+   "note": "Too narrow.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 50,
+   "source": "OpenAlex",
+   "query": "E2 with primary_topic.id:T10845",
+   "count": 77,
+   "note": "Methods-only variant.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 51,
+   "source": "OpenAlex",
+   "query": "E2 (unfiltered) + doi:aer.20181047|restud/rdab030|qje/qjz025|ecta19367|ectj/utae003",
+   "count": 4,
+   "note": "Missed Borusyak-Hull Econometrica 2023 (ecta19367). AKM's primary topic is T14051, so a T10845 filter would also lose AKM.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 52,
+   "source": "OpenAlex",
+   "query": "E1-refined (GAEZ terms without agro-ecological zones and land suitability) AND (\"instrumental variable(s)\" OR \"exogenous variation\" OR \"difference in differences\" OR \"identification strategy\" OR \"causal effect\" OR \"shift-share\"), unfiltered",
+   "count": 29,
+   "note": "Small but precise.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 53,
+   "source": "OpenAlex",
+   "query": "E3 = E2 phrases + \"exogenous shocks\", AND instrument terms, AND (design OR designs OR identification OR inference OR econometric OR \"standard errors\" OR \"exclusion restriction\" OR recentered OR recentering), subfields 2002|2613|2000|1804",
+   "count": 587,
+   "note": "Methods-restricted shift-share variant.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 54,
+   "source": "OpenAlex",
+   "query": "title.search:\"nonrandom exposure to exogenous shocks\"",
+   "count": 1,
+   "note": "Borusyak & Hull 2023 indexed (10.3982/ecta19367, T10845).",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 55,
+   "source": "OpenAlex",
+   "query": "abstract check, 10.3982/ecta19367",
+   "count": 1,
+   "note": "The abstract has 'exogenous shocks', 'instruments' and 'known formula' but not 'shift-share', 'identification' or 'inference', so E3's third block would miss it.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 56,
+   "source": "OpenAlex",
+   "query": "E3 recall",
+   "count": null,
+   "note": "FAILED: rate limit; superseded by order 59.",
+   "url_or_call": "firecrawl_scrape"
+  },
+  {
+   "order": 57,
+   "source": "arXiv/PubMed research index",
+   "query": "misclassified or mismeasured treatment in difference-in-differences: identification, bounds, attenuation under false positives [econ.EM, k=60]",
+   "count": null,
+   "note": "Denteh-Kédagni 2207.11890 rank 1; Negi & Negi 2208.02412 rank 2; CGS rank 18. New: arXiv 2507.20415 (staggered DiD with misclassification and anticipation) at rank 3.",
+   "url_or_call": "firecrawl_research_search_papers"
+  },
+  {
+   "order": 58,
+   "source": "OpenAlex",
+   "query": "E4 = (E2 phrases + \"known formula\" OR \"simulated instrument(s)\" OR \"exogenous shocks\") AND (\"instrumental variable(s)\" OR instrument OR instruments), subfields 2002|2613|2000|1804",
+   "count": 788,
+   "note": "Shift-share variant.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 59,
+   "source": "OpenAlex",
+   "query": "E4 filtered + 5 shift-share anchors",
+   "count": 4,
+   "note": "Missed AKM qjz025 (its abstract has no 'instrument').",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 60,
+   "source": "OpenAlex",
+   "query": "E6 = (E4 arm-1 phrases) AND (\"instrumental variable(s)\" OR instrument OR instruments OR inference OR \"standard errors\" OR \"research design(s)\" OR \"regression designs\" OR \"design-based\"), topics.id:T10845",
+   "count": 108,
+   "note": "Adopted for the formula and shift-share arm of (e).",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 61,
+   "source": "OpenAlex",
+   "query": "E6 + 5 shift-share anchors",
+   "count": 4,
+   "note": "Retrieves utae003, rdab030, aer.20181047, ecta19367. Misses AKM (no T10845 topic tag).",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 62,
+   "source": "OpenAlex",
+   "query": "E1b = GAEZ terms AND (instrument terms OR \"exogenous variation\" OR \"difference in differences\" OR \"identification strategy\" OR \"causal effect(s)\" OR \"shift-share\" OR \"exposure\"), primary_topic.field.id:11|20|23|33",
+   "count": 200,
+   "note": "Noisy agronomy hits.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 63,
+   "source": "OpenAlex",
+   "query": "E1b unfiltered, group_by primary_topic.field.id",
+   "count": 310,
+   "note": "Fields: 11 Agri:112, 23 Env:56, 22 Eng:31, 27 Med:20, 33 Soc:20, 20 Econ:12, 31:10, 13:8, 19:7, 12:5.",
+   "url_or_call": "firecrawl_scrape OpenAlex group_by"
+  },
+  {
+   "order": 64,
+   "source": "OpenAlex",
+   "query": "indexing check, GAEZ and suitability anchors: doi:10.1093/qje/qjr009|10.1086/684719|10.1257/aer.20131061|10.1073/pnas.2413013121|10.1093/restud/rdad011",
+   "count": 5,
+   "note": "All indexed. Costinot (1105), DRS and Reynier-Rubin (1110) sit outside economics subfields.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 65,
+   "source": "OpenAlex",
+   "query": "E1b (unfiltered) + 5 GAEZ anchors",
+   "count": 0,
+   "note": "0/5. GAEZ and suitability vocabulary rarely appears in the abstracts of these papers.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 66,
+   "source": "OpenAlex",
+   "query": "E-broad = (suitability OR suitable OR GAEZ OR \"potential yield(s)\" OR \"attainable yield\" OR \"agro-ecological\" OR agroclimatic OR \"agro-climatic\" OR \"genetically modified\" OR \"genetically engineered\") AND (IV terms OR exploit OR ...) AND (crop OR crops OR agricultural OR agriculture OR soil OR cultivation OR cultivating OR yield OR yields), primary_topic.field.id:20|33",
+   "count": 1232,
+   "note": "Noisy ('policy instrument').",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 67,
+   "source": "OpenAlex",
+   "query": "E-broad (unfiltered) + 5 GAEZ anchors",
+   "count": 2,
+   "note": "Retrieves Reynier-Rubin PNAS and Nunn-Qian; misses Bustos et al., Costinot et al. and DRS.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 68,
+   "source": "OpenAlex",
+   "query": "anchor OpenAlex IDs and cited_by_count",
+   "count": 5,
+   "note": "Nunn-Qian W2166670725 (921), Bustos W3122076865 (446), Costinot W2299445035 (368), DRS W3124792110 (49), Reynier-Rubin W4406357681 (12).",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 69,
+   "source": "OpenAlex",
+   "query": "E-cite: cites:W2166670725|W3122076865|W2299445035|W3124792110|W4406357681 AND title_and_abstract.search: suitability OR suitable OR \"GAEZ\" OR \"potential yield(s)\" OR \"attainable yield\" OR \"agro-ecological\" OR agroclimatic OR \"agro-climatic\" OR \"genetically modified\" OR \"genetically engineered\"",
+   "count": 119,
+   "note": "Adopted: citation-chasing arm for (e).",
+   "url_or_call": "firecrawl_scrape OpenAlex cites filter"
+  },
+  {
+   "order": 70,
+   "source": "OpenAlex",
+   "query": "cites: the 5 anchors (no keyword filter)",
+   "count": 1709,
+   "note": "Full forward-citation set.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 71,
+   "source": "OpenAlex",
+   "query": "C_final = C4 + \"few control\" OR \"few untreated\" OR \"small number of control\", filtered",
+   "count": 978,
+   "note": "Few-control phrasing adds only 6 records.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 72,
+   "source": "OpenAlex",
+   "query": "B_final = B1 OR ((\"difference in differences\" OR \"parallel trends\" OR \"event study\") AND (\"measurement error\" OR \"errors in variables\" OR mismeasured OR mismeasurement)), filtered",
+   "count": 323,
+   "note": "Nested OR of AND groups is parsed correctly.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 73,
+   "source": "OpenAlex",
+   "query": "Union a-d (A1 OR B_final OR C_final OR D2) in one nested string, subfields 2002|2613|2000|1804",
+   "count": 2372,
+   "note": "Sum of parts 2,475, so about 100 records overlap.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 74,
+   "source": "OpenAlex",
+   "query": "Union a-d + all 13 seeds",
+   "count": 11,
+   "note": "11/11 a-d seeds retrieved. utae003 and rdad011 are (e) seeds, handled by the (e) arms.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 75,
+   "source": "OpenAlex",
+   "query": "authorships.author.display_name.search:Chaisemartin",
+   "count": null,
+   "note": "ERROR 400: invalid field; raw_author_name.search is the valid alternative.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 76,
+   "source": "arXiv/PubMed research index",
+   "query": "inference in difference-in-differences with few treated clusters or few control groups: wild cluster bootstrap, randomization inference, permutation tests [k=60]",
+   "count": null,
+   "note": "No (c) seed found by ID: all are journal-only, without arXiv or PMID. Related arXiv work ranks high: Hagemann 1803.02764, 1907.01049, 2010.04076; Ferman 2006.16997; Alvarez-Ferman 2302.03131; Rokicki 2018 Med Care.",
+   "url_or_call": "firecrawl_research_search_papers"
+  },
+  {
+   "order": 77,
+   "source": "OpenAlex",
+   "query": "title.search:(stayers OR \"heterogeneous adoption\" OR \"continuously distributed\") AND (DiD/TWFE terms), raw_author_name.search:Chaisemartin",
+   "count": 7,
+   "note": "de Chaisemartin et al. continuous-treatment family (identifiers in issues_and_limits).",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 78,
+   "source": "arXiv/PubMed research index",
+   "query": "synthetic difference-in-differences and synthetic control estimators with few treated units: inference and identification [econ.EM, k=50]",
+   "count": null,
+   "note": "SDID arXiv 1812.09970 rank 29.",
+   "url_or_call": "firecrawl_research_search_papers"
+  },
+  {
+   "order": 79,
+   "source": "Wiley Scholar Gateway",
+   "query": "wild cluster bootstrap and randomization inference for difference-in-differences when there are very few treated clusters",
+   "count": 10,
+   "note": "10 passages from 6 articles. MacKinnon-Webb ectj.12107 retrieved; also jae.2508, caje.12388, caje.12661, sim.70247.",
+   "url_or_call": "mcp__Scholar_Gateway__semanticSearch topN=10"
+  },
+  {
+   "order": 80,
+   "source": "Web (Parallel)",
+   "query": "FAO-GAEZ potential yield instrument working paper; site:nber.org GAEZ potential yields instrument; agro-climatic suitability instrument pesticide health; site:ideas.repec.org GAEZ suitability instrumental variable",
+   "count": null,
+   "note": "Reynier-Rubin PNAS (GAEZ attainable-yield percentile x year instruments), Costinot et al. NBER w20079, Fiszbein NBER w23183, NBER conference paper f200523 (2024) assessing GAEZ against historical yields.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 81,
+   "source": "OpenAlex",
+   "query": "validation-set indexing: doi:10.1097/mlr.0000000000000830|10.48550/arxiv.2507.20415|10.48550/arxiv.2208.02412|10.1016/j.jeconom.2020.04.024|10.48550/arxiv.2010.04076|10.48550/arxiv.1812.09970",
+   "count": 5,
+   "note": "arXiv 2507.20415 is NOT in OpenAlex. The SDID arXiv DOI resolves to the merged AER record.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 82,
+   "source": "OpenAlex",
+   "query": "Union a-d (order 73) + validation set",
+   "count": 4,
+   "note": "4/5 indexed items retrieved. Missed Hagemann 'Inference with a single treated cluster' (2010.04076): its phrasing 'single treated cluster' was not covered.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 83,
+   "source": "OpenAlex",
+   "query": "C_v2 = C_final with \"single treated unit\"/\"one treated unit\" replaced by \"single treated\" OR \"one treated\", plus \"few groups\" OR \"small number of groups\" OR \"finite number of clusters\", filtered",
+   "count": 1025,
+   "note": "Final (c) string.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 84,
+   "source": "OpenAlex",
+   "query": "C_v2 + 5 (c) seeds + 3 validation items (MacKinnon-Webb JoE 2020, Rokicki 2018, Hagemann 2010.04076)",
+   "count": 8,
+   "note": "Recall 8/8.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  },
+  {
+   "order": 85,
+   "source": "OpenAlex",
+   "query": "FINAL union a-d (A1 OR B_final OR C_v2 OR D2), subfields 2002|2613|2000|1804, group_by publication_year",
+   "count": 2416,
+   "note": "Largest year group is 2026 with 627 records, so preprint, SSRN and NBER duplicates will reduce the volume.",
+   "url_or_call": "firecrawl_scrape OpenAlex"
+  }
+ ],
+ "final_strategies": [
+  {
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:(\"difference in differences\" OR \"event study\" OR \"two-way fixed effects\" OR \"parallel trends\") AND (\"continuous treatment\" OR \"treatment intensity\" OR \"dose-response\" OR \"multi-valued treatment\" OR \"multivalued treatment\" OR \"non-binary treatment\" OR \"heterogeneous adoption\" OR \"treatment dose\" OR \"stayers\")",
+   "filters": "primary_topic.subfield.id:2002|2613|2000|1804",
+   "count": 240,
+   "rationale": "Sub-topic (a). Recall 3/3: CGS NBER, CGS arXiv, dCDH 2201.06898. Without the subfield filter it returns 609, which is still screenable; use that if dose-response methods in health or political science subfields are wanted."
+  },
+  {
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:((\"difference in differences\" OR \"parallel trends\" OR \"treatment effect\" OR \"treatment effects\" OR \"causal effect\" OR \"policy evaluation\" OR \"program evaluation\") AND (misclassification OR misclassified OR \"mismeasured treatment\" OR \"mismeasured binary\" OR \"measurement error in treatment\" OR \"treatment measurement error\" OR \"misreported treatment\" OR \"treatment misreporting\")) OR ((\"difference in differences\" OR \"parallel trends\" OR \"event study\") AND (\"measurement error\" OR \"errors in variables\" OR mismeasured OR mismeasurement))",
+   "filters": "primary_topic.subfield.id:2002|2613|2000|1804",
+   "count": 323,
+   "rationale": "Sub-topic (b). Recall 2/2 (Negi & Negi JAE and arXiv; Denteh-Kédagni). The second arm covers measurement error in a continuous dose. Without the filter the first arm alone returns 521, mostly clinical exposure misclassification."
+  },
+  {
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:(\"few clusters\" OR \"few treated\" OR \"few control\" OR \"few untreated\" OR \"few groups\" OR \"small number of clusters\" OR \"small number of groups\" OR \"small number of treated\" OR \"small number of control\" OR \"small number of policy changes\" OR \"finite number of clusters\" OR \"single treated\" OR \"one treated\" OR \"unbalanced clusters\" OR \"clustered errors\" OR \"cluster bootstrap\" OR \"wild cluster bootstrap\" OR \"wild bootstrap\" OR \"randomization inference\" OR \"permutation inference\" OR \"conformal inference\" OR \"cluster-robust inference\") AND (\"difference in differences\" OR \"cluster\" OR \"clusters\" OR \"clustered\" OR \"policy change\" OR \"policy changes\" OR \"few treated\" OR \"synthetic control\")",
+   "filters": "primary_topic.subfield.id:2002|2613|2000|1804",
+   "count": 1025,
+   "rationale": "Sub-topic (c). Recall 5/5 seeds (Conley-Taber, CGM 2008, MacKinnon-Webb 2018, Canay-Santos-Shaikh, Ferman-Pinto) and 3/3 validation items. Without the subfield filter about 5,600 (the C3 variant returned 5,579), with noise from AI and astronomy. 'clustered errors' and 'cluster bootstrap' are needed for CGM 2008, whose OpenAlex abstract lacks 'wild'."
+  },
+  {
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:(\"synthetic control\" OR \"synthetic controls\" OR \"synthetic difference in differences\" OR \"synthetic DiD\") AND (inference OR estimator OR estimators OR \"few treated\" OR \"single treated unit\" OR \"small number\" OR permutation OR placebo OR conformal OR \"bias correction\" OR identification)",
+   "filters": "primary_topic.subfield.id:2002|2613|2000|1804",
+   "count": 934,
+   "rationale": "Sub-topic (d). Recall 1/1 (SDID). A narrower variant without estimator, identification and placebo (528) misses SDID. A cheaper alternative uses primary_topic.id:T10845 instead of subfields (483, SDID kept), at some risk of losing synthetic-control methods papers tagged in economics topics."
+  },
+  {
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:(\"shift-share\" OR \"shift share\" OR \"Bartik\" OR \"formula instrument\" OR \"formula instruments\" OR \"known formula\" OR \"simulated instrument\" OR \"simulated instruments\" OR \"exposure design\" OR \"exposure designs\" OR \"recentered instrument\" OR \"recentering\" OR \"exogenous shocks\") AND (\"instrumental variable\" OR \"instrumental variables\" OR \"instrument\" OR \"instruments\" OR \"inference\" OR \"standard errors\" OR \"research design\" OR \"research designs\" OR \"regression designs\" OR \"design-based\")",
+   "filters": "topics.id:T10845 (any of the work's topics)",
+   "count": 108,
+   "rationale": "Sub-topic (e), formula and shift-share instruments. Recall 4/5 methods anchors: Borusyak-Hull review (seed), Borusyak-Hull 2023, BHJ 2022, GPSS 2020. Misses Adão-Kolesár-Morales 2019 (no T10845 tag); recover it by citation chasing. A subfield-filtered variant returns 788 and still misses AKM."
+  },
+  {
+   "source": "OpenAlex",
+   "query": "cites:W2166670725|W3122076865|W2299445035|W3124792110|W4406357681 AND title_and_abstract.search:suitability OR suitable OR \"GAEZ\" OR \"potential yield\" OR \"potential yields\" OR \"attainable yield\" OR \"agro-ecological\" OR agroclimatic OR \"agro-climatic\" OR \"genetically modified\" OR \"genetically engineered\"",
+   "filters": "none (forward citations of Nunn-Qian 2011, Bustos et al. 2016, Costinot et al. 2016, DRS 2023, Reynier-Rubin 2025)",
+   "count": 119,
+   "rationale": "Sub-topic (e), suitability as instrument or exposure predictor. Keyword strings fail here: 0/5 anchors by GAEZ vocabulary, because suitability is described in the body text, not the abstract. Forward citation chasing from the design anchors, intersected with suitability vocabulary, is screenable (all forward citations: 1,709)."
+  },
+  {
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:(\"GAEZ\" OR \"Global Agro-Ecological Zones\" OR \"agroclimatic suitability\" OR \"agro-climatic suitability\" OR \"crop suitability\" OR \"potential yield\" OR \"potential yields\" OR \"attainable yield\" OR \"soil suitability\" OR \"agricultural suitability\") AND (\"instrumental variable\" OR \"instrumental variables\" OR \"exogenous variation\" OR \"difference in differences\" OR \"identification strategy\" OR \"causal effect\" OR \"shift-share\")",
+   "filters": "none",
+   "count": 29,
+   "rationale": "Sub-topic (e), cheap precise complement for papers that do name GAEZ or suitability in the abstract. Adding the single word 'instrument' or 'exposure' raises volume to 275-310 with agronomy noise."
+  },
+  {
+   "source": "OpenAlex",
+   "query": "Single-call union of strategies a-d: (A) OR (B_final) OR (C_v2) OR (D2), as nested title_and_abstract.search",
+   "filters": "primary_topic.subfield.id:2002|2613|2000|1804",
+   "count": 2416,
+   "rationale": "Reproducible single export for (a)-(d). Recall 11/11 a-d seeds."
+  },
+  {
+   "source": "arXiv/PubMed research index (firecrawl_research_search_papers)",
+   "query": "4 natural-language framings: continuous-treatment DiD [econ.EM, k=100]; misclassified treatment in DiD [econ.EM, k=60]; few treated or control clusters inference [k=60]; SC/SDID with few units [econ.EM, k=50]",
+   "filters": "categories econ.EM where noted",
+   "count": null,
+   "rationale": "Preprint supplement (no total counts; screen the top k). Seed ranks: CGS 6 and 18, dCDH 4, Denteh-Kédagni 1, Negi-Negi 2 and 56, SDID 29. It finds arXiv-only items missing from OpenAlex (e.g. 2507.20415)."
+  },
+  {
+   "source": "Wiley Scholar Gateway",
+   "query": "misclassified DiD (topN 15); few-cluster wild bootstrap and RI (topN 10)",
+   "filters": "none",
+   "count": 25,
+   "rationale": "Full-text passage supplement for Wiley journals (JAE, Econometrics Journal pre-2019, CJE). Retrieved jae.3116 and ectj.12107. Count is passages, not records."
+  },
+  {
+   "source": "Web (Parallel search: NBER/SSRN/RePEc/IZA)",
+   "query": "site:nber.org | site:ideas.repec.org | site:ssrn.com | site:iza.org with continuous-treatment DiD, misclassification DiD, few treated clusters, and GAEZ instrument terms (3 calls, 12 queries)",
+   "filters": "none",
+   "count": null,
+   "rationale": "Grey literature: working-paper versions and NBER conference papers, e.g. the 2024 GAEZ validity paper and Ferman-Pinto FGV/MPRA WPs. Mostly duplicates of OpenAlex records; screen the top results only."
+  }
+ ],
+ "known_item_recall": {
+  "seeds_tested": [
+   "10.3386/w32117",
+   "10.48550/arxiv.2107.02637",
+   "10.1002/jae.3116",
+   "10.48550/arxiv.2207.11890",
+   "10.1162/rest_a_00049",
+   "10.1162/rest_a_00887",
+   "10.1257/aer.20190159",
+   "10.1111/ectj.12107",
+   "10.1162/rest.90.3.414",
+   "10.1093/ectj/utae003",
+   "10.1093/restud/rdad011",
+   "10.1162/rest_a_00759",
+   "10.48550/arxiv.2201.06898"
+  ],
+  "seeds_retrieved": [
+   "10.3386/w32117",
+   "10.48550/arxiv.2107.02637",
+   "10.1002/jae.3116",
+   "10.48550/arxiv.2207.11890",
+   "10.1162/rest_a_00049",
+   "10.1162/rest_a_00887",
+   "10.1257/aer.20190159",
+   "10.1111/ectj.12107",
+   "10.1162/rest.90.3.414",
+   "10.1162/rest_a_00759",
+   "10.48550/arxiv.2201.06898",
+   "10.1093/ectj/utae003"
+  ],
+  "seeds_missed": [
+   {
+    "id": "10.1093/restud/rdad011",
+    "why": "Dias, Rocha & Soares 2023 is indexed, but its OpenAlex abstract describes the exposure as 'potential gain in municipality-level productivity from the adoption of GM soybean seeds', with no GAEZ, suitability or potential-yield vocabulary. Its primary topic is Plant Science (1110), so any economics subfield filter also drops it. No keyword string retrieves it. It enters the (e) arm only as a citation-chasing anchor, by construction, and should also come from SQ1's glyphosate and birth-outcome strings."
+   }
+  ],
+  "recall_indexed": "12/13 = 92% (all 13 seeds indexed in OpenAlex). By sub-topic: (a) 3/3; (b) 2/2; (c) 5/5, plus 3/3 extra validation items (MacKinnon-Webb JoE 2020, Rokicki et al. 2018, Hagemann single treated cluster); (d) 1/1; (e) 1/2 seeds (Borusyak-Hull review yes, DRS no). Extra (e) anchors: shift-share methods 4/5 by the E6 string (AKM missed); GAEZ-application anchors 0/5 by GAEZ keywords and 2/5 by a broad unfiltered suitability string (Reynier-Rubin, Nunn-Qian), which is why the citation-chasing arm was adopted.",
+  "seeds_not_indexed": [
+   "None of the 13 seeds is missing from OpenAlex.",
+   "The firecrawl arXiv/PubMed research index has no arXiv or PMID record for the journal-only seeds (Conley-Taber, CGM 2008, MacKinnon-Webb, Canay-Santos-Shaikh, Ferman-Pinto, Borusyak-Hull review, DRS), so that index can only validate CGS, dCDH, Denteh-Kédagni, Negi-Negi and SDID (arXiv 1812.09970).",
+   "Non-seed validation item arXiv 2507.20415 (staggered DiD with misclassification and anticipation) is not in OpenAlex; it was found only through the research index."
+  ]
+ },
+ "volume_estimate_after_dedup": "By sub-topic in OpenAlex: (a) 240; (b) 323; (c) 1,025; (d) 934; (e) 108 formula/shift-share + 119 citation-chasing + 29 GAEZ keywords = 256. The single-string union for (a)-(d) is 2,416 (sum of parts 2,522, so about 106 overlap), and (a)-(e) together come to about 2,670 gross. The (e) arms overlap little with (a)-(d), so expect about 2,600 OpenAlex records. Preprint/SSRN/NBER/journal duplicates are common: CGS alone has 3 records and MacKinnon-Webb RI has 4, and 627 of the union records are dated 2026. Version deduplication should bring this to roughly 2,100-2,400 unique works for title/abstract screening, plus about 100-200 new items from the arXiv top-k lists and a few dozen grey-literature records. Main trade-off: (c) and (d) carry about 80% of the volume. Using primary_topic.id:T10845 for (d) would cut it from 934 to 483 while keeping SDID, at the cost of synthetic-control methods papers filed under economics topics. Dropping the subfield filter for (c) and (d) would push the total above 10,000, which is not screenable.",
+ "issues_and_limits": [
+  "Tool limits: the Firecrawl scrape route to OpenAlex is limited to about 10-11 requests per minute, and failed calls also count. About 13 calls failed this way and were re-run. WebFetch to api.openalex.org failed (DNS ENOTFOUND) and Parallel web_fetch returned 429, so OpenAlex was reached only through Firecrawl.",
+  "The subfield filter (primary_topic.subfield.id 2002|2613|2000|1804) depends on OpenAlex's automatic topic classifier. It keeps every (a)-(d) seed, but it would drop methods papers filed in health, political-science or agricultural subfields. DRS, Reynier-Rubin and Costinot et al. sit in 1110 or 1105, which is why (e) is left unfiltered or uses citation chasing.",
+  "Some key papers lack the obvious terms in their OpenAlex abstracts. CGM 2008 has no 'wild'. AKM 2019 has no 'instrument'. Borusyak-Hull 2023 has no 'shift-share', 'identification' or 'inference'. DRS 2023 and Bustos et al. 2016 have no suitability or GAEZ vocabulary. Because the suitability-as-instrument literature (e) is described in body text, it is poorly retrievable by title/abstract keywords. An optional fulltext.search filter exists in OpenAlex but was not tested.",
+  "Year metadata differs between OpenAlex and the published journal issues. Conley-Taber is 2010 in OpenAlex but REStat 93(1), 2011. Ferman-Pinto is 2018 in OpenAlex but REStat 101(3):452-467, 2019. Any date filter must allow for this.",
+  "'Few control clusters' (the Ceará case: 15 municipalities with zero dose) is rarely written that way. Adding \"few control\", \"few untreated\" and \"small number of control\" added only 6 records. That literature is mostly indexed under 'few treated' or 'small number of clusters/groups', and the reviewers should check symmetry claims (e.g. Ferman-Pinto, MacKinnon-Webb on unbalanced clusters) during screening.",
+  "The single word 'instrument' is noisy (policy instrument, measuring instrument), and so are 'agro-ecological zones' and 'land suitability' (agronomy). These terms were removed or restricted.",
+  "arXiv-only preprints can be missing from OpenAlex (e.g. 2507.20415). This is why the arXiv research-index framings are kept as a supplement.",
+  "The research index and Scholar Gateway return ranked results without total counts, so their volumes are top-k cut-offs chosen by the searcher, not exhaustive counts.",
+  "Not tested: date restrictions (e.g. ≥2004 for few-cluster inference after Bertrand-Duflo-Mullainathan), type filters (article|preprint), and .search.no_stem / exact variants. Counts are live OpenAlex values from 2026-10-11 and will drift.",
+  "Requested identifiers. Ferman & Pinto: 'Inference in Differences-in-Differences with Few Treated Groups and Heteroskedasticity', DOI 10.1162/rest_a_00759 (OpenAlex W2113132502), REStat 101(3):452-467. Working-paper versions: FGV EESP Textos para discussão 406 (2015); MPRA Paper 67665 (2015); Insper repository record W2894645550. Replication data: 10.7910/dvn/piazwn.",
+  "Requested identifiers, de Chaisemartin, D'Haultfœuille et al. on continuous treatments: (i) arXiv 2201.06898, DOI 10.48550/arxiv.2201.06898 (W4312014649), titled in OpenAlex 'Difference-in-Differences Estimators for Treatments Continuously Distributed at Every Period'; the current arXiv/SSRN title is 'Difference-in-Differences for Continuous Treatments and Instruments with Stayers', SSRN 10.2139/ssrn.4011782 (W4225540705). (ii) 'Difference-in-Differences Estimators with Continuous Treatments and No Stayers': arXiv 2402.05432 (W4391709617), SSRN 10.2139/ssrn.4720535, AEA Papers & Proceedings 10.1257/pandp.20241049 (W4398755771). (iii) 'Two-way Fixed Effects and Differences-in-Differences in Heterogeneous Adoption Designs without Stayers' (W4406630236, no DOI in OpenAlex; its arXiv ID was not confirmed). (iv) R package DIDHAD, 10.32614/cran.package.didhad. Related but binary-treatment: dCDH AER 2020, 10.1257/aer.20181169. Author lists beyond de Chaisemartin were not confirmed from tool output.",
+  "The user request relayed by the harness only describes review types (systematic, scoping, narrative or integrative). It does not conflict with the computed task, which was carried out as search calibration only: no screening, no selection, no synthesis."
+ ],
+ "syntax_findings": [
+  "OpenAlex title_and_abstract.search accepts uppercase AND/OR, parentheses and quoted phrases. Counts confirm it: A alone 107,552 and B alone 184,104, but A AND B gives 609. The response's x_query.oqo shows the parsed tree.",
+  "Nested OR-of-AND groups work in one filter value, e.g. ((X AND Y) OR (Z AND W)), and are parsed into join trees. A single call can therefore return the union of all sub-topic strings, as at orders 73 and 85.",
+  "Search is stemmed by default ('stemmed' in the oql). A quoted phrase also matches inflected forms, and unquoted single words are stemmed individually. Hyphens are equivalent to spaces: \"difference-in-differences\" and \"difference in differences\" both return 74,518.",
+  "Comma-separated filters are ANDed and pipes give OR within one filter field (e.g. primary_topic.subfield.id:2002|2613|2000|1804; cites:W1|W2). OR across different filter fields, such as subfield OR topic, is not possible in one call.",
+  "Known-item recall works by adding doi:A|B|C as a separate filter. The 10.48550/arxiv.* DOIs resolve, and the SDID arXiv DOI 10.48550/arxiv.1812.09970 resolves to the merged AER record.",
+  "authorships.author.display_name.search is invalid (HTTP 400). Use raw_author_name.search for author-name search.",
+  "primary_topic.id:T10845 ('Advanced Causal Inference Techniques') holds most of the methods seeds. topics.id:T10845 (any of a work's topics) is broader and suited the shift-share arm. CGM 2008 is primary T11911 and AKM is T14051, which shows the topic-filter risk.",
+  "cites:<W-ids> combined with a title_and_abstract.search vocabulary filter gives a screenable, reproducible citation-chasing arm (1,709 down to 119).",
+  "group_by returns only per-page groups: per-page=1 showed just the top group, so set per-page to the number of groups needed."
+ ],
+ "incidental_relevant_studies": [
+  {
+   "title": "Staggered Adoption DiD Designs with Misclassification and Anticipation",
+   "id": "arXiv:2507.20415",
+   "year": "2025",
+   "why": "Covers misclassification and anticipation together. The project has three anticipation dates (2015 notice, 2018 approval, 2019 obligation). It is not indexed in OpenAlex."
+  },
+  {
+   "title": "Event-Studies with a Continuous Treatment (Callaway, Goodman-Bacon & Sant'Anna)",
+   "id": "10.3386/w32118",
+   "year": "2024",
+   "why": "Companion to the CGS seed: aggregation of continuous-dose parameters (also AEA P&P 2024)."
+  },
+  {
+   "title": "Nonparametric Difference-in-Differences in Repeated Cross-Sections with Continuous Treatments (D'Haultfoeuille, Hoderlein & Sasaki)",
+   "id": "arXiv:2104.14458",
+   "year": "2021",
+   "why": "Alternative identification for continuous-treatment DiD."
+  },
+  {
+   "title": "Two Margins in Difference-in-Differences with a Continuous Treatment",
+   "id": "arXiv:2609.09488",
+   "year": "2026",
+   "why": "Very recent continuous-dose DiD; top-ranked in the econ.EM search."
+  },
+  {
+   "title": "Continuous difference-in-differences with double/debiased machine learning",
+   "id": "arXiv:2408.10509",
+   "year": "2024",
+   "why": "Estimator for continuous-dose DiD."
+  },
+  {
+   "title": "Difference-in-Differences with a Misclassified Treatment (Negi & Negi, preprint)",
+   "id": "10.48550/arxiv.2208.02412",
+   "year": "2022",
+   "why": "Preprint version of the JAE seed; deduplicate against it."
+  },
+  {
+   "title": "Estimation of Average Treatment Effects with Misclassification (Lewbel)",
+   "id": "10.1111/j.1468-0262.2006.00756.x",
+   "year": "2007",
+   "why": "Foundational misclassified binary treatment result."
+  },
+  {
+   "title": "On the Estimation of Treatment Effects with Endogenous Misreporting (Nguimkeu, Denteh & Tchernis)",
+   "id": "NBER w24117",
+   "year": "2018",
+   "why": "Covers both false positives and false negatives in treatment status."
+  },
+  {
+   "title": "Bounding treatment effects: a command for partial identification of the ATE with endogenous and misreported treatment assignment",
+   "id": "10.1177/1536867x1501500205",
+   "year": "2015",
+   "why": "Software for bounds under misreported treatment."
+  },
+  {
+   "title": "Estimating the Productivity Impacts of Technology Adoption in the Presence of Misclassification",
+   "id": "10.1093/ajae/aay017",
+   "year": "2019",
+   "why": "Misclassified agricultural technology adoption; close to the project's problem of measuring aerial application."
+  },
+  {
+   "title": "Randomization inference for difference-in-differences with few treated clusters (MacKinnon & Webb)",
+   "id": "10.1016/j.jeconom.2020.04.024",
+   "year": "2020",
+   "why": "Core few-cluster inference method."
+  },
+  {
+   "title": "Wild Bootstrap Inference for Wildly Different Cluster Sizes (MacKinnon & Webb)",
+   "id": "10.1002/jae.2508",
+   "year": "2017",
+   "why": "Unbalanced clusters; the project's 169 positive-dose vs 15 zero-dose municipalities are very unbalanced."
+  },
+  {
+   "title": "Inference with a single treated cluster (Hagemann)",
+   "id": "arXiv:2010.04076",
+   "year": "2020",
+   "why": "Permutation-type inference with one or few treated clusters; related Hagemann work at arXiv 1803.02764 and 1907.01049."
+  },
+  {
+   "title": "Inference in Difference-in-Differences with Few Treated Units and Spatial Correlation (Ferman)",
+   "id": "arXiv:2006.16997",
+   "year": "2020",
+   "why": "Extends the Ferman-Pinto seed to spatial correlation, relevant to neighbouring municipalities."
+  },
+  {
+   "title": "Extensions for Inference in Difference-in-Differences with Few Treated Clusters (Alvarez & Ferman)",
+   "id": "arXiv:2302.03131",
+   "year": "2023",
+   "why": "Uniform confidence bands and permutation tests with few treated units."
+  },
+  {
+   "title": "Inference With Difference-in-Differences With a Small Number of Groups: review and simulation (Rokicki et al.)",
+   "id": "10.1097/MLR.0000000000000830",
+   "year": "2018",
+   "why": "Applied comparison of aggregation, permutation, GEE and wild cluster bootstrap."
+  },
+  {
+   "title": "Improved Inference for CSDID Using the Cluster Jackknife",
+   "id": "arXiv:2602.12043",
+   "year": "2026",
+   "why": "Few-cluster inference for Callaway-Sant'Anna-type estimators; the project already uses a jackknife in 04_robustness.py."
+  },
+  {
+   "title": "An Exact and Robust Conformal Inference Method for Counterfactual and Synthetic Controls (Chernozhukov, Wüthrich & Zhu)",
+   "id": "10.1080/01621459.2021.1920957",
+   "year": "2021",
+   "why": "Conformal inference for SC/SDID with few units."
+  },
+  {
+   "title": "Inference for Synthetic Controls via Refined Placebo Tests",
+   "id": "arXiv:2401.07152",
+   "year": "2024",
+   "why": "Few-unit SC inference."
+  },
+  {
+   "title": "Nonrandom Exposure to Exogenous Shocks (Borusyak & Hull)",
+   "id": "10.3982/ECTA19367",
+   "year": "2023",
+   "why": "Recentering formula instruments, applicable to a GAEZ suitability-based exposure."
+  },
+  {
+   "title": "Shift-share designs: theory and inference (Adão, Kolesár & Morales)",
+   "id": "10.1093/qje/qjz025",
+   "year": "2019",
+   "why": "Shift-share inference; missed by the E6 string, so add by citation chasing."
+  },
+  {
+   "title": "Glyphosate exposure and GM seed rollout unequally reduced perinatal health (Reynier & Rubin)",
+   "id": "10.1073/pnas.2413013121",
+   "year": "2025",
+   "why": "GAEZ attainable-yield percentile × year instruments with an event-study first stage; the template for (e)."
+  },
+  {
+   "title": "Agricultural Productivity and Structural Transformation: Evidence from Brazil (Bustos, Caprettini & Ponticelli)",
+   "id": "10.1257/aer.20131061",
+   "year": "2016",
+   "why": "Brazilian GAEZ potential-yield exposure × GM soy timing; precursor of the DRS design."
+  },
+  {
+   "title": "NBER conference paper comparing GAEZ yields with historical crop yields (file 'GAEZ paper 28 June 2024')",
+   "id": "conference.nber.org/conf_papers/f200523.pdf",
+   "year": "2024",
+   "why": "Validity critique of GAEZ as an exposure predictor; Reynier-Rubin cite similar work. Authors not verified."
+  },
+  {
+   "title": "The health effects of genetically modified crops",
+   "id": "10.1016/j.jdeveco.2026.103930",
+   "year": "2026",
+   "why": "Found by the citation-chasing arm; GM, pesticide and health design close to Essay 1."
+  }
+ ]
+}

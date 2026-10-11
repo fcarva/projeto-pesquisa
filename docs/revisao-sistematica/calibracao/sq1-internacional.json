@@ -1,0 +1,767 @@
+{
+ "block": "SQ1 (primary systematic review, PECOS): environmental/community exposure to agricultural pesticides during pregnancy and birth outcomes. English-language calibration across OpenAlex (primary), PubMed (native E-utilities, added as a bonus), the Firecrawl research index (PubMed/medRxiv/arXiv), Wiley Scholar Gateway, and economics grey literature. Run date: 2026-10-11.",
+ "query_log": [
+  {
+   "order": 1,
+   "source": "OpenAlex",
+   "query": "filter=doi:<9 seed DOIs>",
+   "count": 9,
+   "note": "All 9 seed DOIs are indexed in OpenAlex. Sent with firecrawl_scrape.",
+   "url_or_call": "firecrawl_scrape https://api.openalex.org/works?filter=doi:10.1038/s41467-017-00349-2|10.1086/725349|10.1016/j.jhealeco.2017.04.005|10.1093/restud/rdad011|10.1073/pnas.2413013121|10.1111/j.1365-3016.2010.01165.x|10.1111/j.1651-2227.2008.01207.x|10.1002/pam.22558|10.3390/toxics6030041"
+  },
+  {
+   "order": 2,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:pesticide / pesticide AND \"birth weight\" / pesticide OR \"birth weight\"",
+   "count": null,
+   "note": "FAILED: Firecrawl scrape rate limit (shared quota, 11-13 requests/min used). Re-run later through Parallel web_fetch.",
+   "url_or_call": "firecrawl_scrape (3 parallel calls)"
+  },
+  {
+   "order": 3,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:\"birth weight\"",
+   "count": 174496,
+   "note": "Syntax baseline. OQL shows the phrase is stemmed.",
+   "url_or_call": "firecrawl_scrape"
+  },
+  {
+   "order": 4,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:pesticide",
+   "count": null,
+   "note": "FAILED: WebFetch could not resolve api.openalex.org (ENOTFOUND). All later OpenAlex calls went through mcp__Parallel_Search__web_fetch, which hits the same API.",
+   "url_or_call": "WebFetch"
+  },
+  {
+   "order": 5,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:pesticide",
+   "count": 316429,
+   "note": "A for the set-algebra check.",
+   "url_or_call": "Parallel web_fetch api.openalex.org/works?filter=title_and_abstract.search:pesticide"
+  },
+  {
+   "order": 6,
+   "source": "OpenAlex",
+   "query": "pesticide AND \"birth weight\"",
+   "count": 458,
+   "note": "A AND B.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 7,
+   "source": "OpenAlex",
+   "query": "pesticide OR \"birth weight\"",
+   "count": 490467,
+   "note": "Equals 316429 + 174496 - 458, so OR behaves as expected.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 8,
+   "source": "OpenAlex",
+   "query": "pesticide NOT \"birth weight\"",
+   "count": 315971,
+   "note": "Equals 316429 - 458, so NOT behaves as expected.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 9,
+   "source": "OpenAlex",
+   "query": "pesticid*",
+   "count": null,
+   "note": "HTTP 400: wildcards are not supported.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 10,
+   "source": "OpenAlex",
+   "query": "pesticides",
+   "count": 316429,
+   "note": "Same count as 'pesticide', so stemming is always on.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 11,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search.no_stem:pesticide",
+   "count": null,
+   "note": "HTTP 400: no_stem is not available in this API version.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 12,
+   "source": "OpenAlex",
+   "query": "herbicide AND \"birth weight\"",
+   "count": 58,
+   "note": "Syntax check.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 13,
+   "source": "OpenAlex",
+   "query": "(pesticide OR herbicide) AND \"birth weight\"",
+   "count": 483,
+   "note": "Parentheses work.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 14,
+   "source": "OpenAlex",
+   "query": "pesticide and \"birth weight\" (lowercase and)",
+   "count": 458,
+   "note": "Lowercase 'and' is parsed as a term, not an operator. It is a stopword, so the count is unchanged.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 15,
+   "source": "OpenAlex",
+   "query": "pesticide \"birth weight\" (no operator)",
+   "count": 458,
+   "note": "Implicit AND.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 16,
+   "source": "OpenAlex",
+   "query": "Q1 = A1 AND C1 (A1 = 16 core pesticide/aerial terms; C1 = 33 outcome terms)",
+   "count": 3664,
+   "note": "Seed recall 8/9. Missed DiSalvo & Hill (10.1002/pam.22558): its abstract has no pesticide term, only 'drinking water contamination'.",
+   "url_or_call": "Parallel web_fetch (count + doi-filtered recall)"
+  },
+  {
+   "order": 17,
+   "source": "OpenAlex",
+   "query": "filter=doi:<DiSalvo|Camacho|Calzada|Shirangi>&select=abstract_inverted_index",
+   "count": 4,
+   "note": "Camacho & Mejia (Elsevier) shows a null abstract in the API but was still matched on abstract words, so Elsevier abstracts are searchable even when hidden. DiSalvo & Hill abstract confirmed to lack pesticide terms.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 18,
+   "source": "OpenAlex",
+   "query": "A2 AND C1 NOT A1 (A2 = agrotoxic, plaguicide, nematicide, carbamate, pyrethroid, neonicotinoid, mancozeb, \"methyl bromide\", \"aerial application\", \"aerial spray\", \"spray drift\", \"pesticide drift\", \"crop spraying\", Roundup, \"agricultural chemicals\")",
+   "count": 74,
+   "note": "Marginal yield of A2: high-relevance records, e.g. aerial malathion and birth outcomes (1987) and methyl bromide drift (2013). A2 kept.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 19,
+   "source": "OpenAlex",
+   "query": "A1 AND C2 NOT C1 (C2 includes generic 'newborn' plus specific defects)",
+   "count": 782,
+   "note": "Mostly noise from neurodevelopment and occupational studies, caused by 'newborn'. 'newborn' dropped; specific defect and loss terms kept (C2b).",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 20,
+   "source": "OpenAlex",
+   "query": "A3 AND C1 (A3 = \"drinking water contaminant\" OR \"drinking water contamination\" OR \"water contaminants\")",
+   "count": 113,
+   "note": "Small and topical; retrieves DiSalvo & Hill. A3 kept.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 21,
+   "source": "OpenAlex",
+   "query": "Q6 = (A1 OR A2b OR A3) AND (C1 OR C2b)",
+   "count": 4009,
+   "note": "Seeds 9/9. Broad version without a context block.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 22,
+   "source": "OpenAlex",
+   "query": "Q6 AND B (narrow context block)",
+   "count": 1768,
+   "note": "Seeds 9/9. Inspecting Q6 NOT B showed relevant ecological studies lost (e.g. malathion fumigation 1987, herbicide use and neural tube defects 1979), so B was broadened to B2.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 23,
+   "source": "OpenAlex",
+   "query": "Q6 NOT (rats OR rat OR mice OR mouse OR \"in vitro\" OR zebrafish OR rabbits OR \"animal model\")",
+   "count": 3394,
+   "note": "Seeds 9/9.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 24,
+   "source": "OpenAlex",
+   "query": "Q6 NOT B",
+   "count": 2241,
+   "note": "Sample: mostly biomonitoring and occupational studies (intended exclusions), plus a few ecological studies that B missed.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 25,
+   "source": "OpenAlex",
+   "query": "QF = Q6 AND B2 NOT animal (B2 = broad agricultural/geographic/water/policy context terms)",
+   "count": 1980,
+   "note": "Seeds 9/9.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 26,
+   "source": "OpenAlex",
+   "query": "Q6 NOT B2, sorted by citations",
+   "count": 1787,
+   "note": "Top 25 by citations are reviews, rat/vinclozolin toxicology, biomonitoring, bed nets. No eligible study seen.",
+   "url_or_call": "Parallel web_fetch &sort=cited_by_count:desc"
+  },
+  {
+   "order": 27,
+   "source": "OpenAlex",
+   "query": "Q6 AND animal block, sorted by citations",
+   "count": 615,
+   "note": "Top 25 are animal or in-vitro toxicology and guidelines. One occupational human study (gardeners/farmers) is lost, but it is out of scope anyway.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 28,
+   "source": "OpenAlex",
+   "query": "QF &group_by=type with select",
+   "count": null,
+   "note": "HTTP 400: group_by cannot be combined with select.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 29,
+   "source": "OpenAlex",
+   "query": "filter=doi:<7 benchmark DOIs>",
+   "count": 7,
+   "note": "Extra benchmark set (Gemmill 2013, Thomas 1992, Rull 2006, Bell 2001, Brainerd & Menon 2014, Frank 2024 Science, Lai 2017): all indexed.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 30,
+   "source": "OpenAlex",
+   "query": "QF restricted to the 7 benchmark DOIs",
+   "count": 5,
+   "note": "Missed Brainerd & Menon and Lai 2017. Block diagnosis: both pass the exposure block A and the context block B2 but fail the outcome block C (0/2). Their abstracts say 'infant and child health' or generic 'health outcomes'.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 31,
+   "source": "OpenAlex",
+   "query": "Q6 AND B2 (no NOT)",
+   "count": 2222,
+   "note": "So the animal NOT removes 242 records.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 32,
+   "source": "OpenAlex",
+   "query": "QF &group_by=type",
+   "count": 1980,
+   "note": "Article 1443; conference-abstract 112; book-chapter 83; dissertation 83; preprint 51; review 50; other 39; editorial 23; paratext 16; and smaller types.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 33,
+   "source": "OpenAlex",
+   "query": "title.search:cicadian",
+   "count": 3,
+   "note": "None is Taylor's working paper.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 34,
+   "source": "OpenAlex",
+   "query": "A AND C3 AND B2 NOT C NOT animal (C3 = child mortality/health, infant and child, under-five mortality, infant outcomes, neonatal, newborns)",
+   "count": 1287,
+   "note": "Too noisy (bed nets, neurodevelopment). Retrieves Brainerd & Menon.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 35,
+   "source": "OpenAlex",
+   "query": "A AND C3s AND B2 NOT C NOT animal (C3s = C3 without neonatal/newborns)",
+   "count": 388,
+   "note": "Noise dominated by malaria insecticide-treated bed nets. Retrieves Brainerd & Menon. Kept, with a NOT on bed-net phrases.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 36,
+   "source": "OpenAlex",
+   "query": "QF2 = A AND (C OR C3s) AND B2 NOT animal NOT bed-net v1 (included bare \"insecticide-treated\")",
+   "count": 1824,
+   "note": "Seed check FAILED with HTTP 429 (OpenAlex rate limit). v1 replaced by v2, which uses net-specific phrases so 'insecticide-treated seeds' studies are not dropped.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 37,
+   "source": "OpenAlex",
+   "query": "filter=doi:<validation set 1, 17 DOIs>",
+   "count": 17,
+   "note": "All indexed: 7 benchmarks plus 10 studies found through the PubMed-index framings, including the Fletcher & Noghanibehambari cicada paper (JEEM 2023).",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 38,
+   "source": "OpenAlex",
+   "query": "QF3 (FINAL) = A AND (C1 OR C2b OR C3s) AND B2 NOT animal NOT bed-net v2",
+   "count": 1859,
+   "note": "Recall: seeds 9/9; validation set 1 15/17. The 2 misses have outcomes outside SQ1: Lai 2017 (adult rural health) and Fletcher & Noghanibehambari 2023 (later-life male mortality).",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 39,
+   "source": "OpenAlex",
+   "query": "QS (sensitive) = QF3 without the B2 context block",
+   "count": 3233,
+   "note": "Same recall as QF3 (24/26). B2 cuts 1374 records (-42.5%) with no loss on the validation sets.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 40,
+   "source": "OpenAlex",
+   "query": "title.search:\"cicadian rhythm insecticides\"; raw_author_name.search:Charles Taylor AND (insecticide OR pesticide OR cicada)",
+   "count": 0,
+   "note": "0 for the title search. The author search returned 16 records, none relevant. Taylor's working paper is not in OpenAlex.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 41,
+   "source": "OpenAlex",
+   "query": "filter=doi:<validation set 2, 20 DOIs>",
+   "count": 20,
+   "note": "All indexed: residential-proximity, atrazine-in-water, birth-defect and aerial (2,4,5-T 1981) studies taken from the PubMed-index results.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 42,
+   "source": "OpenAlex",
+   "query": "QF3 restricted to validation set 2",
+   "count": 20,
+   "note": "20/20 retrieved.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 43,
+   "source": "OpenAlex",
+   "query": "QF3 &group_by=type",
+   "count": 1859,
+   "note": "Article 1350; conference-abstract 115; book-chapter 90; dissertation 70; other 44; preprint 41; review 41; conference-paper 22; editorial 19; paratext 15; dataset 11; report 9; reference-entry 8; book 7; book-review 7; erratum 4; letter 4; data-paper 1; software 1.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 44,
+   "source": "OpenAlex",
+   "query": "QF3 ,type:!paratext,type:!erratum,type:!book-review,type:!dataset,type:!software",
+   "count": 1821,
+   "note": "Recommended screening set: 38 non-research records removed. Type negation syntax verified.",
+   "url_or_call": "Parallel web_fetch"
+  },
+  {
+   "order": 45,
+   "source": "PubMed index (Firecrawl research)",
+   "query": "effect of residential or community exposure to agricultural pesticide spraying during pregnancy on birth weight, preterm birth, birth defects and infant mortality",
+   "count": 100,
+   "note": "k=100. Ranks: Larsen 1, Shirangi 2, Ling 3. The other 6 seeds were not in the top 100.",
+   "url_or_call": "firecrawl_research_search_papers k=100"
+  },
+  {
+   "order": 46,
+   "source": "PubMed index (Firecrawl research)",
+   "query": "natural experiment difference-in-differences: aerial spraying, glyphosate or pesticide use shocks and newborn health, birth weight, gestational length, infant mortality",
+   "count": 100,
+   "note": "Ranks: Reynier & Rubin 1, Camacho & Mejia 2, Larsen 6, Ling 9.",
+   "url_or_call": "firecrawl_research_search_papers k=100"
+  },
+  {
+   "order": 47,
+   "source": "PubMed index (Firecrawl research)",
+   "query": "agricultural chemicals atrazine herbicides in drinking water or surface water and birth defects, low birth weight and preterm birth",
+   "count": 100,
+   "note": "Ranks: Winchester 10, Shirangi 22, Ling 26, Larsen 28, DiSalvo & Hill 44.",
+   "url_or_call": "firecrawl_research_search_papers k=100"
+  },
+  {
+   "order": 48,
+   "source": "PubMed index (Firecrawl research)",
+   "query": "Exact-title lookups: Calzada et al. 2023; Dias, Rocha & Soares 2023; Taylor 'Cicadian Rhythm'",
+   "count": 5,
+   "note": "k=5 per title. None of the three found, so they are treated as not indexed in this source.",
+   "url_or_call": "firecrawl_research_search_papers k=5 (3 calls)"
+  },
+  {
+   "order": 49,
+   "source": "PubMed index (Firecrawl research)",
+   "query": "aerial pesticide spraying or aerial fumigation of crops or plantations and pregnancy outcomes, birth weight, congenital anomalies in nearby communities",
+   "count": 40,
+   "note": "Ranks: Shirangi 4, Camacho 11, Ling 22, Larsen 23. Surfaced the aerial 2,4,5-T (Science 1981) and aerial malathion studies.",
+   "url_or_call": "firecrawl_research_search_papers k=40"
+  },
+  {
+   "order": 50,
+   "source": "Scholar Gateway (Wiley)",
+   "query": "Does residential or community exposure to agricultural pesticide applications during pregnancy affect birth weight, preterm birth, birth defects or fetal death?",
+   "count": 8,
+   "note": "20 passages from 8 articles. Shirangi retrieved.",
+   "url_or_call": "mcp__Scholar_Gateway__semanticSearch topN=20"
+  },
+  {
+   "order": 51,
+   "source": "Scholar Gateway (Wiley)",
+   "query": "Are agricultural chemical contaminants such as atrazine and other pesticides in surface water or drinking water associated with birth defects, low birth weight or preterm birth?",
+   "count": 10,
+   "note": "20 passages from 10 articles. Winchester, Shirangi and DiSalvo & Hill retrieved: all 3 seeds published by Wiley.",
+   "url_or_call": "mcp__Scholar_Gateway__semanticSearch topN=20"
+  },
+  {
+   "order": 52,
+   "source": "Scholar Gateway (Wiley)",
+   "query": "Causal effect of pesticide exposure from agriculture (aerial spraying, glyphosate, insecticide use) on infant health and birth outcomes using natural experiments or difference-in-differences in economics",
+   "count": 9,
+   "note": "20 passages from 9 articles. Only Shirangi retrieved; the economics framing works poorly in the Wiley corpus.",
+   "url_or_call": "mcp__Scholar_Gateway__semanticSearch topN=20"
+  },
+  {
+   "order": 53,
+   "source": "Grey literature (web)",
+   "query": "Cicadian Rhythm Insecticides Infant Health Long-term Outcomes | Charles Taylor cicada insecticides infant health | \"Cicadian Rhythm\" Taylor working paper",
+   "count": null,
+   "note": "FOUND. Taylor, C.A., 'Cicadian Rhythm: Insecticides, Infant Health and Long-term Outcomes', CEEP Working Paper Series, Sept 2020 (hks.harvard.edu page); job-market paper PDF dated Jan 2022 (ceep.columbia.edu; mirrored on qwern.net); listed on Google Scholar. No DOI.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 54,
+   "source": "Grey literature (NBER)",
+   "query": "site:nber.org pesticide birth outcomes | pesticides infant health | glyphosate birth weight | insecticide infant mortality",
+   "count": null,
+   "note": "Found the Calzada, Gisbert & Moscoso NBER Summer Institute 2023 slides (conference.nber.org/conf_papers/f181409.slides.pdf) and DiSalvo & Hill NBER WP 31567. Also non-pesticide neighbours: Rangel & Vogl w22955 (agricultural fires), TRI w14977, Currie & Neidell w10251.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 55,
+   "source": "Grey literature (IZA/SSRN/RePEc)",
+   "query": "site:iza.org pesticides birth weight | site:ssrn.com pesticide exposure birth outcomes | site:ideas.repec.org pesticides infant health | site:ideas.repec.org aerial spraying birth weight",
+   "count": null,
+   "note": "Mostly epidemiology pages surfaced. site: operators were weakly honoured.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 56,
+   "source": "Grey literature (web)",
+   "query": "Maertens atrazine birth outcomes working paper | pesticide ban effect infant health natural experiment | neonicotinoid infant health economics working paper | agricultural pesticide use infant mortality instrumental variable",
+   "count": null,
+   "note": "Found IZA DP 12164 (Dias, Rocha & Soares, earlier version of the ReStud seed), the RePEc ReStud page, and a citation to Maertens (2017) on atrazine, corn expansion and fetal malformations.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 57,
+   "source": "Grey literature (web)",
+   "query": "Maertens atrazine Renewable Fuel Standard infant mortality fetal malformations | site:ideas.repec.org pesticide birth outcomes Brazil | site:papers.ssrn.com pesticides newborn health | site:docs.iza.org pesticide infant",
+   "count": null,
+   "note": "Found the Januzzi, Cardoso & Rodrigues ENABER 2025 working paper (Brazil, shift-share) and Boccolini et al. 2013. The Maertens (2017) paper itself was not located (the RePEc hit is a different Maertens).",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 58,
+   "source": "Grey literature (web)",
+   "query": "Maertens atrazine ethanol corn birth defects working paper | \"Maertens\" atrazine infant mortality Renewable Fuel Standard | biofuel mandate corn atrazine fetal malformations perinatal deaths",
+   "count": null,
+   "note": "Found Zhu, 'Corn Expansion: Atrazine Exposure, and Infant Health in the U.S.' (research in progress, author site). Maertens (2017) still not located.",
+   "url_or_call": "mcp__Parallel_Search__web_search"
+  },
+  {
+   "order": 59,
+   "source": "PubMed (native, E-utilities)",
+   "query": "Adapted PubMed string: same blocks as QF3 with [tiab] truncation and MeSH (Pesticides; Pregnancy Outcome; Infant, Low Birth Weight; Premature Birth; Congenital Abnormalities), NOT (animals[mh] NOT humans[mh])",
+   "count": 787,
+   "note": "First draft used count*[tiab], which wrongly matches 'country', 'counts' etc.; replaced with county/counties before running.",
+   "url_or_call": "Parallel web_fetch eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed"
+  },
+  {
+   "order": 60,
+   "source": "PubMed (native, E-utilities)",
+   "query": "9 seed DOIs [doi]",
+   "count": 7,
+   "note": "Calzada (JAERE) and Dias, Rocha & Soares (ReStud) are not in PubMed.",
+   "url_or_call": "Parallel web_fetch esearch"
+  },
+  {
+   "order": 61,
+   "source": "PubMed (native, E-utilities)",
+   "query": "seed DOIs AND adapted PubMed string",
+   "count": 7,
+   "note": "All 7 seeds that PubMed indexes were retrieved.",
+   "url_or_call": "Parallel web_fetch esearch"
+  }
+ ],
+ "final_strategies": [
+  {
+   "source": "OpenAlex (primary)",
+   "query": "((pesticide OR herbicide OR insecticide OR fungicide OR glyphosate OR atrazine OR organophosphate OR agrochemical OR agrichemical OR fumigation OR fumigant OR \"aerial spraying\" OR \"crop dusting\" OR chlorpyrifos OR paraquat OR \"plant protection products\") OR (agrotoxic OR agrotoxics OR plaguicide OR plaguicides OR nematicide OR carbamate OR pyrethroid OR neonicotinoid OR mancozeb OR malathion OR naled OR dibromochloropropane OR \"methyl bromide\" OR \"aerial application\" OR \"aerial spray\" OR \"spray drift\" OR \"pesticide drift\" OR \"crop spraying\" OR Roundup OR \"agricultural chemicals\") OR (\"drinking water contaminant\" OR \"drinking water contamination\" OR \"water contaminants\")) AND ((\"birth weight\" OR birthweight OR preterm OR \"premature birth\" OR \"gestational age\" OR \"gestational length\" OR \"fetal growth\" OR \"intrauterine growth\" OR stillbirth OR \"fetal death\" OR \"fetal loss\" OR miscarriage OR \"spontaneous abortion\" OR \"infant mortality\" OR \"neonatal mortality\" OR \"perinatal mortality\" OR \"infant death\" OR \"birth defects\" OR \"congenital anomalies\" OR \"congenital malformations\" OR \"neural tube defects\" OR hypospadias OR cryptorchidism OR gastroschisis OR \"orofacial clefts\" OR \"birth outcomes\" OR \"pregnancy outcomes\" OR \"perinatal health\" OR \"newborn health\" OR \"infant health\" OR \"neonatal health\" OR \"reproductive outcomes\") OR (\"pregnancy loss\" OR \"foetal death\" OR \"fetal mortality\" OR \"perinatal outcomes\" OR \"neonatal outcomes\" OR \"congenital defects\" OR \"congenital heart defects\" OR \"spina bifida\" OR anencephaly OR \"cleft lip\" OR \"limb reduction\") OR (\"child mortality\" OR \"child health\" OR \"infant and child\" OR \"under-five mortality\" OR \"infant outcomes\")) AND (agricultural OR agriculture OR farm OR farming OR crop OR crops OR plantation OR orchard OR vineyard OR residential OR residence OR proximity OR near OR living OR ambient OR drift OR aerial OR spraying OR sprayed OR fumigation OR \"drinking water\" OR \"surface water\" OR groundwater OR rural OR county OR counties OR municipality OR municipalities OR district OR region OR regions OR geographic OR spatial OR ecological OR community OR communities OR \"genetically modified\" OR transgenic OR ban OR policy) NOT (rats OR rat OR mice OR mouse OR \"in vitro\" OR zebrafish OR rabbits OR \"animal model\") NOT (\"bed nets\" OR bednets OR \"bed net\" OR \"insecticide-treated nets\" OR \"insecticide-treated bed\" OR \"treated nets\" OR \"mosquito nets\" OR \"insecticidal nets\")",
+   "count": 1859,
+   "filters": "Run as filter=title_and_abstract.search:<URL-encoded string>. No year limit. Recommended screening version adds ,type:!paratext,type:!erratum,type:!book-review,type:!dataset,type:!software, giving 1821. Count as of 2026-10-11.",
+   "rationale": "Four blocks: (1) exposure agent, made of core pesticide classes, aerial/drift terms, named actives and a narrow drinking-water-contaminant phrase set; (2) birth and infant outcomes; (3) a context block for environmental, agricultural, geographic or policy settings, which acts as a precision device against biomonitoring-only, occupational-only and toxicology records; (4) NOT blocks for animal/in-vitro studies and malaria bed nets. Recall: 9/9 seeds, 15/17 validation set 1 (both misses have outcomes outside SQ1), 20/20 validation set 2. Trade-off: the context block cuts 3233 records to 1859 (-42.5%) with zero loss on 46 known in-scope items."
+  },
+  {
+   "source": "OpenAlex (sensitivity variant)",
+   "query": "Same as the primary string but without the context block (agricultural ... OR policy); both NOT blocks kept.",
+   "count": 3233,
+   "filters": "title_and_abstract.search; no year or type limit",
+   "rationale": "Fallback for a maximally sensitive protocol. Recall is identical to the primary string on 26 seed and validation-1 items, so it is not recommended unless screening capacity allows about 1400 extra records, mostly biomonitoring and occupational studies."
+  },
+  {
+   "source": "PubMed (native E-utilities; adaptation of the OpenAlex blocks)",
+   "query": "(pesticide*[tiab] OR herbicide*[tiab] OR insecticide*[tiab] OR fungicide*[tiab] OR glyphosate[tiab] OR atrazine[tiab] OR organophosphate*[tiab] OR agrochemical*[tiab] OR agrichemical*[tiab] OR fumigat*[tiab] OR \"aerial spraying\"[tiab] OR \"aerial application\"[tiab] OR \"crop dusting\"[tiab] OR chlorpyrifos[tiab] OR paraquat[tiab] OR malathion[tiab] OR \"methyl bromide\"[tiab] OR \"spray drift\"[tiab] OR pyrethroid*[tiab] OR neonicotinoid*[tiab] OR mancozeb[tiab] OR \"agricultural chemicals\"[tiab] OR \"drinking water contaminant*\"[tiab] OR Pesticides[mh]) AND (\"birth weight\"[tiab] OR birthweight[tiab] OR preterm[tiab] OR \"premature birth\"[tiab] OR \"gestational age\"[tiab] OR \"gestational length\"[tiab] OR \"fetal growth\"[tiab] OR \"intrauterine growth\"[tiab] OR stillbirth*[tiab] OR \"fetal death*\"[tiab] OR \"fetal loss\"[tiab] OR miscarriage*[tiab] OR \"spontaneous abortion*\"[tiab] OR \"infant mortality\"[tiab] OR \"neonatal mortality\"[tiab] OR \"perinatal mortality\"[tiab] OR \"birth defect*\"[tiab] OR \"congenital anomal*\"[tiab] OR \"congenital malformation*\"[tiab] OR \"neural tube defect*\"[tiab] OR hypospadias[tiab] OR cryptorchidism[tiab] OR gastroschisis[tiab] OR \"orofacial cleft*\"[tiab] OR \"birth outcome*\"[tiab] OR \"pregnancy outcome*\"[tiab] OR \"infant health\"[tiab] OR \"child mortality\"[tiab] OR \"infant and child\"[tiab] OR \"Pregnancy Outcome\"[mh] OR \"Infant, Low Birth Weight\"[mh] OR \"Premature Birth\"[mh] OR \"Congenital Abnormalities\"[mh]) AND (agricultur*[tiab] OR farm*[tiab] OR crop*[tiab] OR plantation*[tiab] OR residential[tiab] OR residence*[tiab] OR proximity[tiab] OR ambient[tiab] OR drift[tiab] OR aerial[tiab] OR spraying[tiab] OR \"drinking water\"[tiab] OR \"surface water\"[tiab] OR groundwater[tiab] OR rural[tiab] OR county[tiab] OR counties[tiab] OR municipal*[tiab] OR region*[tiab] OR geographic*[tiab] OR spatial[tiab] OR ecological[tiab] OR communit*[tiab] OR \"genetically modified\"[tiab] OR ban[tiab] OR policy[tiab]) NOT (animals[mh] NOT humans[mh])",
+   "count": 787,
+   "filters": "none",
+   "rationale": "Not requested, but cheap to add and verifiable: E-utilities was reachable through Parallel web_fetch. All 7 seeds that PubMed indexes were retrieved; Calzada and Dias are not in PubMed. The bed-net NOT block and some PECOS terms (C2b/C3s outcomes; naled, Roundup and other exposure terms) were not ported, so this is a draft that a librarian should check."
+  },
+  {
+   "source": "PubMed/medRxiv/arXiv index (firecrawl_research_search_papers, ranked)",
+   "query": "F1: 'effect of residential or community exposure to agricultural pesticide spraying during pregnancy on birth weight, preterm birth, birth defects and infant mortality' | F2: 'natural experiment difference-in-differences: aerial spraying, glyphosate or pesticide use shocks and newborn health, birth weight, gestational length, infant mortality' | F3: 'agricultural chemicals atrazine herbicides in drinking water or surface water and birth defects, low birth weight and preterm birth' | F4: 'aerial pesticide spraying or aerial fumigation of crops or plantations and pregnancy outcomes, birth weight, congenital anomalies in nearby communities'",
+   "count": null,
+   "filters": "k=100 for F1-F3, k=40 for F4. Ranked results only; this source gives no totals.",
+   "rationale": "Supplementary only: screen the top 100 of each framing. The union of F1-F4 retrieved 7/9 seeds (Larsen F1 #1; Shirangi F1 #2; Ling F1 #3; Reynier F2 #1; Camacho F2 #2; Winchester F3 #10; DiSalvo F3 #44). Calzada (JAERE) and Dias (ReStud) are not indexed here (exact-title lookups failed), so this source cannot replace OpenAlex for economics journals."
+  },
+  {
+   "source": "Wiley Scholar Gateway (full-text passages, ranked)",
+   "query": "S1: 'Does residential or community exposure to agricultural pesticide applications during pregnancy affect birth weight, preterm birth, birth defects or fetal death?' | S2: 'Are agricultural chemical contaminants such as atrazine and other pesticides in surface water or drinking water associated with birth defects, low birth weight or preterm birth?'",
+   "count": null,
+   "filters": "topN=20 passages per query",
+   "rationale": "Covers Wiley-published items with full text. S2 alone retrieved all 3 Wiley seeds (Winchester, Shirangi, DiSalvo & Hill). An economics framing (S3) added nothing, so it is not recommended."
+  },
+  {
+   "source": "Grey literature (NBER, IZA, SSRN, RePEc, author pages)",
+   "query": "site:nber.org pesticide birth outcomes; site:nber.org pesticides infant health; site:nber.org glyphosate birth weight; site:nber.org insecticide infant mortality; site:iza.org pesticides birth weight; site:ssrn.com pesticide exposure birth outcomes; site:ideas.repec.org pesticides infant health; site:ideas.repec.org aerial spraying birth weight; \"Cicadian Rhythm\" Taylor working paper; Maertens atrazine Renewable Fuel Standard infant mortality; pesticide ban effect infant health natural experiment; neonicotinoid infant health economics working paper",
+   "count": null,
+   "filters": "Web search (Parallel). Plan to export the first 20-30 hits per query.",
+   "rationale": "Picks up working-paper versions and non-indexed items. Found: Taylor's CEEP WP/JMP (in neither OpenAlex nor the PubMed index); Calzada et al. NBER SI 2023 slides; DiSalvo & Hill NBER WP 31567; IZA DP 12164 (Dias, Rocha & Soares); Januzzi, Cardoso & Rodrigues ENABER 2025; Zhu WP on atrazine. Complement with backward and forward citation chasing from the seeds and from Shirangi 2011."
+  }
+ ],
+ "known_item_recall": {
+  "seeds_tested": [
+   "10.1038/s41467-017-00349-2",
+   "10.1086/725349",
+   "10.1016/j.jhealeco.2017.04.005",
+   "10.1093/restud/rdad011",
+   "10.1073/pnas.2413013121",
+   "10.1111/j.1365-3016.2010.01165.x",
+   "10.1111/j.1651-2227.2008.01207.x",
+   "10.1002/pam.22558",
+   "10.3390/toxics6030041",
+   "Taylor C.A., Cicadian Rhythm: Insecticides, Infant Health, and Long-term Outcomes (working paper, no DOI)"
+  ],
+  "seeds_retrieved": [
+   "10.1038/s41467-017-00349-2",
+   "10.1086/725349",
+   "10.1016/j.jhealeco.2017.04.005",
+   "10.1093/restud/rdad011",
+   "10.1073/pnas.2413013121",
+   "10.1111/j.1365-3016.2010.01165.x",
+   "10.1111/j.1651-2227.2008.01207.x",
+   "10.1002/pam.22558",
+   "10.3390/toxics6030041"
+  ],
+  "seeds_missed": [],
+  "recall_indexed": "OpenAlex, final string: 9/9 indexed DOI seeds (100%). Beyond the seeds, two extra checks: validation set 1 retrieved 15/17, both misses having outcomes outside SQ1 (Lai 2017 JEEM, adult health; Fletcher & Noghanibehambari 2023 JEEM, later-life mortality); validation set 2 retrieved 20/20. That makes 44/46 known items overall and 44/44 of the in-scope ones. PubMed native adapted string: 7/7 of the seeds PubMed indexes. Firecrawl research index (union of 4 framings, top 40-100): 7/9. Scholar Gateway: 3/3 Wiley seeds.",
+  "seeds_not_indexed": [
+   "Taylor C.A., 'Cicadian Rhythm' (CEEP WP 2020 / JMP 2022): not in OpenAlex (title and author searches) and not in the Firecrawl PubMed index. Retrievable only through grey literature: HKS publication page; ceep.columbia.edu JMP PDF.",
+   "10.1086/725349 (Calzada et al., JAERE) and 10.1093/restud/rdad011 (Dias, Rocha & Soares, ReStud): indexed in OpenAlex, but not in PubMed (E-utilities 'quoted phrase not found') and not in the Firecrawl research index."
+  ]
+ },
+ "volume_estimate_after_dedup": "About 1,850 to 2,100 unique records for title/abstract screening. This is an estimate: no deduplication was run. Basis: OpenAlex final string 1,821 after type exclusions (1,859 before); PubMed adapted string 787, expected to overlap OpenAlex heavily, adding perhaps 50-150 records through MeSH; ranked supplements (top 100 of the PubMed-index framings, Scholar Gateway) mostly duplicates; grey literature about 10-30 items. OpenAlex also holds internal duplicates (preprint plus published versions, Faculty Opinions records, conference abstracts; 115 conference abstracts in the set), so expect some shrinkage. The sensitive variant would raise the OpenAlex input to about 3,230.",
+ "issues_and_limits": [
+  "Transport: firecrawl_scrape to OpenAlex hit the Firecrawl rate limit (shared quota, 11-13 requests/min). WebFetch could not resolve api.openalex.org. All later OpenAlex and E-utilities calls went through mcp__Parallel_Search__web_fetch to the same public APIs. One OpenAlex call returned HTTP 429 and its replacement was re-run successfully.",
+  "Counts are a snapshot from 2026-10-11 and the OpenAlex index changes over time. The protocol should record the run date and the exact URL.",
+  "OpenAlex has no wildcard or no-stem option in this API version (both return HTTP 400). Morphology relies on its stemmer, so British spellings (foetal) and spelling variants were added by hand. Truncation-dependent variants such as 'agrotoxic*' may be incomplete.",
+  "The NOT blocks apply to the whole title and abstract. Dropping 'mice', 'rats' etc. removed 242 records from the context-filtered set, and the top-cited of them were animal or in-vitro studies. A human study whose abstract mentions a rodent finding could still be lost. The bed-net NOT uses net-specific phrases so that 'insecticide-treated seeds' studies are kept.",
+  "The context block is a precision device. It lost none of the 46 known items, but ecological studies with unusual wording could fall outside it. The sensitive variant (3,233) is documented as a fallback.",
+  "The outcome block deliberately excludes neurodevelopment, childhood cancer and adult outcomes. That is why it misses Lai 2017 and Fletcher & Noghanibehambari 2023, which are probably ineligible anyway but relevant for design. Brainerd & Menon 2014 (fertilizer agrichemicals) is retrieved only through the child-mortality terms, and its eligibility is borderline: fertilizer is not a pesticide.",
+  "The two validation sets were drawn from the PubMed-index semantic searches and web searches, independently of the Boolean design, but they are small (37 items) and skewed toward epidemiology. The economics coverage rests mainly on the 9 seeds.",
+  "Elsevier abstracts show as null through the API yet are searchable (Camacho & Mejia was matched on abstract words). Screening exports from OpenAlex will lack abstracts for these records, so plan to fetch them from Crossref or PubMed.",
+  "The Firecrawl research index and PubMed do not cover JAERE or ReStud, and Scholar Gateway covers Wiley only. For SQ1 the economics literature therefore depends on OpenAlex plus grey literature plus citation chasing.",
+  "The Maertens (2017) atrazine, Renewable Fuel Standard and fetal malformation working paper, cited in IZA DP 12164, could not be located; follow it up through the IZA DP reference list.",
+  "This was English-only calibration. Portuguese and Spanish terms (agrotóxico, pulverização aérea, peso ao nascer, malformação congênita) and LILACS/SciELO are left to the other-language agent; 'agrotoxic' and 'plaguicide' were included as English loanwords."
+ ],
+ "syntax_findings": [
+  "OpenAlex title_and_abstract.search honours uppercase AND, OR and NOT, parentheses and quoted phrases. Set algebra checks out exactly: pesticide = 316,429; \"birth weight\" = 174,496; AND = 458; OR = 490,467 = A + B - A∧B; A NOT B = 315,971 = A - A∧B. The OQL echo in meta.x_query confirms how each query was parsed.",
+  "Lowercase 'and' is not an operator: it is parsed as a search term and, as a stopword, leaves the count unchanged. Space-separated terms are implicitly ANDed.",
+  "Stemming is always on: 'pesticide' and 'pesticides' give the same count, and quoted phrases are matched as 'stemmed' phrases. A '*' wildcard returns HTTP 400. The title_and_abstract.search.no_stem filter returns HTTP 400 in the current API.",
+  "Multiple filters are ANDed with commas, and negation works on facets (type:!paratext etc.). group_by cannot be combined with select (HTTP 400) but works without it.",
+  "Known-item recall works by prefixing doi:<DOI1>|<DOI2>|... to the search filter. Up to 26 DOIs in one pipe list worked, and URLs of about 4,200 characters were accepted.",
+  "Elsevier records return abstract_inverted_index = null yet are still matched on abstract words by title_and_abstract.search.",
+  "PubMed E-utilities ([tiab], truncation *, [mh], [doi]) is reachable through Parallel web_fetch. Unknown DOIs come back in warninglist.quotedphrasesnotfound, which shows directly which seeds are not indexed."
+ ],
+ "incidental_relevant_studies": [
+  {
+   "title": "Exposure to aerial malathion application and the occurrence of congenital anomalies and low birthweight",
+   "year": "1987",
+   "id": "10.2105/ajph.77.8.1009",
+   "why": "Aerial spraying campaign as a community exposure (San Francisco Bay Area); direct analogue for aerial application."
+  },
+  {
+   "title": "Reproductive Outcomes in Relation to Malathion Spraying in the San Francisco Bay Area, 1981-1982",
+   "year": "1992",
+   "id": "10.1097/00001648-199201000-00007",
+   "why": "Cohort of 7,450 pregnancies exposed to aerial insecticide spraying."
+  },
+  {
+   "title": "Aerial Spraying of 2,4,5-T and Human Birth Malformations: An Epidemiological Investigation",
+   "year": "1981",
+   "id": "10.1126/science.7209535",
+   "why": "Ecological study of aerial herbicide spraying and malformations (New Zealand)."
+  },
+  {
+   "title": "Residential Proximity to Methyl Bromide Use and Birth Outcomes in an Agricultural Population in California",
+   "year": "2013",
+   "id": "10.1289/ehp.1205682",
+   "why": "Drift exposure from fumigant applications; birth weight and gestational age."
+  },
+  {
+   "title": "The economic impacts of ecosystem disruptions: Costs from substituting biological pest control",
+   "year": "2024",
+   "id": "10.1126/science.adg0344",
+   "why": "Natural experiment: bat die-off leads to more insecticide use and higher infant mortality; a policy-shock analogue."
+  },
+  {
+   "title": "Cicadian Rhythm: Insecticides, Infant Health and Long-term Outcomes (Taylor, CEEP WP 2020 / JMP 2022)",
+   "year": "2020",
+   "id": "no DOI; hks.harvard.edu/publications/cicadian-rhythm-insecticides-infant-health-and-long-term-outcomes",
+   "why": "Seed working paper, located: cicada-emergence instrument for insecticide use leads to higher infant mortality."
+  },
+  {
+   "title": "The siren song of cicadas: Early-life pesticide exposure and later-life male mortality",
+   "year": "2023",
+   "id": "10.1016/j.jeem.2023.102903",
+   "why": "Same design (Fletcher & Noghanibehambari); later-life outcome, probably outside SQ1 but useful for citation chasing."
+  },
+  {
+   "title": "Seasonal effects of water quality: The hidden costs of the Green Revolution to infant and child health in India",
+   "year": "2013",
+   "id": "10.1016/j.jdeveco.2013.11.004",
+   "why": "Agrichemicals (fertilizer) in water and infant mortality; borderline eligibility."
+  },
+  {
+   "title": "Pesticide use and health outcomes: Evidence from agricultural water pollution in China",
+   "year": "2017",
+   "id": "10.1016/j.jeem.2017.05.006",
+   "why": "Economics study of the water channel; adult health outcomes, likely ineligible."
+  },
+  {
+   "title": "County-level pesticide use and risk of shortened gestation and preterm birth",
+   "year": "2015",
+   "id": "10.1111/apa.13288",
+   "why": "Area-level pesticide use design."
+  },
+  {
+   "title": "Correlation Between Pesticide Use in Agriculture and Adverse Birth Outcomes in Brazil: An Ecological Study",
+   "year": "2010",
+   "id": "10.1007/s00128-010-0027-8",
+   "why": "Brazil, ecological design."
+  },
+  {
+   "title": "Impacts of pesticide exposure on birth outcomes and child health in Brazil (Januzzi, Cardoso & Rodrigues, ENABER 2025)",
+   "year": "2025",
+   "id": "no DOI; brsa.org.br working paper PDF",
+   "why": "Brazil municipal panel with a shift-share exposure index; low birth weight effect."
+  },
+  {
+   "title": "Agricultural pesticide exposures in Ecuador and their spatial association with low birth weight",
+   "year": "2026",
+   "id": "10.1016/j.envpol.2026.128090",
+   "why": "Same country as Calzada; national spatial analysis."
+  },
+  {
+   "title": "Exploring associations between residential exposure to pesticides and birth outcomes using the Dutch birth registry",
+   "year": "2023",
+   "id": "10.1016/j.envint.2023.108085",
+   "why": "Registry-based residential exposure."
+  },
+  {
+   "title": "Residential proximity to pesticide applications in Argentine Patagonia: impact on pregnancy and newborn parameters",
+   "year": "2021",
+   "id": "10.1007/s11356-021-14574-2",
+   "why": "Latin American residential exposure; fruit orchards."
+  },
+  {
+   "title": "County-Level Atrazine Use and Gastroschisis",
+   "year": "2024",
+   "id": "10.1001/jamanetworkopen.2024.10056",
+   "why": "Area-level use and a congenital anomaly."
+  },
+  {
+   "title": "Atrazine in municipal drinking water and risk of low birth weight, preterm delivery, and small-for-gestational-age status",
+   "year": "2005",
+   "id": "10.1136/oem.2004.016469",
+   "why": "Water channel."
+  },
+  {
+   "title": "Atrazine Contamination of Drinking Water and Adverse Birth Outcomes in Community Water Systems with Elevated Atrazine in Ohio, 2006-2008",
+   "year": "2018",
+   "id": "10.3390/ijerph15091889",
+   "why": "Water channel."
+  },
+  {
+   "title": "Drinking-Water Herbicide Exposure in Indiana and Prevalence of Small-for-Gestational-Age and Preterm Delivery",
+   "year": "2010",
+   "id": "10.1289/ehp.0900784",
+   "why": "Water channel."
+  },
+  {
+   "title": "Intrauterine growth retardation in Iowa communities with herbicide-contaminated drinking water supplies",
+   "year": "1997",
+   "id": "10.1289/ehp.97105308",
+   "why": "Water channel, ecological."
+  },
+  {
+   "title": "Residential Agricultural Pesticide Exposures and Risks of Spontaneous Preterm Birth",
+   "year": "2018",
+   "id": "10.1097/ede.0000000000000757",
+   "why": "San Joaquin Valley pesticide-use-report linkage."
+  },
+  {
+   "title": "Birth malformations and other adverse perinatal outcomes in four U.S. Wheat-producing states",
+   "year": "2003",
+   "id": "10.1289/ehp.5830",
+   "why": "Area-level chlorophenoxy herbicide exposure."
+  },
+  {
+   "title": "A study of adverse birth outcomes and agricultural land use practices in Missouri",
+   "year": "2014",
+   "id": "10.1016/j.envres.2014.06.016",
+   "why": "Land-use exposure proxy, similar to a dose built from crop area."
+  },
+  {
+   "title": "Case-Cohort Analysis of Agricultural Pesticide Applications near Maternal Residence and Selected Causes of Fetal Death",
+   "year": "2001",
+   "id": "10.1093/aje/154.8.702",
+   "why": "Fetal death outcome."
+  },
+  {
+   "title": "Assessing the impact of aerial pesticide spraying: mancozeb exposures among pregnant women living near banana plantations",
+   "year": "2014",
+   "id": "10.1289/ehp.122-A337",
+   "why": "Aerial fungicide spraying of bananas (Costa Rica, ISA study); exposure-only news piece, but chemically closest to Ceará."
+  },
+  {
+   "title": "Corn Expansion: Atrazine Exposure, and Infant Health in the U.S. (Zhu, working paper in progress)",
+   "year": "n/a",
+   "id": "no DOI; jasonz14.owlstown.to/publications",
+   "why": "Renewable Fuel Standard instrument for atrazine leads to lower birth weight; grey economics literature."
+  },
+  {
+   "title": "Glyphosate Use in Agriculture and Birth Outcomes of Surrounding Populations (IZA DP 12164)",
+   "year": "2019",
+   "id": "docs.iza.org/dp12164.pdf",
+   "why": "Working-paper version of the Dias, Rocha & Soares seed. Its references cite Maertens (2017) on atrazine, which is still to locate."
+  },
+  {
+   "title": "Atrazine and Pregnancy Outcomes: A Systematic Review of Epidemiologic Evidence",
+   "year": "2014",
+   "id": "10.1002/bdrb.21101",
+   "why": "Review to mine by backward citation chasing."
+  },
+  {
+   "title": "Maternal pesticide exposure and risk of preterm birth: A systematic review and meta-analysis",
+   "year": "2023",
+   "id": "10.1016/j.envint.2023.108043",
+   "why": "Review to mine by backward citation chasing."
+  }
+ ]
+}

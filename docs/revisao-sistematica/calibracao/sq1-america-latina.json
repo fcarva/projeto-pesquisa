@@ -1,0 +1,1092 @@
+{
+ "block": "SQ1-LATAM: Brazil and Latin America sub-strategy (Portuguese, Spanish, and English studies set in Latin America). Environmental or community exposure to agricultural pesticides, including aerial spraying, and birth outcomes. Also a context arm for Chapada do Apodi, Baixo Jaguaribe, Limoeiro do Norte, Ceará and the Dossiê ABRASCO.",
+ "query_log": [
+  {
+   "order": 1,
+   "source": "OpenAlex (Firecrawl scrape)",
+   "query": "doi: 4 seeds (indexing check)",
+   "url_or_call": "https://api.openalex.org/works?filter=doi:10.1590/0103-11042017s206|10.1093/restud/rdad011|10.1086/725349|10.1016/j.jhealeco.2017.04.005",
+   "count": 4,
+   "note": "All 4 seeds are indexed."
+  },
+  {
+   "order": 2,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:agrotóxicos",
+   "url_or_call": "api.openalex.org/works?filter=title_and_abstract.search:agrotóxicos",
+   "count": 7856,
+   "note": "Baseline."
+  },
+  {
+   "order": 3,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search:\"peso ao nascer\"",
+   "url_or_call": "same pattern",
+   "count": 3920,
+   "note": "A quoted phrase is shown as a 'stemmed' phrase in x_query."
+  },
+  {
+   "order": 4,
+   "source": "OpenAlex",
+   "query": "agrotóxicos AND \"peso ao nascer\"",
+   "url_or_call": "same pattern",
+   "count": 13,
+   "note": "AND is parsed into 2 ANDed filters (confirmed in x_query)."
+  },
+  {
+   "order": 5,
+   "source": "OpenAlex (Firecrawl)",
+   "query": "agrotoxicos / agrotóxico / agrot* / (agrotóxicos OR plaguicidas) / plaguicidas",
+   "url_or_call": "5 parallel scrapes",
+   "count": null,
+   "note": "FAILED: Firecrawl rate limit (429). Retried through Parallel web_fetch (rows 6-15)."
+  },
+  {
+   "order": 6,
+   "source": "OpenAlex (Parallel web_fetch)",
+   "query": "agrotoxicos",
+   "url_or_call": "title_and_abstract.search:agrotoxicos",
+   "count": 1318,
+   "note": "Accents are NOT folded (compare 7,856 for agrotóxicos)."
+  },
+  {
+   "order": 7,
+   "source": "OpenAlex",
+   "query": "agrotóxico",
+   "url_or_call": "same",
+   "count": 1069,
+   "note": "Singular is not stemmed to the plural for this accented PT word. All 4 variants are needed."
+  },
+  {
+   "order": 8,
+   "source": "OpenAlex",
+   "query": "agrot*",
+   "url_or_call": "same",
+   "count": null,
+   "note": "HTTP 400: wildcards are not supported."
+  },
+  {
+   "order": 9,
+   "source": "OpenAlex",
+   "query": "plaguicidas",
+   "url_or_call": "same",
+   "count": 5040,
+   "note": ""
+  },
+  {
+   "order": 10,
+   "source": "OpenAlex",
+   "query": "(agrotóxicos OR plaguicidas)",
+   "url_or_call": "same",
+   "count": 12860,
+   "note": "OR works."
+  },
+  {
+   "order": 11,
+   "source": "OpenAlex",
+   "query": "plaguicida",
+   "url_or_call": "same",
+   "count": 5040,
+   "note": "Stemmed: same count as the plural."
+  },
+  {
+   "order": 12,
+   "source": "OpenAlex",
+   "query": "pesticide / pesticides",
+   "url_or_call": "same",
+   "count": 316429,
+   "note": "English stemming: both forms give the same count."
+  },
+  {
+   "order": 13,
+   "source": "OpenAlex",
+   "query": "agrotóxicos NOT plaguicidas",
+   "url_or_call": "same",
+   "count": 7820,
+   "note": "NOT works."
+  },
+  {
+   "order": 14,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search.no_stem:agrotóxicos",
+   "url_or_call": "same",
+   "count": null,
+   "note": "HTTP 429, not retried."
+  },
+  {
+   "order": 15,
+   "source": "OpenAlex",
+   "query": "\"pulverização aérea\"",
+   "url_or_call": "same",
+   "count": 92,
+   "note": ""
+  },
+  {
+   "order": 16,
+   "source": "OpenAlex",
+   "query": "E (v1 exposure block, 19 terms)",
+   "url_or_call": "title_and_abstract.search:(E)",
+   "count": 724227,
+   "note": ""
+  },
+  {
+   "order": 17,
+   "source": "OpenAlex",
+   "query": "O (v1 outcome block, 30 PT/ES/EN terms)",
+   "url_or_call": "title_and_abstract.search:(O)",
+   "count": 1416616,
+   "note": ""
+  },
+  {
+   "order": 18,
+   "source": "OpenAlex",
+   "query": "G (Latin American countries block)",
+   "url_or_call": "title_and_abstract.search:(G)",
+   "count": 5291058,
+   "note": ""
+  },
+  {
+   "order": 19,
+   "source": "OpenAlex",
+   "query": "CTX (Chapada do Apodi | Limoeiro do Norte | Baixo Jaguaribe | Jaguaribe | Quixeré | Zé Maria do Tomé | Dossiê ABRASCO)",
+   "url_or_call": "title_and_abstract.search:(CTX)",
+   "count": 2967,
+   "note": "The bare token 'Jaguaribe' is noisy (hydrology papers)."
+  },
+  {
+   "order": 20,
+   "source": "OpenAlex",
+   "query": "E AND O",
+   "url_or_call": "2 comma-separated title_and_abstract.search filters",
+   "count": 4467,
+   "note": "Too broad without a geographic restriction."
+  },
+  {
+   "order": 21,
+   "source": "OpenAlex",
+   "query": "E AND O AND G",
+   "url_or_call": "3 filters",
+   "count": 408,
+   "note": ""
+  },
+  {
+   "order": 22,
+   "source": "OpenAlex",
+   "query": "E AND O, language:pt|es",
+   "url_or_call": "+language:pt|es",
+   "count": 176,
+   "note": ""
+  },
+  {
+   "order": 23,
+   "source": "OpenAlex",
+   "query": "seeds AND E AND O AND G",
+   "url_or_call": "doi:4 seeds + 3 filters",
+   "count": 3,
+   "note": "Missed Rocha 2017 (context study)."
+  },
+  {
+   "order": 24,
+   "source": "OpenAlex",
+   "query": "seeds AND E",
+   "url_or_call": "doi + E",
+   "count": 3,
+   "note": "Rocha 2017 is missed even by E alone."
+  },
+  {
+   "order": 25,
+   "source": "OpenAlex",
+   "query": "E AND CTX",
+   "url_or_call": "2 filters",
+   "count": 127,
+   "note": "Mostly context records (Rigotto group, water contamination)."
+  },
+  {
+   "order": 26,
+   "source": "OpenAlex",
+   "query": "seeds, has_abstract:true",
+   "url_or_call": "doi + has_abstract:true",
+   "count": 3,
+   "note": "Camacho & Mejía has no abstract in OpenAlex (retrieved by title only)."
+  },
+  {
+   "order": 27,
+   "source": "OpenAlex",
+   "query": "Rocha 2017 abstract_inverted_index inspection",
+   "url_or_call": "doi:10.1590/0103-11042017s206&select=abstract_inverted_index",
+   "count": 1,
+   "note": "The abstract contains no pesticide term; only 'fruticultura irrigada', 'Chapada do Apodi', 'saúde das mulheres'. A place-name arm is needed."
+  },
+  {
+   "order": 28,
+   "source": "OpenAlex",
+   "query": "seeds AND CTX",
+   "url_or_call": "doi + CTX",
+   "count": 1,
+   "note": "Rocha 2017 retrieved."
+  },
+  {
+   "order": 29,
+   "source": "OpenAlex",
+   "query": "E2 AND O2 AND G (E2 adds pesticidas, praguicidas, fumigaciones, aerial application, crop dusting, aspersiones aéreas; O2 adds hypospadias, cryptorchidism, spontaneous abortion, pregnancy outcomes, perinatal, defeitos congênitos, nascidos vivos, desfechos gestacionais, anomalías congénitas, mortalidad neonatal)",
+   "url_or_call": "3 filters",
+   "count": 447,
+   "note": ""
+  },
+  {
+   "order": 30,
+   "source": "OpenAlex",
+   "query": "E2 AND O2, language:pt|es",
+   "url_or_call": "",
+   "count": 240,
+   "note": ""
+  },
+  {
+   "order": 31,
+   "source": "OpenAlex",
+   "query": "seeds AND E2 AND O2 AND G",
+   "url_or_call": "",
+   "count": 3,
+   "note": "Same 3 effect seeds."
+  },
+  {
+   "order": 32,
+   "source": "OpenAlex",
+   "query": "CTX2 (drops bare Jaguaribe; adds Jaguaribe-Apodi)",
+   "url_or_call": "",
+   "count": 1335,
+   "note": ""
+  },
+  {
+   "order": 33,
+   "source": "OpenAlex",
+   "query": "seeds AND CTX2 AND H",
+   "url_or_call": "",
+   "count": 1,
+   "note": "Rocha 2017 retrieved."
+  },
+  {
+   "order": 34,
+   "source": "OpenAlex",
+   "query": "E AND O AND G, language:pt|es (overlap check, v1)",
+   "url_or_call": "",
+   "count": 83,
+   "note": ""
+  },
+  {
+   "order": 35,
+   "source": "OpenAlex",
+   "query": "E2 AND O2 AND G, language:pt|es; CTX2 AND H",
+   "url_or_call": "",
+   "count": null,
+   "note": "HTTP 429 on first attempt; re-run in row 45."
+  },
+  {
+   "order": 36,
+   "source": "Parallel web_search",
+   "query": "malformações congênitas agrotóxicos Mato Grosso / Cremonese Sul do Brasil / Paraná / baixo peso prematuridade ecológico / Ceará fruticultura",
+   "url_or_call": "web_search (5 queries)",
+   "count": null,
+   "note": "Used to locate Brazilian effect studies. Also surfaced the ENABER 2025 economics paper and the LatAm scoping review."
+  },
+  {
+   "order": 37,
+   "source": "OpenAlex title.search (DOI resolution, 12 calls)",
+   "query": "titles of Oliveira 2014, Cremonese 2012, Boccolini 2013, de Siqueira 2010, Dutra 2017, Dutra 2019, Ueker 2016, Silva 2011, Rigotto 2013, Cremonese 2014, LatAm review, puberdade precoce",
+   "url_or_call": "filter=title.search:\"...\"",
+   "count": null,
+   "note": "Resolved 7 DOIs (validation set V). Ueker and Silva not found under the titles tried. Rigotto 2013 record in OpenAlex has no DOI under that title."
+  },
+  {
+   "order": 38,
+   "source": "OpenAlex",
+   "query": "V (7 Brazilian effect studies), indexing check",
+   "url_or_call": "doi:7 DOIs",
+   "count": 7,
+   "note": "7/7 indexed."
+  },
+  {
+   "order": 39,
+   "source": "OpenAlex",
+   "query": "V AND E2 AND O2 AND G",
+   "url_or_call": "",
+   "count": 6,
+   "note": "Missed Dutra & Ferreira 2019 (no country term in abstract)."
+  },
+  {
+   "order": 40,
+   "source": "OpenAlex",
+   "query": "V AND E2 AND O2, language:pt|es",
+   "url_or_call": "",
+   "count": 3,
+   "note": "Includes Dutra 2019. Union of the 2 branches = 7/7."
+  },
+  {
+   "order": 41,
+   "source": "SciELO (search.scielo.org)",
+   "query": "agrotóxicos",
+   "url_or_call": "https://search.scielo.org/?q=agrot%C3%B3xicos&lang=pt&count=15&output=site&format=summary",
+   "count": 895,
+   "note": ""
+  },
+  {
+   "order": 42,
+   "source": "SciELO",
+   "query": "agrotóxicos AND \"peso ao nascer\"",
+   "url_or_call": "same pattern",
+   "count": 2,
+   "note": "Phrase-based queries are very sparse."
+  },
+  {
+   "order": 43,
+   "source": "SciELO",
+   "query": "(agrotóxicos OR pesticides) AND (\"peso ao nascer\" OR \"birth weight\")",
+   "url_or_call": "same",
+   "count": 3,
+   "note": ""
+  },
+  {
+   "order": 44,
+   "source": "SciELO",
+   "query": "agrot*",
+   "url_or_call": "same",
+   "count": 3994,
+   "note": "* truncation works."
+  },
+  {
+   "order": 45,
+   "source": "SciELO",
+   "query": "agrot* AND nascer",
+   "url_or_call": "same",
+   "count": 5,
+   "note": ""
+  },
+  {
+   "order": 46,
+   "source": "SciELO",
+   "query": "pesticide* AND birth",
+   "url_or_call": "same",
+   "count": 24,
+   "note": "Includes Oliveira 2014, Cremonese 2012 (pid), Rigotto 2013 (10.1590/S1415-790X2013000300019)."
+  },
+  {
+   "order": 47,
+   "source": "SciELO",
+   "query": "agrotoxicos",
+   "url_or_call": "same",
+   "count": 895,
+   "note": "Accent-insensitive (same as agrotóxicos)."
+  },
+  {
+   "order": 48,
+   "source": "SciELO",
+   "query": "\"Chapada do Apodi\"",
+   "url_or_call": "same",
+   "count": 26,
+   "note": ""
+  },
+  {
+   "order": 49,
+   "source": "OpenAlex",
+   "query": "E2 AND O2 AND G, language:pt|es (retry)",
+   "url_or_call": "",
+   "count": 98,
+   "note": "Union of E2 branches = 447 + 240 − 98 = 589."
+  },
+  {
+   "order": 50,
+   "source": "OpenAlex",
+   "query": "CTX2 AND H (retry)",
+   "url_or_call": "",
+   "count": 311,
+   "note": "Context arm."
+  },
+  {
+   "order": 51,
+   "source": "SciELO",
+   "query": "S1 (full exposure AND outcome string, truncated)",
+   "url_or_call": "see final_strategies S1",
+   "count": 175,
+   "note": "Includes records duplicated across collections (scl/spa)."
+  },
+  {
+   "order": 52,
+   "source": "SciELO",
+   "query": "(agrot* OR pesticid* OR plaguicid*) AND (nascer OR nacer OR birth*)",
+   "url_or_call": "",
+   "count": 46,
+   "note": "Narrow variant."
+  },
+  {
+   "order": 53,
+   "source": "SciELO",
+   "query": "(\"Chapada do Apodi\" OR \"Limoeiro do Norte\" OR \"Baixo Jaguaribe\" OR Quixeré OR \"Jaguaribe-Apodi\" OR \"Zé Maria do Tomé\")",
+   "url_or_call": "",
+   "count": 59,
+   "note": ""
+  },
+  {
+   "order": 54,
+   "source": "SciELO",
+   "query": "S1 AND (Cremonese OR Dutra OR Pignati OR Rigotto OR Koifman)",
+   "url_or_call": "",
+   "count": 0,
+   "note": "Author names are not in the default index. The page lists the field indices (ti, au, ab, doi, pid, in, la...)."
+  },
+  {
+   "order": 55,
+   "source": "SciELO",
+   "query": "CTX-phrase AND (saúde OR health OR agrot* OR pesticid* OR agronegócio OR agribusiness OR trabalh*)",
+   "url_or_call": "",
+   "count": 32,
+   "note": ""
+  },
+  {
+   "order": 56,
+   "source": "SciELO",
+   "query": "doi:\"10.1590/0103-11042017s206\"",
+   "url_or_call": "",
+   "count": 2,
+   "note": "The doi: field works. Rocha 2017 is indexed (2 collections)."
+  },
+  {
+   "order": 57,
+   "source": "SciELO",
+   "query": "doi: OR-list of 5 DOIs (Cremonese 2012, Oliveira 2014, Dutra 2019, Rigotto 2013, Rocha 2017)",
+   "url_or_call": "",
+   "count": 8,
+   "note": "Cremonese 2012 is not matched by DOI (record lacks DOI in the index)."
+  },
+  {
+   "order": 58,
+   "source": "SciELO",
+   "query": "S1 AND doi-list",
+   "url_or_call": "",
+   "count": 6,
+   "note": "Dutra 2019, Oliveira 2014, Rigotto 2013 (x2 collections each)."
+  },
+  {
+   "order": 59,
+   "source": "SciELO",
+   "query": "CTX-phrase AND doi:(Rocha 2017 OR Rigotto 2013)",
+   "url_or_call": "",
+   "count": 0,
+   "note": "Phrase-based context arm MISSES Rocha 2017."
+  },
+  {
+   "order": 60,
+   "source": "SciELO",
+   "query": "(Chapada AND Apodi) AND doi:Rocha; Apodi AND doi:Rocha",
+   "url_or_call": "",
+   "count": 0,
+   "note": "Bare 'Apodi' fails on this record."
+  },
+  {
+   "order": 61,
+   "source": "SciELO",
+   "query": "(agrot* OR pesticid*) AND (nascer OR birth* OR prematur* OR congenit* OR congênit* OR malforma*) AND pid:S0102-311X2012000700005",
+   "url_or_call": "",
+   "count": 2,
+   "note": "Cremonese 2012 retrieved via pid."
+  },
+  {
+   "order": 62,
+   "source": "SciELO",
+   "query": "vulnerabilidades AND doi:Rocha; ti:Apodi AND doi:Rocha; \"Chapada do Apodi\" AND in:spa",
+   "url_or_call": "",
+   "count": null,
+   "note": "Counts 2 / 0 / 1. A token adjacent to punctuation ('Apodi,') is not indexed as a bare token."
+  },
+  {
+   "order": 63,
+   "source": "SciELO",
+   "query": "Apodi* AND doi:Rocha; Chapada AND doi:Rocha; (Ceará OR Ceara) AND doi:Rocha",
+   "url_or_call": "",
+   "count": 2,
+   "note": "Truncation fixes the tokenization problem: use Apodi* etc."
+  },
+  {
+   "order": 64,
+   "source": "SciELO",
+   "query": "(Apodi* OR Jaguaribe* OR Quixer*)",
+   "url_or_call": "",
+   "count": 320,
+   "note": ""
+  },
+  {
+   "order": 65,
+   "source": "SciELO",
+   "query": "S2 = (Apodi* OR Jaguaribe* OR Quixer*) AND (saúde* OR saude* OR health* OR salud* OR agrot* OR pesticid* OR agroneg* OR agribusiness* OR trabalh* OR fruticultura* OR mulheres*)",
+   "url_or_call": "",
+   "count": 135,
+   "note": ""
+  },
+  {
+   "order": 66,
+   "source": "SciELO",
+   "query": "S2 AND doi:(Rocha 2017 OR Rigotto 2013)",
+   "url_or_call": "",
+   "count": 4,
+   "note": "Both retrieved (x2 collections)."
+  },
+  {
+   "order": 67,
+   "source": "BVS/LILACS (Firecrawl, Parallel)",
+   "query": "agrotóxicos / agrotoxicos with filter[db][]=LILACS (portal, bvsms instance)",
+   "url_or_call": "https://pesquisa.bvsalud.org/portal/?lang=pt&q=...&filter%5Bdb%5D%5B%5D=LILACS",
+   "count": null,
+   "note": "FAILED: Parallel timeout and 502 Bad Gateway x3 (portal and bvsms instances)."
+  },
+  {
+   "order": 68,
+   "source": "Parallel web_search",
+   "query": "site:pesquisa.bvsalud.org agrotóxicos malformações / plaguicidas peso al nacer / prematuridade / fumigaciones malformaciones",
+   "url_or_call": "",
+   "count": null,
+   "note": "No counts. Surfaced Soares 2010 FIOCRUZ thesis (tes-3578) on pesticide externalities."
+  },
+  {
+   "order": 69,
+   "source": "Parallel web_search",
+   "query": "ANPEC / IPEA / FGV / ENABER: agrotóxicos saúde infantil peso ao nascer; pesticides birth outcomes Brazil working paper; pulverização aérea Ceará",
+   "url_or_call": "",
+   "count": null,
+   "note": "Found ENABER 2025 paper (Januzzi, Cardoso, Rodrigues, UFV), IPEA TD 2506 (2019, regulation, Essay 2 context), Skidmore et al. PNAS 2023 (PMC10636353, childhood cancer)."
+  },
+  {
+   "order": 70,
+   "source": "Firecrawl research index (PubMed/arXiv/medRxiv)",
+   "query": "agricultural pesticide exposure (including aerial spraying or fumigation) and birth outcomes ... in Brazil, Ecuador, Colombia, Argentina or other Latin American countries",
+   "url_or_call": "firecrawl_research_search_papers k=100",
+   "count": 100,
+   "note": "Ranked list. Top-100 contains 5/7 of the V set but 0/4 orchestrator seeds. Source of extended validation set X."
+  },
+  {
+   "order": 71,
+   "source": "Firecrawl research index",
+   "query": "aerial spraying of glyphosate on illicit coca crops in Colombia and health outcomes including miscarriages",
+   "url_or_call": "k=10",
+   "count": 10,
+   "note": "Camacho & Mejía 2017 at rank 1 (PMID 28570914). Also surfaced the SocSciMed 2025 Colombia anti-coca fumigation and birthweight paper."
+  },
+  {
+   "order": 72,
+   "source": "Firecrawl research index",
+   "query": "glyphosate use from GM soybean expansion in Brazil and birth outcomes of downstream populations",
+   "url_or_call": "k=10",
+   "count": 10,
+   "note": "Dias, Rocha & Soares (ReStud) NOT in this index."
+  },
+  {
+   "order": 73,
+   "source": "Firecrawl research index",
+   "query": "hidden cost of bananas: aerial fumigation of banana plantations and newborn health in Ecuador",
+   "url_or_call": "k=8",
+   "count": 8,
+   "note": "Calzada et al. (JAERE) NOT in this index. Surfaced the ISA/Costa Rica mancozeb and Ecuador aerial-spraying papers."
+  },
+  {
+   "order": 74,
+   "source": "OpenAlex (Firecrawl)",
+   "query": "X (9 LatAm items from research index), indexing check",
+   "url_or_call": "doi:9 DOIs",
+   "count": 9,
+   "note": "9/9 indexed."
+  },
+  {
+   "order": 75,
+   "source": "OpenAlex (Firecrawl)",
+   "query": "X AND E2 AND O2 AND G",
+   "url_or_call": "",
+   "count": 7,
+   "note": "Missed SocSciMed 2025 (uses 'birthweight' and 'fumigation') and Healthcare 2024 Ecuador (general health outcome)."
+  },
+  {
+   "order": 76,
+   "source": "OpenAlex (Firecrawl)",
+   "query": "X AND E2 AND O2, language:pt|es",
+   "url_or_call": "",
+   "count": null,
+   "note": "Firecrawl returned an empty answer; not counted."
+  },
+  {
+   "order": 77,
+   "source": "OpenAlex",
+   "query": "E3 AND O3 AND G (E3 = E2 + fumigation, fumigations, fumigação, fumigación, aerial spray, aerially sprayed; O3 = O2 + birthweight, infant health, newborn health, neonatal outcomes, fetal growth, gestational length, small for gestational age, saúde infantil, salud infantil)",
+   "url_or_call": "3 filters",
+   "count": 464,
+   "note": "FINAL OA-1."
+  },
+  {
+   "order": 78,
+   "source": "OpenAlex",
+   "query": "E3 AND O3, language:pt|es",
+   "url_or_call": "",
+   "count": 266,
+   "note": "FINAL OA-2."
+  },
+  {
+   "order": 79,
+   "source": "OpenAlex",
+   "query": "E3 AND O3 AND G, language:pt|es (overlap)",
+   "url_or_call": "",
+   "count": 105,
+   "note": "OA-1 ∪ OA-2 = 625."
+  },
+  {
+   "order": 80,
+   "source": "OpenAlex",
+   "query": "AER AND HL (aerial-spraying arm, no geography)",
+   "url_or_call": "",
+   "count": 796,
+   "note": "Too broad (global aerial-spray/vector-control literature)."
+  },
+  {
+   "order": 81,
+   "source": "OpenAlex",
+   "query": "AER AND HL AND G",
+   "url_or_call": "",
+   "count": 146,
+   "note": "FINAL OA-3."
+  },
+  {
+   "order": 82,
+   "source": "OpenAlex",
+   "query": "ALL 20 known items AND E3 AND O3 AND G",
+   "url_or_call": "doi:20 DOIs + 3 filters",
+   "count": 17,
+   "note": "Missed Rocha 2017 (context), Dutra 2019 (no country term), Healthcare 2024 (non-birth outcome)."
+  },
+  {
+   "order": 83,
+   "source": "OpenAlex",
+   "query": "ALL 20 AND E3 AND O3, language:pt|es",
+   "url_or_call": "",
+   "count": 3,
+   "note": "Oliveira 2014, Cremonese 2012, Dutra 2019. Recovers Dutra 2019."
+  },
+  {
+   "order": 84,
+   "source": "OpenAlex",
+   "query": "ALL 20 AND AER AND HL",
+   "url_or_call": "",
+   "count": 3,
+   "note": "Calzada 2023, Camacho & Mejía 2017, Healthcare 2024. Recovers Healthcare 2024."
+  },
+  {
+   "order": 85,
+   "source": "Firecrawl web search",
+   "query": "\"Dossiê ABRASCO\" \"um alerta sobre os impactos dos agrotóxicos na saúde\" Carneiro 2015 ISBN",
+   "url_or_call": "",
+   "count": 5,
+   "note": "No DOI. ISBN 9788598768809 (EPSJV) / 9788577432561 (Expressão Popular). ARCA/Fiocruz handle. OpenAlex W2345103675 (no DOI)."
+  },
+  {
+   "order": 86,
+   "source": "Firecrawl scrape (PDF)",
+   "query": "ENABER 2025 PDF: authors",
+   "url_or_call": "brsa.org.br/.../PesticidesChildHealth-ENABER-2025-IDENTIFICADO.pdf",
+   "count": null,
+   "note": "Januzzi S., Cardoso L., Rodrigues L. (UFV), 2025."
+  },
+  {
+   "order": 87,
+   "source": "Firecrawl web search",
+   "query": "site:anpec.org.br agrotóxicos saúde infantil OR \"peso ao nascer\" OR \"mortalidade infantil\"",
+   "url_or_call": "",
+   "count": 4,
+   "note": "1 relevant: ANPEC-NE 2022, Rodrigues, Féres & Coelho, pesticide intensity → poisoning incidence (A5 channel context, not birth outcomes)."
+  },
+  {
+   "order": 88,
+   "source": "SciELO (Firecrawl)",
+   "query": "S3 = (\"pulverização aérea\" OR \"aplicação aérea\" OR \"aviação agrícola\" OR \"aerial spraying\" OR \"aerial application\" OR \"aerial fumigation\" OR \"fumigación aérea\" OR \"fumigaciones aéreas\" OR \"aspersión aérea\" OR \"aspersiones aéreas\")",
+   "url_or_call": "",
+   "count": 67,
+   "note": "FINAL SciELO aerial arm."
+  },
+  {
+   "order": 89,
+   "source": "SciELO (Firecrawl)",
+   "query": "doi:Silva 2011 RBGO (guessed DOI) OR doi:10.1590/S0124-00642008000100008",
+   "url_or_call": "",
+   "count": 0,
+   "note": "Not matched by DOI."
+  },
+  {
+   "order": 90,
+   "source": "SciELO (Firecrawl)",
+   "query": "S1 AND (pid:S0124-00642008000100008 OR pid:S0100-72032011000100004)",
+   "url_or_call": "",
+   "count": 2,
+   "note": "Venezuela 2008 rural birth defects study retrieved (ES+EN versions). The Silva pid guess did not match."
+  },
+  {
+   "order": 91,
+   "source": "BVS/LILACS (Firecrawl)",
+   "query": "agrot* AND nascer, filter[db][]=LILACS",
+   "url_or_call": "https://pesquisa.bvsalud.org/portal/?lang=pt&q=agrot*+AND+nascer&filter%5Bdb%5D%5B%5D=LILACS",
+   "count": 12,
+   "note": "Portal responded on this attempt."
+  },
+  {
+   "order": 92,
+   "source": "BVS/LILACS",
+   "query": "L1 + DeCS mh:Pesticides, mh:Agrochemicals, mh:\"Pregnancy Outcome\", mh:\"Congenital Abnormalities\", mh:\"Infant, Low Birth Weight\"",
+   "url_or_call": "",
+   "count": null,
+   "note": "502 Bad Gateway. The DeCS-enhanced version is untested."
+  },
+  {
+   "order": 93,
+   "source": "BVS/LILACS",
+   "query": "L1 (free-text, truncated; see final_strategies)",
+   "url_or_call": "",
+   "count": 416,
+   "note": "FINAL L1. Facet confirms LILACS = 416."
+  },
+  {
+   "order": 94,
+   "source": "BVS/LILACS",
+   "query": "L1 AND (ti:\"Mato Grosso\" OR ti:Sul OR ...) / L1 AND (Grosso OR Venezuela OR ...)",
+   "url_or_call": "",
+   "count": null,
+   "note": "502 / timeout. Strict L1 known-item test not completed."
+  },
+  {
+   "order": 95,
+   "source": "OpenAlex (Firecrawl)",
+   "query": "title.search \"pesticide exposure on birth outcomes and child health\"",
+   "url_or_call": "",
+   "count": 1,
+   "note": "Januzzi et al. 2025, DOI 10.47328/ufvbbt.2025.749."
+  },
+  {
+   "order": 96,
+   "source": "OpenAlex (Firecrawl)",
+   "query": "doi:(Healthcare 2024 | Calzada | Camacho) AND AER AND HL AND G",
+   "url_or_call": "",
+   "count": 3,
+   "note": "The OA-3 final arm retrieves all 3."
+  },
+  {
+   "order": 97,
+   "source": "OpenAlex (Firecrawl)",
+   "query": "doi:10.47328/ufvbbt.2025.749 AND E3 AND O3 AND G",
+   "url_or_call": "",
+   "count": 1,
+   "note": "Januzzi 2025 retrieved by OA-1."
+  },
+  {
+   "order": 98,
+   "source": "BVS/LILACS",
+   "query": "(agrot* OR pesticid* OR plaguicid*) AND (malforma* OR nascer OR gravidez) AND (Grosso OR Sul OR commodities OR fruticultura)",
+   "url_or_call": "",
+   "count": 14,
+   "note": "Narrowed sub-query (terms ⊂ L1 except 'gravidez'). Lists Cremonese 2012, Rigotto 2013, Dutra 2019, Oliveira 2014 as LILACS records, plus new RS items (2019, 2021, 2023)."
+  },
+  {
+   "order": 99,
+   "source": "BVS/LILACS",
+   "query": "L2 = (Apodi* OR Jaguaribe* OR Quixer* OR \"Limoeiro do Norte\" OR \"pulverização aérea\" OR \"fumigación aérea\" OR \"aspersión aérea\" OR \"aerial spraying\") AND (agrot* OR pesticid* OR plaguicid* OR saúde OR salud OR health OR trabalh*)",
+   "url_or_call": "",
+   "count": 107,
+   "note": "FINAL LILACS context+aerial arm."
+  },
+  {
+   "order": 100,
+   "source": "BVS/LILACS",
+   "query": "L2 AND (mulheres OR women OR mortalidade OR malforma* OR fetal)",
+   "url_or_call": "",
+   "count": 17,
+   "note": "Contains Rocha 2017 and Rigotto 2013, so both are in L2. Noise: dipyridamole/cardiology records, suggesting odd behaviour of the short truncations."
+  }
+ ],
+ "final_strategies": [
+  {
+   "source": "OpenAlex OA-1 (effect studies, any language, LatAm geography)",
+   "query": "filter=title_and_abstract.search:(agrotóxicos OR agrotóxico OR agrotoxicos OR agrotoxico OR plaguicidas OR pesticidas OR praguicidas OR pesticides OR herbicides OR fungicides OR insecticides OR glyphosate OR glifosato OR agroquímicos OR agroquimicos OR fumigaciones OR \"aerial spraying\" OR \"aerial fumigation\" OR \"aerial application\" OR \"crop dusting\" OR \"pulverização aérea\" OR \"fumigación aérea\" OR \"aspersión aérea\" OR \"aspersiones aéreas\" OR \"defensivos agrícolas\" OR fumigation OR fumigations OR fumigação OR fumigación OR \"aerial spray\" OR \"aerially sprayed\"),title_and_abstract.search:(\"birth weight\" OR \"low birth weight\" OR preterm OR prematurity OR \"gestational age\" OR \"congenital anomalies\" OR \"congenital malformations\" OR \"birth defects\" OR hypospadias OR cryptorchidism OR stillbirth OR \"fetal death\" OR miscarriage OR \"spontaneous abortion\" OR \"infant mortality\" OR \"neonatal mortality\" OR \"birth outcomes\" OR \"pregnancy outcomes\" OR perinatal OR newborns OR \"peso ao nascer\" OR \"baixo peso\" OR prematuridade OR \"malformações congênitas\" OR \"anomalias congênitas\" OR \"defeitos congênitos\" OR \"óbito fetal\" OR \"aborto espontâneo\" OR \"mortalidade infantil\" OR \"mortalidade neonatal\" OR \"recém-nascidos\" OR \"nascidos vivos\" OR \"desfechos gestacionais\" OR \"peso al nacer\" OR \"bajo peso\" OR prematurez OR \"malformaciones congénitas\" OR \"anomalías congénitas\" OR \"aborto espontáneo\" OR \"mortalidad infantil\" OR \"mortalidad neonatal\" OR \"recién nacidos\" OR birthweight OR \"infant health\" OR \"newborn health\" OR \"neonatal outcomes\" OR \"fetal growth\" OR \"gestational length\" OR \"small for gestational age\" OR \"saúde infantil\" OR \"salud infantil\"),title_and_abstract.search:(Brazil OR Brasil OR Brazilian OR \"Latin America\" OR \"América Latina\" OR Ecuador OR Colombia OR Argentina OR Mexico OR México OR Paraguay OR Peru OR Perú OR Chile OR \"Costa Rica\" OR Nicaragua OR Guatemala OR Honduras OR Uruguay OR Bolivia OR Venezuela OR Panama OR Panamá OR \"El Salvador\" OR Cuba OR \"Dominican Republic\")",
+   "filters": "No year or type filter. URL-encode the string; separate the 3 blocks by commas (implicit AND).",
+   "count": 464,
+   "rationale": "Main effect arm. Retrieves 17/20 indexed known items, including all 3 effect seeds. Accented and unaccented PT variants are listed because OpenAlex neither folds accents nor stems agrotóxico/agrotóxicos together. 'birthweight' and 'fumigation' were added after the SocSciMed 2025 Colombia paper was missed."
+  },
+  {
+   "source": "OpenAlex OA-2 (PT/ES-language records without a country term)",
+   "query": "Same exposure (E3) and outcome (O3) blocks as OA-1, without the geography block",
+   "filters": "language:pt|es",
+   "count": 266,
+   "rationale": "Recovers Brazilian ecological studies that name only regions or microregions (e.g. Dutra & Ferreira 2019). Overlap with OA-1 is 105, so OA-1 ∪ OA-2 = 625."
+  },
+  {
+   "source": "OpenAlex OA-3 (aerial-spraying arm, any health outcome)",
+   "query": "title_and_abstract.search:(\"aerial spraying\" OR \"aerial fumigation\" OR \"aerial application\" OR \"aerial spray\" OR \"aerially sprayed\" OR \"crop dusting\" OR \"pulverização aérea\" OR \"aplicação aérea\" OR \"fumigación aérea\" OR \"fumigaciones aéreas\" OR \"aspersión aérea\" OR \"aspersiones aéreas\" OR \"aviação agrícola\"),title_and_abstract.search:(health OR saúde OR salud OR exposure OR exposição OR exposición OR intoxication OR intoxicação OR intoxicación OR poisoning),title_and_abstract.search:(G block as in OA-1)",
+   "filters": "none",
+   "count": 146,
+   "rationale": "The treatment in the thesis is the aerial method. This arm keeps aerial-spraying health studies whose outcome is not a birth outcome (e.g. Healthcare 2024, Ecuador). Without the geography block it gives 796 hits, which is too broad."
+  },
+  {
+   "source": "OpenAlex OA-4 (context arm: Chapada do Apodi / Baixo Jaguaribe; flag as 'context')",
+   "query": "title_and_abstract.search:(\"Chapada do Apodi\" OR \"Limoeiro do Norte\" OR \"Baixo Jaguaribe\" OR Quixeré OR \"Zé Maria do Tomé\" OR \"Dossiê ABRASCO\" OR \"Jaguaribe-Apodi\" OR \"Jaguaribe Apodi\"),title_and_abstract.search:(saúde OR health OR salud OR agrotóxicos OR agrotóxico OR agrotoxicos OR pesticides OR plaguicidas OR pesticidas OR agronegócio OR agribusiness OR fruticultura OR \"pulverização aérea\" OR adoecimento OR câncer OR cancer)",
+   "filters": "none",
+   "count": 311,
+   "rationale": "Needed because the Rocha 2017 abstract contains no pesticide term. The bare token 'Jaguaribe' was dropped because it pulls in hydrology papers (CTX with it alone: 2,967). E AND CTX (127) would miss Rocha 2017."
+  },
+  {
+   "source": "SciELO S1 (effect)",
+   "query": "(agrot* OR pesticid* OR plaguicid* OR praguicid* OR herbicid* OR fungicid* OR inseticid* OR insecticid* OR glifosato OR glyphosate OR agroquimic* OR fumigacion* OR \"pulverização aérea\" OR \"aerial spraying\") AND (nascer OR nacer OR birth* OR prematur* OR preterm OR congenit* OR congênit* OR malforma* OR fetal OR fetais OR perinata* OR neonata* OR newborn* OR \"recém-nascido*\" OR \"recién nacido*\" OR \"mortalidade infantil\" OR \"mortalidad infantil\" OR \"infant mortality\" OR miscarriage* OR \"aborto espontâneo\" OR \"aborto espontáneo\" OR \"spontaneous abortion\")",
+   "filters": "https://search.scielo.org/?q=<string>&lang=pt&count=50&output=site&format=summary (all collections, all indices)",
+   "count": 175,
+   "rationale": "Truncation (*) works and the index is accent-insensitive. Phrases are fragile (see syntax findings). Retrieves the 5 SciELO-indexed effect validation items tested (Oliveira 2014, Cremonese 2012 via pid, Dutra 2019, Rigotto 2013, Venezuela 2008). The count includes the same article in several collections. Untested recommended addition: fumigat* (English 'fumigation')."
+  },
+  {
+   "source": "SciELO S2 (context; flag 'context')",
+   "query": "(Apodi* OR Jaguaribe* OR Quixer*) AND (saúde* OR saude* OR health* OR salud* OR agrot* OR pesticid* OR agroneg* OR agribusiness* OR trabalh* OR fruticultura* OR mulheres*)",
+   "filters": "same URL pattern",
+   "count": 135,
+   "rationale": "Truncated place names are mandatory: \"Chapada do Apodi\" and bare Apodi both MISS Rocha 2017, while Apodi* retrieves it."
+  },
+  {
+   "source": "SciELO S3 (aerial arm)",
+   "query": "(\"pulverização aérea\" OR \"aplicação aérea\" OR \"aviação agrícola\" OR \"aerial spraying\" OR \"aerial application\" OR \"aerial fumigation\" OR \"fumigación aérea\" OR \"fumigaciones aéreas\" OR \"aspersión aérea\" OR \"aspersiones aéreas\")",
+   "filters": "same URL pattern",
+   "count": 67,
+   "rationale": "Small enough to screen in full. It covers the method-specific literature that OA-3 covers in OpenAlex."
+  },
+  {
+   "source": "LILACS L1 (via BVS portal; effect)",
+   "query": "(agrot* OR pesticid* OR plaguicid* OR praguicid* OR herbicid* OR fungicid* OR inseticid* OR insecticid* OR glifosato OR glyphosate OR agroquimic* OR fumiga*) AND (nascer OR nacer OR birth* OR prematur* OR preterm OR congenit* OR malforma* OR fetal OR perinata* OR neonata* OR newborn* OR \"mortalidade infantil\" OR \"mortalidad infantil\" OR \"infant mortality\" OR miscarriage* OR \"aborto espontâneo\" OR \"aborto espontáneo\")",
+   "filters": "https://pesquisa.bvsalud.org/portal/?lang=pt&q=<string>&filter[db][]=LILACS",
+   "count": 416,
+   "rationale": "Free-text version. The DeCS-augmented version (mh:Pesticides, mh:Agrochemicals, mh:\"Pregnancy Outcome\", mh:\"Congenital Abnormalities\", mh:\"Infant, Low Birth Weight\") returned 502 and is untested. Add it when the portal is stable and record the delta. 'fetal' and 'fumiga*' admit veterinary/VETINDEX-type noise."
+  },
+  {
+   "source": "LILACS L2 (context + aerial; flag 'context')",
+   "query": "(Apodi* OR Jaguaribe* OR Quixer* OR \"Limoeiro do Norte\" OR \"pulverização aérea\" OR \"fumigación aérea\" OR \"aspersión aérea\" OR \"aerial spraying\") AND (agrot* OR pesticid* OR plaguicid* OR saúde OR salud OR health OR trabalh*)",
+   "filters": "filter[db][]=LILACS",
+   "count": 107,
+   "rationale": "Retrieves Rocha 2017 and Rigotto 2013. It also brings in theses and grey literature on the Ceará irrigation districts."
+  },
+  {
+   "source": "Grey literature (web search; no counts)",
+   "query": "site:anpec.org.br agrotóxicos (\"peso ao nascer\" OR \"mortalidade infantil\" OR \"saúde infantil\"); site:repositorio.ipea.gov.br agrotóxicos saúde; site:brsa.org.br agrotóxicos; \"pesticides\" \"birth outcomes\" Brazil working paper; site:ideas.repec.org pesticides Brazil infant",
+   "filters": "Firecrawl web search / Parallel web_search",
+   "count": null,
+   "rationale": "Brazilian economics papers (ENABER/ANPEC/UFV) are not in SciELO or LILACS. The ENABER 2025 paper is in OpenAlex (via a UFV DOI) and is retrieved by OA-1, but conference-only versions need web search."
+  }
+ ],
+ "known_item_recall": {
+  "seeds_tested": [
+   "10.1590/0103-11042017s206",
+   "10.1093/restud/rdad011",
+   "10.1086/725349",
+   "10.1016/j.jhealeco.2017.04.005",
+   "EXTRA validation V (Brazilian effect studies located in this calibration): 10.1590/1413-812320141910.08512014; 10.1590/s0102-311x2012000700005; 10.1016/j.ijheh.2012.08.006; 10.1007/s00128-010-0027-8; 10.11606/issn.2176-7262.v50i5p285-296; 10.1590/0103-1104201912108; 10.2478/s13382-014-0269-5",
+   "EXTRA validation X (LatAm items from research index): 10.1186/s12887-016-0667-x; 10.1097/ee9.0000000000000290; 10.1016/j.envpol.2026.128090; 10.1007/s11356-021-14574-2; 10.1016/j.socscimed.2025.118285; 10.5271/sjweh.1790; 10.1590/s1415-790x2013000300019; 10.3390/healthcare12202052; 10.1590/s0124-00642008000100008",
+   "EXTRA: 10.47328/ufvbbt.2025.749 (Januzzi et al. 2025)"
+  ],
+  "seeds_retrieved": [
+   "OpenAlex final union (OA-1 ∪ OA-2 ∪ OA-3 ∪ OA-4): 4/4 orchestrator seeds. Dias 2023, Calzada 2023 and Camacho & Mejía 2017 come through OA-1 (Calzada and Camacho also through OA-3); Rocha 2017 comes only through OA-4.",
+   "OpenAlex extended: 17/17 extra validation items retrieved by the union (OA-1 alone: 15/17; Dutra 2019 via OA-2; Healthcare 2024 via OA-3). Januzzi 2025 via OA-1. Overall 21/21 indexed known items.",
+   "SciELO: Rocha 2017 (S2). Dutra 2019, Oliveira 2014, Rigotto 2013 (S1, DOI-tested). Cremonese 2012 (S1-lite, pid-tested). Venezuela 2008 (S1, pid-tested). Rigotto 2013 also in S2.",
+   "LILACS: Rocha 2017 and Rigotto 2013 (L2, verified via a sub-query of L2). Cremonese 2012, Oliveira 2014, Dutra 2019, Rigotto 2013 confirmed as LILACS records by a narrowed sub-query whose terms are a subset of L1 (except 'gravidez'). Membership in the full L1 is therefore probable but not strictly tested."
+  ],
+  "seeds_missed": [
+   {
+    "id": "10.1590/0103-11042017s206",
+    "why": "Missed by every exposure-based string in all databases: its abstract has no pesticide or birth-outcome term. Retrieved only by the place-name context arms (OA-4, S2, L2). In SciELO the phrase \"Chapada do Apodi\" and bare Apodi both fail (tokenization); Apodi* works."
+   },
+   {
+    "id": "10.1590/0103-1104201912108",
+    "why": "Missed by OA-1 (no LatAm country term in the abstract). Recovered by OA-2 (language:pt|es)."
+   },
+   {
+    "id": "10.3390/healthcare12202052",
+    "why": "Missed by OA-1 (outcome is general health, not a birth outcome). Recovered by OA-3."
+   },
+   {
+    "id": "10.1016/j.socscimed.2025.118285",
+    "why": "Missed by the intermediate E2/O2 version (uses 'birthweight' as one word and 'anti-coca fumigation'). Recovered after adding birthweight/fumigation (E3/O3)."
+   },
+   {
+    "id": "10.1093/restud/rdad011; 10.1086/725349",
+    "why": "Not indexed in the Firecrawl research (PubMed-centric) index, and not in SciELO or LILACS. Only OpenAlex/web retrieve them."
+   },
+   {
+    "id": "10.1016/j.jhealeco.2017.04.005",
+    "why": "In the research index (PMID 28570914) but not in the top-100 of the generic Latin American framing. Retrieved at rank 1 by a Colombia-specific framing. Has no abstract in OpenAlex; matched there via its title ('aerial spraying')."
+   }
+  ],
+  "recall_indexed": "OpenAlex: 4/4 seeds and 21/21 indexed known items retrieved by the 4-branch union (OA-1 alone: 18/21). SciELO: 1/1 indexed seed (Rocha 2017), and 5/5 SciELO-indexed effect validation items tested. LILACS: 1/1 seed tested (Rocha 2017, via L2); effect items verified only via a narrowed sub-query because of BVS 502/timeouts. Research index: generic framing 0/4 seeds in top 100 (2 seeds not indexed) and 5/7 V items in top 100."
+ },
+ "volume_estimate_after_dedup": "Raw counts: OpenAlex OA-1 ∪ OA-2 = 625 (464 + 266 − 105). OA-3 = 146 and OA-4 = 311, so the OpenAlex upper bound is 1,082 before cross-branch overlap. SciELO: 175 + 135 + 67 = 377 records, including the same article listed in several collections (roughly 1.5–2x duplication in the samples seen). LILACS: 416 + 107 = 523. Raw total about 1,980. SciELO and LILACS records largely duplicate OpenAlex PT/ES records and each other. My estimate is about 1,100–1,400 unique records after deduplication: roughly 750–900 for the effect arms plus 350–450 context records, which should be flagged 'context'. Trade-off: dropping the generic outcome terms 'perinatal', 'newborns' and 'gestational age' and the OA-2 language branch would cut volume but lose Dutra 2019, so the broad version is recommended. The volume is screenable in about 10–15 reviewer-hours at title/abstract stage.",
+ "issues_and_limits": [
+  "Rate limits: Firecrawl (about 13 requests/min, shared) and Parallel (repeated 429s) stopped several calls. Every failed call is logged and the affected queries were retried; one OpenAlex check (X AND E2 AND O2, language:pt|es) returned an empty Firecrawl answer and was not counted.",
+  "BVS/LILACS portal (pesquisa.bvsalud.org) gave 502 Bad Gateway on several attempts and timeouts on others, and worked intermittently. The DeCS (mh:) version of L1 is untested, and a strict L1 AND known-item test could not be completed (recall shown via a narrowed sub-query).",
+  "SciELO counts are at record level and include duplicates across collections (scl, spa, col, etc.). The default 'Todos os índices' does not include author names.",
+  "SciELO tokenization defect: a word next to punctuation in the title or abstract (e.g. 'Apodi,') is not matched as a bare token or phrase, but is matched with truncation (Apodi*). Phrase queries in SciELO are therefore unreliable; prefer truncation. This likely explains the brief's note that a naive phrase query returned 0.",
+  "OpenAlex: no wildcards (HTTP 400), no accent folding, and incomplete stemming of accented PT words, so all inflections must be spelled out. Camacho & Mejía has no abstract in OpenAlex, and title-only matching is fragile for similar econ papers.",
+  "Seeds Dias (ReStud) and Calzada (JAERE) are not in the PubMed-centric research index, SciELO or LILACS. Economics papers depend on OpenAlex and web search, so add a separate EconLit/RePEc/NBER/SSRN step in the main SQ1.",
+  "The extended validation sets V and X were found during this calibration (via web and research-index searches), not fixed in advance. Recall measured on them is optimistic and should be reported as development-set recall, not independent validation.",
+  "The SciELO S1 recommended addition (fumigat*) and the OpenAlex outcome additions were not re-tested in SciELO/LILACS (counts for S1 and L1 are for the strings as tested).",
+  "Dossiê ABRASCO (2015) has no DOI. Identify it by ISBN 9788598768809 (EPSJV) / 9788577432561 (Expressão Popular) and the ARCA/Fiocruz handle (arca.fiocruz.br/items/95e08e29-61d4-461e-a5d6-dd880d2592fb); OpenAlex has it as W2345103675 without DOI. A 2018 article on its Spanish version has DOI 10.18472/sustdeb.v9n1.2018.29594.",
+  "Silva et al. 2011 (São Francisco Valley congenital defects, PMID 21625789) and the Rev Bras Promoç Saúde 2017 study of fetal mortality in Ceará's 10th health region: DOIs not verified. Rigotto et al. 2013 DOI (10.1590/S1415-790X2013000300019) was confirmed through SciELO, but the OpenAlex title-search record lacks it; recall was tested by DOI."
+ ],
+ "syntax_findings": [
+  "OpenAlex title_and_abstract.search: uppercase AND/OR/NOT and parentheses work (A OR B = 12,860 vs 7,856 + 5,040; NOT reduces 7,856 to 7,820). Quoted strings become stemmed phrases. Several title_and_abstract.search filters separated by commas are ANDed. language:pt|es and doi:a|b|c filters combine with search filters.",
+  "OpenAlex: wildcard 'agrot*' returns HTTP 400. Accents are not folded (agrotóxicos 7,856 vs agrotoxicos 1,318). agrotóxico (1,069) is not stemmed to agrotóxicos, while plaguicida = plaguicidas (5,040) and pesticide = pesticides (316,429). 'birthweight' is a separate token from \"birth weight\".",
+  "SciELO search.scielo.org: AND/OR, parentheses, quotes and * truncation work; it is accent-insensitive (agrotóxicos = agrotoxicos = 895). The field indices doi:, pid:, ti:, ab:, au:, in:, la: work (used doi:/pid: for recall testing). Some records (e.g. Cremonese 2012) lack a DOI in the index, so test them by pid. Bare tokens next to punctuation can be unindexed, so use truncation (Apodi*, Jaguaribe*).",
+  "BVS portal: free-text with * truncation and AND/OR works, and filter[db][]=LILACS restricts to LILACS (facet confirms). Longer queries with mh: descriptors coincided with 502 errors. Short truncated stems produced unrelated cardiology records."
+ ],
+ "incidental_relevant_studies": [
+  {
+   "id": "10.47328/ufvbbt.2025.749",
+   "title": "Impacts of pesticide exposure on birth outcomes and child health in Brazil (Januzzi, Cardoso, Rodrigues; UFV/ENABER)",
+   "year": "2025",
+   "why": "Brazilian economics panel of 5,510 municipalities, 2019–2022, with a shift-share pesticide exposure index. Reports a low-birth-weight effect and no effect on prematurity or infant mortality. Directly comparable estimand."
+  },
+  {
+   "id": "10.1016/j.socscimed.2025.118285",
+   "title": "Armed conflict and birthweight: The role of organized violence and anti-coca fumigation in Colombia",
+   "year": "2025",
+   "why": "Aerial fumigation and birthweight in Colombia; close analogue to the aerial-method treatment."
+  },
+  {
+   "id": "10.1097/ee9.0000000000000290",
+   "title": "Pesticide exposure, birth size, and gestational age in the ISA birth cohort, Costa Rica",
+   "year": "",
+   "why": "Banana-plantation cohort with aerially applied mancozeb (fungicide). The closest chemical and crop analogue to Ceará's banana dose."
+  },
+  {
+   "id": "10.1289/ehp.1307679",
+   "title": "Aerial application of mancozeb and urinary ethylene thiourea (ETU) concentrations among pregnant women in Costa Rica: the ISA study",
+   "year": "2014",
+   "why": "Exposure-pathway evidence that aerial banana fungicide spraying reaches pregnant women. Supports the first stage of the mechanism."
+  },
+  {
+   "id": "10.1016/j.envpol.2026.128090",
+   "title": "Agricultural pesticide exposures in Ecuador and their spatial association with low birth weight: a combined cluster detection and Bayesian modelling approach",
+   "year": "2026",
+   "why": "Ecuador (banana country), LBW association, OR about 1.10. Complements Calzada et al."
+  },
+  {
+   "id": "10.3390/healthcare12202052",
+   "title": "Aerial Spraying and Its Impacts on Human Health in Banana-Growing Areas of Ecuador",
+   "year": "2024",
+   "why": "Aerial spraying in banana areas; general health outcomes (context/mechanism)."
+  },
+  {
+   "id": "10.1289/JHP1043",
+   "title": "Pesticide Exposures during Pregnancy and Health Outcomes in Latin America and the Caribbean: A Scoping Review of Human Observational Studies",
+   "year": "2025",
+   "why": "About 80 LatAm studies. Use for backward citation chasing and as a recall benchmark for this block."
+  },
+  {
+   "id": "10.1289/ehp9934",
+   "title": "Health Effects of Pesticide Exposure in Latin American and the Caribbean Populations: A Scoping Review",
+   "year": "",
+   "why": "Second LatAm review for citation chasing."
+  },
+  {
+   "id": "10.1590/S1415-790X2013000300019",
+   "title": "Tendências de agravos crônicos à saúde associados a agrotóxicos em região de fruticultura no Ceará, Brasil (Rigotto et al.)",
+   "year": "2013",
+   "why": "Chapada do Apodi/Baixo Jaguaribe: trends in chronic outcomes in exposed vs control municipalities. The closest existing Ceará outcome study; flag as effect-or-context."
+  },
+  {
+   "id": "Rev. bras. promoç. saúde 2017 (LILACS)",
+   "title": "Análise da situação em saúde: a mortalidade fetal na 10ª região de saúde do Ceará",
+   "year": "2017",
+   "why": "Fetal mortality in the health region that includes Limoeiro do Norte. Context and possible baseline for the SIM channel (flag 6)."
+  },
+  {
+   "id": "10.1590/1413-812320141910.08512014",
+   "title": "Malformações congênitas em municípios de grande utilização de agrotóxicos em Mato Grosso, Brasil (Oliveira et al.)",
+   "year": "2014",
+   "why": "Brazilian municipal-level exposure and congenital malformations."
+  },
+  {
+   "id": "10.1590/s0102-311x2012000700005",
+   "title": "Exposição a agrotóxicos e eventos adversos na gravidez no Sul do Brasil, 1996-2000 (Cremonese et al.)",
+   "year": "2012",
+   "why": "Ecological study of pesticide sales and adverse pregnancy outcomes in southern Brazil."
+  },
+  {
+   "id": "10.1016/j.ijheh.2012.08.006",
+   "title": "Pesticide exposure and low birth weight prevalence in Brazil (Boccolini et al.)",
+   "year": "2013",
+   "why": "National ecological LBW study."
+  },
+  {
+   "id": "10.1007/s00128-010-0027-8",
+   "title": "Correlation Between Pesticide Use in Agriculture and Adverse Birth Outcomes in Brazil: An Ecological Study (de Siqueira et al.)",
+   "year": "2010",
+   "why": "National ecological study covering prematurity, LBW, congenital anomalies and fetal death."
+  },
+  {
+   "id": "10.1590/0103-1104201912108",
+   "title": "Tendência de malformações congênitas e utilização de agrotóxicos em commodities: um estudo ecológico (Dutra & Ferreira)",
+   "year": "2019",
+   "why": "Brazilian commodity-crop pesticide use and malformation trends."
+  },
+  {
+   "id": "10.2478/s13382-014-0269-5",
+   "title": "Pesticide consumption, central nervous system and cardiovascular congenital malformations in the South and Southeast region of Brazil (Cremonese et al.)",
+   "year": "2014",
+   "why": "Brazilian ecological study of malformations."
+  },
+  {
+   "id": "10.1186/s12887-016-0667-x",
+   "title": "Parenteral exposure to pesticides and occurence of congenital malformations: hospital-based case-control study (Ueker et al., Mato Grosso)",
+   "year": "2016",
+   "why": "Individual-level Brazilian case-control study."
+  },
+  {
+   "id": "W3205238126 (OpenAlex, no DOI)",
+   "title": "Asociación entre comercialización de agrotóxicos con prematuridad y bajo peso al nacer al sur de Brasil (Rev. Cubana Enferm.)",
+   "year": "2021",
+   "why": "PT/ES-only Brazilian LBW/prematurity study, reachable only through the PT/ES or LILACS arms."
+  },
+  {
+   "id": "LILACS (DOI not captured)",
+   "title": "Malformações fetais: distribuição temporal e sua associação com o uso de agrotóxicos no Rio Grande do Sul (Saúde em Debate)",
+   "year": "2023",
+   "why": "Recent Brazilian malformation–pesticide study surfaced only via LILACS."
+  },
+  {
+   "id": "10.1590/s0124-00642008000100008",
+   "title": "A preliminary statistical study of whether pesticide use could be related to birth defects in a rural area of Venezuela",
+   "year": "2008",
+   "why": "LatAm birth-defects study (SciELO/Rev Salud Pública)."
+  },
+  {
+   "id": "10.1007/s11356-021-14574-2",
+   "title": "Residential proximity to pesticide applications in Argentine Patagonia: impact on pregnancy and newborn parameters",
+   "year": "2021",
+   "why": "Residential (non-occupational) exposure and newborn outcomes in Argentina."
+  },
+  {
+   "id": "10.1515/reveh.2011.007",
+   "title": "Baseline determination in social, health, and genetic areas in communities affected by glyphosate aerial spraying on the northeastern Ecuadorian border",
+   "year": "2011",
+   "why": "Cross-border aerial glyphosate spraying (Colombia → Ecuador); context for the Camacho & Mejía analogue."
+  },
+  {
+   "id": "PMC10636353",
+   "title": "Agricultural intensification and childhood cancer in Brazil (Skidmore et al., PNAS)",
+   "year": "2023",
+   "why": "Brazilian soy/pesticide causal design on child health (not birth outcomes); methodological neighbour of Dias et al."
+  },
+  {
+   "id": "BVS tes-3578 (FIOCRUZ thesis)",
+   "title": "Uso dos agrotóxicos e seus impactos à saúde e ao ambiente: uma avaliação integrada entre a economia, a saúde pública, a ecologia e a agricultura (W. L. Soares)",
+   "year": "2010",
+   "why": "Valuation of pesticide health externalities in Brazil; relevant to Essay 2 (instrument choice)."
+  },
+  {
+   "id": "Dossiê ABRASCO (ISBN 9788598768809; OpenAlex W2345103675)",
+   "title": "Dossiê ABRASCO: um alerta sobre os impactos dos agrotóxicos na saúde (Carneiro et al., orgs.)",
+   "year": "2015",
+   "why": "Context source requested by the brief. Contains the Chapada do Apodi residue table cited in PL 18/2015. No DOI."
+  }
+ ]
+}
