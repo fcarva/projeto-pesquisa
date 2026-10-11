@@ -1,10 +1,12 @@
 # 20 — Revisão de literatura e Metodologia: Estágio 1 (RESEARCH)
 
-*ARS `academic-pipeline` (`/ars-full`), Estágio 1 = `deep-research` modo `full`.
-Fase 1 de 6 (escopo). 2026-10-11.*
+*ARS `academic-pipeline` (`/ars-full`), Estágio 1 = `deep-research`, modo `full`
+na Fase 1 e, a partir da escolha do pesquisador (§5), modo `systematic-review`.
+2026-10-11.*
 
-> **Estado do pipeline.** Estágio 1 · Fase 1 concluída, aguardando confirmação do
-> pesquisador. Nada foi escrito em `paper/` ainda.
+> **Estado do pipeline.** Estágio 1 · RQ Brief confirmado; forma da revisão
+> escolhida (sistemática, §5); protocolo PRISMA-P em preparação. Nada foi escrito
+> em `paper/` ainda.
 >
 > **Como o pipeline está rodando, e por que isso fica registrado.** O plugin ARS
 > não está instalado na sessão remota. O orquestrador é executado seguindo os
@@ -218,3 +220,27 @@ Para seguir, preciso de:
 3. Ciência dos três problemas maiores do DA (M1–M3). Eles entram como requisitos da Fase 2, e não como mudança de desenho.
 
 Depois da confirmação, o ARS mostra a nota sobre a **forma da revisão** e espera a resposta antes de iniciar a busca.
+
+---
+
+## 5. Registro do checkpoint (2026-10-11)
+
+| item | decisão do pesquisador | palavras dele |
+|---|---|---|
+| RQ Brief (§1) | ✅ confirmado | "confirmo" |
+| Desvio de escopo da SQ2 | ✅ aprovado | "aprovo o desvio da SQ2" |
+| DA M1–M3 | ✅ ciente; viram requisitos da busca | "pode seguir" |
+| Amplitude da busca | máxima | "busque o máximo de artigos nesses sentido, usar firecrawl se necessário" |
+| Nota sobre a forma da revisão (#921) | mostrada verbatim, sem recomendação; o pesquisador colou três formas e, perguntado qual, escolheu **revisão sistemática** | escolha: "Sistemática" |
+
+**Consequência.** Pela regra do ARS (`deep-research/SKILL.md`, § Review-form note:
+"Systematic review: offer `deep-research` `systematic-review` mode, and enter it
+only when the author confirms"), o Estágio 1 sai do modo `full` e entra no modo
+**`systematic-review`** (PRISMA 2020). Nesse modo a Fase 1 gera um **protocolo
+PRISMA-P**, e não só o RQ Brief, e o protocolo exige confirmação do pesquisador
+antes da busca (`references/systematic_review_protocol.md`, regra 2). O RQ Brief
+e o blueprint acima continuam valendo como base do protocolo.
+
+O protocolo fica em `docs/revisao-sistematica/protocolo.md`, e os registros de
+busca e triagem, em `docs/revisao-sistematica/`. São metadados bibliográficos,
+não microdado.
