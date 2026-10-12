@@ -341,3 +341,24 @@ depois do cadastro. A rede está irrestrita desde 2026-10-12.
 - o Parallel `web_fetch` devolve *cache* para URLs quase idênticas;
 - o OpenAlex não tem curinga e não junta acentos;
 - GET longo no PubMed dá 414, então usar o *history server*.
+
+---
+
+## 8. Sessão de 2026-10-12 (branch `claude/admiring-carson-3l2d8h`)
+
+**Feito:**
+1. **Protocolo v1.0 confirmado** pelo pesquisador; o carimbo é o commit `1d12f10`.
+2. **Coleta do PubMed concluída** (`ferramentas/coleta_pubmed.py`, commit `817f7d6`). As contagens batem com as congeladas: SQ1 #5 = 2.054 (camada 1 = 892, camada 2 = 1.162) e SQ3 P1 = 578. Os metadados e o SHA-256 do resumo ficam em `registros/`, e o log em `registros/coletas.jsonl`. O resumo fica fora do git, porque o repositório é público e o texto tem direito autoral do editor. Ele é reconstruído com `--reidratar`, que confere o hash.
+3. **Coletor do OpenAlex escrito** (`ferramentas/coleta_openalex.py`), mas **não rodado**. Ele resolve os marcadores das linhas congeladas: na SQ1-AL, `(#1)`–`(#3)` e `#n-v0`, com as caudas de 6, 9 e 18 termos; na SQ2 #7, `<the #5 search string>`. O `--plano` valida as 28 linhas sem rede. **Conferência ao vivo:** a SQ1-AL #4-v0, a linha mais difícil de resolver, deu **604** pelo Parallel `web_fetch`, igual à congelada. O `meta.x_query` ecoou os três blocos.
+
+**Bloqueado: as credenciais continuam sem funcionar nesta sessão.**
+- **OpenAlex:** a credencial foi cadastrada no ambiente com o host `*.example.com` e o caminho `/api.openalex.org/works`. O proxy nunca a injeta em `api.openalex.org`, e sem chave a cota do IP compartilhado está esgotada. **Correção:** host `api.openalex.org`; caminho `/works`, ou sem restrição, para o `cites:` e a reidratação. O coletor também aceita `OPENALEX_API_KEY` como variável de ambiente.
+- **Elsevier:** o host está certo, mas a API responde "Invalid API Key". A chave pode estar sendo injetada num cabeçalho que a Elsevier não lê, porque ela espera `X-ELS-APIKey`, ou pode estar inválida. De qualquer forma, o protocolo prevê o Scopus como **exportação do pesquisador** pela CAPES: a API não é rota do v1.0, e fora de IP institucional ela não devolve o Scopus completo.
+- O Firecrawl está sem créditos.
+
+**Próximos passos, depois de corrigir a credencial e abrir uma sessão nova:**
+1. `python3 ferramentas/coleta_openalex.py --conferir`: compara as contagens de hoje com as congeladas, linha a linha;
+2. `python3 ferramentas/coleta_openalex.py`: coleta tudo;
+3. deduplicação (script ainda a escrever): DOI → PMID/ID OpenAlex → título normalizado + ano. Pools separados por SQ, com a pertença cruzada registrada. Para a SQ1, exclusão automática por metadado (ano < 1990, idioma fora de en/pt/es), contada no PRISMA. Para a SQ3, exclusão de *paratext* e retratados;
+4. importar as exportações de SciELO, LILACS e Scopus de `registros/importados/` (RIS de preferência);
+5. piloto de 50 registros da SQ1 com os dois triadores → κ. A amostra de referência de 50 (25/25) **depende do consenso da IA**, então só sai depois que a triagem da SQ1 tiver ao menos 25 inclusões de consenso.
