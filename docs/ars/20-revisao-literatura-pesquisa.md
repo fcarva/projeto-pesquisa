@@ -304,6 +304,10 @@ de um segundo revisor humano.
 Incorporadas ao protocolo v1.0. **A busca só começa depois da confirmação
 explícita do protocolo v1.0.**
 
+**Confirmação (2026-10-12, sessão nova).** Perguntado se confirmava o protocolo
+v1.0, o pesquisador respondeu **"Confirmo o v1.0"**. O commit que registra a
+confirmação é o carimbo de tempo; a coleta definitiva vem depois dele (§8).
+
 ---
 
 ## 7. Retomada numa sessão nova (passagem de bastão, 2026-10-12)

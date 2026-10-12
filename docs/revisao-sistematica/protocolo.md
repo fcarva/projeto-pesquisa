@@ -4,14 +4,16 @@
 aérea, e desfechos ao nascer: protocolo de revisão sistemática, acompanhado de
 duas revisões estruturadas complementares (método e escolha de instrumento)**
 
-*Versão 1.0, com as decisões do pesquisador de 2026-10-12; aguarda a confirmação final. Rascunho 0.9 em 2026-10-11. ARS
+*Versão 1.0, com as decisões do pesquisador de 2026-10-12, **confirmada pelo pesquisador em 2026-10-12**. Rascunho 0.9 em 2026-10-11. ARS
 `deep-research`, modo `systematic-review`, Fase 1. Registro do processo em
 `docs/ars/20-revisao-literatura-pesquisa.md`.*
 
-> **Estado:** ⬜ aguardando confirmação. Pela regra do ARS, a busca **não começa**
-> antes da confirmação deste protocolo (`references/systematic_review_protocol.md`,
-> regra 2). As strings de busca do Apêndice A vieram da calibração de 2026-10-11:
-> o desenvolvimento da estratégia, que é anterior à triagem e não a contamina.
+> **Estado:** ✅ **confirmado pelo pesquisador em 2026-10-12** ("Confirmo o v1.0").
+> O carimbo de tempo é o commit que registra esta confirmação, anterior a
+> qualquer coleta definitiva (`references/systematic_review_protocol.md`, regra 2).
+> A partir daqui, toda mudança entra na tabela de emendas, com data e motivo. As
+> strings de busca do Apêndice A vieram da calibração de 2026-10-11: o
+> desenvolvimento da estratégia, que é anterior à triagem e não a contamina.
 
 ---
 
@@ -290,3 +292,4 @@ Conferida no Estágio 2.5 (integridade).
 | 0.9 | 2026-10-11 | rascunho para confirmação |
 | 1.0 | 2026-10-12 | (rev.) acesso direto a PubMed, Crossref, arXiv e RePEc; OpenAlex com chave; SciELO e LILACS exportados pelo pesquisador |
 | 1.0 | 2026-10-12 | Apêndice A congelado (PRESS); emenda DA-1 nas regras de exposição; decisões do pesquisador: escala da triagem, amostra de referência de 50, sem registro externo, Scopus sim e WoS não |
+| 1.0 | 2026-10-12 | **confirmado pelo pesquisador**; carimbo = o commit desta linha. A busca definitiva começa depois dele |
