@@ -134,24 +134,25 @@ pré-concepcional só se reportada junto.
 
 | fonte | acesso nesta sessão | cobertura | por quê |
 |---|---|---|---|
-| **OpenAlex** | API REST via Firecrawl `scrape` | multidisciplinar; agrega Crossref, PubMed, arXiv, repositórios | base principal com contagem reprodutível e operadores booleanos |
-| **Índice PubMed/medRxiv/bioRxiv/arXiv** | Firecrawl `research_search_papers` | biomédica e arXiv | cobre a epidemiologia; ranqueado, sem contagem total |
+| **OpenAlex** | API REST, via Parallel `web_fetch` (sem o limite do Firecrawl) e Firecrawl `scrape` como reserva | multidisciplinar; agrega Crossref, PubMed, arXiv, repositórios | base principal, com contagem reprodutível, operadores booleanos e eco da consulta (`meta.x_query`) para auditoria |
+| **PubMed (MEDLINE)** | **API oficial E-utilities**, via Parallel `web_fetch` | biomédica, com MeSH | epidemiologia; vocabulário controlado |
+| **Índice PubMed/medRxiv/bioRxiv/arXiv** | Firecrawl `research_search_papers` | biomédica e arXiv | busca semântica complementar; ranqueada, sem contagem |
 | **Wiley Scholar Gateway** | MCP | texto completo Wiley | econ. agrícola e da saúde (AJAE, *Health Econ*, JAE) |
-| **SciELO** | Firecrawl `scrape` | América Latina | literatura brasileira e latino-americana |
-| **LILACS / BVS** | Firecrawl `scrape` | saúde, América Latina | idem, com a tradição Rigotto/ABRASCO |
-| **Literatura cinzenta** | Firecrawl `search`, Parallel Search | NBER, IZA, SSRN, RePEc/IDEAS, AgEcon Search, Banco Mundial, BID, IPEA, ANPEC | *working papers* são a norma em economia; reduz viés de publicação |
-| **Citações** | OpenAlex (`referenced_works`, filtro `cites:`) e Crossref `reference` | — | **retrospectiva e prospectiva** de todos os incluídos e das revisões relevantes; iteração até não surgir incluído novo |
+| **SciELO** | Firecrawl `scrape` de search.scielo.org | América Latina | literatura brasileira e latino-americana |
+| **LILACS (BVS)** | Firecrawl `scrape` de pesquisa.bvsalud.org, com `filter[db][]=LILACS` e linha DeCS | saúde, América Latina | idem, com a tradição Rigotto/ABRASCO |
+| **Scopus e Web of Science** | ⬜ **exportação feita pelo pesquisador** pelo Portal de Periódicos CAPES (CAFe), com as strings traduzidas no Apêndice A, em RIS/CSV com resumo, em `registros/importados/` | multidisciplinar, com EconLit parcial | fecha a lacuna de economia que o PubMed não cobre (JAERE, ReStud). **Opcional:** se não for feito, a ausência é declarada |
+| **Literatura cinzenta** | Firecrawl `search`, Parallel Search | NBER, IZA, SSRN, RePEc/IDEAS, AgEcon Search, Banco Mundial, BID, IPEA, ANPEC | *working papers* são a norma em economia; reduz o viés de publicação |
+| **Citações** | OpenAlex (`referenced_works`, filtro `cites:`) e Crossref `reference` | — | **retrospectiva e prospectiva** de todos os incluídos e das revisões relevantes, iterando até não aparecer incluído novo. Os clássicos anteriores a 1990 (SQ3) são conferidos à mão nas listas de referências de 2 ou 3 revisões, porque o OpenAlex os cobre mal |
 
-⚠️ **Sem acesso:** Web of Science, Scopus, Embase e EconLit (sem assinatura
-nesta sessão), além de PubMed e Europe PMC diretos (bloqueados pelo proxy). O
-OpenAlex cobre parte disso, mas não tudo, e o relatório declara a lacuna. Se o
-pesquisador tiver acesso institucional (CAPES), uma busca complementar no
-Scopus/WoS com as mesmas strings fecha a lacuna, e o protocolo prevê isso como
-emenda.
+⚠️ **Sem acesso nesta sessão:** EconLit, Embase e CAB Abstracts. O Europe PMC
+e o RePEc direto estão bloqueados pela política de rede; o RePEc é coberto por
+busca na web, e o Europe PMC é redundante com PubMed + medRxiv. O relatório
+declara essas lacunas.
 
-⚠️ **Limite operacional:** o Firecrawl aceita cerca de 25 requisições por
-minuto. A busca e a triagem são paginadas para respeitar esse limite, e as
-falhas de requisição ficam registradas e são refeitas, nunca silenciadas.
+⚠️ **Limites operacionais:**
+- o Firecrawl aceita cerca de 13 a 25 requisições por minuto, compartilhadas;
+- o Parallel `web_fetch` pode devolver resposta em *cache* para URLs longas quase idênticas. Por isso, toda contagem registrada confere o eco da consulta (`meta.x_query`) e usa um parâmetro distinto contra o *cache*;
+- falhas de requisição são registradas e refeitas, nunca silenciadas.
 
 ### Estratégia de busca
 As strings por bloco e base, com contagem, recuperação dos itens conhecidos e
