@@ -242,3 +242,29 @@ conferência; é fato a declarar no texto.
 **zero fantasmas**: nenhuma `\cite` aponta para entrada inexistente. As sete
 novas nascem órfãs por construção: foram conferidas para poderem ser citadas,
 e citar é decisão do texto, não desta passada.
+
+## 10. Conferências de 2026-10-12 (seção de revisão de literatura, `paper/overleaf/revisao-literatura.tex`)
+
+Sessão remota. Crossref e PubMed foram alcançados pelo `web_fetch` do Parallel
+Search: API Crossref `/works/<DOI>` e E-utilities `efetch` com `rettype=abstract`.
+Toda afirmação de resultado no texto vem do **resumo depositado**, não de
+memória.
+
+| chave | rota | o que confere | o que o texto usa |
+|---|---|---|---|
+| `ling2018prenatal` | PubMed 30037110 | autores, título, *Toxics* 6(3):41, DOI | prematuridade +3–7%; baixo peso a termo "rarely linked" (exceção: miclobutanil) |
+| `vanwendel2024isa` | PubMed 38617432 | idem, *Environ Epidemiol* 8(2):e290 | TCP (clorpirifós): −129,6 g por aumento de 10× entre nascidos a termo; nenhum biomarcador explica a duração da gestação |
+| `kadhel2014chlordecone` | PubMed 24401561 | *Am J Epidemiol* 179(5):536–544 | −0,27 semana e +60% de prematuridade por aumento de 1 log10 |
+| `herve2016chlordecone` | PubMed 27560981 | *Environ Res* 151:436–444 | sem associação com o peso no agregado (forma em U só com ganho de peso gestacional alto) |
+| `rouget2020chlordecone` | PubMed 31376129 | *Environ Sci Pollut Res* 27(33):40992–40998 (online 2019, edição 2020) | sem associação com malformações |
+| `brainerd2014seasonal` | Crossref | *J Dev Econ* 107:49–64; sem resumo depositado | o resultado vem do resumo já conferido em `docs/ars/19` §3 (fertilizante na água no mês da concepção → mortalidade infantil) |
+| `mejia2014enforcement` | Crossref (SSRN, 10.2139/ssrn.2481408) | título, autores, resumo depositado | faixa de 10 km sem aspersão (2006); −0,02 a −0,065 ha de coca por ha pulverizado; não custo-efetivo. ⚠️ A versão publicada (WBER) não foi conferida, então cita-se o *working paper* |
+
+Também conferidas e citadas na seção: PRISMA 2020 (`page2021prisma`) e PRESS
+2015 (`mcgowan2016press`), em 2026-10-11 (`docs/revisao-sistematica/prompts/00-*`).
+
+⚠️ Denteh & Kédagni seguem sem entrada no `.bib`. A seção os cita em nota de
+rodapé como *working paper* arXiv:2207.11890, de acordo com o §9.3.
+
+Essas entradas vivem no `filecontents` do arquivo Overleaf. Entram no
+`paper/referencias.bib` quando a seção for integrada à dissertação.
