@@ -133,12 +133,12 @@ pré-concepcional só se reportada junto.
 
 | fonte | acesso nesta sessão | cobertura | por quê |
 |---|---|---|---|
-| **OpenAlex** | API REST, via Parallel `web_fetch` (sem o limite do Firecrawl) e Firecrawl `scrape` como reserva | multidisciplinar; agrega Crossref, PubMed, arXiv, repositórios | base principal, com contagem reprodutível, operadores booleanos e eco da consulta (`meta.x_query`) para auditoria |
-| **PubMed (MEDLINE)** | **API oficial E-utilities**, via Parallel `web_fetch` | biomédica, com MeSH | epidemiologia; vocabulário controlado |
+| **OpenAlex** | API REST **direta** (rede irrestrita desde 2026-10-12), com **chave gratuita do pesquisador** (`OPENALEX_API_KEY`); sem chave, a cota diária do IP compartilhado se esgota | multidisciplinar; agrega Crossref, PubMed, arXiv, repositórios | base principal, com contagem reprodutível, operadores booleanos e eco da consulta (`meta.x_query`) para auditoria |
+| **PubMed (MEDLINE)** | **API oficial E-utilities**, acesso direto | biomédica, com MeSH | epidemiologia; vocabulário controlado |
 | **Índice PubMed/medRxiv/bioRxiv/arXiv** | Firecrawl `research_search_papers` | biomédica e arXiv | busca semântica complementar; ranqueada, sem contagem |
 | **Wiley Scholar Gateway** | MCP | texto completo Wiley | econ. agrícola e da saúde (AJAE, *Health Econ*, JAE) |
-| **SciELO** | Firecrawl `scrape` de search.scielo.org | América Latina | literatura brasileira e latino-americana |
-| **LILACS (BVS)** | Firecrawl `scrape` de pesquisa.bvsalud.org, com `filter[db][]=LILACS` e linha DeCS | saúde, América Latina | idem, com a tradição Rigotto/ABRASCO |
+| **SciELO** | **exportação feita pelo pesquisador** no navegador (o site bloqueia IP de datacenter mesmo com navegador sem interface), com as strings do Apêndice A, em `registros/importados/` | América Latina | literatura brasileira e latino-americana |
+| **LILACS (BVS)** | **exportação feita pelo pesquisador** no portal BVS (mesmo bloqueio), com `filter[db][]=LILACS`, a linha DeCS e as strings do Apêndice A | saúde, América Latina | idem, com a tradição Rigotto/ABRASCO |
 | **Scopus** | **exportação feita pelo pesquisador** pelo Portal de Periódicos CAPES (CAFe), com a string do Apêndice A, em RIS/CSV com resumo, em `registros/importados/`, com data e contagem anotadas (decisão de 2026-10-12) | multidisciplinar | fecha a lacuna de economia que o PubMed não cobre (JAERE, ReStud) |
 | **Web of Science** | **não será buscada** (decisão do pesquisador de 2026-10-12); a ausência é declarada | — | — |
 | **Literatura cinzenta** | Firecrawl `search`, Parallel Search | NBER, IZA, SSRN, RePEc/IDEAS, AgEcon Search, Banco Mundial, BID, IPEA, ANPEC | *working papers* são a norma em economia; reduz o viés de publicação |
@@ -288,4 +288,5 @@ Conferida no Estágio 2.5 (integridade).
 | versão | data | mudança |
 |---|---|---|
 | 0.9 | 2026-10-11 | rascunho para confirmação |
+| 1.0 | 2026-10-12 | (rev.) acesso direto a PubMed, Crossref, arXiv e RePEc; OpenAlex com chave; SciELO e LILACS exportados pelo pesquisador |
 | 1.0 | 2026-10-12 | Apêndice A congelado (PRESS); emenda DA-1 nas regras de exposição; decisões do pesquisador: escala da triagem, amostra de referência de 50, sem registro externo, Scopus sim e WoS não |
