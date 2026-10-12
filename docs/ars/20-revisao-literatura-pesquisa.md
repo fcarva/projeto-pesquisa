@@ -303,3 +303,37 @@ de um segundo revisor humano.
 
 Incorporadas ao protocolo v1.0. **A busca só começa depois da confirmação
 explícita do protocolo v1.0.**
+
+---
+
+## 7. Retomada numa sessão nova (passagem de bastão, 2026-10-12)
+
+*Por que uma sessão nova:* credenciais cadastradas no ambiente
+(`OPENALEX_API_KEY`, `ELSEVIER_API_KEY`) só entram em sessões iniciadas
+depois do cadastro. A rede está irrestrita desde 2026-10-12.
+
+**Estado exato:**
+- Branch `claude/confident-wozniak-1rae17`.
+- Pipeline ARS `/ars-full`, **Estágio 1** (`deep-research`, modo `systematic-review`), **fim da Fase 1**. O ARS é seguido pelos arquivos do repositório `Imbad0202/academic-research-skills`, fixado no commit `d1e5171` (v3.23.0); clonar num diretório temporário se o plugin não estiver instalado.
+- Protocolo: `docs/revisao-sistematica/protocolo.md` **v1.0, AGUARDANDO A CONFIRMAÇÃO EXPLÍCITA do pesquisador**. A busca definitiva não começa sem ela.
+- Estratégias congeladas (4 blocos): `docs/revisao-sistematica/apendice-a-estrategias.md`, gerado por `ferramentas/gera_apendice_a.py` a partir de `calibracao/*-final.json`.
+- Seção de revisão de literatura (pré-triagem, estilo Bellemare, 4 páginas): `paper/overleaf/revisao-literatura.tex`.
+
+**Acesso:**
+- PubMed (E-utilities), Crossref, arXiv e RePEc respondem direto, por script.
+- OpenAlex exige `OPENALEX_API_KEY`: passar `api_key=` na URL.
+- SciELO e BVS bloqueiam IP de datacenter, inclusive com navegador sem interface, então ficam como exportação do pesquisador. O Scopus também é exportação do pesquisador.
+
+**Próximos passos, em ordem, depois da confirmação:**
+1. Commit de fechamento do protocolo (o carimbo de tempo).
+2. Coleta **por script**, sem agentes: OpenAlex (paginação com cursor, `per-page=200`, com `abstract_inverted_index` reconstruído em texto) e PubMed (`esearch` com *history* + `efetch`) para as linhas congeladas. Registros em `docs/revisao-sistematica/registros/` (CSV/JSONL), com data e contagem.
+3. Importar as exportações de SciELO, LILACS e Scopus de `registros/importados/` e deduplicar por DOI, depois título + ano.
+4. Piloto de 50 registros (dois triadores de IA) → κ → ajuste dos critérios.
+5. Planilha cega de 50 registros (25/25) para a amostra de referência do pesquisador.
+6. Triagem: SQ1 dupla; SQ2/SQ3 por relevância, com regra de parada e auditoria (protocolo, "Escala da triagem").
+
+**Cuidados aprendidos:**
+- o limite de gasto da organização derrubou rodadas de agentes duas vezes: coleta e deduplicação são script, e os agentes ficam só para a triagem;
+- o Parallel `web_fetch` devolve *cache* para URLs quase idênticas;
+- o OpenAlex não tem curinga e não junta acentos;
+- GET longo no PubMed dá 414, então usar o *history server*.
