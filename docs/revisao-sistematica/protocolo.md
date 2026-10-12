@@ -4,7 +4,7 @@
 aérea, e desfechos ao nascer: protocolo de revisão sistemática, acompanhado de
 duas revisões estruturadas complementares (método e escolha de instrumento)**
 
-*Versão 0.9, rascunho para confirmação do pesquisador. 2026-10-11. ARS
+*Versão 1.0, com as decisões do pesquisador de 2026-10-12; aguarda a confirmação final. Rascunho 0.9 em 2026-10-11. ARS
 `deep-research`, modo `systematic-review`, Fase 1. Registro do processo em
 `docs/ars/20-revisao-literatura-pesquisa.md`.*
 
@@ -18,11 +18,10 @@ duas revisões estruturadas complementares (método e escolha de instrumento)**
 ## INFORMAÇÕES ADMINISTRATIVAS
 
 ### Registro
-**Não registrado.** O registro (PROSPERO, que aceita revisões com desfecho de
-saúde, ou OSF Registries) é decisão do pesquisador e precisa ser feito **antes da
-busca** para ter valor. Sem registro externo, o carimbo de tempo é o commit
-deste arquivo no git, como na `docs/pre-especificacao.md`, e o relatório final
-dirá isso, sem sugerir registro que não houve.
+**Sem registro externo**, por decisão do pesquisador (2026-10-12). O carimbo de
+tempo é o **commit deste arquivo no git**, feito antes da busca, como na
+`docs/pre-especificacao.md`. O relatório final dirá isso, sem sugerir registro
+que não houve.
 
 ### Autores e papéis
 
@@ -140,7 +139,8 @@ pré-concepcional só se reportada junto.
 | **Wiley Scholar Gateway** | MCP | texto completo Wiley | econ. agrícola e da saúde (AJAE, *Health Econ*, JAE) |
 | **SciELO** | Firecrawl `scrape` de search.scielo.org | América Latina | literatura brasileira e latino-americana |
 | **LILACS (BVS)** | Firecrawl `scrape` de pesquisa.bvsalud.org, com `filter[db][]=LILACS` e linha DeCS | saúde, América Latina | idem, com a tradição Rigotto/ABRASCO |
-| **Scopus e Web of Science** | ⬜ **exportação feita pelo pesquisador** pelo Portal de Periódicos CAPES (CAFe), com as strings traduzidas no Apêndice A, em RIS/CSV com resumo, em `registros/importados/` | multidisciplinar, com EconLit parcial | fecha a lacuna de economia que o PubMed não cobre (JAERE, ReStud). **Opcional:** se não for feito, a ausência é declarada |
+| **Scopus** | **exportação feita pelo pesquisador** pelo Portal de Periódicos CAPES (CAFe), com a string do Apêndice A, em RIS/CSV com resumo, em `registros/importados/`, com data e contagem anotadas (decisão de 2026-10-12) | multidisciplinar | fecha a lacuna de economia que o PubMed não cobre (JAERE, ReStud) |
+| **Web of Science** | **não será buscada** (decisão do pesquisador de 2026-10-12); a ausência é declarada | — | — |
 | **Literatura cinzenta** | Firecrawl `search`, Parallel Search | NBER, IZA, SSRN, RePEc/IDEAS, AgEcon Search, Banco Mundial, BID, IPEA, ANPEC | *working papers* são a norma em economia; reduz o viés de publicação |
 | **Citações** | OpenAlex (`referenced_works`, filtro `cites:`) e Crossref `reference` | — | **retrospectiva e prospectiva** de todos os incluídos e das revisões relevantes, iterando até não aparecer incluído novo. Os clássicos anteriores a 1990 (SQ3) são conferidos à mão nas listas de referências de 2 ou 3 revisões, porque o OpenAlex os cobre mal |
 
@@ -178,9 +178,15 @@ As contagens antes e depois entram no fluxograma PRISMA.
 2. **Texto completo.** Dois revisores de IA independentes, com motivo de exclusão de uma lista fechada; adjudicação por um terceiro. **O pesquisador revê todas as inclusões e todas as exclusões com motivo "exposição" ou "desenho"**, onde estão os casos de fronteira.
 3. **Busca de citações** sobre os incluídos, com os mesmos dois estágios.
 
+**Escala da triagem (decisão do pesquisador, 2026-10-12).**
+- **SQ1:** triagem **dupla independente** em todos os registros, como descrito acima.
+- **SQ2 e SQ3:** **um** triador de IA, com os registros na ordem de relevância do OpenAlex (`sort=relevance_score:desc`) e **regra de parada declarada**: parar depois de **200 exclusões seguidas**, desde que pelo menos **30%** do conjunto tenha sido triado.
+- **Auditoria das SQ2/SQ3:** (i) **10%** dos registros triados, sorteados com semente fixa, vão a um segundo triador independente, para medir a concordância; (ii) **5%** da cauda não triada, também sorteados, são triados. Se aparecer um único registro incluível na cauda, a triagem continua por mais 500 registros e a regra é reaplicada.
+- O fluxograma PRISMA separa os registros triados dos não triados por causa da regra de parada.
+
 **Calibração humana (PRISMA-trAIce M8/M9).** Antes da triagem completa:
 - **piloto:** 50 registros triados pelos dois agentes, para medir a concordância (κ de Cohen) e ajustar a redação dos critérios, com registro de cada mudança;
-- **amostra de referência:** 100 registros sorteados com semente fixa e estratificados pela decisão de consenso (50 incluídos, 50 excluídos), triados pelo pesquisador **sem ver a decisão da IA**. A partir dela, sensibilidade, especificidade e κ da triagem por IA. **Se a sensibilidade estimada for < 0,95, os critérios são revistos e todas as exclusões são triadas de novo.**
+- **amostra de referência:** **50 registros** da SQ1 (decisão do pesquisador, 2026-10-12), sorteados com semente fixa e estratificados pela decisão de consenso (25 incluídos, 25 excluídos), triados pelo pesquisador **sem ver a decisão da IA**. A partir dela, sensibilidade, especificidade e κ da triagem por IA, **com IC de 95% exato** (Clopper–Pearson). Com 25 incluídos, o IC da sensibilidade é largo, e isso fica declarado. **Se a sensibilidade estimada for < 0,95, os critérios são revistos e todas as exclusões são triadas de novo.**
 
 **Coleta de dados.** Formulário do Apêndice B, preenchido por um agente e
 verificado por um segundo contra o texto. Todo número extraído leva uma âncora:
@@ -282,3 +288,4 @@ Conferida no Estágio 2.5 (integridade).
 | versão | data | mudança |
 |---|---|---|
 | 0.9 | 2026-10-11 | rascunho para confirmação |
+| 1.0 | 2026-10-12 | Apêndice A congelado (PRESS); emenda DA-1 nas regras de exposição; decisões do pesquisador: escala da triagem, amostra de referência de 50, sem registro externo, Scopus sim e WoS não |

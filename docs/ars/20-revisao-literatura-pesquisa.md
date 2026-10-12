@@ -291,3 +291,15 @@ e um único humano não é sistemática no sentido Cochrane." Resposta disponív
 ela não se apresenta como Cochrane. Declara o uso de IA item a item
 (PRISMA-trAIce), mede o desempenho da IA contra o humano e não esconde a falta
 de um segundo revisor humano.
+
+### Decisões do pesquisador no checkpoint do protocolo (2026-10-12)
+
+| decisão | escolha |
+|---|---|
+| Escala da triagem | SQ1 com triagem dupla; SQ2/SQ3 com triador único, priorização por relevância, regra de parada e auditoria de 10% + 5% da cauda |
+| Amostra de referência humana | 50 registros (25 incluídos / 25 excluídos), cega |
+| Registro | sem registro externo; o carimbo é o commit |
+| Scopus / WoS | Scopus, exportado pelo pesquisador pela CAPES; WoS não |
+
+Incorporadas ao protocolo v1.0. **A busca só começa depois da confirmação
+explícita do protocolo v1.0.**
