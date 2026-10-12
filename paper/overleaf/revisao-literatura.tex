@@ -1,6 +1,6 @@
 % =====================================================================
 % Revisão de literatura (Ensaio 1 / dissertação PPGEco-UFES)
-% Versão pré-triagem, 2026-10-12. Arquivo autocontido para o Overleaf:
+% Versão pré-triagem, 2026-10-12 (v2: bullets por tema, sem a subseção de busca). Arquivo autocontido para o Overleaf:
 % a bibliografia está embutida abaixo (filecontents) e é gerada na
 % compilação. Compilar com pdfLaTeX + BibTeX (padrão do Overleaf).
 % Fonte no repositório: paper/overleaf/revisao-literatura.tex
@@ -39,7 +39,7 @@
 
 @article{larsen2017agricultural,
   author  = {Larsen, Ashley E. and Gaines, Steven D. and Deschênes, Olivier},
-  title   = {Agricultural pesticide use and adverse birth outcomes in the San Joaquin Valley of California},
+  title   = {Agricultural pesticide use and adverse birth outcomes in the {San Joaquin Valley} of {California}},
   journal = {Nature Communications},
   year    = {2017},
   volume  = {8},
@@ -318,90 +318,51 @@ Esta seção organiza a literatura em torno de uma pergunta só: \emph{o que se
 sabe sobre o dano perinatal de agrotóxicos agrícolas que permita avaliar a
 proibição de um método de aplicação?} A pergunta importa porque a Lei Estadual
 nº~16.820/2019 proíbe a pulverização \emph{aérea}, e não uma molécula, enquanto
-quase toda a evidência mede moléculas. Quatro eixos ordenam o que segue: a
-substância (o que o agrotóxico faz ao feto), o método (o que a via aérea
-acrescenta), o instrumento (o que o regulador precisa saber) e o estimador (o
-que um choque simultâneo com dose contínua permite identificar). A seção
-termina com o que a literatura não responde, e com o que este trabalho pode e
-não pode responder.
+quase toda a evidência mede moléculas. Em síntese, por tema:
 
-\subsection{Como a literatura foi levantada}
+\begin{itemize}\setlength{\itemsep}{2pt}
+\item \textbf{Molécula.} A evidência causal mais forte é sobre glifosato e
+culturas transgênicas, pelo ar e pela água. Para os químicos da banana
+(fungicidas, clorpirifós, clordecona), o que existe são coortes com
+biomarcadores, que acham dano em umas moléculas e não em outras.
+\item \textbf{Pulverização aérea.} Só dois contextos andinos estudam o método:
+a aspersão de herbicida sobre coca, na Colômbia, e a fumigação de bananais, no
+Equador. Nenhum estudo avalia a \emph{retirada} do método.
+\item \textbf{Dados perinatais.} O dano aparece na cauda da exposição, não na
+média. A margem que responde (peso ou duração da gestação) muda com a molécula,
+e há nulos sólidos, inclusive na população mais exposta a um agrotóxico de
+bananal.
+\item \textbf{Instrumento.} A comparação entre proibir, taxar e zonear supõe
+uma função de dano cuja inclinação nunca foi estimada para um método de
+aplicação.
+\item \textbf{Estimador.} Um choque estadual simultâneo com dose contínua
+identifica o efeito no nível de dose, não a curva. O tratamento mal
+classificado por falso positivo atenua o efeito, mas não inverte o sinal.
+\end{itemize}
 
-O levantamento segue um protocolo de revisão sistemática fixado antes da busca
-\citep{page2021prisma}. Ele tem uma pergunta principal em formato PECOS:
-exposição \emph{ambiental} na gestação a agrotóxico de uso agrícola e desfechos
-ao nascer, com o método de aplicação como moderador. Tem também duas revisões
-estruturadas complementares, uma de método e uma de instrumento. As estratégias
-de busca foram calibradas contra estudos conhecidos e submetidas a uma revisão
-PRESS independente \citep{mcgowan2016press}, que exigiu correções nos quatro
-blocos. A Tabela~\ref{tab:busca} resume o resultado.
+\subsection{Molécula}
 
-\begin{table}[h]
-\centering\small
-\caption{Estratégias de busca congeladas (2026-10-12)}
-\label{tab:busca}
-\begin{tabular}{@{}llrl@{}}
-\toprule
-Bloco & Bases & Registros brutos & Recall de itens conhecidos \\
-\midrule
-SQ1, internacional & OpenAlex, PubMed & 3.385 + 717 & 13/13 \\
-SQ1, América Latina & OpenAlex, SciELO, LILACS & $\approx$2.300 & 21/21 (indexados) \\
-SQ2, método & OpenAlex, arXiv & $\approx$4.100 & 34/38 \\
-SQ3, instrumento & OpenAlex, Wiley, web & $\approx$5.000 & 18/18 (no ajuste) \\
-\bottomrule
-\end{tabular}
-\par\smallskip
-\begin{minipage}{0.92\linewidth}\footnotesize
-\emph{Nota:} recall medido nos itens usados no desenvolvimento da estratégia, e
-não em validação independente. A triagem ainda não foi feita. Os estudos
-citados abaixo vêm do corpus já conferido do projeto e dos estudos que a
-calibração encontrou, cada um conferido na fonte primária (PubMed ou Crossref).
-\end{minipage}
-\end{table}
+Do lado da substância, \citet{dias2023down} são a referência brasileira:
+exploram a chegada da soja transgênica, a aptidão de cada município e a direção
+do fluxo d'água na bacia, e mostram que o glifosato a montante eleva a
+mortalidade infantil a jusante. \citet{reynier2025glyphosate} replicam a lógica
+nos Estados Unidos, com o mesmo instrumento de aptidão, e acham redução do peso
+e da duração da gestação. \citet{frank2024ecosystem} chegam ao dano pelo
+avesso: a morte de morcegos predadores leva o agricultor a usar 31,1\% mais
+inseticida, e a mortalidade infantil sobe 7,9\%. Os três identificam bem, mas
+falam de glifosato e de culturas de grão.
 
-A calibração já ensinou duas coisas sobre a literatura, antes mesmo da triagem.
-A primeira é que os dois estudos econômicos mais próximos deste caso
-\citep{calzada2023bananas,dias2023down} não estão indexados no PubMed: uma
-revisão feita só em bases biomédicas não os encontraria. A segunda é que um
-filtro de contexto ``agrícola e espacial'', que parecia inofensivo, eliminava
-as coortes de clordecona das Antilhas Francesas. São justamente os estudos de
-um inseticida de bananal. A literatura mais próxima do caso cearense não se
-descreve com o vocabulário que a busca esperava.
+Os químicos da banana aparecem em outra tradição, a das coortes com
+biomarcador. Na coorte ISA, da Costa Rica, um aumento de dez vezes no metabólito
+do clorpirifós se associa a 130~g a menos de peso entre nascidos a termo, e o
+2,4-D a 125~g a menos \citep{vanwendel2024isa}. Em Guadalupe, a clordecona,
+inseticida usado nos bananais até 1993, encurta a gestação em 0,27 semana e
+eleva o risco de prematuridade em 60\% para cada aumento de dez vezes na
+concentração plasmática \citep{kadhel2014chlordecone}. A molécula que mais
+importa no Ceará, a procimidona, fungicida de bananal presente em todas as
+amostras da Chapada do Apodi, não aparece em nenhum desses estudos.
 
-\subsection{A substância: dano concentrado na cauda, e desigual}
-
-O resultado mais importante da literatura para este trabalho é de forma, não de
-nível. \citet{larsen2017agricultural}, com mais de meio milhão de nascimentos no
-Vale de San Joaquin, não encontram efeito na média: a exposição residencial eleva
-os desfechos adversos em 5 a 9\% \emph{apenas} acima do percentil 95.
-\citet{reynier2025glyphosate}, explorando a adoção de sementes geneticamente
-modificadas com um instrumento de aptidão agroclimática, acham redução do peso e
-da duração da gestação, com efeito doze vezes maior no decil inferior de peso
-esperado. \citet{dias2023down} chegam ao mesmo tipo de dano pela água: o
-glifosato a montante eleva a mortalidade infantil a jusante.
-\citet{frank2024ecosystem} chegam a ele pelo avesso: a morte de morcegos
-predadores leva o agricultor a usar 31,1\% mais inseticida, e a mortalidade
-infantil sobe 7,9\%.
-
-A epidemiologia de exposição individual confirma o dano, mas mostra que
-\emph{qual} desfecho responde depende da molécula. Na Califórnia, a exposição
-residencial num raio de 2~km eleva o risco de prematuridade em 3 a 7\%, e quase
-nunca o de baixo peso a termo \citep{ling2018prenatal}. Na coorte ISA, da Costa
-Rica, um aumento de dez vezes no metabólito do clorpirifós se associa a 130~g a
-menos de peso entre nascidos a termo, sem efeito sobre a duração da gestação
-\citep{vanwendel2024isa}. Em Guadalupe, a clordecona, o inseticida usado nos
-bananais até 1993, encurta a gestação em 0,27 semana e eleva o risco de
-prematuridade em 60\% para cada aumento de dez vezes na concentração plasmática \citep{kadhel2014chlordecone}. A mesma coorte,
-porém, não encontra associação com o peso ao nascer no agregado
-\citep{herve2016chlordecone}, nem com malformações \citep{rouget2020chlordecone}.
-
-Três regularidades saem daí. O dano está na cauda da exposição, não na média. A
-margem que responde, peso ou duração da gestação, muda com a molécula. E há
-resultados nulos sólidos, inclusive na população mais exposta a um agrotóxico de
-bananal. Uma revisão que relatasse só os efeitos encontrados descreveria outra
-literatura.
-
-\subsection{O método: a via aérea}
+\subsection{Pulverização aérea}
 
 A evidência sobre o \emph{método} vem de dois contextos andinos. Na Colômbia, a
 aspersão aérea de herbicida sobre cultivos ilícitos foi política de Estado, e
@@ -412,8 +373,7 @@ endereço da mãe com o perímetro das plantações e com a estação de fumiga�
 intensa, a chuvosa, quando a sigatoka-negra ataca. O resumo publicado reporta
 déficit de 80 a 150~g no peso ao nascer sob exposição alta. É o análogo mais
 próximo do caso cearense nas três dimensões que importam: cultura, método e
-classe química, já que a procimidona, onipresente nas amostras da Chapada do
-Apodi, é fungicida de bananal.
+classe química.
 
 Um terceiro estudo mostra o instrumento do Ensaio~2 em operação.
 \citet{mejia2014enforcement} exploram a suspensão da aspersão numa faixa de
@@ -421,18 +381,41 @@ Um terceiro estudo mostra o instrumento do Ensaio~2 em operação.
 Por descontinuidade na faixa, estimam que cada hectare pulverizado reduz o
 cultivo de coca em apenas 0,02 a 0,065 hectare. Essa faixa é, na prática, uma
 \emph{zona-tampão}, mas foi avaliada pelo efeito sobre o alvo da pulverização, e
-não sobre a saúde de quem mora ao lado. Por fim, \citet{brainerd2014seasonal}
-mostram como identificar dano sazonal: cruzam o mês da concepção com a estação
-em que fertilizantes chegam à água e encontram efeito sobre a mortalidade
-infantil. O químico é outro, mas a lógica de calendário é a mesma de que este trabalho dispõe se a medida do
-método vier a existir.
+não sobre a saúde de quem mora ao lado.
 
 Nenhum desses estudos avalia a \emph{retirada} de um método. Na Colômbia, a via
 aérea foi imposta; no Equador, ela segue em uso. No Ceará, ela foi proibida para
 todos de uma vez. Isso muda tanto o sinal esperado quanto a estrutura de quem
 escolhe se expor.
 
-\subsection{O instrumento e o estimador}
+\subsection{Dados perinatais}
+
+O resultado mais importante da literatura para este trabalho é de forma, não de
+nível. \citet{larsen2017agricultural}, com mais de meio milhão de registros de
+nascimento do Vale de San Joaquin, não encontram efeito na média: a exposição
+residencial eleva os desfechos adversos em 5 a 9\% \emph{apenas} acima do
+percentil 95. \citet{reynier2025glyphosate} acham efeito doze vezes maior no
+decil inferior de peso esperado do que no superior. O dano está na cauda, e é
+desigual.
+
+O desfecho que responde também muda. Na Califórnia, a exposição residencial num
+raio de 2~km eleva o risco de prematuridade em 3 a 7\%, e quase nunca o de baixo
+peso a termo \citep{ling2018prenatal}. Na Costa Rica, o clorpirifós reduz o peso
+sem mexer na duração da gestação \citep{vanwendel2024isa}. Em Guadalupe, a
+clordecona encurta a gestação \citep{kadhel2014chlordecone}, mas não se associa
+ao peso ao nascer no agregado \citep{herve2016chlordecone} nem a malformações
+\citep{rouget2020chlordecone}. Escolher um único desfecho é, portanto, escolher
+uma molécula sem dizer.
+
+Duas lições de desenho vêm daí. A primeira é sobre a fonte: os registros
+administrativos de nascimento dão escala para ver a cauda, e as coortes dão a
+molécula, mas não as duas coisas ao mesmo tempo. A segunda é sobre o tempo.
+\citet{brainerd2014seasonal} cruzam o mês da concepção com a estação em que
+fertilizantes chegam à água e encontram efeito sobre a mortalidade infantil. O
+químico é outro, mas a lógica de calendário é a mesma de que este trabalho
+dispõe se a medida do método vier a existir.
+
+\subsection{Instrumento}
 
 A comparação entre preço e quantidade sob incerteza depende das inclinações
 relativas do dano marginal e do custo marginal \citep{weitzman1974}. A economia
@@ -440,28 +423,28 @@ dos agrotóxicos herdou essa moldura: mede o custo de bem-estar da regulação
 \citep{lichtenberg1988}, trata o problema como poluição difusa sob
 heterogeneidade \citep{helfand1995}, avalia taxas \citep{skevas2012} e simula
 \emph{ex ante} a proibição de uma molécula \citep{bocker2020glyphosate,
-finger2024europe}. Esses trabalhos supõem uma função de dano, mas nenhum estima
-a inclinação dela para um \emph{método} de aplicação. A calibração da busca
-apontou ainda dois ramos que faltavam ao menu original. O primeiro é a
-responsabilização \emph{ex post} pela deriva, um quarto instrumento ao lado de
-proibição, taxa e zona-tampão. O segundo é a elasticidade-preço da demanda por
-agrotóxico, o parâmetro de custo que uma taxa exige.
+finger2024europe}. Todos esses trabalhos supõem uma função de dano, mas nenhum
+estima a inclinação dela para um \emph{método} de aplicação. Dois ramos ainda
+faltam ao menu: a responsabilização \emph{ex post} pela deriva, um quarto
+instrumento ao lado de proibição, taxa e zona-tampão; e a elasticidade-preço da
+demanda por agrotóxico, o parâmetro de custo que uma taxa exige.
 
-Do lado econométrico, três resultados delimitam o que um choque estadual
-simultâneo com dose contínua pode entregar. \citet{callaway2024continuous}
-separam o efeito no nível de dose recebido, $\text{ATT}(d|d)$, identificado sob
-tendências paralelas, da curva causal, que exige uma hipótese mais forte e
-exclui a seleção pelo ganho. A literatura de tratamento mal classificado cobre o
-erro por falso negativo \citep{neginegi2025misclassified}. Aqui o erro é o
-oposto: municípios com dose positiva que não tinham avião. Para esse caso, o
-resultado relevante é o de Denteh e Kédagni,\footnote{\emph{Working paper},
-arXiv:2207.11890, ainda sem versão publicada; o argumento que dele depende
-repousa, portanto, num texto não publicado.} segundo o qual, sob
-tendências paralelas e sem falso negativo, o estimando é o efeito verdadeiro
-multiplicado pelo valor preditivo positivo da classificação: o erro atenua, mas
-não inverte o sinal.
-E com poucos controles, a inferência precisa vir de métodos desenhados para
-isso \citep{conley2011,canay2021wild,arkhangelsky2021sdid}.
+\subsection{Estimador}
+
+Três resultados delimitam o que um choque estadual simultâneo com dose contínua
+pode entregar. \citet{callaway2024continuous} separam o efeito no nível de dose
+recebido, $\text{ATT}(d|d)$, identificado sob tendências paralelas, da curva
+causal, que exige uma hipótese mais forte e exclui a seleção pelo ganho. A
+literatura de tratamento mal classificado cobre o erro por falso negativo
+\citep{neginegi2025misclassified}. Aqui o erro é o oposto: municípios com dose
+positiva que não tinham avião. Para esse caso, o resultado relevante é o de
+Denteh e Kédagni,\footnote{\emph{Working paper}, arXiv:2207.11890, ainda sem
+versão publicada. O argumento que dele depende repousa, portanto, num texto não
+publicado.} segundo o qual, sob tendências paralelas e sem falso negativo, o
+estimando é o efeito verdadeiro multiplicado pelo valor preditivo positivo da
+classificação: o erro atenua, mas não inverte o sinal. E com poucos controles, a
+inferência precisa vir de métodos desenhados para isso
+\citep{conley2011,canay2021wild,arkhangelsky2021sdid}.
 
 \subsection{Onde este trabalho entra, e onde não entra}
 
