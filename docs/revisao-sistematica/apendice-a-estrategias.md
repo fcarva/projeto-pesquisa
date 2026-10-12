@@ -631,58 +631,246 @@ Compared with the pre-PRESS strategy (about 2,670 gross), this is about +60%. Mo
 
 ## SQ3 — revisão estruturada complementar: escolha de instrumento
 
-⚠️ **Fonte:** recomendação da PRESS (`-press.json`). A rodada de finalização deste bloco ainda não terminou; ao terminar, rodar este script de novo.
+**Fonte:** rodada de finalização (`-final.json`), que aplica a PRESS e congela as linhas.
 
-**Veredito PRESS:** revision required.
+| linha | base | contagem | descrição |
+|---|---|---:|---|
+| #1 | OpenAlex | — | Pesticide concept block, used inside title.search. It contains the calibrated P++ title block, the PRESS NEW synonyms, and phytosanitaire(s). Building block only; it was not run alone. |
+| #2 | OpenAlex | — | Instrument/policy block, used inside title_and_abstract.search. It contains the calibrated S1-I block, the PRESS X block, and the fee terms that tested well (Pigovian, "tradeable permit", "pollution charge", redevance). fee, fees and excise were dropped. Building block only. |
+| #3 | OpenAlex | — | S6 regulatory-cost block (title_and_abstract). Building block only. |
+| #4 | OpenAlex | — | S10 block: pesticide demand elasticity and abatement cost, phrase-limited (title_and_abstract). Building block only. |
+| #5 | OpenAlex | 3.216 | CORE = title.search:(#1) AND title_and_abstract.search:(#2 OR #3 OR #4), i.e. S1' ∪ S6' ∪ S10 in one exact call. - Total: 3,216. - Decomposition: S1' (#1 × S1-I ∪ X) = 2,324; S6 beyond S1' = 701; S10 beyond S1' ∪ S6 = 187; fee terms beyond S1' = 4. 2,324 + 701 + 187 + 4 = 3,216, confirmed by the single call. - Adding ,type:!paratext,is_retracted:false gives 3,209. |
+| #5a | OpenAlex | 1.770 | Tier-1 part of #5: title(#1) AND title_and_abstract(calibrated S1-I block only). It covers taxes and economic instruments, bans with economic outcomes, pesticide-policy economics, and farm-level health-damage economics. |
+| #5b | OpenAlex | 921 | Tier-2 part of #5: title(#1) AND title_and_abstract((#3 OR #4 OR fee terms) NOT S1-I). It holds the regulatory-cost, elasticity and fee increments, using within-field NOT. The count was derived as #5 − #5a − #5c (3,216 − 1,770 − 525) and was not run as a separate call. |
+| #5c | OpenAlex | 525 | Tier-3 part of #5: the X-block-only increment, title(#1) AND title_and_abstract(X NOT (S1-I OR #3 OR #4 OR fee terms)). Top-12 by relevance: about 8/12 on topic, for example: - the 2014 IPM incentives review; - 'Financial incentives to implement IPM' (2004); - 'Incentives for protecting farm workers from pesticides' (1992); - 'Market incentive, government regulation and pesticide application' (China, 2017). Noise includes a NAMs safety assessment, methyl bromide environmental fate and an OP-suicide paper. |
+| #6 | OpenAlex | 228 | S7': external or social cost of pesticides named in the TITLE. It is title.search:(#1) AND title.search:(cost terms). Overlap with #5 = 51, measured with #5 before the 4 fee-term records were added, so #6 adds about 177. |
+| #7 | OpenAlex | 1.135 | TA-ONLY union in one exact call: title_and_abstract.search:(#7a OR #7b OR #7c). It combines S2' (buffer zones with fumigants, HHP bans and suicide, prices vs quantities), S4b (aerial spraying with ban, suspension or quasi-experiment) and S9 (drift with liability or compensation). - Internal overlap: 696 + 290 + 165 − 1,135 = 16. - Overlap with #5 = 62, so #7 adds about 1,073. |
+| #7a | OpenAlex | 696 | Component of #7: S2' (calibrated S2 plus the PRESS fumigant terms in the A3b pesticide block). The count is 696; the calibrated S2 was 689, so the fumigant terms add 7. |
+| #7b | OpenAlex | 290 | Component of #7: S4b (PRESS). Aerial-application terms in the title or abstract, combined with ban, suspension, quasi-experiment or welfare terms. |
+| #7c | OpenAlex | 165 | Component of #7: S9 (PRESS). Drift, liability and compensation, the fourth instrument. |
+| #8 | OpenAlex | 531 | S3'': nonpoint instrument choice, applied verbatim from PRESS. Overlap with #5 = 2 and with #7 = 11. |
+| #9 | OpenAlex | 227 | S4: aerial application, title-restricted, unchanged from calibration. Overlap with #5 = 6 and with #7 = 28. |
+| #10 | OpenAlex | 108 | S5: citers of Weitzman 1974 that use agricultural vocabulary, unchanged from calibration. Overlap with #5 = 3, with #7 = 5 and with #8 = 8. |
+| #11 | OpenAlex | 391 | S8: Portuguese and Spanish title records, unchanged from calibration. Overlap with #5 = 12. |
+| #12 | OpenAlex | 1 | Hand-added anchor: Weitzman (1974), 'Prices vs. Quantities', W1525260320. It cannot be retrieved topically, because its OpenAlex abstract is only a publisher header. |
+| #13 | OpenAlex | — | COMBINATION, the screening set: #5 (as #5a + #5b + #5c) OR #6 OR #7 OR #8 OR #9 OR #10 OR #11 OR #12. - How to run: each line is run separately, because OpenAlex cannot OR across title / title_and_abstract / cites / doi fields. Export each line in full with cursor=* and per_page=200, and keep relevance_score. - Deduplication: dedupe by OpenAlex work ID, then by DOI, then by a normalised title+year for duplicate versions (AgEcon, SSRN or WP vs journal). - Removals: drop type=paratext and is_retracted=true. - Count: a single-call count is impossible. Gross sum = 5,837; measured pairwise overlaps total 188; see estimated_unique_volume. |
+| P1 | PubMed (E-utilities esearch) | 578 | Supplementary controlled-vocabulary line recommended by PRESS: pesticide MeSH AND regulation, legislation or taxes MeSH. - Count: 578. - Recall: 19 of the 69 dev+V4 DOIs are in PubMed, and P1 retrieves 6 of those 19. It retrieves no known item that the OpenAlex lines miss. - Precision was not sampled. - Deduplicate against OpenAlex by DOI or PMID. |
 
+**Strings exatas, prontas para rodar:**
+
+`#1` (OpenAlex, 2026-10-12):
 ```text
-Run every OpenAlex arm with no date or type limit. Keep S2, S5, S7 and S8 as calibrated. Change S1 and S3, promote S6 to core, and add S4b, S9 and S10.
-
-Definitions:
-- P++ = S1's title block as calibrated.
-- NEW = "pest control" OR "pest management" OR "plant protection" OR agrichemical OR agrichemicals OR "agri-chemical" OR "agro-chemical" OR biocide OR nematicide OR acaricide OR mancozeb OR procymidone OR chlorothalonil OR carbofuran OR carbaryl OR dicamba OR aldicarb OR chlordecone OR parathion OR lindane OR fipronil OR imidacloprid OR clothianidin OR thiamethoxam OR "chemical input" OR "chemical inputs"
-- I = S1's title_and_abstract block as calibrated.
-- X = (incentive OR incentives OR "policy options" OR "policy mix") OR ((restrict OR restriction OR restrictions OR "restricted use") AND (tradeoff OR tradeoffs OR "trade-off" OR "social gains" OR "social benefits" OR welfare OR productivity OR profit OR "net returns"))
-
-Arms:
-
-S1' (about 2,292, the sum of disjoint measured parts 1,545 + 194 + 553):
-filter=title.search:(P++ OR NEW),title_and_abstract.search:(I OR X)
-
-S2 (689): unchanged. Add fumigant/fumigation/dichloropropene/chloropicrin to the A3b pesticide block (untested).
-
-S3'' (531):
-filter=title.search:(nonpoint OR "non-point" OR "diffuse pollution" OR "diffuse source" OR "agricultural pollution" OR "agricultural runoff" OR "agricultural source"),title_and_abstract.search:(instrument OR instruments OR incentive OR incentives OR tax OR taxes OR taxation OR "second-best" OR "least-cost" OR externality OR externalities OR "water quality trading" OR "pollution trading" OR "permit trading" OR "trading ratio" OR "ambient-based" OR "moral hazard" OR "asymmetric information" OR welfare)
-
-S4 (227): unchanged.
-
-S4b (290):
+(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR chlorpyrifos OR atrazine OR "methyl bromide" OR organophosphate OR endosulfan OR DDT OR fumigant OR agrotoxico OR agrotoxicos OR agrotóxico OR agrotóxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR "defensivos agrícolas" OR "pest control" OR "pest management" OR "plant protection" OR agrichemical OR agrichemicals OR "agri-chemical" OR "agro-chemical" OR biocide OR nematicide OR acaricide OR mancozeb OR procymidone OR chlorothalonil OR carbofuran OR carbaryl OR dicamba OR aldicarb OR chlordecone OR parathion OR lindane OR fipronil OR imidacloprid OR clothianidin OR thiamethoxam OR "chemical input" OR "chemical inputs" OR phytosanitaire OR phytosanitaires)
+```
+`#2` (OpenAlex, 2026-10-12):
+```text
+(((tax OR taxes OR taxation OR levy OR levies OR subsidy OR subsidies OR "economic instrument" OR "market-based" OR "policy instrument" OR "instrument choice" OR "command and control" OR quota OR "tradable permit" OR Pigouvian OR "information instrument" OR "right-to-know" OR ecolabel OR "eco-label" OR "mandatory disclosure") OR ((ban OR bans OR banned OR banning OR prohibition OR "phase out" OR deregistration OR withdrawal OR cancellation) AND (economic OR economics OR welfare OR "cost-benefit" OR "benefit-cost" OR profit OR "yield loss" OR "farm income" OR "ex post" OR "difference-in-differences" OR "natural experiment")) OR (("pesticide policy" OR "pesticide regulation" OR "pesticide regulatory" OR "pesticide legislation" OR "regulating pesticide" OR "regulation of pesticide" OR "pesticide reduction" OR "pesticide risk reduction" OR "plant protection policy" OR "pesticide use reduction") AND (economic OR economics OR welfare OR cost OR costs OR "trade-off" OR profit OR "farm income" OR externality)) OR (health AND ("health cost" OR "cost of illness" OR "health damage" OR "health impairment" OR "external cost" OR "social cost" OR externality OR "damage control" OR "welfare loss" OR "production risk" OR ambiguity) AND (farmer OR farmers OR economic OR economics))) OR (incentive OR incentives OR "policy options" OR "policy mix") OR ((restrict OR restriction OR restrictions OR "restricted use") AND (tradeoff OR tradeoffs OR "trade-off" OR "social gains" OR "social benefits" OR welfare OR productivity OR profit OR "net returns")) OR (Pigovian OR "tradeable permit" OR "pollution charge" OR redevance))
+```
+`#3` (OpenAlex, 2026-10-12):
+```text
+(regulation OR regulations OR regulatory OR restriction OR restrictions OR "restricted material" OR "restricted use") AND ("economic impact" OR "economic effect" OR "economic evaluation" OR "economic analysis" OR "projected cost" OR "cost of" OR "net returns" OR "producer surplus" OR "consumer surplus" OR welfare)
+```
+`#4` (OpenAlex, 2026-10-12):
+```text
+("price elasticity" OR "demand elasticity" OR "elasticity of demand" OR "own-price" OR elasticities OR "price response" OR "price responsiveness" OR "demand for pesticides" OR "pesticide demand" OR "marginal abatement cost" OR "abatement cost")
+```
+`#5` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR chlorpyrifos OR atrazine OR "methyl bromide" OR organophosphate OR endosulfan OR DDT OR fumigant OR agrotoxico OR agrotoxicos OR agrotóxico OR agrotóxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR "defensivos agrícolas" OR "pest control" OR "pest management" OR "plant protection" OR agrichemical OR agrichemicals OR "agri-chemical" OR "agro-chemical" OR biocide OR nematicide OR acaricide OR mancozeb OR procymidone OR chlorothalonil OR carbofuran OR carbaryl OR dicamba OR aldicarb OR chlordecone OR parathion OR lindane OR fipronil OR imidacloprid OR clothianidin OR thiamethoxam OR "chemical input" OR "chemical inputs" OR phytosanitaire OR phytosanitaires),title_and_abstract.search:((((tax OR taxes OR taxation OR levy OR levies OR subsidy OR subsidies OR "economic instrument" OR "market-based" OR "policy instrument" OR "instrument choice" OR "command and control" OR quota OR "tradable permit" OR Pigouvian OR "information instrument" OR "right-to-know" OR ecolabel OR "eco-label" OR "mandatory disclosure") OR ((ban OR bans OR banned OR banning OR prohibition OR "phase out" OR deregistration OR withdrawal OR cancellation) AND (economic OR economics OR welfare OR "cost-benefit" OR "benefit-cost" OR profit OR "yield loss" OR "farm income" OR "ex post" OR "difference-in-differences" OR "natural experiment")) OR (("pesticide policy" OR "pesticide regulation" OR "pesticide regulatory" OR "pesticide legislation" OR "regulating pesticide" OR "regulation of pesticide" OR "pesticide reduction" OR "pesticide risk reduction" OR "plant protection policy" OR "pesticide use reduction") AND (economic OR economics OR welfare OR cost OR costs OR "trade-off" OR profit OR "farm income" OR externality)) OR (health AND ("health cost" OR "cost of illness" OR "health damage" OR "health impairment" OR "external cost" OR "social cost" OR externality OR "damage control" OR "welfare loss" OR "production risk" OR ambiguity) AND (farmer OR farmers OR economic OR economics))) OR (incentive OR incentives OR "policy options" OR "policy mix") OR ((restrict OR restriction OR restrictions OR "restricted use") AND (tradeoff OR tradeoffs OR "trade-off" OR "social gains" OR "social benefits" OR welfare OR productivity OR profit OR "net returns")) OR (Pigovian OR "tradeable permit" OR "pollution charge" OR redevance)) OR ((regulation OR regulations OR regulatory OR restriction OR restrictions OR "restricted material" OR "restricted use") AND ("economic impact" OR "economic effect" OR "economic evaluation" OR "economic analysis" OR "projected cost" OR "cost of" OR "net returns" OR "producer surplus" OR "consumer surplus" OR welfare)) OR ("price elasticity" OR "demand elasticity" OR "elasticity of demand" OR "own-price" OR elasticities OR "price response" OR "price responsiveness" OR "demand for pesticides" OR "pesticide demand" OR "marginal abatement cost" OR "abatement cost"))
+```
+`#5a` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR chlorpyrifos OR atrazine OR "methyl bromide" OR organophosphate OR endosulfan OR DDT OR fumigant OR agrotoxico OR agrotoxicos OR agrotóxico OR agrotóxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR "defensivos agrícolas" OR "pest control" OR "pest management" OR "plant protection" OR agrichemical OR agrichemicals OR "agri-chemical" OR "agro-chemical" OR biocide OR nematicide OR acaricide OR mancozeb OR procymidone OR chlorothalonil OR carbofuran OR carbaryl OR dicamba OR aldicarb OR chlordecone OR parathion OR lindane OR fipronil OR imidacloprid OR clothianidin OR thiamethoxam OR "chemical input" OR "chemical inputs" OR phytosanitaire OR phytosanitaires),title_and_abstract.search:((tax OR taxes OR taxation OR levy OR levies OR subsidy OR subsidies OR "economic instrument" OR "market-based" OR "policy instrument" OR "instrument choice" OR "command and control" OR quota OR "tradable permit" OR Pigouvian OR "information instrument" OR "right-to-know" OR ecolabel OR "eco-label" OR "mandatory disclosure") OR ((ban OR bans OR banned OR banning OR prohibition OR "phase out" OR deregistration OR withdrawal OR cancellation) AND (economic OR economics OR welfare OR "cost-benefit" OR "benefit-cost" OR profit OR "yield loss" OR "farm income" OR "ex post" OR "difference-in-differences" OR "natural experiment")) OR (("pesticide policy" OR "pesticide regulation" OR "pesticide regulatory" OR "pesticide legislation" OR "regulating pesticide" OR "regulation of pesticide" OR "pesticide reduction" OR "pesticide risk reduction" OR "plant protection policy" OR "pesticide use reduction") AND (economic OR economics OR welfare OR cost OR costs OR "trade-off" OR profit OR "farm income" OR externality)) OR (health AND ("health cost" OR "cost of illness" OR "health damage" OR "health impairment" OR "external cost" OR "social cost" OR externality OR "damage control" OR "welfare loss" OR "production risk" OR ambiguity) AND (farmer OR farmers OR economic OR economics)))
+```
+`#5b` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR chlorpyrifos OR atrazine OR "methyl bromide" OR organophosphate OR endosulfan OR DDT OR fumigant OR agrotoxico OR agrotoxicos OR agrotóxico OR agrotóxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR "defensivos agrícolas" OR "pest control" OR "pest management" OR "plant protection" OR agrichemical OR agrichemicals OR "agri-chemical" OR "agro-chemical" OR biocide OR nematicide OR acaricide OR mancozeb OR procymidone OR chlorothalonil OR carbofuran OR carbaryl OR dicamba OR aldicarb OR chlordecone OR parathion OR lindane OR fipronil OR imidacloprid OR clothianidin OR thiamethoxam OR "chemical input" OR "chemical inputs" OR phytosanitaire OR phytosanitaires),title_and_abstract.search:((((regulation OR regulations OR regulatory OR restriction OR restrictions OR "restricted material" OR "restricted use") AND ("economic impact" OR "economic effect" OR "economic evaluation" OR "economic analysis" OR "projected cost" OR "cost of" OR "net returns" OR "producer surplus" OR "consumer surplus" OR welfare)) OR ("price elasticity" OR "demand elasticity" OR "elasticity of demand" OR "own-price" OR elasticities OR "price response" OR "price responsiveness" OR "demand for pesticides" OR "pesticide demand" OR "marginal abatement cost" OR "abatement cost") OR (Pigovian OR "tradeable permit" OR "pollution charge" OR redevance)) NOT ((tax OR taxes OR taxation OR levy OR levies OR subsidy OR subsidies OR "economic instrument" OR "market-based" OR "policy instrument" OR "instrument choice" OR "command and control" OR quota OR "tradable permit" OR Pigouvian OR "information instrument" OR "right-to-know" OR ecolabel OR "eco-label" OR "mandatory disclosure") OR ((ban OR bans OR banned OR banning OR prohibition OR "phase out" OR deregistration OR withdrawal OR cancellation) AND (economic OR economics OR welfare OR "cost-benefit" OR "benefit-cost" OR profit OR "yield loss" OR "farm income" OR "ex post" OR "difference-in-differences" OR "natural experiment")) OR (("pesticide policy" OR "pesticide regulation" OR "pesticide regulatory" OR "pesticide legislation" OR "regulating pesticide" OR "regulation of pesticide" OR "pesticide reduction" OR "pesticide risk reduction" OR "plant protection policy" OR "pesticide use reduction") AND (economic OR economics OR welfare OR cost OR costs OR "trade-off" OR profit OR "farm income" OR externality)) OR (health AND ("health cost" OR "cost of illness" OR "health damage" OR "health impairment" OR "external cost" OR "social cost" OR externality OR "damage control" OR "welfare loss" OR "production risk" OR ambiguity) AND (farmer OR farmers OR economic OR economics))))
+```
+`#5c` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR chlorpyrifos OR atrazine OR "methyl bromide" OR organophosphate OR endosulfan OR DDT OR fumigant OR agrotoxico OR agrotoxicos OR agrotóxico OR agrotóxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR "defensivos agrícolas" OR "pest control" OR "pest management" OR "plant protection" OR agrichemical OR agrichemicals OR "agri-chemical" OR "agro-chemical" OR biocide OR nematicide OR acaricide OR mancozeb OR procymidone OR chlorothalonil OR carbofuran OR carbaryl OR dicamba OR aldicarb OR chlordecone OR parathion OR lindane OR fipronil OR imidacloprid OR clothianidin OR thiamethoxam OR "chemical input" OR "chemical inputs" OR phytosanitaire OR phytosanitaires),title_and_abstract.search:(((incentive OR incentives OR "policy options" OR "policy mix") OR ((restrict OR restriction OR restrictions OR "restricted use") AND (tradeoff OR tradeoffs OR "trade-off" OR "social gains" OR "social benefits" OR welfare OR productivity OR profit OR "net returns"))) NOT (((tax OR taxes OR taxation OR levy OR levies OR subsidy OR subsidies OR "economic instrument" OR "market-based" OR "policy instrument" OR "instrument choice" OR "command and control" OR quota OR "tradable permit" OR Pigouvian OR "information instrument" OR "right-to-know" OR ecolabel OR "eco-label" OR "mandatory disclosure") OR ((ban OR bans OR banned OR banning OR prohibition OR "phase out" OR deregistration OR withdrawal OR cancellation) AND (economic OR economics OR welfare OR "cost-benefit" OR "benefit-cost" OR profit OR "yield loss" OR "farm income" OR "ex post" OR "difference-in-differences" OR "natural experiment")) OR (("pesticide policy" OR "pesticide regulation" OR "pesticide regulatory" OR "pesticide legislation" OR "regulating pesticide" OR "regulation of pesticide" OR "pesticide reduction" OR "pesticide risk reduction" OR "plant protection policy" OR "pesticide use reduction") AND (economic OR economics OR welfare OR cost OR costs OR "trade-off" OR profit OR "farm income" OR externality)) OR (health AND ("health cost" OR "cost of illness" OR "health damage" OR "health impairment" OR "external cost" OR "social cost" OR externality OR "damage control" OR "welfare loss" OR "production risk" OR ambiguity) AND (farmer OR farmers OR economic OR economics))) OR ((regulation OR regulations OR regulatory OR restriction OR restrictions OR "restricted material" OR "restricted use") AND ("economic impact" OR "economic effect" OR "economic evaluation" OR "economic analysis" OR "projected cost" OR "cost of" OR "net returns" OR "producer surplus" OR "consumer surplus" OR welfare)) OR ("price elasticity" OR "demand elasticity" OR "elasticity of demand" OR "own-price" OR elasticities OR "price response" OR "price responsiveness" OR "demand for pesticides" OR "pesticide demand" OR "marginal abatement cost" OR "abatement cost") OR (Pigovian OR "tradeable permit" OR "pollution charge" OR redevance)))
+```
+`#6` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR chlorpyrifos OR atrazine OR "methyl bromide" OR organophosphate OR endosulfan OR DDT OR fumigant OR agrotoxico OR agrotoxicos OR agrotóxico OR agrotóxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR "defensivos agrícolas" OR "pest control" OR "pest management" OR "plant protection" OR agrichemical OR agrichemicals OR "agri-chemical" OR "agro-chemical" OR biocide OR nematicide OR acaricide OR mancozeb OR procymidone OR chlorothalonil OR carbofuran OR carbaryl OR dicamba OR aldicarb OR chlordecone OR parathion OR lindane OR fipronil OR imidacloprid OR clothianidin OR thiamethoxam OR "chemical input" OR "chemical inputs" OR phytosanitaire OR phytosanitaires),title.search:("social cost" OR "social costs" OR "external cost" OR "external costs" OR externality OR externalities OR "hidden cost" OR "health cost" OR "health costs" OR "economic cost" OR "damage cost" OR "true cost" OR "cost of illness")
+```
+`#7` (OpenAlex, 2026-10-12):
+```text
+filter=title_and_abstract.search:((((pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR agrotoxico OR plaguicida OR fumigant OR fumigants OR fumigation OR "methyl bromide" OR dichloropropene OR chloropicrin) AND ("buffer zone" OR "setback distance" OR "no-spray zone" OR "no-spray buffer" OR "spray-free" OR "pesticide-free zone" OR "pesticide-free buffer" OR "spray buffer") AND (economic OR economics OR "cost-benefit" OR "benefit-cost" OR welfare OR "opportunity cost" OR compensation OR "willingness to" OR regulation OR regulatory OR policy OR school OR schools OR residential)) OR ((pesticide OR paraquat OR "highly hazardous" OR organophosphate OR endosulfan OR insecticide OR herbicide) AND (ban OR bans OR banned OR banning OR regulation OR regulations OR restriction OR restrictions OR withdrawal OR prohibition OR "phase out") AND (suicide OR suicides OR "self-poisoning" OR "case fatality")) OR (("prices versus quantities" OR "prices vs quantities" OR "price versus quantity" OR "prices or quantities" OR "taxes versus standards" OR "taxes versus quotas" OR "taxes vs quotas" OR "instrument choice" OR "choice of instrument" OR "choice of instruments" OR Weitzman) AND (pesticide OR agrochemical OR herbicide OR nonpoint OR "non-point" OR fertilizer OR nitrogen OR "agri-environmental" OR "agricultural pollution" OR runoff OR "water quality" OR "diffuse pollution"))) OR (("aerial spraying" OR "aerial fumigation" OR "aerial eradication" OR "aerial spray" OR "aerial application" OR "aerial herbicide" OR "aerially sprayed" OR "aerially applied" OR "crop dusting" OR "pulverização aérea" OR "fumigación aérea" OR "aspersión aérea") AND (ban OR banned OR banning OR suspension OR suspended OR prohibition OR prohibited OR "buffer zone" OR "natural experiment" OR "quasi-experiment" OR "quasi-experimental" OR "difference-in-differences" OR "regression discontinuity" OR "exogenous variation" OR welfare OR externality OR externalities OR "cost-benefit")) OR (("spray drift" OR "pesticide drift" OR "herbicide drift" OR "dicamba drift" OR "drift damage" OR "drift injury" OR "drift complaints") AND (liability OR compensation OR economic OR economics OR welfare OR externality OR externalities OR "cost-benefit" OR lawsuit OR litigation OR "damage claims")))
+```
+`#7a` (OpenAlex, 2026-10-12):
+```text
+filter=title_and_abstract.search:(((pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection product" OR "crop protection" OR glyphosate OR paraquat OR neonicotinoid OR agrotoxico OR plaguicida OR fumigant OR fumigants OR fumigation OR "methyl bromide" OR dichloropropene OR chloropicrin) AND ("buffer zone" OR "setback distance" OR "no-spray zone" OR "no-spray buffer" OR "spray-free" OR "pesticide-free zone" OR "pesticide-free buffer" OR "spray buffer") AND (economic OR economics OR "cost-benefit" OR "benefit-cost" OR welfare OR "opportunity cost" OR compensation OR "willingness to" OR regulation OR regulatory OR policy OR school OR schools OR residential)) OR ((pesticide OR paraquat OR "highly hazardous" OR organophosphate OR endosulfan OR insecticide OR herbicide) AND (ban OR bans OR banned OR banning OR regulation OR regulations OR restriction OR restrictions OR withdrawal OR prohibition OR "phase out") AND (suicide OR suicides OR "self-poisoning" OR "case fatality")) OR (("prices versus quantities" OR "prices vs quantities" OR "price versus quantity" OR "prices or quantities" OR "taxes versus standards" OR "taxes versus quotas" OR "taxes vs quotas" OR "instrument choice" OR "choice of instrument" OR "choice of instruments" OR Weitzman) AND (pesticide OR agrochemical OR herbicide OR nonpoint OR "non-point" OR fertilizer OR nitrogen OR "agri-environmental" OR "agricultural pollution" OR runoff OR "water quality" OR "diffuse pollution")))
+```
+`#7b` (OpenAlex, 2026-10-12):
+```text
 filter=title_and_abstract.search:(("aerial spraying" OR "aerial fumigation" OR "aerial eradication" OR "aerial spray" OR "aerial application" OR "aerial herbicide" OR "aerially sprayed" OR "aerially applied" OR "crop dusting" OR "pulverização aérea" OR "fumigación aérea" OR "aspersión aérea") AND (ban OR banned OR banning OR suspension OR suspended OR prohibition OR prohibited OR "buffer zone" OR "natural experiment" OR "quasi-experiment" OR "quasi-experimental" OR "difference-in-differences" OR "regression discontinuity" OR "exogenous variation" OR welfare OR externality OR externalities OR "cost-benefit"))
-
-S5 (108): unchanged.
-filter=cites:W1525260320,title_and_abstract.search:(<agricultural block>)
-
-S6 (core, about 740): change the title block to (P++ OR NEW). Do not cut this arm.
-
-S7 (189): change the first title block to (P++ OR NEW).
-
-S8 (391): unchanged.
-
-S9 (165; about 153 not in S1):
+```
+`#7c` (OpenAlex, 2026-10-12):
+```text
 filter=title_and_abstract.search:(("spray drift" OR "pesticide drift" OR "herbicide drift" OR "dicamba drift" OR "drift damage" OR "drift injury" OR "drift complaints") AND (liability OR compensation OR economic OR economics OR welfare OR externality OR externalities OR "cost-benefit" OR lawsuit OR litigation OR "damage claims"))
-
-S10 (about 170 beyond S1, measured with P++ title and bare 'elasticity'):
-filter=title.search:(P++ OR NEW),title_and_abstract.search:("price elasticity" OR "demand elasticity" OR "elasticity of demand" OR "own-price" OR elasticities OR "price response" OR "price responsiveness" OR "demand for pesticides" OR "pesticide demand" OR "marginal abatement cost" OR "abatement cost")
-
-Also:
-- Hand-add Weitzman 1974 (W1525260320).
-- Untested small additions: S1-I += Pigovian OR "tradeable permit" OR fee OR fees OR excise OR "pollution charge" OR redevance; title block += phytosanitaire OR phytosanitaires.
-- Estimated volume: about 5,000–5,500 gross before deduplication; add type:!paratext and drop retracted records.
-- Validate on a fresh set V4 before freezing, because V3 recall (18/18) is in-sample.
+```
+`#8` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:(nonpoint OR "non-point" OR "diffuse pollution" OR "diffuse source" OR "agricultural pollution" OR "agricultural runoff" OR "agricultural source"),title_and_abstract.search:(instrument OR instruments OR incentive OR incentives OR tax OR taxes OR taxation OR "second-best" OR "least-cost" OR externality OR externalities OR "water quality trading" OR "pollution trading" OR "permit trading" OR "trading ratio" OR "ambient-based" OR "moral hazard" OR "asymmetric information" OR welfare)
+```
+`#9` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:("aerial spraying" OR "aerial application" OR "aerial spray" OR "aerial fumigation" OR "aerial pesticide" OR "crop dusting" OR "aerially applied" OR "aerial applicator" OR "agricultural aviation" OR "aerial eradication" OR "aerial herbicide"),title_and_abstract.search:(ban OR bans OR banned OR prohibition OR prohibited OR regulation OR regulatory OR restriction OR policy OR economic OR economics OR "cost-benefit" OR welfare OR externality OR health)
+```
+`#10` (OpenAlex, 2026-10-12):
+```text
+filter=cites:W1525260320,title_and_abstract.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR "plant protection" OR agricultural OR agriculture OR farm OR nonpoint OR fertilizer)
+```
+`#11` (OpenAlex, 2026-10-12):
+```text
+filter=title.search:(agrotóxico OR agrotóxicos OR agrotoxico OR agrotoxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR "defensivos agrícolas" OR "pulverização aérea" OR "fumigación aérea" OR "aspersión aérea"),title_and_abstract.search:(imposto OR impostos OR tributação OR tributária OR isenção OR isenções OR "incentivos fiscais" OR impuesto OR impuestos OR proibição OR banimento OR prohibición OR regulação OR regulación OR externalidade OR externalidades OR "custo social" OR "costo social" OR "zona de amortecimento" OR "zonas de exclusão" OR econômico OR econômicos OR económico OR económicos)
+```
+`#12` (OpenAlex, 2026-10-12):
+```text
+filter=doi:10.2307/2296698
+```
+`#13` (OpenAlex, 2026-10-12):
+```text
+#5 OR #6 OR #7 OR #8 OR #9 OR #10 OR #11 OR #12 (union of the separately run lines above, deduplicated; exclude type:paratext and is_retracted:true)
+```
+`P1` (PubMed (E-utilities esearch), 2026-10-12):
+```text
+("Pesticides"[Mesh] OR "Herbicides"[Mesh] OR "Insecticides"[Mesh]) AND ("Government Regulation"[Mesh] OR "Legislation as Topic"[Mesh] OR "Taxes"[Mesh])
 ```
 
-- Recall na calibração: Primary: 9/9 indexed. Final union retrieves 8/9 (88.9%), and 9/9 with the hand-added anchor. S1 alone retrieves 7/9. Supplementary validation set S-1 (10 items found by OpenAlex title lookups during calibration, so NOT independent of the vocabulary): 10/10. It contains Gunnell 2007, the Danish tax ex post 2023, Norway 2020, the buffer-zone CBA 2009, Finger 2017, Böcker & Finger 2016 (x2), Möhring 2020, EST 2000 and the EU aerial ban 2018. Validation set V2 (12 items found outside the OpenAlex strings, via PubMed index, Scholar Gateway and web): 12/12 across the final union; S1 alone gets 7/12, and S2 (A4), S6, S7 and S8 add the other five.
-- Volume na calibração: OpenAlex counts as of 2026-10-11/12. Core set (S1 1,545 + S2 689 + S3 174 + S4 227 + S5 108 = 2,743 gross; S1∩S2 measured at 30; the other overlaps, among S3/S2-A8b/S5 and S4/S1, were not measured and should be small): about 2,600–2,700 unique. Extended arms add, after measured overlaps with S1: S6 about +570, S7 about +143, S8 +391 at most (overlap with S1 not measured). Total about 3,600–3,800 OpenAlex records. Removing duplicate versions (AgEcon conference vs journal, SSRN vs journal, duplicate DOIs such as Soares & Porto, two records each for 'Spatial heterogeneity and the choice of instruments' 1996/2001 and 'Regulation of nitrogen pollution: taxes versus quotas' 1995) should bring this to roughly 3,300–3,500. The ranked sources add mostly duplicates; grey literature adds about 20–40 agency reports. Trade-off: a title+abstract-only design returns 6,380 and keeps the same 8/9 seeds, but its tail precision is about 0/15. The title-restricted design gets the same recall at less than half the volume. If volume must be cut further, S6 (regulatory cost) is the first candidate to screen with AI prioritization only; it was nonetheless the only arm that found Mace et al.
+**O que entra na triagem:**
+
+- OpenAlex: #13 = deduplicated union of #5 (screened as #5a, #5b, #5c), #6, #7 (#7a + #7b + #7c), #8, #9, #10, #11 and #12, excluding paratext and retracted records.
+- PubMed: P1, deduplicated against the OpenAlex set by DOI or PMID and screened last.
+- Not a search line, but part of the frozen procedure under protocolo.md: backward and forward citation chasing (OpenAlex referenced_works / cites:) from every included record. Also hand-check the reference lists of 2–3 reviews (for example Sexton et al. 2007, Fernandez-Cornejo et al. 1998, Finger 2024) for pre-1990 classics. Two of the four independent-validation misses are reachable only this way.
+
+**Ordem de triagem:** Screen by tier, then by OpenAlex relevance (sort=relevance_score:desc within each line). A record found by several lines is screened at its first (highest-tier) occurrence.
+- Tier 1, about 3,770 gross: #5a (1,770), #7 (1,135), #8 (531), #9 (227), #10 (108), #12 (1).
+- Tier 2, about 1,540 gross: #5b (921), #6 (228), #11 (391).
+- Tier 3: #5c, the X-block increment (525; about 1/3 noise in its top-12), then PubMed P1 (578).
+This follows PRESS's order (core, buffer/HHP, nonpoint, regulatory cost, drift, aerial, Weitzman citers, social cost, elasticity, PT/ES, X increment last).
+
+Apply the protocol's stopping rule (200 consecutive exclusions after at least 30% screened) within each tier, not over the pooled set. Recommendation: screen Tier 1 in full before the rule can trigger, because the stopping rule assumes good relevance ranking and the lines are heterogeneous.
+
+Screener notes:
+(a) In pesticide economics, 'damage function' and 'damage control' usually mean pest-damage abatement (Lichtenberg-Zilberman), not external marginal damage. Classify which one a study models.
+(b) The HHP-ban and suicide records in #7a are mostly epidemiology. Include them only if they report effects on use, yield or output, or cost-effectiveness.
+(c) #7b and #9 overlap SQ1 (health effects of aerial spraying); flag them for SQ1 as well.
+(d) Fee-terms records in #5b are mostly French 'phytosanitaires' records.
+
+**Recall, desenvolvimento** (itens usados no ajuste; otimista por construção):
+
+> Development set (in-sample): 60 items, all indexed in OpenAlex. The doi: lookup of 69 DOIs (dev + V4) returned 70 records, because Soares & Porto 2012 has 2 records.
+> 
+> Composition:
+> - the 9 calibration seeds;
+> - the 33 relevant items named in the calibration file (this contains S-1 [10] and V2 [12]; V2's membership is not listed as a DOI list in the file, so the union of all calibration-named items was used);
+> - the PRESS set V3 (18). Its DOIs were resolved today by an OpenAlex title lookup; Pedersen 2020 resolved to 10.1080/1523908x.2020.1806047.
+> 
+> Result:
+> - Lines #5–#11 retrieve 59/60 topically (98.3%, exact 95% CI 91.1–100%).
+> - The only topical miss is Weitzman 1974, recovered by the hand-added #12, giving 60/60 (100%, CI 94.0–100%).
+> - V3 alone: 18/18. All 7 of the PRESS-calibration misses are now retrieved:
+>   - by #5: Feder & Regev 1975, Antle & Pingali 1994 (10.2307/1243654), Lefebvre et al. 2014;
+>   - by #8 (S3''): Griffin & Bromley 1982 (10.2307/1240648), Shortle & Dunn 1986 (10.2307/1241551), Shortle & Horan 2001 (10.1111/1467-6419.00140);
+>   - by #7 (S4b): Mejía, Restrepo & Rozo (10.1093/wber/lhv051).
+> 
+> Per-line hits (items found only by that line in brackets):
+> - #5: 43 [34]
+> - #7: 13 [5: buffer-zone CBA 2009, Gunnell 2007, Korea paraquat 2016, ESPR paraquat phase-out 2023, Mejía et al.]
+> - #8: 7 [4: Helfand & House and the three nonpoint classics]
+> - #10: 5 [0]
+> - #6: 2 [1: Sci Rep 2024 social-cost meta-analysis]
+> - #9: 2 [1: Camacho & Mejía 2017]
+> - #11: 2 [0]
+> 
+> Every line except #10 and #11 contributes a unique hit. These items shaped the strings, so this is development recall, not an estimate of sensitivity.
+
+**Recall, validação independente** (itens escolhidos antes do teste):
+
+> Independent validation set V4: 9 items. The selection rule was written down before any retrieval test (scratchpad file v4_declared.txt).
+> - Source: three Wiley Scholar Gateway semantic (non-Boolean) queries run on 2026-10-12:
+>   - Q1: policy instruments to reduce pesticide use and their effects on profits, demand and damage;
+>   - Q2: ex post economic evaluation of bans or restrictions of an active ingredient or application method (aerial, drift, buffers);
+>   - Q3: taxes vs standards vs quotas for agricultural nonpoint pollution under uncertainty.
+> - Rule: take, in rank order, the first 3 articles per query that meet the SQ3 eligibility criterion of protocolo.md on title+abstract, and that are not a seed, S-1, V2, V3, a calibration-listed item, or a PRESS sample title.
+> - Pre-test amendment: 10.1002/ps.5204 (Wesseler 2018) appears in the calibration's Scholar Gateway log. It was replaced, before testing, by the next eligible Q1 item.
+> - Indexing: all 9 are indexed in OpenAlex (doi: lookup returned 9/9).
+> 
+> Items:
+> 1. 10.1002/ps.5249, 'How low can you go? Estimating impacts of reduced pesticide use' (Pest Manag Sci 2018), Q1. NOT retrieved. The title passes #1, but the abstract frames reduced use as productivity/profitability econometrics: 'reduce pesticide applications', 'little or no economic cost'. It has no instrument, policy, regulation, elasticity or abatement-cost term, and #2's phrase 'pesticide use reduction' does not match 'reduced pesticide use'. Reachable by the mandated citation chasing: it is cited by the Danish tax ex post 2023 (a #5 hit), and it cites Antle & Pingali 1994, Sexton et al. 2007 and Fernandez-Cornejo et al. 1998.
+> 2. 10.1002/aepp.70116, government subsidies for reducing pesticide use, a meta-analysis (2026), Q1. Retrieved by #5.
+> 3. 10.1111/1467-8489.70079, input- vs result-oriented tax systems for pesticide resistance (2026), Q1 replacement. Retrieved by #5.
+> 4. 10.1002/ael2.20119, Duzy et al. 2023, agroeconomic costs of the EPA mitigation menu, Q2. Retrieved by #5 and #7.
+> 5. 10.1002/1520-6297(198723)3:3<307::AID-AGR2720030306>3.0.CO;2-1, Osteen & Kuchler 1987, pesticide regulatory decisions, Q2. Retrieved by #5.
+> 6. 10.2307/1242450, Foster & Babcock 1991, producer welfare of regulating chemical residues (maleic hydrazide and tobacco), Q2. NOT retrieved. Neither the title nor the abstract contains any pesticide-class word: only 'chemical' and 'maleic hydrazide'. So #1 and every pesticide block fail, although the paper compares a ban with a tax on welfare and sits squarely on topic. It has no OpenAlex citation link to any dev item (cites 0, cited_by 0 within the dev set), so it is not reachable by chasing from the dev set.
+> 7. 10.2307/1243867, Larson, Helfand & House 1996, second-best taxes for nonpoint pollution, Q3. Retrieved by #8.
+> 8. 10.1111/j.1477-9552.1994.tb00376.x, Archer & Shogren 1994, 'Nonpoint pollution, weeds and risk', Q3. NOT retrieved. The title passes #8, but the abstract uses only 'regulators', 'policies' and 'quantity constraint policy', none of which is an S3'' term. Reachable by chasing: it is cited by Fernandez-Cornejo et al. 1998 (a seed), and it cites Shortle & Dunn 1986.
+> 9. 10.1002/(SICI)1099-0976(199609)6:5<162::AID-EET84>3.0.CO;2-A, Schou 1996, 'Indirect regulation of externalities: the case of Danish agriculture', Q3. NOT retrieved. The title has neither pesticide nor nonpoint vocabulary; the abstract has pesticides, 'taxes or quotas', externalities and regulation. Only a title_and_abstract-only pesticide × instrument arm would find it. It has no citation link to the dev set.
+> 
+> Results:
+> - Search alone: 5/9 = 55.6% (exact 95% CI 21.2–86.3%).
+> - Search plus the protocol's citation chasing: 7/9 = 77.8% (CI 40.0–97.2%).
+> 
+> Two misses come from the strategy's main design choice, the pesticide concept in the TITLE. One comes from the S3'' vocabulary and one is a borderline productivity paper.
+> 
+> Caveats: V4 is small and Wiley-hosted only (AJAE, JAE, Pest Manag Sci, AEPP, Agribusiness, AJARE). Its eligibility was judged by a single reviewer, me.
+> 
+> No string was changed after V4. Candidate fixes are listed under changes_not_applied, so V4 stays an independent estimate.
+
+**Volume:** OpenAlex, counts from 2026-10-12.
+
+Gross sum of the lines: 5,837.
+- #5: 3,216
+- #6: 228
+- #7: 1,135
+- #8: 531
+- #9: 227
+- #10: 108
+- #11: 391
+- #12: 1
+
+Measured pairwise overlaps, total 188:
+- #5 with: #6 = 51, #7 = 62, #11 = 12, #9 = 6, #10 = 3, #8 = 2
+- #7 with: #9 = 28, #8 = 11, #10 = 5
+- #8 with #10: 8
+
+Estimate:
+- Unique OpenAlex records ≤ about 5,650. Unmeasured overlaps (#6 with #7–#11, #7–#11, #8–#9, #9–#10, #9–#11, #10–#11) should be small (<50).
+- Removing paratext and retracted records costs 3 in #5.
+- Collapsing duplicate versions (AgEcon or SSRN vs journal, double-DOI records) should remove another 3–5%.
+- Best estimate: about 5,350–5,650 unique OpenAlex records.
+- PubMed P1 adds at most 578 (its overlap with OpenAlex is unmeasured), for a total screening set of about 5,600–6,200.
+
+Comparison with earlier estimates: PRESS predicted about 5,000–5,500 gross. Volume is higher mainly because the regulatory-cost increment beyond S1' is 701, against PRESS's 570.
+
+Tier sizes (gross): Tier 1 about 3,770; Tier 2 about 1,540; Tier 3 about 1,100.
+
+**Mudanças da PRESS não aplicadas, e por quê:**
+
+- *PRESS S1-I additions 'fee OR fees' (and 'excise')* — Tested as a within-field NOT increment over S1': +439, with 0/15 relevant in the top-15. The hits were pesticide registration-fee news, 'fee-fishing ponds' and 'excised' plant tissue. Without fee and fees the increment is still +336, all from 'excised' tissue, because the OpenAlex stemmer maps 'excise' to 'excised'. All three terms were dropped; the other four fee terms were kept (+4).
+- *Portuguese aerial terms in S4b: "aviação agrícola" OR "aplicação aérea" OR "aplicações aéreas" OR "aeronaves agrícolas"* — The increment beyond S4b is 2 records, 0 relevant (an adjuvant-deposition study and a technology overview). The S8 title arm (#11) already carries "pulverização aérea".
+- *Standalone damage-function arm* — PRESS rejected it after testing (91 records, about 1/12 relevant: herbicide dose-response and toxicology). Screeners get the damage-control vs external-damage note instead.
+- *Broad buffer-zone vocabulary (bare setback, no-spray, buffer strip)* — PRESS tested it: 887 records, about 4/12 relevant, with noise from fungicide-profitability and drone papers. The phrase-limited S2 terms were kept.
+- *'off-target' in the drift arm* — PRESS advised against it as generic (genetics). Not used.
+- *Controlled vocabulary: EconLit JEL (Q5*, H23, K32) and CAB descriptors* — No EconLit or CAB access. Only the PubMed MeSH part was implemented (P1). OpenAlex topic and keyword filters were not tested, as PRESS asked to document.
+- *Add regulation/regulations/regulatory/regulator/regulators to S3'' (candidate fix for V4 miss Archer & Shogren 1994)* — Tested: +354 within-field increment, mostly generic nonpoint or agricultural-pollution regulation papers not applied to pesticides. It is also tuned post hoc on the independent set, and the miss is recovered by the mandated citation chasing (cited by Fernandez-Cornejo et al. 1998). Not applied.
+- *Title_and_abstract-only safety net (pesticide × instrument in the abstract) to cover title-restriction misses (V4: Foster & Babcock 1991, Schou 1996)* — Not built. It would be tuned on V4, which would destroy its independence. Foster & Babcock has no pesticide word anywhere, so only 'chemical' would catch it, and that is unusable. The calibration measured a title_and_abstract-only design at 6,380 records with about 0/15 tail precision. Left to the researcher: hand-search, or validate a narrow arm on a fresh V5.
+- *Phrase 'reduced pesticide use' / 'reduce pesticide applications' (V4 miss ps.5249)* — Post hoc, tuned on V4. The record is reachable by citation chasing (cited by the Danish tax ex post 2023; it cites Antle & Pingali, Sexton and Fernandez-Cornejo et al.).
+
+**Problemas e limites registrados:**
+
+- Access: the Parallel web_fetch extract endpoint returned HTTP 429 from about 01:13 to 02:03 UTC on 2026-10-12, probably because the parallel finalization agents share the quota. Firecrawl reported 'Insufficient credits'. WebFetch cannot resolve api.openalex.org, and direct curl is blocked (403). All counts were finally run live through Parallel; one URL per batch hit 429 twice and was re-run.
+- The V2 DOI list is not stored in sq3-instrumento.json, so the development set uses every relevant DOI named in the calibration file (seeds + 33 listed items, which contain S-1 and V2) plus the PRESS V3 18, for 60 items. V3 DOIs were resolved by an OpenAlex title lookup; 17 matched directly, and Pedersen 2020 was found by an author+title query.
+- Independent recall is the weak point: 5/9 by search alone (CI 21–86%), 7/9 with citation chasing. The title restriction (pesticide concept in the title) is the structural cause. This was flagged at calibration and is now measured: two of nine fresh relevant items name the chemical only as 'chemical residues' or 'maleic hydrazide', or mention pesticides only in the abstract. Recommendation: before screening, the researcher decides whether to accept this, given that citation chasing and hand-searching are mandatory, or to commission a narrow title_and_abstract safety-net arm validated on a fresh V5.
+- V4 came only from Wiley Scholar Gateway, so it is biased toward Wiley/OUP agricultural-economics journals. The 9 items were judged eligible by one reviewer (me) on title+abstract. The selection log is in the scratchpad file v4_declared.txt.
+- Count for #5b is derived by subtraction, not run. Pairwise overlaps among #6–#11 are only partly measured, so unique volume is a range.
+- PubMed P1: precision not sampled. It retrieved 6 of 19 PubMed-indexed known items and no known item missed by OpenAlex. It is kept for MeSH coverage per PRESS and screened last. The Lancet Global Health DOI with parentheses was mangled by PubMed's [doi] parser into the Publisher ID '10 1016 s2214 109x 20 30493 9'.
+- Not searched for SQ3: SciELO and LILACS (PT/ES rely on OpenAlex #11 only), EconLit, CAB, Scopus and WoS. The protocol's Scopus export covers SQ1 only, and no Scopus translation of SQ3 was made.
+- OpenAlex pitfalls confirmed today: 'excise' matches 'excised' under stemming. NOT inside a single title/title_and_abstract value works, and x_query shows the negation. One DOI lookup with '<', '>' and ';' works if they are percent-encoded. relevance_score sorting should be used within each line.
+- Counts are a snapshot from 2026-10-12. The calibrated arms reproduced exactly today (S3'' 531, S4 227, S5 108, S8 391; S1' equals the PRESS parts plus the phytosanitaire increment), which supports that the calibrated base counts were stable.
+- docs/revisao-sistematica/apendice-a-estrategias.md (SQ3 section) still shows the PRESS recommended_final_query with untested items and the note that the V4 round failed. It should be replaced by these numbered lines; I did not edit repository files. The exact strings are also in the scratchpad file /tmp/claude-0/-home-user-projeto-pesquisa/7eb0b49f-b23b-5db5-b71e-5e4f90cc4ac1/scratchpad/sq3/FROZEN_LINES.json.
 
 ---
 
@@ -728,10 +916,13 @@ acrescente `AND DOI(10.1086/725349)` e confira se retorna 1; repita com
 | SQ1 Scopus | — | ⬜ | exportação do pesquisador |
 | **SQ1, únicos estimados** | | **~5.000–5.500** | estimativa; o braço AL sobrepõe pouco ao internacional fora dos estudos em inglês |
 | SQ2 método | OpenAlex #13 | ≤ 4.265 (≈3.400–3.800 após versões) | finalização, 2026-10-12 |
-| SQ3 instrumento | OpenAlex S1′–S10 | ~5.000–5.500 | PRESS (soma de partes); finalização em curso |
+| SQ3 instrumento | OpenAlex #13 (+ PubMed P1, 578, triado por último) | ≤ ~5.650 únicos (5.837 brutos) | finalização, 2026-10-12 |
 
 ⚠️ **Recall em validação independente (finalização):**
 - **SQ1 internacional: 5/7 (71%; IC 95% de Wilson 0,36–0,92).** As duas perdas são estudos argentinos que reportam "parâmetros neonatais/antropométricos". Os registros não têm resumo no OpenAlex, e o resumo no PubMed não traz nenhuma frase do bloco de desfecho. Um remendo amplo traria 2.223 registros de ruído e não foi adotado. **Mitigação prevista no protocolo:** busca de citações a partir das revisões relevantes. As duas perdas estão na lista de referências da revisão de escopo da EHP 2024 (10.1289/JHP1043), e o braço América Latina emendado recupera uma delas.
 - **SQ1 América Latina: 7/10** na estratégia PRESS; a emenda pós-validação (#4) fecha as quatro perdas, mas essa emenda não foi validada de forma independente.
 - **SQ2:** a validação foi emulada fora do OpenAlex, em títulos e resumos do arXiv, depois que as ferramentas esgotaram. Não é teste de recuperação.
+- **SQ3: 5/9 só pela busca (IC exato 21–86%); 7/9 com a busca de citações do protocolo.** A causa estrutural é exigir o conceito "agrotóxico" no **título**, escolha que mantém o volume triável. O conjunto V4 veio só do Wiley e foi julgado por um único revisor (IA). Nenhuma string foi mudada depois do V4, para que ele siga como estimativa independente.
+
+**Total geral:** ~5.000–5.500 (SQ1) + ~3.400–3.800 (SQ2) + ~5.650 (SQ3) ≈ **14.000–15.000 registros únicos** antes da triagem.
 
