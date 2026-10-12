@@ -1,0 +1,287 @@
+{
+ "block": "SQ1-LATAM (sq1-america-latina): the Brazil and Latin America sub-strategy (studies in PT, ES and EN set in Latin America or the Caribbean; agricultural pesticide exposure, including aerial spraying, and birth outcomes), plus context arms (Chapada do Apodi, Baixo Jaguaribe, Ceará) and a legal/policy arm (Lei Zé Maria do Tomé, ADI 6137). Frozen on 2026-10-12. All counts below were taken that day from the live API or portal; none is estimated unless the text says so. OpenAlex syntax: https://api.openalex.org/works?filter=<filter>&per-page=1&select=id&mailto=<distinct tag>. Each search value must be URL-encoded. Commas separate filters and are ANDed. Nested AND/OR/NOT inside one title_and_abstract.search value works: the meta.x_query echo confirmed the nesting.",
+ "numbered_lines": [
+  {
+   "line": "OA #1",
+   "database": "OpenAlex",
+   "description": "Final exposure block E. This is PRESS E4 plus six organochlorine terms added after validation (DDE OR DDT OR organochlorine OR organochlorines OR organoclorados OR dichlorodiphenyldichloroethylene). #1-v0 is the same string without those six terms; it is the PRESS E4 used in the independent validation. Bare fungicidas/herbicidas/insecticidas/fitosanitarios are deliberately excluded. Used only as a component, so no standalone count was run.",
+   "query": "title_and_abstract.search:(agrotóxicos OR agrotóxico OR agrotoxicos OR agrotoxico OR plaguicidas OR pesticidas OR praguicidas OR pesticides OR herbicides OR fungicides OR insecticides OR glyphosate OR glifosato OR agroquímicos OR agroquimicos OR fumigaciones OR \"aerial spraying\" OR \"aerial fumigation\" OR \"aerial application\" OR \"crop dusting\" OR \"pulverização aérea\" OR \"fumigación aérea\" OR \"aspersión aérea\" OR \"aspersiones aéreas\" OR \"defensivos agrícolas\" OR fumigation OR fumigations OR fumigação OR fumigación OR \"aerial spray\" OR \"aerially sprayed\" OR agrochemicals OR agrochemical OR \"agricultural chemicals\" OR agroquímico OR agroquimico OR mancozeb OR chlorpyrifos OR clorpirifós OR organophosphate OR organophosphates OR organofosforados OR paraquat OR atrazine OR procymidone OR procimidona OR chlordecone OR \"pesticide drift\" OR \"spray drift\" OR \"pulverizações aéreas\" OR \"aplicação aérea\" OR \"aviação agrícola\" OR DDE OR DDT OR organochlorine OR organochlorines OR organoclorados OR dichlorodiphenyldichloroethylene)",
+   "count": null,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #2",
+   "database": "OpenAlex",
+   "description": "Final outcome block O. This is PRESS O4 (the targeted additions only) plus nine terms added after validation (\"congenital abnormalities\" through \"birth size\"). #2-v0 is the same string without those nine terms; it is the PRESS O4. Used only as a component.",
+   "query": "title_and_abstract.search:(\"birth weight\" OR \"low birth weight\" OR preterm OR prematurity OR \"gestational age\" OR \"congenital anomalies\" OR \"congenital malformations\" OR \"birth defects\" OR hypospadias OR cryptorchidism OR stillbirth OR \"fetal death\" OR miscarriage OR \"spontaneous abortion\" OR \"infant mortality\" OR \"neonatal mortality\" OR \"birth outcomes\" OR \"pregnancy outcomes\" OR perinatal OR newborns OR \"peso ao nascer\" OR \"baixo peso\" OR prematuridade OR \"malformações congênitas\" OR \"anomalias congênitas\" OR \"defeitos congênitos\" OR \"óbito fetal\" OR \"aborto espontâneo\" OR \"mortalidade infantil\" OR \"mortalidade neonatal\" OR \"recém-nascidos\" OR \"nascidos vivos\" OR \"desfechos gestacionais\" OR \"peso al nacer\" OR \"bajo peso\" OR prematurez OR \"malformaciones congénitas\" OR \"anomalías congénitas\" OR \"aborto espontáneo\" OR \"mortalidad infantil\" OR \"mortalidad neonatal\" OR \"recién nacidos\" OR birthweight OR \"infant health\" OR \"newborn health\" OR \"neonatal outcomes\" OR \"fetal growth\" OR \"gestational length\" OR \"small for gestational age\" OR \"saúde infantil\" OR \"salud infantil\" OR \"fetal mortality\" OR \"mortalidade fetal\" OR \"mortalidad fetal\" OR \"muerte fetal\" OR natimortos OR mortinatos OR \"óbitos fetais\" OR prematuridad OR \"parto prematuro\" OR \"parto pretérmino\" OR \"pré-termo\" OR \"defectos congénitos\" OR \"neural tube defects\" OR \"obstetric outcomes\" OR \"desfechos obstétricos\" OR \"abortos espontâneos\" OR \"abortamentos espontâneos\" OR \"sex ratio at birth\" OR \"congenital abnormalities\" OR \"orofacial clefts\" OR \"cleft lip\" OR \"cleft palate\" OR neonates OR neonate OR \"birth length\" OR \"head circumference\" OR \"birth size\")",
+   "count": null,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #3",
+   "database": "OpenAlex",
+   "description": "Final geography block G. This is PRESS G4 (Brazilian states, demonyms, SINASC/DATASUS, the Caribbean including the French Antilles, Puerto Rico) plus 18 terms added after validation, from Ceara onward: unaccented state names, RN/PI/MA/TO/ES, América del Sur/do Sul, Sudamérica, Latinoamérica, Sul do Brasil/Sur de Brasil. #3-v0 is the same string without those 18 terms; it is the PRESS G4. Used only as a component.",
+   "query": "title_and_abstract.search:(Brazil OR Brasil OR Brazilian OR \"Latin America\" OR \"América Latina\" OR Ecuador OR Colombia OR Argentina OR Mexico OR México OR Paraguay OR Peru OR Perú OR Chile OR \"Costa Rica\" OR Nicaragua OR Guatemala OR Honduras OR Uruguay OR Bolivia OR Venezuela OR Panama OR Panamá OR \"El Salvador\" OR Cuba OR \"Dominican Republic\" OR \"Latin American\" OR \"South America\" OR \"Central America\" OR Caribbean OR Caribe OR Guadeloupe OR Martinique OR Antilles OR \"French West Indies\" OR \"Puerto Rico\" OR Haiti OR Jamaica OR Guyana OR Suriname OR Belize OR Ecuadorian OR Colombian OR Argentine OR Argentinian OR \"Costa Rican\" OR Chilean OR Peruvian OR Paraguayan OR Uruguayan OR Bolivian OR Venezuelan OR Nicaraguan OR Guatemalan OR brasileiros OR brasileira OR brasileiro OR brasileiras OR brasileños OR SINASC OR DATASUS OR \"Mato Grosso\" OR Paraná OR \"Rio Grande do Sul\" OR Ceará OR \"Santa Catarina\" OR Goiás OR Bahia OR Pernambuco OR \"Minas Gerais\" OR \"São Paulo\" OR Nordeste OR \"Northeast Brazil\" OR Ceara OR Parana OR Goias OR \"Sao Paulo\" OR \"Rio Grande do Norte\" OR Piauí OR Piaui OR Maranhão OR Maranhao OR Tocantins OR \"Espírito Santo\" OR \"América del Sur\" OR \"América do Sul\" OR Sudamérica OR Latinoamérica OR Latinoamerica OR \"Sul do Brasil\" OR \"Sur de Brasil\")",
+   "count": null,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #4-v0",
+   "database": "OpenAlex",
+   "description": "PRESS single effect branch: #1-v0 AND #2-v0 AND #3-v0 (OA-1 and OA-2 collapsed; no language filter). This is the version measured by the independent validation. Today's count matches PRESS T19 exactly (604). For screening it is superseded by #4, which contains it.",
+   "query": "filter=title_and_abstract.search:(#1-v0),title_and_abstract.search:(#2-v0),title_and_abstract.search:(#3-v0)   [#n-v0 = the #n string with its post-validation tail removed, as described in #1–#3]",
+   "count": 604,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #4",
+   "database": "OpenAlex",
+   "description": "Final effect line: #1 AND #2 AND #3. It adds 193 records to #4-v0. Measured deltas, each run with the other two blocks fixed at v0: G additions NOT G4 = +1; O additions NOT O4 = +122; E additions NOT E4 = +62. A direct DOI test confirmed it retrieves 4/4 of the independent-validation misses. Those four are therefore development items for this line.",
+   "query": "filter=title_and_abstract.search:(#1),title_and_abstract.search:(#2),title_and_abstract.search:(#3)",
+   "count": 797,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #5",
+   "database": "OpenAlex",
+   "description": "Supplementary safety net (language), demoted from primary branch: #1-v0 AND #2-v0 AND language:pt|es. The part not in #4-v0 (#1-v0 AND (#2-v0 NOT #3-v0) AND language:pt|es) is 149 records. It is kept because it recovers PT/ES records whose abstracts carry no Latin American place term (independent item I7 is one). Expect Spain and Portugal noise.",
+   "query": "filter=title_and_abstract.search:(#1-v0),title_and_abstract.search:(#2-v0),language:pt|es",
+   "count": 292,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #6",
+   "database": "OpenAlex",
+   "description": "Aerial-spraying arm, any health outcome: calibration OA-3 first block plus the PRESS additions (\"pulverizações aéreas\", aeroagrícola, \"aerial spraying ban\") and the unaccented aeroagricola, AND the health/exposure block AND #3. With #3-v0 the count was 169; calibration OA-3 was 146.",
+   "query": "filter=title_and_abstract.search:(\"aerial spraying\" OR \"aerial fumigation\" OR \"aerial application\" OR \"aerial spray\" OR \"aerially sprayed\" OR \"crop dusting\" OR \"pulverização aérea\" OR \"aplicação aérea\" OR \"fumigación aérea\" OR \"fumigaciones aéreas\" OR \"aspersión aérea\" OR \"aspersiones aéreas\" OR \"aviação agrícola\" OR \"pulverizações aéreas\" OR aeroagrícola OR aeroagricola OR \"aerial spraying ban\"),title_and_abstract.search:(health OR saúde OR salud OR exposure OR exposição OR exposición OR intoxication OR intoxicação OR intoxicación OR poisoning),title_and_abstract.search:(#3)",
+   "count": 170,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #7a",
+   "database": "OpenAlex",
+   "description": "Context arm A, flagged 'context': the calibration OA-4 place phrases plus \"Chapada de Apodi\" and the unaccented variants (Quixere, \"Ze Maria do Tome\", \"Dossie ABRASCO\"), AND the original OA-4 co-term block. It contains OA-4 (311 in calibration).",
+   "query": "filter=title_and_abstract.search:(\"Chapada do Apodi\" OR \"Limoeiro do Norte\" OR \"Baixo Jaguaribe\" OR Quixeré OR \"Zé Maria do Tomé\" OR \"Dossiê ABRASCO\" OR \"Jaguaribe-Apodi\" OR \"Jaguaribe Apodi\" OR \"Chapada de Apodi\" OR Quixere OR \"Ze Maria do Tome\" OR \"Dossie ABRASCO\"),title_and_abstract.search:(saúde OR health OR salud OR agrotóxicos OR agrotóxico OR agrotoxicos OR pesticides OR plaguicidas OR pesticidas OR agronegócio OR agribusiness OR fruticultura OR \"pulverização aérea\" OR adoecimento OR câncer OR cancer)",
+   "count": 316,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #7b",
+   "database": "OpenAlex",
+   "description": "Context arm B, flagged 'context': the new place names from PRESS CTX3 AND a pesticide/agribusiness co-term only, with no generic health term. PRESS T6 showed that generic health co-terms bring in Limoeiro-PE and Staraya Russa noise. This arm retrieves Rigotto 2013, which OA-4 missed.",
+   "query": "filter=title_and_abstract.search:(Apodi OR \"Lower Jaguaribe\" OR \"Jaguaribe Valley\" OR \"Vale do Jaguaribe\" OR \"Tabuleiro de Russas\" OR Russas OR Jaguaruana),title_and_abstract.search:(agrotóxicos OR agrotóxico OR agrotoxicos OR agrotoxico OR pesticides OR pesticidas OR plaguicidas OR agrochemicals OR agribusiness OR agronegócio OR agronegocio OR fruticultura OR \"fruit farming\" OR \"fruit growing\" OR \"pulverização aérea\" OR \"perímetro irrigado\" OR \"perímetros irrigados\" OR \"irrigated perimeter\")",
+   "count": 236,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #8",
+   "database": "OpenAlex",
+   "description": "Ceará arm, flagged 'context': state-level pesticide and aerial-spraying literature.",
+   "query": "filter=title_and_abstract.search:(Ceará OR Ceara),title_and_abstract.search:(agrotóxicos OR agrotóxico OR agrotoxicos OR agrotoxico OR pesticides OR plaguicidas OR pesticidas OR \"pulverização aérea\" OR \"aerial spraying\" OR agrochemicals OR glyphosate OR glifosato OR fungicides)",
+   "count": 277,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #9",
+   "database": "OpenAlex",
+   "description": "Legal/policy arm, flagged 'context / Essay 2', with the bare token \"16.820\" dropped. The PRESS-tested version with \"16.820\" gave 63, so that token accounted for about 30 unrelated records.",
+   "query": "filter=title_and_abstract.search:(\"ADI 6137\" OR \"Zé Maria do Tomé\" OR \"Ze Maria do Tome\" OR \"proibição da pulverização aérea\" OR \"vedação da pulverização aérea\" OR \"aerial spraying ban\" OR \"ban on aerial spraying\" OR \"prohibition of aerial spraying\" OR \"aerial spraying prohibition\" OR \"prohibición de la fumigación aérea\" OR \"prohibición de las fumigaciones aéreas\")",
+   "count": 33,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #7-9 union",
+   "database": "OpenAlex",
+   "description": "#7a OR #7b OR #8 OR #9, run as one nested search value. The raw sum is 862, so about 205 records overlap. A direct DOI test retrieves 8/8 development context items.",
+   "query": "filter=title_and_abstract.search:(((#7a block1) AND (#7a block2)) OR ((#7b block1) AND (#7b block2)) OR ((Ceará OR Ceara) AND (#8 block2)) OR (#9 block))",
+   "count": 657,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #10",
+   "database": "OpenAlex",
+   "description": "Union of every OpenAlex line except #5, run as one nested search value (URL about 9,000 characters, accepted): #4 OR #6 OR #7a OR #7b OR #8 OR #9. The geography block is factored out, so #3 is shared by #4 and #6.",
+   "query": "filter=title_and_abstract.search:(((#3) AND (((#1) AND (#2)) OR ((#6 aerial block) AND (#6 health block)))) OR (((#7a block1) AND (#7a block2)) OR ((#7b block1) AND (#7b block2)) OR ((Ceará OR Ceara) AND (#8 block2)) OR (#9 block)))",
+   "count": 1591,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "OA #11",
+   "database": "OpenAlex",
+   "description": "Final OpenAlex screening set: #10 OR #5. It cannot be counted in one call because a language filter cannot be ORed with a search filter. Bounds: 1,591 to 1,740 (#10 plus at most the 149 #5 records outside #3-v0). Deduplicate by OpenAlex ID after export.",
+   "query": "#10 OR #5 (export both and deduplicate by OpenAlex ID)",
+   "count": null,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": false
+  },
+  {
+   "line": "SciELO #1 (S1')",
+   "database": "SciELO (search.scielo.org, all indices, all collections)",
+   "description": "Effect line. It is calibration S1 plus agrochem* and fumigat* in the exposure block, and pretermin*, \"mortalidade fetal\", \"mortalidad fetal\", natimort*, mortinat* and obstetric* in the outcome block. pulveriz* was not added. The portal echoed the query. Calibration S1 was 175, so the additions give +12. The count is record-level, with the same article repeated across collections.",
+   "query": "https://search.scielo.org/?q=(agrot* OR pesticid* OR plaguicid* OR praguicid* OR herbicid* OR fungicid* OR inseticid* OR insecticid* OR glifosato OR glyphosate OR agroquimic* OR agrochem* OR fumigacion* OR fumigat* OR \"pulverização aérea\" OR \"aerial spraying\") AND (nascer OR nacer OR birth* OR prematur* OR preterm OR pretermin* OR congenit* OR congênit* OR malforma* OR fetal OR fetais OR perinata* OR neonata* OR newborn* OR \"recém-nascido*\" OR \"recién nacido*\" OR \"mortalidade infantil\" OR \"mortalidad infantil\" OR \"infant mortality\" OR \"mortalidade fetal\" OR \"mortalidad fetal\" OR natimort* OR mortinat* OR obstetric* OR miscarriage* OR \"aborto espontâneo\" OR \"aborto espontáneo\" OR \"spontaneous abortion\")&lang=pt&count=50&output=site&format=summary  [URL-encode q]",
+   "count": 187,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "SciELO #2 (S2')",
+   "database": "SciELO",
+   "description": "Context line: S2 plus Russas* and Jaguaruana*. Calibration S2 was 135. A Russian distance-education record appeared in the sample, a quirk of truncated-token matching, so expect a little noise.",
+   "query": "https://search.scielo.org/?q=(Apodi* OR Jaguaribe* OR Quixer* OR Russas* OR Jaguaruana*) AND (saúde* OR saude* OR health* OR salud* OR agrot* OR pesticid* OR agroneg* OR agribusiness* OR trabalh* OR fruticultura* OR mulheres*)&lang=pt&count=50&output=site&format=summary",
+   "count": 157,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "SciELO #3 (S2b)",
+   "database": "SciELO",
+   "description": "Ceará line, flagged 'context'.",
+   "query": "https://search.scielo.org/?q=Ceara* AND (agrot* OR pesticid* OR plaguicid* OR \"pulverização aérea\")&lang=pt&count=50&output=site&format=summary",
+   "count": 47,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "SciELO #4 (S3)",
+   "database": "SciELO",
+   "description": "Aerial-spraying arm, unchanged from calibration. Today's count equals the calibration count.",
+   "query": "https://search.scielo.org/?q=(\"pulverização aérea\" OR \"aplicação aérea\" OR \"aviação agrícola\" OR \"aerial spraying\" OR \"aerial application\" OR \"aerial fumigation\" OR \"fumigación aérea\" OR \"fumigaciones aéreas\" OR \"aspersión aérea\" OR \"aspersiones aéreas\")&lang=pt&count=50&output=site&format=summary",
+   "count": 67,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": true
+  },
+  {
+   "line": "SciELO #5",
+   "database": "SciELO",
+   "description": "Screening set: #1 OR #2 OR #3 OR #4. The raw sum is 458. It was not counted as a single query; deduplicate across collections by PID or DOI.",
+   "query": "#1 OR #2 OR #3 OR #4",
+   "count": null,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": false
+  },
+  {
+   "line": "LILACS #1 (L1')",
+   "database": "LILACS via BVS portal (filter[db][]=LILACS)",
+   "description": "Effect line: L1 free text OR the DeCS line. The count was read from the LILACS facet. Calibration L1 was 416, so the DeCS line adds 2, which matches PRESS T15.",
+   "query": "https://pesquisa.bvsalud.org/portal/?lang=pt&q=((agrot* OR pesticid* OR plaguicid* OR praguicid* OR herbicid* OR fungicid* OR inseticid* OR insecticid* OR glifosato OR glyphosate OR agroquimic* OR fumiga*) AND (nascer OR nacer OR birth* OR prematur* OR preterm OR congenit* OR malforma* OR fetal OR perinata* OR neonata* OR newborn* OR \"mortalidade infantil\" OR \"mortalidad infantil\" OR \"infant mortality\" OR miscarriage* OR \"aborto espontâneo\" OR \"aborto espontáneo\")) OR ((mh:\"Pesticides\" OR mh:\"Agrochemicals\" OR mh:\"Herbicides\" OR mh:\"Insecticides\" OR mh:\"Fungicides, Industrial\" OR mh:\"Agricultural Workers' Diseases\") AND (mh:\"Pregnancy Outcome\" OR mh:\"Infant, Low Birth Weight\" OR mh:\"Premature Birth\" OR mh:\"Congenital Abnormalities\" OR mh:\"Fetal Death\" OR mh:\"Abortion, Spontaneous\" OR mh:\"Infant Mortality\" OR mh:\"Stillbirth\" OR mh:\"Prenatal Exposure Delayed Effects\"))&filter[db][]=LILACS  [URL-encode q]",
+   "count": 418,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": false
+  },
+  {
+   "line": "LILACS #2 (L2'')",
+   "database": "LILACS via BVS portal",
+   "description": "Context and aerial line: L2 plus Russas* and Jaguaruana*. Ceara* is not in the place block because adding it there gave 3,067 (see changes not applied). Calibration L2 was 107.",
+   "query": "https://pesquisa.bvsalud.org/portal/?lang=pt&q=(Apodi* OR Jaguaribe* OR Quixer* OR Russas* OR Jaguaruana* OR \"Limoeiro do Norte\" OR \"pulverização aérea\" OR \"fumigación aérea\" OR \"aspersión aérea\" OR \"aerial spraying\") AND (agrot* OR pesticid* OR plaguicid* OR saúde OR salud OR health OR trabalh*)&filter[db][]=LILACS",
+   "count": 125,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": false
+  },
+  {
+   "line": "LILACS #3 (L2b)",
+   "database": "LILACS via BVS portal",
+   "description": "Ceará line, flagged 'context'. It mirrors SciELO S2b and replaces PRESS's Ceara* addition to L2.",
+   "query": "https://pesquisa.bvsalud.org/portal/?lang=pt&q=Ceara* AND (agrot* OR pesticid* OR plaguicid* OR \"pulverização aérea\")&filter[db][]=LILACS",
+   "count": 24,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": false
+  },
+  {
+   "line": "LILACS #4",
+   "database": "LILACS via BVS portal",
+   "description": "Screening set: #1 OR #2 OR #3. The raw sum is 567. It was not counted as a single query.",
+   "query": "#1 OR #2 OR #3",
+   "count": null,
+   "run_date": "2026-10-12",
+   "oql_or_echo_checked": false
+  }
+ ],
+ "final_lines_to_screen": [
+  "OpenAlex: #11 = #10 (#4 OR #6 OR #7a OR #7b OR #8 OR #9; 1,591) OR #5 (language safety net, at most 149 extra). Total bounded at 1,591 to 1,740; deduplicate by OpenAlex ID.",
+  "SciELO: #5 = S1' OR S2' OR S2b OR S3 (raw 187 + 157 + 47 + 67 = 458, with records repeated across collections).",
+  "LILACS: #4 = L1' OR L2'' OR L2b (raw 418 + 125 + 24 = 567).",
+  "Records from #7a, #7b, #8, #9, S2', S2b, L2'' and L2b carry the flag 'context'. #9 additionally carries 'Essay 2 (legal/policy)'. Records found only by #5 carry the flag 'language safety net'."
+ ],
+ "screening_priority_rule": "Tier 1, full SQ1 eligibility screening first: any record in OpenAlex #4 or #6, SciELO S1' or S3, or LILACS L1'. These are effect and aerial-method records. Tier 2: records found only by OpenAlex #5 (PT/ES records with no Latin American place term). Screen titles quickly, because many will be studies from Spain or Portugal; screen the rest normally. Tier 3: records found only by the context lines (#7a, #7b, #8, #9, S2', S2b, L2'', L2b). Screen them against SQ1 eligibility as well, since some are effect studies (Rigotto 2013 is in both), but tag the remainder 'context' for Essay 1 background. #9 records are tagged 'Essay 2 legal/policy' whatever their SQ1 decision. Within each tier, deduplicate across databases before screening, giving priority to DOI, then OpenAlex ID, then title and year.",
+ "recall_tuning_set": "Development-set recall uses items already seen in calibration or PRESS (optimistic by construction).\n\nOpenAlex, tested by direct DOI filters on 2026-10-12:\n(a) #4-v0 (604), against 35 effect-type development items. These are the 3 effect seeds (Dias 2023, Calzada 2023, Camacho & Mejía 2017), the 7 calibration V items, the 9 calibration X items, Januzzi 2025, the 8 PRESS T16 items, and 7 more relevant PRESS T4/T10 items (Hervé 2016, Rouget 2019, Mato Grosso 2022, Mato Grosso 2024, Javeriana 2019, Mexico floriculture 2009, Paraná 2008 sex ratio). Result: 34/35. The only miss is Healthcare 2024 (10.3390/healthcare12202052), whose outcome is general health rather than a birth outcome. #6 retrieves it by set logic: #6 ⊇ calibration OA-3, which retrieved it in calibration row 96. It was not re-tested by DOI today. Dutra & Ferreira 2019 is now retrieved by #4-v0 through G4, where calibration needed the language branch.\n(b) Context union #7a ∪ #7b ∪ #8 ∪ #9, against 8 context development items: 8/8 by DOI test. They are Rocha 2017 (seed), Rigotto 2013, the Vale do Jaguaribe review (10.21680/2447-3359.2021v7n2id24607), Jaguaribe river pesticide fate (10.1007/s11368-016-1597-9), the ADI 6137 paper (10.26668/indexlawjournals/2526-0081/2023.v9i2.10012), childhood cancer in Ceará (10.22533/at.ed.92920110213), 10.54033/cadpedv22n7-345 and 10.18174/442443.\n(c) Overall: 4/4 orchestrator seeds and 42/42 distinct development items in the OpenAlex union (41 by direct DOI test, 1 by monotonicity). #4 (797) contains #4-v0, so these results carry over to it.\n\nSciELO and LILACS were not re-tested today, to save Firecrawl credits. Every revised line contains its calibration line (S1' ⊇ S1, S2' ⊇ S2, L1' ⊇ L1, L2'' ⊇ L2), so the earlier retrievals carry over by monotonicity: SciELO had Dutra 2019, Oliveira 2014, Rigotto 2013, Cremonese 2012 (via pid), Venezuela 2008, Uruguay 2024 (PRESS T13) and Rocha 2017; LILACS had Rocha 2017 and Rigotto 2013.",
+ "recall_independent_validation": "Source and rule, fixed before any retrieval test. The fresh set came from the reference list of a recent review that neither calibration nor PRESS had mined: 'Pesticide Exposures during Pregnancy and Health Outcomes in Latin America and the Caribbean: A Scoping Review of Human Observational Studies' (10.1289/JHP1043, 2024, OpenAlex W4401700389). Its 156 OpenAlex-indexed references were pulled with filter=cited_by:W4401700389, titles only, sorted by year descending. The inclusion rule was applied to titles alone:\n(i) a primary human study;\n(ii) a Latin American or Caribbean setting evident from the title, or a Spanish/Portuguese title;\n(iii) a protocol primary or secondary outcome in the title (birth weight, size or anthropometry, gestational age or preterm birth, fetal loss or miscarriage, congenital anomalies);\n(iv) not explicitly occupational-only;\n(v) not already used in calibration or PRESS.\nThe first 10 qualifying items, newest first, were taken. Honest caveat: the rule was written after seeing that titles-only list, but before any search test. Exclusions under (v) were the ISA birth cohort, Argentine Patagonia, Camacho, Rouget, Hervé, Kadhel and the Minas Gerais monoculture study (already development items), and the PROTECT glyphosate preterm study (10.1289/ehp7295), dropped because PRESS discussed it while revising G4.\n\nIndexing: all 10 resolve by DOI in OpenAlex. One (I2) has abstract_inverted_index = null.\n\nResults against the frozen PRESS-revised strategy (#4-v0, plus #5, #6 and the context arms):\n- I1. 10.1097/scs.0000000000009539 (cleft lip/palate, US vs Guatemala, 2023): MISSED. The abstract says 'congenital abnormalities' and 'orofacial clefts', which are not in O4. Pesticides appear only as 'agricultural chemical exposure' among several risk factors.\n- I2. 10.1016/j.chemosphere.2023.138790 (pregnant Argentinian women, 'anthropometric neonate parameters', 2023): MISSED. There is no O4 term ('neonate'/'anthropometric') and no abstract text in OpenAlex.\n- I3. 10.24875/rmn.22000067 (central nervous system malformations, Chiapas, 2023): retrieved.\n- I4. 10.1097/jom.0000000000002689 (periconceptional factors and cleft, Midwest Brazil, 2022): retrieved.\n- I5. 10.1017/s2040174422000277 (p,p'-DDE and birth anthropometry/gestational age, flower-growing region of Mexico, 2022): MISSED. Exposure is named only as 'p,p'-DDE'/'dichlorodiphenyldichloroethylene', which is not in E4. Under protocol rule (b), eligibility is doubtful because DDE has more than one source.\n- I6. 10.35563/rmp.v5i2.63 (congenital malformation in pesticide-exposed pregnant women, Ica, Peru, 2019): retrieved.\n- I7. 10.31698/ped.45012018002 (prenatal risk factors for malformations, Paraguayan hospital, 2018): MISSED by #4-v0, because the only geography term is 'América del Sur'. It is RETRIEVED by #5. This was inferred, not DOI-tested in #5: the record is language es, contains 'plaguicidas'/'agroquímicos' and 'malformaciones congénitas', and the geography delta (+1) is consistent with it.\n- I8. 10.1016/j.envres.2016.08.008 (maternal DDT/DDE and birth outcomes, Bolivia, 2016): retrieved.\n- I9. 10.1289/isee.2015.2015-2920 (pesticide use and perinatal outcomes, Brazil, ISEE 2015 abstract): retrieved. It is a conference abstract, which the protocol's status rule excludes.\n- I10. 10.1016/j.scitotenv.2013.01.034 (PON1 and miscarriage in pesticide-exposed Mexican women, 2013): retrieved. The exposure may be occupational.\n\nIndependent recall:\n- #4-v0 alone: 6/10.\n- Frozen PRESS-revised OpenAlex union (#4-v0 ∪ #5 ∪ #6 ∪ context arms): 7/10.\n- Among the 6 items with no evident eligibility doubt (I2, I3, I4, I6, I7, I8): 4/6 for #4-v0 and 5/6 for the union.\n\nThe misses come from three vocabulary gaps (anomaly wording, neonatal anthropometry, organochlorine names) and one geography gap. I closed them after validation (E, O and G additions, which turn #4-v0 into #4: +193 records, 797 in total). A direct DOI test showed #4 retrieves 4/4 of the misses. That 10/10 figure is development recall, not independent, because the additions were chosen from these misses. A new fresh set would be needed to validate #4 itself. SciELO and LILACS were not tested against this set.",
+ "estimated_unique_volume": "Counted on 2026-10-12. OpenAlex: #10 = 1,591 unique, plus up to 149 from #5, so 1,591 to 1,740. SciELO: 458 raw records, which shrinks to roughly 250–320 once the same article is collapsed across collections (the calibration observed 1.5–2x duplication). LILACS: 567 raw. The cross-database total is my estimate, not a count: SciELO and LILACS overlap OpenAlex heavily for PT/ES effect studies, but S1' and L1' have no geography restriction, and LILACS holds grey literature that OpenAlex lacks. I expect about 2,000–2,300 unique records after deduplication. About 650–800 of them are context-flagged (OpenAlex context union 657, plus S2'/S2b/L2''/L2b) and about 1,300–1,500 come from the effect and aerial lines. This is above PRESS's OpenAlex estimate of 1,300–1,600. The difference is mainly the +193 post-validation additions and #5. At title/abstract stage it should take roughly 15–20 reviewer-hours.",
+ "changes_applied": [
+  "OA-1 and OA-2 collapsed into a single effect line (#4-v0 = E4 AND O4 AND G4, with no language filter) using the expanded geography block G4: Brazilian states, demonyms, SINASC/DATASUS, Caribbean including Guadeloupe, Martinique, Antilles and 'French West Indies', and Puerto Rico. Count 604, the same as PRESS T19.",
+  "Exposure additions accepted exactly as PRESS recommended them: agrochemicals/agrochemical/'agricultural chemicals', agroquímico/agroquimico, mancozeb, chlorpyrifos/clorpirifós, organophosphate(s)/organofosforados, paraquat, atrazine, procymidone/procimidona, chlordecone, 'pesticide drift', 'spray drift', 'pulverizações aéreas', 'aplicação aérea', 'aviação agrícola'.",
+  "Targeted outcome additions accepted: fetal mortality in EN/PT/ES, 'muerte fetal', natimortos, mortinatos, 'óbitos fetais', prematuridad, 'parto prematuro', 'parto pretérmino', 'pré-termo', 'defectos congénitos', 'neural tube defects', 'obstetric outcomes', 'desfechos obstétricos', 'abortos/abortamentos espontâneos', 'sex ratio at birth'.",
+  "Language branch demoted from a primary device to the supplementary safety-net line #5 (292 records; 149 of them outside G4), and flagged as such for screening. It was kept rather than dropped because it recovers PT/ES records that carry no geography term (independent item I7).",
+  "Aerial arm #6 = calibration OA-3 plus 'pulverizações aéreas', aeroagrícola and 'aerial spraying ban' (PRESS), plus the unaccented aeroagricola, with the final geography block. Count 170 (146 in calibration).",
+  "Context arm rebuilt as two lines, which applies PRESS's own suggestion 3 ('add CTX3 terms with a pesticide/agribusiness co-term'). #7a covers the OA-4 phrases plus 'Chapada de Apodi', Quixere, 'Ze Maria do Tome' and 'Dossie ABRASCO' with the OA-4 co-terms (316). #7b covers Apodi, 'Lower Jaguaribe', 'Jaguaribe Valley', 'Vale do Jaguaribe', 'Tabuleiro de Russas', Russas and Jaguaruana with a pesticide/agribusiness co-term only (236).",
+  "Ceará arm #8 added: (Ceará OR Ceara) AND pesticide terms (277).",
+  "Legal/policy arm #9 added without the bare token '16.820' (33, against 63 with it).",
+  "Strategy re-expressed as numbered lines per database, with block lines, combination lines and a single-query union (#10 = 1,591; nested Boolean confirmed in the x_query echo).",
+  "SciELO S1' = S1 plus agrochem* and fumigat* in exposure, and pretermin*, 'mortalidade fetal', 'mortalidad fetal', natimort*, mortinat* and obstetric* in outcome (187, against 175). S2' = S2 plus Russas* and Jaguaruana* (157). S2b = Ceara* AND pesticide (47). S3 unchanged (67).",
+  "LILACS L1' = L1 OR the PRESS DeCS line (mh: Pesticides/Agrochemicals/Herbicides/Insecticides/'Fungicides, Industrial'/'Agricultural Workers' Diseases' AND Pregnancy Outcome/LBW/Premature Birth/Congenital Abnormalities/Fetal Death/Abortion, Spontaneous/Infant Mortality/Stillbirth/Prenatal Exposure Delayed Effects): 418 (416 + 2, consistent with PRESS T15).",
+  "LILACS place-name block extended with Russas* and Jaguaruana* (L2'' = 125). Ceará is handled by a separate pesticide-anchored line, L2b = 24 (see changes not applied for why it was not added to L2's place block).",
+  "My own post-validation amendment, not a PRESS change, adopted because the independent set showed real gaps at small cost. E gains DDE, DDT, organochlorine(s), organoclorados and dichlorodiphenyldichloroethylene (+62). O gains 'congenital abnormalities', 'orofacial clefts', 'cleft lip', 'cleft palate', neonate(s), 'birth length', 'head circumference' and 'birth size' (+122). G gains unaccented state names, Rio Grande do Norte, Piauí, Maranhão, Tocantins, Espírito Santo, América del Sur/do Sul, Sudamérica, Latinoamérica, 'Sul do Brasil' and 'Sur de Brasil' (+1). The final #4 = 797 (+193) and recovers the 4 independent misses. Independent recall is still reported on the pre-amendment strategy."
+ ],
+ "changes_not_applied": [
+  {
+   "change": "PRESS #7 as one string: all new place names (including bare Russas and Apodi) AND a co-term block that also contains generic 'saúde OR health OR mulheres'.",
+   "why": "PRESS's own T6 showed that generic health co-terms on the new place names give 481 delta records, with Limoeiro-PE and Staraya Russa noise; the pesticide-anchored version (T7) gave 88. The arm was therefore split: #7a keeps the OA-4 co-terms for the established Chapada/Baixo Jaguaribe phrases, and #7b uses pesticide/agribusiness co-terms for the new names. Both Rocha 2017 and Rigotto 2013 are retrieved."
+  },
+  {
+   "change": "PRESS LILACS L2' = L2 with Ceara* added to the place-name block.",
+   "why": "Tested on 2026-10-12: 3,067 LILACS records, because Ceara* AND (saúde OR health OR ...) catches the whole Ceará health literature. It was replaced by L2'' (Russas* and Jaguaruana* only, 125) plus L2b = Ceara* AND pesticide terms (24), which mirrors SciELO S2b."
+  },
+  {
+   "change": "'16.820' in the legal/policy arm.",
+   "why": "Dropped as PRESS recommended. It added about 30 unrelated chemistry and numeric records (63 with it against 33 without)."
+  },
+  {
+   "change": "Bare fungicidas/herbicidas/insecticidas/fitosanitarios in the OpenAlex exposure block.",
+   "why": "PRESS T2 showed agronomy noise from these terms, and PRESS itself advised against them."
+  },
+  {
+   "change": "Broad outcome terms: 'prenatal exposure', 'in utero', 'maternal exposure', 'child health', 'reproductive health', 'malformaciones'.",
+   "why": "PRESS T3 found 151 records, mostly off-target (neurodevelopment, leukaemia, sperm, rat studies). Rejected by PRESS."
+  },
+  {
+   "change": "pulveriz* in SciELO S1'.",
+   "why": "PRESS T12 found it pulls in Ciência Rural and veterinary agronomy noise."
+  },
+  {
+   "change": "Language branch (OA-2) as a primary recall device.",
+   "why": "OpenAlex language metadata is incomplete (null for some PT records; multilingual SciELO records are tagged 'en'). G4 now carries the geography. The branch survives only as the supplementary line #5."
+  },
+  {
+   "change": "Optional PRESS sensitivity lines: the SciELO kw: author-keyword field and an OpenAlex topics/concepts filter.",
+   "why": "Not tested. Parallel web_fetch returned HTTP 429 on every attempt, and Firecrawl credits are low, so they were left out rather than frozen untested."
+  },
+  {
+   "change": "Carrying the post-validation E, O and G additions over to SciELO S1' and LILACS L1' (organoclor*, DDT, DDE, neonat*, cleft*).",
+   "why": "Not tested in those portals, for the same credit and rate-limit reasons, so they were not frozen there. S1' and L1' already cover congenit*, malforma* and neonata*; the organochlorine names are the real gap. This is a recommended next amendment."
+  }
+ ],
+ "issues": [
+  "Tooling: Parallel web_fetch returned HTTP 429 on every one of the 5 attempts, so all OpenAlex, SciELO and BVS calls went through Firecrawl scrape (about 40 credits). Firecrawl reports that the account is low on credits; the user should add credits before the main search run.",
+  "Independent validation exposed real vocabulary gaps (6/10 for #4-v0; 7/10 with the language safety net). The amended #4 recovers all four misses, but that was not independently validated. A second fresh set, for example from the reference list of 10.1289/ehp9934 (313 references, not used here), is needed to estimate the recall of #4 without bias.",
+  "The independent-set rule was applied to titles after seeing the titles-only reference list, though before any retrieval test. 3–4 of the 10 items have doubtful eligibility under the protocol (DDE biomonitoring, possibly occupational exposure, a conference abstract).",
+  "The OpenAlex blocks #1–#3 were not counted on their own. #11 (#10 OR #5) cannot be counted in one OpenAlex call because a language filter cannot be ORed with a search filter; it is given as the bound 1,591–1,740.",
+  "Healthcare 2024 counts as retrieved by #6 by monotonicity (#6 ⊇ calibration OA-3). It was not DOI-tested today. SciELO and LILACS development recall rests on monotonicity, and the independent items were not tested there.",
+  "LILACS counts were read from the LILACS facet on the BVS results page, with no parsed query echo. SciELO counts are record-level and include the same article in several collections.",
+  "The OpenAlex PT/ES terms are accented only (for example 'malformações congênitas', 'óbito fetal', 'recém-nascidos'). OpenAlex does not fold accents, so abstracts written without accents could be missed. Unaccented outcome variants were not proposed by PRESS and were not tested.",
+  "#5 (language safety net) will bring in Spain and Portugal studies (149 records outside G4). The screening rule assigns them to a fast-title tier.",
+  "Every count is a 2026-10-12 snapshot and OpenAlex changes over time. For audit, the PRESS T19 count (604) was reproduced exactly today.",
+  "docs/revisao-sistematica/apendice-a-estrategias.md still shows the PRESS recommended_final_query as the frozen SQ1-AL strategy. It should be updated to these numbered lines, with the context arm split, L2' replaced by L2''/L2b and the post-validation #4 noted. I did not edit the appendix or protocolo.md."
+ ]
+}
