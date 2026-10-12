@@ -1,0 +1,901 @@
+{
+ "block": "SQ3: companion structured review for Essay 2, on instrument choice for agricultural pesticides. Questions: what damage function does the literature assume, and which empirical parameter does it need to rank bans, taxes and buffer zones? Calibration ran 2026-10-11/12, OpenAlex counts are live values from those dates. Recommended OpenAlex design: 8 arms. Three general rules: (i) to keep precision, put the pesticide concept in the TITLE; (ii) cover the off-topic seeds with dedicated arms for nonpoint pollution, prices vs quantities, citation chasing, aerial application and Portuguese/Spanish records; (iii) add Weitzman (1974) by hand as an anchor.",
+ "query_log": [
+  {
+   "order": 1,
+   "source": "OpenAlex",
+   "query": "filter=doi:<9 seeds>",
+   "count": 9,
+   "note": "All 9 seeds indexed: W2043609297 (L&Z 1988), W2002898199 (Helfand-House), W2028402472 (Skevas), W2911510744 (glyphosate ban), W4391836656 (Finger 2024), W2003263487 (F-C 1998), W3087333056 (AJAE 12266), W3017059845 (AJAE 12244), W1525260320 (Weitzman)",
+   "url_or_call": "https://api.openalex.org/works?filter=doi:10.2307/1241928|10.2307/1243825|10.1111/j.1574-0862.2012.00581.x|10.1093/erae/jby050|10.1111/agec.12817|10.2307/1350002|10.1111/ajae.12266|10.1111/ajae.12244|10.2307/2296698"
+  },
+  {
+   "order": 2,
+   "source": "OpenAlex",
+   "query": "doi:<5 seeds>, select=abstract_inverted_index",
+   "count": 5,
+   "note": "Abstract vocabulary check. Helfand & House abstract has nonpoint/agricultural runoff/instruments/taxes but no 'pesticide'."
+  },
+  {
+   "order": 3,
+   "source": "OpenAlex",
+   "query": "doi:<4 seeds>, select=abstract_inverted_index",
+   "count": 4,
+   "note": "Weitzman 1974 'abstract' is only the OUP journal header (no topical words). The 2 AJAE 2021 seeds have pesticide+health+economic losses/damage but no instrument words."
+  },
+  {
+   "order": 4,
+   "source": "OpenAlex",
+   "query": "title_and_abstract.search: pesticide",
+   "count": 316429,
+   "note": "syntax test A"
+  },
+  {
+   "order": 5,
+   "source": "OpenAlex",
+   "query": "tax OR taxes OR taxation OR levy OR levies",
+   "count": 861056,
+   "note": "syntax test B"
+  },
+  {
+   "order": 6,
+   "source": "OpenAlex",
+   "query": "pesticide AND (tax OR taxes OR taxation OR levy OR levies)",
+   "count": 864,
+   "note": "A AND B = 864: Boolean parsed correctly (oql echo confirms)"
+  },
+  {
+   "order": 7,
+   "source": "OpenAlex",
+   "query": "P AND I. P = pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR \"plant protection product\" OR \"crop protection\" OR glyphosate OR paraquat OR neonicotinoid OR agrotoxico OR plaguicida. I = 25 instrument terms including regulation/regulatory/restriction/withdrawal/setback",
+   "count": 104905,
+   "note": "too broad (generic regulation/restriction/withdrawal)"
+  },
+  {
+   "order": 8,
+   "source": "OpenAlex",
+   "query": "P AND I AND E (E = economic/economics/welfare/cost-benefit/benefit-cost/externality/external cost/social cost/damage function/WTP/elasticity/profit/farm income)",
+   "count": 10998,
+   "note": "still too broad"
+  },
+  {
+   "order": 9,
+   "source": "OpenAlex",
+   "query": "doi:<9 seeds> AND (P AND I AND E)",
+   "count": 4,
+   "note": "Retrieved: glyphosate ban, L&Z 1988, F-C 1998, Skevas. Missed: Helfand-House, Finger 2024, AJAE 12244, AJAE 12266, Weitzman."
+  },
+  {
+   "order": 10,
+   "source": "Firecrawl scrape (query format, directQuote)",
+   "query": "pesticide AND tax-block",
+   "count": 864,
+   "note": "The query format still returns the full JSON and costs 5 credits; abandoned in favour of markdown."
+  },
+  {
+   "order": 11,
+   "source": "OpenAlex",
+   "query": "A1 = P AND (tax OR taxes OR taxation OR levy OR levies OR \"economic instrument\" OR \"market-based\" OR \"policy instrument\" OR \"instrument choice\" OR \"command and control\" OR quota OR \"tradable permit\" OR Pigouvian)",
+   "count": 1679,
+   "note": "All top-8 on topic (EU PPP policy instruments; Danish pesticide tax; Vietnam tax; NL levies 1992)"
+  },
+  {
+   "order": 12,
+   "source": "OpenAlex",
+   "query": "A2 = P AND (ban OR bans OR banned OR banning OR prohibition OR \"phase out\" OR deregistration OR withdrawal OR cancellation) AND (economic OR economics OR welfare OR \"cost-benefit\" OR \"benefit-cost\" OR profit OR \"yield loss\" OR \"farm income\" OR \"ex post\" OR \"difference-in-differences\" OR \"natural experiment\")",
+   "count": 1027,
+   "note": "All top-8 on topic (glyphosate bans in Sri Lanka/Mexico/EU; 2,4-D ban; corn/soy bans 1986; welfare effects of banning pesticides 1977)"
+  },
+  {
+   "order": 13,
+   "source": "OpenAlex",
+   "query": "A5a = (\"pesticide policy\" OR \"pesticide regulation\" OR \"pesticide regulatory\" OR \"pesticide legislation\" OR \"regulating pesticide\" OR \"regulation of pesticide\" OR \"pesticide reduction\" OR \"pesticide risk reduction\" OR \"plant protection policy\" OR \"pesticide use reduction\") AND (economic OR economics OR welfare OR cost OR costs OR \"trade-off\" OR profit OR \"farm income\" OR externality)",
+   "count": 881,
+   "note": ""
+  },
+  {
+   "order": 14,
+   "source": "OpenAlex",
+   "query": "doi:<9 seeds> AND A5a",
+   "count": 3,
+   "note": "L&Z 1988, Finger 2024, F-C 1998"
+  },
+  {
+   "order": 15,
+   "source": "OpenAlex",
+   "query": "A5b = P AND (regulation OR regulatory OR policy OR policies) AND (welfare OR \"cost-benefit\" OR \"benefit-cost\" OR externality OR \"external cost\" OR \"social cost\" OR \"damage function\" OR \"willingness to pay\" OR \"consumer surplus\" OR \"producer surplus\" OR \"abatement cost\" OR \"marginal damage\" OR deadweight)",
+   "count": 2160,
+   "note": ""
+  },
+  {
+   "order": 16,
+   "source": "OpenAlex",
+   "query": "doi:<9 seeds> AND A5b",
+   "count": 1,
+   "note": "Only L&Z 1988; low yield, so A5b dropped"
+  },
+  {
+   "order": 17,
+   "source": "OpenAlex",
+   "query": "A6 = P AND (health OR poisoning) AND (\"economic loss\" OR \"health cost\" OR \"cost of illness\" OR \"health damage\" OR externality OR \"external cost\" OR \"social cost\" OR \"damage control\" OR \"willingness to pay\" OR \"public policies\" OR \"welfare loss\" OR \"productivity loss\")",
+   "count": 3255,
+   "note": "too broad"
+  },
+  {
+   "order": 18,
+   "source": "OpenAlex",
+   "query": "doi:<9 seeds> AND A6",
+   "count": 2,
+   "note": "AJAE 12244 and 12266"
+  },
+  {
+   "order": 19,
+   "source": "OpenAlex",
+   "query": "A7 = (nonpoint OR \"non-point\" OR \"diffuse pollution\") AND (agricultural OR agriculture OR farm OR pesticide OR fertilizer OR runoff) AND (instrument OR instruments OR tax OR taxes OR \"input tax\" OR \"ambient tax\" OR regulation OR regulations OR \"second-best\" OR \"least-cost\") AND (economic OR efficient OR efficiency OR cost OR costs OR welfare)",
+   "count": 542,
+   "note": ""
+  },
+  {
+   "order": 20,
+   "source": "OpenAlex",
+   "query": "doi:<9 seeds> AND A7",
+   "count": 1,
+   "note": "Helfand & House 1995"
+  },
+  {
+   "order": 21,
+   "source": "OpenAlex",
+   "query": "A6b = P AND health AND (\"health cost\" OR \"cost of illness\" OR \"health damage\" OR \"health impairment\" OR \"external cost\" OR \"social cost\" OR externality OR \"damage control\" OR \"welfare loss\" OR \"production risk\" OR ambiguity) AND (farmer OR farmers OR economic OR economics)",
+   "count": 726,
+   "note": "replaces A6"
+  },
+  {
+   "order": 22,
+   "source": "OpenAlex",
+   "query": "doi:<9 seeds> AND A6b",
+   "count": 2,
+   "note": "AJAE 12244 and 12266 kept"
+  },
+  {
+   "order": 23,
+   "source": "OpenAlex",
+   "query": "A3 = P AND (\"buffer zone\" OR \"buffer zones\" OR setback OR setbacks OR \"no-spray\" OR \"spray-free\" OR \"pesticide-free zone\" OR \"exclusion zone\") AND (economic OR cost OR costs OR welfare OR regulation OR policy OR school OR residential)",
+   "count": 10266,
+   "note": "'setback' is a generic English word. Top-10 on topic (marginal CBA of a buffer-zone programme 2009; WTP for pesticide-free buffer zones 2011; school buffer zones 2017)."
+  },
+  {
+   "order": 24,
+   "source": "OpenAlex",
+   "query": "A3b = P AND (\"buffer zone\" OR \"setback distance\" OR \"no-spray zone\" OR \"no-spray buffer\" OR \"spray-free\" OR \"pesticide-free zone\" OR \"pesticide-free buffer\" OR \"spray buffer\") AND (economic OR economics OR \"cost-benefit\" OR \"benefit-cost\" OR welfare OR \"opportunity cost\" OR compensation OR \"willingness to\" OR regulation OR regulatory OR policy OR school OR schools OR residential)",
+   "count": 205,
+   "note": "Top-10 on topic (choice experiments on pesticide-free buffer zones 2010/2011; California school notification 2019)"
+  },
+  {
+   "order": 25,
+   "source": "OpenAlex",
+   "query": "A4 = (pesticide OR paraquat OR \"highly hazardous\" OR organophosphate OR endosulfan OR insecticide OR herbicide) AND (ban OR bans OR banned OR banning OR regulation OR regulations OR restriction OR restrictions OR withdrawal OR prohibition OR \"phase out\") AND (suicide OR suicides OR \"self-poisoning\" OR \"case fatality\")",
+   "count": 372,
+   "note": "Top-10 on topic: Taiwan and Korea paraquat bans; Bangladesh bans and agricultural output; HHP-ban cost-effectiveness in 14 countries; Sri Lanka 2008-2011"
+  },
+  {
+   "order": 26,
+   "source": "OpenAlex",
+   "query": "title.search: \"pesticide regulations\" AND suicide AND \"Sri Lanka\"",
+   "count": 1,
+   "note": "Gunnell et al. 2007 located: W2135889734, 10.1093/ije/dym164"
+  },
+  {
+   "order": 27,
+   "source": "OpenAlex",
+   "query": "doi: 10.1016/j.ecolecon.2016.12.001 | 10.3390/su8040378 | 10.1111/1477-9552.12198 | 10.1038/s43016-020-00141-4",
+   "count": 4,
+   "note": "Finger et al. 2017 EcolEcon, Bocker & Finger 2016 Sustainability, Bocker & Finger 2016 JAE meta-analysis and Mohring et al. 2020 Nature Food are all indexed"
+  },
+  {
+   "order": 28,
+   "source": "OpenAlex",
+   "query": "title.search: \"buffer-zone programme\" OR \"pesticide tax\" OR \"pesticide taxes\" OR \"pesticide taxation\"",
+   "count": 31,
+   "note": "Known-item lookup: Danish tax ex post 2023, Norwegian grain farmers 2020, buffer-zone marginal CBA 2009, EST 2000 (ecolabels/taxes), Texas 1994, EcolEcon 2001"
+  },
+  {
+   "order": 29,
+   "source": "OpenAlex",
+   "query": "A8 = (\"prices versus quantities\" OR \"prices vs quantities\" OR \"price versus quantity\" OR \"prices or quantities\" OR \"taxes versus standards\" OR \"taxes versus quotas\" OR \"taxes vs quotas\" OR \"price instrument\" OR \"quantity instrument\" OR \"instrument choice\" OR \"choice of instrument\" OR Weitzman) AND (pesticide OR agrochemical OR herbicide OR agricultural OR agriculture OR farm OR nonpoint OR fertilizer OR nitrogen OR \"agri-environmental\")",
+   "count": 729,
+   "note": "Top results on topic, but some agricultural price-policy noise"
+  },
+  {
+   "order": 30,
+   "source": "OpenAlex",
+   "query": "A9 = (\"aerial spraying\" OR \"aerial application\" OR \"aerial spray\" OR \"aerial fumigation\" OR \"aerial pesticide\" OR \"crop dusting\" OR \"aerial applicator\" OR \"aerially applied\" OR \"agricultural aviation\") AND (ban OR bans OR banned OR prohibition OR prohibited OR regulation OR regulatory OR restriction OR policy OR economic OR economics OR \"cost-benefit\" OR welfare OR externality)",
+   "count": 666,
+   "note": "Located the WUR report on the EU general ban on aerial spraying (10.18174/442443)"
+  },
+  {
+   "order": 31,
+   "source": "OpenAlex",
+   "query": "A8c = cites:W1525260320 AND title_and_abstract.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR \"plant protection\" OR agricultural OR agriculture OR farm OR nonpoint OR fertilizer)",
+   "count": 108,
+   "note": "Weitzman citation arm: Segerson 1988 JEEM; 1998 policy options for diffuse pesticide contamination; nonpoint incentives 1994"
+  },
+  {
+   "order": 32,
+   "source": "OpenAlex",
+   "query": "UNION (single call) of A1 OR A2 OR A3b OR A4 OR A5a OR A6b OR A7 OR A8 OR A9, title+abstract only",
+   "count": 6380,
+   "note": "Arm sum 6,827, so about 447 overlaps. Unrestricted design gets 8/9 seeds, but at a volume too large to screen."
+  },
+  {
+   "order": 33,
+   "source": "OpenAlex",
+   "query": "A1 tail sample, page=80, per-page=15 (relevance ranks 1186-1200)",
+   "count": 1679,
+   "note": "Tail precision about 0/15: pesticide only incidental in the abstract"
+  },
+  {
+   "order": 34,
+   "source": "OpenAlex",
+   "query": "A9 tail sample, page=20, per-page=15 (ranks 286-300)",
+   "count": 666,
+   "note": "Tail mostly off-topic; 'Effect of interdiction on coca cultivation in Colombia' is relevant"
+  },
+  {
+   "order": 35,
+   "source": "OpenAlex",
+   "query": "A5a tail sample, page=40, per-page=15 (ranks 586-600)",
+   "count": 881,
+   "note": "tail mostly off-topic"
+  },
+  {
+   "order": 36,
+   "source": "OpenAlex",
+   "query": "A1T = title.search:(P) AND title_and_abstract.search:(A1 instrument block); tail page=20, per-page=15",
+   "count": 389,
+   "note": "Title restriction: 1,679 down to 389. Tail ranks 286-300 about 6/15 relevant."
+  },
+  {
+   "order": 37,
+   "source": "OpenAlex",
+   "query": "A2T = title.search:(P) AND title_and_abstract.search:(A2 ban AND econ)",
+   "count": 271,
+   "note": "from 1027"
+  },
+  {
+   "order": 38,
+   "source": "OpenAlex",
+   "query": "A5aT = title.search:(P) AND title_and_abstract.search:(A5a)",
+   "count": 536,
+   "note": "from 881"
+  },
+  {
+   "order": 39,
+   "source": "OpenAlex",
+   "query": "A6bT = title.search:(P) AND title_and_abstract.search:(A6b minus P)",
+   "count": 179,
+   "note": "from 726"
+  },
+  {
+   "order": 40,
+   "source": "OpenAlex",
+   "query": "OT-1 = title.search:(P+, which adds chlorpyrifos, atrazine, \"methyl bromide\", organophosphate, endosulfan, DDT, fumigant) AND title_and_abstract.search:(I1 OR I2 OR I5 OR I6)",
+   "count": 1324,
+   "note": ""
+  },
+  {
+   "order": 41,
+   "source": "OpenAlex",
+   "query": "OT-1b = OT-1 with I1b, which adds subsidy/subsidies, \"information instrument\", \"right-to-know\", ecolabel/\"eco-label\", \"mandatory disclosure\"",
+   "count": 1519,
+   "note": "+195"
+  },
+  {
+   "order": 42,
+   "source": "OpenAlex",
+   "query": "doi:<19 = 9 primary + 10 supplementary> AND OT-1b",
+   "count": 14,
+   "note": "Primary 7/9 (Helfand-House needs A7; Weitzman not retrievable). Supplementary 7/10 (Gunnell needs A4; buffer CBA needs A3b; EU aerial ban needs A9)."
+  },
+  {
+   "order": 43,
+   "source": "OpenAlex",
+   "query": "A9T = title.search:(\"aerial spraying\" OR \"aerial application\" OR \"aerial spray\" OR \"aerial fumigation\" OR \"aerial pesticide\" OR \"crop dusting\" OR \"aerially applied\" OR \"aerial applicator\" OR \"agricultural aviation\" OR \"aerial eradication\" OR \"aerial herbicide\") AND title_and_abstract.search:(ban OR bans OR banned OR prohibition OR prohibited OR regulation OR regulatory OR restriction OR policy OR economic OR economics OR \"cost-benefit\" OR welfare OR externality OR health)",
+   "count": 227,
+   "note": "Top-10 includes the EU aerial ban (2018), Camacho & Mejia JHE 2017 plus its SSRN version, and the economics of aerial spraying (Egypt 1994, GB 1965)"
+  },
+  {
+   "order": 44,
+   "source": "OpenAlex",
+   "query": "A8b = (\"prices versus quantities\" OR \"prices vs quantities\" OR \"price versus quantity\" OR \"prices or quantities\" OR \"taxes versus standards\" OR \"taxes versus quotas\" OR \"taxes vs quotas\" OR \"instrument choice\" OR \"choice of instrument\" OR \"choice of instruments\" OR Weitzman) AND (pesticide OR agrochemical OR herbicide OR nonpoint OR \"non-point\" OR fertilizer OR nitrogen OR \"agri-environmental\" OR \"agricultural pollution\" OR runoff OR \"water quality\" OR \"diffuse pollution\")",
+   "count": 112,
+   "note": "replaces A8; all top-10 on topic"
+  },
+  {
+   "order": 45,
+   "source": "OpenAlex",
+   "query": "A7 tail sample, page=30, per-page=15",
+   "count": 542,
+   "note": "tail about 0-1/15 relevant"
+  },
+  {
+   "order": 46,
+   "source": "OpenAlex",
+   "query": "A7T-wide = title.search:(nonpoint OR \"non-point\" OR \"diffuse pollution\" OR \"diffuse source\" OR \"agricultural pollution\" OR \"agri-environmental\" OR \"agricultural runoff\") AND title_and_abstract.search:(I7)",
+   "count": 296,
+   "note": ""
+  },
+  {
+   "order": 47,
+   "source": "OpenAlex",
+   "query": "A7T = A7T-wide without \"agri-environmental\" in the title block",
+   "count": 174,
+   "note": "Adopted. \"agri-environmental\" adds 122 records from the agri-environment-scheme literature."
+  },
+  {
+   "order": 48,
+   "source": "OpenAlex",
+   "query": "doi:<19 seeds> AND OT-2 (A3b OR A4 OR A8b)",
+   "count": 2,
+   "note": "Gunnell 2007; buffer-zone CBA 2009"
+  },
+  {
+   "order": 49,
+   "source": "OpenAlex",
+   "query": "OT-2 = A3b OR A4 OR A8b",
+   "count": 689,
+   "note": "205 + 372 + 112, so no overlap among the three arms"
+  },
+  {
+   "order": 50,
+   "source": "OpenAlex",
+   "query": "doi:<Helfand-House, EU aerial ban, Gunnell> AND A7T",
+   "count": 1,
+   "note": "Helfand & House retrieved"
+  },
+  {
+   "order": 51,
+   "source": "OpenAlex",
+   "query": "overlap: title.search:P+ AND ta:IUb AND ta:OT-2",
+   "count": 30,
+   "note": "OT-1b plus OT-2 = 2,178"
+  },
+  {
+   "order": 52,
+   "source": "Firecrawl research index (PubMed/medRxiv/arXiv)",
+   "query": "effect of national bans or regulations of highly hazardous pesticides such as paraquat on pesticide suicide rates and agricultural output (k=40)",
+   "count": null,
+   "note": "Ranked, no total. Gunnell 2007 at rank 19/40. Also: Bangladesh IJE 2017; EHP 2008 'targeted bans ... reduced agricultural output?'; Korea IJE 2016; ESPR 2023 paraquat phase-out."
+  },
+  {
+   "order": 53,
+   "source": "Firecrawl research index",
+   "query": "pesticide tax or levy as an economic instrument to reduce pesticide use and environmental and health risks, ex post evaluation or simulation (k=25)",
+   "count": null,
+   "note": "Norway 2020 at rank 1; Zilberman et al. 1991 Science; 'To tax or to ban?' PLOS ONE 2023; Soares & Porto 2012; Brazil fiscal incentives CSP 2020; social-costs meta-analysis Sci Rep 2024"
+  },
+  {
+   "order": 54,
+   "source": "Wiley Scholar Gateway",
+   "query": "In economic analyses of agricultural pesticide regulation, how is the external damage function specified (linear, convex, threshold) when comparing pesticide taxes, bans and buffer zones as policy instruments? (topN=15)",
+   "count": 15,
+   "note": "15 passages from 12 articles. Seeds found: F-C 1998, Finger 2024, L&Z 1988. Also 10.2307/1243886 (damage-control inputs), 10.2307/1244419, agec.12563, ps.5204, ps.4275, cjag.12070, ropr.12540."
+  },
+  {
+   "order": 55,
+   "source": "Wiley Scholar Gateway",
+   "query": "Application of Weitzman prices versus quantities to the regulation of pesticides or agricultural nonpoint source pollution under uncertainty about damages and abatement costs: when is a tax preferred to a quota or ban? (topN=15)",
+   "count": 15,
+   "note": "10 unique articles, no seed. Nonpoint instrument literature: AJAE trading ratio (10.2307/1243983); SJE instrument choice (10.1111/sjoe.12351); AJAE 2016 (10.1093/ajae/aaw027); AJAE 2005 and 2007. No pesticide-specific Weitzman application surfaced."
+  },
+  {
+   "order": 56,
+   "source": "Parallel web_search",
+   "query": "site:ageconsearch.umn.edu pesticide tax | site:ideas.repec.org pesticide ban economic evaluation | site:nber.org pesticide regulation | prices versus quantities pesticides regulation",
+   "count": null,
+   "note": "10 results. Koppenberg 2022 glyphosate debate (AgEcon 322214); Archer & Shogren 2001 risk-indexed herbicide taxes; Sexton, Lei & Zilberman 2007; Lichtenberg, Pingali & Spear (UMD WP 197775); HAL hal-01947506 French pesticide ban; Indiana EPA bans 1980 (SJAE); IAAE 2018 version of the glyphosate-ban seed (duplicate). No NBER hit."
+  },
+  {
+   "order": 57,
+   "source": "Parallel web_search",
+   "query": "pesticide buffer zones schools California economic impact study | setback distances pesticide spraying residents cost farmers economic analysis | aerial spraying ban pesticides economic impact evaluation | suspension aerial fumigation Colombia 2015 effect evaluation economics | proibição pulverização aérea agrotóxicos avaliação econômica",
+   "count": null,
+   "note": "10 results. CDFA-OPCA school-site reports; EPA BEAD fumigant buffer impact analysis, Kern County 2008; CDPR DPR 24-001 1,3-D setbacks ISOR 2024; Ramboll 2021 SUD evaluation; EPRS 2022; WUR report documenting BiPRO 2004 options (ban vs taxes/levies vs minimum requirements for aerial spraying); Directive 2009/128/EC. No Colombia or Brazil economic evaluation in top-10."
+  },
+  {
+   "order": 58,
+   "source": "Parallel web_search",
+   "query": "Financial effect of limiting pesticide use near schools for almonds California Agriculture | Goodhue pesticide applications near schoolsites economic effects | economics of pesticide setbacks buffer zones regulation agricultural and resource economics",
+   "count": null,
+   "note": "Goodhue et al. 2020 California Agriculture 74(1):23-29; Mace et al. JEE; ARE Update notes (school-site rules; fumigation buffer zones 2014; drift/runoff restrictions 2012)"
+  },
+  {
+   "order": 59,
+   "source": "OpenAlex",
+   "query": "title.search: \"limiting pesticide use near schools\" OR \"risk-indexed herbicide taxes\" OR \"economics of pesticides and pest control\" OR \"balancing bees and pest management\" OR \"targeted bans of insecticides\" OR \"economics of pesticide use and regulation\"",
+   "count": 8,
+   "note": "DOIs for validation set V2"
+  },
+  {
+   "order": 60,
+   "source": "OpenAlex",
+   "query": "doi:<V2, 12 items located outside OpenAlex strings>",
+   "count": 13,
+   "note": "All 12 indexed. Soares & Porto 2012 has 2 records with the same DOI."
+  },
+  {
+   "order": 61,
+   "source": "OpenAlex",
+   "query": "doi:<V2> AND OT-1b",
+   "count": 7,
+   "note": "Missed: Korea IJE 2016, Manuweera EHP 2008, Mace JEE, Sci Rep 2024 meta-analysis, Brazil CSP 2020"
+  },
+  {
+   "order": 62,
+   "source": "OpenAlex",
+   "query": "A10T = title.search:(P+) AND title_and_abstract.search:((regulation OR regulations OR regulatory OR restriction OR restrictions OR \"restricted material\" OR \"restricted use\") AND (\"economic impact\" OR \"economic effect\" OR \"economic evaluation\" OR \"economic analysis\" OR \"projected cost\" OR \"cost of\" OR \"net returns\" OR \"producer surplus\" OR \"consumer surplus\" OR welfare))",
+   "count": 738,
+   "note": "regulatory-cost arm"
+  },
+  {
+   "order": 63,
+   "source": "OpenAlex",
+   "query": "A11T = title.search:(P+) AND title_and_abstract.search:(\"social cost\" OR \"external cost\" OR externality OR externalities OR \"damage cost\" OR \"health cost\" OR \"environmental cost\")",
+   "count": 2367,
+   "note": "too broad"
+  },
+  {
+   "order": 64,
+   "source": "OpenAlex",
+   "query": "title.search: agrotóxicos OR agrotóxico",
+   "count": 3912,
+   "note": "accented forms"
+  },
+  {
+   "order": 65,
+   "source": "OpenAlex",
+   "query": "title.search: agrotoxicos",
+   "count": 79,
+   "note": "no accent folding, so accented forms must be listed"
+  },
+  {
+   "order": 66,
+   "source": "OpenAlex",
+   "query": "A11b = title.search:(P++) AND title.search:(\"social cost(s)\" OR \"external cost(s)\" OR externality OR externalities OR \"hidden cost\" OR \"health cost(s)\" OR \"economic cost\" OR \"damage cost\" OR \"true cost\" OR \"cost of illness\")",
+   "count": 189,
+   "note": "Two title.search filters AND-ed. Top-5 all on topic."
+  },
+  {
+   "order": 67,
+   "source": "OpenAlex",
+   "query": "OT-1b with P++ in the title block",
+   "count": 1545,
+   "note": "+26"
+  },
+  {
+   "order": 68,
+   "source": "OpenAlex",
+   "query": "doi:<V2> AND A10T (P++)",
+   "count": 3,
+   "note": "Mace JEE recovered (plus Zilberman 1991 and Archer & Shogren)"
+  },
+  {
+   "order": 69,
+   "source": "OpenAlex",
+   "query": "A12T = title.search:(PT/ES pesticide terms) AND title_and_abstract.search:(PT/ES instrument/economic terms including custos, costos, economia, legislação, legislación, regulamentação)",
+   "count": 962,
+   "note": "top-8 on topic but loose"
+  },
+  {
+   "order": 70,
+   "source": "OpenAlex",
+   "query": "doi:<Brazil CSP 2020, Sci Rep 2024> AND A12T",
+   "count": 1,
+   "note": "CSP 2020 retrieved. Its OpenAlex title is Portuguese only."
+  },
+  {
+   "order": 71,
+   "source": "OpenAlex",
+   "query": "A12T-tight (drops custos, costos, economia, legislação, legislación, regulamentação; adds \"costo social\")",
+   "count": 391,
+   "note": "adopted"
+  },
+  {
+   "order": 72,
+   "source": "OpenAlex via Firecrawl",
+   "query": "A12T-tight, first attempt",
+   "count": null,
+   "note": "HTTP 429 'Rate limit exceeded (12 req/min)'. Re-run succeeded (row 71)."
+  },
+  {
+   "order": 73,
+   "source": "OpenAlex",
+   "query": "A10T with P++",
+   "count": 740,
+   "note": ""
+  },
+  {
+   "order": 74,
+   "source": "OpenAlex",
+   "query": "overlap A10T AND OT-1b (P++)",
+   "count": 170,
+   "note": "A10T adds about 570"
+  },
+  {
+   "order": 75,
+   "source": "OpenAlex",
+   "query": "overlap A11b AND OT-1b (P++)",
+   "count": 46,
+   "note": "A11b adds about 143"
+  },
+  {
+   "order": 76,
+   "source": "OpenAlex",
+   "query": "doi:<Korea IJE 2016, Manuweera EHP 2008> AND A4",
+   "count": 2,
+   "note": "both retrieved"
+  },
+  {
+   "order": 77,
+   "source": "OpenAlex",
+   "query": "doi:<Sci Rep 2024 social costs> AND A11b",
+   "count": 1,
+   "note": "Retrieved, so V2 is 12/12 across the final union"
+  }
+ ],
+ "final_strategies": [
+  {
+   "source": "OpenAlex (S1 'OT-1b', core: taxes/economic instruments, bans with economic outcomes, pesticide-policy economics, farm-level health-damage economics)",
+   "query": "filter=title.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR \"plant protection product\" OR \"crop protection\" OR glyphosate OR paraquat OR neonicotinoid OR chlorpyrifos OR atrazine OR \"methyl bromide\" OR organophosphate OR endosulfan OR DDT OR fumigant OR agrotoxico OR agrotoxicos OR agrotóxico OR agrotóxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR \"defensivos agrícolas\"),title_and_abstract.search:((tax OR taxes OR taxation OR levy OR levies OR subsidy OR subsidies OR \"economic instrument\" OR \"market-based\" OR \"policy instrument\" OR \"instrument choice\" OR \"command and control\" OR quota OR \"tradable permit\" OR Pigouvian OR \"information instrument\" OR \"right-to-know\" OR ecolabel OR \"eco-label\" OR \"mandatory disclosure\") OR ((ban OR bans OR banned OR banning OR prohibition OR \"phase out\" OR deregistration OR withdrawal OR cancellation) AND (economic OR economics OR welfare OR \"cost-benefit\" OR \"benefit-cost\" OR profit OR \"yield loss\" OR \"farm income\" OR \"ex post\" OR \"difference-in-differences\" OR \"natural experiment\")) OR ((\"pesticide policy\" OR \"pesticide regulation\" OR \"pesticide regulatory\" OR \"pesticide legislation\" OR \"regulating pesticide\" OR \"regulation of pesticide\" OR \"pesticide reduction\" OR \"pesticide risk reduction\" OR \"plant protection policy\" OR \"pesticide use reduction\") AND (economic OR economics OR welfare OR cost OR costs OR \"trade-off\" OR profit OR \"farm income\" OR externality)) OR (health AND (\"health cost\" OR \"cost of illness\" OR \"health damage\" OR \"health impairment\" OR \"external cost\" OR \"social cost\" OR externality OR \"damage control\" OR \"welfare loss\" OR \"production risk\" OR ambiguity) AND (farmer OR farmers OR economic OR economics)))",
+   "rationale": "Requiring the pesticide concept in the TITLE cut the same arms from 6,380 to about 1,500 (title+abstract only). Tail precision rose from about 0/15 to about 6/15 at comparable ranks. The arm keeps 7/9 primary seeds: the 2 it misses are covered by S3 and by hand-inclusion. Accented PT/ES forms are listed because OpenAlex does not fold accents.",
+   "count": 1545,
+   "filters": "no year or type limit (seeds span 1974-2024)"
+  },
+  {
+   "source": "OpenAlex (S2 'OT-2': buffer zones/setbacks + HHP bans and suicide/agricultural output + prices-vs-quantities applied to agrochemicals/nonpoint)",
+   "query": "filter=title_and_abstract.search:((pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR \"plant protection product\" OR \"crop protection\" OR glyphosate OR paraquat OR neonicotinoid OR agrotoxico OR plaguicida) AND (\"buffer zone\" OR \"setback distance\" OR \"no-spray zone\" OR \"no-spray buffer\" OR \"spray-free\" OR \"pesticide-free zone\" OR \"pesticide-free buffer\" OR \"spray buffer\") AND (economic OR economics OR \"cost-benefit\" OR \"benefit-cost\" OR welfare OR \"opportunity cost\" OR compensation OR \"willingness to\" OR regulation OR regulatory OR policy OR school OR schools OR residential)) OR ((pesticide OR paraquat OR \"highly hazardous\" OR organophosphate OR endosulfan OR insecticide OR herbicide) AND (ban OR bans OR banned OR banning OR regulation OR regulations OR restriction OR restrictions OR withdrawal OR prohibition OR \"phase out\") AND (suicide OR suicides OR \"self-poisoning\" OR \"case fatality\")) OR ((\"prices versus quantities\" OR \"prices vs quantities\" OR \"price versus quantity\" OR \"prices or quantities\" OR \"taxes versus standards\" OR \"taxes versus quotas\" OR \"taxes vs quotas\" OR \"instrument choice\" OR \"choice of instrument\" OR \"choice of instruments\" OR Weitzman) AND (pesticide OR agrochemical OR herbicide OR nonpoint OR \"non-point\" OR fertilizer OR nitrogen OR \"agri-environmental\" OR \"agricultural pollution\" OR runoff OR \"water quality\" OR \"diffuse pollution\"))",
+   "rationale": "These 3 topics are precise without a title restriction (205 + 372 + 112, no internal overlap). The arm retrieved Gunnell 2007, the buffer-zone marginal CBA (2009), Korea IJE 2016 and Manuweera EHP 2008. 'setback' alone was dropped because it is a generic English word (10,266 hits).",
+   "count": 689,
+   "filters": "none; overlap with S1 = 30"
+  },
+  {
+   "source": "OpenAlex (S3 'A7T': nonpoint-source instrument choice)",
+   "query": "filter=title.search:(nonpoint OR \"non-point\" OR \"diffuse pollution\" OR \"diffuse source\" OR \"agricultural pollution\" OR \"agricultural runoff\"),title_and_abstract.search:(agricultural OR agriculture OR farm OR pesticide OR fertilizer OR runoff) AND (instrument OR instruments OR tax OR taxes OR \"input tax\" OR \"ambient tax\" OR regulation OR regulations OR \"second-best\" OR \"least-cost\") AND (economic OR efficient OR efficiency OR cost OR costs OR welfare)",
+   "rationale": "Needed for the Helfand & House seed, which has no pesticide vocabulary. The title-and-abstract-only version (542) had a noisy tail. Adding 'agri-environmental' to the title block brings 122 records from the agri-environment-scheme literature (296 in total).",
+   "count": 174,
+   "filters": "none"
+  },
+  {
+   "source": "OpenAlex (S4 'A9T': aerial application, policy, economics and health)",
+   "query": "filter=title.search:(\"aerial spraying\" OR \"aerial application\" OR \"aerial spray\" OR \"aerial fumigation\" OR \"aerial pesticide\" OR \"crop dusting\" OR \"aerially applied\" OR \"aerial applicator\" OR \"agricultural aviation\" OR \"aerial eradication\" OR \"aerial herbicide\"),title_and_abstract.search:(ban OR bans OR banned OR prohibition OR prohibited OR regulation OR regulatory OR restriction OR policy OR economic OR economics OR \"cost-benefit\" OR welfare OR externality OR health)",
+   "rationale": "Method-specific arm, because the Ceará law bans a method. Retrieves the EU aerial-ban policy history (WUR 2018) and Camacho & Mejía. Without the title restriction the arm returned 666 with a noisy tail.",
+   "count": 227,
+   "filters": "none"
+  },
+  {
+   "source": "OpenAlex (S5 'A8c': citation chasing from Weitzman 1974)",
+   "query": "filter=cites:W1525260320,title_and_abstract.search:(pesticide OR herbicide OR insecticide OR fungicide OR agrochemical OR \"plant protection\" OR agricultural OR agriculture OR farm OR nonpoint OR fertilizer)",
+   "rationale": "Weitzman's OpenAlex abstract is a journal header, so no topical string can retrieve it. Chasing its citers within the agricultural domain finds price-vs-quantity work that does not use the phrase (e.g., Segerson 1988).",
+   "count": 108,
+   "filters": "none"
+  },
+  {
+   "source": "OpenAlex (S6 'A10T', extended: regulatory-cost analyses)",
+   "query": "filter=title.search:(<P++ as in S1>),title_and_abstract.search:(regulation OR regulations OR regulatory OR restriction OR restrictions OR \"restricted material\" OR \"restricted use\") AND (\"economic impact\" OR \"economic effect\" OR \"economic evaluation\" OR \"economic analysis\" OR \"projected cost\" OR \"cost of\" OR \"net returns\" OR \"producer surplus\" OR \"consumer surplus\" OR welfare)",
+   "rationale": "Added after an independent known item, Mace et al. (neonicotinoid regulation costs in California), was missed by S1. This is the regulatory cost-of-compliance literature: the abatement-cost side of instrument choice.",
+   "count": 740,
+   "filters": "overlap with S1 = 170, so it adds about 570"
+  },
+  {
+   "source": "OpenAlex (S7 'A11b', extended: external/social cost valuation of pesticides)",
+   "query": "filter=title.search:(<P++ as in S1>),title.search:(\"social cost\" OR \"social costs\" OR \"external cost\" OR \"external costs\" OR externality OR externalities OR \"hidden cost\" OR \"health cost\" OR \"health costs\" OR \"economic cost\" OR \"damage cost\" OR \"true cost\" OR \"cost of illness\")",
+   "rationale": "Covers the damage-valuation side, which is central to the 'damage function' question. It retrieved the Sci Rep 2024 meta-analysis that S1 missed. With the cost terms in title+abstract instead of the title, the arm returned 2,367.",
+   "count": 189,
+   "filters": "overlap with S1 = 46, so it adds about 143"
+  },
+  {
+   "source": "OpenAlex (S8 'A12T-tight', extended: Portuguese/Spanish records)",
+   "query": "filter=title.search:(agrotóxico OR agrotóxicos OR agrotoxico OR agrotoxicos OR plaguicida OR plaguicidas OR praguicida OR praguicidas OR pesticidas OR agroquímicos OR \"defensivos agrícolas\" OR \"pulverização aérea\" OR \"fumigación aérea\" OR \"aspersión aérea\"),title_and_abstract.search:(imposto OR impostos OR tributação OR tributária OR isenção OR isenções OR \"incentivos fiscais\" OR impuesto OR impuestos OR proibição OR banimento OR prohibición OR regulação OR regulación OR externalidade OR externalidades OR \"custo social\" OR \"costo social\" OR \"zona de amortecimento\" OR \"zonas de exclusão\" OR econômico OR econômicos OR económico OR económicos)",
+   "rationale": "Some Brazilian and Latin American records have only Portuguese/Spanish titles in OpenAlex (e.g., CSP 2020 on tax incentives for agrotóxicos), and these matter for the ADI 5553 tax-instrument discussion. The loose version returned 962.",
+   "count": 391,
+   "filters": "overlap with S1 not measured"
+  },
+  {
+   "source": "Known item (hand-added anchor)",
+   "query": "Weitzman 1974, 'Prices vs. Quantities', 10.2307/2296698 (W1525260320)",
+   "rationale": "Not retrievable by topic. It is the theoretical anchor and the root of S5.",
+   "count": 1,
+   "filters": ""
+  },
+  {
+   "source": "Firecrawl research index (PubMed/medRxiv/arXiv), supplementary",
+   "query": "(a) 'effect of national bans or regulations of highly hazardous pesticides such as paraquat on pesticide suicide rates and agricultural output' k=40; (b) 'pesticide tax or levy as an economic instrument to reduce pesticide use and environmental and health risks, ex post evaluation or simulation' k=25",
+   "rationale": "Covers the health-side ex post literature on bans and Brazilian public-health journals. Ranked, so these are top-k cut-offs.",
+   "count": null,
+   "filters": "top-k only"
+  },
+  {
+   "source": "Wiley Scholar Gateway, supplementary",
+   "query": "(a) damage-function specification question; (b) Weitzman prices-vs-quantities for pesticides/nonpoint question (topN=15 each)",
+   "rationale": "Searches full text of AJAE, AEPP, Agricultural Economics and Pest Management Science. Retrieved 3 seeds plus the nonpoint instrument-choice literature.",
+   "count": null,
+   "filters": "top-15 passages"
+  },
+  {
+   "source": "Grey literature / web (Parallel web_search plus agency hand-search)",
+   "query": "site:ageconsearch.umn.edu, site:ideas.repec.org, site:nber.org on pesticide tax/ban/prices vs quantities; buffer zones/setbacks/schools; aerial spraying ban. Hand-search: CDFA-OPCA publications, CDPR rulemaking (DPR 24-001), EPA BEAD buffer impact analyses (regulations.gov EPA-HQ-OPP-2005-0128), EU SUD evaluation (Ramboll 2021, BiPRO 2004), EPRS 2022",
+   "rationale": "Regulatory impact analyses of buffer zones and aerial-spraying options are largely agency grey literature that OpenAlex does not cover. AgEcon conference versions also need to be matched to their published versions.",
+   "count": null,
+   "filters": "no counts"
+  }
+ ],
+ "known_item_recall": {
+  "seeds_tested": [
+   "10.2307/1241928",
+   "10.2307/1243825",
+   "10.1111/j.1574-0862.2012.00581.x",
+   "10.1093/erae/jby050",
+   "10.1111/agec.12817",
+   "10.2307/1350002",
+   "10.1111/ajae.12266",
+   "10.1111/ajae.12244",
+   "10.2307/2296698"
+  ],
+  "seeds_retrieved": [
+   "10.2307/1241928 (S1)",
+   "10.1111/j.1574-0862.2012.00581.x (S1)",
+   "10.1093/erae/jby050 (S1)",
+   "10.1111/agec.12817 (S1)",
+   "10.2307/1350002 (S1)",
+   "10.1111/ajae.12266 (S1)",
+   "10.1111/ajae.12244 (S1)",
+   "10.2307/1243825 (S3)"
+  ],
+  "seeds_missed": [
+   {
+    "id": "10.2307/2296698",
+    "why": "Weitzman (1974). Its OpenAlex abstract is only the OUP journal header ('Journal Article Prices vs. Quantities Get access...'), and it is general theory without agrochemical vocabulary. It is handled by hand-inclusion as an anchor and by the citation arm S5 (cites:W1525260320)."
+   }
+  ],
+  "recall_indexed": "Primary: 9/9 indexed. Final union retrieves 8/9 (88.9%), and 9/9 with the hand-added anchor. S1 alone retrieves 7/9. Supplementary validation set S-1 (10 items found by OpenAlex title lookups during calibration, so NOT independent of the vocabulary): 10/10. It contains Gunnell 2007, the Danish tax ex post 2023, Norway 2020, the buffer-zone CBA 2009, Finger 2017, Böcker & Finger 2016 (x2), Möhring 2020, EST 2000 and the EU aerial ban 2018. Validation set V2 (12 items found outside the OpenAlex strings, via PubMed index, Scholar Gateway and web): 12/12 across the final union; S1 alone gets 7/12, and S2 (A4), S6, S7 and S8 add the other five.",
+  "seeds_not_indexed": []
+ },
+ "volume_estimate_after_dedup": "OpenAlex counts as of 2026-10-11/12. Core set (S1 1,545 + S2 689 + S3 174 + S4 227 + S5 108 = 2,743 gross; S1∩S2 measured at 30; the other overlaps, among S3/S2-A8b/S5 and S4/S1, were not measured and should be small): about 2,600–2,700 unique. Extended arms add, after measured overlaps with S1: S6 about +570, S7 about +143, S8 +391 at most (overlap with S1 not measured). Total about 3,600–3,800 OpenAlex records. Removing duplicate versions (AgEcon conference vs journal, SSRN vs journal, duplicate DOIs such as Soares & Porto, two records each for 'Spatial heterogeneity and the choice of instruments' 1996/2001 and 'Regulation of nitrogen pollution: taxes versus quotas' 1995) should bring this to roughly 3,300–3,500. The ranked sources add mostly duplicates; grey literature adds about 20–40 agency reports. Trade-off: a title+abstract-only design returns 6,380 and keeps the same 8/9 seeds, but its tail precision is about 0/15. The title-restricted design gets the same recall at less than half the volume. If volume must be cut further, S6 (regulatory cost) is the first candidate to screen with AI prioritization only; it was nonetheless the only arm that found Mace et al.",
+ "issues_and_limits": [
+  "Counts are live OpenAlex values from 2026-10-11/12 and will drift.",
+  "Validation set S-1 was located with OpenAlex title searches that use the same vocabulary as the strings ('pesticide tax', etc.), so it overstates recall. V2 (12 items from PubMed index, Scholar Gateway and web) is the more independent test: 7/12 by S1 alone, 12/12 only after adding S6, S7 and S8. Unknown-unknowns certainly remain.",
+  "The title restriction (pesticide concept in the title) is the main design choice. It loses papers that mention pesticides only in the abstract, such as general agri-environmental policy and instrument-choice papers. No seed was lost, but the risk cannot be measured beyond the seed sets.",
+  "Weitzman (1974) and general instrument-choice theory without agrochemical vocabulary cannot be retrieved topically. S5 covers only citers whose title/abstract has agricultural terms, and it depends on how completely OpenAlex parsed references for a 1974 article.",
+  "No Scholar Gateway or research-index result surfaced a Weitzman-style prices-vs-quantities application to pesticides specifically. Such work may be rare, or it may sit in nonpoint/nitrogen papers (S3, S2-A8b) and grey literature.",
+  "Overlaps among S3, S4, S5 and S8, and between S8 and S1, were not measured. The volume estimate is a range.",
+  "OpenAlex cannot union filters on different fields (title vs title_and_abstract vs cites) in one call. Overlaps were measured by AND-ing filters, and every call echoes the full parsed query (x_query), which makes outputs very long.",
+  "Firecrawl's OpenAlex route allows about 12 requests per minute; 1 call returned HTTP 429 and was re-run. The Firecrawl 'query/directQuote' format did not reduce output and costs 5 credits.",
+  "No native AgEcon Search, RePEc, SSRN, NBER, EconLit, Scopus or Web of Science search was possible: grey literature was sampled via web search only. EconLit is the main bibliographic gap for agricultural economics. Crossref was not used.",
+  "The research index and Scholar Gateway return ranked results without totals. Scholar Gateway payloads lacked titles (DOI, ISSN and snippet only), so some DOIs (e.g., 10.2307/1244419, 10.2307/1243886) were not identified by title from tool output.",
+  "Scope issues for the screeners. S2-A4 (HHP bans and suicide) is mostly epidemiology; only studies reporting effects on use/yield/output or cost-effectiveness inform instrument choice. S1-I6 and S7 include farmer health-cost valuation. S4 overlaps SQ1 (health effects of aerial spraying, e.g., Camacho & Mejía).",
+  "Agency regulatory-impact analyses (CDFA-OPCA school-site and chlorpyrifos reports, EPA BEAD fumigant buffer analyses, CDPR 1,3-D setbacks, BiPRO 2004, Ramboll 2021 SUD evaluation) are grey literature mostly absent from OpenAlex and need hand-search.",
+  "No date or type filters were applied or tested (e.g., excluding paratext/erratum). The seeds span 1974–2024, so no date floor is recommended for SQ3, unlike SQ1 (1990+).",
+  "Portuguese/Spanish coverage relies on OpenAlex only (S8). SciELO/LILACS were not searched for SQ3.",
+  "S6 was measured with both P+ (738) and P++ (740); the P++ version is the one recommended."
+ ],
+ "syntax_findings": [
+  "OpenAlex title_and_abstract.search accepts uppercase AND/OR, parentheses and quoted phrases. 'pesticide' (316,429) AND tax-block (861,056) = 864, and nested OR-of-AND unions run in a single call (6,380).",
+  "title.search is parsed as display_name.search. It accepts Boolean expressions, and 2 title.search filters can be AND-ed in one call (S7). title.search plus title_and_abstract.search gives a 'concept in title, other concepts anywhere' design.",
+  "There is NO accent folding: title 'agrotóxicos OR agrotóxico' = 3,912 vs 'agrotoxicos' = 79. Accented Portuguese/Spanish forms must be listed explicitly. Stemming is English-only.",
+  "Search is stemmed: 'pesticide' matches 'pesticides', and quoted phrases are stemmed ('buffer zone' matches 'buffer-zone'). The bare word 'setback' is generic English and inflates counts (10,266).",
+  "cites:W<id> combines with title_and_abstract.search, which gives a reproducible citation-chasing arm (108 citers of Weitzman 1974 with agricultural vocabulary).",
+  "Union across different filter fields (title, title_and_abstract, cites, doi) is impossible in one call. Overlaps are measured by AND-ing the filters (e.g., S1∩S2 = 30, S6∩S1 = 170, S7∩S1 = 46).",
+  "The doi: filter with pipes is the right tool for known-item recall. A doi containing parentheses (10.1016/s0921-8009(01)00164-1) works unencoded. One DOI can map to 2 OpenAlex records (Soares & Porto 2012: W2000841697, W1916498121).",
+  "Relevance-sorted paging (page=N) is a cheap way to sample tail precision before committing to a string.",
+  "Some Brazilian articles are stored with Portuguese-only titles (CSP 2020 'Os incentivos fiscais aos agrotóxicos...'), so English-only pesticide blocks miss them."
+ ],
+ "incidental_relevant_studies": [
+  {
+   "title": "The Economics of Pesticide Use and Regulation",
+   "id": "10.1126/science.253.5019.518",
+   "year": "1991",
+   "why": "Science overview of US pesticide regulation (bans as the main US device) and its economic trade-offs. Not a seed; retrieved by S1 and S6."
+  },
+  {
+   "title": "The Economics of Pesticides and Pest Control",
+   "id": "10.1561/101.00000007",
+   "year": "2007",
+   "why": "IRERE review on productivity vs health effects and on policies vs the social optimum; uses the damage-control framing."
+  },
+  {
+   "title": "Risk-indexed herbicide taxes to reduce ground and surface water pollution: an integrated ecological economics evaluation",
+   "id": "10.1016/s0921-8009(01)00164-1",
+   "year": "2001",
+   "why": "Differentiates taxes by a risk/damage index, so it is directly about which damage parameter a tax should track."
+  },
+  {
+   "title": "Ex-post evaluation of the Danish pesticide tax: A novel and effective tax design",
+   "id": "10.1016/j.landusepol.2023.106549",
+   "year": "2023",
+   "why": "Ex post evaluation of the load-based Danish tax: the price instrument in practice."
+  },
+  {
+   "title": "Revisiting Pesticide Taxation Schemes",
+   "id": "10.1016/j.ecolecon.2016.12.001",
+   "year": "2017",
+   "why": "Finger/Möhring line on the design of pesticide taxes in Europe."
+  },
+  {
+   "title": "European Pesticide Tax Schemes in Comparison: An Analysis of Experiences and Developments",
+   "id": "10.3390/su8040378",
+   "year": "2016",
+   "why": "Compares European pesticide tax schemes (Denmark, Norway, Sweden, France)."
+  },
+  {
+   "title": "A Meta-Analysis on the Elasticity of Demand for Pesticides",
+   "id": "10.1111/1477-9552.12198",
+   "year": "2016",
+   "why": "Gives the key empirical parameter for a tax (slope of marginal abatement cost via demand elasticity)."
+  },
+  {
+   "title": "Pathways for advancing pesticide policies",
+   "id": "10.1038/s43016-020-00141-4",
+   "year": "2020",
+   "why": "Policy-mix framework (Möhring et al.)."
+  },
+  {
+   "title": "Pesticide taxes or voluntary action? An analysis of responses among Norwegian grain farmers",
+   "id": "10.1016/j.jenvman.2020.111074",
+   "year": "2020",
+   "why": "Farmer response to a doubling of the pesticide price (Norwegian tax)."
+  },
+  {
+   "title": "Modelling pesticide risk: A marginal cost–benefit analysis of an environmental buffer-zone programme",
+   "id": "10.1016/j.landusepol.2009.08.021",
+   "year": "2009",
+   "why": "Explicit marginal cost-benefit of buffer zones, the third instrument in the Essay 2 ranking."
+  },
+  {
+   "title": "Financial effect of limiting pesticide use near schools for almonds in nine counties depends on soils and weather",
+   "id": "10.3733/ca.2020a0001",
+   "year": "2020",
+   "why": "Economic evaluation of California school-site setbacks, the buffer-zone case the task asked to locate."
+  },
+  {
+   "title": "Balancing Bees and Pest Management: Projected Costs of Proposed Bee-Protective Neonicotinoid Regulation in California",
+   "id": "10.1093/jee/toab231",
+   "year": "2021",
+   "why": "Ex ante regulatory cost of use restrictions (abatement-cost side). Found only by the S6 arm."
+  },
+  {
+   "title": "The impact of pesticide regulations on suicide in Sri Lanka",
+   "id": "10.1093/ije/dym164",
+   "year": "2007",
+   "why": "Gunnell et al.: canonical ex post evaluation of HHP bans."
+  },
+  {
+   "title": "Do Targeted Bans of Insecticides to Prevent Deaths from Self-Poisoning Result in Reduced Agricultural Output?",
+   "id": "10.1289/ehp.11029",
+   "year": "2008",
+   "why": "Measures the output cost of bans (near zero), an empirical input to the cost of the quantity instrument."
+  },
+  {
+   "title": "Bans of WHO Class I Pesticides in Bangladesh—suicide prevention without hampering agricultural output",
+   "id": "10.1093/ije/dyx157",
+   "year": "2017",
+   "why": "Ex post effects of bans on both health and agricultural output."
+  },
+  {
+   "title": "The cost-effectiveness of banning highly hazardous pesticides to prevent suicides due to pesticide self-ingestion across 14 countries: an economic modelling study",
+   "id": "10.1016/s2214-109x(20)30493-9",
+   "year": "2020",
+   "why": "Economic evaluation of bans as an instrument."
+  },
+  {
+   "title": "Impact of paraquat regulation on suicide in South Korea",
+   "id": "10.1093/ije/dyv304",
+   "year": "2016",
+   "why": "Ex post evaluation of the Korean paraquat ban."
+  },
+  {
+   "title": "Agriculture without paraquat is feasible without loss of productivity—lessons learned from phasing out a highly hazardous herbicide",
+   "id": "10.1007/s11356-022-24951-0",
+   "year": "2023",
+   "why": "Productivity effects of an active-ingredient phase-out."
+  },
+  {
+   "title": "The General Ban on Aerial Spraying of Pesticides of the European Union: the policy-making process between 1993-2009",
+   "id": "10.18174/442443",
+   "year": "2018",
+   "why": "The only located source on a METHOD ban. It documents the BiPRO (2004) impact assessment comparing an aerial ban vs taxes/levies/fees on aerial spraying vs minimum requirements, which is exactly the Essay 2 comparison."
+  },
+  {
+   "title": "The health consequences of aerial spraying illicit crops: The case of Colombia",
+   "id": "10.1016/j.jhealeco.2017.04.005",
+   "year": "2017",
+   "why": "Retrieved by S4. Health damage of aerial application (overlaps SQ1)."
+  },
+  {
+   "title": "Prices vs Quantities with Nonpoint Source Stochasticity and Imperfect Instruments",
+   "id": "10.22004/ag.econ.404456",
+   "year": "2026",
+   "why": "Weitzman framework applied to nonpoint pollution with imperfect instruments (AgEcon). Directly relevant to the instrument-ranking question."
+  },
+  {
+   "title": "Spatial Heterogeneity and the Choice of Instruments to Control Nonpoint Pollution",
+   "id": "10.1023/a:1011164102052",
+   "year": "2001",
+   "why": "Instrument choice under heterogeneity (1996 AgEcon version: 10.22004/ag.econ.18449)."
+  },
+  {
+   "title": "Regulation of Nitrogen Pollution: Taxes versus Quotas",
+   "id": "10.22004/ag.econ.30925",
+   "year": "1995",
+   "why": "Explicit taxes-vs-quotas comparison for an agricultural input (2 OpenAlex records)."
+  },
+  {
+   "title": "Uncertainty and incentives for nonpoint pollution control",
+   "id": "10.1016/0095-0696(88)90030-7",
+   "year": "1988",
+   "why": "Segerson (JEEM) on ambient-based instruments; cites Weitzman (found by S5)."
+  },
+  {
+   "title": "Managing diffuse environmental contamination from agricultural pesticides: An economic perspective on issues and policy options, with particular reference to Europe",
+   "id": "10.1016/s0167-8809(98)00095-4",
+   "year": "1998",
+   "why": "Economic review of instrument options for pesticides as a nonpoint pollutant; cites Weitzman."
+  },
+  {
+   "title": "To tax or to ban? A discrete choice experiment to elicit public preferences for phasing out glyphosate use in agriculture",
+   "id": "10.1371/journal.pone.0283131",
+   "year": "2023",
+   "why": "Public preferences between price and quantity instruments."
+  },
+  {
+   "title": "Pesticide use and economic impacts on health",
+   "id": "10.1590/s0034-89102012005000006",
+   "year": "2012",
+   "why": "Brazilian estimate of acute-poisoning externalities (Soares & Porto), a possible damage parameter for Brazil."
+  },
+  {
+   "title": "Os incentivos fiscais aos agrotóxicos como política contrária à saúde e ao meio ambiente",
+   "id": "10.1590/0102-311x00225919",
+   "year": "2020",
+   "why": "Brazilian tax exemptions for pesticides (about BRL 9.8bn in 2017), linked to ADI 5553. Retrievable only through the PT/ES arm."
+  },
+  {
+   "title": "The social costs of pesticides: a meta-analysis of the experimental and stated preference literature",
+   "id": "10.1038/s41598-024-83298-3",
+   "year": "2024",
+   "why": "Synthesizes WTP-based damage valuations, a direct input for the damage-function parameter."
+  },
+  {
+   "title": "Pesticide Environmental Accounting: A method for assessing the external costs of individual pesticide applications",
+   "id": "10.1016/j.envpol.2007.02.019",
+   "year": "2007",
+   "why": "Per-application external-cost (damage) accounting; OpenAlex year 2007, journal year 2008."
+  },
+  {
+   "title": "Evaluating Health and Environmental Impacts of Pesticide Use: Implications for the Design of Ecolabels and Pesticide Taxes",
+   "id": "10.1021/es990732v",
+   "year": "2000",
+   "why": "Links damage indicators to the design of information instruments (ecolabels) and of taxes."
+  },
+  {
+   "title": "Pesticide taxation and multi-objective policy-making: farm modelling to evaluate profit/environment trade-offs",
+   "id": "10.1016/s0921-8009(00)00236-6",
+   "year": "2001",
+   "why": "Simulation of the welfare trade-offs of a pesticide tax."
+  },
+  {
+   "title": "Pesticide Tax, Cropping Patterns, and Water Quality in South Central Texas",
+   "id": "10.1017/s1074070800019325",
+   "year": "1994",
+   "why": "Early simulation of a pesticide tax and its water-quality effects."
+  },
+  {
+   "title": "An Assessment of the Economic Impacts of Banning Pesticides (examples retrieved but DOI not shown): 'Banning of herbicides and the impact on agriculture: the case of glyphosate in Sri Lanka' (2019); 'Glyphosate ban will have economic impacts on European agriculture but effects are heterogenous and uncertain' (2023); 'The Welfare Effects of Erosion Controls, Banning Pesticides, and Limiting Fertilizer Application in the Corn Belt' (1977)",
+   "year": "1977-2023",
+   "why": "Ex ante and ex post economics of active-ingredient bans; titles taken from A2's top results, DOIs not retrieved."
+  },
+  {
+   "title": "Grey literature (no DOI): CDFA-OPCA 'Draft regulation regarding pesticide applications near schoolsites: potential economic effects'; EPA BEAD 'Fumigant Buffer Impact Analysis for Kern County California' (2008, regulations.gov EPA-HQ-OPP-2005-0128-0189); CDPR DPR 24-001 1,3-D setbacks ISOR (2024); Ramboll (2021) SUD evaluation case-study compendium; Koppenberg (2022) glyphosate regulatory debate (AgEcon 322214)",
+   "year": "2008-2024",
+   "why": "Agency regulatory-impact analyses of buffers and setbacks, and of the EU directive that bans aerial spraying; needs hand-search."
+  }
+ ]
+}
