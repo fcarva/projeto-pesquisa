@@ -37,7 +37,7 @@ O orientador (Prof. Renato Seixas) só entra como autor se ele decidir participa
 
 | data | seção | mudança | motivo |
 |---|---|---|---|
-| — | — | — | — |
+| 2026-10-12 (antes da confirmação) | Elegibilidade, exposição | regras de fronteira (a) população mista com medida ambiental; (b) biomonitoramento de composto de fonte exclusivamente agrícola | Devil's Advocate do checkpoint 1: a regra original excluiria as coortes de clordecona, que a PRESS identificou como as mais próximas do caso da banana |
 
 ### Financiamento
 ⬜ *A preencher pelo pesquisador* (bolsa, se houver). Nenhum financiador tem papel na revisão.
@@ -99,7 +99,7 @@ temática. O relatório não as chamará de "revisão sistemática".
 | critério | inclui | exclui, com motivo |
 |---|---|---|
 | Desenho | quase-experimental; coorte; caso-controle; ecológico/painel com exposição espaço-temporal; transversal com exposição individual atribuída | relato/série de casos; revisões (vão para busca de citações); editoriais e comentários; estudos em animais e *in vitro*; modelagem de exposição sem dado de saúde |
-| Exposição | via ambiental/comunitária de agrotóxico **agrícola**; aplicação aérea para controle vetorial | **somente ocupacional**: a externalidade recai sobre terceiros, e a exposição do trabalhador tem outra via e outra seleção; **uso doméstico ou intradomiciliar**; **biomonitoramento sem atribuição de fonte agrícola**, porque não informa a regulação de um método de aplicação; fertilizantes e nitrato sem agrotóxico |
+| Exposição | via ambiental/comunitária de agrotóxico **agrícola**; aplicação aérea para controle vetorial. **Regras de fronteira (DA-1):** (a) população que inclui trabalhadoras rurais é elegível se a **medida** de exposição for residencial, espacial ou ambiental; (b) biomonitoramento é elegível quando o composto tem **fonte exclusivamente agrícola no contexto** (p. ex. clordecona nas Antilhas Francesas, usada só em bananais) | **exposição medida só pela ocupação** (própria ou do parceiro): a externalidade recai sobre terceiros, e a exposição do trabalhador tem outra via e outra seleção; **uso doméstico ou intradomiciliar**; **biomonitoramento de composto com fontes múltiplas sem atribuição agrícola** (p. ex. metabólitos DAP na população geral), porque não informa a regulação de um método de aplicação; fertilizantes e nitrato sem agrotóxico |
 | Desfecho | ao menos um desfecho primário ou secundário | só marcadores intermediários (biomarcadores, comprimento de telômero etc.) |
 | Período | 1990 a 2026-10-11 | antes de 1990: anterior à atribuição de exposição por SIG e aos registros de uso |
 | Idioma | inglês, português, espanhol | outros, por viabilidade; os excluídos por idioma são contados |
@@ -267,7 +267,9 @@ estudo supõe ou exige** (inclinação, nível, convexidade, limiar).
 ## APÊNDICES
 
 ### Apêndice A — Estratégias de busca, contagens e recuperação
-*(preenchido a partir da calibração; ver abaixo)*
+Em arquivo próprio, **`apendice-a-estrategias.md`**: strings congeladas por bloco e
+base, notas de sintaxe, recall de itens conhecidos, volume esperado e traduções
+para Scopus/WoS. Logs completos em `calibracao/`.
 
 ### Apêndice B — Formulário de extração
 Campos de "Itens de dados", em JSON, com âncora textual obrigatória para todo número.

@@ -244,3 +244,50 @@ e o blueprint acima continuam valendo como base do protocolo.
 O protocolo fica em `docs/revisao-sistematica/protocolo.md`, e os registros de
 busca e triagem, em `docs/revisao-sistematica/`. São metadados bibliográficos,
 não microdado.
+
+---
+
+## 6. Fase 1 do modo `systematic-review`: protocolo e Devil's Advocate (checkpoint 1)
+
+*2026-10-12.* Protocolo em `docs/revisao-sistematica/protocolo.md` (v0.9);
+estratégias congeladas em `docs/revisao-sistematica/apendice-a-estrategias.md`;
+logs em `docs/revisao-sistematica/calibracao/`; prompts verbatim em
+`docs/revisao-sistematica/prompts/`.
+
+**Como a estratégia foi construída.**
+1. Calibração por bloco: 4 agentes, com recall de itens conhecidos.
+2. Revisão PRESS 2015 independente: 4 agentes. **As quatro pediram revisão obrigatória**, com mudanças testadas.
+3. Strings congeladas a partir das recomendações da PRESS, copiadas por script.
+
+A rodada que mediria o recall num conjunto de validação totalmente novo falhou
+por **limite de gasto da organização** e fica como pendência declarada.
+
+### Devil's Advocate — Checkpoint 1 (protocolo)
+
+**Veredito: PASS com condições.** Não há problema crítico. Dois problemas
+maiores foram corrigidos no protocolo antes da confirmação, e dois dependem de
+decisão do pesquisador.
+
+**Maiores, corrigidos (emenda registrada no protocolo):**
+- **M1. A regra de biomonitoramento excluiria as coortes de clordecona.** A PRESS da SQ1 mostrou que os estudos de Guadalupe (clordecona, inseticida usado só em bananais) são os mais próximos do caso cearense, e a exposição deles é medida no sangue materno. Correção: biomonitoramento é elegível quando o composto tem fonte exclusivamente agrícola no contexto.
+- **M2. "Somente ocupacional" era ambíguo.** Em comunidades de *plantation*, a gestante muitas vezes também trabalha na lavoura. Correção: o critério é a **medida** de exposição. Se for residencial, espacial ou ambiental, o estudo é elegível mesmo com trabalhadoras na amostra.
+
+**Maiores, que dependem do pesquisador:**
+- **M3. Viabilidade (o F do FINER).** São ~15.000 registros brutos, ~4.000–4.500 só na SQ1. A triagem dupla por IA de tudo isso consome várias vezes o que a calibração consumiu, e a calibração já esgotou o limite de gasto da organização duas vezes. Um protocolo que não pode ser executado como escrito falha no PRISMA na hora do relatório. **Decisão de escala necessária.**
+- **M4. A validação humana depende do tempo do pesquisador.** A amostra de referência de 100 registros (PRISMA-trAIce M9) leva de 2 a 3 horas de triagem cega. Sem ela, o item M9 é obrigatório e bloqueia o Estágio 2.5.
+
+**Menores:**
+- o recall em validação independente (V4) não foi medido; o relatório tem de chamá-lo de recall de desenvolvimento;
+- as traduções para Scopus/WoS não foram testadas;
+- a SQ3 depende de conferência manual de clássicos anteriores a 1990.
+
+**Observação.** Sem Scopus/WoS, a cobertura de economia depende do OpenAlex,
+de literatura cinzenta e de citações. Duas das nove sementes da SQ1 (Calzada,
+JAERE; Dias, Rocha & Soares, ReStud) não estão no PubMed, e só o OpenAlex as
+pega.
+
+**Contra-argumento mais forte.** "Uma revisão 'sistemática' com triagem por IA
+e um único humano não é sistemática no sentido Cochrane." Resposta disponível:
+ela não se apresenta como Cochrane. Declara o uso de IA item a item
+(PRISMA-trAIce), mede o desempenho da IA contra o humano e não esconde a falta
+de um segundo revisor humano.
