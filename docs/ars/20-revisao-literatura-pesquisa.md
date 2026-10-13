@@ -407,3 +407,12 @@ contagem de hoje. Achado de método: o cursor do OpenAlex não é determinístic
 ele repete umas obras e pula outras (SQ2 #5: 3.716 distintos de 3.719). O coletor une
 passadas por ID até fechar o total, refaz a ordem pelo `relevance_score` de cada obra (que
 importa para a regra de parada da SQ2/SQ3) e registra no log as passadas e as repetições.
+
+**Emenda v1.2 (2026-10-13, sessão na nuvem, antes da coleta do OASISBR).** Num teste com
+duas consultas curtas e idênticas, a LA Referencia saiu **subconjunto** do OASISBR (zero
+registros só nela). O OASISBR trouxe 30 de 45 e 23 de 47 registros a mais, entre eles
+dissertações centrais para a SQ1 e TCCs de graduação. Decisões do pesquisador:
+(i) **TCC com dado original entra na SQ1**, e TCC → artigo segue "vale o publicado";
+(ii) o OASISBR é coletado em **fatias de ≤ 5 + 5 termos**, com pausa de 3 s e parada no
+primeiro 403, porque a API recusa consultas com ~10 termos ou mais. O texto da emenda
+foi aprovado pelo pesquisador antes do commit.
