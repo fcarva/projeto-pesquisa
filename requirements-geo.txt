@@ -20,3 +20,8 @@ geobr           # malha municipal oficial (IPEA). ⚠️ NÃO tem bacia/ottobaci
                 # conferido em 2026-09-22 no pacote R e no Python; a ANA segue
                 # sendo rota própria. ⚠️ E ele baixa com verificação TLS
                 # DESATIVADA (InsecureRequestWarning). Ver scripts/data_prep/16.
+
+# Chuva em grade (scripts/data_prep/18_chuva_chirps.py): o recorte CHIRPS vem
+# em NetCDF clássico, que o xarray lê pelo motor do scipy.
+xarray
+scipy

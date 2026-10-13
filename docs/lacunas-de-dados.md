@@ -56,6 +56,7 @@ intransponível.
 | **PAM/SIDRA** | ✅ **baixada** — `01_check_dose_variation.py --fonte sidra` roda direto (preflight: 4/4 códigos conferidos) |
 | **SINASC** | ✅ **baixado** — `02_clean_births.py --fonte pysus`, 1.001.709 nascimentos, 2015–2022 |
 | SIM, SIH | caminho `pysus` desbloqueado e **corrigido** (ver abaixo); ainda não rodados |
+| **Chuva (CHIRPS v2.0)** | ✅ **2026-10-13** — `18_chuva_chirps.py` (`make chuva`): município × mês 1991–2024, recorte via IRI Data Library e malha da API do IBGE. Substitui o **PRISM** do Reynier & Rubin, que só cobre os EUA. ⬜ Validar contra postos da FUNCEME. Ver `docs/ars/20-material-drive-prism-chapada.md` §3 |
 
 ⚠️ **O caminho `pysus` estava quebrado, e só rodando se descobriu.** Não existe
 `Parquet.to_dataframe()`; o método é `load()`, e é **corotina**. Corrigido em

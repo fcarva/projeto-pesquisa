@@ -20,6 +20,18 @@ Ordenada do **mais** ao **menos** importante para o projeto (avaliação de impa
 
 ---
 
+## Chapada do Apodi — base empírica local (acrescentado em 2026-10-13)
+
+Descritiva, não causal: serve para química, geografia, cronologia e volumes da aérea, não para magnitude. Detalhe e grau de cada uma em `docs/ars/20-material-drive-prism-chapada.md` §4.
+
+- **Rigotto, R. M. et al. (2013).** *Tendências de agravos crônicos à saúde associados a agrotóxicos em região de fruticultura no Ceará, Brasil.* **Rev Bras Epidemiol** 16(3): 763–773. https://doi.org/10.1590/S1415-790X2013000300019 — Limoeiro, Quixeré e Russas contra 12 municípios pareados de agricultura familiar. Provavelmente o estudo citado pelo PSOL.
+- **Aguiar, A. C. P. (2017).** *Más-formações congênitas, puberdade precoce e agrotóxicos: uma herança maldita do agronegócio para a Chapada do Apodi (CE).* Dissertação, UFC. — Relatos datados de aérea em Tomé até 2014; a química da calda aérea.
+- **Teixeira, M. M. (2011).** Experiências de combate à pulverização aérea na Chapada do Apodi. In: Rigotto (org.), *Agrotóxicos, trabalho e saúde*, Edições UFC/Expressão Popular, p. 525–546. — A cronologia de 2009–2011 e os 4 milhões de litros.
+- **Carneiro, F. F. et al. (2024).** *Vigilância Popular em Saúde: luta emancipatória pela vida ante o agronegócio na Chapada do Apodi-CE.* **Saúde em Debate** 48(spe1). https://doi.org/10.1590/2358-28982024e18715p
+- **Rocha, R. & Soares, R. R. (2015).** *Water scarcity and birth outcomes in the Brazilian semiarid.* **J Dev Econ** 112: 72–91. https://doi.org/10.1016/j.jdeveco.2014.10.003 — Chuva na gestação e peso ao nascer no semiárido, com SINASC. O confundidor da chuva.
+
+---
+
 ## Economia da regulação e escolha de instrumento (sua dimensão "economia" + a ponte teórica)
 
 **[5] Fernandez-Cornejo, J., Jans, S. & Smith, M. (1998).** *Issues in the Economics of Pesticide Use in Agriculture: A Review of the Empirical Evidence.* **Review of Agricultural Economics** 20(2): 462–488. https://doi.org/10.2307/1350002

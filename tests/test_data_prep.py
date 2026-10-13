@@ -3882,3 +3882,102 @@ def test_main_do_calendario_grava_e_recusa_entrada_invalida(tmp_path):
     assert set(r.index) == {"nivel", "calendario"}
     assert (r["g1"] == 3).all()
     assert r.loc["calendario", "meses_pico"] == "2,3,4,5"
+
+
+# --------------------------------------------------------------------------
+# 18_chuva_chirps.py — o PRISM que o Ceará não tem (ARS rodada 20)
+# Sem rede: NetCDF e malha sintéticos.
+# --------------------------------------------------------------------------
+
+chuva = _carrega("18_chuva_chirps.py")
+
+
+def test_tempo_do_iri_e_meses_desde_1960_no_meio_do_mes():
+    anos, meses = chuva.decodifica_tempo_iri([0.5, 696.5, 707.5, 779.5])
+    assert list(anos) == [1960, 2018, 2018, 2024]
+    assert list(meses) == [1, 1, 12, 12]
+
+
+def test_media_por_municipio_pondera_area_e_ignora_o_mar():
+    from shapely.geometry import box
+    xs, ys = [0.5, 1.5], [0.5, 1.5]                  # grade 2×2 de lado 1
+    polis = {"2300001": box(0, 0, 1, 2),             # coluna da esquerda
+             "2300002": box(0.5, 0, 2, 1)}           # meia célula + uma inteira
+    W, cods, cob = chuva.pesos_area(xs, ys, polis, res=1.0)
+    assert cods == ["2300001", "2300002"]
+    assert cob == pytest.approx([1.0, 1.0])
+    # ordem C de (Y, X): [y0x0, y0x1, y1x0, y1x1]
+    P = np.array([[10.0, 40.0, 20.0, np.nan]])
+    r = chuva.agrega(P, W)[0]
+    assert r[0] == pytest.approx(15.0, abs=0.2)       # média de 10 e 20 (cos(lat) quase igual)
+    assert r[1] == pytest.approx((0.5 * 10 + 1.0 * 40) / 1.5, abs=0.2)
+
+
+def test_cobertura_denuncia_municipio_fora_da_grade():
+    from shapely.geometry import box
+    W, cods, cob = chuva.pesos_area([0.5], [0.5], {"2300001": box(0, 0, 2, 1)}, res=1.0)
+    assert cob[0] == pytest.approx(0.5)
+
+
+def test_janela_de_pico_acha_a_quadra_e_mede_o_pico_fixo():
+    v = [0, 50, 100, 100, 50, 0, 0, 0, 0, 0, 0, 0]    # pico fev–mai
+    w = [80, 100, 100, 20, 0, 0, 0, 0, 0, 0, 0, 0]    # ano que adianta para janeiro
+    painel = pd.DataFrame({"cod_ibge6": "230760", "ano": np.repeat([2018, 2019], 12),
+                           "mes": list(range(1, 13)) * 2, "chuva_mm": v + w})
+    r = chuva.janela_de_pico(painel).set_index("ano")
+    assert r.loc[2018, "pico_inicio"] == 2 and r.loc[2018, "frac_pico_fixo"] == pytest.approx(1.0)
+    assert r.loc[2019, "pico_inicio"] == 1
+    assert r.loc[2019, "frac_pico_obs"] == pytest.approx(1.0)
+    assert r.loc[2019, "frac_pico_fixo"] == pytest.approx(220 / 300)
+
+
+def test_climatologia_so_usa_os_anos_da_normal():
+    painel = pd.DataFrame({"cod_ibge6": "230760", "ano": [2000, 2001, 2019],
+                           "mes": 3, "chuva_mm": [100.0, 200.0, 400.0]})
+    r = chuva.climatologia(painel, 2000, 2001).set_index("ano")
+    assert r.loc[2019, "clima_mm"] == pytest.approx(150.0)
+    assert r.loc[2019, "anomalia_mm"] == pytest.approx(250.0)
+
+
+def _netcdf_e_malha(tmp_path, xs, ys, n_meses=24):
+    import json as _json
+    import xarray as xr
+    from shapely.geometry import box, mapping
+    t = 696.5 + np.arange(n_meses)                    # jan/2018 em diante
+    rng = np.random.default_rng(3)
+    dados = rng.uniform(0, 200, size=(n_meses, len(ys), len(xs))).astype("float32")
+    ds = xr.Dataset({"precipitation": (("T", "Y", "X"), dados, {"units": "mm/month"})},
+                    coords={"T": t, "Y": ys, "X": xs})
+    nc = tmp_path / "c.nc"
+    ds.to_netcdf(nc, engine="scipy")
+    g = {"type": "FeatureCollection", "features": [
+        {"type": "Feature", "properties": {"codarea": "2307601"},
+         "geometry": mapping(box(-38.0, -5.2, -37.9, -5.1))}]}
+    malha = tmp_path / "m.json"
+    malha.write_text(_json.dumps(g))
+    return nc, malha
+
+
+def test_main_grava_painel_e_recusa_caixa_curta(tmp_path):
+    xs = np.round(np.arange(-38.075, -37.85, 0.05), 3)
+    ys = np.round(np.arange(-5.275, -5.05, 0.05), 3)
+    nc, malha = _netcdf_e_malha(tmp_path, xs, ys)
+    out = tmp_path / "out"
+    base = ["--netcdf", str(nc), "--malha", str(malha), "--out-dir", str(out),
+            "--clima", "2018", "2019"]
+    assert chuva.main(base) == 0
+    p = pd.read_parquet(out / "chuva_chirps_ce_muni_mes.parquet")
+    assert len(p) == 24 and set(p["cod_ibge6"]) == {"230760"}
+    assert p["chuva_mm"].between(0, 200).all()
+    assert (out / "chuva_chirps_ce_pico.csv").exists()
+    prov = _json.loads((out / "chuva_chirps_ce_proveniencia.json").read_text())
+    assert prov["anos"] == [2018, 2019] and prov["cobertura_minima"] >= 0.98
+    # grade que não cobre o município inteiro: falha, não devolve média de borda
+    nc2, malha2 = _netcdf_e_malha(tmp_path, xs[:2], ys)
+    assert chuva.main(["--netcdf", str(nc2), "--malha", str(malha2),
+                       "--out-dir", str(out)]) == 1
+
+
+def test_makefile_tem_o_alvo_da_chuva():
+    mk = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    assert "\nchuva:" in mk and "18_chuva_chirps.py" in mk

@@ -104,7 +104,7 @@ atribui a cada trabalho. Duas atribuições da primeira redação da introduçã
 | Reynier & Rubin: "redução de 23 a 32 gramas" | ✅ **CONFERE — corrigido em 2026-09-22.** A ressalva anterior dizia que a magnitude "vem do material de projeto, não do *abstract*". A primeira metade era falsa e a segunda é irrelevante: o texto completo (PMC11761964, Discussão) traz **verbatim** *"reduced average birthweight by 23 to 32 g at the average level of glyphosate exposure"*. O PNAS publica *Significance* no lugar do resumo numérico, e foi isso que a verificação por *abstract* não alcançou. Estimativa central: **29,8 g** à intensidade média de 2012. ⚠️ E o decil inferior perde **75 g** contra **6 g** no superior — é daí que vem o "doze vezes" |
 | Larsen et al.: efeito só na cauda superior | ✅ confere — **5 a 9%**, apenas acima do percentil 95 |
 | Frank (2024): inseticida ↑, mortalidade infantil ↑ | ✅ confere — **+31,1%** de inseticida, **+7,9%** de mortalidade infantil |
-| Camacho & Mejía (2017) | ⚠️ **sem *abstract* depositado**. A descrição no texto se apoia no título, e uma nota de rodapé declara isso. Conferir contra o texto integral |
+| Camacho & Mejía (2017) | ✅ **texto integral lido em 2026-10-13** (PDF do pesquisador). Desfechos: consultas dermatológicas e respiratórias e **aborto**. Exposição: área aspergida diária por município, em janelas de 7 dias, 15 dias e 9 meses. Efeitos fixos individuais, 2003–2007, controle de chuva média mensal. +1 DP de aspersão: aborto +2,9% (amostra toda), +8,7% (municípios aspergidos). Ver `docs/ars/20-material-drive-prism-chapada.md` §4.2. ⚠️ A nota de rodapé que dizia apoiar-se só no título pode sair |
 
 **A regra que isso estabelece:** DOI conferido autoriza a **citação**; não
 autoriza a **afirmação sobre o achado**. São duas conferências distintas, e a
@@ -242,3 +242,24 @@ conferência; é fato a declarar no texto.
 **zero fantasmas**: nenhuma `\cite` aponta para entrada inexistente. As sete
 novas nascem órfãs por construção: foram conferidas para poderem ser citadas,
 e citar é decisão do texto, não desta passada.
+
+---
+
+## 10. Conferências de 2026-10-13 (rodada do material do Drive, doc 20)
+
+Crossref respondeu nesta sessão. Nada entrou no `.bib`: citar é decisão do texto.
+
+| referência | conferida por | estado |
+|---|---|---|
+| **Rigotto, R. M. et al. (2013)**, *Rev Bras Epidemiol* 16(3):763–773 | Crossref, `10.1590/S1415-790X2013000300019` | ✅ bibliográfica · resumo lido via Aguiar (2017). Provavelmente o estudo citado na petição do PSOL (⬜ conferir na ADI 7794) |
+| **Rocha, R. & Soares, R. R. (2015)**, *J Dev Econ* 112:72–91 | Crossref, `10.1016/j.jdeveco.2014.10.003`; resumo literal (IZA, ScienceDirect) | ✅ |
+| **Funk, C. et al. (2015)**, CHIRPS, *Scientific Data* 2:150066 | Crossref, `10.1038/sdata.2015.66` | ✅ — fonte do script 18 |
+| **Brainerd, E. & Menon, N. (2014)**, *J Dev Econ* 107:49–64 | Crossref, `10.1016/j.jdeveco.2013.11.004` | ✅ — o doc 19 a citava sem DOI |
+| **Camacho, A. & Mejía, D. (2017)**, *J Health Econ* 54:147–160 | Crossref, `10.1016/j.jhealeco.2017.04.005`; **texto integral** | ✅ (ver §5) |
+| **Carneiro, F. F. et al. (2024)**, *Saúde em Debate* 48(spe1) | Crossref, `10.1590/2358-28982024e18715p` | ✅ bibliográfica |
+| **Xavier, A. C. et al. (2022)**, *Int J Climatol* 42(16):8390–8404 | Crossref, `10.1002/joc.7731` | ✅ — grade diária brasileira, alternativa ao CHIRPS para validação |
+| **Aguiar, A. C. P. (2017)**, dissertação, UFC | PDF do pesquisador, lido integralmente | ✅ · sem DOI |
+| **Teixeira, M. M. (2011)**, capítulo em Rigotto (org.), Edições UFC, p. 525–546 | só pela citação em Aguiar (2017) | ⬜ capítulo não lido |
+| **Ferreira, M. J. M. et al. (2016)**, *Ciênc Saúde Coletiva* 21:743–752 | citada por terceiros; Crossref não respondeu à busca | ⬜ |
+| **Reynier & Rubin (2025)** | o registro Crossref do PNAS (`10.1073/pnas.2413013121`) diz **Emmett Reynier** e Edward Rubin, 122(3), 14/01/2025. As versões SSRN de 2024 aparecem como "Saulnier" | ✅ citar como Reynier, que é o registro do artigo publicado |
+

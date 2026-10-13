@@ -61,7 +61,7 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 274 testes (3 exigem requirements-geo.txt)"
+	@echo "make teste     — 281 testes (6 exigem requirements-geo.txt)"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
@@ -73,6 +73,7 @@ ajuda:
 	@echo "make mde-desenhos — quanto poder cada grupo tratado compra (só pré-período)"
 	@echo "make mde-calendario — MDE do desenho de calendário (1º tri no pico) contra o do nível"
 	@echo "                 (PICO=2,3,4,5 é HIPÓTESE; TRATADOS=cód,cód substitui o Censo 2006)"
+	@echo "make chuva     — chuva mensal por município (CHIRPS, o PRISM do Ceará) e o pico observado"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
 	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
@@ -268,6 +269,13 @@ mde-calendario:
 	  --painel data/processed/nascimentos_ce_muni_mes.parquet \
 	  --censo data/processed/censo_agro_equipamento_ce.csv \
 	  --meses-pico $(PICO) $(if $(TRATADOS),--tratados $(TRATADOS),)
+
+# Chuva mensal por município (CHIRPS v2.0 via IRI + malha do IBGE). O PRISM do
+# Reynier & Rubin só cobre os EUA; este é o análogo. ⚠️ Mede e reporta o pico
+# observado; NÃO troca o PICO do mde-calendario (pré-especificação, orientador).
+# Ver docs/ars/20-material-drive-prism-chapada.md.
+chuva:
+	$(PY) scripts/data_prep/18_chuva_chirps.py --inicio 1991 --fim 2024
 
 fronteira-geografica:
 	$(PY) scripts/data_prep/16_fronteira_geografica.py --vizinhos 24 22 26
