@@ -362,3 +362,15 @@ depois do cadastro. A rede está irrestrita desde 2026-10-12.
 3. deduplicação (script ainda a escrever): DOI → PMID/ID OpenAlex → título normalizado + ano. Pools separados por SQ, com a pertença cruzada registrada. Para a SQ1, exclusão automática por metadado (ano < 1990, idioma fora de en/pt/es), contada no PRISMA. Para a SQ3, exclusão de *paratext* e retratados;
 4. importar as exportações de SciELO, LILACS e Scopus de `registros/importados/` (RIS de preferência);
 5. piloto de 50 registros da SQ1 com os dois triadores → κ. A amostra de referência de 50 (25/25) **depende do consenso da IA**, então só sai depois que a triagem da SQ1 tiver ao menos 25 inclusões de consenso.
+
+---
+
+## 9. Plano de execução (2026-10-13)
+
+O roteiro das próximas sessões está em `docs/revisao-sistematica/plano-execucao.md`:
+as tarefas do pesquisador (chaves como variáveis de ambiente; exportação de Scopus,
+SciELO e LILACS pela CAPES) e cinco etapas no Claude Code, cada uma com prompt pronto.
+As etapas são: (1) emenda v1.1 + OASISBR/LA Referencia; (2) OpenAlex + Scopus API;
+(3) importação + deduplicação; (4) PRISMA 2020 completo; (5) piloto + triagem.
+Decisões do pesquisador nesta data: teses e dissertações entram na SQ1; Scopus por API
+(visão reduzida) + exportação pela CAPES.
