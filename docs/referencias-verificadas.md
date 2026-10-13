@@ -282,4 +282,8 @@ Crossref respondeu nesta sessão. Nada entrou no `.bib`: citar é decisão do te
 | **Diretiva 2009/128/CE**, art. 9; **COM(2025) 1021** | EUR-Lex, trechos pelo índice de busca | ✅ normas · texto integral não lido |
 | **Mosqueda v. Pilipino Banana Growers**, G.R. 189185, 16/08/2016 | e-Library da Suprema Corte das Filipinas e resumos, pelo índice | ✅ decisão · os 1.800 de 5.205 ha vêm de resumo do caso, ⬜ conferir no acórdão |
 | **Marinho, Carneiro & Almeida (2011)**, capítulo em Rigotto (org.) | só via Dossiê e Aguiar (2017) | ⬜ |
+| **Moreira, L. F. et al. (2026)**, *Espaço em Revista* 28(1):67–86 | Crossref `10.70261/er.v28i1.75212`; PDF enviado pelo pesquisador, lido integralmente (20 p.) | ✅ · ⚠️ chama a Lei 19.135/2024 de "revogação"; é exceção para drones |
+| **Milhome, M. A. L. (2011)**, tese, UFC | só via Moreira et al. (2026) | ⬜ |
+| **Rigotto, R. M. et al. (2013)**, capítulo em *Avesso do Trabalho III* | só via Moreira et al. (2026); ⚠️ homônimo do artigo da *Rev Bras Epidemiol* de 2013 | ⬜ |
+| **Portaria GM/MS 888/2021** (difenoconazol e epoxiconazol entre os 21 agrotóxicos acrescentados) | trabalho do congresso IBEAS 2021 e DOU, pelo índice | ✅ inclusão · ⬜ conferir no Anexo 9 da Portaria |
 

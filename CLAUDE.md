@@ -44,7 +44,7 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 > | **FAO-GAEZ** | ✅ adquirida — 184/184 municípios, primeiro estágio confere |
 > | **Bans municipais < 2019** | ✅ varridos — só Limoeiro do Norte (Lei 1.478, 20/11/2009), **revogada pela Lei 1.511, de 26/05/2010** (política ambiental; a revogação está num artigo do corpo, não na ementa — por isso a busca no acervo não a achou). ⬜ Texto integral a conferir. Ver `docs/legislacao/README.md` |
 > | **MapBiomas** | ✘ **DESCARTADO**: só classes genéricas, banana cai em "Outras culturas perenes". Não melhora a dose — não escrever ingestor |
-> | **SISAGUA** | ⏸️ adquirido e **suspenso**: quebra de registro no CE a partir de 2020 produziria efeito espúrio |
+> | **SISAGUA** | ⏸️ adquirido e **suspenso**: quebra de registro no CE a partir de 2020 produziria efeito espúrio. 🆕 2026-10-13: os fungicidas da calda aérea (difenoconazol, epoxiconazol) só entram na Portaria 888 em 2021 — sem pré-período. ⬜ tebuconazol em 2015–2018? (doc 20 §4.3) |
 > | **ANA (ottobacias)** | ⏸️ **bloqueada pelo SISAGUA**, não por disponibilidade — o montante/jusante precisa de coordenada que o SISAGUA não tem |
 > | **INMET / FUNCEME** | ⏸️ adquirível e bom, mas os alísios dão coerência 0,96 entre estações: "a favor do vento" vira "a oeste", que é geografia |
 > | **Censo 2022 (censobr)** | ✅ adquirido 2026-09-22 — domicílios por setor via GitHub Releases do IPEA; passa pelo proxy remoto. Triagem estrutural CE×RN em `15_censo_demografico.py` |

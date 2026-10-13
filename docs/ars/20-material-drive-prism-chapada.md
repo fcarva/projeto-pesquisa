@@ -185,7 +185,9 @@ qualitativo.
 | **Sousa, M. G. F. (2015).** Dissertação, IFCE | C | glifosato no ar de Limoeiro: até 2,9 µg/m³ na fase gás | via Aguiar e Moreira et al. · ⬜ |
 | **Ferreira, M. J. M. et al. (2016).** Gestão e uso dos recursos hídricos e a expansão do agronegócio. *Ciênc Saúde Coletiva* 21:743–752 | D | a água do perímetro e quem a usa; ligada à hipótese da seca (§3.3) | citada por terceiros · ⬜ Crossref não respondeu |
 | **Carneiro, F. F. et al. (2024).** Vigilância Popular em Saúde: luta emancipatória pela vida ante o agronegócio na Chapada do Apodi-CE. *Saúde em Debate* 48(spe1) | D | o grupo que mantém vigilância em Tomé; rota para a pergunta "quando a aérea parou" | ✅ Crossref, doi:10.1590/2358-28982024e18715p |
-| **Moreira, L. F. et al. (2026).** Impactos socioambientais da pulverização aérea de agrotóxicos no Ceará. *Espaço em Revista* 28(1):67–86 | D | revisão recente da literatura local | página da revista · ⬜ |
+| **Moreira, L. F. et al. (2026).** Impactos socioambientais da pulverização aérea de agrotóxicos no Ceará. *Espaço em Revista* 28(1):67–86 | D | revisão de 30 teses e dissertações (BDTD e CAPES) sobre a Chapada, só 2 da Saúde; sem dado próprio. Ver §4.3 | ✅ lido integralmente (PDF do pesquisador, 2026-10-13) · Crossref, doi:10.70261/er.v28i1.75212 |
+| **Milhome, M. A. L. (2011).** *Influência do uso de agrotóxicos na qualidade dos recursos hídricos da região do perímetro irrigado Jaguaribe/Apodi-CE*. Tese, Engenharia Civil, UFC | C | **propiconazol e difenoconazol em 100%** de 15 pontos (canais, reservatórios, poços), abaixo do VMP; também azoxistrobina, clorpirifós, metil paration, atrazina. São fungicidas **da calda aérea** (Teixeira 2011) | via Moreira et al. (2026) · ⬜ tese não lida |
+| **Rigotto, R. M. et al. (2013).** Saúde do trabalhador e questão ambiental. In: *Avesso do Trabalho III*, Expressão Popular | C | 497 entrevistados (341 do agronegócio, 156 camponeses): 90 princípios ativos, **65 fungicidas**, 17 inseticidas, 7 herbicidas; **29 triazóis**. ⚠️ Não confundir com Rigotto et al. (2013) da *Rev Bras Epidemiol* | via Moreira et al. (2026, p. 81) · ⬜ |
 | **Barbosa (2016)**, citado por Aguiar | B | câncer infantojuvenil no Ceará, 2000–2011, mais alto em microrregiões com polo de irrigação | ⬜ referência completa não localizada |
 
 **Leitura.** Esta literatura não estima efeito. Ela dá ao projeto quatro coisas
@@ -193,6 +195,31 @@ que a econometria não dá: a **química** da aérea, a **geografia** da exposi�
 (contiguidade casa–bananal, canal aberto de 14 km), a **cronologia** e os
 **volumes**. Citar como fundamento de mecanismo e de contexto. Não citar como
 evidência de magnitude.
+
+### 4.3 Adendo de 2026-10-13: Moreira et al. (2026), lido
+
+O artigo é revisão bibliográfica. Não data o fim da aérea, não traz 2015–2018 e
+não move a flag 7. Traz três coisas que o projeto não tinha:
+
+1. **A química da aérea aparece na água, medida.** Milhome (2011) achou
+   propiconazol e difenoconazol em todos os 15 pontos amostrados. A tabela do
+   Dossiê usada na flag 2 (procimidona, carbaril) não tinha os triazóis da
+   calda. Com Milhome, o elo aérea → água ganha a molécula certa.
+2. **O SISAGUA só passa a medir essa química depois do ban.** A Portaria GM/MS
+   888, de maio de 2021, acrescentou 21 agrotóxicos à lista de potabilidade,
+   entre eles **difenoconazol** (VMP 30 µg/L) e **epoxiconazol**. Sob a Portaria
+   2.914/2011, vigente em 2015–2018, eles não constavam. Não há pré-período para
+   as moléculas da aérea, o que reforça a suspensão do canal-água
+   (`docs/lacunas-de-dados.md` §1-ter). ⬜ Conferir se o **tebuconazol**, também
+   da calda, está entre os 28 princípios ativos do SISAGUA/CE de 2015–2018: seria
+   a única molécula da aérea com antes e depois.
+3. **Os triazóis dominam o uso local:** 29 dos 90 princípios ativos citados por
+   trabalhadores (Rigotto et al. 2013, capítulo).
+
+⚠️ **Uma imprecisão do artigo, para não herdar:** ele chama a Lei 19.135/2024 de
+"revogação da Lei Zé Maria do Tomé". A lei criou uma **exceção para drones**; a
+proibição da aérea tripulada segue. O artigo registra que ela passou na
+Assembleia por 22 votos a 9.
 
 ### 4.2 Identificação, a partir de outros lugares
 

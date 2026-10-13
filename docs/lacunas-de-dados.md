@@ -205,6 +205,16 @@ bem justamente a molécula que o Dossiê achou de menos (glifosato) e **não med
 a que ele achou em todas as amostras. O canal-água, como fonte, não alcança a
 química que a flag 2 identifica como a do problema.
 
+🆕 **2026-10-13: e a química da aérea só entra na lista depois do ban.** A
+calda aérea da Chapada era triazol e estrobilurina (difenoconazol,
+epoxiconazol, propiconazol, tebuconazol; flag 2), e Milhome (2011) achou
+propiconazol e difenoconazol em 100% de 15 pontos do perímetro. A Portaria
+GM/MS 888, de maio de 2021, incluiu **difenoconazol** e **epoxiconazol** no
+padrão de potabilidade; sob a 2.914/2011 eles não eram monitorados. Para essas
+moléculas o SISAGUA não tem pré-período. ⬜ Conferir se o **tebuconazol** está
+entre os 28 princípios ativos de 2015–2018 (`17_audita_sisagua.py`). Ver
+`docs/ars/20-material-drive-prism-chapada.md` §4.3.
+
 #### ⚠️ 2. 95% das amostras são de água TRATADA
 
 `Procedência da Coleta`: 55.019 de "SISTEMA DE DISTRIBUIÇÃO" contra **1.284** de
