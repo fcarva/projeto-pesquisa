@@ -113,8 +113,27 @@ repete registros entre páginas.*
 
 **Pronto quando:** `registros/openalex-*.csv` das 26 linhas de conjunto + 1 de marca; o log com as contagens; `registros/scopus-api-sq1.csv` ou o motivo registrado de não ter rodado.
 
-### Etapa 3: importação + deduplicação ⬜
-*Depende das etapas 1 e 2. As exportações de A2/A3 podem entrar agora ou depois: o script roda de novo.*
+### Etapa 3: importação + deduplicação ✅ (reabre quando chegarem as exportações)
+*2026-10-13, sessão na nuvem (`5dce0f5` e seguintes). `importa_exportacoes.py` pronto, sem arquivos ainda;
+`deduplica.py` + `teste_deduplica.py` (casos sintéticos, todos passam); `hidrata_resumos.py`.*
+
+| | SQ1 | SQ2 | SQ3 |
+|---|---:|---:|---:|
+| bruto (soma das linhas) | 14.200 | 4.132 | 6.373 |
+| únicos | 9.416 | 3.920 | 6.029 |
+| excluídos por metadado | 693 período + 130 idioma | — | 7 paratext + 6 retratados |
+| **a triar** | **8.593** | **3.920** | **6.016** |
+| sem resumo, depois do Crossref | 2.568 (2.014 só no Scopus API) | 512 | 1.404 |
+
+*SQ1 por camada: 3.694 / 4.265 / 634. Exclusivos por fonte (SQ1, a triar): OpenAlex 2.854, Scopus
+API 2.561, OASISBR 542, PubMed 270, LA Referencia 158. 38 pares tese ↔ artigo para conferência
+(`registros/pares-tese-artigo-sq1.csv`). Hidratação: 4.668 DOIs sem resumo; o Crossref trouxe 932;
+o OpenAlex estava sem cota (sem chave nesta sessão). **Pendente:** (a) rodar `hidrata_resumos.py`
+numa sessão com `OPENALEX_API_KEY`, que tenta o OpenAlex nos DOIs que ficaram sem resumo, e depois
+`deduplica.py`; (b) quando as exportações de A2/A3 chegarem: `importa_exportacoes.py` →
+`deduplica.py` → `hidrata_resumos.py` → `deduplica.py`.*
+
+*Especificação original:*
 
 **Prompt:**
 > Leia `docs/revisao-sistematica/plano-execucao.md` e execute a **Etapa 3** sobre a branch `claude/admiring-carson-3l2d8h`.

@@ -57,6 +57,7 @@
   "a_triar": 8593,
   "teses_dissertacoes_tccs": 1002,
   "com_resumo": 5780,
+  "com_resumo_hidratado": 568,
   "possiveis_duplicatas": 182,
   "exclusivos_por_fonte_a_triar": {
    "LA Referencia": 158,
@@ -65,15 +66,16 @@
    "PubMed": 270,
    "Scopus (API)": 2561
   },
+  "sem_resumo_a_triar": 2568,
   "sem_resumo_a_triar_por_fonte": {
-   "Scopus (API)": 2561,
-   "OpenAlex": 333,
+   "Scopus (API)": 2014,
+   "OpenAlex": 313,
    "OpenAlex|Scopus (API)": 146,
    "OASISBR": 32,
    "PubMed": 28,
    "PubMed|Scopus (API)": 24,
    "OpenAlex|PubMed|Scopus (API)": 7,
-   "LA Referencia|OASISBR": 2
+   "LA Referencia": 2
   },
   "por_camada": {
    "1": 3694,
@@ -108,12 +110,14 @@
   "a_triar": 3920,
   "teses_dissertacoes_tccs": 217,
   "com_resumo": 3099,
+  "com_resumo_hidratado": 309,
   "possiveis_duplicatas": 340,
   "exclusivos_por_fonte_a_triar": {
    "OpenAlex": 3920
   },
+  "sem_resumo_a_triar": 512,
   "sem_resumo_a_triar_por_fonte": {
-   "OpenAlex": 821
+   "OpenAlex": 512
   },
   "por_segmento": {
    "1": {
@@ -176,14 +180,16 @@
   "a_triar": 6016,
   "teses_dissertacoes_tccs": 311,
   "com_resumo": 4561,
+  "com_resumo_hidratado": 59,
   "possiveis_duplicatas": 118,
   "exclusivos_por_fonte_a_triar": {
    "OpenAlex": 5439,
    "PubMed": 540
   },
+  "sem_resumo_a_triar": 1404,
   "sem_resumo_a_triar_por_fonte": {
-   "OpenAlex": 1122,
-   "PubMed": 337,
+   "OpenAlex": 1070,
+   "PubMed": 330,
    "OpenAlex|PubMed": 4
   },
   "por_segmento": {

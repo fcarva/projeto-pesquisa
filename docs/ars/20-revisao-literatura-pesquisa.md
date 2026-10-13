@@ -425,3 +425,13 @@ Referencia).
 - **Conferência planejada que falhou, e por quê.** O critério de parada era a cobertura dos registros `BR_` da LA Referencia na união do OASISBR (≥ 95%), porque o acervo dela está contido no dele. Deu 289/337 (85,8%), e a coleta parou sem gravar. Diagnóstico: dos 48 faltantes, 40 estão indexados no OASISBR com o **mesmo título e resumo**, mas o motor do OASISBR não os casa com a string, e o da LA Referencia casa por outros campos ou radicalização. Acervo contido não implica resultado de busca contido. Boa parte desses 48 é ruído (*Spodoptera*, *Bacillus thuringiensis*, amamentação), e todos já entram na SQ1 pela LA Referencia.
 - **Critério que substituiu o anterior** (equivalência do fatiamento): as mesmas 192 fatias, rodadas na LA Referencia, reproduzem a chamada única dela (**544 = 544**). A cobertura continua reportada, mas não é mais critério de parada.
 - **Recall reprodutível:** a lista dos 43 itens conhecidos foi congelada em `calibracao/itens-conhecidos-sq1-al.json`, porque a cota gratuita do OpenAlex do IP compartilhado se esgotou no meio da execução.
+
+**Etapa 3 (2026-10-13): deduplicação.** `deduplica.py` une, por *union-find*, os registros
+com o mesmo DOI, PMID, ID OpenAlex, EID, ID VuFind ou título normalizado + ano (este com
+≥ 30 caracteres). O representante é a versão publicada ("vale o publicado").
+- **Resultado:** SQ1 = 14.200 brutos → 9.416 únicos → **8.593 a triar** (693 excluídos por período e 130 por idioma). SQ2 = 4.132 → **3.920**; o OpenAlex tem obras duplicadas com IDs diferentes (198). SQ3 = 6.373 → 6.029 → **6.016** (7 paratext, 6 retratados).
+- **Achados de método:**
+  - o **Scopus (API)** traz sozinho 2.561 registros a triar na SQ1, a busca TITLE-ABS-KEY também casa palavras-chave indexadas, e ele vem sem resumo;
+  - **teses e artigos não se fundem pelo título**: são 38 pares para conferência, a maioria a mesma dissertação aparecendo como `dissertation` no OpenAlex e sem formato nas fontes VuFind;
+  - o **push protection do GitHub** confunde os IDs `ES_<hash>` da LA Referencia com chaves do hCaptcha, então as saídas gravam `PAÍS/<hash>`.
+- **Hidratação dos resumos:** 4.668 DOIs sem resumo; o Crossref trouxe 932. O OpenAlex fica para uma sessão com a chave.

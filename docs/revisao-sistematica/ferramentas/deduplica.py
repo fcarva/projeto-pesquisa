@@ -119,6 +119,9 @@ def eh_tese(tipo):
 
 # ---------------------------------------------------------------- leitura
 
+PREFIXOS_FONTE = ("pubmed-", "openalex-", "scopus-api-", "vufind-", "importado-")
+
+
 def le_csv(caminho):
     return list(csv.DictReader(open(caminho, encoding="utf-8")))
 
@@ -132,7 +135,7 @@ def carrega():
     regs = []
     for caminho in sorted(glob.glob(os.path.join(REG, "*.csv"))):
         nome = os.path.basename(caminho)
-        if nome.startswith(("deduplicado-", "pares-")) or nome.endswith("-ids.csv"):
+        if not nome.startswith(PREFIXOS_FONTE) or nome.endswith("-ids.csv"):
             continue
         for l in le_csv(caminho):
             fonte = l.get("fonte", "")
