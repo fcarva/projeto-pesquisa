@@ -442,3 +442,11 @@ com o mesmo DOI, PMID, ID OpenAlex, EID, ID VuFind ou título normalizado + ano 
 - A sobreposição entre linhas de uma mesma base (744) fica fora dos "distintos" e é declarada em nota.
 - As exclusões por período e idioma entram na caixa "marcados como inelegíveis por ferramenta automática", com a regra escrita na própria caixa.
 - Checklists PRISMA 2020 e PRISMA-S, item a item, com onde cada um está documentado ou "pendente".
+
+**LeapSpace (2026-10-13): conferência externa de recall, não fonte de identificação.** O
+pesquisador colou o prompt `prompts/03-leapspace-busca-complementar-sq1.md` no LeapSpace
+(Elsevier, via CAPES).
+- **Formato:** o LeapSpace não seguiu as tabelas pedidas. Devolveu uma síntese narrativa e 14 referências, transcritas em `registros/importados/leapspace-sq1-2026-10-13.md`.
+- **Conferência** (`ferramentas/confere_referencias_ia.py` → `registros/leapspace-sq1-2026-10-13-conferencia.csv`): as **14 existem** no Crossref, com título conferido, e **13 já estavam no conjunto** (uma, Roan 1984, sai na regra de período).
+- **A única nova**, Rull & Ritz (2003, *EHP*), é sobre o erro de classificação na medida de exposição e não tem desfecho ao nascer. Não é elegível na SQ1; serve de referência de fundo para a SQ2 (erro de classificação).
+- **Uso:** o resultado não entra no fluxograma como fonte e não pede emenda. Fica registrado como uma conferência independente de que a busca por script captura a literatura que um assistente com acesso ao Scopus e ao ScienceDirect devolve. Ele não trouxe nenhum estudo brasileiro além de Siqueira et al. (2010), que já estava no conjunto.
