@@ -4,7 +4,7 @@
 aérea, e desfechos ao nascer: protocolo de revisão sistemática, acompanhado de
 duas revisões estruturadas complementares (método e escolha de instrumento)**
 
-*Versão 1.0, com as decisões do pesquisador de 2026-10-12, **confirmada pelo pesquisador em 2026-10-12**. Rascunho 0.9 em 2026-10-11. ARS
+*Versão 1.1 (emenda de 2026-10-13, ver *Emendas*). Versão 1.0, com as decisões do pesquisador de 2026-10-12, **confirmada pelo pesquisador em 2026-10-12**. Rascunho 0.9 em 2026-10-11. ARS
 `deep-research`, modo `systematic-review`, Fase 1. Registro do processo em
 `docs/ars/20-revisao-literatura-pesquisa.md`.*
 
@@ -39,6 +39,8 @@ O orientador (Prof. Renato Seixas) só entra como autor se ele decidir participa
 | data | seção | mudança | motivo |
 |---|---|---|---|
 | 2026-10-12 (antes da confirmação) | Elegibilidade, exposição | regras de fronteira (a) população mista com medida ambiental; (b) biomonitoramento de composto de fonte exclusivamente agrícola | Devil's Advocate do checkpoint 1: a regra original excluiria as coortes de clordecona, que a PRESS identificou como as mais próximas do caso da banana |
+| 2026-10-13 (**v1.1**, depois da coleta do PubMed e antes de qualquer outra) | Elegibilidade, status (SQ1) | teses e dissertações **com dado original** passam a elegíveis, como literatura cinzenta; se a tese virou artigo, vale o artigo (a regra "vale o publicado" se estende a tese → artigo) | lacuna de literatura brasileira: o teste de acesso de 2026-10-13 mostrou que, das 544 respostas da LA Referencia à string SQ1-AL #1 AND #2, 292 são teses e dissertações. Excluí-las deixaria de fora justamente a produção brasileira que as bases indexadas não cobrem |
+| 2026-10-13 (**v1.1**) | Fontes de informação; Uso de IA (M2) | entram **OASISBR/IBICT** e **LA Referencia** (API VuFind, por script), com os blocos SQ1-AL #1 (exposição) AND #2 (desfecho), **sem o #3 (geografia)**, porque as duas fontes já são brasileira e latino-americana; e o **Scopus por API**, em visão reduzida, só para identificação, com o resumo hidratado por DOI (OpenAlex, depois Crossref), **além** da exportação completa pela CAPES | lacuna de literatura brasileira; o Scopus pela API sai de qualquer rede, mas, fora do IP institucional, sem resumo. A exportação pela CAPES continua sendo a fonte do resumo do Scopus |
 
 ### Financiamento
 ⬜ *A preencher pelo pesquisador* (bolsa, se houver). Nenhum financiador tem papel na revisão.
@@ -104,8 +106,8 @@ temática. O relatório não as chamará de "revisão sistemática".
 | Desfecho | ao menos um desfecho primário ou secundário | só marcadores intermediários (biomarcadores, comprimento de telômero etc.) |
 | Período | 1990 a 2026-10-11 | antes de 1990: anterior à atribuição de exposição por SIG e aos registros de uso |
 | Idioma | inglês, português, espanhol | outros, por viabilidade; os excluídos por idioma são contados |
-| Status | artigo revisado por pares; *working paper* de séries reconhecidas (NBER, IZA, CEPR, SSRN, RePEc, Banco Mundial, BID, IPEA); *preprint* (medRxiv, arXiv, SSRN) | resumo de congresso sem texto completo; teses e dissertações, por viabilidade (declarado como limitação); notícia |
-| Versões | quando há WP e artigo publicado, vale o **publicado**; o WP só entra se reportar resultado que o publicado omite, e isso é registrado | — |
+| Status | artigo revisado por pares; *working paper* de séries reconhecidas (NBER, IZA, CEPR, SSRN, RePEc, Banco Mundial, BID, IPEA); *preprint* (medRxiv, arXiv, SSRN); **tese ou dissertação com dado original** (emenda v1.1), como literatura cinzenta | resumo de congresso sem texto completo; tese ou dissertação sem dado original (só revisão ou ensaio teórico); notícia |
+| Versões | quando há WP e artigo publicado, vale o **publicado**; o WP só entra se reportar resultado que o publicado omite, e isso é registrado. A mesma regra vale para **tese → artigo** (emenda v1.1) | — |
 
 #### Desfechos
 **Primários:**
@@ -141,7 +143,9 @@ pré-concepcional só se reportada junto.
 | **Wiley Scholar Gateway** | MCP | texto completo Wiley | econ. agrícola e da saúde (AJAE, *Health Econ*, JAE) |
 | **SciELO** | **exportação feita pelo pesquisador** no navegador (o site bloqueia IP de datacenter mesmo com navegador sem interface), com as strings do Apêndice A, em `registros/importados/` | América Latina | literatura brasileira e latino-americana |
 | **LILACS (BVS)** | **exportação feita pelo pesquisador** no portal BVS (mesmo bloqueio), com `filter[db][]=LILACS`, a linha DeCS e as strings do Apêndice A | saúde, América Latina | idem, com a tradição Rigotto/ABRASCO |
-| **Scopus** | **exportação feita pelo pesquisador** pelo Portal de Periódicos CAPES (CAFe), com a string do Apêndice A, em RIS/CSV com resumo, em `registros/importados/`, com data e contagem anotadas (decisão de 2026-10-12) | multidisciplinar | fecha a lacuna de economia que o PubMed não cobre (JAERE, ReStud) |
+| **Scopus** | **exportação feita pelo pesquisador** pelo Portal de Periódicos CAPES (CAFe), com a string do Apêndice A, em RIS/CSV com resumo, em `registros/importados/`, com data e contagem anotadas (decisão de 2026-10-12). **E também pela API Elsevier** (emenda v1.1), com a chave do pesquisador (`ELSEVIER_API_KEY`): visão reduzida, só para identificação, com o resumo hidratado por DOI via OpenAlex e, na falta, Crossref | multidisciplinar | fecha a lacuna de economia que o PubMed não cobre (JAERE, ReStud) |
+| **OASISBR (IBICT)** | **API VuFind** (`oasisbr.ibict.br/vufind/api/v1/search`), por script (emenda v1.1). Consulta: blocos SQ1-AL #1 AND #2 do Apêndice A, lidos dos JSON congelados, **sem o #3**; fatiada nos termos de #1 e #2, porque a API recusa a consulta inteira (HTTP 403). A união das fatias é a consulta inteira | repositórios institucionais, BDTD e periódicos brasileiros | teses, dissertações e artigos brasileiros fora das bases indexadas |
+| **LA Referencia** | **API VuFind** (`buscador.lareferencia.info/api/v1/search`), por script (emenda v1.1), com a mesma consulta; a união das fatias é conferida contra a chamada única | repositórios da América Latina | idem, para a América Latina |
 | **Web of Science** | **não será buscada** (decisão do pesquisador de 2026-10-12); a ausência é declarada | — | — |
 | **Literatura cinzenta** | Firecrawl `search`, Parallel Search | NBER, IZA, SSRN, RePEc/IDEAS, AgEcon Search, Banco Mundial, BID, IPEA, ANPEC | *working papers* são a norma em economia; reduz o viés de publicação |
 | **Citações** | OpenAlex (`referenced_works`, filtro `cites:`) e Crossref `reference` | — | **retrospectiva e prospectiva** de todos os incluídos e das revisões relevantes, iterando até não aparecer incluído novo. Os clássicos anteriores a 1990 (SQ3) são conferidos à mão nas listas de referências de 2 ou 3 revisões, porque o OpenAlex os cobre mal |
@@ -260,7 +264,7 @@ estudo supõe ou exige** (inclinação, nível, convexidade, limiar).
 | item | conteúdo |
 |---|---|
 | M1 protocolo | o uso de IA está **pré-especificado neste protocolo**; desvios entram na tabela de emendas |
-| M2 ferramentas | (a) Claude (Anthropic), via Claude Code em sessão na nuvem; ⬜ **versão do modelo a preencher pelo pesquisador**; (b) Academic Research Skills (ARS), Imbad0202/academic-research-skills, v3.23.0, commit `d1e5171`; (c) Firecrawl (busca, *scrape*, índice de pesquisa), API hospedada; (d) OpenAlex API; (e) Wiley Scholar Gateway; (f) Parallel Search. Sem versão pública para (c)–(f): registra-se a data de acesso |
+| M2 ferramentas | (a) Claude (Anthropic), via Claude Code em sessão na nuvem; ⬜ **versão do modelo a preencher pelo pesquisador**; (b) Academic Research Skills (ARS), Imbad0202/academic-research-skills, v3.23.0, commit `d1e5171`; (c) Firecrawl (busca, *scrape*, índice de pesquisa), API hospedada; (d) OpenAlex API; (e) Wiley Scholar Gateway; (f) Parallel Search; (g) APIs VuFind do OASISBR e da LA Referencia, e API Scopus da Elsevier (emenda v1.1). Sem versão pública para (c)–(g): registra-se a data de acesso |
 | M3 finalidade e etapa | IA na: calibração das strings e revisão PRESS; triagem dupla (título/resumo e texto completo); adjudicação; extração com verificação; risco de viés (primeira passada); síntese e redação. Humano em: escolha das perguntas e critérios, amostra de referência, revisão das decisões de texto completo e do risco de viés dos quase-experimentais, aprovação final |
 | M4 dados de entrada | sem *fine-tuning*. Entram metadados e resumos públicos (OpenAlex, Crossref, PubMed) e textos completos de acesso aberto ou WP |
 | M5 saída | JSON validado por esquema (decisão, motivo, citação literal); pós-processamento por script versionado em `docs/revisao-sistematica/ferramentas/` |
@@ -293,3 +297,4 @@ Conferida no Estágio 2.5 (integridade).
 | 1.0 | 2026-10-12 | (rev.) acesso direto a PubMed, Crossref, arXiv e RePEc; OpenAlex com chave; SciELO e LILACS exportados pelo pesquisador |
 | 1.0 | 2026-10-12 | Apêndice A congelado (PRESS); emenda DA-1 nas regras de exposição; decisões do pesquisador: escala da triagem, amostra de referência de 50, sem registro externo, Scopus sim e WoS não |
 | 1.0 | 2026-10-12 | **confirmado pelo pesquisador**; carimbo = o commit desta linha. A busca definitiva começa depois dele |
+| 1.1 | 2026-10-13 | **emenda: lacuna de literatura brasileira.** Teses e dissertações com dado original entram na SQ1 (tese → artigo: vale o artigo); fontes novas OASISBR e LA Referencia (SQ1-AL #1 AND #2, sem o #3) e Scopus por API (visão reduzida, para identificação) além da exportação pela CAPES. Carimbo = o commit desta linha, anterior às coletas novas. A coleta do PubMed (v1.0) não muda: ela não filtra por status |

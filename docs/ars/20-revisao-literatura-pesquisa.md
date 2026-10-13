@@ -374,3 +374,13 @@ As etapas são: (1) emenda v1.1 + OASISBR/LA Referencia; (2) OpenAlex + Scopus A
 (3) importação + deduplicação; (4) PRISMA 2020 completo; (5) piloto + triagem.
 Decisões do pesquisador nesta data: teses e dissertações entram na SQ1; Scopus por API
 (visão reduzida) + exportação pela CAPES.
+
+**Emenda v1.1 do protocolo (2026-10-13).** As duas decisões entraram no
+`protocolo.md` (tabelas *Emendas* e *Histórico de versões*), num commit isolado,
+anterior às coletas novas:
+- *Status* (SQ1): tese ou dissertação com dado original é elegível; "vale o publicado" vale também para tese → artigo; a exclusão "teses e dissertações, por viabilidade" saiu;
+- *Fontes de informação*: OASISBR e LA Referencia (API VuFind, por script) e Scopus por API (visão reduzida, só identificação; resumo hidratado por DOI via OpenAlex/Crossref), além da exportação pela CAPES;
+- a consulta nas duas fontes VuFind é SQ1-AL #1 AND #2, **sem o #3 (geografia)**, porque as fontes já são brasileira e latino-americana;
+- *Uso de IA*, M2: as fontes novas entram na lista de ferramentas.
+O motivo é a lacuna de literatura brasileira: das 544 respostas da LA Referencia à
+string #1 AND #2 (teste de 2026-10-13), 292 são teses e dissertações.
