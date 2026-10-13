@@ -400,5 +400,10 @@ com DOI, e as 3 sementes do arquivo recuperadas. Sem assinatura, a Elsevier recu
 `cursor`; a paginação é por `start` (teto de 5.000) com ordem fixa `-coverDate`, porque a
 ordem padrão repetiu registros entre páginas (o coletor parou sem gravar na primeira
 tentativa). *OpenAlex*: o `--conferir` deu contagens de hoje menores que as congeladas em
-quase todas as linhas; só a SQ2 #11 passa do limite de 5% (27 × 29). A coleta aguarda a
-decisão do pesquisador.
+quase todas as linhas; só a SQ2 #11 passa do limite de 5% (27 × 29). **Decisão do
+pesquisador: aceitar as contagens de hoje** (todas as linhas caíram na mesma direção, o que
+sugere limpeza do índice). Coleta completa das 28 linhas, cada uma com os distintos iguais à
+contagem de hoje. Achado de método: o cursor do OpenAlex não é determinístico; numa passada
+ele repete umas obras e pula outras (SQ2 #5: 3.716 distintos de 3.719). O coletor une
+passadas por ID até fechar o total, refaz a ordem pelo `relevance_score` de cada obra (que
+importa para a regra de parada da SQ2/SQ3) e registra no log as passadas e as repetições.

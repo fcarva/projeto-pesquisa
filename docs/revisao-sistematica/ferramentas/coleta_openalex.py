@@ -208,11 +208,56 @@ def achata(w, posicao):
     }
 
 
+PASSADAS = 4
+
+
 def baixa(item, so_ids=False):
+    """Pagina com cursor e une as passadas por ID até os distintos baterem com o total.
+
+    O cursor do OpenAlex não é determinístico (2026-10-13): na mesma consulta, cada passada
+    repete umas obras e pula outras (SQ2 #5: 3.718 distintos de 3.719 numa passada, 3.716 noutra;
+    a união deu 3.719). Por isso: até PASSADAS passadas na ordem pedida, e a última por
+    `publication_date:desc`, que nos testes não repetiu nem perdeu. A ordem por relevância do
+    arquivo é refeita pelo `relevance_score` de cada obra, não pela ordem das páginas.
+    """
+    uniao, item["repetidos"], total = {}, [], None
+    for k in range(PASSADAS):
+        ordem = None if so_ids or not item["ordenar"] else "relevance_score:desc"
+        if k == PASSADAS - 1:
+            ordem = "publication_date:desc"
+        regs, total = _passada(item, so_ids, ordem)
+        vistos = set()
+        for r in regs:
+            if r["openalex_id"] in vistos:
+                item["repetidos"].append(r["openalex_id"])
+            vistos.add(r["openalex_id"])
+            uniao.setdefault(r["openalex_id"], r)
+        item["passadas"] = k + 1
+        if len(uniao) == total:
+            break
+        print(f"  {item['bloco']} {item['linha']}: passada {k + 1} com {len(uniao)} de {total}; outra passada",
+              file=sys.stderr)
+    item["repetidos"] = sorted(set(item["repetidos"]))
+    if len(uniao) != total:
+        raise RuntimeError(f"{item['bloco']} {item['linha']}: {len(uniao)} distintos de {total} "
+                           f"depois de {PASSADAS} passadas")
+    unicos = list(uniao.values())
+    if item["ordenar"] and not so_ids and not item.get("sem_relevance_score"):
+        assert all(r["relevance_score"] != "" for r in unicos), "obra sem relevance_score"
+        unicos.sort(key=lambda r: -r["relevance_score"])  # estável: empate fica na ordem da 1ª vista
+    if not so_ids:
+        for i, r in enumerate(unicos, 1):
+            r["posicao"] = i
+    return unicos, total
+
+
+def _passada(item, so_ids, ordem):
     params = {"filter": item["filtro"], "per-page": POR_PAGINA, "cursor": "*",
               "select": "id" if so_ids else SELECT}
-    if item["ordenar"] and not so_ids:
-        params["sort"] = "relevance_score:desc"
+    if ordem:
+        params["sort"] = ordem
+    if item.get("sem_relevance_score") and not so_ids:
+        params["select"] = SELECT.replace(",relevance_score", "")
     regs, total = [], None
     while True:
         try:
@@ -232,8 +277,6 @@ def baixa(item, so_ids=False):
         if not cur or not dados["results"]:
             break
         params["cursor"] = cur
-    if len(regs) != total:
-        raise RuntimeError(f"{item['bloco']} {item['linha']}: baixados {len(regs)} de {total}")
     return regs, total
 
 
@@ -295,6 +338,9 @@ def roda(itens, so_contar):
                    "ordenacao": "relevance_score:desc" if it["ordenar"] and it["papel"] != "marca" else "padrão"}
         if it["papel"] == "conjunto":
             entrada["com_resumo"] = sum(1 for r in regs if r["resumo"])
+        entrada["passadas"] = it.get("passadas", 1)
+        if it.get("repetidos"):
+            entrada["repetidos_na_api"] = it["repetidos"]
         if it.get("sem_relevance_score"):
             entrada["aviso"] = "relevance_score recusado no select; a ordem do arquivo é a da API"
         loga(entrada)

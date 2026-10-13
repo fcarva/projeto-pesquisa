@@ -86,13 +86,14 @@ POST, ou declarar a fonte inacessível (o nó brasileiro da LA Referencia é o I
 
 **Pronto quando:** emenda commitada antes da coleta; dois CSV em `registros/`; LA Referencia com união = chamada única; Apêndice A com as linhas novas.
 
-### Etapa 2: OpenAlex + Scopus API 🟡 (parcial)
-*2026-10-13, sessão local: **Scopus API ✅**: 4.945 registros (visão STANDARD, sem resumo; 4.276 com DOI;
+### Etapa 2: OpenAlex + Scopus API ✅
+*2026-10-13, sessão local. **OpenAlex ✅**: 28 linhas (26 de conjunto, 1 de marca, 1 de conferência),
+cada uma com os distintos = contagem de hoje; contagens de hoje aceitas pelo pesquisador apesar da
+SQ2 #11 a −6,9% (27 × 29). O cursor do OpenAlex repete e pula obras entre passadas: o coletor une
+passadas por ID e refaz a ordem pelo `relevance_score` (SQ2 #5 precisou de 2). **Scopus API ✅**: 4.945 registros (visão STANDARD, sem resumo; 4.276 com DOI;
 as 3 sementes de `scopus_wos.md` recuperadas), em `registros/scopus-api-sq1.csv`. Sem assinatura, o
 `cursor` é recusado: paginação por `start` (teto de 5.000) com ordem `-coverDate`, porque a ordem padrão
-repete registros entre páginas. **OpenAlex ⬜**: o `--conferir` deu SQ2 #11 = 27 contra 29 congelados
-(−6,9%, acima do limite de 5%); todas as outras linhas ficaram a ≤ 4,6%, todas para baixo. Aguarda a
-decisão do pesquisador.*
+repete registros entre páginas.*
 *Depende de A1 (chaves) e de uma sessão nova aberta depois delas.*
 
 **Prompt:**

@@ -1,0 +1,2 @@
+fonte,bloco,linha,posicao,openalex_id,doi,pmid,titulo,ano,tipo,idioma,periodico,primeiro_autor,retratado,relevance_score,tem_resumo,n_car_resumo,sha256_resumo
+OpenAlex,sq3-instrumento,#12,1,W1525260320,10.2307/2296698,,Prices vs. Quantities,1974,article,en,The Review of Economic Studies,Martin L. Weitzman,0,,1,337,9959c51c5afcf7b656807648aba37754223e1dd54bbbdedccfe5304bcd09d0ad
