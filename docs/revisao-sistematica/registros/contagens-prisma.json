@@ -1,0 +1,205 @@
+{
+ "sq1": {
+  "identificados_por_fonte": {
+   "LA Referencia": {
+    "linhas": {
+     "VuFind #1 AND #2": 544
+    },
+    "bruto": 544,
+    "distintos_na_fonte": 544
+   },
+   "OASISBR": {
+    "linhas": {
+     "VuFind #1 AND #2": 878
+    },
+    "bruto": 878,
+    "distintos_na_fonte": 878
+   },
+   "OpenAlex": {
+    "linhas": {
+     "#6": 3669,
+     "OA #4": 792,
+     "OA #5": 292,
+     "OA #6": 167,
+     "OA #7a": 315,
+     "OA #7b": 235,
+     "OA #8": 276,
+     "OA #9": 33
+    },
+    "bruto": 5779,
+    "distintos_na_fonte": 5035
+   },
+   "PubMed": {
+    "linhas": {
+     "#5": 2054
+    },
+    "bruto": 2054,
+    "distintos_na_fonte": 2054
+   },
+   "Scopus (API)": {
+    "linhas": {
+     "Scopus SQ1": 4945
+    },
+    "bruto": 4945,
+    "distintos_na_fonte": 4945
+   }
+  },
+  "total_bruto": 14200,
+  "sobreposicao_entre_linhas": 744,
+  "total_distintos_por_fonte": 13456,
+  "duplicatas_por_chave": 4040,
+  "duplicatas_total": 4784,
+  "unicos": 9416,
+  "excluidos_por_metadado": {
+   "periodo": 693,
+   "idioma": 130
+  },
+  "a_triar": 8593,
+  "teses_dissertacoes_tccs": 1002,
+  "com_resumo": 5780,
+  "possiveis_duplicatas": 182,
+  "exclusivos_por_fonte_a_triar": {
+   "LA Referencia": 158,
+   "OASISBR": 542,
+   "OpenAlex": 2854,
+   "PubMed": 270,
+   "Scopus (API)": 2561
+  },
+  "sem_resumo_a_triar_por_fonte": {
+   "Scopus (API)": 2561,
+   "OpenAlex": 333,
+   "OpenAlex|Scopus (API)": 146,
+   "OASISBR": 32,
+   "PubMed": 28,
+   "PubMed|Scopus (API)": 24,
+   "OpenAlex|PubMed|Scopus (API)": 7,
+   "LA Referencia|OASISBR": 2
+  },
+  "por_camada": {
+   "1": 3694,
+   "2": 4265,
+   "3": 634
+  },
+  "tambem_em_outro_pool": 118,
+  "pares_tese_artigo": 38
+ },
+ "sq2": {
+  "identificados_por_fonte": {
+   "OpenAlex": {
+    "linhas": {
+     "#10": 117,
+     "#11": 27,
+     "#12": 8,
+     "#5": 3719,
+     "#7": 158,
+     "#9": 103
+    },
+    "bruto": 4132,
+    "distintos_na_fonte": 4118
+   }
+  },
+  "total_bruto": 4132,
+  "sobreposicao_entre_linhas": 14,
+  "total_distintos_por_fonte": 4118,
+  "duplicatas_por_chave": 198,
+  "duplicatas_total": 212,
+  "unicos": 3920,
+  "excluidos_por_metadado": {},
+  "a_triar": 3920,
+  "teses_dissertacoes_tccs": 217,
+  "com_resumo": 3099,
+  "possiveis_duplicatas": 340,
+  "exclusivos_por_fonte_a_triar": {
+   "OpenAlex": 3920
+  },
+  "sem_resumo_a_triar_por_fonte": {
+   "OpenAlex": 821
+  },
+  "por_segmento": {
+   "1": {
+    "registros": 8,
+    "piso_30pct": 3
+   },
+   "2": {
+    "registros": 216,
+    "piso_30pct": 65
+   },
+   "3": {
+    "registros": 157,
+    "piso_30pct": 48
+   },
+   "4": {
+    "registros": 3539,
+    "piso_30pct": 1062
+   }
+  },
+  "tambem_em_outro_pool": 5
+ },
+ "sq3": {
+  "identificados_por_fonte": {
+   "OpenAlex": {
+    "linhas": {
+     "#10": 108,
+     "#11": 389,
+     "#12": 1,
+     "#5a": 1750,
+     "#5b": 915,
+     "#5c": 516,
+     "#6": 227,
+     "#7a": 692,
+     "#7b": 284,
+     "#7c": 163,
+     "#8": 524,
+     "#9": 226
+    },
+    "bruto": 5795,
+    "distintos_na_fonte": 5590
+   },
+   "PubMed": {
+    "linhas": {
+     "P1": 578
+    },
+    "bruto": 578,
+    "distintos_na_fonte": 578
+   }
+  },
+  "total_bruto": 6373,
+  "sobreposicao_entre_linhas": 205,
+  "total_distintos_por_fonte": 6168,
+  "duplicatas_por_chave": 139,
+  "duplicatas_total": 344,
+  "unicos": 6029,
+  "excluidos_por_metadado": {
+   "retratado": 6,
+   "paratext": 7
+  },
+  "a_triar": 6016,
+  "teses_dissertacoes_tccs": 311,
+  "com_resumo": 4561,
+  "possiveis_duplicatas": 118,
+  "exclusivos_por_fonte_a_triar": {
+   "OpenAlex": 5439,
+   "PubMed": 540
+  },
+  "sem_resumo_a_triar_por_fonte": {
+   "OpenAlex": 1122,
+   "PubMed": 337,
+   "OpenAlex|PubMed": 4
+  },
+  "por_segmento": {
+   "1": {
+    "registros": 3546,
+    "piso_30pct": 1064
+   },
+   "2": {
+    "registros": 1432,
+    "piso_30pct": 430
+   },
+   "3": {
+    "registros": 1038,
+    "piso_30pct": 312
+   }
+  },
+  "tambem_em_outro_pool": 115
+ }
+}
