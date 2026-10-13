@@ -450,3 +450,14 @@ pesquisador colou o prompt `prompts/03-leapspace-busca-complementar-sq1.md` no L
 - **Conferência** (`ferramentas/confere_referencias_ia.py` → `registros/leapspace-sq1-2026-10-13-conferencia.csv`): as **14 existem** no Crossref, com título conferido, e **13 já estavam no conjunto** (uma, Roan 1984, sai na regra de período).
 - **A única nova**, Rull & Ritz (2003, *EHP*), é sobre o erro de classificação na medida de exposição e não tem desfecho ao nascer. Não é elegível na SQ1; serve de referência de fundo para a SQ2 (erro de classificação).
 - **Uso:** o resultado não entra no fluxograma como fonte e não pede emenda. Fica registrado como uma conferência independente de que a busca por script captura a literatura que um assistente com acesso ao Scopus e ao ScienceDirect devolve. Ele não trouxe nenhum estudo brasileiro além de Siqueira et al. (2010), que já estava no conjunto.
+
+**LeapSpace, tabelas comparativas (2026-10-13).** O pesquisador exportou duas *compare tables*
+do LeapSpace, com DOI, EID, data e resumo do Scopus. Elas estão em
+`data/raw/revisao-sistematica/leapspace/`, fora do git, porque o resumo é conteúdo do Scopus. A
+conferência por DOI, EID e título (`ferramentas/confere_referencias_ia.py`, agora também para esse
+CSV) deu:
+- **tabela 1**: as mesmas 13 referências da síntese, todas reais; 12 já estavam no conjunto, e a nova é de novo Rull & Ritz 2003, não elegível;
+- **tabela 2**: resposta ao pedido de estudos latino-americanos, com 7 estudos, **todos já no conjunto**: Calzada 2023; ISA 2024; Siqueira 2010; Oliveira 2013, *IJHEH*; Ueker 2014, Mato Grosso; um estudo do Rio Grande do Sul de 2021 sem DOI, casado pelo EID com o registro do Scopus pela API; e o de malatião aplicado por avião na Califórnia, 1987, *AJPH*, fora pela regra de período.
+
+Conclusão: nas duas rodadas, o LeapSpace não trouxe nenhum estudo elegível que a busca por
+script tivesse perdido. O resultado fica registrado como conferência externa de recall.
