@@ -54,3 +54,9 @@ renv/staging/
 paper/*.log
 paper/main.pdf
 .gstack/
+
+# --- Credenciais: nunca versionar (o repositório é público) ---
+api.txt
+*.key
+.env
+.env.*
