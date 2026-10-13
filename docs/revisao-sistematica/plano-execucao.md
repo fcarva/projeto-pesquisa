@@ -57,7 +57,12 @@ limite de gasto. Marque o `⬜` → `✅` aqui mesmo, com o commit, ao terminar 
 Em todas as sessões: abra uma sessão nova **sobre a branch `claude/admiring-carson-3l2d8h`**
 e cole o prompt. A sessão lê este arquivo, executa a etapa, faz o commit e o push.
 
-### Etapa 1: emenda v1.1 + coleta OASISBR/LA Referencia ⬜
+### Etapa 1: emenda v1.1 + coleta OASISBR/LA Referencia 🟡 (parcial)
+*2026-10-13, sessão local: emenda v1.1 aprovada e commitada (`628bf12`); **LA Referencia ✅**
+(544 = chamada única; `registros/vufind-lareferencia-sq1.csv`; Apêndice A com as linhas novas).
+**OASISBR ⬜**: o 403 não é de tamanho de URL; a API recusa consultas booleanas com ~10 termos ou
+mais e depois bloqueia o IP (`ferramentas/vufind.md`). Falta decidir: fatias de ~5 termos,
+POST, ou declarar a fonte inacessível (o nó brasileiro da LA Referencia é o IBICT).*
 *Não depende de chave: pode rodar já.*
 
 **Prompt:**

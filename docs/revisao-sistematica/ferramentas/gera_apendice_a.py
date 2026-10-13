@@ -88,6 +88,9 @@ def main():
             bloco_final(w, fin)
         else:
             bloco_press(w, carrega(nome), carrega(nome + "-press"))
+    if os.path.exists("ferramentas/vufind.md"):  # emenda v1.1; gerado por coleta_vufind.py
+        w("\n---\n")
+        w(open("ferramentas/vufind.md").read())
     w("\n---\n")
     w(open("ferramentas/scopus_wos.md").read())
     w("\n---\n")

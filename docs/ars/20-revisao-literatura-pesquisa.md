@@ -384,3 +384,12 @@ anterior às coletas novas:
 - *Uso de IA*, M2: as fontes novas entram na lista de ferramentas.
 O motivo é a lacuna de literatura brasileira: das 544 respostas da LA Referencia à
 string #1 AND #2 (teste de 2026-10-13), 292 são teses e dissertações.
+
+**Coleta da LA Referencia (2026-10-13, depois da emenda).** `ferramentas/coleta_vufind.py`,
+6 fatias, união = **544**, igual à chamada única: 251 artigos, 167 dissertações, 125 teses
+e 1 capítulo; 537 com resumo e 89 com DOI. Dos 43 itens conhecidos da calibração SQ1-AL,
+só 6 estão na fonte, e a string recupera 3. Os 3 perdidos são itens de **contexto** (Rocha
+2017, Dossiê ABRASCO em espanhol, artigo jurídico sobre a pulverização aérea), que nenhuma
+linha de efeito recupera. O **OASISBR não foi coletado**: o 403 não vem do tamanho da URL,
+como se supunha, mas de uma regra que recusa consultas booleanas com ~10 termos ou mais e
+depois bloqueia o IP. Detalhes no Apêndice A.
