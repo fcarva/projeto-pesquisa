@@ -29,6 +29,9 @@ PMID ou título + ano, entre fontes ou dentro de uma, como obras duplicadas no O
 `unicos`; `unicos` − `excluidos_por_metadado` = `a_triar`. No PRISMA, "duplicatas removidas" =
 `duplicatas_total` = as duas primeiras parcelas.
 
+Resumo: `tem_resumo` diz se alguma fonte coletada trouxe o resumo; `resumo_hidratado` diz de
+onde veio o resumo buscado depois por DOI (`hidrata_resumos.py` -> `registros/resumos-hidratados.csv`).
+
 Saídas: `registros/deduplicado-sq{1,2,3}.csv`, `registros/pares-tese-artigo-sq1.csv` e
 `registros/contagens-prisma.json`, cujas identidades o script confere. Nas saídas, o ID VuFind
 `PAÍS_<32 hex>` é gravado como `PAÍS/<32 hex>`: o *push protection* do GitHub confunde
@@ -342,7 +345,16 @@ def pares_tese_artigo(unicos):
 
 # ---------------------------------------------------------------- pipeline
 
-def deduplica_pool(pool, regs):
+def hidratados():
+    """DOI -> fonte do resumo hidratado (`hidrata_resumos.py`), se houver."""
+    caminho = os.path.join(REG, "resumos-hidratados.csv")
+    if not os.path.exists(caminho):
+        return {}
+    return {l["doi"]: l["fonte_resumo"] for l in le_csv(caminho) if l["fonte_resumo"]}
+
+
+def deduplica_pool(pool, regs, hidr=None):
+    hidr = hidr or {}
     comps = agrupa(regs)
     unicos = []
     for membros in comps:
@@ -363,10 +375,13 @@ def deduplica_pool(pool, regs):
             "n_membros": len(membros),
             "tem_resumo": int(any(r["tem_resumo"] for r in membros)),
             "resumo_em": "|".join(sorted({f"{r['fonte']}:{r['id_fonte']}" for r in membros if r["tem_resumo"]})),
+            "resumo_hidratado": "",
             "retratado": int(any(r["retratado"] for r in membros)),
             "exclusao_auto": exclusao_auto(pool, membros),
             "membros": "|".join(sorted({f"{r['arquivo']}:{r['id_fonte']}" for r in membros})),
         }
+        if not u["tem_resumo"] and u["doi"] in hidr:
+            u["resumo_hidratado"] = hidr[u["doi"]]
         u["sobrenome"] = sobrenome(u["primeiro_autor"])
         if pool == "sq1":
             u["camada_intl"], u["camada_al"], u["camada"], flags = camadas_sq1(membros)
@@ -421,12 +436,15 @@ def contagens(pool, regs, unicos):
         "a_triar": len(unicos) - sum(excl.values()),
         "teses_dissertacoes_tccs": sum(u["tese"] for u in unicos),
         "com_resumo": sum(u["tem_resumo"] for u in unicos),
+        "com_resumo_hidratado": sum(1 for u in unicos if u["resumo_hidratado"]),
         "possiveis_duplicatas": sum(1 for u in unicos if u["possivel_duplicata_de"]),
         "exclusivos_por_fonte_a_triar": dict(sorted(Counter(
             u["fontes"] for u in unicos if "|" not in u["fontes"] and not u["exclusao_auto"]).items())),
+        "sem_resumo_a_triar": sum(1 for u in unicos if not u["tem_resumo"] and not u["resumo_hidratado"]
+                                  and not u["exclusao_auto"]),
         "sem_resumo_a_triar_por_fonte": dict(sorted(Counter(
-            u["fontes"] for u in unicos if not u["tem_resumo"] and not u["exclusao_auto"]).items(),
-            key=lambda kv: -kv[1])[:8]),
+            u["fontes"] for u in unicos if not u["tem_resumo"] and not u["resumo_hidratado"]
+            and not u["exclusao_auto"]).items(), key=lambda kv: -kv[1])[:8]),
     }
     # Identidades do fluxograma.
     assert c["total_bruto"] - c["sobreposicao_entre_linhas"] - c["duplicatas_por_chave"] == c["unicos"]
@@ -452,7 +470,7 @@ def seguro(v):
 
 COLUNAS = ["ordem", "id_unico", "exclusao_auto", "camada", "camada_intl", "camada_al", "segmento", "flags",
            "titulo", "ano", "tipo", "tese", "idiomas", "primeiro_autor", "periodico", "doi", "pmid", "openalex_id",
-           "eid", "vufind_ids", "fontes", "linhas", "n_membros", "tem_resumo", "resumo_em", "retratado",
+           "eid", "vufind_ids", "fontes", "linhas", "n_membros", "tem_resumo", "resumo_em", "resumo_hidratado", "retratado",
            "tambem_em", "possivel_duplicata_de", "membros"]
 
 
@@ -472,8 +490,9 @@ def roda():
     for r in regs:
         por_pool[pool_de(r)].append(r)
     resultado, todos = {}, {}
+    hidr = hidratados()
     for pool in POOLS:
-        todos[pool] = deduplica_pool(pool, por_pool[pool])
+        todos[pool] = deduplica_pool(pool, por_pool[pool], hidr)
         resultado[pool] = contagens(pool, por_pool[pool], todos[pool])
     # Pertença cruzada: chaves de cada pool.
     chaves_pool = {p: {k for u in us for r in u["_membros"] for k in chaves(r)} for p, us in todos.items()}
