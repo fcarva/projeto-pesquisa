@@ -1,0 +1,35 @@
+% Gerado por docs/revisao-sistematica/ferramentas/prisma.py: não editar à mão.
+% PRISMA 2020 (Page et al. 2021, BMJ 372:n71). SQ2: método (revisão estruturada complementar)
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\begin{document}
+\begin{tikzpicture}[
+  caixa/.style={draw, rectangle, align=left, text width=6.4cm, font=\footnotesize, inner sep=4pt},
+  lado/.style={caixa, text width=5.4cm},
+  cab/.style={draw, fill=gray!30, font=\footnotesize\bfseries, align=center},
+  seta/.style={-{Stealth}, thick}, node distance=0.55cm and 0.6cm]
+\node[caixa, minimum height=2.6cm] (id) {\textbf{Registros identificados em bases}: \\ OpenAlex \mbox{(\textit{n} = 4.118)} \\ Registros de ensaios \mbox{(\textit{n} = 0)}};
+\node[lado, right=of id.north east, anchor=north west] (rem) {\textbf{Registros removidos antes da triagem}: \\ Duplicatas removidas \mbox{(\textit{n} = 198)} \\ Marcados como inelegíveis por regra automática de metadado \mbox{(\textit{n} = 0)}: nenhum \\ Removidos por outros motivos \mbox{(\textit{n} = 0)}};
+\node[caixa, below=1.0cm of id.south |- rem.south, anchor=north] (tri) {Registros triados por título e resumo \mbox{(\textit{n} = 3.920)} \\ Não triados pela regra de parada \mbox{(\textit{n} = pendente)}};
+\node[lado, right=of tri] (exc1) {Registros excluídos \mbox{(\textit{n} = pendente)}};
+\node[caixa, below=of tri] (busc) {Relatos buscados para leitura do texto completo \mbox{(\textit{n} = pendente)}};
+\node[lado, right=of busc] (nobt) {Relatos não obtidos \mbox{(\textit{n} = pendente)}};
+\node[caixa, below=of busc] (aval) {Relatos avaliados quanto à elegibilidade \mbox{(\textit{n} = pendente)}};
+\node[lado, right=of aval] (exc2) {\textbf{Relatos excluídos} \mbox{(\textit{n} = pendente)}: \\ motivos: pendente};
+\node[caixa, minimum height=2.0cm, below=1.0cm of aval] (inc) {\textbf{Estudos incluídos na revisão} \mbox{(\textit{n} = pendente)} \\ Relatos dos estudos incluídos \mbox{(\textit{n} = pendente)}};
+\node[lado, text width=4.4cm, right=1.0cm of rem.north east, anchor=north west] (out) {\textbf{Registros identificados por outros métodos}: \\ Busca de citações e sites de literatura cinzenta \mbox{(\textit{n} = pendente)}};
+\node[cab, above=0.4cm of id.north west, anchor=south west, minimum width=12.6cm] {Identificação via bases de dados e registros};
+\node[cab, above=0.4cm of out.north west, anchor=south west, minimum width=4.6cm, text width=4.4cm] {Identificação via outros métodos};
+\draw[seta] (id) -- (rem); \draw[seta] (id) -- (tri); \draw[seta] (tri) -- (exc1);
+\draw[seta] (tri) -- (busc); \draw[seta] (busc) -- (nobt); \draw[seta] (busc) -- (aval);
+\draw[seta] (aval) -- (exc2); \draw[seta] (aval) -- (inc);
+\draw[seta] (out.south) |- (inc.east);
+\foreach \ini/\fim/\rot in {id/id/Identificação, tri/aval/Triagem, inc/inc/Inclusão} {
+  \draw[fill=gray!15, rounded corners] ($(\ini.north west)+(-0.85cm,0)$) rectangle ($(\fim.south west)+(-0.3cm,0)$);
+  \node[rotate=90, font=\footnotesize\bfseries] at ($($(\ini.north west)!0.5!(\fim.south west)$)+(-0.575cm,0)$) {\rot};
+}
+\end{tikzpicture}
+\end{document}

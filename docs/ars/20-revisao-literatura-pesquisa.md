@@ -435,3 +435,10 @@ com o mesmo DOI, PMID, ID OpenAlex, EID, ID VuFind ou título normalizado + ano 
   - **teses e artigos não se fundem pelo título**: são 38 pares para conferência, a maioria a mesma dissertação aparecendo como `dissertation` no OpenAlex e sem formato nas fontes VuFind;
   - o **push protection do GitHub** confunde os IDs `ES_<hash>` da LA Referencia com chaves do hCaptcha, então as saídas gravam `PAÍS/<hash>`.
 - **Hidratação dos resumos:** 4.668 DOIs sem resumo; o Crossref trouxe 932. O OpenAlex fica para uma sessão com a chave.
+
+**Etapa 4 (2026-10-13): PRISMA 2020.**
+- `ferramentas/prisma.py` gera os fluxogramas das três SQs em TikZ (`paper/overleaf/prisma-sq*.tex`, compilação testada) e em Markdown (`prisma-fluxo.md`).
+- O script confere as identidades. Na SQ1: 13.456 registros distintos nas bases − 4.040 duplicatas − 823 por regra de metadado = 8.593 a triar.
+- A sobreposição entre linhas de uma mesma base (744) fica fora dos "distintos" e é declarada em nota.
+- As exclusões por período e idioma entram na caixa "marcados como inelegíveis por ferramenta automática", com a regra escrita na própria caixa.
+- Checklists PRISMA 2020 e PRISMA-S, item a item, com onde cada um está documentado ou "pendente".

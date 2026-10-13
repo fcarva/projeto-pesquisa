@@ -1,0 +1,79 @@
+{
+ "sq1": {
+  "bases": {
+   "LA Referencia": 544,
+   "OASISBR (IBICT)": 878,
+   "OpenAlex": 5035,
+   "PubMed": 2054,
+   "Scopus (API, visão reduzida)": 4945
+  },
+  "registros_de_registro": 0,
+  "duplicatas": 4040,
+  "sobreposicao_entre_linhas": 744,
+  "automacao": 823,
+  "automacao_motivos": {
+   "periodo": 693,
+   "idioma": 130
+  },
+  "outros_removidos": 0,
+  "triados": 8593,
+  "nao_triados_regra_parada": null,
+  "excluidos_titulo_resumo": null,
+  "buscados": null,
+  "nao_obtidos": null,
+  "avaliados": null,
+  "excluidos_texto": null,
+  "estudos_incluidos": null,
+  "relatos_incluidos": null,
+  "excluidos_texto_motivos": {},
+  "outros_metodos": null
+ },
+ "sq2": {
+  "bases": {
+   "OpenAlex": 4118
+  },
+  "registros_de_registro": 0,
+  "duplicatas": 198,
+  "sobreposicao_entre_linhas": 14,
+  "automacao": 0,
+  "automacao_motivos": {},
+  "outros_removidos": 0,
+  "triados": 3920,
+  "nao_triados_regra_parada": null,
+  "excluidos_titulo_resumo": null,
+  "buscados": null,
+  "nao_obtidos": null,
+  "avaliados": null,
+  "excluidos_texto": null,
+  "estudos_incluidos": null,
+  "relatos_incluidos": null,
+  "excluidos_texto_motivos": {},
+  "outros_metodos": null
+ },
+ "sq3": {
+  "bases": {
+   "OpenAlex": 5590,
+   "PubMed": 578
+  },
+  "registros_de_registro": 0,
+  "duplicatas": 139,
+  "sobreposicao_entre_linhas": 205,
+  "automacao": 13,
+  "automacao_motivos": {
+   "retratado": 6,
+   "paratext": 7
+  },
+  "outros_removidos": 0,
+  "triados": 6016,
+  "nao_triados_regra_parada": null,
+  "excluidos_titulo_resumo": null,
+  "buscados": null,
+  "nao_obtidos": null,
+  "avaliados": null,
+  "excluidos_texto": null,
+  "estudos_incluidos": null,
+  "relatos_incluidos": null,
+  "excluidos_texto_motivos": {},
+  "outros_metodos": null
+ }
+}

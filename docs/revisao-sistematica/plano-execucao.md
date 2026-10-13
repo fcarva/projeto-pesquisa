@@ -155,7 +155,13 @@ numa sessão com `OPENALEX_API_KEY`, que tenta o OpenAlex nos DOIs que ficaram s
 
 **Pronto quando:** três CSV deduplicados; `contagens-prisma.json` com as identidades fechando (identificados − duplicatas − excluídos por automação = a triar).
 
-### Etapa 4: PRISMA 2020 completo ⬜
+### Etapa 4: PRISMA 2020 completo ✅ (identificação; triagem em diante, "pendente")
+*2026-10-13, sessão na nuvem. `ferramentas/prisma.py` gera `paper/overleaf/prisma-sq{1,2,3}.tex`
+(TikZ, classe standalone; compilação testada com Tectonic), `prisma-fluxo.md` e
+`registros/prisma-fluxo.json`, e falha se uma identidade não fechar. As caixas de triagem em
+diante saem como "pendente" até existir `registros/decisoes-<sq>.csv`, com as colunas `id_unico`,
+`titulo_resumo`, `texto_obtido`, `texto_completo`, `motivo` e `estudo` (formato na docstring). A
+Etapa 5 tem de gravar nesse formato. Checklists: `checklist-prisma2020.md` e `checklist-prisma-s.md`.*
 **Prompt:**
 > Leia `docs/revisao-sistematica/plano-execucao.md` e execute a **Etapa 4** sobre a branch `claude/admiring-carson-3l2d8h`.
 
