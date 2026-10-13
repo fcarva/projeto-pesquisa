@@ -1,0 +1,309 @@
+{
+ "fonte": "ano e país dos autores: OpenAlex (title, publication_year, authorships.countries), pela tabela de recall do Apêndice A gerada na coleta da LA Referencia (commit 6e0a5ea); título completo: Crossref, conferido contra os 40 primeiros caracteres do título do OpenAlex (onde o Crossref falha, fica o título do OpenAlex truncado em 90 caracteres)",
+ "data_utc": "2026-10-13T22:13:59Z",
+ "titulo_de": {
+  "10.1590/0103-11042017s206": "crossref",
+  "10.1093/restud/rdad011": "crossref",
+  "10.1086/725349": "crossref",
+  "10.1016/j.jhealeco.2017.04.005": "crossref",
+  "10.1590/s1415-790x2013000300019": "crossref",
+  "10.1590/s0124-00642008000100008": "crossref",
+  "10.47328/ufvbbt.2025.749": "crossref",
+  "10.1590/1413-812320141910.08512014": "crossref",
+  "10.1590/s0102-311x2012000700005": "crossref",
+  "10.1016/j.ijheh.2012.08.006": "crossref",
+  "10.1007/s00128-010-0027-8": "crossref",
+  "10.11606/issn.2176-7262.v50i5p285-296": "crossref",
+  "10.1590/0103-1104201912108": "crossref",
+  "10.2478/s13382-014-0269-5": "crossref",
+  "10.1186/s12887-016-0667-x": "crossref",
+  "10.1097/ee9.0000000000000290": "crossref",
+  "10.1016/j.envpol.2026.128090": "crossref",
+  "10.1007/s11356-021-14574-2": "crossref",
+  "10.1016/j.socscimed.2025.118285": "crossref",
+  "10.5271/sjweh.1790": "crossref",
+  "10.3390/healthcare12202052": "crossref",
+  "10.18472/sustdeb.v9n1.2018.29594": "crossref",
+  "10.1289/ehp.1307679": "crossref",
+  "10.1289/jhp1043": "crossref",
+  "10.1289/ehp9934": "crossref",
+  "10.1515/reveh.2011.007": "crossref",
+  "10.21680/2447-3359.2021v7n2id24607": "crossref",
+  "10.1007/s11368-016-1597-9": "crossref",
+  "10.26668/indexlawjournals/2526-0081/2023.v9i2.10012": "crossref",
+  "10.22533/at.ed.92920110213": "crossref",
+  "10.54033/cadpedv22n7-345": "crossref",
+  "10.18174/442443": "crossref",
+  "10.1289/ehp7295": "crossref",
+  "10.1097/scs.0000000000009539": "crossref",
+  "10.1016/j.chemosphere.2023.138790": "crossref",
+  "10.24875/rmn.22000067": "crossref",
+  "10.1097/jom.0000000000002689": "crossref",
+  "10.1017/s2040174422000277": "apendice-90car",
+  "10.35563/rmp.v5i2.63": "crossref",
+  "10.31698/ped.45012018002": "crossref",
+  "10.1016/j.envres.2016.08.008": "crossref",
+  "10.1289/isee.2015.2015-2920": "crossref",
+  "10.1016/j.scitotenv.2013.01.034": "crossref"
+ },
+ "itens": [
+  {
+   "doi": "10.1590/0103-11042017s206",
+   "titulo": "Produção de vulnerabilidades em saúde: o trabalho das mulheres em empresas agrícolas da Chapada do Apodi, Ceará",
+   "ano": 2017,
+   "br": true
+  },
+  {
+   "doi": "10.1093/restud/rdad011",
+   "titulo": "Down the River: Glyphosate Use in Agriculture and Birth Outcomes of Surrounding Populations",
+   "ano": 2023,
+   "br": true
+  },
+  {
+   "doi": "10.1086/725349",
+   "titulo": "The Hidden Cost of Bananas: The Effects of Pesticides on Newborns’ Health",
+   "ano": 2023,
+   "br": false
+  },
+  {
+   "doi": "10.1016/j.jhealeco.2017.04.005",
+   "titulo": "The health consequences of aerial spraying illicit crops: The case of Colombia",
+   "ano": 2017,
+   "br": false
+  },
+  {
+   "doi": "10.1590/s1415-790x2013000300019",
+   "titulo": "Trends of chronic health effects associated to pesticide use in fruit farming regions in the state of Ceará, Brazil",
+   "ano": 2013,
+   "br": true
+  },
+  {
+   "doi": "10.1590/s0124-00642008000100008",
+   "titulo": "A Preliminary Statistical Study of Whether Pesticide use Could be Related to birth defects in a rural area of Venezuela",
+   "ano": 2008,
+   "br": false
+  },
+  {
+   "doi": "10.47328/ufvbbt.2025.749",
+   "titulo": "Impacts of pesticide exposure on birth outcomes and child health in Brazil",
+   "ano": 2025,
+   "br": false
+  },
+  {
+   "doi": "10.1590/1413-812320141910.08512014",
+   "titulo": "Malformações congênitas em municípios de grande utilização de agrotóxicos em Mato Grosso, Brasil",
+   "ano": 2014,
+   "br": true
+  },
+  {
+   "doi": "10.1590/s0102-311x2012000700005",
+   "titulo": "Exposição a agrotóxicos e eventos adversos na gravidez no Sul do Brasil, 1996-2000",
+   "ano": 2012,
+   "br": true
+  },
+  {
+   "doi": "10.1016/j.ijheh.2012.08.006",
+   "titulo": "Pesticide exposure and low birth weight prevalence in Brazil",
+   "ano": 2012,
+   "br": true
+  },
+  {
+   "doi": "10.1007/s00128-010-0027-8",
+   "titulo": "Correlation Between Pesticide Use in Agriculture and Adverse Birth Outcomes in Brazil: An Ecological Study",
+   "ano": 2010,
+   "br": true
+  },
+  {
+   "doi": "10.11606/issn.2176-7262.v50i5p285-296",
+   "titulo": "Malformações congênitas em regiões de monocultivo no estado de Minas Gerais, Brasil",
+   "ano": 2017,
+   "br": true
+  },
+  {
+   "doi": "10.1590/0103-1104201912108",
+   "titulo": "Tendência de malformações congênitas e utilização de agrotóxicos em commodities: um estudo ecológico",
+   "ano": 2019,
+   "br": true
+  },
+  {
+   "doi": "10.2478/s13382-014-0269-5",
+   "titulo": "Pesticide consumption, central nervous system and cardiovascular congenital malformations in the South and Southeast region of Brazil",
+   "ano": 2014,
+   "br": true
+  },
+  {
+   "doi": "10.1186/s12887-016-0667-x",
+   "titulo": "Parenteral exposure to pesticides and occurence of congenital malformations: hospital-based case–control study",
+   "ano": 2016,
+   "br": true
+  },
+  {
+   "doi": "10.1097/ee9.0000000000000290",
+   "titulo": "Pesticide exposure, birth size, and gestational age in the ISA birth cohort, Costa Rica",
+   "ano": 2024,
+   "br": false
+  },
+  {
+   "doi": "10.1016/j.envpol.2026.128090",
+   "titulo": "Agricultural pesticide exposures in Ecuador and their spatial association with low birth weight: a combined cluster detection and Bayesian modelling approach",
+   "ano": 2026,
+   "br": false
+  },
+  {
+   "doi": "10.1007/s11356-021-14574-2",
+   "titulo": "Residential proximity to pesticide applications in Argentine Patagonia: impact on pregnancy and newborn parameters",
+   "ano": 2021,
+   "br": false
+  },
+  {
+   "doi": "10.1016/j.socscimed.2025.118285",
+   "titulo": "Armed conflict and birthweight: The role of organized violence and anti-coca fumigation in Colombia",
+   "ano": 2025,
+   "br": false
+  },
+  {
+   "doi": "10.5271/sjweh.1790",
+   "titulo": "Prevalence of adverse reproductive outcomes in a population occupationally exposed to pesticides in Colombia.",
+   "ano": 1990,
+   "br": false
+  },
+  {
+   "doi": "10.3390/healthcare12202052",
+   "titulo": "Aerial Spraying and Its Impacts on Human Health in Banana-Growing Areas of Ecuador",
+   "ano": 2024,
+   "br": false
+  },
+  {
+   "doi": "10.18472/sustdeb.v9n1.2018.29594",
+   "titulo": "Versão em espanhol do Dossiê ABRASCO sobre o impacto dos agrotóxicos na saúde:",
+   "ano": 2018,
+   "br": true
+  },
+  {
+   "doi": "10.1289/ehp.1307679",
+   "titulo": "Aerial Application of Mancozeb and Urinary Ethylene Thiourea (ETU) Concentrations among Pregnant Women in Costa Rica: The Infants’ Environmental Health Study (ISA)",
+   "ano": 2014,
+   "br": false
+  },
+  {
+   "doi": "10.1289/jhp1043",
+   "titulo": "Pesticide Exposures during Pregnancy and Health Outcomes in Latin America and the Caribbean: A Scoping Review of Human Observational Studies",
+   "ano": 2024,
+   "br": true
+  },
+  {
+   "doi": "10.1289/ehp9934",
+   "titulo": "Health Effects of Pesticide Exposure in Latin American and the Caribbean Populations: A Scoping Review",
+   "ano": 2022,
+   "br": true
+  },
+  {
+   "doi": "10.1515/reveh.2011.007",
+   "titulo": "Baseline determination in social, health, and genetic areas in communities affected by glyphosate aerial spraying on the northeastern Ecuadorian border",
+   "ano": 2011,
+   "br": false
+  },
+  {
+   "doi": "10.21680/2447-3359.2021v7n2id24607",
+   "titulo": "VALE DO JAGUARIBE: UM OÁSIS EM PERIGO NO SEMIÁRIDO BRASILEIRO – REVISÃO SISTEMÁTICA SOBRE CONTAMINAÇÃO AMBIENTAL E POTENCIAIS DANOS À BACIA E SEUS USUÁRIOS",
+   "ano": 2021,
+   "br": true
+  },
+  {
+   "doi": "10.1007/s11368-016-1597-9",
+   "titulo": "Occurrence, distribution, and fate of pesticides in an intensive farming region in the Brazilian semi-arid tropics (Jaguaribe River, Ceará)",
+   "ano": 2016,
+   "br": true
+  },
+  {
+   "doi": "10.26668/indexlawjournals/2526-0081/2023.v9i2.10012",
+   "titulo": "MEIO AMBIENTE DO TRABALHO RURAL E PULVERIZAÇÃO AÉREA DE AGROTÓXICOS NA AGRICULTURA: O CASO DA AÇÃO DIRETA DE INCONSTITUCIONALIDADE (ADI) 6137/2019",
+   "ano": 2024,
+   "br": true
+  },
+  {
+   "doi": "10.22533/at.ed.92920110213",
+   "titulo": "FATORES DE RISCO RELACIONADOS AO CÂNCER INFANTOJUVENIL: COMUNIDADES EXPOSTAS A AGROTÓXICOS NO CEARÁ",
+   "ano": 2020,
+   "br": false
+  },
+  {
+   "doi": "10.54033/cadpedv22n7-345",
+   "titulo": "O conflito federativo e a justiça ambiental: a trajetória normativa e judicial sobre a pulverização aérea de agrotóxicos no Ceará - Brasil",
+   "ano": 2025,
+   "br": true
+  },
+  {
+   "doi": "10.18174/442443",
+   "titulo": "The general ban on aerial spraying of pesticides of the European Union: the policy-making process between 1993-2009",
+   "ano": 2018,
+   "br": false
+  },
+  {
+   "doi": "10.1289/ehp7295",
+   "titulo": "Prenatal Exposure to Glyphosate and Its Environmental Degradate, Aminomethylphosphonic Acid (AMPA), and Preterm Birth: A Nested Case–Control Study in the PROTECT Cohort (Puerto Rico)",
+   "ano": 2021,
+   "br": false
+  },
+  {
+   "doi": "10.1097/scs.0000000000009539",
+   "titulo": "A Retrospective and Prospective Cohort Study Comparing Pediatric Patients With Cleft Lip and Palate From the United States and Guatemala",
+   "ano": 2023,
+   "br": false
+  },
+  {
+   "doi": "10.1016/j.chemosphere.2023.138790",
+   "titulo": "Pesticides exposure in pregnant Argentinian women: Potential relations with the residence areas and the anthropometric neonate parameters",
+   "ano": 2023,
+   "br": false
+  },
+  {
+   "doi": "10.24875/rmn.22000067",
+   "titulo": "Incidence of congenital malformations of the central nervous system in newborns in Chiapas, Mexico, and associated factors",
+   "ano": 2023,
+   "br": false
+  },
+  {
+   "doi": "10.1097/jom.0000000000002689",
+   "titulo": "Environmental Factors at the Periconceptional Period and the Occurrence of Cleft Lip and Palate in a Midwest Brazil Population",
+   "ano": 2022,
+   "br": true
+  },
+  {
+   "doi": "10.1017/s2040174422000277",
+   "titulo": "Exposure to p,p´-DDE during early pregnancy, anthropometry, and gestational age at birth,",
+   "ano": 2022,
+   "br": false
+  },
+  {
+   "doi": "10.35563/rmp.v5i2.63",
+   "titulo": "Prevalencia y riesgo de malformación congénita en mujeres gestantes expuestas a plaguicidas. en el Hospital Regional de Ica, Perú",
+   "ano": 2019,
+   "br": false
+  },
+  {
+   "doi": "10.31698/ped.45012018002",
+   "titulo": "Factores de riesgo prenatales y su asociación a malformaciones congénitas en un Hospital Universitario de Referencia",
+   "ano": 2018,
+   "br": false
+  },
+  {
+   "doi": "10.1016/j.envres.2016.08.008",
+   "titulo": "Associations of maternal o,p′-DDT and p,p′-DDE levels with birth outcomes in a Bolivian cohort",
+   "ano": 2016,
+   "br": false
+  },
+  {
+   "doi": "10.1289/isee.2015.2015-2920",
+   "titulo": "The Impact Of Agricultural Pesticide Use On The Prevalence Of Perinatal Outcomes In Brazil",
+   "ano": 2015,
+   "br": true
+  },
+  {
+   "doi": "10.1016/j.scitotenv.2013.01.034",
+   "titulo": "Association between PON1 genetic polymorphisms and miscarriage in Mexican women exposed to pesticides",
+   "ano": 2013,
+   "br": false
+  }
+ ]
+}

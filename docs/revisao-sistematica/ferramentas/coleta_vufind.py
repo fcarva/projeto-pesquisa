@@ -416,9 +416,12 @@ def norm(t):
     return " ".join(re.sub(r"[^a-z0-9]+", " ", t).split())
 
 
-def itens_conhecidos():
+CACHE_ITENS = os.path.join(BASE, "calibracao", "itens-conhecidos-sq1-al.json")
+
+
+def dois_conhecidos():
     """DOIs dos itens conhecidos da calibração SQ1-AL (sementes, V, X, incidentais, desenvolvimento
-    e validação independente), com título e país dos autores pelo OpenAlex."""
+    e validação independente), na ordem em que aparecem nos JSON. Sem rede."""
     textos = []
     for nome in ("sq1-america-latina", "sq1-america-latina-final"):
         textos.append(json.dumps(json.load(open(os.path.join(BASE, "calibracao", nome + ".json"),
@@ -428,6 +431,18 @@ def itens_conhecidos():
         d = d.rstrip(".,;:)'\\").lower()
         if d not in dois:
             dois.append(d)
+    return dois
+
+
+def itens_conhecidos():
+    """Itens conhecidos com título, ano e país dos autores. Lê o cache congelado
+    (`calibracao/itens-conhecidos-sq1-al.json`) se ele cobre exatamente os DOIs de hoje; senão,
+    consulta o OpenAlex e grava o cache, para o recall não depender da cota do dia."""
+    dois = dois_conhecidos()
+    if os.path.exists(CACHE_ITENS):
+        cache = json.load(open(CACHE_ITENS, encoding="utf-8"))
+        if [i["doi"] for i in cache["itens"]] == dois:
+            return cache["itens"]
     from coleta_openalex import get as oa_get
     meta = {}
     for i in range(0, len(dois), 50):
@@ -439,7 +454,11 @@ def itens_conhecidos():
             paises = {c for a in w.get("authorships") or [] for c in a.get("countries") or []}
             meta[d] = {"titulo": w.get("title") or "", "ano": w.get("publication_year"),
                        "br": "BR" in paises}
-    return [{"doi": d, **meta.get(d, {"titulo": "", "ano": None, "br": None})} for d in dois]
+    itens = [{"doi": d, **meta.get(d, {"titulo": "", "ano": None, "br": None})} for d in dois]
+    json.dump({"fonte": "OpenAlex (title, publication_year, authorships.countries)",
+               "data_utc": agora_utc(), "itens": itens},
+              open(CACHE_ITENS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    return itens
 
 
 def indexado(api, titulo):
