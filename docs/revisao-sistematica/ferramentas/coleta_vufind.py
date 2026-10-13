@@ -14,9 +14,13 @@ confere, sem rede, que as fatias cobrem exatamente os termos dos blocos.
   403, regra de firewall) e depois bloqueia o IP. Fatias de no máximo MAX_TERMOS
   termos de cada lado, pausa de PAUSA["oasisbr"] s e parada no primeiro 403. A coleta
   é retomável: cada fatia concluída vai para `data/raw/.../oasisbr-progresso.jsonl`,
-  e uma nova execução pula as já feitas. Sem chamada única possível, a conferência é
-  a cobertura: todo registro brasileiro (`BR_`) da LA Referencia, que é subconjunto
-  do OASISBR, tem de reaparecer na união (mínimo COBERTURA_MIN, por título normalizado).
+  e uma nova execução pula as já feitas. Sem chamada única possível no OASISBR, a
+  conferência do método é a EQUIVALÊNCIA: as mesmas fatias de 5 + 5 termos, rodadas
+  na LA Referencia, têm de reproduzir a chamada única dela; se não, para sem gravar.
+  Reporta-se também a cobertura dos registros `BR_` da LA Referencia na união do
+  OASISBR. Ela não é critério de parada: em 2026-10-13 deu 289/337, e os faltantes
+  estavam indexados no OASISBR, mas o motor da LA Referencia os casa por campos ou
+  radicalização que o do OASISBR não usa (mesmo título e resumo nas duas fontes).
 
 Rodar de docs/revisao-sistematica:
 
@@ -62,7 +66,6 @@ TENTATIVAS = {"oasisbr": 2, "lareferencia": 5}
 # ~10 termos ou mais, mesmo com URL de 459 caracteres (5 termos de cada lado passam), e depois
 # recusa conexões do IP por um tempo. É regra de firewall, não limite de URL (emenda v1.2).
 MAX_TERMOS = {"oasisbr": 5}
-COBERTURA_MIN = 0.95
 BLOCO, LINHA = "sq1-america-latina", "VuFind #1 AND #2"
 OASISBR_BLOQUEIO = ("A API recusa consulta booleana com ~10 termos ou mais (HTTP 403, regra de firewall, não "
                     "tamanho de URL) e depois bloqueia o IP por um tempo; 5 termos de cada lado passam.")
@@ -271,6 +274,33 @@ def cobertura_lareferencia(uniao):
     return len(br) - len(faltam), len(br), faltam
 
 
+def conferencias_oasisbr(uniao, fs):
+    """(1) Equivalência do fatiamento: as fatias do OASISBR, rodadas na LA Referencia, reproduzem
+    a chamada única dela; senão, para. (2) Cobertura dos BR_ da LA Referencia na união do OASISBR,
+    e quantos dos faltantes estão indexados no OASISBR (informativo)."""
+    api_lr = FONTES["lareferencia"]
+    b = blocos_al(carrega(BLOCO))
+    unica = conta(api_lr, f"({b['#1']}) AND ({b['#2']})")
+    ids = set()
+    for k, f in enumerate(fs, 1):
+        regs, _ = baixa_fatia(api_lr, f)
+        ids |= set(regs)
+        if k % 24 == 0:
+            print(f"  equivalência na LA Referencia: {k}/{len(fs)} fatias, {len(ids)} ids", file=sys.stderr)
+    print(f"  equivalência: {len(fs)} fatias de ≤ {MAX_TERMOS['oasisbr']} + {MAX_TERMOS['oasisbr']} termos na "
+          f"LA Referencia = {len(ids)}; chamada única = {unica}", file=sys.stderr)
+    if len(ids) != unica:
+        raise RuntimeError(f"Fatiamento não equivalente: na LA Referencia, as fatias do OASISBR dão {len(ids)} "
+                           f"e a chamada única {unica}. Nada gravado; o progresso fica em {PROGRESSO}.")
+    ok, n, faltam = cobertura_lareferencia(uniao)
+    indexados = sum(bool(indexado(FONTES["oasisbr"], l["titulo"])) for l in faltam)
+    print(f"  cobertura dos BR_ da LA Referencia: {ok}/{n}; dos {len(faltam)} faltantes, {indexados} estão "
+          "indexados no OASISBR", file=sys.stderr)
+    return {"equivalencia_fatias_na_lareferencia": f"{len(ids)}/{unica}",
+            "cobertura_lareferencia_br": f"{ok}/{n}",
+            "faltantes_indexados_no_oasisbr": f"{indexados}/{len(faltam)}"}
+
+
 def coleta(fonte, fs):
     """Baixa todas as fatias e confere; não grava nada (quem grava é o __main__, depois do recall).
     No OASISBR, cada fatia concluída vai para PROGRESSO, e um Bloqueio interrompe a execução."""
@@ -304,16 +334,9 @@ def coleta(fonte, fs):
         logs.append({"data_utc": quando, "fonte": NOME_FONTE[fonte], "bloco": BLOCO, "linha": LINHA,
                      "papel": "fatia", "fatia": f["rotulo"], "contagem_hoje": total,
                      "n_termos_e": len(f["e"]), "n_termos_o": len(f["o"]), "lookfor": q})
-    unica, cobertura = None, None
+    unica, extra = None, {}
     if fonte == "oasisbr":
-        ok, n, faltam = cobertura_lareferencia(uniao)
-        cobertura = f"{ok}/{n}"
-        print(f"  cobertura dos BR_ da LA Referencia: {cobertura} ({ok / n:.1%})", file=sys.stderr)
-        for l in faltam[:15]:
-            print(f"    falta: {l['ano']} {l['formato']} {l['titulo'][:90]}", file=sys.stderr)
-        if ok / n < COBERTURA_MIN:
-            raise RuntimeError(f"OASISBR: cobertura dos BR_ da LA Referencia {cobertura} abaixo de "
-                               f"{COBERTURA_MIN:.0%}. Nada gravado; o progresso fica em {PROGRESSO}.")
+        extra = conferencias_oasisbr(uniao, fs)
     if fonte == "lareferencia":
         b = blocos_al(carrega(BLOCO))
         unica = conta(api, f"({b['#1']}) AND ({b['#2']})")
@@ -326,7 +349,7 @@ def coleta(fonte, fs):
         r["posicao"] = k
     resumo = {"data_utc": agora, "fonte": NOME_FONTE[fonte], "bloco": BLOCO, "linha": LINHA,
               "papel": "conjunto", "n_fatias": len(fs), "soma_fatias": sum(l["contagem_hoje"] for l in logs),
-              "uniao": len(uniao), "chamada_unica": unica, "cobertura_lareferencia_br": cobertura,
+              "uniao": len(uniao), "chamada_unica": unica, **extra,
               "com_resumo": sum(1 for r in regs if r["resumo"]),
               "com_doi": sum(1 for r in regs if r["doi"]),
               "formatos": dict(sorted(_conta(r["formato"] for r in regs).items(), key=lambda kv: -kv[1])),
@@ -463,9 +486,13 @@ def apendice(e, o, fs_por_fonte, resumos, recs):
         w.append(f"| {nome} #1 | {nome} (API VuFind) | {res['uniao']:,} | #1 AND #2, em {len(fs)} fatias "
                  f"(soma bruta {res['soma_fatias']:,}; união por `id`). "
                  + (f"Chamada única: {res['chamada_unica']:,}, igual à união. " if res.get("chamada_unica") else
-                    f"Sem chamada única possível ({OASISBR_BLOQUEIO}). Conferência: dos registros brasileiros "
-                    f"(`BR_`) da LA Referencia, que é subconjunto do OASISBR, {res.get('cobertura_lareferencia_br')} "
-                    "reaparecem na união, por título normalizado. ")
+                    f"Sem chamada única possível ({OASISBR_BLOQUEIO}). Equivalência do fatiamento: as mesmas "
+                    f"fatias, rodadas na LA Referencia, dão {res.get('equivalencia_fatias_na_lareferencia')} "
+                    "(união das fatias / chamada única). Cobertura dos registros brasileiros (`BR_`) da LA "
+                    f"Referencia na união: {res.get('cobertura_lareferencia_br')}; dos faltantes, "
+                    f"{res.get('faltantes_indexados_no_oasisbr')} estão indexados no OASISBR, mas o motor dele não "
+                    "os casa com a string (mesmo título e resumo; a LA Referencia casa por outros campos ou "
+                    "radicalização). Eles entram no conjunto da SQ1 pela LA Referencia. ")
                  + f"Com resumo: {res['com_resumo']:,}; com DOI: {res['com_doi']:,}. "
                  + "Formatos: " + ", ".join(f"{k} {v}" for k, v in res["formatos"].items()) + ". |")
     if "oasisbr" not in resumos:
