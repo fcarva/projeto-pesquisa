@@ -393,3 +393,12 @@ só 6 estão na fonte, e a string recupera 3. Os 3 perdidos são itens de **cont
 linha de efeito recupera. O **OASISBR não foi coletado**: o 403 não vem do tamanho da URL,
 como se supunha, mas de uma regra que recusa consultas booleanas com ~10 termos ou mais e
 depois bloqueia o IP. Detalhes no Apêndice A.
+
+**Etapa 2 (2026-10-13).** *Scopus pela API* (`ferramentas/coleta_scopus.py`): **4.945**
+registros da string de `scopus_wos.md`, lida do arquivo; visão STANDARD (sem resumo), 4.276
+com DOI, e as 3 sementes do arquivo recuperadas. Sem assinatura, a Elsevier recusa o
+`cursor`; a paginação é por `start` (teto de 5.000) com ordem fixa `-coverDate`, porque a
+ordem padrão repetiu registros entre páginas (o coletor parou sem gravar na primeira
+tentativa). *OpenAlex*: o `--conferir` deu contagens de hoje menores que as congeladas em
+quase todas as linhas; só a SQ2 #11 passa do limite de 5% (27 × 29). A coleta aguarda a
+decisão do pesquisador.

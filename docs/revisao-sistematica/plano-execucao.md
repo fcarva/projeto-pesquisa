@@ -86,7 +86,13 @@ POST, ou declarar a fonte inacessível (o nó brasileiro da LA Referencia é o I
 
 **Pronto quando:** emenda commitada antes da coleta; dois CSV em `registros/`; LA Referencia com união = chamada única; Apêndice A com as linhas novas.
 
-### Etapa 2: OpenAlex + Scopus API ⬜
+### Etapa 2: OpenAlex + Scopus API 🟡 (parcial)
+*2026-10-13, sessão local: **Scopus API ✅**: 4.945 registros (visão STANDARD, sem resumo; 4.276 com DOI;
+as 3 sementes de `scopus_wos.md` recuperadas), em `registros/scopus-api-sq1.csv`. Sem assinatura, o
+`cursor` é recusado: paginação por `start` (teto de 5.000) com ordem `-coverDate`, porque a ordem padrão
+repete registros entre páginas. **OpenAlex ⬜**: o `--conferir` deu SQ2 #11 = 27 contra 29 congelados
+(−6,9%, acima do limite de 5%); todas as outras linhas ficaram a ≤ 4,6%, todas para baixo. Aguarda a
+decisão do pesquisador.*
 *Depende de A1 (chaves) e de uma sessão nova aberta depois delas.*
 
 **Prompt:**
