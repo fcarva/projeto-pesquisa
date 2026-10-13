@@ -17,8 +17,9 @@ limite de gasto. Marque o `⬜` → `✅` aqui mesmo, com o commit, ao terminar 
 |---|---|---|
 | Protocolo v1.0 | ✅ confirmado (carimbo `1d12f10`) | `protocolo.md` |
 | PubMed (SQ1 #5 = 2.054; SQ3 P1 = 578) | ✅ coletado; as contagens batem com as congeladas | `registros/pubmed-*.csv`, commit `817f7d6` |
-| OpenAlex (28 linhas, 4 blocos) | ⬜ coletor pronto, **não rodado**: falta a chave. O resolvedor foi conferido (SQ1-AL #4-v0 = 604) | `ferramentas/coleta_openalex.py` |
-| Fontes brasileiras | ⬜ testadas em 2026-10-13; ver abaixo | — |
+| OpenAlex (28 linhas, 4 blocos) | ✅ coletado (Etapa 2, `f92e7ae`) | `registros/openalex-*.csv` |
+| Scopus API (SQ1) | ✅ 4.945, visão reduzida (`83500d6`) | `registros/scopus-api-sq1.csv` |
+| Fontes brasileiras | ✅ LA Referencia (544, `6e0a5ea`); OASISBR: ver a Etapa 1 | `registros/vufind-*.csv` |
 | Deduplicação, PRISMA, triagem | ⬜ | — |
 
 **Teste de acesso (2026-10-13, a partir da nuvem):**
@@ -26,15 +27,16 @@ limite de gasto. Marque o `⬜` → `✅` aqui mesmo, com o commit, ao terminar 
 | fonte | resultado | rota |
 |---|---|---|
 | LA Referencia (API VuFind, `buscador.lareferencia.info/api/v1/search`) | ✅ string SQ1-AL #1 AND #2 inteira: **544** (251 artigos, 292 teses/dissertações), com resumo | script |
-| OASISBR/IBICT (API VuFind, `oasisbr.ibict.br/vufind/api/v1/search`) | ✅ booleano e facetas; **403 com URL de ~3.200 caracteres** | script, com a consulta fatiada |
+| OASISBR/IBICT (API VuFind, `oasisbr.ibict.br/vufind/api/v1/search`) | ✅ booleano e facetas; **403 a consulta com ~10 termos ou mais** (regra de firewall, não tamanho de URL) | script, em fatias de ≤ 5 + 5 termos (emenda v1.2) |
 | Crossref | ✅ (só relevância) | script, para hidratar DOI/resumo |
 | Portal de Periódicos CAPES | ✘ não tem API: é porta via CAFe para bases pagas | — |
 | Scopus (Elsevier API) | ✘ "Invalid API Key": a injeção do proxy não chega ao `X-ELS-APIKey`. Fora da rede da UFES, só a visão reduzida, sem resumo | script com variável de ambiente + **exportação pela CAPES** |
 | SciELO (busca), BVS/LILACS | ✘ 403, bloqueio de IP de datacenter | **exportação do pesquisador** |
 
 **Decisões do pesquisador (2026-10-13):**
-1. Teses e dissertações com dado original **entram na SQ1**, como literatura cinzenta. Se a tese virou artigo, vale o artigo.
-2. Scopus **por API (visão reduzida, para identificação) + exportação completa pela CAPES**.
+1. Teses e dissertações com dado original **entram na SQ1**, como literatura cinzenta. Se a tese virou artigo, vale o artigo (emenda v1.1).
+2. Scopus **por API (visão reduzida, para identificação) + exportação completa pela CAPES** (emenda v1.1).
+3. **TCCs de graduação com dado original** também entram na SQ1, e o OASISBR é coletado em fatias de ≤ 5 + 5 termos (emenda v1.2, `0be66d3`). Motivo: num teste com duas consultas curtas e idênticas, a LA Referencia saiu **subconjunto** do OASISBR, e o OASISBR trouxe 30 de 45 e 23 de 47 registros a mais, entre eles dissertações centrais e TCCs.
 
 ---
 
@@ -121,7 +123,10 @@ repete registros entre páginas.*
    - **tese ↔ artigo**: pares com o mesmo sobrenome do primeiro autor, títulos parecidos e ano do artigo ≥ ano da tese ficam marcados para conferência, **sem fusão automática**;
    - exclusões automáticas por metadado, contadas à parte: SQ1 com ano < 1990 ou idioma fora de en/pt/es; SQ3 com *paratext* ou retratados;
    - camadas e ordem de triagem conforme as `screening_priority_rule` dos `calibracao/*-final.json` (SQ1: marca informativa; SQ2/SQ3: a ordem importa para a regra de parada);
-   - resumo que faltar (Scopus, importados) hidratado por DOI via OpenAlex e, na falta, Crossref;
+   - resumo que faltar (Scopus API, importados) hidratado por DOI via OpenAlex e, na falta, Crossref;
+   - **VuFind (LA Referencia, OASISBR):** quase sem DOI (89 de 544 na LA Referencia), então a chave efetiva é título normalizado + ano. As duas fontes trazem o mesmo registro com ids diferentes (a LA Referencia é subconjunto do OASISBR);
+   - **TCC (`bachelorThesis`) não é excluído por formato** (emenda v1.2). O par "tese/dissertação/TCC ↔ artigo" fica marcado para conferência;
+   - arquivo de marca da camada 1 da SQ1-intl: `registros/openalex-sq1-internacional-8-ids.csv`;
    - saída: `registros/deduplicado-sq{1,2,3}.csv` + `registros/contagens-prisma.json`.
 3. Teste com casos sintéticos: o mesmo DOI com caixa diferente; PMID sem DOI; título com acento × sem acento; tese e artigo do mesmo autor. Commit e push.
 
@@ -157,12 +162,12 @@ repete registros entre páginas.*
 ---
 
 ## Seus pontos de decisão
-- Etapa 1: aprovar o texto da emenda v1.1 antes do commit (a sessão mostra o diff).
+- Etapa 1: aprovar o texto das emendas v1.1 e v1.2 antes do commit (✅ ambas aprovadas em 2026-10-13).
 - Etapa 2: se uma linha do OpenAlex divergir > 5% da congelada, decidir entre aceitar a contagem de hoje ou investigar.
 - Etapa 5: aprovar o prompt de triagem e qualquer ajuste de critério depois do piloto.
 
 ## Cuidados (aprendidos nas sessões anteriores)
 - Coleta, deduplicação e PRISMA são **script**; agentes só na triagem (o limite de gasto da organização derrubou rodadas de agentes duas vezes).
 - O resumo **não vai para o git** (repositório público): fica em `data/raw/revisao-sistematica/`, reconstruível com `--reidratar`, e o SHA-256 versionado prova qual texto foi triado.
-- GET longo no PubMed dá 414 (usar o *history server*); o OASISBR dá 403 com URL longa (fatiar); o OpenAlex não tem curinga e não junta acentos.
+- GET longo no PubMed dá 414 (usar o *history server*); o OASISBR dá 403 a consulta com ~10 termos ou mais e depois bloqueia o IP (fatias de ≤ 5 + 5, pausa de 3 s, coleta retomável); o OpenAlex não tem curinga e não junta acentos.
 - O Firecrawl está sem créditos. O Parallel `web_fetch` alcança o OpenAlex para uma contagem avulsa de conferência, mas não serve para coleta em massa.
