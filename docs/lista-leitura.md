@@ -32,6 +32,17 @@ Descritiva, não causal: serve para química, geografia, cronologia e volumes da
 
 ---
 
+## Banimentos já avaliados — o lado do custo (acrescentado em 2026-10-13)
+
+Ninguém avaliou o efeito perinatal de um banimento da pulverização aérea (UE desde 2009; Davao 2007–2016). O que existe é banimento de **molécula** com saúde e produção medidas. Detalhe em `docs/ars/21-dossie-abrasco-banimentos-e-custo.md`.
+
+- **Manuweera, G. et al. (2008).** *Do targeted bans of insecticides to prevent deaths from self-poisoning result in reduced agricultural output?* **Environ Health Perspect** 116(4): 492–495. https://doi.org/10.1289/ehp.11029 — O método: rendimento de quem proibiu contra vizinhos.
+- **Chowdhury, F. R. et al. (2018).** *Bans of WHO Class I pesticides in Bangladesh—suicide prevention without hampering agricultural output.* **Int J Epidemiol** 47(1): 175–184. https://doi.org/10.1093/ije/dyx157
+- **Lin, C.-Y. et al. (2026).** *Longer-term impact of pesticide bans on suicide in South Korea.* **BMJ Glob Health** 11(2): e022329. https://doi.org/10.1136/bmjgh-2025-022329 — *Joinpoint* nos rendimentos.
+- **Jones, B. A. (2020).** *Invasive species control, agricultural pesticide use, and infant health outcomes.* **Land Economics** 96(2): 149–170. https://doi.org/10.3368/le.96.2.149 — Fungicida e desfecho ao nascer, com identificação.
+
+---
+
 ## Economia da regulação e escolha de instrumento (sua dimensão "economia" + a ponte teórica)
 
 **[5] Fernandez-Cornejo, J., Jans, S. & Smith, M. (1998).** *Issues in the Economics of Pesticide Use in Agriculture: A Review of the Empirical Evidence.* **Review of Agricultural Economics** 20(2): 462–488. https://doi.org/10.2307/1350002

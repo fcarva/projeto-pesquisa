@@ -3981,3 +3981,72 @@ def test_main_grava_painel_e_recusa_caixa_curta(tmp_path):
 def test_makefile_tem_o_alvo_da_chuva():
     mk = (RAIZ / "Makefile").read_text(encoding="utf-8")
     assert "\nchuva:" in mk and "18_chuva_chirps.py" in mk
+
+
+# --------------------------------------------------------------------------
+# 19_banana_uf_custo.py — o lado do custo do ban (ARS rodada 21)
+# Sem rede: resposta da API sintética.
+# --------------------------------------------------------------------------
+
+banana = _carrega("19_banana_uf_custo.py")
+
+
+def _painel_banana(efeito_ce=0.0, ufs=("23", "24", "25", "26", "27"), anos=range(2010, 2025)):
+    rng = np.random.default_rng(11)
+    linhas = []
+    for u in ufs:
+        nivel = rng.uniform(8, 10)
+        for a in anos:
+            y = nivel + 0.01 * (a - 2010) + rng.normal(0, 0.01)
+            if u == "23" and a >= 2019:
+                y += efeito_ce
+            linhas.append({"uf": u, "ano": a, "y": y})
+    return pd.DataFrame(linhas)
+
+
+def test_did_recupera_o_efeito_plantado_no_ceara():
+    p = _painel_banana(efeito_ce=0.20)
+    b = banana.did_um_tratado(p, "y", "23", ["24", "25", "26", "27"], (2010, 2018), (2019, 2024))
+    assert b == pytest.approx(0.20, abs=0.02)
+
+
+def test_placebo_no_espaco_exclui_o_tratado_real_e_da_p_minimo_quando_ha_efeito():
+    p = _painel_banana(efeito_ce=0.50)
+    b = banana.placebo_no_espaco(p, "y", "23", ["24", "25", "26", "27"], (2010, 2018), (2019, 2024))
+    assert list(b["papel"]) == ["tratado"] + ["placebo"] * 4
+    assert banana.p_valor_permutacao(b) == pytest.approx(1 / 5)
+    sem = banana.placebo_no_espaco(_painel_banana(0.0), "y", "23", ["24", "25", "26", "27"],
+                                   (2010, 2018), (2019, 2024))
+    assert banana.p_valor_permutacao(sem) > 0.2
+
+
+def test_tidy_ibge_le_a_api_e_trata_traco_como_ausente():
+    dados = [{"variavel": "Área colhida", "resultados": [{"series": [
+        {"localidade": {"id": "23", "nome": "Ceará"}, "serie": {"2018": "34378", "2019": "-"}}]}]},
+        {"variavel": "Valor da produção", "resultados": [{"series": [
+        {"localidade": {"id": "23", "nome": "Ceará"}, "serie": {"2018": "1"}}]}]}]
+    t = banana.tidy_ibge(dados).set_index("ano")
+    assert t.loc[2018, "area_ha"] == 34378 and np.isnan(t.loc[2019, "area_ha"])
+    assert "valor" not in " ".join(t.columns)                 # valor nominal fica de fora
+
+
+def test_main_da_banana_grava_e_recusa_janela_sobreposta(tmp_path):
+    def serie(u, base):
+        return {"localidade": {"id": u, "nome": u},
+                "serie": {str(a): str(base + a) for a in range(2010, 2025)}}
+    dados = [{"variavel": v, "resultados": [{"series": [serie(u, 1000 * (i + 1))
+             for i, u in enumerate(["23", "24", "25", "26"])]}]}
+             for v in banana.VARIAVEIS]
+    js = tmp_path / "api.json"
+    js.write_text(_json.dumps(dados), encoding="utf-8")
+    assert banana.main(["--json", str(js), "--out-dir", str(tmp_path)]) == 0
+    d = pd.read_csv(tmp_path / "banana_uf_did.csv")
+    assert set(d["desfecho"]) == {"area_ha", "producao_t", "rendimento_kg_ha"}
+    assert (d["n_unidades"] == 4).all()
+    assert banana.main(["--json", str(js), "--out-dir", str(tmp_path),
+                        "--pre", "2010", "2019", "--pos", "2019", "2024"]) == 1
+
+
+def test_makefile_tem_o_alvo_do_custo_da_banana():
+    mk = (RAIZ / "Makefile").read_text(encoding="utf-8")
+    assert "\nbanana-custo:" in mk and "19_banana_uf_custo.py" in mk

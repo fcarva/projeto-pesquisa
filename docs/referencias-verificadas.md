@@ -263,3 +263,23 @@ Crossref respondeu nesta sessão. Nada entrou no `.bib`: citar é decisão do te
 | **Ferreira, M. J. M. et al. (2016)**, *Ciênc Saúde Coletiva* 21:743–752 | citada por terceiros; Crossref não respondeu à busca | ⬜ |
 | **Reynier & Rubin (2025)** | o registro Crossref do PNAS (`10.1073/pnas.2413013121`) diz **Emmett Reynier** e Edward Rubin, 122(3), 14/01/2025. As versões SSRN de 2024 aparecem como "Saulnier" | ✅ citar como Reynier, que é o registro do artigo publicado |
 
+---
+
+## 11. Conferências de 2026-10-13, segunda rodada (doc 21: Dossiê, banimentos, custo)
+
+| referência | conferida por | estado |
+|---|---|---|
+| **Carneiro, F. F. et al. (orgs.) (2015)**, *Dossiê ABRASCO*, EPSJV/Expressão Popular | PDFs das Partes 1–3 (2012) no site da ABRASCO, lidos por tema | ✅ partes 1–3 · ✘ parte 4 não disponível · livro sem DOI |
+| **Manuweera, G. et al. (2008)**, *Environ Health Perspect* 116(4):492–495 | Crossref `10.1289/ehp.11029`; resumo e métodos (PMC) | ✅ |
+| **Gunnell, D. et al. (2007)**, *Int J Epidemiol* 36(6):1235–1242 | Crossref `10.1093/ije/dym164` | ✅ bibliográfica |
+| **Chowdhury, F. R. et al. (2018)**, *Int J Epidemiol* 47(1):175–184 | Crossref `10.1093/ije/dyx157`; resumo (PubMed) | ✅ |
+| **Cha, E. S. et al. (2016)**, *Int J Epidemiol* 45(2):470–479 | Crossref `10.1093/ije/dyv304` | ✅ bibliográfica |
+| **Lin, C.-Y. et al. (2026)**, *BMJ Glob Health* 11(2):e022329 | Crossref `10.1136/bmjgh-2025-022329`; texto (resultados e métodos de produção) | ✅ |
+| **Jones, B. A. (2020)**, *Land Economics* 96(2):149–170 | Crossref `10.3368/le.96.2.149`; resumo (RePEc) | ✅ |
+| **Goulet-Fortin, N. et al. (2024)**, *Sci Total Environ* 934:173213 | Crossref `10.1016/j.scitotenv.2024.173213` | ✅ |
+| **Brühl, C. A. et al. (2023)**, *Environ Int* 174:107877 | Crossref `10.1016/j.envint.2023.107877` | ✅ bibliográfica |
+| **Taxvig, C. et al. (2007)**, *Toxicol Sci* 100(2):464–473 | Crossref `10.1093/toxsci/kfm227` (citada pelo Dossiê) | ✅ |
+| **Diretiva 2009/128/CE**, art. 9; **COM(2025) 1021** | EUR-Lex, trechos pelo índice de busca | ✅ normas · texto integral não lido |
+| **Mosqueda v. Pilipino Banana Growers**, G.R. 189185, 16/08/2016 | e-Library da Suprema Corte das Filipinas e resumos, pelo índice | ✅ decisão · os 1.800 de 5.205 ha vêm de resumo do caso, ⬜ conferir no acórdão |
+| **Marinho, Carneiro & Almeida (2011)**, capítulo em Rigotto (org.) | só via Dossiê e Aguiar (2017) | ⬜ |
+

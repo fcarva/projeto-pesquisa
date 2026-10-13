@@ -61,7 +61,7 @@ D_ZERO  ?= 4
 .PHONY: teste simulado real limpar prespec-ok cultura-ok varredura gaez ajuda
 
 ajuda:
-	@echo "make teste     — 281 testes (6 exigem requirements-geo.txt)"
+	@echo "make teste     — 286 testes (6 exigem requirements-geo.txt)"
 	@echo "make simulado  — pipeline completo, dado simulado"
 	@echo "make real      — pipeline completo, dado real (exige pré-especificação)"
 	@echo "make varredura — bans municipais < 2019 (rede pesada; produto commitado)"
@@ -74,6 +74,7 @@ ajuda:
 	@echo "make mde-calendario — MDE do desenho de calendário (1º tri no pico) contra o do nível"
 	@echo "                 (PICO=2,3,4,5 é HIPÓTESE; TRATADOS=cód,cód substitui o Censo 2006)"
 	@echo "make chuva     — chuva mensal por município (CHIRPS, o PRISM do Ceará) e o pico observado"
+	@echo "make banana-custo — a banana do CE perdeu com o ban? DiD contra o NE, placebo no espaço"
 	@echo "make fronteira — Rota 1: ingestão CE+vizinho e o GATE de viabilidade"
 	@echo "                 (VIZINHO=24 RN padrão | 22 PI | 26 PE)"
 	@echo "make limpar    — apaga data/processed/"
@@ -276,6 +277,13 @@ mde-calendario:
 # Ver docs/ars/20-material-drive-prism-chapada.md.
 chuva:
 	$(PY) scripts/data_prep/18_chuva_chirps.py --inicio 1991 --fim 2024
+
+# O lado do custo (Ensaio 2): banana do Ceará contra o resto do Nordeste, antes
+# e depois de 2019, com placebo no espaço (à la Manuweera et al. 2008). ⚠️ Forma
+# reduzida estadual, sem chuva por UF: não é o efeito do ban. Ver doc 21.
+banana-custo:
+	$(PY) scripts/data_prep/19_banana_uf_custo.py
+	$(PY) scripts/data_prep/19_banana_uf_custo.py --comparadores todas
 
 fronteira-geografica:
 	$(PY) scripts/data_prep/16_fronteira_geografica.py --vizinhos 24 22 26
