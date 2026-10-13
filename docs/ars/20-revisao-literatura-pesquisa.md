@@ -457,7 +457,7 @@ do LeapSpace, com DOI, EID, data e resumo do Scopus. Elas estão em
 conferência por DOI, EID e título (`ferramentas/confere_referencias_ia.py`, agora também para esse
 CSV) deu:
 - **tabela 1**: as mesmas 13 referências da síntese, todas reais; 12 já estavam no conjunto, e a nova é de novo Rull & Ritz 2003, não elegível;
-- **tabela 2**: resposta ao pedido de estudos latino-americanos, com 7 estudos, **todos já no conjunto**: Calzada 2023; ISA 2024; Siqueira 2010; Oliveira 2013, *IJHEH*; Ueker 2014, Mato Grosso; um estudo do Rio Grande do Sul de 2021 sem DOI, casado pelo EID com o registro do Scopus pela API; e o de malatião aplicado por avião na Califórnia, 1987, *AJPH*, fora pela regra de período.
+- **tabela 2**: resposta ao pedido de estudos latino-americanos, com 7 estudos, **todos já no conjunto**: Calzada 2023; ISA 2024; Siqueira 2010; Boccolini et al. 2013, *IJHEH*; Oliveira et al. 2014, *Ciênc Saúde Coletiva*, Mato Grosso (autores conferidos no Crossref); um estudo do Rio Grande do Sul de 2021 sem DOI, casado pelo EID com o registro do Scopus pela API; e o de malatião aplicado por avião na Califórnia, 1987, *AJPH*, fora pela regra de período.
 
 Conclusão: nas duas rodadas, o LeapSpace não trouxe nenhum estudo elegível que a busca por
 script tivesse perdido. O resultado fica registrado como conferência externa de recall.
