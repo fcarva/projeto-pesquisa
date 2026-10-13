@@ -416,3 +416,12 @@ dissertações centrais para a SQ1 e TCCs de graduação. Decisões do pesquisad
 (ii) o OASISBR é coletado em **fatias de ≤ 5 + 5 termos**, com pausa de 3 s e parada no
 primeiro 403, porque a API recusa consultas com ~10 termos ou mais. O texto da emenda
 foi aprovado pelo pesquisador antes do commit.
+
+**Coleta do OASISBR (2026-10-13, depois da emenda v1.2).** 192 fatias de ≤ 5 + 5 termos,
+pausa de 3 s, sem nenhum 403: **878 registros** (317 dissertações, 254 artigos, 153 teses,
+71 TCCs, 52 sem formato), 838 com resumo e 78 com DOI. Recall: 7/43 itens conhecidos estão
+no OASISBR, e a string recupera 4/7 (os 3 perdidos são os mesmos itens de contexto da LA
+Referencia).
+- **Conferência planejada que falhou, e por quê.** O critério de parada era a cobertura dos registros `BR_` da LA Referencia na união do OASISBR (≥ 95%), porque o acervo dela está contido no dele. Deu 289/337 (85,8%), e a coleta parou sem gravar. Diagnóstico: dos 48 faltantes, 40 estão indexados no OASISBR com o **mesmo título e resumo**, mas o motor do OASISBR não os casa com a string, e o da LA Referencia casa por outros campos ou radicalização. Acervo contido não implica resultado de busca contido. Boa parte desses 48 é ruído (*Spodoptera*, *Bacillus thuringiensis*, amamentação), e todos já entram na SQ1 pela LA Referencia.
+- **Critério que substituiu o anterior** (equivalência do fatiamento): as mesmas 192 fatias, rodadas na LA Referencia, reproduzem a chamada única dela (**544 = 544**). A cobertura continua reportada, mas não é mais critério de parada.
+- **Recall reprodutível:** a lista dos 43 itens conhecidos foi congelada em `calibracao/itens-conhecidos-sq1-al.json`, porque a cota gratuita do OpenAlex do IP compartilhado se esgotou no meio da execução.

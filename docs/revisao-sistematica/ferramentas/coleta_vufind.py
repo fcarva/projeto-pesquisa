@@ -67,8 +67,8 @@ TENTATIVAS = {"oasisbr": 2, "lareferencia": 5}
 # recusa conexões do IP por um tempo. É regra de firewall, não limite de URL (emenda v1.2).
 MAX_TERMOS = {"oasisbr": 5}
 BLOCO, LINHA = "sq1-america-latina", "VuFind #1 AND #2"
-OASISBR_BLOQUEIO = ("A API recusa consulta booleana com ~10 termos ou mais (HTTP 403, regra de firewall, não "
-                    "tamanho de URL) e depois bloqueia o IP por um tempo; 5 termos de cada lado passam.")
+OASISBR_BLOQUEIO = ("a API recusa consulta booleana com ~10 termos ou mais (HTTP 403, regra de firewall, não "
+                    "tamanho de URL) e depois bloqueia o IP por um tempo; 5 termos de cada lado passam")
 PROGRESSO = os.path.join(BRUTO, "oasisbr-progresso.jsonl")
 
 
@@ -488,6 +488,10 @@ def recall(itens, regs, api):
 
 # ---------------------------------------------------------------- Apêndice A
 
+def mil(n):
+    return f"{n:,}".replace(",", ".")
+
+
 def apendice(e, o, fs_por_fonte, resumos, recs):
     hoje = dt.date.today().isoformat()
     w = []
@@ -502,9 +506,9 @@ def apendice(e, o, fs_por_fonte, resumos, recs):
     for fonte, res in resumos.items():
         fs = fs_por_fonte[fonte]
         nome = NOME_FONTE[fonte]
-        w.append(f"| {nome} #1 | {nome} (API VuFind) | {res['uniao']:,} | #1 AND #2, em {len(fs)} fatias "
-                 f"(soma bruta {res['soma_fatias']:,}; união por `id`). "
-                 + (f"Chamada única: {res['chamada_unica']:,}, igual à união. " if res.get("chamada_unica") else
+        w.append(f"| {nome} #1 | {nome} (API VuFind) | {mil(res['uniao'])} | #1 AND #2, em {len(fs)} fatias "
+                 f"(soma bruta {mil(res['soma_fatias'])}; união por `id`). "
+                 + (f"Chamada única: {mil(res['chamada_unica'])}, igual à união. " if res.get("chamada_unica") else
                     f"Sem chamada única possível ({OASISBR_BLOQUEIO}). Equivalência do fatiamento: as mesmas "
                     f"fatias, rodadas na LA Referencia, dão {res.get('equivalencia_fatias_na_lareferencia')} "
                     "(união das fatias / chamada única). Cobertura dos registros brasileiros (`BR_`) da LA "
@@ -512,10 +516,10 @@ def apendice(e, o, fs_por_fonte, resumos, recs):
                     f"{res.get('faltantes_indexados_no_oasisbr')} estão indexados no OASISBR, mas o motor dele não "
                     "os casa com a string (mesmo título e resumo; a LA Referencia casa por outros campos ou "
                     "radicalização). Eles entram no conjunto da SQ1 pela LA Referencia. ")
-                 + f"Com resumo: {res['com_resumo']:,}; com DOI: {res['com_doi']:,}. "
+                 + f"Com resumo: {mil(res['com_resumo'])}; com DOI: {mil(res['com_doi'])}. "
                  + "Formatos: " + ", ".join(f"{k} {v}" for k, v in res["formatos"].items()) + ". |")
     if "oasisbr" not in resumos:
-        w.append(f"| OASISBR #1 | OASISBR (API VuFind) | — | **Não coletado.** {OASISBR_BLOQUEIO} |")
+        w.append(f"| OASISBR #1 | OASISBR (API VuFind) | — | **Não coletado:** {OASISBR_BLOQUEIO}. |")
     w.append("")
     w.append(f"**String exata** ({hoje}; a mesma em todas as fontes VuFind):\n")
     w.append("```text\n" + consulta(e, o) + "\n```")

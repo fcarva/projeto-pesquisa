@@ -19,7 +19,7 @@ limite de gasto. Marque o `⬜` → `✅` aqui mesmo, com o commit, ao terminar 
 | PubMed (SQ1 #5 = 2.054; SQ3 P1 = 578) | ✅ coletado; as contagens batem com as congeladas | `registros/pubmed-*.csv`, commit `817f7d6` |
 | OpenAlex (28 linhas, 4 blocos) | ✅ coletado (Etapa 2, `f92e7ae`) | `registros/openalex-*.csv` |
 | Scopus API (SQ1) | ✅ 4.945, visão reduzida (`83500d6`) | `registros/scopus-api-sq1.csv` |
-| Fontes brasileiras | ✅ LA Referencia (544, `6e0a5ea`); OASISBR: ver a Etapa 1 | `registros/vufind-*.csv` |
+| Fontes brasileiras | ✅ LA Referencia (544, `6e0a5ea`); OASISBR (878, emenda v1.2) | `registros/vufind-*.csv` |
 | Deduplicação, PRISMA, triagem | ⬜ | — |
 
 **Teste de acesso (2026-10-13, a partir da nuvem):**
@@ -59,12 +59,16 @@ limite de gasto. Marque o `⬜` → `✅` aqui mesmo, com o commit, ao terminar 
 Em todas as sessões: abra uma sessão nova **sobre a branch `claude/admiring-carson-3l2d8h`**
 e cole o prompt. A sessão lê este arquivo, executa a etapa, faz o commit e o push.
 
-### Etapa 1: emenda v1.1 + coleta OASISBR/LA Referencia 🟡 (parcial)
-*2026-10-13, sessão local: emenda v1.1 aprovada e commitada (`628bf12`); **LA Referencia ✅**
-(544 = chamada única; `registros/vufind-lareferencia-sq1.csv`; Apêndice A com as linhas novas).
-**OASISBR ⬜**: o 403 não é de tamanho de URL; a API recusa consultas booleanas com ~10 termos ou
-mais e depois bloqueia o IP (`ferramentas/vufind.md`). Falta decidir: fatias de ~5 termos,
-POST, ou declarar a fonte inacessível (o nó brasileiro da LA Referencia é o IBICT).*
+### Etapa 1: emendas v1.1/v1.2 + coleta OASISBR/LA Referencia ✅
+*2026-10-13, sessão local: emenda v1.1 (`628bf12`); **LA Referencia ✅** (544 = chamada única,
+`6e0a5ea`). 2026-10-13, sessão na nuvem: emenda v1.2 (`0be66d3`: TCCs; OASISBR em fatias de
+≤ 5 + 5 termos); **OASISBR ✅: 878 registros** em 192 fatias (317 dissertações, 254 artigos,
+153 teses, 71 TCCs, 52 sem formato; 838 com resumo, 78 com DOI), `registros/vufind-oasisbr-sq1.csv`.
+Conferência do método: as mesmas 192 fatias rodadas na LA Referencia dão 544, igual à chamada
+única. A cobertura dos BR_ da LA Referencia na união do OASISBR é 289/337: dos 48 faltantes, 40
+estão indexados no OASISBR com o mesmo título e resumo, mas o motor dele não os casa com a
+string. Eles entram no conjunto da SQ1 pela LA Referencia, e boa parte é ruído (*Spodoptera*,
+Bt). Detalhes em `ferramentas/vufind.md`.*
 *Não depende de chave: pode rodar já.*
 
 **Prompt:**
