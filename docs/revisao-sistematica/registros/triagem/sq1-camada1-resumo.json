@@ -1,12 +1,8 @@
 {
  "sq": "sq1",
  "modo": "camada1",
- "registros": 1000,
+ "registros": 1400,
  "lotes_pendentes": [
-  "11",
-  "12",
-  "13",
-  "14",
   "15",
   "16",
   "17",
@@ -21,23 +17,23 @@
   "26"
  ],
  "tabela_t1_t2": {
-  "incluir/incluir": 248,
+  "incluir/incluir": 276,
   "incluir/excluir": 10,
-  "excluir/incluir": 25,
-  "excluir/excluir": 717
+  "excluir/incluir": 28,
+  "excluir/excluir": 1086
  },
- "concordancia_observada": 0.965,
- "kappa_cohen": 0.91,
- "divergencias": 35,
+ "concordancia_observada": 0.973,
+ "kappa_cohen": 0.918,
+ "divergencias": 38,
  "citacao_literal": {
-  "triador-1": "1000/1000",
-  "triador-2": "1000/1000"
+  "triador-1": "1400/1400",
+  "triador-2": "1400/1400"
  },
- "ambos_excluem_mesmo_motivo": "622/717",
+ "ambos_excluem_mesmo_motivo": "953/1086",
  "finais": {
-  "incluir": 248,
-  "excluir": 717,
-  "": 35
+  "incluir": 276,
+  "excluir": 1086,
+  "": 38
  },
  "adjudicadas": 0
 }
