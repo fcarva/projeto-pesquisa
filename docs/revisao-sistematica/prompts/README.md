@@ -10,3 +10,4 @@ plataforma (Claude Code) e ficam no padrão dela.
 | `01-calibracao-busca.js` | calibração das strings (desenvolvimento da estratégia, PRISMA-P) e revisão PRESS | 2026-10-11 (retomado após o limite de uso, com os agentes concluídos vindos do cache) | — |
 | `02-finalizacao-busca.js` | aplicação das revisões PRESS, congelamento das strings em linhas numeradas e recall em validação independente | 2026-10-12 | — |
 | `03-leapspace-busca-complementar-sq1.md` | busca complementar da SQ1 no LeapSpace (Elsevier, via CAPES), colada pelo pesquisador; a resposta volta para conferência no Crossref e para a deduplicação | 2026-10-13 | — |
+| `04-triagem-titulo-resumo-sq1.md` | triagem por título e resumo da SQ1 (dois triadores de IA independentes, mesmo texto; o lote entra em `{{LOTE}}`) | 2026-10-13, **aguardando aprovação** | lote de `ferramentas/prepara_triagem.py` |
