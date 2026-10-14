@@ -2,6 +2,7 @@
  "sq": "sq1",
  "modo": "piloto",
  "registros": 50,
+ "lotes_pendentes": [],
  "tabela_t1_t2": {
   "incluir/incluir": 6,
   "incluir/excluir": 0,
