@@ -2,7 +2,9 @@
 
 Entradas (em `registros/triagem/`):
 - `<sq>-<modo>-manifesto.csv` (de `prepara_triagem.py`);
-- `<sq>-<modo>-triador-1.json` e `-triador-2.json`: os arrays JSON devolvidos pelos triadores;
+- `<sq>-<modo>-triador-1.json` e `-triador-2.json` (piloto), ou um par por lote,
+  `<sq>-<modo>-lote-NNN-triador-{1,2}.json` (triagem completa). Com lotes, entram só os que
+  já têm os dois triadores; os demais são listados como pendentes;
 - opcional, `<sq>-<modo>-adjudicacao.json`: a resposta do adjudicador às divergências.
 
 Faz:
@@ -78,8 +80,24 @@ def roda(sq, modo):
         for r in json.load(open(caminho, encoding="utf-8")):
             lote[r["id"]] = r
     textos = {i: norm(f"{r['titulo']} {r.get('resumo') or ''}") for i, r in lote.items()}
-    t = [{d["id"]: d for d in le_json(os.path.join(DIR, f"{base}-triador-{k}.json"))} for k in (1, 2)]
-    ids = sorted(man)
+    unico = os.path.join(DIR, f"{base}-triador-1.json")
+    if os.path.exists(unico):
+        t = [{d["id"]: d for d in le_json(os.path.join(DIR, f"{base}-triador-{k}.json"))} for k in (1, 2)]
+        ids = sorted(man)
+        lotes_pendentes = []
+    else:
+        t, lotes_ok, lotes_pendentes = [{}, {}], [], []
+        for n in sorted({m["lote"] for m in man.values()}, key=int):
+            caminhos = [os.path.join(DIR, f"{base}-lote-{int(n):03d}-triador-{k}.json") for k in (1, 2)]
+            if all(os.path.exists(c) for c in caminhos):
+                for k, c in enumerate(caminhos):
+                    t[k].update({d["id"]: d for d in le_json(c)})
+                lotes_ok.append(n)
+            else:
+                lotes_pendentes.append(n)
+        ids = sorted(i for i, m in man.items() if m["lote"] in lotes_ok)
+        if not ids:
+            sys.exit(f"nenhum lote com os dois triadores; pendentes: {lotes_pendentes}")
     erros, lits = [], []
     for k in (0, 1):
         e, l = valida(list(t[k].values()), ids, f"triador-{k + 1}", textos)
@@ -95,7 +113,8 @@ def roda(sq, modo):
     div = [i for i in ids if t[0][i]["decisao"] != t[1][i]["decisao"]]
     ambos_exc = [i for i in ids if a[ids.index(i)] == b[ids.index(i)] == "excluir"]
     motivo_igual = sum(1 for i in ambos_exc if t[0][i]["motivo"] == t[1][i]["motivo"])
-    resumo = {"sq": sq, "modo": modo, "registros": len(ids), "tabela_t1_t2": tab,
+    resumo = {"sq": sq, "modo": modo, "registros": len(ids), "lotes_pendentes": lotes_pendentes,
+              "tabela_t1_t2": tab,
               "concordancia_observada": round(po, 3), "kappa_cohen": round(k, 3),
               "divergencias": len(div), "citacao_literal": {"triador-1": f"{lits[0]}/{len(ids)}",
                                                             "triador-2": f"{lits[1]}/{len(ids)}"},
@@ -114,6 +133,7 @@ def roda(sq, modo):
     linhas = []
     for i in ids:
         x, y = t[0][i], t[1][i]
+        # (registros de lotes pendentes não entram aqui)
         if x["decisao"] == y["decisao"]:
             final, motivo, origem = x["decisao"], x["motivo"] if x["motivo"] == y["motivo"] else (x["motivo"] or y["motivo"]), "consenso"
         elif i in adj:
