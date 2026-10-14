@@ -1,0 +1,25 @@
+{
+ "sq": "sq1",
+ "modo": "piloto",
+ "registros": 50,
+ "tabela_t1_t2": {
+  "incluir/incluir": 6,
+  "incluir/excluir": 0,
+  "excluir/incluir": 1,
+  "excluir/excluir": 43
+ },
+ "concordancia_observada": 0.98,
+ "kappa_cohen": 0.912,
+ "divergencias": 1,
+ "citacao_literal": {
+  "triador-1": "50/50",
+  "triador-2": "49/50"
+ },
+ "ambos_excluem_mesmo_motivo": "40/43",
+ "finais": {
+  "incluir": 6,
+  "excluir": 44,
+  "": 0
+ },
+ "adjudicadas": 1
+}

@@ -176,7 +176,11 @@ Etapa 5 tem de gravar nesse formato. Checklists: `checklist-prisma2020.md` e `ch
 
 **Pronto quando:** o fluxograma compila no Overleaf com os números da Etapa 3; os dois checklists estão preenchidos.
 
-### Etapa 5: piloto + triagem ⬜
+### Etapa 5: piloto + triagem 🟡 (piloto ✅; triagem completa aguarda aprovação)
+*2026-10-14, sessão na nuvem.*
+- **Prompt aprovado** (`prompts/04-triagem-titulo-resumo-sq1.md`); triadores **Sonnet**, adjudicador no modelo da sessão.
+- **Piloto** (50 registros da SQ1, 30/15/5 por camada): κ de Cohen **0,91**, concordância de 49/50, citação literal em 99/100, mesmo motivo em 40/43 exclusões em comum. A única divergência foi adjudicada como exclusão. Resultado final: 6 incluídos e 44 excluídos (`registros/triagem/sq1-piloto-*`).
+- **Consumo medido:** cerca de 132 mil tokens por chamada de triador com 50 registros, e 77 mil na chamada do adjudicador com 1 registro. Ou seja, uns 75 mil de sobrecarga fixa por chamada e uns 1,1 mil por registro.
 **Prompt:**
 > Leia `docs/revisao-sistematica/plano-execucao.md` e execute a **Etapa 5** sobre a branch `claude/admiring-carson-3l2d8h`. Antes de rodar agentes, me mostre o prompt de triagem e o custo estimado.
 

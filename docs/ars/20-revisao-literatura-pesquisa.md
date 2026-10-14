@@ -461,3 +461,13 @@ CSV) deu:
 
 Conclusão: nas duas rodadas, o LeapSpace não trouxe nenhum estudo elegível que a busca por
 script tivesse perdido. O resultado fica registrado como conferência externa de recall.
+
+**Etapa 5, piloto (2026-10-14).** O pesquisador aprovou o prompt de triagem
+(`prompts/04-triagem-titulo-resumo-sq1.md`) e escolheu **Sonnet** para os triadores. Os dois
+triadores leram o prompt e o lote direto dos arquivos, com chamadas idênticas
+(`prompts/04b-chamada-triador.md`), em instâncias paralelas.
+- **Concordância** nos 50 registros do piloto: **κ = 0,91** (49/50), com 6 inclusões e 43 exclusões em comum.
+- **Divergência:** só uma (coorte de piretroides × metabolismo lipídico neonatal), adjudicada como exclusão por desfecho intermediário.
+- **Qualidade das saídas:** citação literal em 99/100 (a falha é um acento acrescentado); os 11 registros sem resumo foram excluídos pelo título, todos claramente fora do tema.
+- **Consumo:** cerca de 132 mil tokens por chamada de 50 registros e 77 mil numa chamada de adjudicação com 1 registro, ou seja, uns 75 mil de sobrecarga fixa por chamada e uns 1,1 mil por registro.
+- **Ajuste de redação:** os motivos divergiram em 3 de 43 exclusões em comum (editorial: `desenho` × `tipo_documento`; texto jurídico: `desenho` × `fora_do_tema`). Isso não afeta a decisão nem o fluxograma, que só reporta motivos no texto completo, então o prompt fica como foi validado.
