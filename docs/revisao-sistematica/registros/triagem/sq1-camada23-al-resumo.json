@@ -1,0 +1,26 @@
+{
+ "sq": "sq1",
+ "modo": "camada23-al",
+ "registros": 268,
+ "lotes_pendentes": [],
+ "tabela_t1_t2": {
+  "incluir/incluir": 12,
+  "incluir/excluir": 0,
+  "excluir/incluir": 6,
+  "excluir/excluir": 250
+ },
+ "concordancia_observada": 0.978,
+ "kappa_cohen": 0.789,
+ "divergencias": 6,
+ "citacao_literal": {
+  "triador-1": "268/268",
+  "triador-2": "268/268"
+ },
+ "ambos_excluem_mesmo_motivo": "221/250",
+ "finais": {
+  "incluir": 12,
+  "excluir": 250,
+  "": 6
+ },
+ "adjudicadas": 0
+}
