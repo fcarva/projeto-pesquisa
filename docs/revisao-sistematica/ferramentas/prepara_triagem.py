@@ -12,8 +12,11 @@ Modos:
   bastantes para calibrar a redação dos critérios. O κ do piloto é de calibração, não estimativa
   da concordância na triagem completa;
 - `--completo`: todos os registros a triar, na ordem do `deduplicado` (camadas e segmentos);
-  com `--camada N` (SQ1), só a camada N, no modo `camadaN`. Registros já triados no piloto
-  ficam de fora: a decisão do piloto vale.
+  com `--camada N [M…]` (SQ1), só essas camadas, no modo `camadaNM`; com `--braco al|intl`, só o
+  braço latino-americano (`camada_al`) ou o internacional (`camada_intl`) delas, no modo
+  `camadaNM-al`. Registros que já estão no manifesto de outro modo (piloto ou rodada anterior)
+  ficam de fora: a decisão já tomada vale. Os pendentes de uma rodada não estão no manifesto
+  dela e voltam na rodada seguinte que os alcance.
 
 Saídas:
 - `data/raw/revisao-sistematica/triagem/<sq>-<modo>-lote-NNN.json`, com o texto (fora do git);
@@ -29,6 +32,7 @@ lotes e vai para `registros/triagem/<sq>-<modo>-pendentes.csv`, para a próxima 
     python3 ferramentas/prepara_triagem.py --piloto
     python3 ferramentas/prepara_triagem.py --completo --sq sq1 --tamanho 25
     python3 ferramentas/prepara_triagem.py --completo --sq sq1 --camada 1 --tamanho 100
+    python3 ferramentas/prepara_triagem.py --completo --sq sq1 --camada 2 3 --braco al --tamanho 100
 """
 import argparse
 import csv
@@ -265,20 +269,25 @@ def grava(sq, modo, itens, tamanho, so_com_resumo=False):
     return manifesto
 
 
-def ja_triados(sq):
-    caminho = os.path.join(DIR_MANIF, f"{sq}-piloto-manifesto.csv")
-    return {m["id_unico"] for m in csv.DictReader(open(caminho, encoding="utf-8"))} if os.path.exists(caminho) else set()
+def ja_triados(sq, modo):
+    """id_unico dos registros no manifesto de qualquer outro modo (piloto e rodadas anteriores)."""
+    feitos = set()
+    for caminho in glob.glob(os.path.join(DIR_MANIF, f"{sq}-*-manifesto.csv")):
+        if os.path.basename(caminho) != f"{sq}-{modo}-manifesto.csv":
+            feitos |= {m["id_unico"] for m in csv.DictReader(open(caminho, encoding="utf-8"))}
+    return feitos
 
 
-def roda(sq, modo, tamanho, camada=None, so_com_resumo=False):
+def roda(sq, modo, tamanho, camadas=None, so_com_resumo=False, braco=None):
     caminho = os.path.join(REG, f"deduplicado-{sq}.csv")
     registros = [u for u in csv.DictReader(open(caminho, encoding="utf-8")) if not u["exclusao_auto"]]
     if modo == "piloto":
         registros = amostra_piloto(registros)
     else:
-        piloto = ja_triados(sq)
-        registros = [u for u in registros if u["id_unico"] not in piloto
-                     and (camada is None or u.get("camada") == str(camada))]
+        feitos = ja_triados(sq, modo)
+        registros = [u for u in registros if u["id_unico"] not in feitos
+                     and (not camadas or u.get("camada") in {str(c) for c in camadas})
+                     and (braco is None or u.get(f"camada_{braco}"))]
     itens = monta(registros)
     man = grava(sq, modo, itens, tamanho, so_com_resumo)
     com = sum(1 for m in man if m["n_car_resumo"])
@@ -296,11 +305,16 @@ if __name__ == "__main__":
     g.add_argument("--completo", action="store_true")
     ap.add_argument("--sq", default="sq1", choices=["sq1", "sq2", "sq3"])
     ap.add_argument("--tamanho", type=int, default=25, help="registros por lote")
-    ap.add_argument("--camada", type=int, help="com --completo na SQ1: só esta camada")
+    ap.add_argument("--camada", type=int, nargs="+", help="com --completo na SQ1: só estas camadas")
+    ap.add_argument("--braco", choices=["al", "intl"], help="com --camada: só o braço latino-americano ou o internacional")
     ap.add_argument("--so-com-resumo", action="store_true",
                     help="tira dos lotes os registros cujo resumo existe mas não foi obtido (vão para pendentes)")
     a = ap.parse_args()
     if a.piloto and a.sq != "sq1":
         sys.exit("o piloto é só da SQ1 (protocolo)")
-    modo = "piloto" if a.piloto else (f"camada{a.camada}" if a.camada else "completo")
-    roda(a.sq, modo, 50 if a.piloto else a.tamanho, a.camada, a.so_com_resumo)
+    if a.braco and not a.camada:
+        sys.exit("--braco só vale com --camada")
+    modo = "piloto" if a.piloto else (f"camada{''.join(map(str, a.camada))}" if a.camada else "completo")
+    if a.braco:
+        modo += f"-{a.braco}"
+    roda(a.sq, modo, 50 if a.piloto else a.tamanho, a.camada, a.so_com_resumo, a.braco)
