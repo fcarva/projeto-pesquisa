@@ -10,4 +10,9 @@ plataforma (Claude Code) e ficam no padrão dela.
 | `01-calibracao-busca.js` | calibração das strings (desenvolvimento da estratégia, PRISMA-P) e revisão PRESS | 2026-10-11 (retomado após o limite de uso, com os agentes concluídos vindos do cache) | — |
 | `02-finalizacao-busca.js` | aplicação das revisões PRESS, congelamento das strings em linhas numeradas e recall em validação independente | 2026-10-12 | — |
 | `03-leapspace-busca-complementar-sq1.md` | busca complementar da SQ1 no LeapSpace (Elsevier, via CAPES), colada pelo pesquisador; a resposta volta para conferência no Crossref e para a deduplicação | 2026-10-13 | — |
-| `04-triagem-titulo-resumo-sq1.md` | triagem por título e resumo da SQ1 (dois triadores de IA independentes, mesmo texto; o lote entra em `{{LOTE}}`) | 2026-10-13, **aguardando aprovação** | lote de `ferramentas/prepara_triagem.py` |
+| `04-triagem-titulo-resumo-sq1.md` | triagem por título e resumo da SQ1 (dois triadores de IA independentes, mesmo texto; o lote entra em `{{LOTE}}`) | 2026-10-13, aprovado pelo pesquisador para o piloto e para a camada 1 | lote de `ferramentas/prepara_triagem.py` |
+| `04b-chamada-triador.md` | chamada de cada triador no piloto (Sonnet; resposta devolvida como texto) | 2026-10-13 | — |
+| `04c-chamada-triador-arquivo.md` | chamada de cada triador na triagem completa (Sonnet; grava em arquivo, lê o lote em partes, resumo longo em pedaços) | 2026-10-14 | `<LOTE>`, `<SAIDA>` |
+| `05-adjudicacao-sq1.md` | instruções do adjudicador (modelo da sessão), só nas divergências; o lote entra em `{{DIVERGENCIAS}}` | 2026-10-14 | lote de `ferramentas/concordancia.py` |
+| `05b-chamada-adjudicador.md` | chamada do adjudicador no piloto (resposta devolvida como texto) | 2026-10-14 | `<DIVERGENCIAS>` |
+| `05c-chamada-adjudicador-arquivo.md` | chamada do adjudicador na triagem completa (grava em arquivo, lê em partes) | 2026-10-29 | `<DIVERGENCIAS>`, `<SAIDA>` |
