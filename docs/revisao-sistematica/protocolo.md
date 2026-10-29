@@ -4,7 +4,7 @@
 aérea, e desfechos ao nascer: protocolo de revisão sistemática, acompanhado de
 duas revisões estruturadas complementares (método e escolha de instrumento)**
 
-*Versão 1.2 (emendas v1.1 e v1.2, de 2026-10-13; ver *Emendas*). Versão 1.0, com as decisões do pesquisador de 2026-10-12, **confirmada pelo pesquisador em 2026-10-12**. Rascunho 0.9 em 2026-10-11. ARS
+*Versão 1.3 (emendas v1.1 e v1.2, de 2026-10-13, e v1.3, de 2026-10-29; ver *Emendas*). Versão 1.0, com as decisões do pesquisador de 2026-10-12, **confirmada pelo pesquisador em 2026-10-12**. Rascunho 0.9 em 2026-10-11. ARS
 `deep-research`, modo `systematic-review`, Fase 1. Registro do processo em
 `docs/ars/20-revisao-literatura-pesquisa.md`.*
 
@@ -42,6 +42,7 @@ O orientador (Prof. Renato Seixas) só entra como autor se ele decidir participa
 | 2026-10-13 (**v1.1**, depois da coleta do PubMed e antes de qualquer outra) | Elegibilidade, status (SQ1) | teses e dissertações **com dado original** passam a elegíveis, como literatura cinzenta; se a tese virou artigo, vale o artigo (a regra "vale o publicado" se estende a tese → artigo) | lacuna de literatura brasileira: o teste de acesso de 2026-10-13 mostrou que, das 544 respostas da LA Referencia à string SQ1-AL #1 AND #2, 292 são teses e dissertações. Excluí-las deixaria de fora justamente a produção brasileira que as bases indexadas não cobrem |
 | 2026-10-13 (**v1.1**) | Fontes de informação; Uso de IA (M2) | entram **OASISBR/IBICT** e **LA Referencia** (API VuFind, por script), com os blocos SQ1-AL #1 (exposição) AND #2 (desfecho), **sem o #3 (geografia)**, porque as duas fontes já são brasileira e latino-americana; e o **Scopus por API**, em visão reduzida, só para identificação, com o resumo hidratado por DOI (OpenAlex, depois Crossref), **além** da exportação completa pela CAPES | lacuna de literatura brasileira; o Scopus pela API sai de qualquer rede, mas, fora do IP institucional, sem resumo. A exportação pela CAPES continua sendo a fonte do resumo do Scopus |
 | 2026-10-13 (**v1.2**, antes da coleta do OASISBR) | Elegibilidade, status (SQ1); Fontes (OASISBR) | **trabalhos de conclusão de curso (TCC) de graduação com dado original** passam a elegíveis, como as teses e dissertações; TCC → artigo segue a regra "vale o publicado". O OASISBR é coletado em fatias de **no máximo 5 + 5 termos** (exposição × desfecho), cuja união é logicamente a consulta inteira | o OASISBR indexa TCCs com dado original sobre o tema (formato `bachelorThesis`), e o pesquisador decidiu incluí-los. A API do OASISBR recusa consulta booleana com ~10 termos ou mais (HTTP 403, regra de firewall) e depois bloqueia o IP; 5 + 5 termos passam |
+| 2026-10-29 (**v1.3**, depois da triagem de título e resumo da camada 1 da SQ1 e antes de qualquer extração ou síntese) | Síntese, subgrupos pré-especificados (SQ1) | novo subgrupo 6, **local do estudo: Brasil e América Latina × resto do mundo**, pelo país onde a população foi estudada. Estudo multinacional entra em "resto do mundo", a menos que reporte o estrato latino-americano em separado | decisão do pesquisador: a linha brasileira e latino-americana (teses e estudos locais, como os de Mato Grosso e do Ceará) é a mais próxima do contexto da tese. Ela se sobrepõe em parte ao subgrupo 4 (renda do país), e isso fica declarado. A emenda vem antes de qualquer extração: nenhum resultado de estudo foi visto, então o subgrupo continua pré-especificado. Não muda elegibilidade, busca nem triagem |
 
 ### Financiamento
 ⬜ *A preencher pelo pesquisador* (bolsa, se houver). Nenhum financiador tem papel na revisão.
@@ -242,7 +243,8 @@ métricas):** síntese sem meta-análise conforme o **SWiM** (Campbell et al. 20
 2. desenho: quase-experimental × epidemiológico convencional;
 3. classe química: fungicida, inseticida, herbicida, mistura;
 4. renda do país;
-5. janela de exposição (trimestre).
+5. janela de exposição (trimestre);
+6. **local do estudo: Brasil e América Latina × resto do mundo** (emenda v1.3). Sobrepõe-se em parte ao subgrupo 4.
 
 **Sensibilidade:** sem risco alto/crítico; deixar um de fora; sem os que só existem como WP.
 
@@ -300,3 +302,4 @@ Conferida no Estágio 2.5 (integridade).
 | 1.0 | 2026-10-12 | **confirmado pelo pesquisador**; carimbo = o commit desta linha. A busca definitiva começa depois dele |
 | 1.1 | 2026-10-13 | **emenda: lacuna de literatura brasileira.** Teses e dissertações com dado original entram na SQ1 (tese → artigo: vale o artigo); fontes novas OASISBR e LA Referencia (SQ1-AL #1 AND #2, sem o #3) e Scopus por API (visão reduzida, para identificação) além da exportação pela CAPES. Carimbo = o commit desta linha, anterior às coletas novas. A coleta do PubMed (v1.0) não muda: ela não filtra por status |
 | 1.2 | 2026-10-13 | **emenda: TCCs.** TCC de graduação com dado original entra na SQ1 (TCC → artigo: vale o artigo); OASISBR em fatias de ≤ 5 + 5 termos. Carimbo = o commit desta linha, anterior à coleta do OASISBR |
+| 1.3 | 2026-10-29 | **emenda: subgrupo regional.** Subgrupo 6, Brasil e América Latina × resto do mundo, pelo país da população estudada. Carimbo = o commit desta linha, posterior à triagem de título e resumo da camada 1 da SQ1 e anterior a qualquer extração ou síntese |
