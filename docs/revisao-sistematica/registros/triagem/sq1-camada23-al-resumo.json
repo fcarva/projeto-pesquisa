@@ -18,9 +18,9 @@
  },
  "ambos_excluem_mesmo_motivo": "221/250",
  "finais": {
-  "incluir": 12,
-  "excluir": 250,
-  "": 6
+  "incluir": 13,
+  "excluir": 255,
+  "": 0
  },
- "adjudicadas": 0
+ "adjudicadas": 6
 }

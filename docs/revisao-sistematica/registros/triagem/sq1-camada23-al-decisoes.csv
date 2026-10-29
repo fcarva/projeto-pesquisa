@@ -28,7 +28,7 @@ R0026,doi:10.22533/at.ed.4642003115,2,incluir,,incluir,,,incluir,,consenso,0
 R0027,doi:10.18227/hd.v3i1.7416,2,excluir,desenho,excluir,desenho,,excluir,desenho,consenso,0
 R0028,oa:W3004102221,2,incluir,,incluir,,,incluir,,consenso,0
 R0029,doi:10.1016/s1698-031x(11)70012-7,2,excluir,desfecho,excluir,desfecho,,excluir,desfecho,consenso,0
-R0030,oa:W2948512777,2,excluir,desfecho,incluir,,,,,pendente,0
+R0030,oa:W2948512777,2,excluir,desfecho,incluir,,incluir,incluir,,adjudicacao,0
 R0031,doi:10.15361/2175-0106.2008v24n2p97-102,2,excluir,animal_ou_in_vitro,excluir,animal_ou_in_vitro,,excluir,animal_ou_in_vitro,consenso,0
 R0032,oa:W2268208623,2,excluir,animal_ou_in_vitro,excluir,animal_ou_in_vitro,,excluir,animal_ou_in_vitro,consenso,0
 R0033,doi:10.15178/va.2002.33.10-28,2,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
@@ -40,7 +40,7 @@ R0038,doi:10.18764/2358-4319v19e28257,3,excluir,fora_do_tema,excluir,fora_do_tem
 R0039,doi:10.2139/ssrn.6338632,3,excluir,desfecho,excluir,desenho,,excluir,desfecho,consenso,0
 R0040,doi:10.36692/v18n1-3,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0041,doi:10.48075/igepec.v29i2.35280,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
-R0042,doi:10.51161/iii-conavis/77853,3,excluir,fora_do_tema,incluir,,,,,pendente,0
+R0042,doi:10.51161/iii-conavis/77853,3,excluir,fora_do_tema,incluir,,excluir,excluir,fora_do_tema,adjudicacao,0
 R0043,doi:10.51359/2675-3472.2026.267930,3,excluir,desfecho,excluir,desenho,,excluir,desfecho,consenso,0
 R0044,doi:10.52521/x9ya5b82,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0045,doi:10.52641/cadcajv11i3.2151,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
@@ -121,7 +121,7 @@ R0119,doi:10.33026/peg.v22i3.8846,3,excluir,fora_do_tema,excluir,fora_do_tema,,e
 R0120,doi:10.33448/rsd-v11i12.34478,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0121,doi:10.3390/land11010103,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0122,doi:10.34140/bjbv4n4-003,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
-R0123,doi:10.46898/rfb.9786558892557.10,3,excluir,desfecho,incluir,,,,,pendente,0
+R0123,doi:10.46898/rfb.9786558892557.10,3,excluir,desfecho,incluir,,excluir,excluir,tipo_documento,adjudicacao,0
 R0124,doi:10.54620/cadesp.v16i3.965,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0125,doi:10.64160/rdl.v24.n1.p91-118,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0126,doi:10.14295/ras.v35i1.30035,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
@@ -221,7 +221,7 @@ R0219,doi:10.19177/rgsa.v4e2201568-104,3,excluir,fora_do_tema,excluir,fora_do_te
 R0220,doi:10.21708/bdtd.ppgats.dissertacao.549,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0221,doi:10.22059/ijer.2015.895,3,excluir,desfecho,excluir,desfecho,,excluir,desfecho,consenso,0
 R0222,doi:10.22278/2318-2660.2015.v39.n2.a1625,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
-R0223,doi:10.24824/978854440649.6,3,excluir,tipo_documento,incluir,,,,,pendente,0
+R0223,doi:10.24824/978854440649.6,3,excluir,tipo_documento,incluir,,excluir,excluir,tipo_documento,adjudicacao,0
 R0224,doi:10.25059/2527-2594/retratosdeassentamentos/2015.v18i1.181,3,excluir,desenho,excluir,desenho,,excluir,desenho,consenso,0
 R0225,doi:10.25070/rea.v11i3.227,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0226,doi:10.25070/rea.v2i2.34,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
@@ -259,11 +259,11 @@ R0257,doi:10.18227/1982-8470ragro.v4i1.269,3,excluir,fora_do_tema,excluir,fora_d
 R0258,doi:10.18569/tempus.v3i4.752,3,incluir,,incluir,,,incluir,,consenso,0
 R0259,doi:10.24857/rgsa.v4i1.210,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0260,doi:10.5020/23180714.2007.533,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
-R0261,doi:10.7476/9788542303063.0006,3,excluir,tipo_documento,incluir,,,,,pendente,0
+R0261,doi:10.7476/9788542303063.0006,3,excluir,tipo_documento,incluir,,excluir,excluir,tipo_documento,adjudicacao,0
 R0262,doi:10.1016/j.agwat.2009.04.021,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
 R0263,doi:10.1590/s0103-84782009000100014,3,excluir,exposicao,excluir,exposicao,,excluir,exposicao,consenso,0
 R0264,doi:10.1590/s1413-41522009000300010,3,excluir,desenho,excluir,desenho,,excluir,desenho,consenso,0
 R0265,doi:10.1590/s1413-81232009000600031,3,excluir,exposicao,excluir,exposicao,,excluir,exposicao,consenso,0
 R0266,doi:10.4025/cienccuidsaude.v7i3.6480,3,excluir,desfecho,excluir,desfecho,,excluir,desfecho,consenso,0
-R0267,doi:10.1016/b978-012370467-2/50111-5,3,excluir,tipo_documento,incluir,,,,,pendente,0
+R0267,doi:10.1016/b978-012370467-2/50111-5,3,excluir,tipo_documento,incluir,,excluir,excluir,tipo_documento,adjudicacao,0
 R0268,doi:10.1590/s1519-69842002000300012,3,excluir,fora_do_tema,excluir,fora_do_tema,,excluir,fora_do_tema,consenso,0
