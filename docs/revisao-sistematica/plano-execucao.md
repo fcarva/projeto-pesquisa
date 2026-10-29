@@ -190,7 +190,7 @@ Etapa 5 tem de gravar nesse formato. Checklists: `checklist-prisma2020.md` e `ch
 1. Prompt de triagem título/resumo **verbatim** em `prompts/03-triagem-titulo-resumo.md`: critérios da SQ1 (com a emenda v1.1), "na dúvida, inclui", saída JSON com decisão, motivo e citação literal.
 2. **Piloto**: 50 registros da SQ1, sorteados com semente fixa e estratificados por camada; dois triadores de IA independentes → κ de Cohen. Mudança de redação dos critérios só **com a sua aprovação**, registrada como emenda.
 3. Triagem da SQ1 dupla, com adjudicação; SQ2/SQ3 com triador único, regra de parada e auditoria (protocolo, "Escala da triagem").
-4. **Amostra de referência** (50 = 25/25 pelo consenso da IA): só depois que a triagem da SQ1 tiver ≥ 25 inclusões de consenso. Gera uma planilha cega para você, **sem a decisão da IA**.
+4. **Amostra de referência** (50 = 25/25 pelo consenso da IA): só depois que a triagem da SQ1 tiver ≥ 25 inclusões de consenso. Gera uma planilha cega para você, **sem a decisão da IA**. ✅ **Gerada em 2026-10-29** (`ferramentas/amostra_referencia.py --gerar`; planilha em `data/raw/revisao-sistematica/triagem/sq1-referencia-planilha.xlsx`, fora do git). ⬜ **Você** preenche a planilha. Eu rodo `--avaliar <arquivo>`, que calcula a sensibilidade, a especificidade e o κ, cada uma de dois jeitos, ingênuo e ponderado pelos estratos. Ver o doc 20, §9.
 
 **Pronto quando:** κ do piloto reportado; triagem concluída; planilha cega entregue.
 
