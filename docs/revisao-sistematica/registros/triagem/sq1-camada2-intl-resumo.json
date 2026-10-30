@@ -1,0 +1,36 @@
+{
+ "sq": "sq1",
+ "modo": "camada2-intl",
+ "registros": 400,
+ "lotes_pendentes": [
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13"
+ ],
+ "tabela_t1_t2": {
+  "incluir/incluir": 56,
+  "incluir/excluir": 22,
+  "excluir/incluir": 17,
+  "excluir/excluir": 305
+ },
+ "concordancia_observada": 0.902,
+ "kappa_cohen": 0.682,
+ "divergencias": 39,
+ "citacao_literal": {
+  "triador-1": "399/400",
+  "triador-2": "400/400"
+ },
+ "ambos_excluem_mesmo_motivo": "273/305",
+ "finais": {
+  "incluir": 56,
+  "excluir": 305,
+  "": 39
+ },
+ "adjudicadas": 0
+}
