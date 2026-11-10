@@ -280,6 +280,8 @@ fronteira-geografica:
 mapa-desenho: cultura-ok
 	$(PY) scripts/figures/01_mapa_desenho.py --cultura "$(CULTURA)"
 
+# 06–08 são conceituais/calibração (sem dado novo); a 09 lê a saída do
+# 04_robustness e, como a 05, só grava em paper/figures/ com proveniência real.
 # Todas as figuras descritivas. 01–04 usam só dado público agregado (PAM, Censo
 # Agro, malha, datas legais); a 05 lê o painel REAL e é pulada se ele não existir
 # (com painel simulado ela grava fora de paper/figures/, com marca d'água).
@@ -293,6 +295,12 @@ figuras: mapa-desenho
 	@if [ -f data/processed/painel_ensaio1.parquet ]; then \
 	  $(PY) scripts/figures/05_desfechos_tendencias.py; \
 	else echo "[pulado] 05_desfechos_tendencias: sem painel real (make real)."; fi
+	$(PY) scripts/figures/06_esquema_did.py
+	$(PY) scripts/figures/07_dag.py
+	$(PY) scripts/figures/08_diluicao_e_poder.py
+	@if [ -f data/processed/robustez_perfil_dose.csv ]; then \
+	  $(PY) scripts/figures/09_perfil_de_dose.py; \
+	else echo "[pulado] 09_perfil_de_dose: sem robustez_perfil_dose.csv (04_robustness)."; fi
 
 gate-fronteira:
 	$(PY) scripts/data_prep/14_gate_fronteira.py --vizinho $(VIZINHO) \

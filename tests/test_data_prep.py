@@ -3936,3 +3936,23 @@ def test_figuras_desfechos_media_ponderada_e_grupos():
     assert grupo["230009"] == "decil"  # a maior dose
     med = f05.medias_anuais(painel)
     assert med["valor"].round(6).eq(3300.0).all()  # (3000*10 + 3400*30) / 40
+
+
+def test_figuras_poder_e_diluicao_seguem_o_script_12():
+    """A F08 não tem número próprio: o que ela desenha é o que o script 12 calcula."""
+    e12 = _carrega("12_erro_de_classificacao.py", sub="estimate")
+    assert abs(e12.poder_aproximado(e12.MDE_G) - e12.PODER_NO_MDE) < 1e-4  # cauda oposta
+    teto = e12.sinal_esperado(e12.CENARIOS_VPP["censo2006"],
+                              max(e12.FRACOES_EXPOSTAS), max(e12.EFEITOS_INDIVIDUAIS_G))
+    assert teto < e12.MDE_G and e12.poder_aproximado(teto) < 0.15
+    f08 = _carrega("08_diluicao_e_poder.py", sub="figures")
+    assert set(f08.ROTULOS_VPP) <= set(e12.CENARIOS_VPP)
+
+
+def test_figuras_perfil_de_dose_so_e_real_com_prova(tmp_path):
+    f09 = _carrega("09_perfil_de_dose.py", sub="figures")
+    assert f09.e_simulado(tmp_path / "nao_existe.csv")
+    for fonte, esperado in (("simulado", True), ("real", False)):
+        arq = tmp_path / f"{fonte}.csv"
+        pd.DataFrame({"desfecho": ["peso_medio"], "fonte": [fonte]}).to_csv(arq, index=False)
+        assert f09.e_simulado(arq) is esperado
