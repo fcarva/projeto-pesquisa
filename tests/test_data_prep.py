@@ -3903,3 +3903,36 @@ def test_mapa_desenho_cultura_ambigua_falha_alto():
     with pytest.raises(ValueError):
         mapa.dose_do_ceara(pam, "melão")
     assert mapa.slug("Banana (cacho)") == "banana-cacho"
+
+
+def test_figuras_dose_no_tempo_indexa_pela_janela_da_dose():
+    f04 = _carrega("04_dose_no_tempo.py", sub="figures")
+    linhas = []
+    for ano in range(2013, 2021):
+        for cod, area in (("2300101", 100.0), ("2300200", 10.0), ("2300309", 1.0)):
+            fator = 2.0 if ano < 2015 else 1.0
+            linhas.append({"cod_ibge": cod, "cultura": "Banana (cacho)", "ano": ano,
+                           "area_ha": area * fator})
+    tot = f04.series_por_grupo(pd.DataFrame(linhas), "Banana (cacho)",
+                               tratados={"2300101", "2300200"}, com_aeronave={"2300101"})
+    assert set(tot["grupo"]) == {"decil_com_aeronave", "decil_sem_aeronave", "demais"}
+    na_janela = tot[tot["ano"].isin(f04.JANELA_DOSE)]
+    assert na_janela.groupby("grupo")["indice"].mean().round(6).eq(100).all()
+    assert tot[(tot["ano"] == 2013)]["indice"].round(6).eq(200).all()
+
+
+def test_figuras_desfechos_media_ponderada_e_grupos():
+    f05 = _carrega("05_desfechos_tendencias.py", sub="figures")
+    linhas = []
+    for i in range(12):  # 10 produtores (decil = 1) + 2 de dose zero
+        zero = i >= 10
+        for peso, n in ((3000.0, 10.0), (3400.0, 30.0)):
+            linhas.append({"cod_ibge6": f"23{i:04d}", "ano": 2018,
+                           "dose_ha": 0.0 if zero else float(i + 1), "dose_zero": zero,
+                           "peso_medio": peso, "n_peso_valido": n})
+    painel = pd.DataFrame(linhas)
+    grupo = f05.classifica(painel)
+    assert grupo.value_counts().to_dict() == {"demais": 9, "zero": 2, "decil": 1}
+    assert grupo["230009"] == "decil"  # a maior dose
+    med = f05.medias_anuais(painel)
+    assert med["valor"].round(6).eq(3300.0).all()  # (3000*10 + 3400*30) / 40

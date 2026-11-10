@@ -70,6 +70,7 @@ ajuda:
 	@echo "make censo-demografico — Censo 2022 (censobr): água/esgoto CE x vizinho"
 	@echo "make audita-sisagua — canal-água: o que quebra na série, e o que não"
 	@echo "make fronteira-geografica — os tratados estão NA divisa? (geobr)"
+	@echo "make figuras   — todas as figuras descritivas em paper/figures/ (exige CULTURA)"
 	@echo "make mapa-desenho — figura: dose no CE + Chapada do Apodi na divisa com o RN"
 	@echo "make mde-desenhos — quanto poder cada grupo tratado compra (só pré-período)"
 	@echo "make mde-calendario — MDE do desenho de calendário (1º tri no pico) contra o do nível"
@@ -223,7 +224,7 @@ weitzman: custo-conab
 # o vizinho tinha pulverizacao aerea no pre-ban? (SINDAG diz que o RN nao tem
 # frota; o Censo Agro e quem decide.) Ver docs/ars/11-rota1-fase1-escopo.md.
 # VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
-.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos mde-calendario mapa-desenho
+.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos mde-calendario mapa-desenho figuras
 VIZINHO ?= 24
 # ⚠️ `sufixo_das_ufs` (scripts 01 e 02) ORDENA as UFs antes de montar o nome:
 # --ufs 23 22 grava `__uf22-23`, nao `__uf23-22`. Montar o sufixo a mao como
@@ -278,6 +279,20 @@ fronteira-geografica:
 # requirements-geo.txt. Grava em paper/figures/ (agregado público, versionável).
 mapa-desenho: cultura-ok
 	$(PY) scripts/figures/01_mapa_desenho.py --cultura "$(CULTURA)"
+
+# Todas as figuras descritivas. 01–04 usam só dado público agregado (PAM, Censo
+# Agro, malha, datas legais); a 05 lê o painel REAL e é pulada se ele não existir
+# (com painel simulado ela grava fora de paper/figures/, com marca d'água).
+# PREFLIGHT=0 pula a conferência de códigos na API de metadados do IBGE.
+PREFLIGHT ?= 1
+figuras: mapa-desenho
+	$(PY) scripts/figures/02_dose_concentracao.py --cultura "$(CULTURA)"
+	$(PY) scripts/figures/03_linha_do_tempo.py
+	$(PY) scripts/figures/04_dose_no_tempo.py --cultura "$(CULTURA)" \
+	    $(if $(filter 0,$(PREFLIGHT)),--sem-preflight,)
+	@if [ -f data/processed/painel_ensaio1.parquet ]; then \
+	  $(PY) scripts/figures/05_desfechos_tendencias.py; \
+	else echo "[pulado] 05_desfechos_tendencias: sem painel real (make real)."; fi
 
 gate-fronteira:
 	$(PY) scripts/data_prep/14_gate_fronteira.py --vizinho $(VIZINHO) \
