@@ -70,6 +70,7 @@ ajuda:
 	@echo "make censo-demografico — Censo 2022 (censobr): água/esgoto CE x vizinho"
 	@echo "make audita-sisagua — canal-água: o que quebra na série, e o que não"
 	@echo "make fronteira-geografica — os tratados estão NA divisa? (geobr)"
+	@echo "make mapa-desenho — figura: dose no CE + Chapada do Apodi na divisa com o RN"
 	@echo "make mde-desenhos — quanto poder cada grupo tratado compra (só pré-período)"
 	@echo "make mde-calendario — MDE do desenho de calendário (1º tri no pico) contra o do nível"
 	@echo "                 (PICO=2,3,4,5 é HIPÓTESE; TRATADOS=cód,cód substitui o Censo 2006)"
@@ -222,7 +223,7 @@ weitzman: custo-conab
 # o vizinho tinha pulverizacao aerea no pre-ban? (SINDAG diz que o RN nao tem
 # frota; o Censo Agro e quem decide.) Ver docs/ars/11-rota1-fase1-escopo.md.
 # VIZINHO=24 (RN, padrao) | 22 (PI) | 26 (PE)
-.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos mde-calendario
+.PHONY: gate-fronteira equipamento-vizinho fronteira censo-demografico fronteira-geografica mde-desenhos mde-calendario mapa-desenho
 VIZINHO ?= 24
 # ⚠️ `sufixo_das_ufs` (scripts 01 e 02) ORDENA as UFs antes de montar o nome:
 # --ufs 23 22 grava `__uf22-23`, nao `__uf23-22`. Montar o sufixo a mao como
@@ -271,6 +272,12 @@ mde-calendario:
 
 fronteira-geografica:
 	$(PY) scripts/data_prep/16_fronteira_geografica.py --vizinhos 24 22 26
+
+# Figura do desenho. Lê o PAM real (script 01; de preferência --ufs 23 24) e,
+# se existirem, os CSVs de aeronave do script 13 (CE e --uf 24). Exige
+# requirements-geo.txt. Grava em paper/figures/ (agregado público, versionável).
+mapa-desenho: cultura-ok
+	$(PY) scripts/figures/01_mapa_desenho.py --cultura "$(CULTURA)"
 
 gate-fronteira:
 	$(PY) scripts/data_prep/14_gate_fronteira.py --vizinho $(VIZINHO) \

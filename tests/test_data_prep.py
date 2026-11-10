@@ -3882,3 +3882,24 @@ def test_main_do_calendario_grava_e_recusa_entrada_invalida(tmp_path):
     assert set(r.index) == {"nivel", "calendario"}
     assert (r["g1"] == 3).all()
     assert r.loc["calendario", "meses_pico"] == "2,3,4,5"
+
+
+# --- F01: mapa do desenho ----------------------------------------------------
+
+def test_mapa_desenho_cultura_ambigua_falha_alto():
+    """A âncora não é hard-codada: rótulo que casa com zero ou 2+ culturas é erro."""
+    mapa = _carrega("01_mapa_desenho.py", sub="figures")
+    pam = pd.DataFrame({
+        "cod_ibge": ["2300101", "2300200", "2400109", "2300101"],
+        "cultura": ["Banana (cacho)", "Banana (cacho)", "Banana (cacho)", "Milho verde"],
+        "area_ha_media": [10.0, 0.0, 99.0, 5.0],
+    })
+    dose = mapa.dose_do_ceara(pam, "Banana (cacho)")
+    assert sorted(dose["cod7"]) == ["2300101", "2300200"]  # RN fica de fora
+    assert dose.attrs["rotulo"] == "Banana (cacho)"
+    pam2 = pd.concat([pam, pam.assign(cultura="Milho (em grão)")])
+    with pytest.raises(ValueError):
+        mapa.dose_do_ceara(pam2, "milho")
+    with pytest.raises(ValueError):
+        mapa.dose_do_ceara(pam, "melão")
+    assert mapa.slug("Banana (cacho)") == "banana-cacho"
