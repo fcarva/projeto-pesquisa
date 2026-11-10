@@ -1,0 +1,232 @@
+% =====================================================================
+% 5 Resultados preliminares e diagnóstico de poder
+% Fontes: paper/secoes/06-diagnostico-poder.tex (números);
+% docs/ars/17 §1 e §7 (leitura corrigida); docs/ars/16 (diluição);
+% docs/ars/19 §2.3 (2011).
+%
+% Todo número deste capítulo vem da execução com dados reais de 21–22/09/2026
+% e está transcrito de paper/secoes/06-diagnostico-poder.tex. Nenhum número
+% novo foi produzido para este documento. Rastreio no Apêndice B.
+% =====================================================================
+
+\chapter{Resultados preliminares}
+\label{cap:resultados}
+
+A estimação do Ensaio 1 foi executada uma vez com dados reais, em setembro de
+2026, sobre o painel de 2015 a 2022. Este capítulo reporta o que ela mostrou.
+Os números são preliminares em dois sentidos: a série de nascimentos ainda será
+estendida até 2024, e a inferência sobre o resultado principal ainda será
+refeita com os procedimentos descritos na Seção~\ref{sec:estimacao}.
+
+\section{Efeito no nível e curva dose-resposta}
+\label{sec:res-nivel}
+
+O $\ATT$ agregado para o peso ao nascer é de $-36{,}19$ g, com erro-padrão de
+15,47 g pelo \emph{bootstrap} multiplicador e intervalo de 95\% em
+$[-66{,}51;\ -5{,}87]$, que exclui o zero. Trocar a construção do grupo de
+comparação desloca a estimativa para $-35{,}33$ g. O sinal é o contrário do
+previsto pela hipótese H1: a estimativa aponta redução do peso ao nascer nos
+municípios com banana em relação aos sem banana, depois da lei. A hipótese H2
+admite esse sinal, mas o resultado do óbito fetal não a sustenta
+(Seção~\ref{sec:res-inclinacao}).
+
+Três razões impedem tratar esse número como achado, e nenhuma delas é
+compatibilidade com o efeito nulo.
+
+A primeira é o critério fixado antes da estimação. A meia-largura do intervalo
+é de 30,32 g, o dobro do piso de 15 g.
+
+A segunda é a inferência. O agregado é a diferença entre a variação média dos
+169 municípios com área positiva de banana e a dos 15 de área nula. Com quinze
+controles, o \emph{bootstrap} multiplicador é otimista. A inferência que
+respeita esse número de controles está implementada e ainda não foi executada
+com os dados reais; é a primeira tarefa computacional do plano de trabalho.
+
+A terceira é uma calibração, apresentada na Seção~\ref{sec:diluicao}: lido como
+efeito diluído da retirada da pulverização aérea, o coeficiente implicaria uma
+magnitude implausível entre os municípios de fato tratados.
+
+A curva dose-resposta não fornece resultado utilizável. A derivada estimada é
+fortemente não linear e muda de sinal ao longo da dose. Na faixa de dose
+inferior a 0,1\%, onde estão 48 dos 169 pontos, ela é da ordem de $-9.100$ g
+por unidade de dose, com erro-padrão maior que a estimativa. O agregado que o
+estimador reporta é média simples sobre os pontos e é dominado por essa região.
+Nenhum ponto exclui o zero. Isso é imprecisão sob hipóteses mantidas, e não
+demonstração de que a inclinação seja irrestrita.
+
+\section{Inclinação em dose e família confirmatória}
+\label{sec:res-inclinacao}
+
+A inclinação do desfecho em relação à dose é outro estimando, distinto do
+nível. A estimativa é de $+6{,}81$ g por unidade de dose normalizada, e nenhum
+dos três procedimentos de inferência a distingue de zero
+(Tabela~\ref{tab:inferencia}).
+
+\begin{table}[htb]
+\centering
+\caption{Inferência sobre a inclinação em dose, peso ao nascer}
+\label{tab:inferencia}
+\small
+\begin{tabular}{lr}
+\toprule
+Procedimento & Valor-$p$ \\
+\midrule
+Erro-padrão agrupado por município     & 0,736 \\
+\emph{Wild bootstrap} por município    & 0,757 \\
+Análise de permutação da dose          & 0,793 \\
+\bottomrule
+\end{tabular}
+\legend{Fonte: elaboração própria. O intervalo por inversão do teste de
+permutação será recalculado, porque o valor obtido em setembro usava uma
+aproximação.}
+\end{table}
+
+Um deslocamento de nível entre municípios com e sem banana, sem gradiente entre
+as doses positivas, é mais compatível com uma diferença de trajetória entre os
+dois grupos do que com uma resposta crescente à intensidade. O perfil da
+variação do desfecho por faixa de dose, já implementado, é o diagnóstico
+descritivo que mostrará onde está a variação.
+
+Na família confirmatória, com correção de Holm, os valores-$p$ do peso médio
+passam de 0,394 para 0,427 no teste unilateral e de 0,794 para 0,866 no
+bilateral; os do óbito fetal, de 0,214 para 0,427 e de 0,433 para 0,866.
+Nenhuma hipótese é rejeitada a 5\%. O coeficiente do óbito fetal é próximo de
+zero, e 98,7\% das células têm menos de cinco eventos, de modo que a hipótese
+H2 não é sustentada nem excluída.
+
+\section{Robustez}
+\label{sec:res-robustez}
+
+\subsection{Poder do teste de tendências anteriores}
+
+O teste conjunto dos coeficientes anteriores à lei tem poder de 80\% contra uma
+tendência linear de 0,238 g por mês, que acumularia 11,4 g em quatro anos de
+período posterior, e de 90\% contra 0,429 g por mês (20,6 g). O teste não
+rejeitou. Isso é compatível com tendências menores que essas e, em uma de cada
+cinco amostras, com tendências desse tamanho. Nada diz sobre violações não
+lineares. Onze gramas é da ordem do efeito procurado.
+
+\subsection{Sensibilidade a violações de paralelismo}
+
+A análise de \citet{rambachan2023credible} foi aplicada a um estudo de eventos
+com tratamento binário, que compara o decil superior de dose com o grupo de
+dose nula. Sob paralelismo exato, o intervalo é $[-72{,}5;\ +24{,}5]$ g.
+Admitida violação do tamanho da maior violação observada antes da lei, ele
+passa a $[-217{,}4;\ +161{,}4]$ g. O resultado condiciona à hipótese de que o
+grupo de dose nula não foi tratado.
+
+\subsection{Inclinação em dose em datas fictícias}
+
+Simulou-se a proibição em três datas do período anterior e estimou-se a mesma
+inclinação em dose (Tabela~\ref{tab:spt}). Nenhuma das três rejeita. Para o
+peso, porém, as três inclinações fictícias são maiores em módulo que a do
+desenho real. O ruído do período anterior é maior que o efeito estimado: o
+desenho não separa efeito de ruído para o peso ao nascer. Para o óbito fetal, a
+relação se inverte, e nenhuma data fictícia alcança a inclinação real.
+
+\begin{table}[htb]
+\centering
+\caption{Inclinação em dose em datas fictícias do período anterior}
+\label{tab:spt}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{2}{c}{Peso médio} & \multicolumn{2}{c}{Óbito fetal} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Corte & Inclinação & Valor-$p$ & Inclinação & Valor-$p$ \\
+\midrule
+jan/2016 a nov/2016 & 25,76 & 0,371 & 0,00086 & 0,864 \\
+jul/2016 a mai/2017 & 31,07 & 0,239 & 0,00074 & 0,852 \\
+jan/2017 a nov/2017 & 12,96 & 0,608 & 0,00021 & 0,959 \\
+\midrule
+Desenho real        & 6,81  & 0,794 & $-0{,}00244$ & 0,433 \\
+\bottomrule
+\end{tabular}
+\legend{Fonte: elaboração própria.}
+\end{table}
+
+\subsection{Controle sintético}
+
+Três estimadores foram aplicados à mesma matriz, comparando municípios de dose
+alta com os de dose nula: controle sintético com diferenças em diferenças
+($-20{,}16$ g; intervalo $[-56{,}43;\ +16{,}10]$), controle sintético
+($-34{,}64$ g; $[-67{,}43;\ -1{,}85]$) e diferenças em diferenças
+($-21{,}85$ g; $[-59{,}54;\ +15{,}84]$). Um dos três exclui o zero. Ele não é
+tratado como achado: os três usam os mesmos dados, nenhum é confirmatório e
+escolher o que cruzou a linha é a prática que o plano de análise veda.
+
+Todos os estimadores binários deste capítulo usam os mesmos 15 municípios de
+controle. A concordância de sinal entre eles não equivale a evidências
+independentes.
+
+\section{O que a variável de dose mede: erro de classificação do tratamento}
+\label{sec:diluicao}
+
+O Censo Agropecuário de 2006 registra o número de estabelecimentos que usavam
+agrotóxicos por tipo de equipamento, com a aeronave como categoria própria. No
+Ceará eram 36 estabelecimentos, 0,03\% dos que usavam agrotóxicos, distribuídos
+por sete municípios. Limoeiro do Norte (18) e Quixeré (9), ambos na Chapada do
+Apodi, respondiam por 75\%.
+
+Confrontada com esse dado, a dose por área plantada classifica mal o
+tratamento. Dos 17 municípios do decil superior de banana, 15 não tinham
+nenhum estabelecimento com aplicação por aeronave. Dos 169 municípios com dose
+positiva, 7 tinham. Nenhum município de dose nula tinha.
+
+Quando o erro é só de falso positivo, o resultado de
+\citet{denteh2022misclassification} implica que o parâmetro estimado, $\theta$,
+é o efeito verdadeiro multiplicado pelo valor preditivo positivo da
+classificação: $\theta = VPP \cdot ATT$. A atenuação é pura, e o sinal não se
+inverte. Com o VPP de 2 em 17 no decil superior e o efeito do análogo mais
+próximo, de 80 a 150 g \cite{calzada2023bananas}, o efeito esperado no
+parâmetro estimado é de no máximo cerca de 9 g na calibração do projeto (18 g
+no caso-limite em que toda a população desses municípios estivesse exposta ao
+efeito máximo), e o poder do desenho contra 9 g é de no máximo 11\%. A diluição é, assim, o mecanismo da falta de poder. Aumentar o número de
+municípios tratados baixando o corte de dose pioraria o problema, porque os
+municípios seguintes na ordenação não tinham aviação agrícola.
+
+A mesma identidade serve para calibrar a leitura do $-36{,}19$ g. Suponha-se
+que o Censo de 2006 classifique corretamente quem pulverizava por avião na
+véspera da lei e que não haja exposição omitida no grupo de comparação. Sob
+essas hipóteses fortes, o VPP no agregado é de 7 em 169, e o coeficiente
+implicaria um efeito de cerca de $-874$ g entre os municípios de fato tratados,
+seis vezes o maior efeito do análogo. O cálculo não identifica o efeito
+verdadeiro, porque o Censo de 2006 não estabelece quem era tratado em 2018. Ele
+mostra que o coeficiente dificilmente é uma versão atenuada de um efeito
+sanitário plausível. Restam quatro explicações, que os dados atuais não
+separam: o Censo deixou de representar a distribuição da aviação agrícola; há
+diferença de trajetória entre municípios com e sem banana; a inferência
+subestima a incerteza vinda dos 15 controles; ou houve exposição omitida no
+grupo de comparação, por controle vetorial aéreo, caso em que a identidade não
+vale e o sinal pode se inverter.
+
+Há um risco adicional, aberto em setembro de 2026. Em março de 2011, noticiou-se
+que as empresas de fruticultura da Chapada do Apodi estavam proibidas de
+pulverizar por aeronave, e em julho do mesmo ano o Ministério Público Federal,
+o do Trabalho e o estadual ajuizaram ação civil pública pedindo a proibição. O
+desfecho de ambos é desconhecido. Se a prática cessou na Chapada em 2011, a lei
+de 2019 não removeu exposição nos dois municípios que concentravam a aviação
+agrícola, e o resultado refletiria ausência de tratamento, e não falta de
+poder.
+
+\section{Síntese}
+\label{sec:sintese}
+
+O projeto especificou um desenho de avaliação causal, fechou o plano de análise
+antes de estimar e executou a estimação e a camada de robustez. O que os
+resultados preliminares estabelecem é o seguinte.
+
+\begin{alineas}
+  \item O efeito mínimo detectável previsto (33,4 g) e a meia-largura realizada
+    (30,3 g) coincidem. Isso valida o diagnóstico amostral do desenho. Não
+    valida a medida do tratamento.
+  \item O parâmetro estimado é o efeito de forma reduzida da proibição segundo
+    a área de banana. O intervalo obtido limita esse parâmetro e não limita o
+    efeito onde havia pulverização aérea.
+  \item A estimativa no nível é negativa e seu intervalo assintótico exclui o
+    zero, mas ela não satisfaz o critério de precisão, depende de 15 controles
+    e não é plausível como efeito diluído da lei.
+  \item A curva dose-resposta não é informativa com a precisão obtida.
+  \item A restrição ativa é a medida do tratamento. O próximo passo é obtê-la e
+    testar um desenho que concentre a comparação onde havia aeronave.
+\end{alineas}

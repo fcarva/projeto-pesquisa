@@ -43,8 +43,8 @@
 }
 
 @article{camacho2017health,
-  author  = {Camacho, Adriana and Mejía, Daniel},
-  title   = {The health consequences of aerial spraying illicit crops: The case of Colombia},
+  author  = {Camacho, Adriana and Mej{\'i}a, Daniel},
+  title   = {The health consequences of aerial spraying illicit crops: The case of {Colombia}},
   journal = {Journal of Health Economics},
   year    = {2017},
   volume  = {54},
@@ -53,8 +53,8 @@
 }
 
 @article{larsen2017agricultural,
-  author  = {Larsen, Ashley E. and Gaines, Steven D. and Deschênes, Olivier},
-  title   = {Agricultural pesticide use and adverse birth outcomes in the San Joaquin Valley of California},
+  author  = {Larsen, Ashley E. and Gaines, Steven D. and Desch{\^e}nes, Olivier},
+  title   = {Agricultural pesticide use and adverse birth outcomes in the {San Joaquin Valley} of {California}},
   journal = {Nature Communications},
   year    = {2017},
   volume  = {8},
@@ -99,6 +99,8 @@
   institution = {National Bureau of Economic Research},
   type    = {NBER Working Paper},
   number  = {32117},
+  series  = {NBER Working Paper},
+  address = {Cambridge, MA},
   year    = {2024},
   doi     = {10.3386/w32117}
 }
@@ -190,7 +192,7 @@
 }
 
 @article{bocker2020glyphosate,
-  author  = {Böcker, Thomas and Britz, Wolfgang and Möhring, Niklas and Finger, Robert},
+  author  = {B{\"o}cker, Thomas and Britz, Wolfgang and M{\"o}hring, Niklas and Finger, Robert},
   title   = {An economic and environmental assessment of a glyphosate ban for the example of maize production},
   journal = {European Review of Agricultural Economics},
   year    = {2019},
@@ -276,7 +278,7 @@
 }
 
 @article{dechaisemartin2020,
-  author  = {de Chaisemartin, Clément and D'Haultfœuille, Xavier},
+  author  = {de Chaisemartin, Cl{\'e}ment and D'Haultf{\oe}uille, Xavier},
   title   = {{Two-Way} Fixed Effects Estimators with Heterogeneous Treatment Effects},
   journal = {American Economic Review},
   year    = {2020},
@@ -386,7 +388,7 @@
 }
 
 @article{bravoureta2020psmdid,
-  author  = {Bravo-Ureta, Boris E. and González-Flores, Mario and Greene, William and Solís, Daniel},
+  author  = {Bravo-Ureta, Boris E. and Gonz{\'a}lez-Flores, Mario and Greene, William and Sol{\'i}s, Daniel},
   title   = {Technology and Technical Efficiency Change: Evidence from a Difference in Differences Selectivity Corrected Stochastic Production Frontier Model},
   journal = {American Journal of Agricultural Economics},
   year    = {2020},
@@ -409,7 +411,7 @@
 
 @article{greenstone2014india,
   author  = {Greenstone, Michael and Hanna, Rema},
-  title   = {Environmental Regulations, Air and Water Pollution, and Infant Mortality in India},
+  title   = {Environmental Regulations, Air and Water Pollution, and Infant Mortality in {India}},
   journal = {American Economic Review},
   year    = {2014},
   volume  = {104},
@@ -526,4 +528,58 @@
   number  = {8},
   pages   = {2586--2624},
   doi     = {10.1257/aer.20181047}
+}
+
+% ---------------------------------------------------------------------
+% Acréscimos de 2026-11-10 (projeto de dissertação, projeto/main.tex).
+% Na mesma data, SEM mudar conteúdo de registro: acentos dos campos `author`
+% passaram a escapes LaTeX (o BibTeX não põe UTF-8 em maiúscula, e a ABNT pede
+% sobrenome em caixa alta); nomes próprios em títulos ganharam chaves; a entrada
+% do NBER WP ganhou `series` e `address` (o estilo ABNT ignora `institution`).
+% hitzig2020normative e segerson1988: gerados do registro Crossref do DOI,
+%   conferidos em 2026-11-10 (api.crossref.org).
+% helfand1991: a AER de 1991 NÃO tem DOI depositado no Crossref. Conferida por
+%   RePEc/JSTOR (docs/ars/17 §8); título confere com a reimpressão registrada
+%   no Crossref (10.4324/9781315197296-1). Exceção à regra de entrada, declarada.
+% denteh2022misclassification: working paper, sem DOI Crossref. Campos gerados
+%   do registro do arXiv (export.arxiv.org, 2026-11-10); versão citada: v3.
+% ---------------------------------------------------------------------
+@article{hitzig2020normative,
+  author  = {Hitzig, Zo{\"e}},
+  title   = {The normative gap: mechanism design and ideal theories of justice},
+  journal = {Economics and Philosophy},
+  volume  = {36},
+  number  = {3},
+  pages   = {407--434},
+  year    = {2020},
+  doi     = {10.1017/S0266267119000270}
+}
+
+@article{segerson1988,
+  author  = {Segerson, Kathleen},
+  title   = {Uncertainty and incentives for nonpoint pollution control},
+  journal = {Journal of Environmental Economics and Management},
+  volume  = {15},
+  number  = {1},
+  pages   = {87--98},
+  year    = {1988},
+  doi     = {10.1016/0095-0696(88)90030-7}
+}
+
+@article{helfand1991,
+  author  = {Helfand, Gloria E.},
+  title   = {Standards versus Standards: The Effects of Different Pollution Restrictions},
+  journal = {The American Economic Review},
+  volume  = {81},
+  number  = {3},
+  pages   = {622--634},
+  year    = {1991}
+}
+
+@misc{denteh2022misclassification,
+  author  = {Denteh, Augustine and K{\'e}dagni, D{\'e}sir{\'e}},
+  title   = {Misclassification in Difference-in-differences Models},
+  year    = {2022},
+  howpublished = {arXiv:2207.11890v3},
+  url     = {https://arxiv.org/abs/2207.11890v3}
 }

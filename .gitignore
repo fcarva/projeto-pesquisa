@@ -53,4 +53,11 @@ renv/staging/
 *.toc
 paper/*.log
 paper/main.pdf
+projeto/*.log
+projeto/main.pdf
+*.idx
+*.ilg
+*.ind
+*.loq
+*.brf
 .gstack/

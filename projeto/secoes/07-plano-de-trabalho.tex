@@ -1,0 +1,136 @@
+% =====================================================================
+% 7 Plano de trabalho, riscos e contingências
+% Fontes: docs/ars/19 §5 (matriz R1–R8) e §7; docs/ars/18;
+% docs/legislacao/lai-*-minuta.md; docs/ars/17 §5.
+% =====================================================================
+
+\chapter{Plano de trabalho e riscos}
+\label{cap:plano}
+
+\section{Atividades}
+\label{sec:atividades}
+
+O trabalho restante se divide em cinco frentes.
+
+\subsection{Medida do tratamento}
+
+A restrição ativa do Ensaio 1 é saber onde e quando havia pulverização aérea
+antes da lei. Três atividades a enfrentam.
+
+\begin{alineas}
+  \item Protocolar os pedidos de acesso à informação já minutados: ao MAPA,
+    pelos relatórios mensais dos operadores aeroagrícolas com atuação no Ceará
+    (o texto da Instrução Normativa nº 2/2008 será conferido antes do
+    protocolo); à ADAGRI, pelo receituário agronômico com modalidade de
+    aplicação; e à SEMACE, pelo cadastro de empresas prestadoras de serviço.
+  \item Consultar, na Justiça Federal no Ceará, a ação civil pública de 2011
+    contra empresas de fruticultura da Chapada do Apodi, para saber se houve
+    liminar ou sentença que tenha interrompido a pulverização aérea antes de
+    2019.
+  \item Conferir o texto integral da Lei Municipal nº 1.511/2010 de Limoeiro do
+    Norte.
+\end{alineas}
+
+\subsection{Consolidação dos dados e da inferência}
+
+\begin{alineas}
+  \item Estender o painel até 19 de dezembro de 2024 e registrar a data de
+    extração de cada base;
+  \item executar com dados reais a inferência sobre o nível que respeita os 15
+    controles, o perfil por faixa de dose e o intervalo por inversão do teste
+    de permutação, já implementados;
+  \item reestimar a dose com a janela de 2010 a 2014 e medir a correlação de
+    postos entre as duas janelas.
+\end{alineas}
+
+\subsection{Desenho com mais poder}
+
+O projeto avaliou oito rotas de continuação. A mais promissora com os dados
+existentes é um desenho de calendário: comparar, nos municípios onde havia
+aeronave, a diferença de desfecho entre gestações expostas aos meses de pico de
+aplicação e gestações expostas à entressafra, antes e depois da lei, contra a
+mesma diferença nos demais municípios. A hipótese de identificação passa a ser
+a estabilidade desse hiato sazonal, e não o paralelismo entre municípios com e
+sem banana. Se os relatórios do MAPA forem obtidos, os municípios tratados e os
+meses de pico deixam de ser supostos e passam a ser medidos.
+
+\decisao{7}{adotar o desenho de calendário como etapa seguinte do Ensaio 1.
+Ele muda a estratégia de identificação e exige plano de análise próprio,
+fechado antes de cruzar exposição e desfecho.} A sequência prevista é: calcular
+o efeito mínimo detectável do desenho de calendário apenas com dados anteriores
+à lei, com o código já escrito; decidir com o orientador se o poder justifica a
+adoção; fechar e versionar o plano de análise; e só então estimar.
+
+\subsection{Ensaio 2}
+
+Leitura do acórdão da ADI 6137 e dos autos das ADI 5553 e 7755; levantamento da
+dispersão do custo de conversão de aplicação aérea para terrestre; redação das
+três partes descritas na Seção~\ref{sec:e2-enquadramento}.
+
+\subsection{Redação e defesa}
+
+Revisão do texto do Ensaio 1 conforme o parecer recebido em setembro de 2026;
+redação do Ensaio 2; introdução e conclusão gerais; depósito e defesa.
+
+\section{Riscos e contingências}
+\label{sec:riscos}
+
+O Quadro~\ref{qua:riscos} relaciona os riscos principais.
+
+\begin{quadro}[htb]
+\centering
+\caption{Riscos e contingências}
+\label{qua:riscos}
+\small
+\begin{tabular}{|p{4.4cm}|p{4.2cm}|p{5.5cm}|}
+\hline
+\textbf{Risco} & \textbf{Consequência} & \textbf{Contingência} \\
+\hline
+Os pedidos de acesso à informação são negados ou os registros não existem
+  & O tratamento continua medido por \emph{proxy}
+  & Desenho de calendário com os municípios do Censo de 2006 e meses de pico
+    declarados como hipótese \\
+\hline
+A pulverização aérea cessou na Chapada em 2011
+  & Não há tratamento a avaliar onde ele se concentrava
+  & O Ensaio 1 é apresentado como diagnóstico do desenho e da medida, com o
+    achado documental como resultado \\
+\hline
+O desenho de calendário não tem poder
+  & O Ensaio 1 permanece inconclusivo quanto ao efeito
+  & Reportar o efeito de forma reduzida com inferência adequada e o limite de
+    poder como contribuição metodológica \\
+\hline
+A série até 2024 altera as estimativas
+  & Números do Capítulo~\ref{cap:resultados} mudam
+  & As duas versões são reportadas, com data de extração \\
+\hline
+Prazo
+  & Atraso do Ensaio 2
+  & O Ensaio 2 é analítico e não depende de dado novo; pode ser redigido em
+    paralelo \\
+\hline
+\end{tabular}
+\legend{Fonte: elaboração própria.}
+\end{quadro}
+
+Em qualquer cenário, o Ensaio 1 tem um resultado defensável: o diagnóstico de
+que o desenho disponível mede um efeito de forma reduzida, com o poder e a
+qualidade da medida do tratamento quantificados contra critério fixado
+previamente. Os cenários favoráveis acrescentam a esse diagnóstico uma
+estimativa com tratamento medido.
+
+\section{Reprodutibilidade e ética}
+\label{sec:reprodutibilidade}
+
+O código do projeto é versionado, com execução ordenada por um arquivo de
+orquestração, ambientes fixados para Python e R e suíte de testes automatizada.
+A preparação dos dados é feita em Python e a estimação com tratamento contínuo
+em R, com troca de arquivos entre as duas etapas. O plano de análise e seus
+desvios são versionados com data.
+
+Os dados são secundários, públicos e anonimizados na origem (DATASUS, IBGE,
+FAO). Os microdados não são redistribuídos, e os resultados são reportados em
+agregados municipais. \pendente{confirmar com o programa se o projeto, por
+usar apenas dados públicos sem identificação, dispensa apreciação por comitê
+de ética, nos termos da Resolução CNS nº 510/2016.}

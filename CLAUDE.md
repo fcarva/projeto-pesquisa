@@ -68,6 +68,7 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 
 ## Convenções do repositório
 - Estrutura: `data/{raw,processed,geo}`, `notebooks/`, `scripts/`, `paper/`, `docs/`.
+- **`projeto/` — projeto de dissertação, entrega em 27/11/2026.** Documento ABNT (NBR 15287) em `abntex2`, `make projeto`. É condensação de `paper/` na posição corrigida pelo parecer de 22/09; **não recebe número novo** sem CSV que o sustente. As marcas `\decisao{n}` no texto são as sete decisões pendentes do orientador (`docs/pauta-orientador-2026-11.md`); `\rascunhofalse` as esconde na versão final. Estado e pendências em `projeto/README.md`.
 - Pipeline em scripts numerados: `scripts/data_prep/01_*` a `11_*` → `scripts/build_panel/` → `scripts/estimate/` → `scripts/figures/`. **O `Makefile` é a ordem canônica** — `make simulado` / `make real` / `make varredura` / `make gaez`. ⚠️ Script novo que não entra no Makefile é script que não roda no pipeline.
 - **Python-first** (pandas, `pyfixest`, `sidrapy`, `pysus`, `geopandas`). **R apenas para o estimador CGS de tratamento contínuo** (pacotes `contdid`/`did`), chamado como passo `Rscript` isolado. **A fronteira entre linguagens é I/O de arquivo** (parquet/CSV), nunca in-process: Python prepara o painel → grava parquet → `Rscript` estima → grava CSV *tidy* → Python lê de volta para tabelas/figuras. Isso mantém a reprodutibilidade.
 - Reprodutibilidade: `requirements.txt` (Python) + `renv.lock` (R). Fixar seeds. Documentar a *vintage* de cada base (data de extração).

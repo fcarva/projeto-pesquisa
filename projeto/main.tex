@@ -1,0 +1,174 @@
+% =====================================================================
+% Projeto de dissertação — PPGEco/UFES
+%
+% Estrutura: ABNT NBR 15287 (projeto de pesquisa), classe abntex2.
+% Compilar:  make projeto      (ou: cd projeto && latexmk -pdf main.tex)
+%
+% Este documento é uma CONDENSAÇÃO de paper/ (versão longa do Ensaio 1) e dos
+% documentos de decisão em docs/. Todo número vem de lá; a origem de cada um
+% está no Apêndice B. A bibliografia é a mesma de paper/ (fonte única).
+%
+% RASCUNHO x VERSÃO FINAL. Com \rascunhotrue o PDF mostra, em cor:
+%   \decisao{n}{...}  pontos que dependem do aval do orientador
+%                     (pauta em docs/pauta-orientador-2026-11.md)
+%   \pendente{...}    informação que falta (data de defesa, dados de capa)
+% Para a versão de entrega, trocar por \rascunhofalse: as marcas somem.
+% =====================================================================
+\documentclass[12pt,oneside,a4paper,chapter=TITLE,english,brazil]{abntex2}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{pdflscape}
+\usepackage[alf]{abntex2cite}
+
+% --- Rascunho ou versão final -----------------------------------------
+\newif\ifrascunho
+\rascunhotrue
+% \rascunhofalse
+
+\newcommand{\decisao}[2]{\ifrascunho{\color{red!65!black}\textbf{[Decisão D#1:} #2\textbf{]}}\fi}
+\newcommand{\pendente}[1]{\ifrascunho{\color{blue!60!black}\textbf{[A informar:} #1\textbf{]}}\fi}
+
+% --- Ponte com paper/: as seções de lá usam natbib ----------------------
+% \citet{chave} -> Autor (ano);  \citep{chave} -> (AUTOR, ano)
+\newcommand{\citet}[1]{\citeonline{#1}}
+\newcommand{\citep}[1]{\cite{#1}}
+
+% --- Quadros (ABNT distingue quadro de tabela) ---------------------------
+\newcommand{\quadroname}{Quadro}
+\newcommand{\listofquadrosname}{Lista de quadros}
+\newfloat{quadro}{loq}{\quadroname}
+\newlistof{listofquadros}{loq}{\listofquadrosname}
+\newlistentry{quadro}{loq}{0}
+\counterwithout{quadro}{chapter}
+\renewcommand{\cftquadroname}{\quadroname\space}
+\renewcommand*{\cftquadroaftersnum}{\hfill--\hfill}
+
+% --- Notação -----------------------------------------------------------
+\newcommand{\ATT}{ATT(d\,|\,d)}
+
+% --- Dados de capa e folha de rosto ------------------------------------
+\titulo{Ensaios sobre a proibição da pulverização aérea de agrotóxicos no
+  Ceará: avaliação de impacto e escolha de instrumento}
+\autor{Felipe Carvalho Souza Santos}
+\local{Vitória}
+\data{2026}
+\orientador{Prof. Dr. Renato Seixas}
+\instituicao{%
+  Universidade Federal do Espírito Santo
+  \par
+  Centro de Ciências Jurídicas e Econômicas
+  \par
+  Programa de Pós-Graduação em Economia}
+\tipotrabalho{Projeto de pesquisa}
+\preambulo{Projeto de dissertação apresentado ao Programa de Pós-Graduação em
+  Economia da Universidade Federal do Espírito Santo, como requisito parcial
+  para a obtenção do título de Mestre em Economia.}
+
+\makeatletter
+\hypersetup{
+  pdftitle={\@title},
+  pdfauthor={\@author},
+  pdfsubject={\imprimirpreambulo},
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black,
+  bookmarksdepth=4
+}
+\makeatother
+
+% --- Capa com a instituição no topo (guia de normalização da UFES) -------
+\renewcommand{\imprimircapa}{%
+  \begin{capa}%
+    \center
+    {\large\imprimirinstituicao}
+    \vfill
+    {\large\imprimirautor}
+    \vfill
+    \begin{center}
+      \ABNTEXchapterfont\bfseries\LARGE\imprimirtitulo
+    \end{center}
+    \vfill
+    {\large\imprimirlocal}\par
+    {\large\imprimirdata}
+    \vspace*{1cm}
+  \end{capa}}
+
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.2cm}
+
+\begin{document}
+\selectlanguage{brazil}
+\frenchspacing
+
+% ----------------------------------------------------------------------
+% Elementos pré-textuais
+% ----------------------------------------------------------------------
+\imprimircapa
+\imprimirfolhaderosto
+
+\begin{siglas}
+  \item[ACR] \emph{Average causal response}, a derivada da curva dose-resposta
+  \item[ADAGRI] Agência de Defesa Agropecuária do Estado do Ceará
+  \item[ADI] Ação Direta de Inconstitucionalidade
+  \item[ATT] \emph{Average treatment effect on the treated}
+  \item[DATASUS] Departamento de Informática do Sistema Único de Saúde
+  \item[DiD] Diferenças em diferenças
+  \item[FAO-GAEZ] \emph{Global Agro-Ecological Zones}, da Organização das Nações
+    Unidas para a Alimentação e a Agricultura
+  \item[IBGE] Instituto Brasileiro de Geografia e Estatística
+  \item[LAI] Lei de Acesso à Informação
+  \item[MAPA] Ministério da Agricultura e Pecuária
+  \item[MDE] Efeito mínimo detectável (\emph{minimum detectable effect})
+  \item[PAM] Produção Agrícola Municipal
+  \item[SEMACE] Superintendência Estadual do Meio Ambiente do Ceará
+  \item[SIM] Sistema de Informações sobre Mortalidade
+  \item[SINAN] Sistema de Informação de Agravos de Notificação
+  \item[SINASC] Sistema de Informações sobre Nascidos Vivos
+  \item[SISAGUA] Sistema de Informação de Vigilância da Qualidade da Água para
+    Consumo Humano
+  \item[SPT] Tendências paralelas fortes (\emph{strong parallel trends})
+  \item[STF] Supremo Tribunal Federal
+  \item[VPP] Valor preditivo positivo
+\end{siglas}
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+% ----------------------------------------------------------------------
+% Elementos textuais
+% ----------------------------------------------------------------------
+\textual
+
+\input{secoes/01-introducao}
+\input{secoes/02-contexto}
+\input{secoes/03-referencial}
+\input{secoes/04-metodologia}
+\input{secoes/05-resultados-preliminares}
+\input{secoes/06-ensaio2}
+\input{secoes/07-plano-de-trabalho}
+\input{secoes/08-cronograma}
+
+% ----------------------------------------------------------------------
+% Elementos pós-textuais
+% ----------------------------------------------------------------------
+\postextual
+
+\bibliography{../paper/referencias}
+
+\begin{apendicesenv}
+\partapendices
+\input{secoes/apendice-a-preespecificacao}
+\input{secoes/apendice-b-proveniencia}
+\end{apendicesenv}
+
+\end{document}

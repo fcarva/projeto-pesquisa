@@ -1,0 +1,114 @@
+% =====================================================================
+% 3 Referencial teórico e revisão da literatura
+% Fontes: paper/secoes/03-teoria.tex; paper/secoes/01-introducao.tex
+% (antecedentes); docs/ars/13 (Calzada); docs/ars/16 (Denteh & Kédagni).
+% =====================================================================
+
+\chapter{Referencial teórico e revisão da literatura}
+\label{cap:referencial}
+
+\section{A deriva como externalidade negativa}
+\label{sec:externalidade}
+
+O agrotóxico que deriva sobre o vizinho é um custo imposto a terceiros que não
+passa pelo sistema de preços. O produtor que contrata a aplicação aérea
+internaliza o custo do serviço e do produto, e não o custo em saúde suportado
+pela população a favor do vento. O resultado privado é aplicação acima do nível
+socialmente eficiente.
+
+As duas respostas canônicas divergem no instrumento. A pigouviana internaliza o
+custo por tributo igual ao dano marginal. A coaseana observa que, com direitos
+de propriedade bem definidos e custos de transação baixos, as partes negociam a
+solução eficiente \cite{coase1960}, e desloca a pergunta para quem detém o
+direito: o de pulverizar ou o de não ser pulverizado. A barganha coaseana não
+se aplica a este caso. A deriva atinge população rural difusa, numerosa e não
+organizada, com dano probabilístico, latente e de difícil atribuição
+individual. Os custos de transação são proibitivos, e é isso que justifica a
+intervenção regulatória e leva à discussão sobre o instrumento.
+
+\section{Escolha de instrumento}
+\label{sec:instrumento}
+
+Sob incerteza a respeito dos custos de controle, um instrumento de preço e um
+de quantidade não são equivalentes em bem-estar esperado \cite{weitzman1974}.
+Na aproximação linear-quadrática, qual deles domina depende das inclinações
+relativas do benefício marginal e do custo marginal do controle: se o benefício
+marginal é mais inclinado, domina a quantidade; se o custo marginal é mais
+inclinado, domina o preço.
+
+Três qualificações da literatura importam para este caso, e o
+Capítulo~\ref{cap:ensaio2} as desenvolve. A primeira é que proibir um método de
+aplicação é um padrão tecnológico, e padrões sobre insumo ou tecnologia têm
+efeitos distintos dos de padrões sobre emissão \cite{helfand1991}. A segunda é
+que a deriva é poluição de fonte difusa: o regulador não observa a contribuição
+de cada produtor, e o instrumento viável depende do que se consegue monitorar
+\cite{segerson1988}. Sob heterogeneidade entre produtores, a taxa tende a ser
+mais eficiente e a regulação por quantidade tende a gerar maior lucro ao setor
+regulado \cite{helfand1995}. A terceira é que a literatura específica sobre
+pesticidas trata dos custos de bem-estar e dos efeitos distributivos da
+regulação \cite{lichtenberg1988,fernandezcornejo1998} e registra cenários em
+que cotas superam taxas \cite{skevas2012}, além de simulação de banimento de
+molécula na Europa \cite{bocker2020glyphosate}.
+
+Há uma camada normativa que o cálculo de bem-estar esperado não capta.
+Precificar uma externalidade de saúde supõe que o dano é comensurável com
+dinheiro e que a compensação é resposta adequada. Proibi-la supõe um direito a
+não ser exposto, anterior ao cálculo. \citet{hitzig2020normative} chama de
+\emph{normative gap} a distância entre os objetivos de quem formula a política
+e os objetivos que o economista embute no desenho do instrumento. A lei
+cearense e a decisão do STF que a validou raciocinam em termos de saúde,
+ambiente e exposição involuntária de terceiros. Ordenar proibição e taxa apenas
+por bem-estar esperado responde a uma pergunta que o legislador não formulou.
+
+\section{Evidência empírica sobre agrotóxicos e saúde ao nascer}
+\label{sec:evidencia}
+
+A evidência econômica se organiza em torno de duas perguntas: o que uma
+substância faz à saúde e o que um método de aplicação faz à saúde.
+
+Do lado da substância, \citet{dias2023down} são a referência brasileira.
+Combinam o ganho potencial de produtividade trazido pela soja transgênica a
+cada município com a direção do fluxo d'água na bacia e documentam piora dos
+desfechos ao nascer a jusante. \citet{reynier2025glyphosate} estimam, para os
+Estados Unidos, redução de 23 a 32 g no peso ao nascer à intensidade média de
+exposição, concentrada no decil inferior de peso esperado.
+\citet{larsen2017agricultural} encontram, no Vale de San Joaquin, efeitos
+adversos de 5 a 9\% apenas entre os expostos ao topo da distribuição, o que
+recomenda tratar a exposição como contínua e desconfiar de linearidade.
+\citet{frank2024ecosystem} exploram um choque que eleva o uso de inseticida, a
+perda de morcegos predadores, e encontram aumento da mortalidade infantil nos
+condados atingidos.
+
+Do lado do método, \citet{camacho2017health} avaliam as consequências
+sanitárias da aspersão aérea de herbicida sobre cultivos ilícitos na Colômbia.
+O análogo químico e de cultura mais próximo é \citet{calzada2023bananas}, sobre
+a fumigação aérea de bananais no Equador, com déficit de peso ao nascer de 80 a
+150 g sob exposição alta, segundo o resumo do artigo. Esse intervalo é a
+referência de magnitude usada no exercício de calibração da
+Seção~\ref{sec:diluicao}.
+
+Nenhum desses trabalhos avalia uma proibição de método. É essa a lacuna que o
+Ensaio 1 ocupa.
+
+\section{Literatura metodológica}
+\label{sec:metodo-lit}
+
+A proibição entrou em vigor de uma só vez em todo o estado. Não há variação na
+data de adoção, e os estimadores desenhados para adoção escalonada
+\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam.
+A variação disponível é de intensidade. \citet{callaway2024continuous} mostram
+que diferenças em diferenças com tratamento contínuo não recupera a curva
+dose-resposta sob as hipóteses habituais e distinguem dois parâmetros: o efeito
+no nível de dose recebido, identificado sob tendências paralelas usuais, e a
+curva causal, que exige tendências paralelas fortes.
+
+Quatro outras peças sustentam o desenho. \citet{roth2023trending} mostra que um
+teste de tendências anteriores pode passar por falta de poder.
+\citet{rambachan2023credible} oferecem intervalos que admitem violações
+limitadas do paralelismo. \citet{conley2011} e \citet{cameron2008wild} tratam
+da inferência com poucos grupos, com as ressalvas de \citet{canay2021wild}. E
+\citet{denteh2022misclassification} estudam diferenças em diferenças com
+tratamento mal classificado: quando não há falso negativo, o parâmetro estimado
+é o efeito verdadeiro multiplicado pelo valor preditivo positivo da
+classificação. Esse resultado organiza a leitura dos resultados preliminares
+(Seção~\ref{sec:diluicao}).

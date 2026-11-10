@@ -1,0 +1,183 @@
+% =====================================================================
+% 1 Introdução — tema, problema, hipóteses, objetivos, justificativa
+% Fontes: paper/secoes/01-introducao.tex; docs/justificativa.md §§1–5.
+% =====================================================================
+
+\chapter{Introdução}
+\label{cap:introducao}
+
+\section{Tema e problema de pesquisa}
+\label{sec:tema}
+
+Em 2010, José Maria Filho, o Zé Maria do Tomé, foi assassinado na Chapada do
+Apodi, no interior do Ceará. Ele denunciava havia anos a pulverização aérea de
+agrotóxicos sobre os perímetros irrigados da região, onde aviões sobrevoam
+plantações de banana e melão vizinhas de casas, escolas e açudes de
+abastecimento. A denúncia não tratava do veneno aplicado na lavoura, e sim do
+veneno que não fica na lavoura. Nove anos depois, o estado do Ceará proibiu a
+prática em todo o território, pela Lei Estadual nº 16.820/2019, a primeira
+proibição estadual do gênero no Brasil, e deu à lei o nome dele.
+
+A pulverização aérea é um caso de externalidade negativa em que o mecanismo
+físico é visível. Parte da calda liberada pela aeronave não atinge o alvo: é
+carregada pelo vento e se deposita fora da área tratada, fenômeno que a
+literatura técnica chama de deriva. Pela conta que a própria Assembleia
+Legislativa usou para decidir, reproduzida na justificativa do Projeto de Lei
+nº 18/2015 e ali atribuída à Embrapa, 19\% do produto se dispersa para fora da
+área de aplicação. Quem contrata a aplicação paga pelo serviço e pelo produto.
+Quem mora a favor do vento arca com o restante.
+
+A lei cearense responde a esse problema com o instrumento mais forte
+disponível, a proibição do método. O Supremo Tribunal Federal a julgou
+constitucional em 2023 (ADI 6137), a Lei Estadual nº 19.135/2024 abriu exceção
+para aeronaves remotamente pilotadas, e nova ação segue pendente (ADI 7794). A
+política está em vigor, em disputa e sujeita a ser copiada por outros estados,
+e as decisões sobre mantê-la, revogá-la ou substituí-la vêm sendo tomadas sem
+estimativa de efeito.
+
+Esta dissertação se organiza em dois ensaios, e cada um responde a uma
+pergunta.
+
+\begin{description}
+  \item[Ensaio 1.] Qual é o efeito causal da proibição da pulverização aérea de
+    agrotóxicos no Ceará sobre desfechos de saúde ao nascer, e como esse efeito
+    varia com a intensidade com que cada município estava exposto à prática
+    antes da proibição?
+  \item[Ensaio 2.] Dado o objetivo que a lei declara, a proibição é o
+    instrumento adequado em comparação com a taxação e com a regulação por
+    zonas-tampão, e que informação seria necessária para ordenar esses
+    instrumentos?
+\end{description}
+
+\section{Hipóteses}
+\label{sec:hipoteses}
+
+As hipóteses do Ensaio 1 foram fixadas por escrito antes de qualquer
+estimação (Apêndice~\ref{ap:preespecificacao}). Elas não apontam todas na mesma
+direção, e é isso que torna o conjunto informativo.
+
+\begin{description}
+  \item[H1 (principal).] Se a pulverização aérea gera externalidade de saúde por
+    deriva, a proibição reduz a exposição da população e melhora os desfechos
+    perinatais, e a melhora é maior onde a exposição anterior era maior.
+  \item[H2 (seleção para nascimento vivo).] Se a proibição reduz o óbito fetal,
+    fetos que antes não chegavam a nascer passam a compor a amostra pela cauda
+    inferior de peso, e o efeito sobre o peso médio aparece atenuado ou
+    invertido. Por isso o óbito fetal é o segundo desfecho confirmatório.
+  \item[H3 (substituição, de sinal oposto).] Proibido o avião, a aplicação migra
+    para trator e pulverizador costal. A exposição da população cai, e a
+    intoxicação aguda ocupacional sobe com a intensidade anterior de aplicação.
+  \item[H4 (falsificação).] A lei alcança o método, não a molécula, e a
+    disponibilidade do produto não muda. A intoxicação autoprovocada, que
+    responde à disponibilidade, não deve se mover com a exposição anterior.
+\end{description}
+
+O Ensaio 2 não testa hipótese empírica própria. Ele parte de uma proposição a
+examinar: a de que a comparação entre proibir e taxar pelo critério de
+bem-estar esperado \cite{weitzman1974} exige objetos que o Ensaio 1 não
+identifica, e de que o critério coerente com o objetivo declarado da lei é o de
+custo-efetividade e confiabilidade na obtenção de exposição aérea nula
+(Capítulo~\ref{cap:ensaio2}).
+
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo geral}
+
+Avaliar a proibição estadual da pulverização aérea de agrotóxicos no Ceará como
+resposta a uma externalidade negativa, estimando seu efeito sobre desfechos de
+saúde ao nascer e examinando a escolha do instrumento regulatório.
+
+\subsection{Objetivos específicos}
+
+\begin{alineas}
+  \item Construir um painel município-mês para o Ceará que reúna nascimentos
+    (SINASC), óbitos fetais (SIM), notificações de intoxicação (SINAN) e
+    intensidade agrícola anterior à proibição (PAM/IBGE);
+  \item estimar o efeito da proibição sobre o peso ao nascer, o baixo peso e a
+    prematuridade por diferenças em diferenças com tratamento contínuo
+    \cite{callaway2024continuous}, com inferência adequada a poucos grupos;
+  \item medir o poder estatístico do desenho antes e depois da estimação e
+    reportar o resultado contra critério de falsificação fixado previamente;
+  \item medir a distância entre a variável de exposição disponível, que é área
+    plantada, e a prática que a lei proibiu, que é a aplicação por aeronave, e
+    obter registros administrativos que reduzam essa distância;
+  \item avaliar desenhos alternativos que concentrem a comparação onde havia
+    pulverização aérea a remover, com destaque para o contraste sazonal entre
+    meses de pico e de entressafra de aplicação;
+  \item delimitar, no Ensaio 2, quais objetos a escolha entre proibição, taxa e
+    zona-tampão exigiria, quais deles a evidência disponível informa e sob que
+    critério os instrumentos podem ser comparados.
+\end{alineas}
+
+\section{Justificativa}
+\label{sec:justificativa}
+
+A literatura causal sobre agrotóxicos e saúde ao nascer mediu três coisas, e
+nenhuma delas é uma proibição de método.
+
+Mediu substâncias pelo canal hídrico. \citet{dias2023down} exploram a
+expansão da soja transgênica no Brasil e a direção do fluxo d'água dentro da
+bacia, e documentam piora dos desfechos ao nascer nas populações a jusante.
+Mediu substâncias pela difusão de uma tecnologia. \citet{reynier2025glyphosate}
+aplicam lógica semelhante nos Estados Unidos, com aptidão agroclimática como
+fonte de variação, e estimam redução de 23 a 32 g no peso ao nascer à
+intensidade média de exposição ao glifosato, com efeito doze vezes maior no
+decil inferior de peso esperado do que no superior. E mediu um método aéreo em
+circunstância distinta: \citet{camacho2017health} estudam a aspersão aérea de
+herbicida sobre cultivos ilícitos na Colômbia, onde a pulverização foi
+introduzida como política de Estado, ao passo que no Ceará ela foi retirada.
+
+Três lacunas justificam o trabalho.
+
+A primeira é de objeto. O tratamento aqui é um ato regulatório com data, texto
+legal e reversão parcial, que proíbe o modo de aplicar sem nomear princípio
+ativo algum. As buscas feitas no corpus acadêmico e nos periódicos brasileiros
+de economia não retornaram avaliação causal de proibição de método de
+aplicação. A afirmação cabível é que a busca não encontrou, e não que o estudo
+não exista.
+
+A segunda é de contexto químico. Os desenhos de referência são construídos
+sobre glifosato em culturas transgênicas. Na Chapada do Apodi, a tabela de
+análises de água reproduzida na justificativa do projeto de lei registra
+procimidona e carbaril em 23 de 23 pontos de coleta, carbofurano em 18,
+fenitrotiona em 16 e glifosato em 4. Trata-se de fungicida e inseticida sobre
+fruticultura irrigada. O análogo mais próximo é \citet{calzada2023bananas}, que
+estudam a fumigação aérea de bananais no Equador e encontram déficit de peso ao
+nascer sob exposição alta.
+
+A terceira é de política. \citet{greenstone2014india} mostram, para a Índia,
+que regulação ambiental no papel não equivale a redução de exposição. Saber se
+a proibição cearense alterou desfechos de saúde é pergunta em aberto, com
+consequência direta para os estados que discutem medida semelhante e para o
+Ceará, que em 2024 trocou a proibição total por regulação de desempenho para
+drones.
+
+Há ainda uma justificativa de método, que os resultados preliminares tornaram
+central. O conjunto de desfechos que os registros administrativos brasileiros
+oferecem é amplo, e o poder estatístico deste desenho é curto. Essa combinação
+produz achado espúrio com aparência de rigor. O projeto fixou desfecho,
+exposição e critério de falsificação antes de estimar, e reporta o que o
+desenho distingue e o que não distingue. Um resultado inconclusivo com a medida
+de quanto falta para concluir é informação útil sobre uma política em disputa.
+
+\section{Estado do projeto e estrutura do documento}
+\label{sec:estado}
+
+Este projeto não parte do zero. O pipeline de dados e de estimação está
+implementado e versionado, as bases principais foram adquiridas, o plano de
+análise foi fechado em 21 de setembro de 2026 e a estimação do Ensaio 1 foi
+executada uma vez com dados reais. O Capítulo~\ref{cap:resultados} reporta
+esses resultados como preliminares. Eles mostram que o desenho original mede o
+efeito de forma reduzida da proibição segundo uma \emph{proxy} de bananicultura
+e que a precisão obtida é inferior ao critério fixado. A etapa seguinte, que
+este projeto propõe, é melhorar a medida do tratamento e testar um desenho com
+mais poder.
+
+O Capítulo~\ref{cap:contexto} apresenta a lei e o contexto.
+O Capítulo~\ref{cap:referencial} traz o referencial teórico e a literatura
+empírica. O Capítulo~\ref{cap:metodologia} descreve a metodologia do Ensaio 1.
+O Capítulo~\ref{cap:resultados} reporta os resultados preliminares.
+O Capítulo~\ref{cap:ensaio2} expõe a proposta do Ensaio 2.
+O Capítulo~\ref{cap:plano} apresenta o plano de trabalho e os riscos, e o
+Capítulo~\ref{cap:cronograma}, o cronograma.

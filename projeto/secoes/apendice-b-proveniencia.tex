@@ -1,0 +1,51 @@
+% =====================================================================
+% Apêndice B — de onde vem cada número
+% =====================================================================
+
+\chapter{Proveniência dos resultados preliminares}
+\label{ap:proveniencia}
+
+Os resultados do Capítulo~\ref{cap:resultados} vêm de uma única execução do
+pipeline com dados reais, em 21 e 22 de setembro de 2026, na máquina do
+pesquisador. Os microdados e os arquivos intermediários não são versionados. Os
+números foram transcritos para o texto do Ensaio 1 e, dele, para este projeto;
+nenhum número novo foi produzido para este documento. O
+Quadro~\ref{qua:proveniencia} indica o programa que gera cada resultado, para
+que a nova execução prevista no plano de trabalho possa ser conferida contra
+esta.
+
+\begin{quadro}[htb]
+\centering
+\caption{Programa de origem de cada resultado}
+\label{qua:proveniencia}
+\small
+\begin{tabular}{|p{6.4cm}|p{7.8cm}|}
+\hline
+\textbf{Resultado} & \textbf{Programa (pasta \texttt{scripts/})} \\
+\hline
+Nível e curva dose-resposta & \texttt{estimate/03\_contdid.R} \\
+\hline
+Inclinação em dose e três procedimentos de inferência &
+  \texttt{estimate/04\_robustness.py} \\
+\hline
+Poder do teste de tendências anteriores & \texttt{estimate/06\_pretrends.R} \\
+\hline
+Sensibilidade a violações de paralelismo & \texttt{estimate/07\_honestdid.R} \\
+\hline
+Controle sintético & \texttt{estimate/08\_synthdid.R} \\
+\hline
+Correção de Holm & \texttt{estimate/09\_holm.py} \\
+\hline
+Inclinação em datas fictícias & \texttt{estimate/10\_spt\_pretrend.py} \\
+\hline
+Erro de classificação e calibração &
+  \texttt{estimate/12\_erro\_de\_classificacao.py} \\
+\hline
+Custos da Conab & \texttt{data\_prep/12\_clean\_conab\_custos.py} \\
+\hline
+Efeito mínimo detectável do desenho de calendário (a executar) &
+  \texttt{estimate/14\_mde\_calendario.py} \\
+\hline
+\end{tabular}
+\legend{Fonte: elaboração própria.}
+\end{quadro}

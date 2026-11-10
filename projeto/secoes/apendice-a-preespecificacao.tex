@@ -1,0 +1,89 @@
+% =====================================================================
+% Apêndice A — resumo do plano de análise e dos desvios
+% Fonte: docs/pre-especificacao.md (fechada em 2026-09-21, commit c386514).
+% =====================================================================
+
+\chapter{Plano de análise do Ensaio 1 e desvios registrados}
+\label{ap:preespecificacao}
+
+O plano de análise foi fechado e versionado em 21 de setembro de 2026. Ele não
+é um pré-registro em sentido estrito: foi escrito depois dos diagnósticos de
+desenho (distribuição da dose, dispersão das tendências municipais, efeito
+mínimo detectável, relação entre aptidão e dose) e antes de qualquer estimativa
+de efeito. A fronteira que ele protege é entre desenho e efeito. O
+Quadro~\ref{qua:plano} resume as escolhas, e o Quadro~\ref{qua:desvios}, os
+desvios posteriores.
+
+\begin{quadro}[htb]
+\centering
+\caption{Escolhas do plano de análise}
+\label{qua:plano}
+\small
+\begin{tabular}{|p{4.2cm}|p{10cm}|}
+\hline
+\textbf{Item} & \textbf{Escolha} \\
+\hline
+Desfecho primário & Peso médio ao nascer, por município e mês \\
+\hline
+Exposição primária & Fração da gestação posterior à vigência da lei \\
+\hline
+Cultura-âncora & Banana, por ter área positiva em 169 municípios e índice de
+Gini da dose de 0,86 \\
+\hline
+Janela da dose & 2015--2018; 2010--2014 como sensibilidade \\
+\hline
+Grupo de comparação & Municípios de dose nula, definidos por baixa aptidão
+agroclimática; área nula como sensibilidade \\
+\hline
+Cortes & Período anterior até dez/2018 e posterior a partir de out/2019;
+coortes de transição descartadas (9,4\% das células) \\
+\hline
+Critério de falsificação & Piso de efeito esperado de 15 g \\
+\hline
+Família confirmatória & Peso médio e óbito fetal, com correção de Holm \\
+\hline
+Exploratório declarado & Exposição por trimestre; baixo peso e prematuridade;
+canal de intoxicação; janela 2010--2014; definições alternativas do grupo de
+comparação \\
+\hline
+Falsificação & Notificações de intoxicação intencional, que não devem se mover \\
+\hline
+Vedações & Não trocar o desfecho primário; não descer de unidade geográfica;
+não reportar como achado coeficiente abaixo do efeito mínimo detectável; não
+usar o canal hídrico nem o teste de direção do vento \\
+\hline
+\end{tabular}
+\legend{Fonte: elaboração própria, a partir do plano de análise versionado.}
+\end{quadro}
+
+\begin{quadro}[htb]
+\centering
+\caption{Desvios do plano de análise}
+\label{qua:desvios}
+\small
+\begin{tabular}{|p{2.1cm}|p{5.2cm}|p{6.9cm}|}
+\hline
+\textbf{Data} & \textbf{O que mudou} & \textbf{Motivo} \\
+\hline
+21/09/2026 & Grupo de comparação primário passa a ser o de baixa aptidão
+  & O índice FAO-GAEZ foi obtido para os 184 municípios \\
+\hline
+22/09/2026 & Parâmetro principal passa da curva, $ACR(d)$, ao nível, $\ATT$
+  & A derivada agregada é dominada pela faixa de dose em que o erro-padrão
+    supera a estimativa \\
+\hline
+22/09/2026 & A hipótese de tendências paralelas fortes deixa de ser descrita
+  como não testável
+  & A verificação anterior ao tratamento não a isola, mas pode falsificá-la;
+    foi implementada \\
+\hline
+22/09/2026 & A correção de Holm passa a ser calculada
+  & Estava declarada e não implementada \\
+\hline
+\end{tabular}
+\legend{Fonte: elaboração própria, a partir do plano de análise versionado.}
+\end{quadro}
+
+As decisões marcadas ao longo do texto como dependentes do orientador, se
+adotadas, entrarão neste quadro com data e motivo, e os resultados originais
+serão preservados.

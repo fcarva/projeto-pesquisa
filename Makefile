@@ -10,9 +10,12 @@
 #   make varredura  # bans municipais < 2019 (rede pesada; produto commitado)
 #   make gaez       # aptidão FAO-GAEZ (exige rasters em data/geo/)
 #
-# ⚠️ `make real` é bloqueado de propósito enquanto docs/pre-especificacao.md
-# estiver com "Status: ⬜ não preenchido". Ver o achado M1 da revisão: 31 séries
-# candidatas a desfecho e poder curto pedem plano ANTES do dado.
+#   make projeto    # PDF do projeto de dissertação (projeto/main.pdf, abntex2)
+#
+# ⚠️ `make real` só roda com a pré-especificação fechada (`PRESPEC_STATUS:
+# FECHADA` em docs/pre-especificacao.md, o que vale desde 2026-09-21). Ver o
+# achado M1 da revisão: 31 séries candidatas a desfecho e poder curto pedem
+# plano ANTES do dado.
 #
 # ⚠️ AUDITORIA 2026-09-21: este arquivo tinha ficado para trás do pipeline —
 # conhecia sete scripts quando já eram onze, e por isso `make real` montava o
@@ -288,3 +291,12 @@ fronteira:
 	$(PY) scripts/data_prep/02_clean_births.py --fonte ftp --ufs 23 $(VIZINHO)
 	$(MAKE) censo-demografico VIZINHO=$(VIZINHO)
 	$(MAKE) gate-fronteira VIZINHO=$(VIZINHO)
+
+# --- Projeto de dissertação (entrega de 27/11/2026) -----------------------
+# Documento ABNT (NBR 15287) em abntex2. Usa a MESMA bibliografia do paper
+# (paper/referencias.bib). Não depende de dado: os números estão no texto.
+# Rascunho x final: flag \rascunhotrue / \rascunhofalse em projeto/main.tex.
+.PHONY: projeto
+projeto:
+	cd projeto && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+	@echo "PDF em projeto/main.pdf"

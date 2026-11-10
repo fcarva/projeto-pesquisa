@@ -1,0 +1,296 @@
+% =====================================================================
+% 4 Metodologia do Ensaio 1
+% Fontes: paper/secoes/04-identificacao.tex, 05-dados.tex;
+% docs/pre-especificacao.md; docs/ars/17 (resposta ao parecer).
+% Posição já corrigida pelo parecer de 22/09/2026 — ver pauta do orientador.
+% =====================================================================
+
+\chapter{Metodologia do Ensaio 1}
+\label{cap:metodologia}
+
+A exposição segue a ordem parâmetro-alvo, hipóteses de identificação e
+estimação. As escolhas descritas neste capítulo são as do plano de análise
+fechado em 21 de setembro de 2026, com os desvios posteriores registrados no
+Apêndice~\ref{ap:preespecificacao}.
+
+\section{Parâmetro-alvo}
+\label{sec:estimando}
+
+A fonte de variação é a intensidade de exposição anterior à lei entre os 184
+municípios cearenses. O tratamento é contínuo, e o estimador é o de
+\citet{callaway2024continuous}, que separa dois parâmetros:
+
+\begin{alineas}
+  \item $\ATT$, o efeito médio, entre os municípios com dose $d$, de ter
+    recebido $d$ em vez de zero. É um efeito no nível da dose e é identificado
+    sob tendências paralelas no resultado não tratado;
+  \item $ATE(d)$ e sua derivada $ACR(d)$, a curva dose-resposta causal. A curva
+    exige tendências paralelas fortes (SPT), que restringem trajetórias sob
+    doses que o município não recebeu e excluem seleção por ganhos.
+\end{alineas}
+
+O plano de análise declarou a curva como alvo primário. A estimação mostrou que
+a derivada agregada não é interpretável (Seção~\ref{sec:res-nivel}), e desde 22
+de setembro de 2026 o resultado principal é o $\ATT$. O desvio está registrado
+com data e motivo.
+
+A variável de dose é área plantada de banana, e não aplicação aérea. O que o
+desenho estima é, portanto, o \textbf{efeito de forma reduzida da proibição
+segundo uma \emph{proxy} de intensidade da bananicultura}. Ele não é, sem
+hipóteses adicionais, o efeito da retirada da pulverização aérea onde ela
+ocorria. \decisao{1}{declarar o estimando como forma reduzida segundo a
+\emph{proxy}; a alternativa, dose-resposta da pulverização aérea, exigiria o
+cadastro operacional anterior à lei.}
+
+Sobre a hipótese forte, o teste de tendências anteriores não a isola, porque a
+implicação testável antes do tratamento é comum às duas versões do paralelismo.
+Ele pode, porém, falsificá-la: \citet{callaway2024continuous} propõem verificar
+se a relação entre a variação do desfecho e a dose é nula no período anterior,
+e o projeto implementa essa verificação (Seção~\ref{sec:res-robustez}).
+
+\section{Variável de tratamento}
+\label{sec:dose}
+
+A dose é a área plantada média de 2015 a 2018 da cultura-âncora, na Produção
+Agrícola Municipal do IBGE, normalizada. Usa-se área plantada, e não colhida,
+porque o período de 2012 a 2017 foi de seca severa no semiárido e a área
+colhida responde à quebra de safra.
+
+A cultura-âncora foi escolhida pelo dado, e não por suposição. O melão tem área
+positiva em 10 municípios e o algodão em 28, suporte insuficiente para a
+estimação não paramétrica. A banana tem área positiva em 169 municípios, com
+índice de Gini de 0,86 e 78\% da área no decil superior. É também a cultura que
+corresponde à química documentada: a procimidona é fungicida de bananal.
+
+Três limitações de medida acompanham a escolha.
+
+\begin{alineas}
+  \item A proibição é de método. Área plantada mede intensidade agrícola, e
+    culturas e municípios diferem em quanto recebem aplicação por aeronave. A
+    Seção~\ref{sec:diluicao} mostra que essa distância é grande.
+  \item A janela de medida começa depois da notícia da proibição. O projeto de
+    lei foi apresentado em 24 de fevereiro de 2015, e a janela de 2015 a 2018 é
+    posterior a esse marco. Se produtores responderam à expectativa, a dose já
+    incorpora parte do ajuste. \decisao{3}{manter 2015--2018 como janela
+    principal e reportar 2010--2014 como sensibilidade; promover 2010--2014 a
+    principal muda o plano de análise e pode mudar o grupo tratado.}
+  \item O zero da PAM é zero de \emph{proxy}. O § 2º do art. 28-B alcança o
+    controle vetorial por aeronave, de modo que um município sem banana pode
+    ter sido tratado (Seção~\ref{sec:comparacao}).
+\end{alineas}
+
+\section{Exposição gestacional}
+\label{sec:exposicao}
+
+Um desfecho perinatal não é contemporâneo à exposição. Um nascimento de março
+de 2019 foi gestado, em dois terços, antes da vigência da lei. O painel calcula,
+para cada célula município-mês, a fração da janela gestacional posterior à
+proibição. Apenas as coortes nascidas a partir de outubro de 2019 têm gestação
+integralmente posterior. A janela gestacional é fixa: usar a duração observada
+condicionaria a exposição a um desfecho do estudo, a prematuridade. As coortes
+cuja gestação atravessa a vigência são descartadas na estimação principal, o
+que corresponde a 9,4\% das células. As séries de intoxicação aguda usam o mês
+do evento, sem retroprojeção.
+
+\section{Grupo de comparação}
+\label{sec:comparacao}
+
+O grupo de comparação é o dos municípios de dose nula, construído de quatro
+maneiras: área nula da cultura-âncora; área nula de qualquer cultura candidata
+a aplicação aérea; ausência de operador aeroagrícola registrado; e baixa
+aptidão agroclimática. A definição primária é a quarta, e as demais entram como
+sensibilidade. O grupo tem 15 municípios (14 na quarta definição).
+
+Que esse grupo seja nunca tratado é hipótese, e não fato estabelecido. O Censo
+Agropecuário de 2006 a apoia para a aplicação agrícola: nenhum município de
+dose nula tinha estabelecimento com aplicação por aeronave. O Censo não mede o
+controle vetorial aéreo, e não há fonte que o meça com suficiência (o SINAN
+registra 89 notificações por agente de uso em saúde pública em oito anos). O
+peso dessa hipótese é alto, porque os mesmos 15 municípios servem de controle a
+todos os estimadores binários do projeto.
+
+Duas verificações relativas ao grupo tratado foram concluídas. A varredura das
+leis municipais anteriores a 2019 nos 17 municípios do decil superior encontrou
+uma única proibição, a de Limoeiro do Norte, revogada em 2010; não há,
+portanto, município já tratado na janela de 2015 a 2018. E o índice de aptidão
+agroclimática FAO-GAEZ, construído para os 184 municípios pela receita de
+\citet{reynier2025glyphosate}, é maior onde há mais banana (média de 0,37 no
+decil superior contra 0,26 nos demais). \decisao{2}{tratar a aptidão como
+construção do grupo de comparação e checagem de relevância; estimação por
+variável instrumental fica como extensão declarada, porque a aptidão no
+semiárido se correlaciona com disponibilidade de água, que afeta o desfecho
+diretamente.}
+
+\section{Dados}
+\label{sec:dados}
+
+A Tabela~\ref{tab:fontes} resume as fontes. O painel do Ensaio 1 é município
+por mês, balanceado, com 184 municípios e 96 meses (2015 a 2022), num total de
+17.664 células, das quais 17.654 têm nascimento registrado. Os desfechos são o
+peso ao nascer, o baixo peso (menos de 2.500 g) e a prematuridade (menos de 37
+semanas), agregados à célula. A Tabela~\ref{tab:descritivas} traz as
+descritivas. \decisao{4}{estender a série do SINASC até 19/12/2024, que já
+está disponível na fonte original, refazer painel e análise de poder e
+congelar a data de extração de cada base.}
+
+\begin{table}[htb]
+\centering
+\caption{Fontes de dados e estado de aquisição}
+\label{tab:fontes}
+\small
+\begin{tabular}{p{3.6cm}p{2.1cm}p{8.0cm}}
+\toprule
+Fonte & Estado & Uso e observação \\
+\midrule
+PAM/IBGE         & adquirida   & Dose: área plantada por cultura, 2015--2018 \\
+SINASC/DATASUS   & adquirida   & Desfechos de nascimento, 2015--2022 \\
+SIM/DATASUS      & adquirida   & Óbito fetal \\
+SINAN            & adquirida   & Intoxicação exógena; 1.217 notificações por
+                                 agrotóxico de uso agrícola \\
+População (IBGE) & adquirida   & Denominador; 2022 vem do Censo \\
+FAO-GAEZ         & adquirida   & Aptidão agroclimática, 184 municípios \\
+Censo Agropecuário 2006 & adquirida & Estabelecimentos por equipamento de
+                                 aplicação, incluída a aeronave \\
+Leis municipais  & levantadas  & 17 municípios do decil superior \\
+SISAGUA          & suspensa    & Quebra de registro laboratorial no Ceará a
+                                 partir de 2020 \\
+ANA (bacias)     & suspensa    & Depende de coordenada que o SISAGUA não traz \\
+INMET            & suspensa    & Direção do vento sem variação espacial \\
+MapBiomas        & descartada  & Banana em classe genérica \\
+SEMACE, ADAGRI, MAPA & a solicitar & Registros de aplicação aérea anteriores
+                                 à lei, por pedido de acesso à informação \\
+\bottomrule
+\end{tabular}
+\legend{Fonte: elaboração própria. Estado em setembro de 2026.}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Descritivas do painel, Ceará, 2015--2022}
+\label{tab:descritivas}
+\small
+\begin{tabular}{lr}
+\toprule
+Grandeza & Valor \\
+\midrule
+Nascidos vivos (após limpeza)                 & 1.001.709 \\
+Peso médio ao nascer                          & 3.208 g \\
+Baixo peso ($<$ 2.500 g)                      & 8,34\% \\
+Prematuridade ($<$ 37 semanas)                & 12,58\% \\
+Óbitos fetais                                 & 11.240 \\
+Notificações por agrotóxico agrícola (SINAN)  & 1.217 \\
+Municípios com dose positiva                  & 169 \\
+Municípios com dose nula                      & 15 \\
+\bottomrule
+\end{tabular}
+\legend{Fonte: elaboração própria, a partir de SINASC, SIM, SINAN e PAM.}
+\end{table}
+
+Três fontes foram obtidas, inspecionadas e suspensas, e o motivo de cada
+suspensão é informação sobre o desenho. No SISAGUA, três das quatro moléculas
+mais frequentes na Chapada não constam da lista monitorada, e as detecções de
+agrotóxico no Ceará caem de 44 em 2019 para zero em 2020, 2021 e 2022, com mais
+amostras coletadas; um modelo de diferenças em diferenças sobre essa variável
+atribuiria à lei uma mudança de prática laboratorial. Sem o SISAGUA, o desenho
+de montante e jusante fica sem insumo. No INMET, a coerência de direção do
+vento entre estações é de 0,96: os alísios sopram de leste, e estar a favor do
+vento equivale a estar a oeste da fonte. O canal de intoxicação, previsto com
+dados de internação, passou ao SINAN, porque a série hospitalar registra um
+único caso de intoxicação acidental por agrotóxico no período.
+
+\section{Estimação e inferência}
+\label{sec:estimacao}
+
+A estimação principal usa o estimador de \citet{callaway2024continuous} com
+aproximação não paramétrica, sobre o painel colapsado em um período anterior e
+um posterior. A implementação impõe três restrições que afetam o que se pode
+afirmar: opera sobre dois períodos; não produz o estudo de eventos e a curva
+pelo mesmo procedimento; e não acomoda covariáveis.
+
+O efeito agregado no nível é, na implementação usada, a diferença entre a
+variação média do desfecho nos 169 municípios de dose positiva e a variação
+média nos 15 de dose nula. Na inferência, portanto, o grupo escasso é o de
+controle. Reportam-se, para o nível, o erro-padrão do \emph{bootstrap}
+multiplicador, o \emph{wild bootstrap} com hipótese nula imposta
+\cite{cameron2008wild}, uma análise de permutação e a exclusão sucessiva de
+cada município de controle. A permutação da dose é reportada como análise de
+permutação, e não como inferência exata: a exatidão exigiria que a dose tivesse
+sido atribuída de forma intercambiável, o que não ocorre, porque a área de
+banana segue aptidão e geografia. \decisao{5}{adotar como procedimento principal
+para o nível uma inferência que respeite os 15 controles, na linha de
+\citet{conley2011} com os papéis de tratado e controle invertidos.}
+
+A camada de robustez compreende o poder do teste de tendências anteriores
+\cite{roth2023trending}, a sensibilidade a violações de paralelismo
+\cite{rambachan2023credible}, a verificação da inclinação em dose em datas
+fictícias do período anterior e o controle sintético com diferenças em
+diferenças \cite{arkhangelsky2021sdid}, na versão intraestadual. Uma
+especificação com pareamento por escore de propensão e diferenças em diferenças
+\cite{bravoureta2020psmdid} entra como camada de comunicação dos resultados.
+
+\section{Poder, falsificação e multiplicidade}
+\label{sec:poder}
+
+O desenho declara seu poder antes de estimar. O efeito mínimo detectável
+previsto para o peso ao nascer era de 33,4 g. O critério de falsificação fixa
+um piso de efeito esperado de 15 g, abaixo do extremo inferior do intervalo de
+23 a 32 g de \citet{reynier2025glyphosate}, por se supor atenuação quando se
+remove um método e não uma molécula. Se a meia-largura do intervalo de
+confiança ficar acima do piso, o resultado é reportado como limite informativo
+sobre o parâmetro de forma reduzida, e não como achado.
+
+A família confirmatória tem duas hipóteses, peso médio e óbito fetal, com
+correção de Holm. Todo o restante é exploratório e declarado como tal. O plano
+veda trocar o desfecho ou descer de unidade geográfica depois de ver o
+resultado.
+
+\section{Ameaças à identificação}
+\label{sec:ameacas}
+
+O Quadro~\ref{qua:ameacas} resume as ameaças e o tratamento dado a cada uma.
+
+\begin{quadro}[htb]
+\centering
+\caption{Ameaças à identificação e resposta do desenho}
+\label{qua:ameacas}
+\small
+\begin{tabular}{|p{3.6cm}|p{4.9cm}|p{5.6cm}|}
+\hline
+\textbf{Ameaça} & \textbf{Efeito sobre o resultado} & \textbf{Resposta} \\
+\hline
+Erro de classificação do tratamento
+  & Atenua o efeito estimado; é o mecanismo da falta de poder
+  & Medir a aplicação aérea por registro administrativo; concentrar a
+    comparação onde havia aeronave \\
+\hline
+Prática interrompida antes de 2019
+  & Se a pulverização cessou na Chapada em 2011, a lei não removeu exposição
+  & Consultar a ação civil pública de 2011 e os relatórios do MAPA \\
+\hline
+Grupo de comparação exposto
+  & Desloca o nível; pode inverter o sinal
+  & Quatro construções do grupo; exclusão sucessiva dos controles \\
+\hline
+Antecipação desde 02/2015
+  & Contamina a dose, não só o desfecho
+  & Janela de dose 2010--2014 como sensibilidade; estudo de eventos até 2018 \\
+\hline
+Tendências paralelas fortes
+  & A curva deixa de ser identificada
+  & Resultado principal no nível; verificação em datas fictícias \\
+\hline
+Seleção para nascimento vivo
+  & Efeito real pode aparecer nulo ou invertido
+  & Óbito fetal como segundo desfecho confirmatório \\
+\hline
+Fiscalização desconhecida
+  & O parâmetro é de intenção de tratar
+  & Pedidos de acesso à informação; canal de intoxicação \\
+\hline
+Poucos grupos
+  & Precisão aparente maior que a real
+  & Inferência que respeita os 15 controles \\
+\hline
+\end{tabular}
+\legend{Fonte: elaboração própria.}
+\end{quadro}
