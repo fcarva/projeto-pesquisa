@@ -18,8 +18,10 @@ profs. Ana Carolina Giuberti e Renato Seixas) e de Cunningham (2021).*
    construção). Só o cap. 3 foi lido inteiro; nos demais, as seções
    conceituais. Trechos da 2ª edição estão marcados **[2ª ed.]** e não devem
    ser citados como "Cunningham (2021)".
-4. **Os DAGs não foram executados** no dagitty (pacote ausente no ambiente);
-   aciclicidade e caminhos conferidos à mão. ⬜ Rodar em `dagitty.net`.
+4. **Os DAGs foram checados por programa em 2026-11-10** (aciclicidade e
+   d-separação com `networkx`; o pacote `dagitty` do R não está no ambiente).
+   A checagem corrigiu duas afirmações da primeira versão (§5, ⚠️).
+   ⬜ Repetir em `dagitty.net`.
 5. Direções de viés (§3) e conjuntos de ajuste (§5) são **raciocínio desta
    rodada**, não das fontes.
 
@@ -164,12 +166,39 @@ indicador da versão 2; sensibilidade com corte em 09/2021 (drones).
 
 ---
 
-## 5. Quatro DAGs
+## 5. Cinco DAGs
 
-Setas pontilhadas = interferência ou violação. Nós `[latent]` não são
-observados; `[adjusted]` = condicionado pela construção do dado.
+Cinco diagramas, todos gerados de uma única especificação (nós, papéis e
+arestas), da qual saem o Mermaid, o código dagitty e a checagem. Renderização:
+[Pele](https://pele.run) 1.13.0. Os ids dos nós são os mesmos nos dois blocos
+de cada DAG.
 
-### DAG 1 — Geral
+**Gramática visual**
+
+| elemento | significado |
+|---|---|
+| nó azul | tratamento (exposição) |
+| nó verde | desfecho |
+| nó roxo | instrumento |
+| nó bege | confundidor ou variável de contexto |
+| nó branco | mediador (está no caminho causal — não condicionar) |
+| nó de borda tracejada | não observado |
+| hexágono de borda vermelha | colisor em que o dado já condiciona (seleção) |
+| nó de borda amarela | modificador de efeito |
+| seta preta grossa | caminho causal de interesse |
+| seta vermelha | caminho *backdoor* aberto |
+| seta laranja tracejada | interferência, violação de exclusão ou viés de seleção |
+| seta cinza | demais relações |
+
+**Checagem formal (2026-11-10).** Aciclicidade e todas as afirmações de
+*backdoor* e de conjunto de ajuste abaixo foram verificadas por d-separação
+com `networkx` 3.7 (o pacote `dagitty` do R não está no ambiente). Duas
+afirmações da versão anterior deste documento foram **corrigidas** pela
+checagem; estão marcadas com ⚠️. ⬜ Repetir em `dagitty.net` continua
+recomendável. Um DAG não representa interação: onde o desenho depende de
+uma (ban × dose, ban × estação), o texto diz.
+
+### DAG 1 — Geral: do ban ao desfecho perinatal
 
 ```
 dag {
@@ -181,17 +210,18 @@ NascidoVivo [adjusted]
 PeriodoCE -> Ban
 PeriodoCE -> OutrasPoliticasCE
 OutrasPoliticasCE -> SaudeFetal
+Ban -> Aerea
+Aerea -> ExpAr
+Aerea -> ExpAgua
+ExpAr -> SaudeFetal
+ExpAgua -> SaudeFetal
+SaudeFetal -> Peso
 Chuva -> Aerea
 Chuva -> SaudeFetal
-Ban -> Aerea
 DosePre -> Aerea
 Ban -> Terrestre
 DosePre -> Terrestre
-Aerea -> ExpAr
-Aerea -> ExpAgua
 Terrestre -> ExpOcup
-ExpAr -> SaudeFetal
-ExpAgua -> SaudeFetal
 ExpOcup -> SaudeFetal
 Ban -> EmpregoAgro
 DosePre -> EmpregoAgro
@@ -207,122 +237,247 @@ RendaPre -> PreNatal
 RendaPre -> SaudeFetal
 PreNatal -> SaudeFetal
 SaudeFetal -> NascidoVivo
-SaudeFetal -> Peso
 Fragilidade -> NascidoVivo
 Fragilidade -> Peso
 }
 ```
 
 ```mermaid
-flowchart LR
+flowchart TB
+  subgraph g0["Confundidores (medir antes de 2015)"]
+    Aptidao["Aptidão<br/>agroclimática"]:::conf
+    Porte["Porte /<br/>urbanização"]:::conf
+    RendaPre["Renda pré-ban"]:::conf
+    PreNatal["Acesso a pré-natal"]:::conf
+  end
+  subgraph g1["Vias de exposição"]
+    Aerea["Aplicação aérea"]:::med
+    Terrestre["Aplicação<br/>terrestre / costal"]:::med
+    ExpAr["Exposição<br/>por ar (deriva)"]:::med
+    ExpAgua["Exposição<br/>por água"]:::med
+    ExpOcup["Exposição<br/>ocupacional"]:::med
+  end
+  subgraph g2["Via renda"]
+    EmpregoAgro["Emprego agrícola"]:::med
+    RendaPos["Renda pós-ban"]:::med
+  end
+  subgraph g3["Seleção do dado"]
+    Fragilidade(["Fragilidade<br/>não observada"]):::lat
+    NascidoVivo{{"Seleção: nascido vivo<br/>(SINASC)"}}:::col
+  end
+  PeriodoCE["Ceará × pós-2019"]:::conf
+  OutrasPoliticasCE["Nascer no Ceará (03/2018)<br/>e outros choques do CE"]:::conf
+  Ban["Ban<br/>(Lei 16.820/2019)"]:::trat
+  Chuva["Chuva da quadra<br/>(modifica o efeito)"]:::mod
+  DosePre["Banana pré-ban<br/>(dose, PAM)"]:::conf
+  SaudeFetal(["Saúde fetal"]):::lat
+  Peso["Peso ao nascer"]:::desf
   PeriodoCE --> Ban
-  PeriodoCE --> OutrasPoliticasCE --> SaudeFetal
+  PeriodoCE --> OutrasPoliticasCE
+  OutrasPoliticasCE --> SaudeFetal
+  Ban --> Aerea
+  Aerea --> ExpAr
+  Aerea --> ExpAgua
+  ExpAr --> SaudeFetal
+  ExpAgua --> SaudeFetal
+  SaudeFetal --> Peso
   Chuva --> Aerea
   Chuva --> SaudeFetal
-  Ban --> Aerea
   DosePre --> Aerea
   Ban --> Terrestre
   DosePre --> Terrestre
-  Aerea --> ExpAr --> SaudeFetal
-  Aerea --> ExpAgua --> SaudeFetal
-  Terrestre --> ExpOcup --> SaudeFetal
-  Ban --> EmpregoAgro --> RendaPos --> SaudeFetal
+  Terrestre --> ExpOcup
+  ExpOcup --> SaudeFetal
+  Ban --> EmpregoAgro
   DosePre --> EmpregoAgro
+  EmpregoAgro --> RendaPos
+  RendaPos --> SaudeFetal
   Aptidao --> DosePre
   Aptidao --> RendaPre
   Porte --> DosePre
-  Porte --> PreNatal --> SaudeFetal
+  Porte --> PreNatal
   Porte --> RendaPre
   RendaPre --> RendaPos
   RendaPre --> PreNatal
   RendaPre --> SaudeFetal
-  SaudeFetal --> NascidoVivo
-  SaudeFetal --> Peso
+  PreNatal --> SaudeFetal
+  SaudeFetal -.-> NascidoVivo
   Fragilidade -.-> NascidoVivo
   Fragilidade -.-> Peso
+  linkStyle 0 stroke:#AF3029,stroke-width:2px
+  linkStyle 1 stroke:#AF3029,stroke-width:2px
+  linkStyle 2 stroke:#AF3029,stroke-width:2px
+  linkStyle 3 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 4 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 5 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 6 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 7 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 8 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 9 stroke:#878580,stroke-width:1.2px
+  linkStyle 10 stroke:#878580,stroke-width:1.2px
+  linkStyle 11 stroke:#878580,stroke-width:1.2px
+  linkStyle 12 stroke:#878580,stroke-width:1.2px
+  linkStyle 13 stroke:#878580,stroke-width:1.2px
+  linkStyle 14 stroke:#878580,stroke-width:1.2px
+  linkStyle 15 stroke:#878580,stroke-width:1.2px
+  linkStyle 16 stroke:#878580,stroke-width:1.2px
+  linkStyle 17 stroke:#878580,stroke-width:1.2px
+  linkStyle 18 stroke:#878580,stroke-width:1.2px
+  linkStyle 19 stroke:#878580,stroke-width:1.2px
+  linkStyle 20 stroke:#878580,stroke-width:1.2px
+  linkStyle 21 stroke:#878580,stroke-width:1.2px
+  linkStyle 22 stroke:#878580,stroke-width:1.2px
+  linkStyle 23 stroke:#878580,stroke-width:1.2px
+  linkStyle 24 stroke:#878580,stroke-width:1.2px
+  linkStyle 25 stroke:#878580,stroke-width:1.2px
+  linkStyle 26 stroke:#878580,stroke-width:1.2px
+  linkStyle 27 stroke:#878580,stroke-width:1.2px
+  linkStyle 28 stroke:#878580,stroke-width:1.2px
+  linkStyle 29 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 30 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 31 stroke:#BC5215,stroke-width:1.8px
+  classDef trat fill:#205EA6,stroke:#205EA6,color:#FFFCF0
+  classDef desf fill:#66800B,stroke:#66800B,color:#FFFCF0
+  classDef inst fill:#5E409D,stroke:#5E409D,color:#FFFCF0
+  classDef conf fill:#F2F0E5,stroke:#B7B5AC,color:#100F0F
+  classDef med fill:#FFFFFF,stroke:#B7B5AC,color:#100F0F
+  classDef lat fill:#FFFFFF,stroke:#6F6E69,color:#100F0F,stroke-dasharray:5 4
+  classDef tratlat fill:#205EA6,stroke:#100F0F,color:#FFFCF0,stroke-width:2px,stroke-dasharray:5 4
+  classDef col fill:#FFFFFF,stroke:#AF3029,color:#100F0F,stroke-width:2px
+  classDef mod fill:#FFFFFF,stroke:#AD8301,color:#100F0F,stroke-width:2px
 ```
 
-- **Backdoor de Ban:** `Ban ← PeriodoCE → OutrasPoliticasCE → SaudeFetal →
-  Peso`. `OutrasPoliticasCE` tem nome: Nascer no Ceará (03/2018).
-- **Backdoors do contraste por dose:** `DosePre ← Aptidao → RendaPre → …`;
-  `DosePre ← Porte → PreNatal → …`; `DosePre ← Porte → RendaPre → …`.
-- **Ajuste:** para Ban, não há — é colinear com CE×pós; exige grupo de
-  comparação ou terceira diferença. Para DosePre: {Aptidao, Porte}; o EF de
-  município absorve o nível, restam tendências diferenciais.
-- **`Chuva`** (acrescentada após o doc 20 §2): modera `Ban → Aerea` — sem
-  chuva não há voo a proibir — e afeta a saúde por conta própria. Não é
-  confundidor do ban, mas é **modificador de efeito** e precisa entrar como
-  interação, com cuidado: chuva → dengue/chikungunya → desfecho.
-- **Não condicionar:** mediadores (Aerea, Terrestre, Exp*, EmpregoAgro,
-  RendaPos); colisor NascidoVivo — o SINASC já condiciona nele e abre
-  `Ban → … → SaudeFetal → NascidoVivo ← Fragilidade → Peso`.
+- **Backdoor do ban:** `Ban ← PeriodoCE → OutrasPoliticasCE → SaudeFetal → Peso`.
+  O choque tem nome: Nascer no Ceará (03/2018). Verificado: `{PeriodoCE}` ou
+  `{OutrasPoliticasCE}` fecham — mas `PeriodoCE` é colinear com o ban, então
+  o fechamento tem de vir do **desenho** (grupo de comparação ou terceira
+  diferença), não de covariável.
+- **Backdoors do contraste por dose:** via `Aptidao` e via `Porte`.
+  Verificado: `{Aptidao, Porte}` fecha; `{Aptidao}` sozinho não. No DiD o
+  efeito fixo de município absorve o nível; restam tendências diferenciais.
+- **Seleção para nascimento vivo:** verificado — mesmo sem nenhum efeito do
+  ban sobre o peso, condicionar em `NascidoVivo` deixa `Ban` e `Peso`
+  associados (`… → SaudeFetal → NascidoVivo ← Fragilidade → Peso`). O SINASC
+  condiciona por construção. Remédio: desfecho composto com o SIM.
+- **`Chuva`** modera `Ban → Aerea` (sem chuva não há voo a proibir) e afeta a
+  saúde por conta própria. Entra como interação, não como controle.
+- **Não condicionar:** os nós brancos (mediadores).
 - **Implicação:** o efeito total soma três vias de sinais possivelmente
-  opostos (aérea, terrestre, renda).
+  opostos — aérea, terrestre, renda.
 
-### DAG 2 — Medida: banana como proxy, GAEZ como instrumento
+### DAG 2 — Medida: a banana como proxy, o GAEZ como instrumento
 
 ```
 dag {
-AereaPre [exposure]
+AereaPre [exposure,latent]
 Peso [outcome]
 EscalaEmpresa [latent]
+GAEZ -> AreaBanana
+AreaBanana -> AereaPre
+AereaPre -> Peso
 Clima -> GAEZ
 Relevo -> GAEZ
-GAEZ -> AreaBanana
 Relevo -> AreaBanana
-AreaBanana -> AereaPre
 EscalaEmpresa -> AereaPre
 Relevo -> AereaPre
-AereaPre -> Peso
-GAEZ -> RendaAgro
-AreaBanana -> RendaAgro
 EscalaEmpresa -> RendaAgro
 RendaAgro -> Peso
-GAEZ -> OutrasCulturas
 OutrasCulturas -> AgrotoxicoTerrestre
 AgrotoxicoTerrestre -> Peso
-Clima -> Peso
 Relevo -> AcessoSaude
 AcessoSaude -> Peso
+GAEZ -> RendaAgro
+AreaBanana -> RendaAgro
+GAEZ -> OutrasCulturas
+Clima -> Peso
 }
 ```
 
 ```mermaid
-flowchart LR
+flowchart TB
+  subgraph g0["Observado"]
+    GAEZ["Aptidão FAO-GAEZ<br/>(instrumento)"]:::inst
+    AreaBanana["Área de banana<br/>(PAM) — proxy D"]:::conf
+    Clima["Clima"]:::conf
+    Relevo["Relevo<br/>(serra × planície)"]:::conf
+  end
+  subgraph g1["Não observado"]
+    EscalaEmpresa(["Escala: empresarial<br/>× familiar"]):::lat
+    AereaPre(["Aplicação aérea pré-ban<br/>(D*, não observada)"]):::tratlat
+  end
+  RendaAgro["Renda agrícola"]:::med
+  OutrasCulturas["Outras culturas"]:::med
+  AgrotoxicoTerrestre["Agrotóxico<br/>terrestre"]:::med
+  AcessoSaude["Acesso a saúde"]:::conf
+  Peso["Peso ao nascer"]:::desf
+  GAEZ --> AreaBanana
+  AreaBanana --> AereaPre
+  AereaPre --> Peso
   Clima --> GAEZ
   Relevo --> GAEZ
-  GAEZ --> AreaBanana
   Relevo --> AreaBanana
-  AreaBanana --> AereaPre
   EscalaEmpresa --> AereaPre
   Relevo --> AereaPre
-  AereaPre --> Peso
-  GAEZ -.-> RendaAgro
-  AreaBanana -.-> RendaAgro
   EscalaEmpresa --> RendaAgro
   RendaAgro --> Peso
-  GAEZ -.-> OutrasCulturas --> AgrotoxicoTerrestre --> Peso
-  Clima -.-> Peso
-  Relevo --> AcessoSaude --> Peso
+  OutrasCulturas --> AgrotoxicoTerrestre
+  AgrotoxicoTerrestre --> Peso
+  Relevo --> AcessoSaude
+  AcessoSaude --> Peso
+  GAEZ -.->|viola exclusão| RendaAgro
+  AreaBanana -.-> RendaAgro
+  GAEZ -.->|viola exclusão| OutrasCulturas
+  Clima -.->|viola exclusão| Peso
+  linkStyle 0 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 1 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 2 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 3 stroke:#878580,stroke-width:1.2px
+  linkStyle 4 stroke:#878580,stroke-width:1.2px
+  linkStyle 5 stroke:#878580,stroke-width:1.2px
+  linkStyle 6 stroke:#878580,stroke-width:1.2px
+  linkStyle 7 stroke:#878580,stroke-width:1.2px
+  linkStyle 8 stroke:#878580,stroke-width:1.2px
+  linkStyle 9 stroke:#878580,stroke-width:1.2px
+  linkStyle 10 stroke:#878580,stroke-width:1.2px
+  linkStyle 11 stroke:#878580,stroke-width:1.2px
+  linkStyle 12 stroke:#878580,stroke-width:1.2px
+  linkStyle 13 stroke:#878580,stroke-width:1.2px
+  linkStyle 14 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 15 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 16 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 17 stroke:#BC5215,stroke-width:1.8px
+  classDef trat fill:#205EA6,stroke:#205EA6,color:#FFFCF0
+  classDef desf fill:#66800B,stroke:#66800B,color:#FFFCF0
+  classDef inst fill:#5E409D,stroke:#5E409D,color:#FFFCF0
+  classDef conf fill:#F2F0E5,stroke:#B7B5AC,color:#100F0F
+  classDef med fill:#FFFFFF,stroke:#B7B5AC,color:#100F0F
+  classDef lat fill:#FFFFFF,stroke:#6F6E69,color:#100F0F,stroke-dasharray:5 4
+  classDef tratlat fill:#205EA6,stroke:#100F0F,color:#FFFCF0,stroke-width:2px,stroke-dasharray:5 4
+  classDef col fill:#FFFFFF,stroke:#AF3029,color:#100F0F,stroke-width:2px
+  classDef mod fill:#FFFFFF,stroke:#AD8301,color:#100F0F,stroke-width:2px
 ```
 
-`AereaPre` é o tratamento verdadeiro (D*), **não observado**; `AreaBanana` é
-a proxy (D).
+- `AereaPre` é o tratamento verdadeiro (D\*), **não observado**;
+  `AreaBanana` é a proxy (D).
+- **Erro de classificação:** D\* depende da banana **e** de `Relevo` e
+  `EscalaEmpresa` (banana de serra e de pequeno produtor não tem avião). O
+  falso positivo é função de variáveis que afetam o desfecho. Não contradiz o
+  Corolário 1 de Denteh & Kédagni; mostra de onde o erro vem.
+- **Ajuste, se D\* fosse observado.** Verificado: `{AreaBanana, Relevo,
+  EscalaEmpresa}` fecha. ⚠️ **Corrigido:** a versão anterior dizia que
+  `RendaAgro` não devia entrar; a checagem mostra que `{AreaBanana, Relevo,
+  RendaAgro}` de fato não fecha (abre o colisor `GAEZ → RendaAgro ←
+  EscalaEmpresa`), mas `{AreaBanana, Relevo, RendaAgro, GAEZ}` **fecha** — há
+  um conjunto só com observáveis. É resultado deste DAG, não licença para
+  controlar renda pós-ban.
+- **Exclusão do GAEZ.** Verificado: não vale incondicionalmente, nem dado
+  `{Clima, Relevo}`; vale dado `{Clima, Relevo, RendaAgro, OutrasCulturas}`.
+  As três setas laranja são as violações.
+- **Implicação:** o GAEZ instrumenta a **proxy**. No DiD (GAEZ × pós) basta
+  que as vias laranja não mudem de tendência em 2019 — mais fraco e mais
+  defensável. A alavanca é medir D\* (LAIs), não refinar D.
 
-- **Erro de classificação:** D* depende de AreaBanana **e** de Relevo e
-  EscalaEmpresa (banana de serra e de pequeno produtor não tem avião). O
-  falso positivo é função de variáveis que afetam o desfecho. Isso não
-  contradiz o Corolário 1 de Denteh & Kédagni; mostra de onde o erro vem — e
-  aponta `EscalaEmpresa` (≈ 1 − agricultura familiar) como refinamento da
-  proxy.
-- **Violações de exclusão do GAEZ** (pontilhadas): via renda, via outras
-  culturas e seu agrotóxico terrestre, via clima direto.
-- **Não condicionar:** RendaAgro (colisor entre GAEZ e EscalaEmpresa).
-- **Implicação:** o GAEZ instrumenta a **proxy**. No DiD (GAEZ × pós) só
-  precisa que essas vias não mudem de tendência em 2019 — mais fraco e mais
-  defensável; dizer assim. A alavanca é medir D*, não refinar D.
-
-### DAG 3 — Fronteira CE×RN na Chapada
+### DAG 3 — Fronteira Ceará × Rio Grande do Norte na Chapada do Apodi
 
 ```
 dag {
@@ -332,26 +487,26 @@ Chapada [latent]
 LadoCE -> Ban
 LadoCE -> ChoquesCE
 ChoquesCE -> PesoCE
+Ban -> AereaCE
+AereaCE -> ExpCE
+ExpCE -> PesoCE
 ChoquesRN -> PesoRN
+AereaRN -> ExpRN
+ExpRN -> PesoRN
 Chapada -> AereaCE
 Chapada -> AereaRN
 Chapada -> PesoCE
 Chapada -> PesoRN
-Ban -> AereaCE
 Ban -> Realocacao
 Realocacao -> AereaRN
-AereaCE -> ExpCE
 AereaCE -> DerivaParaRN
 DerivaParaRN -> ExpRN
-AereaRN -> ExpRN
 AereaRN -> DerivaParaCE
 DerivaParaCE -> ExpCE
 AereaCE -> Aquifero
 AereaRN -> Aquifero
 Aquifero -> ExpCE
 Aquifero -> ExpRN
-ExpCE -> PesoCE
-ExpRN -> PesoRN
 Ban -> MobilidadeMaterna
 MobilidadeMaterna -> PesoCE
 MobilidadeMaterna -> PesoRN
@@ -359,43 +514,108 @@ MobilidadeMaterna -> PesoRN
 ```
 
 ```mermaid
-flowchart LR
+flowchart TB
+  subgraph g0["Ceará (ban)"]
+    LadoCE["Lado cearense<br/>da divisa"]:::conf
+    Ban["Ban"]:::trat
+    ChoquesCE["Choques do CE: Nascer no Ceará,<br/>chikungunya 2017"]:::conf
+    AereaCE["Aplicação aérea<br/>no CE"]:::med
+    ExpCE["Exposição<br/>no CE"]:::med
+    PesoCE["Peso ao nascer<br/>no CE"]:::desf
+  end
+  subgraph g1["Rio Grande do Norte (sem ban)"]
+    ChoquesRN["Choques do RN: fruticultura<br/>avança sobre Apodi"]:::conf
+    AereaRN["Aplicação aérea no RN<br/>(≈ 0: melão, sem frota)"]:::med
+    ExpRN["Exposição<br/>no RN"]:::med
+    PesoRN["Peso ao nascer<br/>no RN (controle)"]:::desf
+  end
+  subgraph g2["Interferência entre os lados"]
+    Aquifero["Aquífero Jandaíra<br/>(só Mata Fresca)"]:::med
+    Realocacao["Realocação<br/>de aviões"]:::med
+    DerivaParaRN["Deriva CE → RN"]:::med
+    DerivaParaCE["Deriva RN → CE"]:::med
+    MobilidadeMaterna["Mobilidade<br/>materna"]:::med
+  end
+  Chapada(["Chapada: solo, clima,<br/>mercado de frutas"]):::lat
   LadoCE --> Ban
-  LadoCE --> ChoquesCE --> PesoCE
+  LadoCE --> ChoquesCE
+  ChoquesCE --> PesoCE
+  Ban --> AereaCE
+  AereaCE --> ExpCE
+  ExpCE --> PesoCE
   ChoquesRN --> PesoRN
+  AereaRN --> ExpRN
+  ExpRN --> PesoRN
   Chapada --> AereaCE
   Chapada --> AereaRN
   Chapada --> PesoCE
   Chapada --> PesoRN
-  Ban --> AereaCE --> ExpCE --> PesoCE
-  AereaRN --> ExpRN --> PesoRN
-  Ban -.-> Realocacao -.-> AereaRN
-  AereaCE -.-> DerivaParaRN -.-> ExpRN
-  AereaRN -.-> DerivaParaCE -.-> ExpCE
+  Ban -.-> Realocacao
+  Realocacao -.->|infla| AereaRN
+  AereaCE -.-> DerivaParaRN
+  DerivaParaRN -.->|atenua| ExpRN
+  AereaRN -.-> DerivaParaCE
+  DerivaParaCE -.-> ExpCE
   AereaCE -.-> Aquifero
   AereaRN -.-> Aquifero
   Aquifero -.-> ExpCE
-  Aquifero -.-> ExpRN
+  Aquifero -.->|atenua| ExpRN
   Ban -.-> MobilidadeMaterna
   MobilidadeMaterna -.-> PesoCE
   MobilidadeMaterna -.-> PesoRN
+  linkStyle 0 stroke:#AF3029,stroke-width:2px
+  linkStyle 1 stroke:#AF3029,stroke-width:2px
+  linkStyle 2 stroke:#AF3029,stroke-width:2px
+  linkStyle 3 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 4 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 5 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 6 stroke:#878580,stroke-width:1.2px
+  linkStyle 7 stroke:#878580,stroke-width:1.2px
+  linkStyle 8 stroke:#878580,stroke-width:1.2px
+  linkStyle 9 stroke:#878580,stroke-width:1.2px
+  linkStyle 10 stroke:#878580,stroke-width:1.2px
+  linkStyle 11 stroke:#878580,stroke-width:1.2px
+  linkStyle 12 stroke:#878580,stroke-width:1.2px
+  linkStyle 13 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 14 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 15 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 16 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 17 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 18 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 19 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 20 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 21 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 22 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 23 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 24 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 25 stroke:#BC5215,stroke-width:1.8px
+  classDef trat fill:#205EA6,stroke:#205EA6,color:#FFFCF0
+  classDef desf fill:#66800B,stroke:#66800B,color:#FFFCF0
+  classDef inst fill:#5E409D,stroke:#5E409D,color:#FFFCF0
+  classDef conf fill:#F2F0E5,stroke:#B7B5AC,color:#100F0F
+  classDef med fill:#FFFFFF,stroke:#B7B5AC,color:#100F0F
+  classDef lat fill:#FFFFFF,stroke:#6F6E69,color:#100F0F,stroke-dasharray:5 4
+  classDef tratlat fill:#205EA6,stroke:#100F0F,color:#FFFCF0,stroke-width:2px,stroke-dasharray:5 4
+  classDef col fill:#FFFFFF,stroke:#AF3029,color:#100F0F,stroke-width:2px
+  classDef mod fill:#FFFFFF,stroke:#AD8301,color:#100F0F,stroke-width:2px
 ```
 
-- **Backdoor:** `Ban ← LadoCE → ChoquesCE → PesoCE`. `ChoquesCE` = Nascer no
-  Ceará, chikungunya 2017; `ChoquesRN` = avanço da fruticultura sobre Apodi.
-- **O controle é atingido pelo tratamento** (falha o quesito 2): três
-  caminhos dirigidos de `Ban` a `PesoRN` — deriva e aquífero (RN melhora),
-  realocação (RN piora).
-- **Calibração empírica das setas** (doc 20 §3): `AereaRN` é provavelmente
-  ≈ 0 (RN contíguo é melão, sem frota registrada) — o que **enfraquece** as
-  setas de realocação e de deriva RN→CE, mas também significa que o RN não
-  tem a cultura do avião; `Aquifero` vale só para Quixeré–Jaguaruana–Baraúna.
-- **Ajuste:** {LadoCE} é impossível. `ChoquesCE` se fecha por desenho:
-  terceira diferença dentro do estado, ou dentro do município entre coortes
-  (calendário).
+- **Backdoor:** `Ban ← LadoCE → ChoquesCE → PesoCE`. Verificado:
+  `{ChoquesCE}` fecha; na prática fecha-se por desenho (terceira diferença).
+- **O controle é atingido pelo tratamento** (falha o quesito 2 do curso).
+  ⚠️ **Corrigido:** a versão anterior falava em três caminhos dirigidos de
+  `Ban` a `PesoRN`; a checagem encontra **cinco** — deriva CE→RN, aquífero,
+  realocação, realocação→aquífero e mobilidade materna.
+- **O efeito no próprio CE também tem cinco caminhos**, e dois deles
+  **voltam do RN**: `Ban → Realocacao → AereaRN → DerivaParaCE → ExpCE` e
+  `… → AereaRN → Aquifero → ExpCE`.
+- **Calibração das setas pela pesquisa** (doc 20 §3): `AereaRN ≈ 0` (melão,
+  sem frota registrada) enfraquece realocação e deriva RN→CE; `Aquifero` vale
+  só para Quixeré–Jaguaruana–Baraúna.
 - **Vantagem:** `Chapada`, comum aos dois lados, some na diferença.
-- **Implicação:** três grupos; inferência que respeite 1 estado tratado;
-  antes de tudo, medir o "bite" no CE e a ausência de mudança no RN.
+- **Implicação:** três grupos (tratado; não tratado exposto; não tratado não
+  exposto); inferência que respeite um único estado tratado; antes de tudo,
+  medir o "bite" no CE e a ausência de mudança no RN.
 
 ### DAG 4 — Agricultura familiar como grupo de comparação
 
@@ -404,15 +624,15 @@ dag {
 Aerea [exposure]
 Peso [outcome]
 EstruturaFundiaria [latent]
+Ban -> Aerea
+Aerea -> ExpGest
+ExpGest -> Peso
 EstruturaFundiaria -> AgFamiliar
 Relevo -> AgFamiliar
 Irrigacao -> AgFamiliar
 AgFamiliar -> Aerea
 Relevo -> Aerea
 Irrigacao -> Aerea
-Ban -> Aerea
-Aerea -> ExpGest
-ExpGest -> Peso
 AgFamiliar -> Costal
 Costal -> ExpOcup
 ExpOcup -> Peso
@@ -432,38 +652,228 @@ Seca -> Peso
 ```
 
 ```mermaid
-flowchart LR
+flowchart TB
+  subgraph g0["O que determina o tipo de agricultura"]
+    EstruturaFundiaria(["Estrutura fundiária"]):::lat
+    Relevo["Relevo"]:::conf
+    Irrigacao["Irrigação /<br/>perímetro público"]:::conf
+  end
+  subgraph g1["O que vem junto com a agricultura familiar"]
+    Costal["Aplicação costal"]:::med
+    ExpOcup["Exposição<br/>ocupacional"]:::med
+    Pobreza["Pobreza"]:::med
+    ProgramasSociais["Programas sociais"]:::med
+  end
+  AgFamiliar["Agricultura familiar<br/>(Censo Agro 2017)"]:::conf
+  Ban["Ban"]:::conf
+  Aerea["Aplicação aérea"]:::trat
+  ExpGest["Exposição<br/>gestacional"]:::med
+  AcessoSaude["Acesso a saúde"]:::conf
+  RendaFormal["Renda formal"]:::med
+  Seca["Seca"]:::conf
+  Peso["Peso ao nascer"]:::desf
+  Ban --> Aerea
+  Aerea --> ExpGest
+  ExpGest --> Peso
   EstruturaFundiaria --> AgFamiliar
   Relevo --> AgFamiliar
   Irrigacao --> AgFamiliar
   AgFamiliar --> Aerea
   Relevo --> Aerea
   Irrigacao --> Aerea
-  Ban --> Aerea --> ExpGest --> Peso
-  AgFamiliar -.-> Costal --> ExpOcup --> Peso
-  AgFamiliar -.-> Pobreza --> Peso
+  AgFamiliar --> Costal
+  Costal --> ExpOcup
+  ExpOcup --> Peso
+  AgFamiliar --> Pobreza
   EstruturaFundiaria --> Pobreza
-  AgFamiliar -.-> ProgramasSociais --> Peso
+  Pobreza --> Peso
+  AgFamiliar --> ProgramasSociais
   Pobreza --> ProgramasSociais
-  Relevo --> AcessoSaude --> Peso
-  Irrigacao --> RendaFormal --> Peso
-  Seca -.-> Pobreza
+  ProgramasSociais --> Peso
+  Relevo --> AcessoSaude
+  AcessoSaude --> Peso
+  Irrigacao --> RendaFormal
+  RendaFormal --> Peso
+  Seca --> Pobreza
   Seca --> Peso
+  linkStyle 0 stroke:#878580,stroke-width:1.2px
+  linkStyle 1 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 2 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 3 stroke:#878580,stroke-width:1.2px
+  linkStyle 4 stroke:#878580,stroke-width:1.2px
+  linkStyle 5 stroke:#878580,stroke-width:1.2px
+  linkStyle 6 stroke:#AF3029,stroke-width:2px
+  linkStyle 7 stroke:#AF3029,stroke-width:2px
+  linkStyle 8 stroke:#AF3029,stroke-width:2px
+  linkStyle 9 stroke:#AF3029,stroke-width:2px
+  linkStyle 10 stroke:#AF3029,stroke-width:2px
+  linkStyle 11 stroke:#AF3029,stroke-width:2px
+  linkStyle 12 stroke:#AF3029,stroke-width:2px
+  linkStyle 13 stroke:#878580,stroke-width:1.2px
+  linkStyle 14 stroke:#AF3029,stroke-width:2px
+  linkStyle 15 stroke:#AF3029,stroke-width:2px
+  linkStyle 16 stroke:#878580,stroke-width:1.2px
+  linkStyle 17 stroke:#AF3029,stroke-width:2px
+  linkStyle 18 stroke:#AF3029,stroke-width:2px
+  linkStyle 19 stroke:#AF3029,stroke-width:2px
+  linkStyle 20 stroke:#AF3029,stroke-width:2px
+  linkStyle 21 stroke:#AF3029,stroke-width:2px
+  linkStyle 22 stroke:#878580,stroke-width:1.2px
+  linkStyle 23 stroke:#878580,stroke-width:1.2px
+  classDef trat fill:#205EA6,stroke:#205EA6,color:#FFFCF0
+  classDef desf fill:#66800B,stroke:#66800B,color:#FFFCF0
+  classDef inst fill:#5E409D,stroke:#5E409D,color:#FFFCF0
+  classDef conf fill:#F2F0E5,stroke:#B7B5AC,color:#100F0F
+  classDef med fill:#FFFFFF,stroke:#B7B5AC,color:#100F0F
+  classDef lat fill:#FFFFFF,stroke:#6F6E69,color:#100F0F,stroke-dasharray:5 4
+  classDef tratlat fill:#205EA6,stroke:#100F0F,color:#FFFCF0,stroke-width:2px,stroke-dasharray:5 4
+  classDef col fill:#FFFFFF,stroke:#AF3029,color:#100F0F,stroke-width:2px
+  classDef mod fill:#FFFFFF,stroke:#AD8301,color:#100F0F,stroke-width:2px
 ```
 
-- **Backdoors de Aerea → Peso:** via `AgFamiliar → Costal`, `→ Pobreza`,
-  `→ ProgramasSociais`; via `Relevo → AcessoSaude`; via `Irrigacao →
-  RendaFormal`.
+- **Backdoors de `Aerea → Peso`** (em vermelho): por `AgFamiliar` (costal,
+  pobreza, programas sociais), por `Relevo` (acesso a saúde) e por
+  `Irrigacao` (renda formal).
+- **Ajuste.** Verificado: `{AgFamiliar, Relevo, Irrigacao}` fecha;
+  `{AgFamiliar}` sozinho não; `{Relevo, Irrigacao}` sem a agricultura
+  familiar também não.
 - **Leitura:** a agricultura familiar é **confundidor a condicionar**, não
-  contraste limpo. Comparar "familiar × não familiar" é o "inscritos × não
-  inscritos" do curso (C01:499-501). Familiar não é zero de agrotóxico; é
-  zero de **avião**.
-- **No DiD** os níveis somem, as tendências não: seca atinge sequeiro e
-  irrigado de formas diferentes (hipótese a testar com pré-tendências).
-- **Usos defensáveis:** (1) grupo de tratamento **falso** (teste 2 de
-  Gertler) — banana quase só familiar não deveria reagir ao ban; (2) refinar
-  a proxy: banana × (1 − participação familiar); (3) estratificar. Medir a
-  participação no Censo Agro 2017 (SIDRA 6851/6852), que é pré-ban.
+  contraste limpo. Compará-la com a empresarial é o "inscritos × não
+  inscritos" do curso. Familiar não é zero de agrotóxico; é zero de avião.
+- **No DiD** os níveis somem, as tendências não (`Seca` atinge sequeiro e
+  irrigado de formas diferentes — hipótese a testar).
+- **Usos defensáveis:** (1) grupo de tratamento **falso** — banana quase só
+  familiar não deveria reagir ao ban; (2) refinar a dose: banana × (1 −
+  participação familiar); (3) estratificar. Medir no Censo Agro 2017.
+
+### DAG 5 — Desenho de calendário: Ceará × pós-ban × gestação na estação chuvosa
+
+```
+dag {
+T [exposure]
+Peso [outcome]
+HiatoCEpos [latent]
+SaudeFetal [latent]
+Fragilidade [latent]
+NascidoVivo [adjusted]
+CEpos -> T
+Estacao -> T
+T -> Aerea
+Aerea -> Exp
+Exp -> SaudeFetal
+SaudeFetal -> Peso
+T -> Terrestre
+Terrestre -> Exp
+Chuva -> Aerea
+Chuva -> SaudeFetal
+CEpos -> ChoquesCE
+ChoquesCE -> SaudeFetal
+Estacao -> SazonalBase
+SazonalBase -> SaudeFetal
+Estacao -> Composicao
+Composicao -> Peso
+HiatoCEpos <-> T
+HiatoCEpos -> SaudeFetal
+SaudeFetal -> NascidoVivo
+Fragilidade -> NascidoVivo
+Fragilidade -> Peso
+}
+```
+
+```mermaid
+flowchart TB
+  subgraph g0["Absorvido por efeitos fixos e interações de 2ª ordem"]
+    ChoquesCE["Choques município-ano:<br/>Nascer no Ceará, epidemias"]:::conf
+    SazonalBase["Sazonalidade de base:<br/>calor, safra, dengue"]:::conf
+    Composicao["Composição materna<br/>por mês de concepção"]:::conf
+  end
+  subgraph g1["Seleção do dado"]
+    Fragilidade(["Fragilidade<br/>não observada"]):::lat
+    NascidoVivo{{"Seleção: nascido vivo<br/>(SINASC)"}}:::col
+  end
+  CEpos["Ceará × pós-2019<br/>(município-ano)"]:::conf
+  Estacao["Gestação na<br/>estação chuvosa"]:::conf
+  T["Ban × estação:<br/>coorte que perderia o voo"]:::trat
+  Chuva["Chuva do ano<br/>(modifica o efeito)"]:::mod
+  HiatoCEpos(["Outra causa que mude o hiato<br/>sazonal só no CE pós-2019"]):::lat
+  Aerea["Voo durante<br/>a gestação"]:::med
+  Terrestre["Costal durante<br/>a gestação"]:::med
+  Exp["Exposição<br/>gestacional"]:::med
+  SaudeFetal(["Saúde fetal"]):::lat
+  Peso["Peso ao nascer"]:::desf
+  CEpos --> T
+  Estacao --> T
+  T --> Aerea
+  Aerea --> Exp
+  Exp --> SaudeFetal
+  SaudeFetal --> Peso
+  T --> Terrestre
+  Terrestre --> Exp
+  Chuva --> Aerea
+  Chuva --> SaudeFetal
+  CEpos --> ChoquesCE
+  ChoquesCE --> SaudeFetal
+  Estacao --> SazonalBase
+  SazonalBase --> SaudeFetal
+  Estacao --> Composicao
+  Composicao --> Peso
+  HiatoCEpos <-.-> T
+  HiatoCEpos --> SaudeFetal
+  SaudeFetal -.-> NascidoVivo
+  Fragilidade -.-> NascidoVivo
+  Fragilidade -.-> Peso
+  linkStyle 0 stroke:#878580,stroke-width:1.2px
+  linkStyle 1 stroke:#878580,stroke-width:1.2px
+  linkStyle 2 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 3 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 4 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 5 stroke:#100F0F,stroke-width:2.5px
+  linkStyle 6 stroke:#878580,stroke-width:1.2px
+  linkStyle 7 stroke:#878580,stroke-width:1.2px
+  linkStyle 8 stroke:#878580,stroke-width:1.2px
+  linkStyle 9 stroke:#878580,stroke-width:1.2px
+  linkStyle 10 stroke:#878580,stroke-width:1.2px
+  linkStyle 11 stroke:#878580,stroke-width:1.2px
+  linkStyle 12 stroke:#878580,stroke-width:1.2px
+  linkStyle 13 stroke:#878580,stroke-width:1.2px
+  linkStyle 14 stroke:#878580,stroke-width:1.2px
+  linkStyle 15 stroke:#878580,stroke-width:1.2px
+  linkStyle 16 stroke:#AF3029,stroke-width:2px
+  linkStyle 17 stroke:#AF3029,stroke-width:2px
+  linkStyle 18 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 19 stroke:#BC5215,stroke-width:1.8px
+  linkStyle 20 stroke:#BC5215,stroke-width:1.8px
+  classDef trat fill:#205EA6,stroke:#205EA6,color:#FFFCF0
+  classDef desf fill:#66800B,stroke:#66800B,color:#FFFCF0
+  classDef inst fill:#5E409D,stroke:#5E409D,color:#FFFCF0
+  classDef conf fill:#F2F0E5,stroke:#B7B5AC,color:#100F0F
+  classDef med fill:#FFFFFF,stroke:#B7B5AC,color:#100F0F
+  classDef lat fill:#FFFFFF,stroke:#6F6E69,color:#100F0F,stroke-dasharray:5 4
+  classDef tratlat fill:#205EA6,stroke:#100F0F,color:#FFFCF0,stroke-width:2px,stroke-dasharray:5 4
+  classDef col fill:#FFFFFF,stroke:#AF3029,color:#100F0F,stroke-width:2px
+  classDef mod fill:#FFFFFF,stroke:#AD8301,color:#100F0F,stroke-width:2px
+```
+
+- **O tratamento é a interação** `T` = Ceará × pós-2019 × gestação na
+  estação chuvosa. A seta bidirecionada entre `T` e `HiatoCEpos` diz
+  "correlacionados por construção": ambos são função de (CE × pós, estação).
+- **O que a terceira diferença fecha.** Verificado: sem `HiatoCEpos`,
+  `{CEpos, Estacao}` fecha todos os *backdoors* — choques município-ano
+  (Nascer no Ceará, epidemias), sazonalidade de base e composição materna
+  por mês. Nenhum dos dois sozinho fecha.
+- **O que continua aberto.** Verificado: com `HiatoCEpos` no grafo,
+  `{CEpos, Estacao}` **não** fecha. É a hipótese de identificação do desenho
+  (Olden & Møen 2022): o hiato sazonal evoluiria igual no CE e no controle
+  sem o ban. Candidatos concretos a violá-la: epidemia sazonal só no CE
+  pós-2019; mudança de sazonalidade do pré-natal.
+- **`Chuva`** é modificador e ameaça ao mesmo tempo: mais chuva → mais voo a
+  proibir, e mais chuva → dengue → saúde fetal.
+- **Seleção para nascimento vivo** continua (verificado): a terceira
+  diferença não a remove.
+- **O que o desenho exige e o projeto não tem:** o calendário real de
+  pulverização da banana irrigada. Sem estação, não há `T`.
+- **Diagnóstico sem usar o pós** (doc 20 §5.4): o mesmo contraste sazonal em
+  2007–2011 (há prova de voo) contra 2013–2017 (seca).
 
 ---
 
@@ -484,4 +894,4 @@ flowchart LR
   quatro trechos. "O Mixtape não trata de X" vem de busca textual, não de
   leitura integral.
 - Se o SINASC público traz bairro/CEP ou ocupação materna agrícola.
-- Os DAGs no dagitty.
+- Os DAGs no `dagitty` propriamente dito (a checagem foi feita com `networkx`).
