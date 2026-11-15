@@ -4,6 +4,16 @@
 Entregável da rodada: projeto de pesquisa de 15 páginas (abnTeX2), só Ensaio 1,
 sem números de estimativa, prazo 27/11/2026. Texto em `paper/projeto/`.*
 
+> **Correção (2026-11-15, após conferência contra o repositório do ARS).** O
+> cabeçalho acima diz "modo `full`", e a rodada **não** seguiu o protocolo do
+> plugin: este documento e o rascunho em `paper/projeto/` foram escritos
+> diretamente, sem despachar `deep-research` nem `academic-paper`, sem Material
+> Passport, sem estimativa de orçamento e sem os Estágios 2.5 (integridade) e
+> 3 (revisão). O conteúdo vale como avaliação de estratégias e proposta de
+> desenho; não vale como saída auditada do pipeline. A retomada entra pelo
+> Estágio 2.5, com o rascunho declarado como material externo. Plugin
+> instalado: 3.24.2 (repositório em 3.24.3).
+
 > **Estado de partida.** Nada mudou desde 23/09/2026: LAIs não protocoladas,
 > ação de 2011 não conferida, sem retorno do orientador. Esta rodada não faz
 > busca nova nem estimação — avalia as estratégias que os docs 16–19 deixaram
