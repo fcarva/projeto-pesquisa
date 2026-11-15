@@ -1,8 +1,8 @@
 {
   "phases": {
     "E_claims": {
-      "checked": 51,
-      "verified": 42,
+      "checked": 54,
+      "verified": 45,
       "evidence_source_dir": "docs/ars/pipeline-rodada20/evidence/sources",
       "evidence_rows": [
         {
@@ -130,9 +130,9 @@
               "start": 660,
               "end": 730
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "8038483d9b6d802ee78ce3c2393000e9a9d8c898dd1d629667ab400f3bf3f368"
+          "row_sha256": "dd65c6edf6045999155dba342c0562adf48ba13f81636a00bc5df4ab0b06b577"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -175,9 +175,9 @@
               "start": 2709,
               "end": 2770
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "7b4e1c5fa77f6ac6451227607be8a27d11868b8884ab8b3811dca72e0f52735a"
+          "row_sha256": "efcba5c80f9da445dd6fa3d10c32b743fe0f0fac8bf2d7662766a70686cf54e0"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -220,9 +220,9 @@
               "start": 690,
               "end": 765
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "6e02f9dc9ff7990faaacfd2e96910f75ccdb278b04d04f5e663a2e46d7d71d8d"
+          "row_sha256": "55b93b56c21fd9cc7e0d59890baa9acd19ace5cba601d7efca9b6a7db09bc2b3"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -265,9 +265,9 @@
               "start": 177,
               "end": 257
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "c4065e02d91801ded75f6d5287602fe7ce2c5b6f7f08aa74abbc4935f3bb27e9"
+          "row_sha256": "54fb520880b164fbace5db22715a46f3ef25b75616f0d3402192b8a822248e5b"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -436,9 +436,9 @@
               "start": 313,
               "end": 358
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "974e56738652feae50cd09d0459f758a251d0b98b8b07fa38053be4c2c96edcd"
+          "row_sha256": "915d59bfbac394c0082cccfd55bd4ba875ee8f4a25ccebcdec199288e9fc8b41"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -481,9 +481,9 @@
               "start": 463,
               "end": 542
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "b421d9897e064cb01efb7d88867c11b411d0edcc9e6bcb18f2920b133dcf67e6"
+          "row_sha256": "3ae83eea5ad718dd1f6599e38b3e4a9bf5246d22ddc5986c1fa0e30a1dad4893"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -526,9 +526,9 @@
               "start": 0,
               "end": 76
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "9c03d2ffe21411a5344222d9a3008731ae61d381e2eec726fcac5d05cf93d34a"
+          "row_sha256": "e5679e629ea3773e5833990e5a783e7f7f021ba0e09bffaa3febeacab9bda11b"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -613,9 +613,9 @@
               "start": 1397,
               "end": 1509
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "f07e87e6e253591e4359554a6eb2a3ce0392b33a54681bc94994d960f954efa8"
+          "row_sha256": "9ddffe84113bcf7ca0388a13025abceaad44b67faa3d92a1ae050bcb8b598a3c"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -658,9 +658,9 @@
               "start": 1002,
               "end": 1087
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "26737bf8d9ce89a031359f1d89f55f1d0fa63b00d310b7a548054e364f05ba75"
+          "row_sha256": "2f15ecad9f99388f8c1b313e48876f3d1e24757045b220038280d6f927450e44"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -703,9 +703,9 @@
               "start": 11996,
               "end": 12039
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "c4e5be09c73e22e2488fcfa274ad709fee8e81ff1b18f80c1ddffac3e7099e1a"
+          "row_sha256": "bc7f6a05978dbf0cc79c30984b170f0ba5cf8f926b8ec64419cd2604ae0187ad"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -790,9 +790,9 @@
               "start": 3544,
               "end": 3631
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "618b2f7bd00bcf000ed8371003a7a0b7210f8f582054c37223fd4cb363f42739"
+          "row_sha256": "38eb19e3d32c5b8f46ce351644acc96bc879de4d86e48bfe65a29d7f4170f09a"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -877,9 +877,9 @@
               "start": 657,
               "end": 719
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "76efa51e78d53b39846a746d2206117d76b4f2a8636634087d1ac267073f6b59"
+          "row_sha256": "56fdac3ca9e50366648a8b5ac8c75d9340f5ea9cf46af56fdc8922eb1952cf9f"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1174,9 +1174,9 @@
               "start": 7216,
               "end": 7350
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:09Z"
           },
-          "row_sha256": "af0c3aaa13083b8d2603a838d82102e194cb62b88958c9d99f5c3da9490ae8ee"
+          "row_sha256": "34c9f3d4d64b34be208e742b89fddb03663b110937a2c7cd6e7784d770fd4f3f"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1219,9 +1219,9 @@
               "start": 53886,
               "end": 53917
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "59694eb65d74266859d6156f493943f8b5aee24dac7b4bf7cf2e20888a0c8b79"
+          "row_sha256": "584b444240556330b1075e09a8ef4afeb76c11a89b595e9e20c53a84504111e6"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1264,9 +1264,9 @@
               "start": 754,
               "end": 777
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "8c6568756b125975f9477d8b4e8a75b193a916c03ea5c3cec670e1d6f5c109cf"
+          "row_sha256": "b3a41f6da3ed642609bc90f53a84be2da324a0421bd6629b5ac76eaaabbabee8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1393,9 +1393,9 @@
               "start": 313,
               "end": 358
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "1eb0daa03de93f439ae16aa3b9678972a95ddf6a406e170e2705590c4814a0b3"
+          "row_sha256": "2ea18acfc468b1e15a0290253bdfd46c3eccd7d3b7714cf1c2155a286285e0d1"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1438,9 +1438,9 @@
               "start": 675,
               "end": 719
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "273df8a5ec07871e0bdf9621dd33b9d66516ab804bc649c0024ab3527b1e4c2d"
+          "row_sha256": "bf049b81ca9b4b584bae7645edca17c0f8cc16187a6dacb5a89799eface9a630"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1483,9 +1483,9 @@
               "start": 511,
               "end": 590
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "5cbc779066954dcfa3ac2c26d5bf60507e8bf03d52453469a750bba65951a2af"
+          "row_sha256": "bf6ee573ba8088660ff972db1f2e2dc23c5ee7be7ce37a88ff480463eb547ec2"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1528,9 +1528,9 @@
               "start": 49213,
               "end": 49298
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "f36548338608fc4d5144b4c3b02d2e0891dfc5dd04764bda7a3ecf4ead1e3f9e"
+          "row_sha256": "c73f9861a26f68ef453557ef7eecc592cb4a0e0673290d83e20b99fd600540b0"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1573,9 +1573,9 @@
               "start": 585,
               "end": 640
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "7a92315337d79f73865d45dc17d0eaf201cbc3116a7f0676be48b81a98ba07b0"
+          "row_sha256": "6f720b8f0eb47518f03f08b66b9aaf7bee7ef1647b677e0c73da22698703f36d"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1660,9 +1660,9 @@
               "start": 690,
               "end": 765
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "f47e61ec077dbce23b49b9b8544b4a98f3eb7c0c94773aac8853be85a8c5f0d5"
+          "row_sha256": "c73fb2d3eb4b426c8d05dd219b60592f6e970207d1acc4db2f64689fecddd116"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1705,9 +1705,9 @@
               "start": 2709,
               "end": 2770
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "8f62dcc92217846a580103e2bc9698005e88d35b56f76a81bc863f461b89d6ac"
+          "row_sha256": "0c0a54640faf8821ed7138b4c9433a59ad0ac312c8cbd73647fb6edd5627fa63"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1834,9 +1834,9 @@
               "start": 253,
               "end": 328
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "2b3a54858c42e223658c4e89d91162d3ea85e921cdbab701e644cacb9e164487"
+          "row_sha256": "799babeec8216f26a2eda46b2798648d766367c645f3abfa390635ec74f16bd8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1879,9 +1879,9 @@
               "start": 269,
               "end": 395
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "843803fd3e401ea3e73b79eb76e9236add3ec1dc97992bb5f8fd2256ab4c2635"
+          "row_sha256": "440a5a2328a7889ef41e801d60fc19b8861dcbd29a1c4cce2bcab9bca5dabf82"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1924,9 +1924,9 @@
               "start": 0,
               "end": 52
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "e38ed9b55beab652423bb205d2de4d553850c81d65a57a481749b208909ae770"
+          "row_sha256": "9d7600b116a099070e0f53752f349cdcc610c4e5e238d58723d4ec5b18fce34b"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1969,9 +1969,9 @@
               "start": 199,
               "end": 281
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "78a894c33896160cef5b3ac810f4e84d93e0264731ac0559194bb2f22f3db4b2"
+          "row_sha256": "da63f1a82df7e244d5bdade8f6347dce77c751245eb1fbe571b6611253ec5df3"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2014,9 +2014,9 @@
               "start": 0,
               "end": 100
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "6c84d14aeb9b73583650f87ca9a003090a281dfbc9e618553fb0ac1b1104f699"
+          "row_sha256": "8c9eae38c7d47f88f213f4b1ffa995aceb4ee88b9141f620dc51aed4b8807115"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2059,9 +2059,9 @@
               "start": 6774,
               "end": 6880
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "700e6f45be6805f59f959b304fb8aadbb61936756e25807bf7af0e5d073fffcb"
+          "row_sha256": "be26ef3de6aaebf169be5f3cedc98d1da2af756bcd2160dc781a3d1ed3594503"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2104,9 +2104,9 @@
               "start": 727,
               "end": 783
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "43b9375d60f6843245e32bc92b21b704a9a9e2c6f208b9103318e91f61c7b5c9"
+          "row_sha256": "d55b4c0c1ddc9afad15db4cc76e9a928b2eda8573a4e0e383716a214b5021e83"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2149,9 +2149,9 @@
               "start": 29743,
               "end": 29821
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "b25474f1d50dfc75228be14f70a2535d0beaf80062ba151f7b9bd023a06b4cab"
+          "row_sha256": "4232595a842d5036fe093f1bea0a260b37ca1e21e5913ad9aaf520d75d63c278"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2194,9 +2194,9 @@
               "start": 328,
               "end": 387
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "330dd8d5e031344f1c6ea6177bce0692d4753e82ec11e36baa019a6397c5b412"
+          "row_sha256": "1c7226bf92a4770eeca93b40935272f31e9c040eabcd96297767d04fa1105977"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2239,9 +2239,9 @@
               "start": 256,
               "end": 354
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "d599ad28d291c3bc0b0428c0db246cfff5833ffc546856224668305b359d016c"
+          "row_sha256": "1d3f04bf2a0912deb4cc9305ac1138d00523b2a9a35d9fefeb7188897572a16c"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2284,9 +2284,9 @@
               "start": 9,
               "end": 117
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "caad2b1d06a753a5733276de73980ee7cc82d75bb62f56d9e94f2054753792e3"
+          "row_sha256": "d804cf22af0243996aaf30ec2914613d72b744e240ece4aa1b6cf0523f420fde"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2329,9 +2329,9 @@
               "start": 425,
               "end": 521
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "18c25dd9df23d43811fb41d20315d01199f65be6cb234b7905e48b7db579e435"
+          "row_sha256": "d18311580c261d30e9c1ab6a3296b167f09bee5919eaed65e8e35a4577a031fa"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2374,9 +2374,9 @@
               "start": 152,
               "end": 218
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "3050db6a971fd16ad40566c08b190d8953b1f3bb4c815f345ae6c128015545be"
+          "row_sha256": "622e1560a5efe2dd9a49f007867ac0eaf264690089101f242079ea38f24bcc76"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2587,9 +2587,9 @@
               "start": 22801,
               "end": 22855
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "a446cb97d3ab9d56ae2b2aab85442287362327a71720bfd419dbcee85899c6f6"
+          "row_sha256": "6255e3a3ac62df60a26b5fffe28e5dbc315ea7d3f6330f3d68658f6dd0f81921"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2632,9 +2632,9 @@
               "start": 3,
               "end": 147
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "5ec8e0bfc301b674fea9afd16f0351a969444685426fef87868f1b08959b8731"
+          "row_sha256": "8972eda7eb80b9058086240ea35334d9ae0ba89dd47f3d019d15335d34d35b33"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2677,9 +2677,9 @@
               "start": 4524,
               "end": 4595
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "673d58abdf6b42877ef4d28cc1dd4d6cc0b4d254819d94d7b9da0a7fcf27231c"
+          "row_sha256": "0d58aa9932013ab3d092a00fc8415a0975c710ae84e6afd6c2795c4e914e8291"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2729,8 +2729,8 @@
           "row_id": "EVR-F22-0",
           "claim": {
             "claim_id": "F22",
-            "text": "O plano de análise de cada\nestágio será escrito e versionado antes da respectiva estimação",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:215-216",
+            "text": "O plano de análise do primeiro\nestágio foi escrito e versionado em setembro de 2026; uma rodada exploratória\ncom essa especificação já foi executada, não é reportada aqui e será refeita a\npartir das bases originais.",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:216-219",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2746,7 +2746,7 @@
             "value_decoded": ""
           },
           "verdict": "MINOR_DISTORTION",
-          "detail": "A ordem plano-estimação se sustenta, mas o futuro omite o que o repositório registra: o plano do estágio 1 foi fechado em 21/09/2026 e uma estimação com esta mesma especificação já foi rodada (docs/pre-especificacao.md, seções 0 e 8). Ver IL-MEDIUM-1 da rodada 2. Decisão registrada do autor em 2026-11-15T22:08:53Z: manter o texto.",
+          "detail": "Confere: plano fechado em 21/09/2026 (docs/pre-especificacao.md, cabeçalho e seção 0) e rodada executada depois. Impreciso em 'essa especificação': o plano de setembro tinha a curva como alvo primário; o nível passou a alvo em 22/09/2026, depois da rodada (seção 8). Ver IL-MINOR-1 da rodada 4.",
           "content_handling": {
             "contains_external_text": false,
             "sharing_scope": "session_only",
@@ -2763,7 +2763,91 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "a7a7279b25b2b75e6abd5d0aa1c8bc94dcf0e17c5fc47731bda00dbde526b532"
+          "row_sha256": "dd90ef74021ff6bc32f58a4c075c923a7dda5b874f16e2da80aace414e0aecd8"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G10-0",
+          "claim": {
+            "claim_id": "G10",
+            "text": "um\ndiagnóstico preliminar da dispersão da dose entre as culturas candidatas,\nentre elas o melão, apontou-a",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:48-50",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte interna, não refeita: docs/gates-resultados-dados-reais.md seção 4 e docs/pre-especificacao.md seção 3 (banana com dispersão utilizável em 169 municípios; melão e algodão descartados pelo dado).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "224869581d2a58faeff55f252e45d313be5c1a6c4302625e01fc17a0b75bc56d"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G11-0",
+          "claim": {
+            "claim_id": "G11",
+            "text": "o cálculo preliminar já feito para o primeiro estágio será refeito\ncom as bases congeladas",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:209-210",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte interna, não refeita: docs/gates-resultados-dados-reais.md seções 5 e 6.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "cf2b7a3e8b3643130f90ef9a99d5f8c55ba7b428cb8cff5c4ddf2bfae444fb45"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2806,9 +2890,9 @@
               "start": 14885,
               "end": 14981
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "98492dd90531fa2daf8145d78b438f337667501e22b5d64abef25306beb27ece"
+          "row_sha256": "3f57939e04222ec6a33a37560c0abecfbc430f7e7492b505f82ea3a69bd34b89"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2816,8 +2900,8 @@
           "row_id": "EVR-G09-0",
           "claim": {
             "claim_id": "G09",
-            "text": "há registro de uma,\nem Limoeiro do Norte, de 2009, dada como revogada em 2010",
-            "paper_locator": "paper/projeto/secoes/06-dados.tex:54-55",
+            "text": "um levantamento\npreliminar encontrou uma, em Limoeiro do Norte, de 2009, dada como revogada em\n2010",
+            "paper_locator": "paper/projeto/secoes/06-dados.tex:54-56",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2833,7 +2917,7 @@
             "value_decoded": ""
           },
           "verdict": "VERIFIED",
-          "detail": "Fontes secundárias, como em F10 e F11.",
+          "detail": "Levantamento: docs/legislacao/README.md (17 municípios). Lei e revogação: fontes secundárias, como em F10 e F11.",
           "content_handling": {
             "contains_external_text": false,
             "sharing_scope": "session_only",
@@ -2850,7 +2934,49 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "fd65850d5926e66787896b35a1c00f34c0e0d73e003aee6de01a11c83e56cb26"
+          "row_sha256": "fb1ba92d80bce3a0a2d2d10ce98df4a5e294045bb317826605192700aa766098"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G12-0",
+          "claim": {
+            "claim_id": "G12",
+            "text": "Uma avaliação preliminar do monitoramento da qualidade da água,\ndos registros meteorológicos e do mapeamento de uso da terra por satélite\nindicou limitações para esses fins",
+            "paper_locator": "paper/projeto/secoes/06-dados.tex:62-64",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte interna, não refeita: docs/lacunas-de-dados.md (água: três princípios ativos sem medição, 95% de água tratada, quebra de registro; vento: coerência de 0,96 entre estações; satélite: banana em classe genérica).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "8b3eb9cb0d980c23f88bbc104cf975ee7f2b150b74718aae6260649c2d47893e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2859,7 +2985,7 @@
           "claim": {
             "claim_id": "F24",
             "text": "Pesquisas dessa natureza não são submetidas ao\nsistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de\nSaúde \\cite{cns2016res510}",
-            "paper_locator": "paper/projeto/secoes/06-dados.tex:76-78",
+            "paper_locator": "paper/projeto/secoes/06-dados.tex:75-77",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2893,9 +3019,9 @@
               "start": 3236,
               "end": 3296
             },
-            "captured_at": "2026-11-15T22:09:56Z"
+            "captured_at": "2026-11-15T22:25:10Z"
           },
-          "row_sha256": "48863da22074e1994d58bcb57f4157de9ea7a0eaa1ca3b5be6531d614070beca"
+          "row_sha256": "8a36f92d7a61dda2619d5095204fee88aa514ab000f03dd774c531b7a30381f0"
         }
       ]
     }

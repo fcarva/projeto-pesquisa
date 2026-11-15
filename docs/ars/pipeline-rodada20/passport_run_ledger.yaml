@@ -148,3 +148,21 @@ entries:
     integrity_fix_round: 3
   prev_hash: 514b672d62bf2589007ef2370f489b7911d131cc0cefdd75da3ad8b531ee1cf7
   hash: af2c1e5f5ff197f5ba3f3d9176691f076a8c81ed43139a6ea03149299c6f7441
+- seq: 13
+  kind: checkpoint_opened
+  at: '2026-11-15T22:27:47Z'
+  checkpoint_id: stage2.5-round4
+  stage: '2.5'
+  checkpoint_type: MANDATORY
+  question: 'Integridade 2.5 rodada 4 = PASS WITH NOTES (0 SERIOUS, 0 MEDIUM, 3 MINOR).
+    Checklist de modos de falha bloqueia: Modos 3 e 6 SUSPECTED e Modo 1 INSUFFICIENT
+    EVIDENCE, só pela discordância entre a declaração ''no_experiments_declared''
+    e o texto, que agora divulga análises preliminares. Decisão do pesquisador: corrigir
+    a declaração, anular com justificativa, ou voltar ao texto sem divulgação.'
+  options:
+  - corrigir a declaração para experiments_declared
+  - override com justificativa
+  - voltar ao texto sem divulgação
+  - pausar
+  prev_hash: af2c1e5f5ff197f5ba3f3d9176691f076a8c81ed43139a6ea03149299c6f7441
+  hash: c0fb2c8b53e31222f0581b51c7c99281e4a4549816d145a021bad262cc482998

@@ -1,13 +1,13 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "9a76c443cc5050e79779d922f130aa0e19e2349277deb5128fe47500c1b5a23a",
+  "draft_raw_sha256": "6ec897d7d90f6783a14c5f5c8157fb82a21cd09420da3051011c63df65a46107",
   "claims": [
     {
       "claim_id": "F17",
       "claim_text": "a colheita responde à seca de 2012--2017",
       "draft_span": {
-        "start_byte": 2721,
-        "end_byte": 2762
+        "start_byte": 2727,
+        "end_byte": 2768
       },
       "claim_kinds": [
         "other_factual"
@@ -21,8 +21,8 @@
       "claim_id": "G05",
       "claim_text": "a proibição foi proposta em projetos de lei de\n2011 e de 2015",
       "draft_span": {
-        "start_byte": 3032,
-        "end_byte": 3095
+        "start_byte": 3038,
+        "end_byte": 3101
       },
       "claim_kinds": [
         "other_factual"
@@ -39,8 +39,8 @@
       "claim_id": "G06",
       "claim_text": "ela não elimina o problema, porque é em sua maior parte posterior à\nprimeira proposição, e reduz o número de municípios sem a cultura",
       "draft_span": {
-        "start_byte": 3244,
-        "end_byte": 3384
+        "start_byte": 3250,
+        "end_byte": 3390
       },
       "claim_kinds": [
         "quantitative",
@@ -58,8 +58,8 @@
       "claim_id": "G07",
       "claim_text": "o estimador centra o nível\ndo efeito na variação desse grupo",
       "draft_span": {
-        "start_byte": 4733,
-        "end_byte": 4796
+        "start_byte": 4739,
+        "end_byte": 4802
       },
       "claim_kinds": [
         "other_factual"
@@ -73,8 +73,8 @@
       "claim_id": "F18",
       "claim_text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com\n    município, cultura, área aplicada e produto, mês a mês",
       "draft_span": {
-        "start_byte": 6345,
-        "end_byte": 6536
+        "start_byte": 6351,
+        "end_byte": 6542
       },
       "claim_kinds": [
         "other_factual"
@@ -93,8 +93,8 @@
       "claim_id": "F19",
       "claim_text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
       "draft_span": {
-        "start_byte": 6546,
-        "end_byte": 6647
+        "start_byte": 6552,
+        "end_byte": 6653
       },
       "claim_kinds": [
         "other_factual"
@@ -113,8 +113,8 @@
       "claim_id": "F20",
       "claim_text": "o cadastro estadual de prestadores de serviço de aplicação\n    \\cite{ceara1993lei12228}, sob guarda do órgão ambiental estadual",
       "draft_span": {
-        "start_byte": 6718,
-        "end_byte": 6850
+        "start_byte": 6724,
+        "end_byte": 6856
       },
       "claim_kinds": [
         "other_factual"
@@ -133,8 +133,8 @@
       "claim_id": "F21",
       "claim_text": "os autos da ação civil pública de 2011 sobre a pulverização aérea na\n    Chapada do Apodi, na Justiça Federal",
       "draft_span": {
-        "start_byte": 6860,
-        "end_byte": 6976
+        "start_byte": 6866,
+        "end_byte": 6982
       },
       "claim_kinds": [
         "other_factual"
@@ -146,10 +146,10 @@
     },
     {
       "claim_id": "F22",
-      "claim_text": "O plano de análise de cada\nestágio será escrito e versionado antes da respectiva estimação",
+      "claim_text": "O plano de análise do primeiro\nestágio foi escrito e versionado em setembro de 2026; uma rodada exploratória\ncom essa especificação já foi executada, não é reportada aqui e será refeita a\npartir das bases originais.",
       "draft_span": {
-        "start_byte": 12054,
-        "end_byte": 12149
+        "start_byte": 12156,
+        "end_byte": 12380
       },
       "claim_kinds": [
         "other_factual"
@@ -161,6 +161,39 @@
       "high_impact_basis": [
         "methods_critical"
       ]
+    },
+    {
+      "claim_id": "G10",
+      "claim_text": "um\ndiagnóstico preliminar da dispersão da dose entre as culturas candidatas,\nentre elas o melão, apontou-a",
+      "draft_span": {
+        "start_byte": 2532,
+        "end_byte": 2641
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "G11",
+      "claim_text": "o cálculo preliminar já feito para o primeiro estágio será refeito\ncom as bases congeladas",
+      "draft_span": {
+        "start_byte": 11606,
+        "end_byte": 11700
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "TOP-UP"
     }
   ]
 }

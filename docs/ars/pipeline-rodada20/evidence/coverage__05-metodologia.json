@@ -2,32 +2,32 @@
   "candidate_unregistered_count": 1,
   "candidates": [
     {
-      "candidate_id": "CAND-B7726-7769-ee65f1c85022",
+      "candidate_id": "CAND-B7732-7775-ee65f1c85022",
       "candidate_kinds": [
         "citation_bearing_sentence"
       ],
       "coverage_state": "candidate_unregistered",
-      "end_byte": 7769,
+      "end_byte": 7775,
       "line": 136,
       "matched_claim_ids": [],
       "sentence_index": 2,
-      "start_byte": 7726,
+      "start_byte": 7732,
       "text": "Seja $P_t \\in [0,1]$ a fração do primeiro",
       "triggers": [
         {
           "coverage_state": "trigger_unregistered",
-          "end_byte": 7745,
+          "end_byte": 7751,
           "kind": "citation_bearing_sentence",
           "matched_claim_ids": [],
-          "start_byte": 7740,
+          "start_byte": 7746,
           "text": "[0,1]",
-          "trigger_id": "TRIG-B7740-7745-48321ea7d852"
+          "trigger_id": "TRIG-B7746-7751-48321ea7d852"
         }
       ],
       "uncovered_trigger_count": 1
     }
   ],
-  "draft_raw_sha256": "9a76c443cc5050e79779d922f130aa0e19e2349277deb5128fe47500c1b5a23a",
+  "draft_raw_sha256": "6ec897d7d90f6783a14c5f5c8157fb82a21cd09420da3051011c63df65a46107",
   "mechanical_candidate_scope": [
     "citation_bearing_sentence",
     "quantitative_sentence"
@@ -41,10 +41,12 @@
     "F22",
     "G05",
     "G06",
-    "G07"
+    "G07",
+    "G10",
+    "G11"
   ],
-  "registry_claim_count": 9,
-  "registry_raw_sha256": "f3db929ce947ae1e25e14454fec1d58ebc815655bd5eeac5907f80a6c3e6f227",
+  "registry_claim_count": 11,
+  "registry_raw_sha256": "404f1f693554f9985453290b6093ca66a5e1dcdc55a82a32a81a9f9f7e6ef7a1",
   "registry_schema_version": "claim-registry/1.0",
   "schema_version": "claim-registry-coverage/1.0",
   "semantic_extraction_coverage": "not_machine_detectable"

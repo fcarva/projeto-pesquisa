@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "150c36939e53cafca1bdef5b58adb8b22d8d1f060a368a07fb3c28524bd7a9c0",
+  "draft_raw_sha256": "1438c1d8a158e7807626c4a60866fa8c2293022e35d301c863fadaebb93178b0",
   "claims": [
     {
       "claim_id": "F01",
