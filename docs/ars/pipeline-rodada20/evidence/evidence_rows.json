@@ -1,8 +1,8 @@
 {
   "phases": {
     "E_claims": {
-      "checked": 61,
-      "verified": 46,
+      "checked": 62,
+      "verified": 52,
       "evidence_source_dir": "docs/ars/pipeline-rodada20/evidence/sources",
       "evidence_rows": [
         {
@@ -130,9 +130,9 @@
               "start": 660,
               "end": 730
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "9bcf9212f5bc308756500607ed47bb015227a97bdaa928a13bbce029e0eac5e2"
+          "row_sha256": "0f758d52aba305e05a766384398f60f749a56f2a02a217af9f020d2b29367fde"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -175,9 +175,9 @@
               "start": 2709,
               "end": 2770
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "557fb66e923e069e40a1c02b8f8e69a6b15fd38c38c9c71e1321663a93b67c15"
+          "row_sha256": "04e831b12959ffd5fad59fc5bfdeee28f4c3dcad6cfc5495d031674327765fc2"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -220,9 +220,9 @@
               "start": 690,
               "end": 765
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "3ceb4679bd4c15140dd60daa0aa263ca5e8c2c2ea22b89f5b5ea356c532d02c2"
+          "row_sha256": "744b665866bf07e82ca8faa7604dce4d7661e62f84b4462b9838cf903e19f4f8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -265,9 +265,9 @@
               "start": 177,
               "end": 257
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "861b8d815756f8d1a2854c071c176f1b946ee5842db6971b0ba6461055071e81"
+          "row_sha256": "cdb847c178ff4a51b0e4e97af1858b2a573b032f90e2163f1048d03a280867c6"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -310,9 +310,9 @@
               "start": 13622,
               "end": 13738
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "671339841979f631c03a89e60368d30dfaafaa265ce2ff23a52b0dc986d74367"
+          "row_sha256": "5d368cd658d7e84adeb6ea1351692c1a5f5a43347975c8a2a765449b7cea0f54"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -355,9 +355,9 @@
               "start": 37595,
               "end": 37700
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "59e8b5809848b7224408c0fae98201949cfd3c74a47092212c7688ac57fe89e1"
+          "row_sha256": "83a4542c5d88b8af49b39f1d7472d2edcc5b2627c462bd1152c6ed696483032b"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -442,9 +442,9 @@
               "start": 313,
               "end": 358
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "529b4fc59a8b507d7d0ff85a5acf849c23d81ecc5f1edf26b9403dbe17dc8fd8"
+          "row_sha256": "bb9b5d5ddc9d28de2021de8ba5bcb0fa3b576185409630f896bf6ed760dfe7c0"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -487,9 +487,9 @@
               "start": 463,
               "end": 542
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "a66ca81395730488b0466f91d92e95503a8167cf07770c2b5dc3d341fa3b3dde"
+          "row_sha256": "db86c63f7c2bfd611f5759d65b0926eaeb0e6a9c34aa35e34a29995813334c62"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -532,9 +532,9 @@
               "start": 0,
               "end": 76
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "38916d308a7c9efca03268a9836b9ca1561d3abe3490c65596090666ebf2dc64"
+          "row_sha256": "185f46dd7755b4a3a07df5926d58d8fe15d672968c028f5020a7191a46d9dd27"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -619,9 +619,9 @@
               "start": 1397,
               "end": 1509
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "6cf2c9533c37f6c5f22efeb58af22c257a98a2b941f7701fdff531ca7385cf99"
+          "row_sha256": "c8f1e77f5d6784cb7a521db778c8274cb1019b6b98ad3dc9fdc305ac490c4057"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -664,9 +664,9 @@
               "start": 1002,
               "end": 1087
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "ff6f9ce08bb8063aecaaae2dc8605b8d92bd2ea4c441e36379d4de8c617cf0b8"
+          "row_sha256": "5cdb94f0de6634b728b329eefa6079cec68058f5a144b0be399937af32b1c556"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -709,9 +709,9 @@
               "start": 11996,
               "end": 12039
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "5d5845e0d25fc279a7da8c8f91c27a33319f463f2321b37b8db37b38293fe84d"
+          "row_sha256": "d6022c5500a771e4ab7f2982c9d493b8c52f9887ce38b2f5fb2a21389e44b6b7"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -796,9 +796,9 @@
               "start": 3544,
               "end": 3631
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "1c3568bdae7803b021250af27039222935a8082b6d1035f358f54e77fece3c1b"
+          "row_sha256": "baa2c030e284691be1682784aff7a39b7c0226d4a16ebb02ea16ef3accefe5d5"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -841,9 +841,9 @@
               "start": 657,
               "end": 719
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "996023786d06674470ead3288766898c20bbd3d12f0c47832b2d3b3fd2e10b51"
+          "row_sha256": "aeb1c5aa6a8f0184f950af2f9a63ee2b7fe71901e0d629d15bce24873fea384a"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1104,7 +1104,7 @@
           "claim": {
             "claim_id": "H01",
             "text": "03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}",
-            "paper_locator": "paper/projeto/secoes/02-contexto.tex:40",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:41",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -1138,9 +1138,9 @@
               "start": 1552,
               "end": 1654
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "eb74ab710fc1126c8ab250927e95149ab96fb3f6f94a73f2fb6f57c62d764d18"
+          "row_sha256": "4a64ec857f10fba60efcd46eac51ded0d0b8afde1758c9a70f1a82768e4fbe44"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1148,8 +1148,8 @@
           "row_id": "EVR-F07-0",
           "claim": {
             "claim_id": "F07",
-            "text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
-            "paper_locator": "paper/projeto/secoes/02-contexto.tex:41-42",
+            "text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}. \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:40-42",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -1182,7 +1182,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "1c69511dd1cbf63798031e8ced2349fdb7ae8e03a8d61a94711c5abd1ba5cccb"
+          "row_sha256": "5750d274c831705259e6f3e8da435e6f4916a537cf6642463e751517c6b180f0"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1225,9 +1225,9 @@
               "start": 11133,
               "end": 11249
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "f407bec851bcbc64dddd9dc9634c69df16c08efe453f6b2941446a99d0dcce14"
+          "row_sha256": "7341e7f4ac5b6d64362b65cd73f966b2c3391181b2f23834cf9edb6207d1dbeb"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1270,9 +1270,9 @@
               "start": 7216,
               "end": 7350
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "227aefe2265bb9a2546e1cfacbde18843a27e3c8cf8597394d179a42f2a01494"
+          "row_sha256": "22107fd3da236ea9e5771d64dfebf0aaa08a81899cf6592d1ef0e6564b2b81a0"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1315,9 +1315,9 @@
               "start": 53886,
               "end": 53917
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "351272e03957831b6a8bb8d4b1f961a606236b349cb54eb4929cac78c208368e"
+          "row_sha256": "37ecb39bfe7efb371a11ce79ec1bd8ebbf09d2db06acc090b5d99d36ddf04683"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1360,9 +1360,9 @@
               "start": 754,
               "end": 777
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "ef6f558e02225e0685e72f00b11c274201cf71037023ec18aa3b07614fef3680"
+          "row_sha256": "083af1562132744a84929bd859e16584740958835efc4dc6df7f4aa700bac493"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1405,9 +1405,9 @@
               "start": 584,
               "end": 706
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "a0d4e113855746f34b915e30fa739b787640582e71726751775e637f3794a30d"
+          "row_sha256": "c7d709a831ad2db16c0eb25fc442ce2df5df93b356092ae8735b6565c64a6e02"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1415,8 +1415,8 @@
           "row_id": "EVR-H03-1",
           "claim": {
             "claim_id": "H03",
-            "text": "relatos de\n2016 afirmam que os voos cessaram na Chapada a partir de cerca de 2012, por\ncausa da seca, já que a doença fúngica que os motiva depende de umidade\n\\cite{agenciabrasil2016ceara}",
-            "paper_locator": "paper/projeto/secoes/02-contexto.tex:88-91",
+            "text": "em 2016, uma\nmoradora de comunidade da Chapada relatou que não havia novas aplicações\ndesde 2012, por causa da pouca chuva \\cite{agenciabrasil2016ceara}",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:88-90",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -1431,8 +1431,8 @@
             "value_encoded": "corpo da notícia",
             "value_decoded": "corpo da notícia"
           },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "A fonte citada traz o relato de uma agricultora sobre a comunidade do Tomé, atribuído à pouca chuva. A generalização para 'a Chapada' e a explicação pela doença fúngica vêm de outra fonte, não citada (entrevista de Raquel Rigotto, republicada pelo MST em 06/10/2016).",
+          "verdict": "VERIFIED",
+          "detail": "Corrigido: o relato é atribuído à moradora (comunidade do Tomé) e à pouca chuva, como na fonte.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -1450,51 +1450,54 @@
               "start": 5897,
               "end": 6039
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "c3bc865a6f395ce594b69271b802d2a6fc86f0000fc539d47d970e3de1c0b04e"
+          "row_sha256": "be3cccbf951fb89cb9178c31b200b89ce19c03295b4954954cb411294b1a65c8"
         },
         {
           "schema_version": "evidence-row/1.0",
           "surface": "phase_e_claim_verification",
-          "row_id": "EVR-H04-0",
+          "row_id": "EVR-H04-1",
           "claim": {
             "claim_id": "H04",
-            "text": "Declarações do setor produtivo, por sua vez,\ndescrevem aplicações aéreas em bananais do Cariri e da Chapada até 2018, em\nanos chuvosos.",
+            "text": "Um produtor do\nCariri, por sua vez, declarou ter feito aplicações aéreas em seu bananal até\n2018 \\cite{globorural2021bananais}",
             "paper_locator": "paper/projeto/secoes/02-contexto.tex:91-93",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
-            "ref_slug": null,
-            "display_label": null,
-            "source_content_sha256": null,
-            "source_content_utf8_bytes": null,
+            "ref_slug": "globorural2021bananais",
+            "display_label": "Globo Rural 2021, reportagem de 09/04/2021",
+            "source_content_sha256": "a7fa9d1e212fcfe1d373abcb764134d2b0295cc95ac595e15ac71e4172a552de",
+            "source_content_utf8_bytes": 10384,
             "source_artifact_sha256": null
           },
           "anchor": {
-            "kind": "none",
-            "value_encoded": "",
-            "value_decoded": ""
+            "kind": "section",
+            "value_encoded": "corpo da reportagem",
+            "value_decoded": "corpo da reportagem"
           },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "Sem citação. Globo Rural (09/04/2021), lido: um produtor do Cariri diz que 'até 2018, fazia duas aplicações aéreas anuais'; um produtor da Chapada descreve a prática sem datar o último voo. O relatório do SINDAG de ago/2019, citado no documento de 10/11, não foi lido. 'Em anos chuvosos' não está nas declarações lidas.",
+          "verdict": "VERIFIED",
+          "detail": "Corrigido e citado. A reportagem traz a declaração.",
           "content_handling": {
-            "contains_external_text": false,
+            "contains_external_text": true,
             "sharing_scope": "session_only",
             "rights_basis": "not_assessed"
           },
           "cache": {
-            "status": "not_used",
-            "key_sha256": null
+            "status": "miss",
+            "key_sha256": "eceb86b237c31fe9ffebb5bb43ddc311340e7405b55937cf13b99f7c3be3a9d0"
           },
           "excerpt": {
-            "state": "anchorless",
-            "text": null,
-            "excerpt_sha256": null,
-            "source_span_utf8": null,
-            "captured_at": null
+            "state": "agent_extracted",
+            "text": "Regis conta que, até 2018, fazia duas aplicações aéreas anuais no seu bananal",
+            "excerpt_sha256": "15494378bfe4ecbbbf332597e748dd3a92bb9f1330be7f885f99886c37f4b1f6",
+            "source_span_utf8": {
+              "start": 3290,
+              "end": 3371
+            },
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "e7fb59fa7f5321e3614a2e0a2c8150a6cfce1fc903792fed1b39f2430e94cc21"
+          "row_sha256": "7b84fcb2b27fef6ddf5a5375e2f82be5dbc9e435a74c7ca7975e20900f7b8b91"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1544,7 +1547,7 @@
           "row_id": "EVR-C11-1",
           "claim": {
             "claim_id": "C11",
-            "text": "Qual instrumento usar, se proibição, taxa ou regulação de\ndesempenho, depende das inclinações relativas do benefício e do custo\nmarginais \\cite{weitzman1974}",
+            "text": "Qual instrumento usar, se proibição, taxa ou regulação de\ndesempenho, depende das inclinações relativas do benefício e do custo\nmarginais \\cite{weitzman1974,skevas2012}",
             "paper_locator": "paper/projeto/secoes/03-referencial.tex:16-18",
             "selection_tier": "TOP-UP"
           },
@@ -1560,8 +1563,8 @@
             "value_encoded": "texto completo",
             "value_decoded": "texto completo"
           },
-          "verdict": "UNVERIFIABLE_ACCESS",
-          "detail": "Só metadados; texto não lido.",
+          "verdict": "MINOR_DISTORTION",
+          "detail": "Weitzman (1974): só metadados; texto não lido. Skevas et al. compara instrumentos por simulação e não trata de inclinações relativas de benefício e custo marginais; a citação conjunta lhe atribui isso.",
           "content_handling": {
             "contains_external_text": false,
             "sharing_scope": "session_only",
@@ -1578,7 +1581,52 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "e3cd7f9a8bbf7f8911ce74ebd93d5884d7108260ad3f1d6933da5b3e1a7abada"
+          "row_sha256": "7e463811320bb5e9e9c07e5ab8cb4b2eb04f7fc550ad7fab954e842569069fe2"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C11-2",
+          "claim": {
+            "claim_id": "C11",
+            "text": "Qual instrumento usar, se proibição, taxa ou regulação de\ndesempenho, depende das inclinações relativas do benefício e do custo\nmarginais \\cite{weitzman1974,skevas2012}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:16-18",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "skevas2012",
+            "display_label": "Skevas, Stefanou e Lansink 2012, artigo, doi:10.1111/j.1574-0862.2012.00581.x",
+            "source_content_sha256": "2ff8e3de891a42ff6a3b6c62be75af6de0490dd3aef5e1c40ef5cbb6e41cac93",
+            "source_content_utf8_bytes": 1314,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "MINOR_DISTORTION",
+          "detail": "Weitzman (1974): só metadados; texto não lido. Skevas et al. compara instrumentos por simulação e não trata de inclinações relativas de benefício e custo marginais; a citação conjunta lhe atribui isso.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "5484c0af550b766f7bc5c0da81fcf211ab5ded6753ed31547a4d97c151607beb"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "to assess the effectiveness of different economic instruments such as taxes and levies",
+            "excerpt_sha256": "f71136f17ac1ce85fbbb7a11a1597f180a4e767c329f5cd755ac09ab6dae054c",
+            "source_span_utf8": {
+              "start": 339,
+              "end": 425
+            },
+            "captured_at": "2026-11-15T22:59:08Z"
+          },
+          "row_sha256": "1db1bf91c3415c36f3640c5ddaf9a55b50735b0c5b477bb8be033282b34c36f4"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1586,7 +1634,7 @@
           "row_id": "EVR-C12-1",
           "claim": {
             "claim_id": "C12",
-            "text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995,skevas2012}",
+            "text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995}",
             "paper_locator": "paper/projeto/secoes/03-referencial.tex:18-19",
             "selection_tier": "TOP-UP"
           },
@@ -1602,8 +1650,8 @@
             "value_encoded": "resumo",
             "value_decoded": "resumo"
           },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "Lichtenberg et al. e Helfand e House tratam de efeitos distributivos. O resumo de Skevas et al. trata da eficácia de taxas, penalidades, subsídios e cotas, não de distribuição.",
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -1621,9 +1669,9 @@
               "start": 313,
               "end": 358
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "2ad77a7cac72ede920e23db18b9a8370ed0b366fe866145eb0b97256d2df3bb3"
+          "row_sha256": "8b3d3b6aebf1016d2f96208f9cc081fd876f0f62a58ca001f2053c492d566bf5"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1631,7 +1679,7 @@
           "row_id": "EVR-C12-2",
           "claim": {
             "claim_id": "C12",
-            "text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995,skevas2012}",
+            "text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995}",
             "paper_locator": "paper/projeto/secoes/03-referencial.tex:18-19",
             "selection_tier": "TOP-UP"
           },
@@ -1647,8 +1695,8 @@
             "value_encoded": "resumo",
             "value_decoded": "resumo"
           },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "Lichtenberg et al. e Helfand e House tratam de efeitos distributivos. O resumo de Skevas et al. trata da eficácia de taxas, penalidades, subsídios e cotas, não de distribuição.",
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -1666,54 +1714,9 @@
               "start": 675,
               "end": 719
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "386c70148a49b433987944e9a28db57467d631e832026b24ce3fcb75466eaec2"
-        },
-        {
-          "schema_version": "evidence-row/1.0",
-          "surface": "phase_e_claim_verification",
-          "row_id": "EVR-C12-3",
-          "claim": {
-            "claim_id": "C12",
-            "text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995,skevas2012}",
-            "paper_locator": "paper/projeto/secoes/03-referencial.tex:18-19",
-            "selection_tier": "TOP-UP"
-          },
-          "source": {
-            "ref_slug": "skevas2012",
-            "display_label": "Skevas, Stefanou e Lansink 2012, artigo, doi:10.1111/j.1574-0862.2012.00581.x",
-            "source_content_sha256": "2ff8e3de891a42ff6a3b6c62be75af6de0490dd3aef5e1c40ef5cbb6e41cac93",
-            "source_content_utf8_bytes": 1314,
-            "source_artifact_sha256": null
-          },
-          "anchor": {
-            "kind": "section",
-            "value_encoded": "resumo",
-            "value_decoded": "resumo"
-          },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "Lichtenberg et al. e Helfand e House tratam de efeitos distributivos. O resumo de Skevas et al. trata da eficácia de taxas, penalidades, subsídios e cotas, não de distribuição.",
-          "content_handling": {
-            "contains_external_text": true,
-            "sharing_scope": "session_only",
-            "rights_basis": "not_assessed"
-          },
-          "cache": {
-            "status": "miss",
-            "key_sha256": "afad8270bc174c6a7025bc8099395d16f9290321680501181ff69119aa762444"
-          },
-          "excerpt": {
-            "state": "agent_extracted",
-            "text": "to assess the effectiveness of different economic instruments such as taxes and levies",
-            "excerpt_sha256": "f71136f17ac1ce85fbbb7a11a1597f180a4e767c329f5cd755ac09ab6dae054c",
-            "source_span_utf8": {
-              "start": 339,
-              "end": 425
-            },
-            "captured_at": "2026-11-15T22:52:49Z"
-          },
-          "row_sha256": "5f9a79aa8cee2d0d1116c70311810283241aef01b873f72b6d45eb52444881c5"
+          "row_sha256": "ee55d99971899fe49cf13a26a92dd4d63c2fe94d272a282dbb88cc2062f2b9f3"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1756,9 +1759,9 @@
               "start": 49213,
               "end": 49298
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "ad4c74613272773d3d1ad4e21a6ce598e8012a0f965441677b78458db16d88ae"
+          "row_sha256": "78ff73c9e7f424042d0fb7605f0a5da62d638bee9c4949deb8387bb25a1cd3ee"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1801,9 +1804,9 @@
               "start": 11654,
               "end": 11753
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "3979d7da3563fecb4001176091dbebd82753a7dc13f298a5db0a4a622c234959"
+          "row_sha256": "c790cb94844e78f7d332476d5a507c0833e30ddb9969038a1202bfb5989d2309"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1846,9 +1849,9 @@
               "start": 385,
               "end": 460
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "d144b3bb1e2f333ac14eb7c5aaa014aa86ec44a8aee35e05ee5f8e1fe250dfb0"
+          "row_sha256": "3cb5c573359c0c9bf11396ef3ce32aba869dd8acb464a03e55cae5a07d0a6433"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1891,9 +1894,9 @@
               "start": 690,
               "end": 765
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "2e886f94e5123561b2b28b3e4cc982a185a72bcf0ea66bd7f5ae415be0c70dd6"
+          "row_sha256": "115cfb96cb72de97a66315edd8769ba89bf710100338f5e78bd7269e38bdb8ee"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1936,9 +1939,9 @@
               "start": 2709,
               "end": 2770
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "6588b6e2b093873155b0178d3e9eaa93e7ceaee5486f6a6a5d0bf45c58c56eb5"
+          "row_sha256": "184f497650215242cc5ded6653edaf8fbfcd30e0f9bb4cf5adfdb716b003513c"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1981,9 +1984,9 @@
               "start": 426,
               "end": 492
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "17c8b802a6d53798f1b0d75d4e7ad2e20b56e4251df36c9047577d255cc8eef7"
+          "row_sha256": "97f0df83d9887216263f923794488c6e66da466d8bdd360d1d67ec5b45f329bc"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1991,7 +1994,7 @@
           "row_id": "EVR-C18-1",
           "claim": {
             "claim_id": "C18",
-            "text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e nenhum no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
+            "text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e estimativa sem significância estatística no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
             "paper_locator": "paper/projeto/secoes/03-referencial.tex:49-52",
             "selection_tier": "HIGH-IMPACT"
           },
@@ -2008,7 +2011,7 @@
             "value_decoded": "seção 5"
           },
           "verdict": "UNVERIFIABLE_ACCESS",
-          "detail": "Conferido só no manuscrito de março de 2023; a versão publicada não foi lida. Dois primeiros trimestres e estação chuvosa conferem. 'Nenhum no terceiro' não confere com o que o manuscrito diz: o termo do terceiro trimestre é negativo e não significativo na especificação principal, e há déficit no terceiro trimestre para meninos e numa análise de robustez. Ver IL-MEDIUM-1. Brainerd e Menon: conferido na v1 por trechos; não baixado.",
+          "detail": "Conferido só no manuscrito de março de 2023; a versão publicada não foi lida. Corrigido: a redação nova ('estimativa sem significância estatística no terceiro') confere com o manuscrito. Brainerd e Menon: conferido na v1 por trechos; não baixado.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -2026,9 +2029,9 @@
               "start": 56803,
               "end": 56890
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "8f4cf49b03cce4b1488b3d4ab67ef12ff4287cb3d7e34e97b21c3d8d3412ac82"
+          "row_sha256": "59fef20be23cf0d94b82ddc3f1997bb10900438045b5b55ac70848cfcc6ea13c"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2036,7 +2039,7 @@
           "row_id": "EVR-C18-2",
           "claim": {
             "claim_id": "C18",
-            "text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e nenhum no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
+            "text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e estimativa sem significância estatística no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
             "paper_locator": "paper/projeto/secoes/03-referencial.tex:49-52",
             "selection_tier": "HIGH-IMPACT"
           },
@@ -2053,7 +2056,7 @@
             "value_decoded": "texto completo"
           },
           "verdict": "UNVERIFIABLE_ACCESS",
-          "detail": "Conferido só no manuscrito de março de 2023; a versão publicada não foi lida. Dois primeiros trimestres e estação chuvosa conferem. 'Nenhum no terceiro' não confere com o que o manuscrito diz: o termo do terceiro trimestre é negativo e não significativo na especificação principal, e há déficit no terceiro trimestre para meninos e numa análise de robustez. Ver IL-MEDIUM-1. Brainerd e Menon: conferido na v1 por trechos; não baixado.",
+          "detail": "Conferido só no manuscrito de março de 2023; a versão publicada não foi lida. Corrigido: a redação nova ('estimativa sem significância estatística no terceiro') confere com o manuscrito. Brainerd e Menon: conferido na v1 por trechos; não baixado.",
           "content_handling": {
             "contains_external_text": false,
             "sharing_scope": "session_only",
@@ -2070,7 +2073,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "54c943f317dc1517b5ee95a2cbd487bfa41c50b4a25dd0857ab4b8b9bc2d8fa3"
+          "row_sha256": "d4eb14e08220247be9894c8fe457bb0ca09af40aeda143b18db894fb64fbb775"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2113,9 +2116,9 @@
               "start": 253,
               "end": 328
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "edc6af46fa2a6568cd02e4012c44edbd1bb1cf0dd2af6d0e3a80f0fe7a9e3bd2"
+          "row_sha256": "3a2d23dde4383c39b5b33dedc09b20797ba66f3c19869d4540b157824e977fd5"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2158,9 +2161,9 @@
               "start": 269,
               "end": 395
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "be73b4174648660ad3c12c7b370470ba9d4e5d54321d0109e61ddbcb6619d2cb"
+          "row_sha256": "cf174ac65866c142b2d11b81e44c568e0e9c3fc9a2961c43d51a698c7ba52e3a"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2203,9 +2206,9 @@
               "start": 0,
               "end": 52
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "01dc050bf2a11c6484b44db7eaf705674696e3e5dc76f6c153081a81804935b8"
+          "row_sha256": "9a346814bcf1de911b9ea23a5cb3708070f26343da6e996ec4f916095648aa04"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2248,9 +2251,9 @@
               "start": 199,
               "end": 281
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "ae6d611f9a6b02cf9f73fae1c4a4e393942a81f35a9f1265a93cd49ab979fe4c"
+          "row_sha256": "0ee19269ee7b9326dbf08010ab814116dcd90bf593c7208615b810157281df8b"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2293,9 +2296,9 @@
               "start": 0,
               "end": 100
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "965835a5f4cb460986e0db0948090df526c60daa1f3e5f0d15f384c8ecd70267"
+          "row_sha256": "fe4d41f933af03d7cbdbfe764951314f7df6aa0f8284a3455c1d83a8523ce9ca"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2338,9 +2341,9 @@
               "start": 727,
               "end": 783
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "37faa3a0987faf6b37f601cd947cf90ffc8714dbe0f1d608ba834a39f1cd5c1b"
+          "row_sha256": "1ad3c987e7363aa54446dfa44b2dd29cb6e15dd0eab334fd92b65e1e91beb854"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2383,9 +2386,9 @@
               "start": 6774,
               "end": 6880
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "7a201f170eef1f2a7e61e0b4c3d4cf733d4dc9a0ae0ad2fd15303ccb58d4b337"
+          "row_sha256": "b3b2bde066cbd5cbeff8003cec422a7250ed0bd0d1b5346a6c4131de2139c4fa"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2428,9 +2431,9 @@
               "start": 157,
               "end": 233
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "c1f74d3fd41629f183df3613276bf235d0920b2563e82b678bfb04440cbc39fe"
+          "row_sha256": "2f9b47fa47542a3d02ecb13b05777405d5b687552372ec9dc6b6b86fded01412"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2473,9 +2476,9 @@
               "start": 256,
               "end": 354
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "df960e286fbf1b78f271f5b2d5cf22d94520b0e8a372c76d1bf9aa0b1289c823"
+          "row_sha256": "4e587f397ddbe3c61a829ada65d0a5c226c4829a9d8b4505a23c35755a1a1aaf"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2518,9 +2521,9 @@
               "start": 9,
               "end": 117
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "4ac3f3ce24f4c8c81a6a5a2006a81bb585395fbdc04b5a4d1f82f0e122931256"
+          "row_sha256": "2ac69bb9d0beb7ee0634f9b150253bedc1b0388a7d525606977e2086e17064ee"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2563,9 +2566,9 @@
               "start": 144,
               "end": 190
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "748c0d128c6ea3ae512351a92f75ca245a08b6fc986d9b7e3db16f5178d092a4"
+          "row_sha256": "569128825e99dbda9d467c11af0326756f0e26f4632441e0f5476dbb84e214e6"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2573,8 +2576,8 @@
           "row_id": "EVR-H08-1",
           "claim": {
             "claim_id": "H08",
-            "text": "O terceiro trimestre, para o qual o análogo\nequatoriano não encontra efeito, serve de contraste de falsificação.",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:104-105",
+            "text": "O terceiro trimestre, para o qual o análogo\nequatoriano encontra estimativa sem significância estatística, serve de\ncontraste de efeito menor.",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:104-106",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2590,7 +2593,7 @@
             "value_decoded": "seção 5"
           },
           "verdict": "UNVERIFIABLE_ACCESS",
-          "detail": "Conferido só no manuscrito de março de 2023; a versão publicada não foi lida. No manuscrito o termo do terceiro trimestre é negativo e não significativo na especificação principal; há déficit no terceiro trimestre para meninos (segundo e terceiro trimestres) e numa análise de robustez. Ver IL-MEDIUM-1.",
+          "detail": "Conferido só no manuscrito de março de 2023; a versão publicada não foi lida. Corrigido: confere com o manuscrito.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -2598,64 +2601,61 @@
           },
           "cache": {
             "status": "miss",
-            "key_sha256": "9378359df51dd8941726981106f9ef083edcd53a70a634efdfa1a53c87d57baf"
+            "key_sha256": "f1cabdc8c937531485201423058a558b10762a4fe4987d79f8d15df213485f05"
           },
           "excerpt": {
             "state": "agent_extracted",
-            "text": "a deficit of 87.7 and 75.6 grams when they occurred in the second and the third gestation trimesters respectively",
-            "excerpt_sha256": "e9809ce9ea1682da66a294f8df5fac4cae325c05e59da0a3683907fc6e9545e5",
+            "text": "The interaction term for the third gestation trimester is negative and non-significant.",
+            "excerpt_sha256": "df4f8142e96e517853951fbe2764c724f079bffb5b1a4d10107fc7524de84f37",
             "source_span_utf8": {
-              "start": 59563,
-              "end": 59676
+              "start": 56803,
+              "end": 56890
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "6a4d1eb3dd896dbfc012adb634d7e0085b447f744c870236f394be21628ca5d3"
+          "row_sha256": "dbe56aa69057e1ef624085903be1fb73af7b3d379d2cde8968c29a3ff3ea67af"
         },
         {
           "schema_version": "evidence-row/1.0",
           "surface": "phase_e_claim_verification",
-          "row_id": "EVR-H07-1",
+          "row_id": "EVR-H07-0",
           "claim": {
             "claim_id": "H07",
-            "text": "não o avião, que é tecnologia da produção empresarial\nirrigada",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:110-111",
+            "text": "no Censo de 2006, que registra\naplicação aérea também fora dos polos irrigados",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:112-113",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
-            "ref_slug": "ibge2017censoagro",
-            "display_label": "IBGE, Censo Agropecuário 2017, tabela SIDRA 6851",
-            "source_content_sha256": "b2a20d1fe4565b0b0dc54412778d2e9c9f44573ff45405392121f1a68221a4a7",
-            "source_content_utf8_bytes": 1471,
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
             "source_artifact_sha256": null
           },
           "anchor": {
-            "kind": "section",
-            "value_encoded": "tabela 6851, dimensões",
-            "value_decoded": "tabela 6851, dimensões"
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
           },
-          "verdict": "UNVERIFIABLE",
-          "detail": "A fonte citada na frase (Censo Agropecuário 2017, tabelas 6851 e 6852) cruza tipologia com uso de agrotóxicos e não registra o método de aplicação. O Censo de 2006, que registra, mostra estabelecimentos com aplicação por aeronave em cinco municípios fora dos polos irrigados (Aiuaba 5; Jaguaruana, Mauriti, Quiterianópolis e Quixeramobim 1 cada). Ver IL-SERIOUS-1.",
+          "verdict": "VERIFIED",
+          "detail": "Corrigido: a ausência de avião na banana familiar passou a hipótese, com regra de exclusão. O fato afirmado confere: tabela SIDRA 1008, estabelecimentos com aplicação por aeronave em Aiuaba (5), Jaguaruana, Mauriti, Quiterianópolis e Quixeramobim (1 cada), além de Limoeiro do Norte (18) e Quixeré (9).",
           "content_handling": {
-            "contains_external_text": true,
+            "contains_external_text": false,
             "sharing_scope": "session_only",
             "rights_basis": "not_assessed"
           },
           "cache": {
-            "status": "miss",
-            "key_sha256": "b0adc1ef71147585eb1d903fd4e8a4a905fca3d57a57533f51be30b3d58550cd"
+            "status": "not_used",
+            "key_sha256": null
           },
           "excerpt": {
-            "state": "agent_extracted",
-            "text": "\"D7N\": \"Uso de agrotóxicos\"",
-            "excerpt_sha256": "3533d1018220549f554396ed9430ece116ece09453b6c4f593dcc4eb9153666d",
-            "source_span_utf8": {
-              "start": 684,
-              "end": 712
-            },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
           },
-          "row_sha256": "bd27e85d3a9bbf7c8beb5f6a93cc36ac5a451ffd1cc94aba2502f2afa047c69e"
+          "row_sha256": "a27c19271a3315427b8b2d7d82d88a7652842424a5b937882c3bb2f10eda8b2c"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2664,7 +2664,7 @@
           "claim": {
             "claim_id": "F18",
             "text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com município, cultura, área\n    e produto",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:151-153",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:154-156",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2698,9 +2698,9 @@
               "start": 22801,
               "end": 22855
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "aa4b88d5ab5891345bd398c98fc29a556e686f90a8820a64ec1a68911c467ee8"
+          "row_sha256": "4ee3961437733e18f2adf8a0e2f9e8659c2e5c853262bfbf19588564350211f2"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2709,7 +2709,7 @@
           "claim": {
             "claim_id": "F19",
             "text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:155-156",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:158-159",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2743,9 +2743,9 @@
               "start": 3,
               "end": 147
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "c97edc66baad7d67e496541cfe13ca485bfbd5f9a30ce1725485a24bf099df54"
+          "row_sha256": "47e24ef257bff9ce3f2d456e712f0a854495af4ca56d985d35db55e40626f3b4"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2754,7 +2754,7 @@
           "claim": {
             "claim_id": "F20",
             "text": "o cadastro estadual de prestadores de serviço de aplicação e os autos\n    de infração posteriores à lei \\cite{ceara1993lei12228}",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:157-158",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:160-161",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2788,9 +2788,9 @@
               "start": 4524,
               "end": 4595
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "512f73a0a24206b6082833507deb1d7dfe6edb062cf4050ba14748440648ac8e"
+          "row_sha256": "ab977cb382f08b9fbbb2a0a2bf03fc25a6a8de33d68cd1d19f47057062837fe2"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2799,7 +2799,7 @@
           "claim": {
             "claim_id": "F21",
             "text": "os autos da ação civil pública de 2011, na Justiça Federal",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:159",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:162",
             "selection_tier": "TOP-UP"
           },
           "source": {
@@ -2832,7 +2832,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "a0ff71df4ed1712083a412bb4c3d742a38918e2b998f6a96ecde3e79b65051a1"
+          "row_sha256": "a2292f1261aeaebdd69e4d30ec48e300f83d5bc1436e25066c147a9617667379"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2841,7 +2841,7 @@
           "claim": {
             "claim_id": "C23",
             "text": "em que $VPP$ é a fração dos classificados como tratados que de fato o eram\n\\cite{denteh2022misclassification}: o sinal é preservado e a magnitude,\natenuada.",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:194-196",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:197-199",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2875,9 +2875,9 @@
               "start": 29743,
               "end": 29821
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "acfa8e5fd2a68fcf7875a5255a923ac05348dab87e56d6cf3f2429fc3da4d2fb"
+          "row_sha256": "8b5d4b682fbbd2ecc75ec8667eaeb2a9fc5e6acd4d934572fe424a4c2d04edd8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2886,7 +2886,7 @@
           "claim": {
             "claim_id": "H09",
             "text": "o \\emph{wild cluster bootstrap} isolado não é defensável com tão\npoucos tratados \\cite{mackinnon2018wild}",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:235-236",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:238-239",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2920,9 +2920,9 @@
               "start": 152,
               "end": 218
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "81e4283725e1b97b3ea2dfc1285536333e2967073142939da378639241c5961f"
+          "row_sha256": "1bacbc4504cfb381e270a90e421d70abdd86a42ce9d7872e8906f57287bf4510"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2930,8 +2930,8 @@
           "row_id": "EVR-H10-1",
           "claim": {
             "claim_id": "H10",
-            "text": "procedimentos de \\citeonline{conley2011} e \\citeonline{ferman2019inference},\nque admitem heterocedasticidade por tamanho de município",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:237-238",
+            "text": "procedimentos de \\citeonline{conley2011} e de \\citeonline{ferman2019inference},\neste último com heterocedasticidade por tamanho de município",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:240-241",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2946,8 +2946,8 @@
             "value_encoded": "resumo",
             "value_decoded": "resumo"
           },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "A heterocedasticidade por tamanho de grupo é tratada por Ferman e Pinto, que a apresentam como o que invalida os métodos existentes. O resumo de Conley e Taber não a menciona.",
+          "verdict": "VERIFIED",
+          "detail": "Corrigido. Só os resumos.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -2965,9 +2965,9 @@
               "start": 328,
               "end": 387
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "8c7811bc4dd986ac984e8a7b276657c0593768c902f7da760587ceb0bdd9c195"
+          "row_sha256": "ce76f140a94ee07b6227a2c35970df2c0e50edc682257fe8b0d5dffbac442618"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2975,8 +2975,8 @@
           "row_id": "EVR-H10-2",
           "claim": {
             "claim_id": "H10",
-            "text": "procedimentos de \\citeonline{conley2011} e \\citeonline{ferman2019inference},\nque admitem heterocedasticidade por tamanho de município",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:237-238",
+            "text": "procedimentos de \\citeonline{conley2011} e de \\citeonline{ferman2019inference},\neste último com heterocedasticidade por tamanho de município",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:240-241",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -2991,8 +2991,8 @@
             "value_encoded": "resumo",
             "value_decoded": "resumo"
           },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "A heterocedasticidade por tamanho de grupo é tratada por Ferman e Pinto, que a apresentam como o que invalida os métodos existentes. O resumo de Conley e Taber não a menciona.",
+          "verdict": "VERIFIED",
+          "detail": "Corrigido. Só os resumos.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -3010,9 +3010,9 @@
               "start": 256,
               "end": 354
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "7fc5926252fae3f16dc91a4f884a361a47a2f20daad26160bfb1a4de37971a6a"
+          "row_sha256": "5ef6576bc130e429d670dcd430dba388bd71612404c09ad4e798385cf7f0e8c7"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3021,7 +3021,7 @@
           "claim": {
             "claim_id": "H11",
             "text": "para o caso-limite, o\nprocedimento de \\citeonline{hagemann2025single}",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:239-240",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:242-243",
             "selection_tier": "TOP-UP"
           },
           "source": {
@@ -3055,9 +3055,9 @@
               "start": 144,
               "end": 190
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "91131f1d96aecf3d362d09598646e76bf362fcf86822ea3a47e0b953abc1e150"
+          "row_sha256": "3a0dc27090f19080d36608d9b9aeaa6086d14bf69b9dd883e8c2d8db8535f35e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3066,7 +3066,7 @@
           "claim": {
             "claim_id": "H12",
             "text": "na diferença tripla, em que a\nvariação é interna ao município, aplica-se também \\citeonline{canay2021wild}",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:240-241",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:243-244",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -3099,7 +3099,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "33d807bb048a5c71f8f973386813a0f4999a358f8a1e47af94cfc380fbc67c0e"
+          "row_sha256": "6c7a7128a92306cb065be33a82f38a4ba60297f7bef582e3295ec9cb1925b17e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3108,7 +3108,7 @@
           "claim": {
             "claim_id": "F22",
             "text": "Um plano para a forma reduzida estadual foi escrito\ne versionado em setembro de 2026; uma rodada exploratória dessa análise já foi\nexecutada e levou a rever seu alvo, da curva para o nível.",
-            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:254-256",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:257-259",
             "selection_tier": "HIGH-IMPACT"
           },
           "source": {
@@ -3141,7 +3141,49 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "68cbcb714a377fb040dbbd9f93640cd59e370a57a2f0d6704f2dd02592bb0c2a"
+          "row_sha256": "e67c3606147abd56f9990020f6d914213b6a2d5107dde8d0b43a5af585022841"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F23-0",
+          "claim": {
+            "claim_id": "F23",
+            "text": "o\ndesenho de calendário foi adotado como principal depois dela, sem que a\nexposição sazonal tenha sido cruzada com os desfechos",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:259-261",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Confere com o repositório: docs/ars/19 registra que o cálculo de poder do calendário rodou só em dado sintético; o documento de 10/11 diz que 14_mde_calendario.py 'nunca rodou com dado real' e admite a troca de desenho depois do resultado (seção 7, item 1).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "c9de4121408455c8e63943737b6ea12f0c243d9853b51d8fa5be1f00bc8adb36"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3184,9 +3226,9 @@
               "start": 14885,
               "end": 14981
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "773ac3800031e09cb94dfd37822386190a56fdda59ab13fb94cb8fe03b253044"
+          "row_sha256": "da6e9ae886a77e24b8aabd15984a803726d4f92b848f4522ad96a691c6b4c127"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3229,9 +3271,9 @@
               "start": 154,
               "end": 213
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "be971b6fa6bcb1aab9bf17a985ba7c63b2f25aa126b012217240c96f2944b43f"
+          "row_sha256": "8be816368afe719382c71e6b60fe7e6c816a6197aba840f8d030cf1228f5c156"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3316,9 +3358,9 @@
               "start": 3236,
               "end": 3296
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "8aae379fa856a006f02476aa22cf841884d1b448a7da91fd12aeaf6723cc15e5"
+          "row_sha256": "dd6756a8c487e69d59a7a89575eb2f36f94042869d9b753358482c8343c362ec"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3326,7 +3368,7 @@
           "row_id": "EVR-H14-1",
           "claim": {
             "claim_id": "H14",
-            "text": "O análogo mais próximo encontra efeito apenas a poucas\ncentenas de metros do bananal.",
+            "text": "O análogo mais próximo encontra efeito apenas a até 150 metros\ndo bananal.",
             "paper_locator": "paper/projeto/secoes/07-ameacas.tex:58-59",
             "selection_tier": "HIGH-IMPACT"
           },
@@ -3342,8 +3384,8 @@
             "value_encoded": "Introduction",
             "value_decoded": "Introduction"
           },
-          "verdict": "MINOR_DISTORTION",
-          "detail": "O limiar do estudo é 150 metros (manuscrito de março de 2023 e nota dos autores no VoxDev sobre o artigo publicado), não 'poucas centenas'; o próprio projeto diz 150 metros em 03-referencial.tex.",
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Conferido só no manuscrito de março de 2023; a versão publicada não foi lida. Corrigido: 150 metros confere com o manuscrito e com a nota dos autores no VoxDev.",
           "content_handling": {
             "contains_external_text": true,
             "sharing_scope": "session_only",
@@ -3361,9 +3403,9 @@
               "start": 8576,
               "end": 8702
             },
-            "captured_at": "2026-11-15T22:52:49Z"
+            "captured_at": "2026-11-15T22:59:08Z"
           },
-          "row_sha256": "55bd87ac66c7c330b6ad92c141fe407f91676b568848173ac39aa1f6bb554188"
+          "row_sha256": "0f01f3f404e9d983a03223c56c8b793a10bf97877b7539e10fd20934b9eaafbe"
         }
       ]
     }

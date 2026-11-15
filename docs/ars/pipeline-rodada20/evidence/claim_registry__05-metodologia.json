@@ -1,13 +1,13 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "17bc2ced0bfd9dd60427cf695680392bf5b84d4e287d43d643ee459b7c2fd0e1",
+  "draft_raw_sha256": "8472c7b10c9d8361499b6b95b522cdbdd8d4dd2d933f09d2ce55ec7cb6a332c2",
   "claims": [
     {
       "claim_id": "H08",
-      "claim_text": "O terceiro trimestre, para o qual o análogo\nequatoriano não encontra efeito, serve de contraste de falsificação.",
+      "claim_text": "O terceiro trimestre, para o qual o análogo\nequatoriano encontra estimativa sem significância estatística, serve de\ncontraste de efeito menor.",
       "draft_span": {
         "start_byte": 5735,
-        "end_byte": 5851
+        "end_byte": 5880
       },
       "claim_kinds": [
         "other_factual"
@@ -24,17 +24,15 @@
     },
     {
       "claim_id": "H07",
-      "claim_text": "não o avião, que é tecnologia da produção empresarial\nirrigada",
+      "claim_text": "no Censo de 2006, que registra\naplicação aérea também fora dos polos irrigados",
       "draft_span": {
-        "start_byte": 6112,
-        "end_byte": 6179
+        "start_byte": 6248,
+        "end_byte": 6330
       },
       "claim_kinds": [
-        "categorical"
+        "other_factual"
       ],
-      "ref_slugs": [
-        "ibge2017censoagro"
-      ],
+      "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
       "selection_tier": "HIGH-IMPACT",
@@ -46,8 +44,8 @@
       "claim_id": "F18",
       "claim_text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com município, cultura, área\n    e produto",
       "draft_span": {
-        "start_byte": 8494,
-        "end_byte": 8663
+        "start_byte": 8729,
+        "end_byte": 8898
       },
       "claim_kinds": [
         "other_factual"
@@ -66,8 +64,8 @@
       "claim_id": "F19",
       "claim_text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
       "draft_span": {
-        "start_byte": 8785,
-        "end_byte": 8886
+        "start_byte": 9020,
+        "end_byte": 9121
       },
       "claim_kinds": [
         "other_factual"
@@ -86,8 +84,8 @@
       "claim_id": "F20",
       "claim_text": "o cadastro estadual de prestadores de serviço de aplicação e os autos\n    de infração posteriores à lei \\cite{ceara1993lei12228}",
       "draft_span": {
-        "start_byte": 8896,
-        "end_byte": 9030
+        "start_byte": 9131,
+        "end_byte": 9265
       },
       "claim_kinds": [
         "other_factual"
@@ -106,8 +104,8 @@
       "claim_id": "F21",
       "claim_text": "os autos da ação civil pública de 2011, na Justiça Federal",
       "draft_span": {
-        "start_byte": 9040,
-        "end_byte": 9102
+        "start_byte": 9275,
+        "end_byte": 9337
       },
       "claim_kinds": [
         "other_factual"
@@ -121,8 +119,8 @@
       "claim_id": "C23",
       "claim_text": "em que $VPP$ é a fração dos classificados como tratados que de fato o eram\n\\cite{denteh2022misclassification}: o sinal é preservado e a magnitude,\natenuada.",
       "draft_span": {
-        "start_byte": 11039,
-        "end_byte": 11199
+        "start_byte": 11274,
+        "end_byte": 11434
       },
       "claim_kinds": [
         "other_factual"
@@ -141,8 +139,8 @@
       "claim_id": "H09",
       "claim_text": "o \\emph{wild cluster bootstrap} isolado não é defensável com tão\npoucos tratados \\cite{mackinnon2018wild}",
       "draft_span": {
-        "start_byte": 12925,
-        "end_byte": 13034
+        "start_byte": 13160,
+        "end_byte": 13269
       },
       "claim_kinds": [
         "other_factual"
@@ -159,10 +157,10 @@
     },
     {
       "claim_id": "H10",
-      "claim_text": "procedimentos de \\citeonline{conley2011} e \\citeonline{ferman2019inference},\nque admitem heterocedasticidade por tamanho de município",
+      "claim_text": "procedimentos de \\citeonline{conley2011} e de \\citeonline{ferman2019inference},\neste último com heterocedasticidade por tamanho de município",
       "draft_span": {
-        "start_byte": 13067,
-        "end_byte": 13201
+        "start_byte": 13302,
+        "end_byte": 13444
       },
       "claim_kinds": [
         "other_factual"
@@ -182,8 +180,8 @@
       "claim_id": "H11",
       "claim_text": "para o caso-limite, o\nprocedimento de \\citeonline{hagemann2025single}",
       "draft_span": {
-        "start_byte": 13272,
-        "end_byte": 13341
+        "start_byte": 13515,
+        "end_byte": 13584
       },
       "claim_kinds": [
         "other_factual"
@@ -199,8 +197,8 @@
       "claim_id": "H12",
       "claim_text": "na diferença tripla, em que a\nvariação é interna ao município, aplica-se também \\citeonline{canay2021wild}",
       "draft_span": {
-        "start_byte": 13343,
-        "end_byte": 13455
+        "start_byte": 13586,
+        "end_byte": 13698
       },
       "claim_kinds": [
         "other_factual"
@@ -219,8 +217,26 @@
       "claim_id": "F22",
       "claim_text": "Um plano para a forma reduzida estadual foi escrito\ne versionado em setembro de 2026; uma rodada exploratória dessa análise já foi\nexecutada e levou a rever seu alvo, da curva para o nível.",
       "draft_span": {
-        "start_byte": 14278,
-        "end_byte": 14471
+        "start_byte": 14521,
+        "end_byte": 14714
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F23",
+      "claim_text": "o\ndesenho de calendário foi adotado como principal depois dela, sem que a\nexposição sazonal tenha sido cruzada com os desfechos",
+      "draft_span": {
+        "start_byte": 14788,
+        "end_byte": 14918
       },
       "claim_kinds": [
         "other_factual"

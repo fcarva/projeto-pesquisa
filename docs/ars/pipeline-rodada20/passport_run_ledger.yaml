@@ -202,3 +202,11 @@ entries:
     Fase 0.'
   prev_hash: c4df301133462fbbbd7ee678f71bd6438ce6b273aca84e6142edba5b931e4da7
   hash: 7e534946e1b836070a6320300507e878ea2e5ec37ae71f72a7bddc107c59016e
+- seq: 17
+  kind: progress
+  at: '2026-11-15T23:01:33Z'
+  stage: '2.5'
+  counters:
+    integrity_fix_round_v2: 1
+  prev_hash: 7e534946e1b836070a6320300507e878ea2e5ec37ae71f72a7bddc107c59016e
+  hash: b449814ea08ccd1d495e27a1547eb77c981d61f77ad1a69ad1d90849b0190fb0

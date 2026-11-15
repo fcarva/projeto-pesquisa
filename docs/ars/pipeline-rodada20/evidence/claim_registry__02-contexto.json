@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "2fcba62a521342c472fc54b54240dcfcf7f40f8f3cb29a0d3511532e6fea4335",
+  "draft_raw_sha256": "7609ce97e8a77a08d4ad3357ebd38e832eff21aa6b94274ca1e10125780078fc",
   "claims": [
     {
       "claim_id": "F05",
@@ -190,8 +190,8 @@
       "claim_id": "H01",
       "claim_text": "03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}",
       "draft_span": {
-        "start_byte": 2441,
-        "end_byte": 2545
+        "start_byte": 2523,
+        "end_byte": 2627
       },
       "claim_kinds": [
         "other_factual"
@@ -208,9 +208,9 @@
     },
     {
       "claim_id": "F07",
-      "claim_text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
+      "claim_text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}. \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
       "draft_span": {
-        "start_byte": 2550,
+        "start_byte": 2441,
         "end_byte": 2698
       },
       "claim_kinds": [
@@ -323,10 +323,10 @@
     },
     {
       "claim_id": "H03",
-      "claim_text": "relatos de\n2016 afirmam que os voos cessaram na Chapada a partir de cerca de 2012, por\ncausa da seca, já que a doença fúngica que os motiva depende de umidade\n\\cite{agenciabrasil2016ceara}",
+      "claim_text": "em 2016, uma\nmoradora de comunidade da Chapada relatou que não havia novas aplicações\ndesde 2012, por causa da pouca chuva \\cite{agenciabrasil2016ceara}",
       "draft_span": {
         "start_byte": 5499,
-        "end_byte": 5690
+        "end_byte": 5654
       },
       "claim_kinds": [
         "other_factual"
@@ -343,15 +343,17 @@
     },
     {
       "claim_id": "H04",
-      "claim_text": "Declarações do setor produtivo, por sua vez,\ndescrevem aplicações aéreas em bananais do Cariri e da Chapada até 2018, em\nanos chuvosos.",
+      "claim_text": "Um produtor do\nCariri, por sua vez, declarou ter feito aplicações aéreas em seu bananal até\n2018 \\cite{globorural2021bananais}",
       "draft_span": {
-        "start_byte": 5692,
-        "end_byte": 5833
+        "start_byte": 5732,
+        "end_byte": 5862
       },
       "claim_kinds": [
         "other_factual"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "globorural2021bananais"
+      ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
       "selection_tier": "HIGH-IMPACT",

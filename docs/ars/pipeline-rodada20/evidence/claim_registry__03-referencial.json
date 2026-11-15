@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "2bf7e59bd1345781874828d5af49845fcf081c0c3b5ff6746f1f30a92779495f",
+  "draft_raw_sha256": "34b66ace3aab3daaf80198dc09930cb0a18031594bf45f588ef8937c66bd15ca",
   "claims": [
     {
       "claim_id": "C10",
@@ -21,16 +21,17 @@
     },
     {
       "claim_id": "C11",
-      "claim_text": "Qual instrumento usar, se proibição, taxa ou regulação de\ndesempenho, depende das inclinações relativas do benefício e do custo\nmarginais \\cite{weitzman1974}",
+      "claim_text": "Qual instrumento usar, se proibição, taxa ou regulação de\ndesempenho, depende das inclinações relativas do benefício e do custo\nmarginais \\cite{weitzman1974,skevas2012}",
       "draft_span": {
         "start_byte": 822,
-        "end_byte": 986
+        "end_byte": 997
       },
       "claim_kinds": [
         "other_factual"
       ],
       "ref_slugs": [
-        "weitzman1974"
+        "weitzman1974",
+        "skevas2012"
       ],
       "writer_anchors": [],
       "paper_section": "3 Referencial teórico e empírico",
@@ -38,9 +39,9 @@
     },
     {
       "claim_id": "C12",
-      "claim_text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995,skevas2012}",
+      "claim_text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995}",
       "draft_span": {
-        "start_byte": 989,
+        "start_byte": 1000,
         "end_byte": 1061
       },
       "claim_kinds": [
@@ -48,8 +49,7 @@
       ],
       "ref_slugs": [
         "lichtenberg1988",
-        "helfand1995",
-        "skevas2012"
+        "helfand1995"
       ],
       "writer_anchors": [],
       "paper_section": "3 Referencial teórico e empírico",
@@ -155,10 +155,10 @@
     },
     {
       "claim_id": "C18",
-      "claim_text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e nenhum no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
+      "claim_text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e estimativa sem significância estatística no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
       "draft_span": {
         "start_byte": 2928,
-        "end_byte": 3212
+        "end_byte": 3248
       },
       "claim_kinds": [
         "other_factual"
@@ -178,8 +178,8 @@
       "claim_id": "C19",
       "claim_text": "A ameaça\nconhecida é a composição sazonal das mães: quem concebe em cada época do ano\ndifere em características que afetam o desfecho\n\\cite{buckles2013season,currie2013within}",
       "draft_span": {
-        "start_byte": 3213,
-        "end_byte": 3395
+        "start_byte": 3249,
+        "end_byte": 3431
       },
       "claim_kinds": [
         "other_factual"
@@ -196,8 +196,8 @@
       "claim_id": "C20",
       "claim_text": "os estimadores e as\ndecomposições de diferenças-em-diferenças para adoção escalonada\n\\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam",
       "draft_span": {
-        "start_byte": 3516,
-        "end_byte": 3686
+        "start_byte": 3552,
+        "end_byte": 3722
       },
       "claim_kinds": [
         "other_factual"
@@ -215,8 +215,8 @@
       "claim_id": "C22",
       "claim_text": "a diferença tripla exige uma única hipótese\nde tendências paralelas, a da diferença entre os dois contrastes que a compõem\n\\cite{olden2022triple}",
       "draft_span": {
-        "start_byte": 3809,
-        "end_byte": 3960
+        "start_byte": 3845,
+        "end_byte": 3996
       },
       "claim_kinds": [
         "other_factual"
@@ -235,8 +235,8 @@
       "claim_id": "C21",
       "claim_text": "\\citeonline{callaway2024continuous} mostram que o\nefeito no nível da dose recebida sai sob tendências paralelas usuais, ao passo\nque a curva dose-resposta exige hipótese mais forte.",
       "draft_span": {
-        "start_byte": 4038,
-        "end_byte": 4222
+        "start_byte": 4074,
+        "end_byte": 4258
       },
       "claim_kinds": [
         "other_factual"
@@ -255,8 +255,8 @@
       "claim_id": "C24",
       "claim_text": "Quando poucos grupos são tratados, a inferência assintótica usual falha e são\nnecessários procedimentos próprios \\cite{conley2011,ferman2019inference,\nchernozhukov2021conformal,hagemann2025single}",
       "draft_span": {
-        "start_byte": 4224,
-        "end_byte": 4426
+        "start_byte": 4260,
+        "end_byte": 4462
       },
       "claim_kinds": [
         "other_factual"

@@ -153,6 +153,13 @@
     "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
     "display_label": "Ferman e Pinto 2019, artigo, doi:10.1162/rest_a_00759"
   },
+  "globorural2021bananais": {
+    "file": "sources/globorural2021bananais.txt",
+    "sha256": "a7fa9d1e212fcfe1d373abcb764134d2b0295cc95ac595e15ac71e4172a552de",
+    "utf8_bytes": 10384,
+    "provenance": "página da Globo Rural (HTML com marcação removida), 2026-11-15",
+    "display_label": "Globo Rural 2021, reportagem de 09/04/2021"
+  },
   "goodmanbacon2021": {
     "file": "sources/goodmanbacon2021.txt",
     "sha256": "5cadb948d6a19ff7ce17941ad2c2f37d32ba3165d9bdc8e9dbb67504d9097b2f",
@@ -180,13 +187,6 @@
     "utf8_bytes": 97163,
     "provenance": "resposta JSON de apisidra.ibge.gov.br/values/t/1008/n6/in n3 23/v/2020/p/2006/c12596/113450, 2026-11-15",
     "display_label": "IBGE, Censo Agropecuário 2006, tabela SIDRA 1008"
-  },
-  "ibge2017censoagro": {
-    "file": "sources/ibge2017censoagro.txt",
-    "sha256": "b2a20d1fe4565b0b0dc54412778d2e9c9f44573ff45405392121f1a68221a4a7",
-    "utf8_bytes": 1471,
-    "provenance": "resposta JSON de apisidra.ibge.gov.br/values/t/6851/n3/23/v/all/p/all, 2026-11-15",
-    "display_label": "IBGE, Censo Agropecuário 2017, tabela SIDRA 6851"
   },
   "ibgepam": {
     "file": "sources/ibgepam.txt",
