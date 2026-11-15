@@ -102,13 +102,16 @@ de um município num dado ano, entre eles os programas estaduais de saúde
 materna contemporâneos à lei. A janela gestacional é fixa: a duração observada
 da gestação é desfecho, e usá-la para definir a exposição condicionaria em
 variável afetada pelo tratamento. O terceiro trimestre, para o qual o análogo
-equatoriano não encontra efeito, serve de contraste de falsificação.
+equatoriano encontra estimativa sem significância estatística, serve de
+contraste de efeito menor.
 
 \textbf{Grupo de comparação.} Os municípios de comparação são os produtores de
 banana em que a cultura é predominantemente familiar, segundo o Censo
 Agropecuário de 2017 \cite{ibge2017censoagro}: têm a cultura, o clima e o
-calendário agrícola, mas não o avião, que é tecnologia da produção empresarial
-irrigada. Em nível, essa comparação não seria válida: agricultura familiar e
+calendário agrícola e, por hipótese, não têm o avião. A hipótese é verificada
+nos relatórios do Ministério da Agricultura e no Censo de 2006, que registra
+aplicação aérea também fora dos polos irrigados; município com qualquer
+registro de aeronave é excluído do grupo de comparação. Em nível, essa comparação não seria válida: agricultura familiar e
 empresarial diferem em renda, acesso a programas sociais e exposição à
 aplicação costal, e a comparação reproduziria essas diferenças. Dentro da
 diferença tripla, as diferenças de nível e de tendência geral entre os dois
@@ -234,8 +237,8 @@ Há poucos municípios tratados, e a lei é atribuída no nível do estado. Erro
 agrupados por município, com aproximação assintótica, superestimam a
 precisão, e o \emph{wild cluster bootstrap} isolado não é defensável com tão
 poucos tratados \cite{mackinnon2018wild}. A inferência principal usa os
-procedimentos de \citeonline{conley2011} e \citeonline{ferman2019inference},
-que admitem heterocedasticidade por tamanho de município, a inferência
+procedimentos de \citeonline{conley2011} e de \citeonline{ferman2019inference},
+este último com heterocedasticidade por tamanho de município, a inferência
 conformal de \citeonline{chernozhukov2021conformal} e, para o caso-limite, o
 procedimento de \citeonline{hagemann2025single}; na diferença tripla, em que a
 variação é interna ao município, aplica-se também \citeonline{canay2021wild}.
@@ -253,6 +256,7 @@ fixados em plano de análise versionado antes de qualquer cruzamento com os
 desfechos do pós-lei, e a escolha do desenho principal é ratificada com o
 orientador nesse momento. Um plano para a forma reduzida estadual foi escrito
 e versionado em setembro de 2026; uma rodada exploratória dessa análise já foi
-executada e levou a rever seu alvo, da curva para o nível. Ela não é reportada
-aqui e será refeita a partir das bases originais. São planos versionados em
+executada e levou a rever seu alvo, da curva para o nível. Ela não é reportada aqui e será refeita a partir das bases originais; o
+desenho de calendário foi adotado como principal depois dela, sem que a
+exposição sazonal tenha sido cruzada com os desfechos. São planos versionados em
 repositório, não pré-registro público.
