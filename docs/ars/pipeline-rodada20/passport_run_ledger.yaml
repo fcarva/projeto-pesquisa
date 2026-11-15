@@ -130,3 +130,21 @@ entries:
   - pausar
   prev_hash: 94e0ea6bb7d81fb79307a973428c2504d2e3610650331e5a869176f8bd5c4511
   hash: 7885b9d7cf95cbdf7f27ec707eb0e660c44671ca93e8882069faef1da7d6ac7b
+- seq: 11
+  kind: checkpoint_closed
+  at: '2026-11-15T22:24:11Z'
+  checkpoint_id: stage2.5-exit
+  answer: resolver a pendência antes
+  user_words: '[resposta dada por seleção de opção] "Resolver a pendência antes" —
+    substitui a decisão anterior "Manter o texto como está" (seq 8). Plano de correção
+    aprovado pelo pesquisador em seguida.'
+  prev_hash: 7885b9d7cf95cbdf7f27ec707eb0e660c44671ca93e8882069faef1da7d6ac7b
+  hash: 514b672d62bf2589007ef2370f489b7911d131cc0cefdd75da3ad8b531ee1cf7
+- seq: 12
+  kind: progress
+  at: '2026-11-15T22:24:11Z'
+  stage: '2.5'
+  counters:
+    integrity_fix_round: 3
+  prev_hash: 514b672d62bf2589007ef2370f489b7911d131cc0cefdd75da3ad8b531ee1cf7
+  hash: af2c1e5f5ff197f5ba3f3d9176691f076a8c81ed43139a6ea03149299c6f7441

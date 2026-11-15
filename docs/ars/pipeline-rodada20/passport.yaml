@@ -28,3 +28,9 @@ experiment_intake_declaration:
 # standing_constraints: lista apresentada em 2026-11-15 e NÃO confirmada
 # explicitamente; nada gravado. As restrições seguem valendo pelo que a sessão
 # mostra (15 p. textuais; sem número de estimativa; só Ensaio 1; abnTeX2).
+# 2026-11-15, rodada 3 de correção: o pesquisador reverteu "manter o texto" e
+# optou por divulgar. O texto agora diz, sem número, que houve diagnóstico e
+# rodada exploratória preliminares, não reportados e a refazer. A declaração de
+# intake permanece no_experiments_declared (nenhum resultado é reportado); se o
+# verificador entender que a divulgação exige "experiments_declared", a decisão
+# volta ao pesquisador.
