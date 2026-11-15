@@ -210,3 +210,18 @@ entries:
     integrity_fix_round_v2: 1
   prev_hash: 7e534946e1b836070a6320300507e878ea2e5ec37ae71f72a7bddc107c59016e
   hash: b449814ea08ccd1d495e27a1547eb77c981d61f77ad1a69ad1d90849b0190fb0
+- seq: 18
+  kind: checkpoint_opened
+  at: '2026-11-15T23:05:29Z'
+  checkpoint_id: stage3-cards-v2
+  stage: '3'
+  checkpoint_type: MANDATORY
+  question: 'Confirmação dos Reviewer Configuration Cards refeitos para o projeto_v2
+    (Fase 0, #1030): aceitar o conjunto dos 4 cartões como está, ou editar, antes
+    de despachar a Fase 1.'
+  options:
+  - aceitar o conjunto
+  - editar cartões
+  - pausar
+  prev_hash: b449814ea08ccd1d495e27a1547eb77c981d61f77ad1a69ad1d90849b0190fb0
+  hash: ab80902a033bbae74beaae8d67a94b69a2fcaeb6cc57bd7405d7d5570cb0eda3
