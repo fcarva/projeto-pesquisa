@@ -1,0 +1,35 @@
+## Contract Paraphrase
+
+D1 (methodology_rigor): do meu assento, esta é a dimensão de que sou dono. Ela pergunta se o desenho do estudo, o tratamento dos dados, o relato estatístico e as condições de reprodução alcançam o padrão que um parecerista de economia aplicada exigiria. Como os metadados descrevem um projeto de pesquisa de avaliação de impacto causal, leio "rigor" como: o parâmetro de interesse está definido antes do estimador, as hipóteses que o identificam estão escritas e são passíveis de refutação, a unidade de análise e a de inferência coincidem com o que o texto declara, e um terceiro conseguiria refazer o caminho dos dados brutos até a quantidade prometida. É dimensão obrigatória: um bloqueio aqui leva a revisão maior, e uma falha fatal leva a rejeição.
+
+D2 (domain_accuracy): pede que as afirmações estejam de acordo com a evidência atual do campo, que a literatura anterior seja representada corretamente e que não haja erro factual em terminologia ou resultados. Não é minha dimensão e não vou pontuá-la. Do ponto de vista metodológico, ela me importa só como fronteira: se um método citado é descrito de forma errada, o erro de representação pertence ao parecerista de domínio, enquanto a consequência desse erro para a validade do desenho pertence a mim.
+
+D3 (argumentative_coherence): pede que a tese central seja internamente consistente, que a evidência sustente as conclusões e que não haja falácia que derrube o argumento principal. O dono é o advogado do diabo, mas sou elegível e vou pontuá-la. Minha leitura é a da cadeia inferencial: se cada conclusão ou promessa do texto decorre do que o desenho consegue de fato entregar, se a força da linguagem acompanha a força da identificação, e se as diferentes partes do documento contam a mesma história sobre o que será estimado e o que isso significaria.
+
+D4 (cross_disciplinary_relevance): pede que o enquadramento, as definições e as implicações sejam acessíveis a leitores de áreas vizinhas e que afirmações interdisciplinares tenham lastro. É de prioridade alta, pertence ao parecerista de perspectiva, e não vou pontuá-la. Para o meu assento, o ponto de contato é que um conceito tomado de outra disciplina e usado como variável ou mecanismo precisa de uma definição operacional; a ausência dessa definição eu trato como problema de medida dentro de D1, não aqui.
+
+D5 (writing_and_structure): trata da organização do manuscrito, da clareza da exposição, da qualidade de figuras e tabelas e da aderência às convenções do veículo. Prioridade normal, pertence ao editor-chefe, e não vou pontuá-la. Só me interessa quando a falta de clareza impede saber o que foi ou será feito: nesse caso deixa de ser questão de redação e passa a ser questão de reprodutibilidade, que registro em D1.
+
+D6 (venue_fit_and_contribution): pede que o trabalho caiba no veículo configurado e traga contribuição original e relevante para o seu público. É obrigatória, pertence ao editor-chefe, e não vou pontuá-la. Esta chamada não está vinculada a critérios de veículo, de modo que não faço nenhuma afirmação de adequação; registro apenas que o tamanho da contribuição depende de o desenho conseguir sustentar o que promete, e essa sustentação é o que examino em D1 e D3.
+
+## Scoring Plan
+
+### D1: methodology_rigor
+
+dimension_id: D1
+what_to_look_for: Definição explícita do parâmetro-alvo e da população a que se refere; hipóteses de identificação enunciadas e acompanhadas de verificações capazes de refutá-las; definição operacional do tratamento, do grupo de comparação e dos desfechos, com atenção a erro de medida e de classificação; fontes de dados, janela temporal, unidade de análise e regras de exclusão; plano de inferência compatível com o número efetivo de unidades independentes e com a raridade dos desfechos; consideração de poder ou efeito mínimo detectável; tratamento de multiplicidade e de graus de liberdade do pesquisador; separação entre o que é pré-especificado e o que é exploratório; coerência aritmética de todo número relatado; e condições de reprodução (código, versão dos dados, sementes).
+what_triggers_block: Uma lacuna que impede avaliar se a quantidade prometida é identificada ou estimável e que só se resolve com trabalho substancial de redesenho ou de redação técnica, por exemplo hipótese de identificação central não enunciada ou sem nenhuma verificação possível, tratamento ou grupo de comparação sem definição operacional, plano de inferência incompatível com a estrutura dos dados, ou ausência de qualquer consideração de poder quando o próprio texto reconhece poucas unidades tratadas ou desfechos raros.
+what_triggers_warn: Um problema corrigível sem alterar o desenho, como verificação de robustez mencionada mas não especificada, ameaça à validade reconhecida sem estratégia de resposta, detalhe de construção de variável insuficiente para reprodução exata, multiplicidade não discutida, ou inconsistência pontual entre números ou definições que não muda a conclusão.
+what_triggers_fatal: Um defeito que torna o desenho incapaz de responder à pergunta formulada e que nenhuma revisão do texto corrige, como parâmetro-alvo logicamente não identificável com os dados e a variação descritos, resultado numérico apresentado como obtido sem base verificável ou em contradição aritmética irreconciliável com o restante, ou indício de fabricação ou de escolha de especificação condicionada ao resultado apresentada como pré-especificada.
+
+### D3: argumentative_coherence
+
+dimension_id: D3
+what_to_look_for: Se a pergunta de pesquisa, o parâmetro-alvo, o estimador e a interpretação anunciada formam uma cadeia sem saltos; se a força das afirmações causais acompanha a força das hipóteses declaradas; se limitações reconhecidas numa parte do texto são respeitadas nas demais; se há regra de decisão explícita para os resultados possíveis, inclusive o nulo; e se aparecem falácias inferenciais típicas, como tratar ausência de evidência como evidência de ausência, ler aprovação em teste de falsificação como validação da hipótese, ou extrapolar para além do suporte dos dados.
+what_triggers_block: Uma conclusão ou promessa central que não decorre do desenho tal como descrito, por exemplo interpretação causal mais forte do que as hipóteses permitem, estimando interpretado como um parâmetro diferente daquele que o método entrega, ou contradição entre seções sobre o que constitui o resultado principal, exigindo reescrita do argumento.
+what_triggers_warn: Um descompasso localizado entre evidência e linguagem, como frase isolada que exagera o alcance, limitação declarada mas não levada à discussão de implicações, mecanismo proposto sem distinção clara entre o que será testado e o que é conjectura, ou regra de decisão incompleta para algum resultado plausível.
+what_triggers_fatal: A tese central é internamente contraditória ou circular, de modo que nenhum resultado concebível do desenho poderia confirmá-la ou refutá-la, ou o argumento principal depende de uma premissa que o próprio texto nega.
+
+criteria_binding_unavailable
+
+[CONTRACT-ACKNOWLEDGED]
