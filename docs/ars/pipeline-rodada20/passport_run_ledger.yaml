@@ -233,3 +233,20 @@ entries:
   user_words: aceito os quatro cartões, pode seguir
   prev_hash: ab80902a033bbae74beaae8d67a94b69a2fcaeb6cc57bd7405d7d5570cb0eda3
   hash: 3f9fa67c01f968727d389fb91b5c428bd2914eaf71eb7feea0733c4d4724b9bd
+- seq: 20
+  kind: checkpoint_opened
+  at: '2026-11-15T23:38:00Z'
+  checkpoint_id: stage3-decision
+  stage: '3'
+  checkpoint_type: MANDATORY
+  question: 'Estágio 3 concluído: editorial_decision=major_revision (D2 e D3 em block
+    reparável; nenhum CRITICAL). Roteiro com 59 itens (15 must_fix, 11 should_fix,
+    33 consider). Triagem do autor item a item, estratégia de revisão e conflito com
+    o teto de 15 páginas.'
+  options:
+  - triagem recomendada pelo orquestrador, com ajustes do autor
+  - coaching socrático
+  - triagem item a item
+  - pausar
+  prev_hash: 3f9fa67c01f968727d389fb91b5c428bd2914eaf71eb7feea0733c4d4724b9bd
+  hash: b6d8e8ef3a9b73a56d6adfb1f0050a7e4d072698bb202d1a3294593270f2063d
