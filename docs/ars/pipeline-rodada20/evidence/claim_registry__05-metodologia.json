@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "ec4d152335544b4b446711297845dd052f9824ea46355734210264feb240574f",
+  "draft_raw_sha256": "9a76c443cc5050e79779d922f130aa0e19e2349277deb5128fe47500c1b5a23a",
   "claims": [
     {
       "claim_id": "F17",
@@ -37,10 +37,10 @@
     },
     {
       "claim_id": "G06",
-      "claim_text": "ela não elimina o problema, porque também é posterior à\nprimeira proposição, e reduz o número de municípios sem a cultura",
+      "claim_text": "ela não elimina o problema, porque é em sua maior parte posterior à\nprimeira proposição, e reduz o número de municípios sem a cultura",
       "draft_span": {
         "start_byte": 3244,
-        "end_byte": 3373
+        "end_byte": 3384
       },
       "claim_kinds": [
         "quantitative",
@@ -58,8 +58,8 @@
       "claim_id": "G07",
       "claim_text": "o estimador centra o nível\ndo efeito na variação desse grupo",
       "draft_span": {
-        "start_byte": 4722,
-        "end_byte": 4785
+        "start_byte": 4733,
+        "end_byte": 4796
       },
       "claim_kinds": [
         "other_factual"
@@ -73,8 +73,8 @@
       "claim_id": "F18",
       "claim_text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com\n    município, cultura, área aplicada e produto, mês a mês",
       "draft_span": {
-        "start_byte": 6334,
-        "end_byte": 6525
+        "start_byte": 6345,
+        "end_byte": 6536
       },
       "claim_kinds": [
         "other_factual"
@@ -93,8 +93,8 @@
       "claim_id": "F19",
       "claim_text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
       "draft_span": {
-        "start_byte": 6535,
-        "end_byte": 6636
+        "start_byte": 6546,
+        "end_byte": 6647
       },
       "claim_kinds": [
         "other_factual"
@@ -111,10 +111,10 @@
     },
     {
       "claim_id": "F20",
-      "claim_text": "o cadastro estadual de prestadores de serviço de aplicação (Lei\n    nº~12.228/1993), sob guarda do órgão ambiental estadual",
+      "claim_text": "o cadastro estadual de prestadores de serviço de aplicação\n    \\cite{ceara1993lei12228}, sob guarda do órgão ambiental estadual",
       "draft_span": {
-        "start_byte": 6707,
-        "end_byte": 6836
+        "start_byte": 6718,
+        "end_byte": 6850
       },
       "claim_kinds": [
         "other_factual"
@@ -133,8 +133,8 @@
       "claim_id": "F21",
       "claim_text": "os autos da ação civil pública de 2011 sobre a pulverização aérea na\n    Chapada do Apodi, na Justiça Federal",
       "draft_span": {
-        "start_byte": 6846,
-        "end_byte": 6962
+        "start_byte": 6860,
+        "end_byte": 6976
       },
       "claim_kinds": [
         "other_factual"
@@ -148,8 +148,8 @@
       "claim_id": "F22",
       "claim_text": "O plano de análise de cada\nestágio será escrito e versionado antes da respectiva estimação",
       "draft_span": {
-        "start_byte": 12040,
-        "end_byte": 12135
+        "start_byte": 12054,
+        "end_byte": 12149
       },
       "claim_kinds": [
         "other_factual"

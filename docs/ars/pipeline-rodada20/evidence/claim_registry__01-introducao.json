@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "b5ac6c2939e59739646032841dce024195c13a2f9fae270ac4e76720787ba473",
+  "draft_raw_sha256": "150c36939e53cafca1bdef5b58adb8b22d8d1f060a368a07fb3c28524bd7a9c0",
   "claims": [
     {
       "claim_id": "F01",
@@ -197,15 +197,17 @@
     },
     {
       "claim_id": "F04",
-      "claim_text": "que o Supremo Tribunal Federal julgou constitucional em 2023 (ADI~6137)",
+      "claim_text": "que o Supremo Tribunal Federal julgou constitucional em 2023 \\cite{stf2023adi6137}",
       "draft_span": {
         "start_byte": 4955,
-        "end_byte": 5026
+        "end_byte": 5037
       },
       "claim_kinds": [
         "other_factual"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "stf2023adi6137"
+      ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
       "selection_tier": "HIGH-IMPACT",
@@ -247,8 +249,8 @@
       "claim_id": "N03",
       "claim_text": "registros administrativos nunca\nexplorados para esse fim",
       "draft_span": {
-        "start_byte": 5303,
-        "end_byte": 5359
+        "start_byte": 5314,
+        "end_byte": 5370
       },
       "claim_kinds": [
         "categorical"

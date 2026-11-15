@@ -115,3 +115,18 @@ entries:
     integrity_fix_round: 2
   prev_hash: 0bd349cb391362e75739a3cf997231526ab356f3372cc09707baffc88de62950
   hash: 94e0ea6bb7d81fb79307a973428c2504d2e3610650331e5a869176f8bd5c4511
+- seq: 10
+  kind: checkpoint_opened
+  at: '2026-11-15T22:11:55Z'
+  checkpoint_id: stage2.5-exit
+  stage: '2.5'
+  checkpoint_type: MANDATORY
+  question: 'Integridade 2.5, terceira verificação: FAIL por 1 MEDIUM mantida por
+    decisão registrada do autor (IL-MEDIUM-1); 0 SERIOUS, 2 MINOR, modos de falha
+    sem bloqueio. Seguir ao Estágio 3 (revisão full) com essa pendência listada?'
+  options:
+  - seguir ao Estágio 3 com a pendência listada
+  - resolver a pendência antes
+  - pausar
+  prev_hash: 94e0ea6bb7d81fb79307a973428c2504d2e3610650331e5a869176f8bd5c4511
+  hash: 7885b9d7cf95cbdf7f27ec707eb0e660c44671ca93e8882069faef1da7d6ac7b

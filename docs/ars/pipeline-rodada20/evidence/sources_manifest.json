@@ -62,6 +62,13 @@
     "provenance": "cópia no repositório: docs/legislacao/lei-12228-1993-consolidada.md",
     "display_label": "Ceará 1993, lei estadual consolidada, Lei 12.228 de 09/12/1993 (texto da ALECE)"
   },
+  "ceara2011pl134": {
+    "file": "sources/ceara2011pl134.txt",
+    "sha256": "3bb565c14aaceb102d595ca4011420a3111fb4d5e318b3ce80202d98aa78453e",
+    "utf8_bytes": 18969,
+    "provenance": "www2.al.ce.gov.br/legislativo/tramit2011/pl134_11.htm, HTML com marcação removida, 2026-11-15",
+    "display_label": "Ceará, Assembleia Legislativa 2011, projeto de lei, PL 134/2011 (texto da ALECE)"
+  },
   "ceara2015pl18": {
     "file": "sources/ceara2015pl18.txt",
     "sha256": "1f7bbcf63e29a088b0e925fbeb2b6a4eaf3d25b798bfab7c1abadf19bf581abe",
@@ -160,6 +167,13 @@
     "provenance": "resposta JSON de apisidra.ibge.gov.br/values/t/1008/n6/in n3 23/v/2020/p/2006/c12596/113450, 2026-11-15",
     "display_label": "IBGE, Censo Agropecuário 2006, tabela SIDRA 1008"
   },
+  "ibgepam": {
+    "file": "sources/ibgepam.txt",
+    "sha256": "bb636e41d96a69fec3e213e78d29f99f001b9c1057a53f1b444cebbed1311a44",
+    "utf8_bytes": 230931,
+    "provenance": "resposta JSON de apisidra.ibge.gov.br, tabela 5457, variável 8331, banana (cacho), 2015 a 2018, municípios do Ceará, 2026-11-15; o projeto cita as tabelas 1612 e 1613, que trazem a mesma variável",
+    "display_label": "IBGE, Produção Agrícola Municipal, SIDRA (tabela 5457 consultada)"
+  },
   "larsen2017agricultural": {
     "file": "sources/larsen2017agricultural.txt",
     "sha256": "057151e3c3310bc83efe0c7046c6aaf77bd8a8eceaaa5c47e6145bb4fc0da238",
@@ -208,5 +222,12 @@
     "utf8_bytes": 1314,
     "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
     "display_label": "Skevas, Stefanou e Lansink 2012, artigo, doi:10.1111/j.1574-0862.2012.00581.x"
+  },
+  "stf2023adi6137": {
+    "file": "sources/stf2023adi6137.txt",
+    "sha256": "a8b4e184116e06ba9a8eb96a2597f1ee3bd9c9162221bc685324e78450b8d532",
+    "utf8_bytes": 4845,
+    "provenance": "notícia oficial do STF de 30/05/2023 (portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=508087), HTML com marcação removida; não é o acórdão",
+    "display_label": "Brasil, STF 2023, ADI 6137 (notícia oficial do julgamento)"
   }
 }
