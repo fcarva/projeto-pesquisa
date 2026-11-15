@@ -67,7 +67,12 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 - Documentos legais → `docs/legislacao/`: Lei 16.820/2019 e Lei 12.228/1993 consolidada (**obtidos**); ADI 6137/STF; Lei 19.135/2024 (exceção drones); ADI 7794. **ADI 5553 / ADI 7755** (desoneração tributária de agrotóxicos, rel. Fachin) — o STF decidindo o instrumento-**preço** enquanto já validou o instrumento-**quantidade**; matéria do Ensaio 2. A audiência pública da ADI 5553 é acervo técnico público.
 
 ## Projeto de pesquisa (entrega 27/11/2026)
-`paper/projeto/` — projeto de 15 páginas em **abnTeX2** (`make projeto`), só Ensaio 1, **sem número de estimativa**. O desenho declarado é em três estágios (forma reduzida pela cultura → medir o método → diferença tripla de calendário), com regra de decisão: `docs/ars/20-projeto-de-pesquisa-desenho.md`. A dose principal continua 2015–2018 (2010–2014 é sensibilidade: lá o grupo sem banana cai de 15 para 6, e há um PL estadual de 2011 com a mesma proibição, a conferir). O texto **não apresenta análise como feita** (decisão do pesquisador em 2026-11-15): banana é cultura candidata, as contagens saíram. Pipeline ARS da rodada: `docs/ars/pipeline-rodada20/` (passport, ledger, relatórios de integridade). `paper/main.tex` (qualificação) não foi alterado.
+`paper/projeto/` — projeto de 15 páginas em **abnTeX2** (`make projeto`), só Ensaio 1, **sem número de estimativa**. Reescrito em 2026-11-15 com o desenho consolidado de 2026-11-10 (`docs/pdf/2026-11-10-desenho-consolidado-chapada-sutva-dags.pdf` e `docs/pdf/2026-11-10-dags-ensaio1.pdf`, que **prevalecem** sobre `docs/ars/20`):
+- **Desenho principal:** diferença tripla de calendário (município com avião × pós-lei × gestação na estação de pulverização), com interação por chuva e **municípios de banana familiar como grupo de comparação** (válido só dentro da tripla, não em nível) e como tratamento falso. Escolha do pesquisador em 2026-11-15, **a ratificar com o orientador**.
+- **Antes do pós:** diagnóstico do gradiente sazonal no pré-período (painel recua a 2005).
+- **Secundárias:** forma reduzida estadual (CGS, dose 2015–2018, `θ = VPP·ATT`), sintético, fronteira CE×RN.
+- ⚠️ **A ameaça ao tratamento é a seca** (voos suspensos ~2012–2016/17, fontes de imprensa), não 2011. ⚠️ **Calzada et al.: −80 g a ≤ 150 m com ≥ 3 meses de fumigação intensiva** — o "80–150 g" das flags 2 e 7 abaixo vinha do resumo e está superado. Lei 1.511/2010 conferida no texto integral.
+- Pipeline ARS da rodada: `docs/ars/pipeline-rodada20/` (passport, ledger, relatórios). `paper/main.tex` (qualificação) não foi alterado.
 
 ## Convenções do repositório
 - Estrutura: `data/{raw,processed,geo}`, `notebooks/`, `scripts/`, `paper/`, `docs/`.

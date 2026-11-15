@@ -5,8 +5,8 @@
 origin_skill: external-draft
 origin_mode: mid-entry
 origin_date: "2026-11-15T21:25:42Z"
-verification_status: UNVERIFIED
-version_label: "projeto_v1"
+verification_status: STALE
+version_label: "projeto_v2"
 content_hash: "sha256:bc4611e7843d87becd596e0c6853bf2fcb5a1e8778ac5edf3d97d27e22516d59"
 ars_plugin_version: "3.24.2"
 artifact_paths:
@@ -45,3 +45,7 @@ integrity_stage_2_5:
       decided_by: scholar
       scholar_words: "como é um projeto de pesquisa essa parte vai ser feita ao longo do ano, então é só o que eu vou fazer"
       note: "Leitura do orquestrador: override — o projeto descreve o que será feito; nenhum resultado é reportado. Declaração de intake inalterada. A reavaliar no Estágio 4.5 e relatar no Estágio 6."
+# 2026-11-15: projeto_v2 — reescrita com o desenho de 2026-11-10 (calendário +
+# agricultura familiar como comparação). O PASS WITH NOTES do Estágio 2.5 valia
+# para projeto_v1 e está STALE; nova passada de integridade obrigatória.
+content_hash_v2: "sha256:f129f5382c2ae5b4498160fc336c4a37356c87460638954f5a496436a10d840a"

@@ -1,222 +1,258 @@
-% Seção 5 — Metodologia. Forward engineering: parâmetro-alvo -> hipóteses de
-% identificação -> estimação -> inferência. Desenho: docs/ars/20 §3–§4.
+% Seção 5 — Metodologia. Reescrita em 2026-11-15 com o desenho consolidado de
+% 2026-11-10 (docs/pdf/2026-11-10-desenho-consolidado-chapada-sutva-dags.pdf e
+% 2026-11-10-dags-ensaio1.pdf): calendário gestacional como desenho principal,
+% agricultura familiar como grupo de comparação DENTRO da diferença tripla,
+% diagnóstico sazonal no pré-período, SUTVA, DAG.
 % NENHUM número de estimativa aqui.
 
 \chapter{Metodologia}
 \label{cap:metodologia}
 
-A estratégia segue a ordem parâmetro-alvo, hipóteses de identificação,
-estimação e inferência, e é organizada em três estágios. O primeiro usa dados
-públicos e mede o tratamento pela cultura. O segundo mede o método. O
-terceiro estima o efeito entre os municípios com aplicação aérea medida. A
-passagem de um estágio a outro obedece a uma regra de decisão escrita antes do
-dado (Seção~\ref{sec:regra}).
+\section{Parâmetro-alvo e cadeia causal}
 
-\section{Parâmetro-alvo}
-
-Seja $A_m \in \{0,1\}$ o indicador, não observado diretamente, de que havia
-aplicação aérea no município $m$ às vésperas da proibição. O parâmetro de
-interesse é o efeito médio da proibição sobre os tratados,
+O parâmetro de interesse é o efeito médio da retirada da aplicação aérea de
+agrotóxicos em bananais sobre o peso ao nascer das gestações que coincidiriam
+com a estação de pulverização, nos municípios cearenses onde a prática existia.
+Em notação de resultados potenciais, com $Y(1)$ e $Y(0)$ os desfechos com e
+sem a proibição,
 \begin{equation}
-  ATT = E\left[\,Y_{mt}(1) - Y_{mt}(0) \mid A_m = 1,\ t \text{ pós-ban}\,\right],
+  ATT = E\left[\,Y_{mt}(1) - Y_{mt}(0) \mid A_m = 1,\ S_t = 1,\ t \text{ pós-lei}\,\right],
 \end{equation}
-em que $Y_{mt}$ é o desfecho médio dos nascidos no município $m$ na coorte $t$,
-e $Y_{mt}(0)$ é o desfecho que se observaria sem a proibição.
+em que $A_m$ indica município com aplicação aérea às vésperas da lei e $S_t$
+indica coorte cuja gestação atravessa a estação de pulverização. É um efeito
+sobre coortes expostas, e não sobre municípios: ele declara \emph{quem} é
+tratado, o que uma medida municipal de intensidade agrícola não consegue fazer.
 
-O que os dados disponíveis observam é uma \emph{proxy} de $A_m$: a intensidade
-da cultura associada à prática. Classificar municípios pela cultura produz
-falsos positivos (lavoura sem avião). Supõe-se que não produza falsos
-negativos (avião sem lavoura), hipótese que a etapa de medição verifica. Nessa
-configuração, e sob tendências paralelas na classificação observada, o
-diferenças-em-diferenças identifica
+A cadeia que liga a lei ao desfecho tem elos que podem falhar separadamente: a
+lei precisa ter sido cumprida; precisava haver voos a suspender; a suspensão
+precisa reduzir a exposição das gestantes, e não apenas trocá-la pela da
+aplicação terrestre; e a menor exposição precisa alterar o desfecho. A cada elo
+a população efetivamente tratada encolhe: dos municípios do estado para os que
+têm banana, destes para os que tinham avião, destes para os em que se voava em
+2018, e destes para as gestantes que moravam perto de um bananal pulverizado.
+Um efeito nulo no desfecho final não distingue falha de implementação de falha
+do mecanismo; por isso o desenho mede os elos intermediários antes do desfecho.
+
+\section{Desenho principal: diferença tripla de calendário}
+\label{sec:calendario}
+
+A Figura~\ref{fig:dag} resume as hipóteses causais do desenho. O tratamento é a
+interação entre estar sob a proibição e ter a gestação na estação de
+pulverização. Compara-se, dentro de cada município, as coortes cujos dois
+primeiros trimestres de gestação coincidem com a estação de pulverização com as
+demais, antes e depois da lei, e contrasta-se essa diferença entre municípios
+com aplicação aérea e municípios de comparação.
+
+\begin{figure}[htb]
+\caption{\label{fig:dag}Diagrama causal do desenho de calendário}
+\centering
+\footnotesize
+\begin{tikzpicture}[y=0.88cm,
+  box/.style={draw, rounded corners=1pt, align=center, inner sep=3pt, text width=3.4cm},
+  lat/.style={box, dashed},
+  ar/.style={-{Stealth[length=2mm]}, semithick},
+  thr/.style={ar, dashed}]
+\node[box] (est) at (0,0) {Gestação na estação de pulverização};
+\node[box] (pos) at (5,0) {Município com avião $\times$ pós-lei};
+\node[box, fill=black!10] (T) at (5,-2) {\textbf{Lei $\times$ estação}: coorte que deixa de receber o voo};
+\node[box] (chu) at (0,-2.9) {Chuva do ano (modifica o efeito)};
+\node[box] (voo) at (5,-4) {Voo durante a gestação};
+\node[box] (ter) at (10,-4) {Aplicação terrestre substituta};
+\node[box] (exp) at (5,-5.4) {Exposição gestacional};
+\node[lat] (out) at (0,-6.8) {Outra causa que altere o hiato sazonal só ali, após a lei};
+\node[lat] (sau) at (5,-6.8) {Saúde fetal};
+\node[lat] (sel) at (10,-6.8) {Seleção: só nascidos vivos são observados};
+\node[box] (ef) at (10,-8.6) {Absorvidos por efeitos fixos: composição materna, sazonalidade, choques município-ano};
+\node[box, fill=black!10] (peso) at (5,-8.6) {\textbf{Peso ao nascer}};
+\draw[ar] (est.south east) -- (T.north west);
+\draw[ar] (pos) -- (T);
+\draw[ar, very thick] (T) -- (voo);
+\draw[ar, very thick] (voo) -- (exp);
+\draw[ar, very thick] (exp) -- (sau);
+\draw[ar, very thick] (sau) -- (peso);
+\draw[ar] (T.south east) -- (ter.north west);
+\draw[ar] (ter.south) |- (exp.east);
+\draw[ar] (chu.east) -- (voo.north west);
+\draw[ar] (chu.south) -- ++(0,-1.0) -- (sau.north west);
+\draw[ar] (ef) -- (peso);
+\draw[thr] (out) -- (sau);
+\draw[thr] (out.west) -- ++(-4mm,0) |- ([yshift=2mm]T.west);
+\draw[thr] (sau) -- (sel);
+\draw[thr] (sel.south west) -- (peso.north east);
+\end{tikzpicture}
+\fonte{Elaboração própria. Setas grossas: caminho causal de interesse. Nós e
+setas tracejados: não observados ou ameaças que os efeitos fixos não removem.}
+\end{figure}
+
+Seja $P_t \in [0,1]$ a fração dos dois primeiros trimestres da coorte $t$ que
+cai na estação de pulverização, e $Pos_t$ o indicador de gestação integralmente
+posterior a 9 de janeiro de 2019. Estima-se
+\begin{equation}
+  Y_{mt} = \alpha_{m,s(t)} + \gamma_t + \lambda\,(A_m \times Pos_t)
+         + \beta\,(A_m \times P_t \times Pos_t) + \varepsilon_{mt},
+  \label{eq:ddd}
+\end{equation}
+em que $\alpha_{m,s(t)}$ são efeitos fixos de município por mês do ano e
+$\gamma_t$, efeitos fixos de coorte. O coeficiente $\beta$ mede quanto o hiato
+sazonal de peso ao nascer se alterou, após a lei, nos municípios com aplicação
+aérea, em relação aos de comparação; sob a hipótese principal, $\beta > 0$. Os
+efeitos fixos absorvem a composição das mães por mês de concepção, a
+sazonalidade de base de cada município e os choques comuns a todas as coortes
+de um município num dado ano, entre eles os programas estaduais de saúde
+materna contemporâneos à lei. A janela gestacional é fixa: a duração observada
+da gestação é desfecho, e usá-la para definir a exposição condicionaria em
+variável afetada pelo tratamento. O terceiro trimestre, para o qual o análogo
+equatoriano não encontra efeito, serve de contraste de falsificação.
+
+\textbf{Grupo de comparação.} Os municípios de comparação são os produtores de
+banana em que a cultura é predominantemente familiar, segundo o Censo
+Agropecuário de 2017 \cite{ibge2017censoagro}: têm a cultura, o clima e o
+calendário agrícola, mas não o avião, que é tecnologia da produção empresarial
+irrigada. Em nível, essa comparação não seria válida: agricultura familiar e
+empresarial diferem em renda, acesso a programas sociais e exposição à
+aplicação costal, e a comparação reproduziria essas diferenças. Dentro da
+diferença tripla, as diferenças de nível e de tendência geral entre os dois
+grupos são absorvidas, e o que se exige é menos: que, na ausência da lei, o
+hiato sazonal tivesse evoluído do mesmo modo nos dois \cite{olden2022triple}.
+A mesma lógica fornece um teste de tratamento falso: comparados aos municípios
+sem banana, os de banana familiar não deveriam reagir à lei.
+
+\textbf{Chuva.} A doença fúngica que motiva o voo depende de umidade. A chuva
+da quadra chuvosa modifica o efeito, e por isso entra como interação com o
+termo de interesse, e não como controle: prevê-se efeito maior nos anos
+chuvosos do pós-lei e pequeno ou nulo nos secos. A chuva também afeta a saúde
+por outras vias, como as arboviroses, o que limita essa leitura
+(Capítulo~\ref{cap:ameacas}).
+
+\section{Diagnóstico de abertura, sem usar o pós-lei}
+\label{sec:diagnostico}
+
+Antes de qualquer contato com os desfechos do pós-lei, o mesmo contraste
+sazonal é estimado no pré-período: as coortes gestadas na estação de
+pulverização tinham peso menor que as demais, nos municípios com avião em
+relação aos de comparação? A pergunta é feita em dois subperíodos: aquele em
+que há registro de voos na Chapada e aquele em que, segundo relatos, a seca os
+suspendeu (Seção~\ref{sec:onde-aviao}). Um gradiente sazonal presente no
+primeiro e ausente no segundo mostraria que a exposição existia, que ela
+aparece nos dados municipais e que a seca a interrompeu. A ausência de
+gradiente em ambos indicaria que a exposição era pequena ou que sua diluição
+na média municipal é total; nos dois casos, a comparação antes e depois da lei
+não teria o que detectar. O diagnóstico decide também qual pré-período serve
+de referência à Equação~\ref{eq:ddd}, e não consome graus de liberdade da
+análise confirmatória.
+
+\section{Medição do método}
+\label{sec:medicao}
+
+A classificação $A_m$ e o calendário de pulverização são medidos, e não
+supostos. Cinco fontes são mobilizadas, as três primeiras por pedidos de
+acesso à informação:
+\begin{alineas}
+  \item os relatórios mensais que as empresas de aviação agrícola entregam ao
+    Ministério da Agricultura \cite{mapa2008in2}, com município, cultura, área
+    e produto, de 2012 a 2018, para o Ceará e o Rio Grande do Norte, incluídos
+    os operadores sediados em outros estados;
+  \item o receituário agronômico, que registra a modalidade de aplicação
+    \cite{brasil2002decreto4074};
+  \item o cadastro estadual de prestadores de serviço de aplicação e os autos
+    de infração posteriores à lei \cite{ceara1993lei12228};
+  \item os autos da ação civil pública de 2011, na Justiça Federal;
+  \item o Censo Agropecuário de 2006 \cite{ibge2006censoagro}, que fornece a
+    classificação provisória enquanto os registros não chegam.
+\end{alineas}
+Sem esses registros, a estação é tomada da quadra chuvosa, como hipótese
+agronômica declarada, e $A_m$, do Censo de 2006.
+
+\section{Interferência e versões do tratamento}
+
+O desenho supõe que o tratamento de um município não altera o desfecho de
+outro e que o tratamento tem uma só versão. As duas condições são examinadas,
+e não presumidas. Quatro canais de interferência são conhecidos: a deriva
+sobre municípios vizinhos e o aquífero compartilhado, que melhorariam os
+vizinhos e atenuariam a estimativa; a migração do serviço aéreo para áreas sem
+proibição, que os pioraria e a inflaria; e a mobilidade das mães. Por isso os
+vizinhos imediatos dos municípios tratados são separados dos demais, formando
+três grupos: tratados, não tratados expostos e não tratados não expostos.
+Quanto às versões, estar sob a lei significa coisas diferentes: ter voado e
+parado; ter trocado o avião pela aplicação terrestre; ter passado ao drone;
+não ter cumprido; ou não voar desde antes, por causa da seca. O tratamento é
+definido como cessação efetiva de voos e medido como tal, e as demais versões
+são tratadas como heterogeneidade a documentar.
+
+\section{Análises secundárias e triangulação}
+
+Três análises complementam o desenho principal, e só há convencimento se
+concordarem com ele. A primeira é a forma reduzida estadual: um
+diferenças-em-diferenças com tratamento contínuo \cite{callaway2024continuous},
+em que a dose é a área plantada de banana antes da lei \cite{ibgepam} e o alvo
+é o efeito no nível, $ATT(d \mid d)$. Como a área mede a cultura e não o
+método, e supondo que não haja avião sem a cultura, o que se identifica é
 \begin{equation}
   \theta = VPP \times ATT,
   \label{eq:atenuacao}
 \end{equation}
-em que $VPP$ é a fração dos municípios classificados como tratados em que de
-fato havia aplicação aérea \cite{denteh2022misclassification}. A
-Equação~\ref{eq:atenuacao} dá ao primeiro estágio uma interpretação precisa: a
-forma reduzida preserva o sinal do efeito e o subestima em módulo. Também
-indica onde está o ganho de informação: em elevar e medir o $VPP$, e não em
-aumentar o número de municípios classificados como tratados.
-
-\section{Estágio 1: forma reduzida pela intensidade da cultura}
-
-\textbf{Dose.} A dose $D_m$ é a área plantada média da cultura associada à
-aplicação aérea no município, segundo a Produção Agrícola Municipal do IBGE
-\cite{ibgepam}, como proporção da área municipal. A cultura candidata é a
-banana, pelo histórico da Chapada do Apodi e pelo análogo equatoriano; um
-diagnóstico preliminar da dispersão da dose entre as culturas candidatas,
-entre elas o melão, apontou-a, e será refeito antes da estimação. Usa-se área plantada, e não
-colhida, porque a colheita responde à seca de 2012--2017.
-
-\textbf{Janela da dose.} A dose principal é a média de 2015 a 2018, os quatro
-anos anteriores à vigência, por ser a medida mais próxima da exposição que a
-lei removeu. A escolha tem um custo declarado: a intensidade de tratamento
-deveria ser predeterminada, e a proibição foi proposta em projetos de lei de
-2011 e de 2015, de modo que a área plantada nesses anos pode já responder à
-expectativa da norma. A média de 2010 a 2014 entra como análise de
-sensibilidade; ela não elimina o problema, porque é em sua maior parte posterior à
-primeira proposição, e reduz o número de municípios sem a cultura.
-
-\textbf{Exposição das coortes.} Um nascimento de março de 2019 foi gestado em
-grande parte antes da vigência da lei. Para cada coorte de nascimento,
-calcula-se a fração da gestação posterior a 9 de janeiro de 2019, com janela
-gestacional fixa: a duração observada da gestação é desfecho, e usá-la para
-definir exposição condicionaria em variável afetada pelo tratamento. As
-coortes de transição, com gestação parcialmente exposta, são excluídas da
-comparação principal.
-
-\textbf{Estimador.} Emprega-se o diferenças-em-diferenças com tratamento
-contínuo de \citeonline{callaway2024continuous}. O alvo é o efeito no nível,
-$ATT(d \mid d)$, agregado sobre a distribuição de doses, identificado sob
-\begin{equation}
-  E\left[\Delta Y_{m}(0) \mid D_m = d\right] = E\left[\Delta Y_{m}(0) \mid D_m = 0\right]
-  \quad \text{para todo } d \text{ no suporte,}
-\end{equation}
-em que $\Delta$ denota a variação entre o período anterior e o posterior à
-proibição. A curva dose-resposta é estimada e reportada como diagnóstico, não
-como resultado: ela exige a hipótese forte de tendências paralelas, que os
-dados podem falsificar em cortes de placebo no pré-período, mas não validar.
-
-\textbf{Grupo de comparação.} Como a bananicultura está presente na maior
-parte do estado, o grupo de dose nula é pequeno, e o estimador centra o nível
-do efeito na variação desse grupo. Ele será construído de quatro maneiras,
-todas reportadas: área nula de banana; área
-nula de qualquer cultura candidata à aplicação aérea; ausência de registro de
-aeronave; e baixa aptidão agroclimática para banana, medida pelo índice
-FAO-GAEZ. A aptidão entra como critério de construção do grupo de comparação,
-por ser determinada pelo clima e pelo solo e não por decisões de plantio; seu
-uso como variável instrumental para a dose, na linha de
-\citeonline{reynier2025glyphosate}, fica como extensão declarada.
-
-\textbf{Verificações.} A hipótese de tendências paralelas é examinada por um
-estudo de eventos com \emph{leads} que alcançam 2018, de modo a tornar
-visível o marco de certeza; os marcos de notícia são anteriores ao início do
-painel de desfechos, ou quase coincidem com ele, e não podem ser examinados
-desse modo. Como um teste de pré-tendência que
-não rejeita pode simplesmente não ter poder \cite{roth2023trending}, reporta-se
-o poder do teste contra tendências de magnitude relevante, e a estimativa é
-acompanhada dos intervalos robustos a violações limitadas da hipótese
-propostos por \citeonline{rambachan2023credible}. A hipótese forte, de que
-depende a curva, é sondada pela inclinação em dose estimada em cortes de
-placebo no pré-período.
-
-\section{Estágio 2: medir o método}
-\label{sec:medicao}
-
-O segundo estágio substitui a \emph{proxy} por medida do método. Cinco fontes
-são mobilizadas, as três primeiras por pedidos de acesso à informação:
-\begin{alineas}
-  \item os relatórios mensais que as empresas de aviação agrícola entregam ao
-    Ministério da Agricultura \cite{mapa2008in2}, com
-    município, cultura, área aplicada e produto, mês a mês;
-  \item o receituário agronômico, que registra a modalidade de aplicação
-    \cite{brasil2002decreto4074}, sob guarda da agência estadual de defesa
-    agropecuária;
-  \item o cadastro estadual de prestadores de serviço de aplicação
-    \cite{ceara1993lei12228}, sob guarda do órgão ambiental estadual;
-  \item os autos da ação civil pública de 2011 sobre a pulverização aérea na
-    Chapada do Apodi, na Justiça Federal;
-  \item o Censo Agropecuário de 2006, de acesso público, usado como calibração.
-\end{alineas}
-
-O produto desse estágio é uma classificação $\hat{A}_m$ dos municípios pelo
-método, uma estimativa do $VPP$ da classificação por cultura e, se os
-relatórios mensais existirem para o período, o calendário efetivo das
-aplicações.
-
-\section{Estágio 3: diferença tripla de calendário}
-\label{sec:calendario}
-
-O terceiro estágio compara, dentro de cada município, as coortes cujo primeiro
-trimestre de gestação (com o segundo como análise de sensibilidade) coincide
-com a estação de aplicação aérea com as demais,
-antes e depois da proibição, e contrasta essa diferença entre municípios com e
-sem aplicação aérea medida. Seja $P_t \in [0,1]$ a fração do primeiro
-trimestre da coorte $t$ que cai na estação de aplicação, e $Pos_t$ o indicador
-de gestação integralmente posterior à lei. Estima-se
-\begin{equation}
-  Y_{mt} = \alpha_{m,s(t)} + \gamma_t + \lambda\,(\hat{A}_m \times Pos_t)
-         + \beta\,(\hat{A}_m \times P_t \times Pos_t) + \varepsilon_{mt},
-  \label{eq:ddd}
-\end{equation}
-em que $\alpha_{m,s(t)}$ são efeitos fixos de município por mês do ano, que
-absorvem a sazonalidade própria de cada município, e $\gamma_t$ são efeitos
-fixos de coorte. O coeficiente $\beta$ mede quanto o hiato sazonal de peso ao
-nascer se alterou, após a proibição, nos municípios com aplicação aérea, em
-relação aos demais. Sob $H_1$ e $H_3$, espera-se $\beta > 0$.
-
-A hipótese de identificação é única \cite{olden2022triple}: na ausência da
-proibição, o hiato sazonal teria evoluído do mesmo modo nos dois grupos de
-municípios. O desenho dispensa a comparabilidade de nível e de tendência geral
-entre municípios, que é a exigência mais custosa do primeiro estágio, e tolera
-sazonalidade materna estável, absorvida por $\alpha_{m,s(t)}$. O que ele não
-tolera é uma mudança de sazonalidade, contemporânea à lei, que seja diferente
-onde havia avião (Capítulo~\ref{cap:ameacas}). A estação de aplicação é tomada
-dos relatórios mensais, se disponíveis; na falta deles, da estação chuvosa,
-como hipótese agronômica declarada e submetida a sensibilidade.
-
-Como verificação de robustez, os municípios com aplicação aérea medida são
-comparados a um grupo de doadores de outros estados do Nordeste, por controle
-sintético e diferenças-em-diferenças sintético \cite{arkhangelsky2021sdid}.
+em que $VPP$ é a fração dos classificados como tratados que de fato o eram
+\cite{denteh2022misclassification}: o sinal é preservado e a magnitude,
+atenuada. A segunda é o controle sintético e o diferenças-em-diferenças
+sintético \cite{arkhangelsky2021sdid} para o agregado dos municípios com
+avião, com doadores fora do alcance da interferência. A terceira é a
+comparação com os municípios potiguares da Chapada do Apodi, do outro lado da
+divisa. Ela não é experimento natural limpo, porque tudo o que é estadual muda
+junto na divisa e as culturas diferem entre os dois lados, e por isso entra
+apenas como uma das diferenças.
 
 \section{Regra de decisão}
 \label{sec:regra}
 
-O Quadro~\ref{qua:regra} fixa, antes do dado, o que cada resultado possível do
-segundo estágio aciona.
+O Quadro~\ref{qua:regra} fixa, antes do dado do pós-lei, o que cada resultado
+da medição e do diagnóstico aciona.
 
 \begin{quadro}[htb]
-\caption{\label{qua:regra}Regra de decisão entre estágios}
+\caption{\label{qua:regra}Regra de decisão}
 \centering
 \small
-\begin{tabular}{@{}p{6.3cm}p{8.2cm}@{}}
+\begin{tabular}{@{}p{6.4cm}p{8.1cm}@{}}
 \toprule
-O que a medição mostra & O que o ensaio estima \\
+O que a medição e o diagnóstico mostram & O que o ensaio estima \\
 \midrule
-Aplicação aérea documentada em 2015--2018, por município e mês &
-Estágio 3 com municípios e calendário medidos; estágio 1 como forma reduzida. \\
-Aplicação documentada, sem calendário &
-Estágio 3 com municípios medidos e estação chuvosa como hipótese declarada. \\
-Nenhum registro novo &
-Estágio 3 com os municípios do Censo de 2006, em caráter exploratório; estágio 1 como resultado principal. \\
-A prática cessou antes de 2015 &
-Estágio 1 e diagnóstico de mensuração: a lei de 2019 não removeu exposição mensurável nos registros. \\
+Voos documentados às vésperas da lei, com calendário, e gradiente sazonal no pré-período &
+Desenho principal com municípios e estação medidos. \\
+Voos documentados, sem calendário &
+Desenho principal com a quadra chuvosa como hipótese declarada. \\
+Voos suspensos pela seca até a lei &
+Desenho principal com interação por chuva; o efeito é o de impedir a volta dos voos. \\
+Nenhum gradiente sazonal no pré-período e nenhum registro de voo &
+Forma reduzida estadual e diagnóstico de medida e de poder, sem estimativa de efeito da pulverização. \\
 \bottomrule
 \end{tabular}
 \fonte{Elaboração própria.}
 \end{quadro}
 
-\section{Inferência e poder}
+\section{Inferência, poder e plano de análise}
 
-No primeiro estágio o grupo escasso é o de comparação; no terceiro, o de
-tratados. Em ambos, erros-padrão agrupados por município com aproximação
-assintótica superestimam a precisão. A inferência principal usa os
+Há poucos municípios tratados, e a lei é atribuída no nível do estado. Erros-padrão
+agrupados por município, com aproximação assintótica, superestimam a
+precisão, e o \emph{wild cluster bootstrap} isolado não é defensável com tão
+poucos tratados \cite{mackinnon2018wild}. A inferência principal usa os
 procedimentos de \citeonline{conley2011} e \citeonline{ferman2019inference},
-que constroem a distribuição de referência a partir do grupo numeroso e
-admitem heterocedasticidade por tamanho de município, e a inferência conformal
-de \citeonline{chernozhukov2021conformal} para os municípios tratados tomados
-um a um. O \emph{wild cluster bootstrap} e a permutação da dose são reportados
-como complemento.
+que admitem heterocedasticidade por tamanho de município, a inferência
+conformal de \citeonline{chernozhukov2021conformal} e, para o caso-limite, o
+procedimento de \citeonline{hagemann2025single}; na diferença tripla, em que a
+variação é interna ao município, aplica-se também \citeonline{canay2021wild}.
 
-O poder é tratado como parte do desenho. Dois fatores o limitam e nenhum se
-resolve com mais anos de dados: a fração dos nascimentos de um município
-efetivamente expostos à deriva, que dilui o efeito individual na média
-municipal, e o número de municípios com aplicação aérea. Para cada estágio, o
-efeito mínimo detectável é calculado apenas com dados do pré-período, antes da
-estimação, e comparado às magnitudes da literatura para diferentes frações
-expostas; o cálculo preliminar já feito para o primeiro estágio será refeito
-com as bases congeladas. Esse cálculo decide o que cada estágio pode afirmar: um desenho cujo
-efeito mínimo detectável supere o efeito plausível é reportado como limite, e
-não como teste.
+Dois fatores limitam o poder e nenhum se resolve com mais anos de dados: o
+número de municípios com aplicação aérea e a fração dos nascimentos de cada um
+efetivamente exposta. O efeito mínimo detectável de cada análise é calculado
+apenas com dados do pré-período e comparado às magnitudes da literatura para
+diferentes frações expostas; análise cujo efeito mínimo detectável supere o
+efeito plausível é reportada como limite, e não como teste. Duas hipóteses são
+confirmatórias, com correção de Holm, e as demais são exploratórias.
 
-Duas hipóteses são confirmatórias, $H_1$ e $H_2$, com correção de Holm para
-multiplicidade; os demais desfechos são exploratórios e assim rotulados. Estimativa abaixo do efeito mínimo detectável é reportada como intervalo de
-confiança, sem leitura de ausência de efeito. O plano de análise do primeiro
-estágio foi escrito e versionado em setembro de 2026; uma rodada exploratória
-já foi executada e levou a rever o alvo principal, da curva para o nível
-(desvio registrado no plano); ela não é reportada aqui e será refeita a partir
-das bases originais. O plano do terceiro estágio será escrito antes de
-qualquer cruzamento entre a exposição medida e os desfechos. São planos
-versionados em repositório, não pré-registro público.
+A estação, o corte de chuva, os grupos e os contrastes de falsificação são
+fixados em plano de análise versionado antes de qualquer cruzamento com os
+desfechos do pós-lei, e a escolha do desenho principal é ratificada com o
+orientador nesse momento. Um plano para a forma reduzida estadual foi escrito
+e versionado em setembro de 2026; uma rodada exploratória dessa análise já foi
+executada e levou a rever seu alvo, da curva para o nível. Ela não é reportada
+aqui e será refeita a partir das bases originais. São planos versionados em
+repositório, não pré-registro público.

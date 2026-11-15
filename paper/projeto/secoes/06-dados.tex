@@ -5,7 +5,8 @@
 \label{cap:dados}
 
 A unidade de análise é o município por mês de nascimento, para os 184
-municípios do Ceará, de janeiro de 2015 a 19 de dezembro de 2024. Os desfechos
+municípios do Ceará. O período de avaliação da lei vai até 19 de dezembro de
+2024; o painel recua a 2005 para o diagnóstico do pré-período. Os desfechos
 vêm de registros administrativos de cobertura universal; o
 Quadro~\ref{qua:fontes} resume as fontes e a forma de acesso. Todo o
 processamento será feito a partir das bases originais.
@@ -23,10 +24,12 @@ SIM (DATASUS) & Óbito fetal & Público \\
 SINAN (DATASUS) & Notificações de intoxicação por agrotóxico & Público \\
 PAM (IBGE) & Área plantada por cultura: dose & Público \\
 Censo Agropecuário 2006 (IBGE) & Estabelecimentos com aplicação por aeronave & Público \\
-FAO-GAEZ & Aptidão agroclimática: grupo de comparação & Público \\
+Censo Agropecuário 2017 (IBGE) & Participação da agricultura familiar: grupo de comparação & Público \\
+Precipitação (FUNCEME, INMET) & Chuva da quadra chuvosa: modificador de efeito & Público \\
+FAO-GAEZ & Aptidão agroclimática: forma reduzida estadual & Público \\
 População (IBGE) & Denominadores & Público \\
 Leis municipais & Proibições locais anteriores a 2019 & Público (câmaras municipais) \\
-Relatórios mensais (MAPA) & Aplicação aérea por município e mês & Pedido de acesso à informação \\
+Relatórios mensais (MAPA) & Aplicação aérea por município e mês, CE e RN & Pedido de acesso à informação \\
 Receituário (ADAGRI) & Modalidade de aplicação & Pedido de acesso à informação \\
 Cadastro (SEMACE) & Prestadores de aplicação aérea & Pedido de acesso à informação \\
 Autos judiciais (JFCE) & Prática na Chapada após 2011 & Consulta processual \\
@@ -37,8 +40,8 @@ Autos judiciais (JFCE) & Prática na Chapada após 2011 & Consulta processual \\
 
 \textbf{Desfechos.} Do SINASC obtêm-se o peso médio ao nascer (desfecho
 confirmatório), a proporção de nascidos com menos de 2.500 gramas e a
-proporção de nascidos com menos de 37 semanas de gestação (exploratórios). Do
-SIM obtém-se a taxa de óbito fetal, segundo desfecho confirmatório. O óbito
+proporção de nascidos com menos de 37 semanas de gestação (exploratórios). Do SIM obtém-se a taxa de óbito fetal, segundo desfecho confirmatório, e
+constrói-se um desfecho composto que soma nascidos vivos e óbitos fetais. O óbito
 fetal tem função dupla: é desfecho de saúde e é teste de seleção. Se a
 proibição reduz perdas fetais, gestações que antes não chegariam ao nascimento
 vivo passam a entrar na amostra de nascidos, possivelmente na cauda de baixo
@@ -47,28 +50,25 @@ notificações de intoxicação por agrotóxico agrícola, por circunstância, p
 canal de substituição; as intoxicações intencionais, que respondem à
 disponibilidade do produto e não ao método de aplicação, servem de placebo.
 
-\textbf{Exposição.} A dose vem da PAM. A classificação pelo método vem do
-Censo Agropecuário e, na medida do retorno dos pedidos de acesso, dos
-registros do Capítulo~\ref{cap:metodologia}. Como a lei estadual de 1993
+\textbf{Exposição.} A classificação pelo método vem do Censo Agropecuário de
+2006 e, na medida do retorno dos pedidos de acesso, dos registros da
+Seção~\ref{sec:medicao}; o grupo de comparação, do Censo Agropecuário de 2017;
+a dose da forma reduzida, da PAM. Como a lei estadual de 1993
 autoriza os municípios a legislar supletivamente, proibições locais
 anteriores a 2019 contaminariam o período de comparação; um levantamento
-preliminar encontrou uma, em Limoeiro do Norte, de 2009, dada como revogada em
-2010. O levantamento será refeito no segundo estágio, com conferência de
+preliminar encontrou uma, em Limoeiro do Norte, de 2009, revogada em 2010
+\cite{limoeiro2010lei1511}. O levantamento será refeito, com conferência de
 vigência.
 
 \textbf{Escopo.} O canal hídrico, que exigiria medições de agrotóxicos na
-água de consumo com localização dos pontos de coleta, e o canal atmosférico,
-que exigiria variação espacial na direção do vento, não integram a análise
-confirmatória. Uma avaliação preliminar do monitoramento da qualidade da água,
-dos registros meteorológicos e do mapeamento de uso da terra por satélite
-indicou limitações para esses fins; ela será refeita e documentada antes de
-qualquer uso.
+água de consumo com localização dos pontos de coleta, não integra a análise
+confirmatória, e a exposição não é medida no nível da residência. Uma avaliação preliminar do monitoramento da qualidade da água e do mapeamento
+de uso da terra por satélite indicou limitações para esses fins; ela será
+refeita e documentada antes de qualquer uso.
 
 \textbf{Reprodutibilidade e sigilo.} O processamento será feito por rotinas
-numeradas e versionadas, em Python, com a estimação de tratamento contínuo em
-R; a data de extração de cada base será registrada. Os microdados não são
-redistribuídos, e toda análise é feita sobre agregados município por mês.
-Células com poucos eventos não são divulgadas individualmente.
+versionadas, com a data de extração de cada base registrada. Os microdados não
+são redistribuídos, e células com poucos eventos não são divulgadas.
 
 \textbf{Aspectos éticos.} A pesquisa utiliza exclusivamente dados secundários
 de acesso público, sem identificação individual, e informações obtidas por meio
