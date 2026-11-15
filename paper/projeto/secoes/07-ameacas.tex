@@ -1,71 +1,47 @@
-% Seção 7 — Ameaças à identificação. Reescrita em 2026-11-15 com o desenho de
-% 2026-11-10 (seca, política estadual coincidente, diluição intramunicipal).
+% Seção 7 — Ameaças à identificação. Revisão do Estágio 4 (2026-11-15): o
+% quadro foi para o Apêndice B; ficam os comentários.
 
 \chapter{Ameaças à identificação}
 \label{cap:ameacas}
 
-O Quadro~\ref{qua:ameacas} reúne as ameaças conhecidas, o que cada uma faz à
-estimativa e o que o desenho lhe opõe. Três merecem comentário.
+O Apêndice~\ref{ap:ameacas} reúne as ameaças conhecidas, o que cada uma faz à
+estimativa e o que o desenho lhe opõe. Quatro merecem comentário.
 
-\begin{quadro}[htb]
-\caption{\label{qua:ameacas}Ameaças à identificação e respostas do desenho}
-\centering
-\footnotesize
-\begin{tabular}{@{}p{3.6cm}p{4.7cm}p{6.2cm}@{}}
-\toprule
-Ameaça & Efeito sobre a estimativa & Resposta \\
-\midrule
-Voos suspensos pela seca antes da lei &
-Pouco tratamento a retirar; nulo por ausência de exposição &
-Relatórios do MAPA; diagnóstico no pré-período; interação com a chuva. \\
-Diluição dentro do município &
-Efeito individual multiplicado pela fração exposta &
-Poder calculado para diferentes frações; resultado abaixo do detectável lido como limite. \\
-Mudança de sazonalidade só nos municípios com avião, após a lei &
-Viola a hipótese de identificação do desenho principal &
-Tratamento falso com banana familiar; estimativas com e sem 2020--2021. \\
-Políticas estaduais de saúde materna contemporâneas &
-Melhora geral do Ceará no pós-lei &
-Absorvida pelos efeitos fixos se comum às coortes; ameaça a fronteira e a forma reduzida. \\
-Chuva com efeito próprio sobre a saúde &
-Confunde a interação por chuva &
-Interação lida como mecanismo, não como teste; controle por arboviroses notificadas. \\
-Seleção para o nascimento vivo &
-Efeito sobre o peso médio atenuado ou invertido &
-Óbito fetal confirmatório; desfecho composto com nascidos vivos e óbitos fetais. \\
-Interferência entre municípios &
-Sinal indeterminado: deriva e aquífero atenuam, realocação infla &
-Três grupos; doadores fora do alcance; pedido ao MAPA também para o estado vizinho. \\
-Substituição pela aplicação terrestre e fiscalização desconhecida &
-Parâmetro é de intenção de tratar; exposição ocupacional pode subir &
-Notificações de intoxicação; autos de infração; faz parte do efeito da política. \\
-Antecipação (projetos de lei de 2011 e 2015) &
-Dose e pré-período respondem antes da vigência &
-Coortes de transição excluídas; o desenho principal não usa a dose. \\
-\bottomrule
-\end{tabular}
-\fonte{Elaboração própria.}
-\end{quadro}
+\textbf{A seca.} É a ameaça que mais pesa, por três vias. Ela pode ter
+suspendido os voos, de modo que a lei teria impedido a sua volta, e não
+interrompido uma prática em curso. Ela também restringiu a água disponível para a irrigação no Baixo Jaguaribe
+\cite{pereira2015conflitos}, o que pode ter alterado área plantada, emprego,
+renda e composição das mães nos municípios tratados. E ela afeta o peso
+ao nascer diretamente \cite{rocha2015water}. Além disso, o fim da seca é
+próximo da vigência da lei. O desenho responde fixando a referência antes da
+seca, controlando a chuva nos dois grupos e reportando o período de seca em
+separado, mas não separa por completo a lei do retorno das chuvas: se a chuva
+tiver efeito sazonal diferente em municípios irrigados e de sequeiro, $\beta$ o
+captura. As fontes da suspensão dos voos são de imprensa e de parte
+interessada, e por isso ela é tratada como hipótese.
 
-\textbf{A seca.} É a ameaça que mais muda o desenho. Se os voos estavam
-suspensos de 2012 até as vésperas da lei, a comparação entre os quatro anos
-anteriores e os posteriores a 2019 opõe pouco avião a nenhum avião, e a lei
-teria mordido apenas quando a chuva e a doença voltaram. As fontes dessa
-suspensão são de imprensa e de parte interessada, e não registros; por isso
-ela é tratada como hipótese, a ser decidida pelos relatórios mensais e pelo
-diagnóstico do pré-período, e não como fato.
+\textbf{A diluição.} O análogo mais próximo encontra efeito apenas para mães
+que moravam a até 150 metros do bananal. O registro de nascimentos identifica
+o município de residência, não a distância à lavoura. Mesmo nos municípios com
+aplicação aérea, a maior parte dos nascimentos é de mães não expostas, e o
+efeito médio municipal é o individual multiplicado por essa fração. O desenho
+concentra a comparação no tempo, não no espaço. A fração de domicílios
+próximos aos bananais poderia ser aproximada com o cadastro de endereços do
+Censo de 2022, o que fica como extensão; a resposta deste projeto é dizer de
+antemão qual efeito consegue detectar.
 
-\textbf{A diluição.} O análogo mais próximo encontra efeito apenas a até 150 metros
-do bananal. O registro de nascimentos identifica o
-município de residência da mãe, não a distância à lavoura. Mesmo nos
-municípios com aplicação aérea, a maior parte dos nascimentos é de mães não
-expostas, e o efeito médio municipal é o individual multiplicado por essa
-fração. Concentrar a comparação nas coortes da estação reduz o problema no
-tempo, mas não no espaço, e nenhuma fonte disponível o resolve. A resposta é
-dizer de antemão qual efeito o desenho consegue detectar.
+\textbf{A sazonalidade.} O desenho só tem o que medir se a aplicação aérea
+tiver pico sazonal. Em bananal irrigado, e com poucas aplicações por ano, o
+pico pode ser fraco ou não coincidir com a quadra chuvosa, que além disso não
+é a mesma em todas as regiões do estado. A existência e a posição do pico são
+verificadas nos relatórios mensais antes da estimação. Há também outras
+fontes de sazonalidade do peso ao nascer, como as arboviroses, o calor e a
+renda agrícola; as que são comuns aos dois grupos se cancelam, e as que não
+são ameaçam a hipótese de identificação.
 
-\textbf{A sazonalidade.} O desenho principal só tem o que medir se a aplicação
-aérea tiver pico sazonal: se ela for uniforme ao longo do ano, como pode
-ocorrer em bananal irrigado, o desenho mede zero por construção. A existência
-do pico é verificada antes da estimação, nos relatórios mensais e no
-diagnóstico do pré-período.
+\textbf{A seleção.} Se a proibição reduz perdas fetais, gestações que antes
+não chegariam ao nascimento vivo passam a entrar na amostra, possivelmente na
+cauda de baixo peso, e o efeito sobre o peso médio sai atenuado. O óbito fetal
+é examinado por isso, com duas limitações: o registro tem subnotificação, e as
+contagens por município e mês são quase sempre zero ou um. As perdas precoces
+não são observadas.

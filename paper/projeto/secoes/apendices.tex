@@ -1,0 +1,112 @@
+% Apêndices (pós-textuais): A fontes, B ameaças, C especificações.
+% Criados na revisão do Estágio 4 (2026-11-15), por decisão do pesquisador,
+% para manter o corpo em 15 páginas.
+
+\begin{apendicesenv}
+\clearpage
+\chapter{Fontes de dados}
+\label{ap:fontes}
+
+\begin{quadro}[htb]
+\caption{\label{qua:fontes}Fontes de dados, uso e acesso}
+\centering
+\footnotesize
+\begin{tabular}{@{}p{3.6cm}p{5.6cm}p{5.3cm}@{}}
+\toprule
+Fonte & Uso & Acesso, guarda e risco \\
+\midrule
+SINASC (DATASUS) & Peso ao nascer, baixo peso, prematuridade; 2005--2024 & Público. Troca de formulário em 2011 afeta a idade gestacional. \\
+SIM (DATASUS) & Óbito fetal & Público. Subnotificação. \\
+SINAN (DATASUS) & Intoxicações por agrotóxico; arboviroses & Público. \\
+Censo Agropecuário 2006 (IBGE) & Estabelecimentos com aplicação por aeronave: classificação provisória & Público. Não distingue cultura. \\
+Censo Agropecuário 2017 (IBGE) & Participação da agricultura familiar na banana: grupo de comparação & Público. \\
+PAM (IBGE) & Área plantada por cultura: dose da forma reduzida & Público. \\
+FAO-GAEZ & Aptidão agroclimática: grupo de dose nula da forma reduzida & Público. \\
+Precipitação (FUNCEME, INMET) & Chuva da quadra chuvosa, por município e ano & Público. \\
+SINASC de estados vizinhos & Doadores do controle sintético; fronteira & Público. \\
+Relatórios mensais da aviação agrícola (MAPA) & Aplicação aérea por município e mês, 2008--2024, CE e RN & Pedido de acesso à informação. Em papel até 2021; preservação incerta. \\
+Cadastro de prestadores e autos de infração (órgãos estaduais) & Operadores; cumprimento após a lei & Pedido de acesso à informação. \\
+Receituário agronômico & Modalidade de aplicação prescrita & Guarda a localizar; registra prescrição. \\
+Autos judiciais (Justiça Federal) & Prática na Chapada após 2011 & Consulta processual. \\
+Leis municipais & Proibições e regras locais anteriores a 2019 & Público (câmaras municipais). \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria.}
+\end{quadro}
+
+\clearpage
+\chapter{Ameaças à identificação e respostas do desenho}
+\label{ap:ameacas}
+
+\begin{quadro}[htb]
+\caption{\label{qua:ameacas}Ameaças à identificação e respostas do desenho}
+\centering
+\footnotesize
+\begin{tabular}{@{}p{3.6cm}p{4.7cm}p{6.2cm}@{}}
+\toprule
+Ameaça & Efeito sobre a estimativa & Resposta \\
+\midrule
+Voos suspensos pela seca antes da lei &
+A lei impede a volta, não interrompe; efeito depende da chuva &
+Referência em 2007--2011; período de seca em separado; relatórios mensais. \\
+Seca com efeito próprio e fim próximo da lei &
+Confunde a lei com o retorno das chuvas &
+Chuva como controle nos dois grupos; especificação com efeito distinto por grupo; limitação declarada. \\
+Retração da lavoura irrigada e do emprego &
+Muda renda e composição materna nos tratados &
+Efeitos fixos de município por ano; características maternas como desfecho-placebo. \\
+Diluição dentro do município &
+Efeito individual multiplicado pela fração exposta &
+Poder calculado para uma grade de frações; resultado sem poder lido como limite. \\
+Mudança de sazonalidade só nos tratados, após a lei &
+Viola a hipótese de identificação &
+Estudo de evento do hiato sazonal; tratamento falso; estimativas com e sem 2020--2021. \\
+Classificação provisória de 2006 &
+Tratados mal identificados; atenuação &
+Relatórios mensais; exclusão de qualquer município com aeronave do grupo de comparação. \\
+Seleção para o nascimento vivo &
+Efeito sobre o peso médio atenuado ou invertido &
+Óbito fetal e desfecho composto, exploratórios. \\
+Interferência entre municípios &
+Sinal indeterminado &
+Três grupos; doadores fora do alcance; registros do estado vizinho. \\
+Substituição terrestre, drones e descumprimento &
+Parâmetro é de intenção de tratar &
+Registros posteriores à lei; notificações de intoxicação. \\
+Antecipação (projetos de lei de 2011 e 2015) &
+Comportamento muda antes da vigência &
+Referência anterior aos projetos; coortes de transição excluídas. \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria.}
+\end{quadro}
+
+\clearpage
+\chapter{Especificações}
+\label{ap:espec}
+
+\begin{quadro}[htb]
+\caption{\label{qua:espec}Especificações do desenho de calendário}
+\centering
+\footnotesize
+\begin{tabular}{@{}p{3.4cm}p{6.0cm}p{5.1cm}@{}}
+\toprule
+Análise & Especificação & Amostra e estatuto \\
+\midrule
+Principal ($H_1$) & Equação~\ref{eq:ddd}; coeficiente $\beta$ & Municípios com aplicação aérea e de banana familiar; confirmatória. \\
+Período de seca ($H_2$) & Equação~\ref{eq:ddd}; coeficiente $\beta_S$ & Mesma amostra; descritiva. \\
+Estudo de evento & Um coeficiente de $A_m \times P_t$ por ano, com 2007--2011 como base & Mesma amostra; verificação da hipótese de identificação. \\
+Chuva como controle & Acrescenta $P_t \times C_{m,a}$, com $C_{m,a}$ a chuva da quadra no município e ano & Mesma amostra; parte da especificação principal. \\
+Chuva por grupo & Acrescenta $A_m \times P_t \times C_{m,a}$ & Mesma amostra; sensibilidade. \\
+Efeito por chuva ($H_3$) & Acrescenta $A_m \times P_t \times Pos_t \times C_{m,a}$ & Mesma amostra; exploratória. \\
+Terceiro trimestre & $P_t$ redefinido como fração do terceiro trimestre na estação & Mesma amostra; exploratória. \\
+Tratamento falso ($H_4$) & Equação~\ref{eq:ddd} com banana familiar no lugar de $A_m$ & Municípios de banana familiar e sem banana; falsificação. \\
+Interferência & Equação~\ref{eq:ddd} com indicador de vizinho imediato de município tratado & Vizinhos e demais não tratados; exploratória. \\
+Composição materna & Idade e escolaridade da mãe como desfecho na Equação~\ref{eq:ddd} & Mesma amostra; placebo. \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria. A quadra chuvosa é tomada, provisoriamente, como
+fevereiro a maio; os meses e a medida de chuva são fixados no plano de
+análise.}
+\end{quadro}
+\end{apendicesenv}

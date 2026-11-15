@@ -250,3 +250,18 @@ entries:
   - pausar
   prev_hash: 3f9fa67c01f968727d389fb91b5c428bd2914eaf71eb7feea0733c4d4724b9bd
   hash: b6d8e8ef3a9b73a56d6adfb1f0050a7e4d072698bb202d1a3294593270f2063d
+- seq: 21
+  kind: checkpoint_closed
+  at: '2026-11-15T23:54:35Z'
+  checkpoint_id: stage3-decision
+  answer: coaching socrático; reparar o desenho atual
+  user_words: '[respostas por seleção de opção, em duas rodadas] Triagem: "Conversa
+    guiada". Rumo: "Reparar o desenho atual (Recomendado)". Prioridades: "A seca,
+    O portão: diagnóstico e regra, Parâmetro, equação e tratamento, Literatura: Calzada
+    e a doença". Diagnóstico: "Diagnóstico descritivo, sem poder de decisão". Óbito
+    fetal: "Rebaixar a exploratória e teste de seleção". Espaço: "Quadros para apêndice".
+    Em seguida o pesquisador aprovou o plano do Estágio 4 (triagem por regra: atender
+    obrigatórios, recomendados e ''a considerar'' de uma frase; recusar REV-58, 59,
+    19, 42; limitação declarada REV-40, 55-57).'
+  prev_hash: b6d8e8ef3a9b73a56d6adfb1f0050a7e4d072698bb202d1a3294593270f2063d
+  hash: 4ee0a5a0c24f9358bf417035325f0d6cf9a54d0fe7fc7edf67a8abfb7c611b98

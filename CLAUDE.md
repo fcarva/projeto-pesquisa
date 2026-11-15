@@ -68,10 +68,12 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 
 ## Projeto de pesquisa (entrega 27/11/2026)
 `paper/projeto/` — projeto de 15 páginas em **abnTeX2** (`make projeto`), só Ensaio 1, **sem número de estimativa**. Reescrito em 2026-11-15 com o desenho consolidado de 2026-11-10 (`docs/pdf/2026-11-10-desenho-consolidado-chapada-sutva-dags.pdf` e `docs/pdf/2026-11-10-dags-ensaio1.pdf`, que **prevalecem** sobre `docs/ars/20`):
-- **Desenho principal:** diferença tripla de calendário (município com avião × pós-lei × gestação na estação de pulverização), com interação por chuva e **municípios de banana familiar como grupo de comparação** (válido só dentro da tripla, não em nível) e como tratamento falso. Escolha do pesquisador em 2026-11-15, **a ratificar com o orientador**.
-- **Antes do pós:** diagnóstico do gradiente sazonal no pré-período (painel recua a 2005).
-- **Secundárias:** forma reduzida estadual (CGS, dose 2015–2018, `θ = VPP·ATT`), sintético, fronteira CE×RN.
-- ⚠️ **A ameaça ao tratamento é a seca** (voos suspensos ~2012–2016/17, fontes de imprensa), não 2011. ⚠️ **Calzada et al.: −80 g a ≤ 150 m com ≥ 3 meses de fumigação intensiva** — o "80–150 g" das flags 2 e 7 abaixo vinha do resumo e está superado. Lei 1.511/2010 conferida no texto integral.
+- **Desenho principal (revisado em 2026-11-15, após o painel do ARS):** diferença tripla de calendário — município com avião documentado × período × início da gestação na estação de pulverização —, com **período de referência fixado em 2007–2011** (antes da seca), período de seca 2012–2018 reportado em separado, efeitos fixos de município×mês e município×ano, chuva como controle nos dois grupos, e **municípios de banana familiar sem registro de aeronave como grupo de comparação** (válido só dentro da tripla) e como tratamento falso. Parâmetro: efeito da lei em **intenção de tratar**. A ratificar com o orientador.
+- **Uma só hipótese confirmatória:** peso ao nascer. Óbito fetal é exploratório e teste de seleção.
+- **Diagnóstico do pré-período é descritivo**: não escolhe período nem autoriza o teste. O que decide é a medição dos voos e o poder (regra de decisão, Quadro 2).
+- **Secundárias:** forma reduzida estadual (CGS, `θ = VPP·ATT`, lida como descritiva), sintético, fronteira CE×RN.
+- ⚠️ **A seca é a ameaça central**, por três vias: pode ter suspendido os voos (~2012–2016/17, fontes de imprensa), restringiu a irrigação, e afeta o peso ao nascer diretamente (Rocha & Soares 2015, JDE). ⚠️ **Calzada et al.: ~80 g a ≤ 150 m com ≥ 3 meses de fumigação intensiva, tomado como TETO** (no CE a doença é a sigatoka-amarela, com ~2 aplicações/ano) — o "80–150 g" das flags 2 e 7 abaixo está superado. ⚠️ O Censo 2006 registra aeronave também **fora** dos polos irrigados (Aiuaba, Mauriti, Quiterianópolis…): "banana familiar" não é sinônimo de "sem avião".
+- Apêndices A (fontes), B (ameaças), C (especificações) ficam fora das 15 páginas.
 - Pipeline ARS da rodada: `docs/ars/pipeline-rodada20/` (passport, ledger, relatórios). `paper/main.tex` (qualificação) não foi alterado.
 
 ## Convenções do repositório
