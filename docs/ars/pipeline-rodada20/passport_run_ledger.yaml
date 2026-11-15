@@ -99,3 +99,19 @@ entries:
   - pausar
   prev_hash: 5d6998925c7be8e8c0749d69cbd6fcd72f6eb2d6709ec726e75fe726d4fe0fda
   hash: d531d93983163582cb7930354aed9849c3c0c213d516f1091236d06833477e97
+- seq: 8
+  kind: checkpoint_closed
+  at: '2026-11-15T22:08:53Z'
+  checkpoint_id: stage2.5-round2
+  answer: manter o texto e registrar a decisão
+  user_words: '[resposta dada por seleção de opção] "Manter o texto como está"'
+  prev_hash: d531d93983163582cb7930354aed9849c3c0c213d516f1091236d06833477e97
+  hash: 0bd349cb391362e75739a3cf997231526ab356f3372cc09707baffc88de62950
+- seq: 9
+  kind: progress
+  at: '2026-11-15T22:08:53Z'
+  stage: '2.5'
+  counters:
+    integrity_fix_round: 2
+  prev_hash: 0bd349cb391362e75739a3cf997231526ab356f3372cc09707baffc88de62950
+  hash: 94e0ea6bb7d81fb79307a973428c2504d2e3610650331e5a869176f8bd5c4511
