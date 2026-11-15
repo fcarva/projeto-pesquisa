@@ -49,3 +49,20 @@ entries:
     a pasta, mas vamos considerar que a gente vai rodar tudo do zero. C:\Users\DELL\Documents\projeto-pesquisa'
   prev_hash: 545de5a60a679a300adb6f7c29ba2914455ae3d255d1984d5dbb4a3de413d1f1
   hash: 79ba454be0956cca28710b131c98fe01d193809e06a64939ab0b5310bca4f595
+- seq: 4
+  kind: checkpoint_opened
+  at: '2026-11-15T21:48:23Z'
+  checkpoint_id: stage2.5-round1
+  stage: '2.5'
+  checkpoint_type: MANDATORY
+  question: 'Integridade 2.5 = FAIL (2 SERIOUS, 1 MEDIUM, 13 MINOR; Modos 3 e 6 SUSPECTED,
+    Modo 1 INSUFFICIENT EVIDENCE). Decisões: (a) janela da dose diante das contagens
+    178/6 (2010-2014) vs 169/15 (2015-2018) e do PL 134/2011; (b) como o texto trata
+    a rodada exploratória anterior e as análises descritivas, que acionaram os Modos
+    3 e 6.'
+  options:
+  - confirmar os flags e revisar
+  - override com justificativa
+  - pausar
+  prev_hash: 79ba454be0956cca28710b131c98fe01d193809e06a64939ab0b5310bca4f595
+  hash: 152e6e93736653b128e00c6f2db2378da3b4a5ce547ead8597493b25f08f15d6
