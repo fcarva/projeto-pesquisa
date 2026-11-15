@@ -190,3 +190,15 @@ entries:
   - pausar
   prev_hash: f8f51da5389c4cccdeef5524554e4d55114152986a3cfed756619f940c049692
   hash: c4df301133462fbbbd7ee678f71bd6438ce6b273aca84e6142edba5b931e4da7
+- seq: 16
+  kind: checkpoint_closed
+  at: '2026-11-15T22:38:29Z'
+  checkpoint_id: stage3-cards
+  answer: pausar — incorporar material de 10/11 antes de revisar
+  user_words: '[o pesquisador enviou dois PDFs de 2026-11-10 (desenho consolidado
+    da Chapada; DAGs do Ensaio 1) e, por seleção de opção, respondeu] "Incorporar
+    antes de revisar (Recomendado)". Os cartões não foram aceitos; a Fase 1 não foi
+    despachada. O pipeline volta ao Estágio 2 (reescrita), depois 2.5, depois nova
+    Fase 0.'
+  prev_hash: c4df301133462fbbbd7ee678f71bd6438ce6b273aca84e6142edba5b931e4da7
+  hash: 7e534946e1b836070a6320300507e878ea2e5ec37ae71f72a7bddc107c59016e

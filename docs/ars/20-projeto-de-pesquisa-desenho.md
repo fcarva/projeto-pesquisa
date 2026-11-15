@@ -14,6 +14,19 @@ sem números de estimativa, prazo 27/11/2026. Texto em `paper/projeto/`.*
 > Estágio 2.5, com o rascunho declarado como material externo. Plugin
 > instalado: 3.24.2 (repositório em 3.24.3).
 
+> **Colisão de numeração e material anterior (registrado em 2026-11-15).** Existe
+> um "doc 20" anterior a este, de 2026-11-10, com os docs 21 e 22, produzido em
+> outra sessão e nunca commitado: *Desenho consolidado do Ensaio 1: Chapada do
+> Apodi, SUTVA e DAGs*, mais os cinco DAGs do Ensaio 1. Os PDFs estão agora em
+> `docs/pdf/2026-11-10-desenho-consolidado-chapada-sutva-dags.pdf` e
+> `docs/pdf/2026-11-10-dags-ensaio1.pdf`. Eles **prevalecem sobre este
+> documento** onde divergem: a ameaça ao tratamento é a seca de ~2012–2016/17
+> (não 2011); Calzada et al. dá −80 g a ≤ 150 m com ≥ 3 meses de fumigação
+> intensiva (não "80–150 g"); a Lei 1.511/2010 foi conferida no texto integral;
+> o desenho primário candidato é a diferença tripla de calendário com interação
+> por chuva, precedida do diagnóstico sazonal no pré-período. A afirmação
+> abaixo de que "nada mudou desde 23/09" estava errada.
+
 > **Estado de partida.** Nada mudou desde 23/09/2026: LAIs não protocoladas,
 > ação de 2011 não conferida, sem retorno do orientador. Esta rodada não faz
 > busca nova nem estimação — avalia as estratégias que os docs 16–19 deixaram
