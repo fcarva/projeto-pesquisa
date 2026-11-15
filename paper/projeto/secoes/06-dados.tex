@@ -7,28 +7,29 @@
 A unidade de análise é o município por mês de nascimento, para os 184
 municípios do Ceará, de janeiro de 2015 a 19 de dezembro de 2024. Os desfechos
 vêm de registros administrativos de cobertura universal; o
-Quadro~\ref{qua:fontes} resume as fontes e seu estado.
+Quadro~\ref{qua:fontes} resume as fontes e a forma de acesso. Todo o
+processamento será feito a partir das bases originais.
 
 \begin{quadro}[htb]
 \caption{\label{qua:fontes}Fontes de dados}
 \centering
 \small
-\begin{tabular}{@{}p{3.6cm}p{6.6cm}p{4.2cm}@{}}
+\begin{tabular}{@{}p{3.8cm}p{6.4cm}p{4.2cm}@{}}
 \toprule
-Fonte & Uso & Estado \\
+Fonte & Uso & Acesso \\
 \midrule
-SINASC (DATASUS) & Peso ao nascer, baixo peso, prematuridade & Adquirida até 2022; a estender a 2024 \\
-SIM (DATASUS) & Óbito fetal & Adquirida até 2022; a estender a 2024 \\
-SINAN (DATASUS) & Notificações de intoxicação por agrotóxico & Adquirida \\
-PAM (IBGE) & Área plantada por cultura: dose & Adquirida \\
-Censo Agropecuário 2006 (IBGE) & Estabelecimentos com aplicação por aeronave & Adquirida \\
-FAO-GAEZ & Aptidão agroclimática: grupo de comparação & Adquirida \\
-População (IBGE) & Denominadores & Adquirida \\
-Leis municipais & Proibições anteriores a 2019 & Levantadas \\
-Relatórios mensais (MAPA) & Aplicação aérea por município e mês & Pedido de acesso a protocolar \\
-Receituário (ADAGRI) & Modalidade de aplicação & Pedido de acesso a protocolar \\
-Cadastro (SEMACE) & Prestadores de aplicação aérea & Pedido de acesso a protocolar \\
-Autos judiciais (JFCE) & Prática na Chapada após 2011 & A consultar \\
+SINASC (DATASUS) & Peso ao nascer, baixo peso, prematuridade & Público \\
+SIM (DATASUS) & Óbito fetal & Público \\
+SINAN (DATASUS) & Notificações de intoxicação por agrotóxico & Público \\
+PAM (IBGE) & Área plantada por cultura: dose & Público \\
+Censo Agropecuário 2006 (IBGE) & Estabelecimentos com aplicação por aeronave & Público \\
+FAO-GAEZ & Aptidão agroclimática: grupo de comparação & Público \\
+População (IBGE) & Denominadores & Público \\
+Leis municipais & Proibições locais anteriores a 2019 & Público (câmaras municipais) \\
+Relatórios mensais (MAPA) & Aplicação aérea por município e mês & Pedido de acesso à informação \\
+Receituário (ADAGRI) & Modalidade de aplicação & Pedido de acesso à informação \\
+Cadastro (SEMACE) & Prestadores de aplicação aérea & Pedido de acesso à informação \\
+Autos judiciais (JFCE) & Prática na Chapada após 2011 & Consulta processual \\
 \bottomrule
 \end{tabular}
 \fonte{Elaboração própria.}
@@ -48,23 +49,25 @@ disponibilidade do produto e não ao método de aplicação, servem de placebo.
 
 \textbf{Exposição.} A dose vem da PAM. A classificação pelo método vem do
 Censo Agropecuário e, na medida do retorno dos pedidos de acesso, dos
-registros do Capítulo~\ref{cap:metodologia}. Um levantamento das leis
-municipais dos municípios de dose alta identificou uma única proibição local
-anterior à estadual, em Limoeiro do Norte, revogada em 2010 e, portanto, sem
-efeito sobre a janela de análise.
+registros do Capítulo~\ref{cap:metodologia}. Como a lei estadual de 1993
+autoriza os municípios a legislar supletivamente, proibições locais
+anteriores a 2019 contaminariam o período de comparação; há registro de uma,
+em Limoeiro do Norte, de 2009, dada como revogada em 2010. O levantamento
+sistemático das leis dos municípios de dose alta, com conferência de vigência,
+integra o segundo estágio.
 
-\textbf{Fontes descartadas.} Três fontes previstas inicialmente foram obtidas,
-inspecionadas e deixadas de fora, por defeitos que produziriam resultado
-espúrio. O monitoramento de agrotóxicos na água (SISAGUA) apresenta quebra de
-registro no Ceará a partir de 2020 e não monitora os princípios ativos
-predominantes na região. Os dados de vento não têm variação espacial de
-direção no estado, o que torna a exposição a favor do vento indistinguível da
-geografia. E o mapeamento de uso da terra por satélite não separa a banana de
-outras culturas perenes. O canal hídrico fica, assim, fora do escopo.
+\textbf{Escopo.} O canal hídrico, que exigiria medições de agrotóxicos na
+água de consumo com localização dos pontos de coleta, e o canal atmosférico,
+que exigiria variação espacial na direção do vento, não integram a análise
+confirmatória. A adequação do monitoramento da qualidade da água, dos
+registros meteorológicos e do mapeamento de uso da terra por satélite a esses
+fins será avaliada e documentada antes de qualquer uso; em particular, é
+preciso verificar se o monitoramento da água cobre os princípios ativos
+predominantes na região e se sua série é consistente ao longo da janela.
 
-\textbf{Reprodutibilidade e sigilo.} O processamento é feito por rotinas
+\textbf{Reprodutibilidade e sigilo.} O processamento será feito por rotinas
 numeradas e versionadas, em Python, com a estimação de tratamento contínuo em
-R; a data de extração de cada base é registrada. Os microdados não são
+R; a data de extração de cada base será registrada. Os microdados não são
 redistribuídos, e toda análise é feita sobre agregados município por mês.
 Células com poucos eventos não são divulgadas individualmente.
 
@@ -72,4 +75,4 @@ Células com poucos eventos não são divulgadas individualmente.
 de acesso público, sem identificação individual, e informações obtidas por meio
 da Lei de Acesso à Informação. Pesquisas dessa natureza não são submetidas ao
 sistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de
-Saúde.
+Saúde \cite{cns2016res510}.

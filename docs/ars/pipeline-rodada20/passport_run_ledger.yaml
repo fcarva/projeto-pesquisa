@@ -66,3 +66,12 @@ entries:
   - pausar
   prev_hash: 79ba454be0956cca28710b131c98fe01d193809e06a64939ab0b5310bca4f595
   hash: 152e6e93736653b128e00c6f2db2378da3b4a5ce547ead8597493b25f08f15d6
+- seq: 5
+  kind: checkpoint_closed
+  at: '2026-11-15T21:53:16Z'
+  checkpoint_id: stage2.5-round1
+  answer: confirmar os flags e revisar
+  user_words: '[respostas dadas por seleção de opção] Janela dose: "Voltar a 2015–2018
+    (Recomendado)". Trabalho prévio: "Retirar tudo que soa a análise feita".'
+  prev_hash: 152e6e93736653b128e00c6f2db2378da3b4a5ce547ead8597493b25f08f15d6
+  hash: f317ffb42ac762c80bfd79e5f8442b2e769a2c32e414a623a3e85b4e4e7a2865

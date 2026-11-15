@@ -7,7 +7,7 @@
 
 A estratégia segue a ordem parâmetro-alvo, hipóteses de identificação,
 estimação e inferência, e é organizada em três estágios. O primeiro usa dados
-já disponíveis e mede o tratamento pela cultura. O segundo mede o método. O
+públicos e mede o tratamento pela cultura. O segundo mede o método. O
 terceiro estima o efeito entre os municípios com aplicação aérea medida. A
 passagem de um estágio a outro obedece a uma regra de decisão escrita antes do
 dado (Seção~\ref{sec:regra}).
@@ -25,8 +25,8 @@ e $Y_{mt}(0)$ é o desfecho que se observaria sem a proibição.
 
 O que os dados disponíveis observam é uma \emph{proxy} de $A_m$: a intensidade
 da cultura associada à prática. Classificar municípios pela cultura produz
-falsos positivos (lavoura sem avião), mas, segundo o Censo Agropecuário de
-2006, não produz falsos negativos (não há avião sem lavoura). Nessa
+falsos positivos (lavoura sem avião). Supõe-se que não produza falsos
+negativos (avião sem lavoura), hipótese que a etapa de medição verifica. Nessa
 configuração, e sob tendências paralelas na classificação observada, o
 diferenças-em-diferenças identifica
 \begin{equation}
@@ -42,19 +42,22 @@ aumentar o número de municípios classificados como tratados.
 
 \section{Estágio 1: forma reduzida pela intensidade da cultura}
 
-\textbf{Dose.} A dose $D_m$ é a área plantada média de banana no município,
-segundo a Produção Agrícola Municipal do IBGE, como proporção da área
-municipal. A cultura não foi escolhida \emph{a priori}: resultou de um
-diagnóstico de dispersão entre as culturas candidatas, em que a banana se
-mostrou a de variação mais ampla entre municípios. Usa-se área plantada, e não
+\textbf{Dose.} A dose $D_m$ é a área plantada média da cultura associada à
+aplicação aérea no município, segundo a Produção Agrícola Municipal do IBGE
+\cite{ibgepam}, como proporção da área municipal. A cultura candidata é a
+banana, pelo histórico da Chapada do Apodi e pelo análogo equatoriano; a
+escolha será confirmada, antes da estimação, por um diagnóstico da dispersão
+da dose entre as culturas candidatas, entre elas o melão. Usa-se área plantada, e não
 colhida, porque a colheita responde à seca de 2012--2017.
 
-\textbf{Janela da dose.} A intensidade de tratamento deve ser predeterminada,
-isto é, fixada antes que a política pudesse alterá-la. O projeto de lei foi
-apresentado em fevereiro de 2015, e a área plantada a partir desse ano pode já
-responder à expectativa da proibição. A dose principal é, por isso, a média de
-2010 a 2014; a média de 2015 a 2018, mais próxima da exposição vigente às
-vésperas da lei, entra como análise de sensibilidade.
+\textbf{Janela da dose.} A dose principal é a média de 2015 a 2018, os quatro
+anos anteriores à vigência, por ser a medida mais próxima da exposição que a
+lei removeu. A escolha tem um custo declarado: a intensidade de tratamento
+deveria ser predeterminada, e a proibição foi proposta em projetos de lei de
+2011 e de 2015, de modo que a área plantada nesses anos pode já responder à
+expectativa da norma. A média de 2010 a 2014 entra como análise de
+sensibilidade; ela não elimina o problema, porque também é posterior à
+primeira proposição, e reduz o número de municípios sem a cultura.
 
 \textbf{Exposição das coortes.} Um nascimento de março de 2019 foi gestado em
 grande parte antes da vigência da lei. Para cada coorte de nascimento,
@@ -76,9 +79,10 @@ proibição. A curva dose-resposta é estimada e reportada como diagnóstico, n�
 como resultado: ela exige a hipótese forte de tendências paralelas, que os
 dados podem falsificar em cortes de placebo no pré-período, mas não validar.
 
-\textbf{Grupo de comparação.} O grupo de dose nula é pequeno (15 municípios
-sem área de banana) e sua composição desloca o nível estimado. Ele é
-construído de quatro maneiras, todas reportadas: área nula de banana; área
+\textbf{Grupo de comparação.} Como a bananicultura está presente na maior
+parte do estado, o grupo de dose nula é pequeno, e o estimador centra o nível
+do efeito na variação desse grupo. Ele será construído de quatro maneiras,
+todas reportadas: área nula de banana; área
 nula de qualquer cultura candidata à aplicação aérea; ausência de registro de
 aeronave; e baixa aptidão agroclimática para banana, medida pelo índice
 FAO-GAEZ. A aptidão entra como critério de construção do grupo de comparação,
@@ -88,7 +92,9 @@ uso como variável instrumental para a dose, na linha de
 
 \textbf{Verificações.} A hipótese de tendências paralelas é examinada por um
 estudo de eventos com \emph{leads} que alcançam 2018, de modo a tornar
-visíveis os marcos de notícia e de certeza. Como um teste de pré-tendência que
+visível o marco de certeza; os marcos de notícia são anteriores ao início do
+painel de desfechos, ou quase coincidem com ele, e não podem ser examinados
+desse modo. Como um teste de pré-tendência que
 não rejeita pode simplesmente não ter poder \cite{roth2023trending}, reporta-se
 o poder do teste contra tendências de magnitude relevante, e a estimativa é
 acompanhada dos intervalos robustos a violações limitadas da hipótese
@@ -103,16 +109,16 @@ O segundo estágio substitui a \emph{proxy} por medida do método. Cinco fontes
 são mobilizadas, as três primeiras por pedidos de acesso à informação:
 \begin{alineas}
   \item os relatórios mensais que as empresas de aviação agrícola entregam ao
-    Ministério da Agricultura (Instrução Normativa MAPA nº~2/2008), com
+    Ministério da Agricultura \cite{mapa2008in2}, com
     município, cultura, área aplicada e produto, mês a mês;
   \item o receituário agronômico, que registra a modalidade de aplicação
-    (Decreto nº~4.074/2002), sob guarda da agência estadual de defesa
+    \cite{brasil2002decreto4074}, sob guarda da agência estadual de defesa
     agropecuária;
   \item o cadastro estadual de prestadores de serviço de aplicação (Lei
     nº~12.228/1993), sob guarda do órgão ambiental estadual;
   \item os autos da ação civil pública de 2011 sobre a pulverização aérea na
     Chapada do Apodi, na Justiça Federal;
-  \item o Censo Agropecuário de 2006, já disponível, usado como calibração.
+  \item o Censo Agropecuário de 2006, de acesso público, usado como calibração.
 \end{alineas}
 
 O produto desse estágio é uma classificação $\hat{A}_m$ dos municípios pelo
@@ -124,7 +130,8 @@ aplicações.
 \label{sec:calendario}
 
 O terceiro estágio compara, dentro de cada município, as coortes cujo primeiro
-trimestre de gestação coincide com a estação de aplicação aérea com as demais,
+trimestre de gestação (com o segundo como análise de sensibilidade) coincide
+com a estação de aplicação aérea com as demais,
 antes e depois da proibição, e contrasta essa diferença entre municípios com e
 sem aplicação aérea medida. Seja $P_t \in [0,1]$ a fração do primeiro
 trimestre da coorte $t$ que cai na estação de aplicação, e $Pos_t$ o indicador
@@ -205,6 +212,8 @@ não como teste.
 
 Duas hipóteses são confirmatórias, $H_1$ e $H_2$, com correção de Holm para
 multiplicidade; os demais desfechos são exploratórios e assim rotulados. Estimativa abaixo do efeito mínimo detectável é reportada como intervalo de
-confiança, sem leitura de ausência de efeito. O plano de análise do primeiro
-estágio está registrado e versionado; o do terceiro será registrado antes de
-qualquer cruzamento entre a exposição medida e os desfechos.
+confiança, sem leitura de ausência de efeito. O plano de análise de cada
+estágio será escrito e versionado antes da respectiva estimação; o do
+terceiro, antes de qualquer cruzamento entre a exposição medida e os
+desfechos. Trata-se de plano versionado em repositório, não de pré-registro
+público.

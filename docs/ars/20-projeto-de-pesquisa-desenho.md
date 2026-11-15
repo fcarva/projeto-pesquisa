@@ -119,7 +119,17 @@ prematuridade. Canal: notificações de intoxicação por agrotóxico agrícola
 
 ---
 
-## 4. Janela da dose, decidida pela lógica de avaliação de política
+## 4. Janela da dose
+
+> **Revertido em 2026-11-15, no checkpoint do Estágio 2.5.** A verificação de
+> integridade mostrou que, com a dose em 2010–2014, são 178 municípios com
+> banana e só 6 sem (contra 169 e 15 em 2015–2018), e que existe um PL estadual
+> de 2011 com a mesma proibição (PL 134/2011, a conferir) — 2010–2014 não é
+> "antes da notícia". **Decisão do pesquisador: dose principal 2015–2018, como
+> na pré-especificação; 2010–2014 como sensibilidade.** Não há desvio a
+> registrar. O texto abaixo fica como registro do raciocínio descartado.
+
+### (descartado) Janela decidida pela lógica de avaliação de política
 
 A pergunta é o efeito da **proibição**. A intensidade de tratamento tem de ser
 característica **predeterminada**: fixada antes de a política poder alterá-la.
