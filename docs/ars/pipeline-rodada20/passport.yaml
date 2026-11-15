@@ -34,3 +34,14 @@ experiment_intake_declaration:
 # intake permanece no_experiments_declared (nenhum resultado é reportado); se o
 # verificador entender que a divulgação exige "experiments_declared", a decisão
 # volta ao pesquisador.
+integrity_stage_2_5:
+  verdict: PASS_WITH_NOTES
+  round: 4
+  report: stage2.5_integrity_report_round4.md
+  open_minor: 3
+  failure_mode_overrides:
+    - modes: [1, 3, 6]
+      status_before: "1 INSUFFICIENT EVIDENCE; 3 e 6 SUSPECTED (só pela discordância declaração x texto)"
+      decided_by: scholar
+      scholar_words: "como é um projeto de pesquisa essa parte vai ser feita ao longo do ano, então é só o que eu vou fazer"
+      note: "Leitura do orquestrador: override — o projeto descreve o que será feito; nenhum resultado é reportado. Declaração de intake inalterada. A reavaliar no Estágio 4.5 e relatar no Estágio 6."

@@ -166,3 +166,12 @@ entries:
   - pausar
   prev_hash: af2c1e5f5ff197f5ba3f3d9176691f076a8c81ed43139a6ea03149299c6f7441
   hash: c0fb2c8b53e31222f0581b51c7c99281e4a4549816d145a021bad262cc482998
+- seq: 14
+  kind: checkpoint_closed
+  at: '2026-11-15T22:28:54Z'
+  checkpoint_id: stage2.5-round4
+  answer: override com justificativa (Modos 1, 3 e 6)
+  user_words: como é um projeto de pesquisa essa parte vai ser feita ao longo do ano,
+    então é só o que eu vou fazer
+  prev_hash: c0fb2c8b53e31222f0581b51c7c99281e4a4549816d145a021bad262cc482998
+  hash: f8f51da5389c4cccdeef5524554e4d55114152986a3cfed756619f940c049692
