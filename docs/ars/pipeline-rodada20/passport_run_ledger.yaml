@@ -175,3 +175,18 @@ entries:
     então é só o que eu vou fazer
   prev_hash: c0fb2c8b53e31222f0581b51c7c99281e4a4549816d145a021bad262cc482998
   hash: f8f51da5389c4cccdeef5524554e4d55114152986a3cfed756619f940c049692
+- seq: 15
+  kind: checkpoint_opened
+  at: '2026-11-15T22:32:48Z'
+  checkpoint_id: stage3-cards
+  stage: '3'
+  checkpoint_type: MANDATORY
+  question: 'Confirmação dos Reviewer Configuration Cards (Fase 0 do academic-paper-reviewer,
+    #1030): aceitar o conjunto dos 4 cartões como está, ou editar, antes de despachar
+    a Fase 1.'
+  options:
+  - aceitar o conjunto
+  - editar cartões
+  - pausar
+  prev_hash: f8f51da5389c4cccdeef5524554e4d55114152986a3cfed756619f940c049692
+  hash: c4df301133462fbbbd7ee678f71bd6438ce6b273aca84e6142edba5b931e4da7
