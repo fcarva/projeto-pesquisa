@@ -1,0 +1,31 @@
+ledger: ars-run-ledger/1.0
+created_at: '2026-11-15T21:25:42Z'
+entries:
+- seq: 1
+  kind: initial_instructions
+  at: '2026-11-15T21:25:42Z'
+  user_words: 'Preciso entregar o projeto de pesquisa no dia 27 de novembro. Então,
+    gostaria de compilar e tentar entrar no contexto de todo o projeto, de tudo que
+    a gente já fez até agora, de todos os commits, e usar o Academic Research Skills
+    para a gente reengatar o desenho e fazer as 15 páginas. Aí eu quero que você me
+    entregue em latex para que eu possa alterar também, né? Dentro do formato da ABNT,
+    UFES, e vamos dar prosseguimento a tudo que a gente já vem fazendo
+
+
+    [2026-11-15, mensagem posterior] pipeline full mode hard core'
+  prev_hash: null
+  hash: c4e5c7a3eda472dcff2a1b60607e111353edb56ee4acd1c386033e93f2a8d090
+- seq: 2
+  kind: checkpoint_opened
+  at: '2026-11-15T21:25:53Z'
+  checkpoint_id: entry-2.5
+  stage: '2.5'
+  checkpoint_type: MANDATORY
+  question: 'Confirmação de entrada pelo Estágio 2.5: (1) pergunta de intake de experimentos
+    (#925), a responder nas palavras do pesquisador; (2) confirmação da lista de restrições
+    permanentes (#927).'
+  options:
+  - responder as duas perguntas
+  - pausar
+  prev_hash: c4e5c7a3eda472dcff2a1b60607e111353edb56ee4acd1c386033e93f2a8d090
+  hash: 545de5a60a679a300adb6f7c29ba2914455ae3d255d1984d5dbb4a3de413d1f1

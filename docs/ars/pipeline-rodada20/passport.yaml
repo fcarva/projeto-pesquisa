@@ -1,0 +1,18 @@
+# Material Passport (Schema 9) — rodada ARS 20, projeto de pesquisa (abnTeX2)
+# Entrada no meio do pipeline (Mid-Entry), pelo Estágio 2.5.
+# O rascunho NÃO foi produzido pelo academic-paper: foi escrito diretamente
+# na sessão de 2026-11-15 (ver docs/ars/20, nota de correção).
+origin_skill: external-draft
+origin_mode: mid-entry
+origin_date: "2026-11-15T21:25:42Z"
+verification_status: UNVERIFIED
+version_label: "projeto_v1"
+content_hash: "sha256:bc4611e7843d87becd596e0c6853bf2fcb5a1e8778ac5edf3d97d27e22516d59"
+ars_plugin_version: "3.24.2"
+artifact_paths:
+  - paper/projeto/projeto.tex
+  - paper/projeto/secoes/
+  - paper/projeto/referencias-projeto.bib
+  - paper/referencias.bib
+repro_lock: null
+slr_lineage: false
