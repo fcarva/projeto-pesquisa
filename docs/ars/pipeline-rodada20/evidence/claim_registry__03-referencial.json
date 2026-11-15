@@ -1,13 +1,13 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "604b6b4b691699110fa38877e0b8946bc80624b453c01336c028a9d61bf0744c",
+  "draft_raw_sha256": "2bf7e59bd1345781874828d5af49845fcf081c0c3b5ff6746f1f30a92779495f",
   "claims": [
     {
       "claim_id": "C10",
-      "claim_text": "\\citeonline{coase1960} supõe direitos bem definidos e custos de\ntransação baixos.",
+      "claim_text": "\\citeonline{coase1960} supõe custos de\ntransação baixos",
       "draft_span": {
-        "start_byte": 687,
-        "end_byte": 771
+        "start_byte": 622,
+        "end_byte": 680
       },
       "claim_kinds": [
         "other_factual"
@@ -21,10 +21,10 @@
     },
     {
       "claim_id": "C11",
-      "claim_text": "Sob incerteza a respeito\ndos custos de controle, instrumentos de preço e de quantidade não são\nequivalentes em bem-estar esperado, e qual domina depende das inclinações\nrelativas do benefício e do custo marginais \\cite{weitzman1974}",
+      "claim_text": "Qual instrumento usar, se proibição, taxa ou regulação de\ndesempenho, depende das inclinações relativas do benefício e do custo\nmarginais \\cite{weitzman1974}",
       "draft_span": {
-        "start_byte": 1059,
-        "end_byte": 1297
+        "start_byte": 822,
+        "end_byte": 986
       },
       "claim_kinds": [
         "other_factual"
@@ -38,10 +38,10 @@
     },
     {
       "claim_id": "C12",
-      "claim_text": "A literatura sobre regulação de\nagrotóxicos acrescenta a dimensão distributiva\n\\cite{lichtenberg1988,helfand1995} e a comparação, por simulação, entre cotas e taxas\n\\cite{skevas2012}",
+      "claim_text": "tem dimensão distributiva\n\\cite{lichtenberg1988,helfand1995,skevas2012}",
       "draft_span": {
-        "start_byte": 1360,
-        "end_byte": 1550
+        "start_byte": 989,
+        "end_byte": 1061
       },
       "claim_kinds": [
         "other_factual"
@@ -57,10 +57,10 @@
     },
     {
       "claim_id": "C14",
-      "claim_text": "\\citeonline{reynier2025glyphosate} estimam\nreduções médias de peso ao nascer da ordem de 23 a 32 gramas associadas à\ndifusão do glifosato em áreas rurais dos Estados Unidos.",
+      "claim_text": "\\citeonline{reynier2025glyphosate} estimam reduções médias de peso ao nascer da\nordem de 23 a 32 gramas associadas à difusão do glifosato em áreas rurais dos\nEstados Unidos.",
       "draft_span": {
-        "start_byte": 2072,
-        "end_byte": 2251
+        "start_byte": 1497,
+        "end_byte": 1676
       },
       "claim_kinds": [
         "quantitative"
@@ -77,10 +77,10 @@
     },
     {
       "claim_id": "C15",
-      "claim_text": "\\citeonline{calzada2023bananas} relatam déficits maiores, de 80 a 150 gramas,\nentre recém-nascidos de mães com exposição alta à fumigação aérea de bananais\nno Equador.",
+      "claim_text": "\\citeonline{calzada2023bananas} encontram déficit de cerca de\n80 gramas, mas apenas para mães que moravam a até 150 metros do perímetro de\num bananal e tiveram três meses ou mais de fumigação intensiva durante a\ngestação; para as que moravam mais longe não há gradiente.",
       "draft_span": {
-        "start_byte": 2252,
-        "end_byte": 2428
+        "start_byte": 1677,
+        "end_byte": 1958
       },
       "claim_kinds": [
         "quantitative"
@@ -96,28 +96,31 @@
       ]
     },
     {
-      "claim_id": "C16",
-      "claim_text": "A diferença é coerente com o grau de exposição: médias\npopulacionais em um caso, vizinhança imediata da plantação no outro.",
+      "claim_id": "H05",
+      "claim_text": "\\citeonline{rigotto2013trends} comparam municípios da fruticultura irrigada do\nCeará com municípios de agricultura familiar e documentam piores indicadores\nde saúde nos primeiros, em estudo ecológico, sem pretensão causal.",
       "draft_span": {
-        "start_byte": 2429,
-        "end_byte": 2560
+        "start_byte": 1970,
+        "end_byte": 2198
       },
       "claim_kinds": [
         "other_factual"
       ],
       "ref_slugs": [
-        "calzada2023bananas"
+        "rigotto2013trends"
       ],
       "writer_anchors": [],
       "paper_section": "3 Referencial teórico e empírico",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
     },
     {
       "claim_id": "C17",
-      "claim_text": "aparecem no topo da distribuição de exposição \\cite{larsen2017agricultural} e\nna cauda inferior da distribuição de peso esperado\n\\cite{reynier2025glyphosate}",
+      "claim_text": "Os efeitos aparecem no topo da distribuição de\nexposição \\cite{larsen2017agricultural} e na cauda inferior da distribuição de\npeso esperado \\cite{reynier2025glyphosate}",
       "draft_span": {
-        "start_byte": 2641,
-        "end_byte": 2804
+        "start_byte": 2231,
+        "end_byte": 2405
       },
       "claim_kinds": [
         "trend"
@@ -134,11 +137,28 @@
       ]
     },
     {
-      "claim_id": "C18",
-      "claim_text": "\\citeonline{calzada2023bananas} cruzam o início da gestação\ncom os períodos de fumigação intensa, e \\citeonline{brainerd2014seasonal} usam o\nmês da concepção e a estação de aplicação de agroquímicos na Índia.",
+      "claim_id": "H06",
+      "claim_text": "entre os poucos estudos que isolam\nfungicidas está o de \\citeonline{jones2020invasive}",
       "draft_span": {
-        "start_byte": 3107,
-        "end_byte": 3330
+        "start_byte": 2407,
+        "end_byte": 2494
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [
+        "jones2020invasive"
+      ],
+      "writer_anchors": [],
+      "paper_section": "3 Referencial teórico e empírico",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "C18",
+      "claim_text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e nenhum no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
+      "draft_span": {
+        "start_byte": 2928,
+        "end_byte": 3212
       },
       "claim_kinds": [
         "other_factual"
@@ -156,10 +176,10 @@
     },
     {
       "claim_id": "C19",
-      "claim_text": "A ameaça\nconhecida a esse tipo de desenho é a composição sazonal das mães: quem concebe\nem cada época do ano difere em características que afetam o desfecho\n\\cite{buckles2013season,currie2013within}",
+      "claim_text": "A ameaça\nconhecida é a composição sazonal das mães: quem concebe em cada época do ano\ndifere em características que afetam o desfecho\n\\cite{buckles2013season,currie2013within}",
       "draft_span": {
-        "start_byte": 3331,
-        "end_byte": 3536
+        "start_byte": 3213,
+        "end_byte": 3395
       },
       "claim_kinds": [
         "other_factual"
@@ -174,10 +194,10 @@
     },
     {
       "claim_id": "C20",
-      "claim_text": "os estimadores e as decomposições de\ndiferenças-em-diferenças para adoção escalonada\n\\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam",
+      "claim_text": "os estimadores e as\ndecomposições de diferenças-em-diferenças para adoção escalonada\n\\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam",
       "draft_span": {
-        "start_byte": 3657,
-        "end_byte": 3827
+        "start_byte": 3516,
+        "end_byte": 3686
       },
       "claim_kinds": [
         "other_factual"
@@ -192,31 +212,11 @@
       "selection_tier": "TOP-UP"
     },
     {
-      "claim_id": "C21",
-      "claim_text": "\\citeonline{callaway2024continuous} mostram que o\ndiferenças-em-diferenças com tratamento contínuo identifica parâmetros\ndistintos conforme a hipótese mantida. Sob tendências paralelas usuais,\nidentifica-se o efeito médio de receber a dose $d$ entre os que a receberam,\n$ATT(d\\mid d)$. A curva dose-resposta causal exige uma hipótese mais forte\n(\\emph{strong parallel trends}), que restringe trajetórias sob doses não\nrecebidas e exclui seleção por ganhos.",
-      "draft_span": {
-        "start_byte": 4044,
-        "end_byte": 4512
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [
-        "callaway2024continuous"
-      ],
-      "writer_anchors": [],
-      "paper_section": "3 Referencial teórico e empírico",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "methods_critical"
-      ]
-    },
-    {
       "claim_id": "C22",
-      "claim_text": "a diferença tripla\nexige uma única hipótese de tendências paralelas, a da diferença entre os dois\ncontrastes que a compõem \\cite{olden2022triple}",
+      "claim_text": "a diferença tripla exige uma única hipótese\nde tendências paralelas, a da diferença entre os dois contrastes que a compõem\n\\cite{olden2022triple}",
       "draft_span": {
-        "start_byte": 4529,
-        "end_byte": 4680
+        "start_byte": 3809,
+        "end_byte": 3960
       },
       "claim_kinds": [
         "other_factual"
@@ -232,17 +232,17 @@
       ]
     },
     {
-      "claim_id": "C23",
-      "claim_text": "\\citeonline{denteh2022misclassification} mostram que,\nsob tendências paralelas na classificação observada e ausência de falsos\nnegativos, o diferenças-em-diferenças identifica o efeito verdadeiro\nmultiplicado pela fração dos classificados como tratados que de fato o são:\natenuação pura, sem inversão de sinal.",
+      "claim_id": "C21",
+      "claim_text": "\\citeonline{callaway2024continuous} mostram que o\nefeito no nível da dose recebida sai sob tendências paralelas usuais, ao passo\nque a curva dose-resposta exige hipótese mais forte.",
       "draft_span": {
-        "start_byte": 4779,
-        "end_byte": 5101
+        "start_byte": 4038,
+        "end_byte": 4222
       },
       "claim_kinds": [
         "other_factual"
       ],
       "ref_slugs": [
-        "denteh2022misclassification"
+        "callaway2024continuous"
       ],
       "writer_anchors": [],
       "paper_section": "3 Referencial teórico e empírico",
@@ -253,10 +253,10 @@
     },
     {
       "claim_id": "C24",
-      "claim_text": "os procedimentos adequados são os de\n\\citeonline{conley2011} e \\citeonline{ferman2019inference}, a inferência\nconformal de \\citeonline{chernozhukov2021conformal} e, com restrições\nconhecidas, o \\emph{wild cluster bootstrap}\n\\cite{cameron2008wild,mackinnon2018wild}",
+      "claim_text": "Quando poucos grupos são tratados, a inferência assintótica usual falha e são\nnecessários procedimentos próprios \\cite{conley2011,ferman2019inference,\nchernozhukov2021conformal,hagemann2025single}",
       "draft_span": {
-        "start_byte": 5181,
-        "end_byte": 5449
+        "start_byte": 4224,
+        "end_byte": 4426
       },
       "claim_kinds": [
         "other_factual"
@@ -265,8 +265,7 @@
         "conley2011",
         "ferman2019inference",
         "chernozhukov2021conformal",
-        "cameron2008wild",
-        "mackinnon2018wild"
+        "hagemann2025single"
       ],
       "writer_anchors": [],
       "paper_section": "3 Referencial teórico e empírico",

@@ -2,51 +2,52 @@
   "candidate_unregistered_count": 1,
   "candidates": [
     {
-      "candidate_id": "CAND-B7732-7775-ee65f1c85022",
+      "candidate_id": "CAND-B4588-4667-47be01bc39a1",
       "candidate_kinds": [
         "citation_bearing_sentence"
       ],
       "coverage_state": "candidate_unregistered",
-      "end_byte": 7775,
-      "line": 136,
+      "end_byte": 4667,
+      "line": 87,
       "matched_claim_ids": [],
-      "sentence_index": 2,
-      "start_byte": 7732,
-      "text": "Seja $P_t \\in [0,1]$ a fração do primeiro",
+      "sentence_index": 1,
+      "start_byte": 4588,
+      "text": "Seja $P_t \\in [0,1]$ a fração dos dois primeiros trimestres da coorte $t$ que",
       "triggers": [
         {
           "coverage_state": "trigger_unregistered",
-          "end_byte": 7751,
+          "end_byte": 4607,
           "kind": "citation_bearing_sentence",
           "matched_claim_ids": [],
-          "start_byte": 7746,
+          "start_byte": 4602,
           "text": "[0,1]",
-          "trigger_id": "TRIG-B7746-7751-48321ea7d852"
+          "trigger_id": "TRIG-B4602-4607-48321ea7d852"
         }
       ],
       "uncovered_trigger_count": 1
     }
   ],
-  "draft_raw_sha256": "6ec897d7d90f6783a14c5f5c8157fb82a21cd09420da3051011c63df65a46107",
+  "draft_raw_sha256": "17bc2ced0bfd9dd60427cf695680392bf5b84d4e287d43d643ee459b7c2fd0e1",
   "mechanical_candidate_scope": [
     "citation_bearing_sentence",
     "quantitative_sentence"
   ],
   "registered_claims_outside_candidate_classes": [
-    "F17",
+    "C23",
     "F18",
     "F19",
     "F20",
     "F21",
     "F22",
-    "G05",
-    "G06",
-    "G07",
-    "G10",
-    "G11"
+    "H07",
+    "H08",
+    "H09",
+    "H10",
+    "H11",
+    "H12"
   ],
-  "registry_claim_count": 11,
-  "registry_raw_sha256": "404f1f693554f9985453290b6093ca66a5e1dcdc55a82a32a81a9f9f7e6ef7a1",
+  "registry_claim_count": 12,
+  "registry_raw_sha256": "4575f0436308a5ccaac058f0eadd2b72c7d875e86f8cbd5d4fd24341dcf27633",
   "registry_schema_version": "claim-registry/1.0",
   "schema_version": "claim-registry-coverage/1.0",
   "semantic_extraction_coverage": "not_machine_detectable"

@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "abcbcf387b46033da922fe8479d02e2a3bd62815d56c2e4dc42da941b86c9d50",
+  "draft_raw_sha256": "2fcba62a521342c472fc54b54240dcfcf7f40f8f3cb29a0d3511532e6fea4335",
   "claims": [
     {
       "claim_id": "F05",
@@ -62,24 +62,6 @@
       ]
     },
     {
-      "claim_id": "F07",
-      "claim_text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
-      "draft_span": {
-        "start_byte": 2358,
-        "end_byte": 2506
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "numerical"
-      ]
-    },
-    {
       "claim_id": "F08",
       "claim_text": "Em dezembro de 2024,\na Lei nº~19.135 \\cite{ceara2024lei19135} deu nova redação ao artigo e abriu exceção para aeronaves\nremotamente pilotadas.",
       "draft_span": {
@@ -137,10 +119,10 @@
     },
     {
       "claim_id": "F11",
-      "claim_text": "Em maio, a lei municipal é revogada (Lei nº 1.511).",
+      "claim_text": "Em maio, a Lei municipal nº 1.511 revoga a proibição e passa a regular a prática.",
       "draft_span": {
         "start_byte": 2059,
-        "end_byte": 2112
+        "end_byte": 2144
       },
       "claim_kinds": [
         "other_factual"
@@ -155,10 +137,10 @@
     },
     {
       "claim_id": "F12",
-      "claim_text": "Notícia de proibição da prática na Chapada do Apodi (março); projeto de lei estadual com a mesma vedação (PL nº 134, maio); ação civil pública do Ministério Público (julho)",
+      "claim_text": "Notícia de proibição na Chapada do Apodi (março); projeto de lei estadual com a mesma vedação (PL nº 134, maio); ação civil pública do Ministério Público (julho), de desfecho não localizado",
       "draft_span": {
-        "start_byte": 2123,
-        "end_byte": 2308
+        "start_byte": 2155,
+        "end_byte": 2357
       },
       "claim_kinds": [
         "other_factual"
@@ -175,8 +157,61 @@
       "claim_id": "G02",
       "claim_text": "projeto de lei estadual com a mesma vedação (PL nº 134, maio)",
       "draft_span": {
-        "start_byte": 2189,
-        "end_byte": 2253
+        "start_byte": 2209,
+        "end_byte": 2273
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "H13",
+      "claim_text": "2012--2017 & Seca no semiárido; relatos de suspensão dos voos na Chapada.",
+      "draft_span": {
+        "start_byte": 2362,
+        "end_byte": 2437
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "H01",
+      "claim_text": "03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}",
+      "draft_span": {
+        "start_byte": 2441,
+        "end_byte": 2545
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "ceara2018nascer"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F07",
+      "claim_text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
+      "draft_span": {
+        "start_byte": 2550,
+        "end_byte": 2698
       },
       "claim_kinds": [
         "other_factual"
@@ -191,10 +226,10 @@
     },
     {
       "claim_id": "C08",
-      "claim_text": "No análogo equatoriano, elas\nse intensificam na estação chuvosa, quando a pressão da doença aumenta\n\\cite{calzada2023bananas}",
+      "claim_text": "No análogo equatoriano, as aplicações se\nintensificam na estação chuvosa \\cite{calzada2023bananas}",
       "draft_span": {
-        "start_byte": 3385,
-        "end_byte": 3515
+        "start_byte": 3546,
+        "end_byte": 3649
       },
       "claim_kinds": [
         "trend"
@@ -210,8 +245,8 @@
       "claim_id": "C09",
       "claim_text": "A tabela de análises de água\nreproduzida na justificativa do Projeto de Lei nº~18/2015, atribuída ao Dossiê\nABRASCO \\cite{ceara2015pl18}, registra 23 pontos de coleta na Chapada em 2009: o fungicida\nprocimidona e o inseticida carbaril aparecem em todos, carbofurano em 18,\nfenitrotiona em 16 e glifosato em apenas 4.",
       "draft_span": {
-        "start_byte": 3737,
-        "end_byte": 4058
+        "start_byte": 3873,
+        "end_byte": 4194
       },
       "claim_kinds": [
         "quantitative"
@@ -228,10 +263,10 @@
     },
     {
       "claim_id": "F13",
-      "claim_text": "No Ceará eram 36 estabelecimentos, em 7 dos 184 municípios\n\\cite{ibge2006censoagro}",
+      "claim_text": "Ceará eram 36 estabelecimentos, em 7 dos 184 municípios\n\\cite{ibge2006censoagro}",
       "draft_span": {
-        "start_byte": 4513,
-        "end_byte": 4598
+        "start_byte": 4661,
+        "end_byte": 4743
       },
       "claim_kinds": [
         "quantitative"
@@ -248,10 +283,10 @@
     },
     {
       "claim_id": "G03",
-      "claim_text": "a bananicultura está presente na maior parte do estado\n\\cite{ibgepam}: a maioria\ndos municípios com a cultura não tinha registro de avião.",
+      "claim_text": "a bananicultura está presente na maior parte do estado\n\\cite{ibgepam}: a maioria dos municípios com a cultura não tinha registro de\navião.",
       "draft_span": {
-        "start_byte": 4668,
-        "end_byte": 4810
+        "start_byte": 4813,
+        "end_byte": 4955
       },
       "claim_kinds": [
         "quantitative"
@@ -264,6 +299,64 @@
       "selection_tier": "HIGH-IMPACT",
       "high_impact_basis": [
         "numerical"
+      ]
+    },
+    {
+      "claim_id": "H02",
+      "claim_text": "A lei municipal que revogou\na proibição de Limoeiro do Norte, em 2010, passou a regular a prática, com\ndistâncias mínimas de povoações e mananciais \\cite{limoeiro2010lei1511}",
+      "draft_span": {
+        "start_byte": 5007,
+        "end_byte": 5188
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "limoeiro2010lei1511"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "H03",
+      "claim_text": "relatos de\n2016 afirmam que os voos cessaram na Chapada a partir de cerca de 2012, por\ncausa da seca, já que a doença fúngica que os motiva depende de umidade\n\\cite{agenciabrasil2016ceara}",
+      "draft_span": {
+        "start_byte": 5499,
+        "end_byte": 5690
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "agenciabrasil2016ceara"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "H04",
+      "claim_text": "Declarações do setor produtivo, por sua vez,\ndescrevem aplicações aéreas em bananais do Cariri e da Chapada até 2018, em\nanos chuvosos.",
+      "draft_span": {
+        "start_byte": 5692,
+        "end_byte": 5833
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
       ]
     }
   ]

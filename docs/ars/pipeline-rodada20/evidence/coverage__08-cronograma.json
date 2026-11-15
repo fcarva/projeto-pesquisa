@@ -1,7 +1,7 @@
 {
   "candidate_unregistered_count": 0,
   "candidates": [],
-  "draft_raw_sha256": "713491f0ea59b92acf8c3e677408f0506da8a9cc6489319954a2add61dbb76e3",
+  "draft_raw_sha256": "b3862e24831a7ae5412e970a0e914c18a3848667beaa9137197e825cb03771d3",
   "mechanical_candidate_scope": [
     "citation_bearing_sentence",
     "quantitative_sentence"
@@ -10,7 +10,7 @@
     "N04"
   ],
   "registry_claim_count": 1,
-  "registry_raw_sha256": "e8b7ab15a6147d0e33264b7a094d09e35fa300bf6ef33e0cab0ea66e1c1ce6b5",
+  "registry_raw_sha256": "0210acae857d9611c2063ca85163be96f12a6384653cc648640aeb67179c0805",
   "registry_schema_version": "claim-registry/1.0",
   "schema_version": "claim-registry-coverage/1.0",
   "semantic_extraction_coverage": "not_machine_detectable"

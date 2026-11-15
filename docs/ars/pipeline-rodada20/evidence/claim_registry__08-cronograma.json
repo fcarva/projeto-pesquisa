@@ -1,13 +1,13 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "713491f0ea59b92acf8c3e677408f0506da8a9cc6489319954a2add61dbb76e3",
+  "draft_raw_sha256": "b3862e24831a7ae5412e970a0e914c18a3848667beaa9137197e825cb03771d3",
   "claims": [
     {
       "claim_id": "N04",
-      "claim_text": "a primeira medida municipal da aplicação aérea de\nagrotóxicos no Ceará antes da proibição",
+      "claim_text": "a primeira medida municipal e mensal da aplicação\naérea de agrotóxicos no Ceará antes da proibição",
       "draft_span": {
         "start_byte": 368,
-        "end_byte": 464
+        "end_byte": 473
       },
       "claim_kinds": [
         "categorical"

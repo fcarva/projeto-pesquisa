@@ -1,33 +1,20 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "6ec897d7d90f6783a14c5f5c8157fb82a21cd09420da3051011c63df65a46107",
+  "draft_raw_sha256": "17bc2ced0bfd9dd60427cf695680392bf5b84d4e287d43d643ee459b7c2fd0e1",
   "claims": [
     {
-      "claim_id": "F17",
-      "claim_text": "a colheita responde à seca de 2012--2017",
+      "claim_id": "H08",
+      "claim_text": "O terceiro trimestre, para o qual o análogo\nequatoriano não encontra efeito, serve de contraste de falsificação.",
       "draft_span": {
-        "start_byte": 2727,
-        "end_byte": 2768
+        "start_byte": 5735,
+        "end_byte": 5851
       },
       "claim_kinds": [
         "other_factual"
       ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "5 Metodologia",
-      "selection_tier": "TOP-UP"
-    },
-    {
-      "claim_id": "G05",
-      "claim_text": "a proibição foi proposta em projetos de lei de\n2011 e de 2015",
-      "draft_span": {
-        "start_byte": 3038,
-        "end_byte": 3101
-      },
-      "claim_kinds": [
-        "other_factual"
+      "ref_slugs": [
+        "calzada2023bananas"
       ],
-      "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
       "selection_tier": "HIGH-IMPACT",
@@ -36,45 +23,31 @@
       ]
     },
     {
-      "claim_id": "G06",
-      "claim_text": "ela não elimina o problema, porque é em sua maior parte posterior à\nprimeira proposição, e reduz o número de municípios sem a cultura",
+      "claim_id": "H07",
+      "claim_text": "não o avião, que é tecnologia da produção empresarial\nirrigada",
       "draft_span": {
-        "start_byte": 3250,
-        "end_byte": 3390
+        "start_byte": 6112,
+        "end_byte": 6179
       },
       "claim_kinds": [
-        "quantitative",
-        "other_factual"
+        "categorical"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "ibge2017censoagro"
+      ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
       "selection_tier": "HIGH-IMPACT",
       "high_impact_basis": [
         "methods_critical"
       ]
-    },
-    {
-      "claim_id": "G07",
-      "claim_text": "o estimador centra o nível\ndo efeito na variação desse grupo",
-      "draft_span": {
-        "start_byte": 4739,
-        "end_byte": 4802
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "5 Metodologia",
-      "selection_tier": "TOP-UP"
     },
     {
       "claim_id": "F18",
-      "claim_text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com\n    município, cultura, área aplicada e produto, mês a mês",
+      "claim_text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com município, cultura, área\n    e produto",
       "draft_span": {
-        "start_byte": 6351,
-        "end_byte": 6542
+        "start_byte": 8494,
+        "end_byte": 8663
       },
       "claim_kinds": [
         "other_factual"
@@ -93,8 +66,8 @@
       "claim_id": "F19",
       "claim_text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
       "draft_span": {
-        "start_byte": 6552,
-        "end_byte": 6653
+        "start_byte": 8785,
+        "end_byte": 8886
       },
       "claim_kinds": [
         "other_factual"
@@ -111,10 +84,10 @@
     },
     {
       "claim_id": "F20",
-      "claim_text": "o cadastro estadual de prestadores de serviço de aplicação\n    \\cite{ceara1993lei12228}, sob guarda do órgão ambiental estadual",
+      "claim_text": "o cadastro estadual de prestadores de serviço de aplicação e os autos\n    de infração posteriores à lei \\cite{ceara1993lei12228}",
       "draft_span": {
-        "start_byte": 6724,
-        "end_byte": 6856
+        "start_byte": 8896,
+        "end_byte": 9030
       },
       "claim_kinds": [
         "other_factual"
@@ -131,10 +104,10 @@
     },
     {
       "claim_id": "F21",
-      "claim_text": "os autos da ação civil pública de 2011 sobre a pulverização aérea na\n    Chapada do Apodi, na Justiça Federal",
+      "claim_text": "os autos da ação civil pública de 2011, na Justiça Federal",
       "draft_span": {
-        "start_byte": 6866,
-        "end_byte": 6982
+        "start_byte": 9040,
+        "end_byte": 9102
       },
       "claim_kinds": [
         "other_factual"
@@ -143,13 +116,111 @@
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
       "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "C23",
+      "claim_text": "em que $VPP$ é a fração dos classificados como tratados que de fato o eram\n\\cite{denteh2022misclassification}: o sinal é preservado e a magnitude,\natenuada.",
+      "draft_span": {
+        "start_byte": 11039,
+        "end_byte": 11199
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "denteh2022misclassification"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "H09",
+      "claim_text": "o \\emph{wild cluster bootstrap} isolado não é defensável com tão\npoucos tratados \\cite{mackinnon2018wild}",
+      "draft_span": {
+        "start_byte": 12925,
+        "end_byte": 13034
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "mackinnon2018wild"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "H10",
+      "claim_text": "procedimentos de \\citeonline{conley2011} e \\citeonline{ferman2019inference},\nque admitem heterocedasticidade por tamanho de município",
+      "draft_span": {
+        "start_byte": 13067,
+        "end_byte": 13201
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "conley2011",
+        "ferman2019inference"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "H11",
+      "claim_text": "para o caso-limite, o\nprocedimento de \\citeonline{hagemann2025single}",
+      "draft_span": {
+        "start_byte": 13272,
+        "end_byte": 13341
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "hagemann2025single"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "H12",
+      "claim_text": "na diferença tripla, em que a\nvariação é interna ao município, aplica-se também \\citeonline{canay2021wild}",
+      "draft_span": {
+        "start_byte": 13343,
+        "end_byte": 13455
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "canay2021wild"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
     },
     {
       "claim_id": "F22",
-      "claim_text": "O plano de análise do primeiro\nestágio foi escrito e versionado em setembro de 2026; uma rodada exploratória\ncom essa especificação já foi executada, não é reportada aqui e será refeita a\npartir das bases originais.",
+      "claim_text": "Um plano para a forma reduzida estadual foi escrito\ne versionado em setembro de 2026; uma rodada exploratória dessa análise já foi\nexecutada e levou a rever seu alvo, da curva para o nível.",
       "draft_span": {
-        "start_byte": 12156,
-        "end_byte": 12380
+        "start_byte": 14278,
+        "end_byte": 14471
       },
       "claim_kinds": [
         "other_factual"
@@ -161,39 +232,6 @@
       "high_impact_basis": [
         "methods_critical"
       ]
-    },
-    {
-      "claim_id": "G10",
-      "claim_text": "um\ndiagnóstico preliminar da dispersão da dose entre as culturas candidatas,\nentre elas o melão, apontou-a",
-      "draft_span": {
-        "start_byte": 2532,
-        "end_byte": 2641
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "methods_critical"
-      ]
-    },
-    {
-      "claim_id": "G11",
-      "claim_text": "o cálculo preliminar já feito para o primeiro estágio será refeito\ncom as bases congeladas",
-      "draft_span": {
-        "start_byte": 11606,
-        "end_byte": 11700
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "5 Metodologia",
-      "selection_tier": "TOP-UP"
     }
   ]
 }

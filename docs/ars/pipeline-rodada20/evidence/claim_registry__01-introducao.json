@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "1438c1d8a158e7807626c4a60866fa8c2293022e35d301c863fadaebb93178b0",
+  "draft_raw_sha256": "051aac1ad4381d7eca6d3a82b2d606e061fc6b11da7fb789f121d4cde4630c5e",
   "claims": [
     {
       "claim_id": "F01",
@@ -122,10 +122,10 @@
     },
     {
       "claim_id": "C05",
-      "claim_text": "\\citeonline{calzada2023bananas} estudam a fumigação aérea de bananais no\nEquador e relatam déficit de peso ao nascer entre recém-nascidos de mães\nexpostas, associado à coincidência entre o início da gestação e os períodos de fumigação\nintensa.",
+      "claim_text": "\\citeonline{calzada2023bananas} estudam a fumigação aérea de bananais no\nEquador e encontram déficit de peso ao nascer entre filhos de mães que moravam\njunto às plantações e foram expostas, na gestação, aos períodos de fumigação\nintensa.",
       "draft_span": {
         "start_byte": 3000,
-        "end_byte": 3257
+        "end_byte": 3250
       },
       "claim_kinds": [
         "causal"
@@ -144,8 +144,8 @@
       "claim_id": "C06",
       "claim_text": "Este último é o análogo mais próximo do caso\ncearense: mesma cultura, mesmo método, mesma classe de produto.",
       "draft_span": {
-        "start_byte": 3258,
-        "end_byte": 3371
+        "start_byte": 3251,
+        "end_byte": 3364
       },
       "claim_kinds": [
         "categorical"
@@ -161,8 +161,8 @@
       "claim_id": "C07",
       "claim_text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
       "draft_span": {
-        "start_byte": 3468,
-        "end_byte": 3672
+        "start_byte": 3461,
+        "end_byte": 3665
       },
       "claim_kinds": [
         "other_factual"
@@ -181,8 +181,8 @@
       "claim_id": "F03",
       "claim_text": "A lei cearense foi contestada no\nSupremo Tribunal Federal e declarada constitucional, o que assentou a\ncompetência dos estados para legislar sobre a matéria; em 2024 o próprio Ceará\nflexibilizou a regra para admitir drones, e a nova redação voltou a ser\nquestionada na Corte.",
       "draft_span": {
-        "start_byte": 3957,
-        "end_byte": 4238
+        "start_byte": 3950,
+        "end_byte": 4231
       },
       "claim_kinds": [
         "other_factual"
@@ -199,8 +199,8 @@
       "claim_id": "F04",
       "claim_text": "que o Supremo Tribunal Federal julgou constitucional em 2023 \\cite{stf2023adi6137}",
       "draft_span": {
-        "start_byte": 4955,
-        "end_byte": 5037
+        "start_byte": 4848,
+        "end_byte": 4930
       },
       "claim_kinds": [
         "other_factual"
@@ -249,8 +249,8 @@
       "claim_id": "N03",
       "claim_text": "registros administrativos nunca\nexplorados para esse fim",
       "draft_span": {
-        "start_byte": 5314,
-        "end_byte": 5370
+        "start_byte": 5207,
+        "end_byte": 5263
       },
       "claim_kinds": [
         "categorical"

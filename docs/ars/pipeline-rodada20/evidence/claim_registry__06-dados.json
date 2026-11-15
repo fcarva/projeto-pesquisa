@@ -1,13 +1,13 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "feae2d572620db436495c41f9838d8a9301159f646bba1a641053bdba465864a",
+  "draft_raw_sha256": "6c4a07a4632742c8f663555bbe424f05967a8908acaf71ad5b9888f416b82613",
   "claims": [
     {
       "claim_id": "G08",
       "claim_text": "Como a lei estadual de 1993\nautoriza os municípios a legislar supletivamente",
       "draft_span": {
-        "start_byte": 2744,
-        "end_byte": 2821
+        "start_byte": 3193,
+        "end_byte": 3270
       },
       "claim_kinds": [
         "other_factual"
@@ -21,15 +21,17 @@
     },
     {
       "claim_id": "G09",
-      "claim_text": "um levantamento\npreliminar encontrou uma, em Limoeiro do Norte, de 2009, dada como revogada em\n2010",
+      "claim_text": "um levantamento\npreliminar encontrou uma, em Limoeiro do Norte, de 2009, revogada em 2010\n\\cite{limoeiro2010lei1511}",
       "draft_span": {
-        "start_byte": 2903,
-        "end_byte": 3002
+        "start_byte": 3352,
+        "end_byte": 3468
       },
       "claim_kinds": [
         "other_factual"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "limoeiro2010lei1511"
+      ],
       "writer_anchors": [],
       "paper_section": "6 Dados",
       "selection_tier": "HIGH-IMPACT",
@@ -39,10 +41,10 @@
     },
     {
       "claim_id": "G12",
-      "claim_text": "Uma avaliação preliminar do monitoramento da qualidade da água,\ndos registros meteorológicos e do mapeamento de uso da terra por satélite\nindicou limitações para esses fins",
+      "claim_text": "Uma avaliação preliminar do monitoramento da qualidade da água e do mapeamento\nde uso da terra por satélite indicou limitações para esses fins",
       "draft_span": {
-        "start_byte": 3342,
-        "end_byte": 3521
+        "start_byte": 3764,
+        "end_byte": 3912
       },
       "claim_kinds": [
         "other_factual"
@@ -56,8 +58,8 @@
       "claim_id": "F24",
       "claim_text": "Pesquisas dessa natureza não são submetidas ao\nsistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de\nSaúde \\cite{cns2016res510}",
       "draft_span": {
-        "start_byte": 4161,
-        "end_byte": 4319
+        "start_byte": 4403,
+        "end_byte": 4561
       },
       "claim_kinds": [
         "other_factual"

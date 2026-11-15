@@ -1,4 +1,11 @@
 {
+  "agenciabrasil2016ceara": {
+    "file": "sources/agenciabrasil2016ceara.txt",
+    "sha256": "74f10458a950c71287dfb9a30d801754b17fd441de30dee07b81999902d80966",
+    "utf8_bytes": 8619,
+    "provenance": "página da Agência Brasil (HTML com marcação removida), 2026-11-15",
+    "display_label": "Agência Brasil 2016, notícia de 16/07/2016"
+  },
   "bocker2020glyphosate": {
     "file": "sources/bocker2020glyphosate.txt",
     "sha256": "30ce3a64e81e5f7b833dfcf37c7d0df9f5ef4e84428c186a15ebeaa4e2f6a22d",
@@ -36,10 +43,10 @@
   },
   "calzada2023bananas": {
     "file": "sources/calzada2023bananas.txt",
-    "sha256": "32f7620d1091d251b34b340e9105d9e8ff24671dbdf965e18f0398409ae95a1d",
-    "utf8_bytes": 1020,
-    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
-    "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349"
+    "sha256": "1f1e1cb733ba2f0b856e617345b4b2804aba9fc2306ba43a66b58492ca9c9a10",
+    "utf8_bytes": 112471,
+    "provenance": "MANUSCRITO de março de 2023 (não a versão publicada), PDF depositado no repositório da Universidade de Barcelona sob o registro do artigo (diposit.ub.edu/server/api/core/bitstreams/73f71bc2-9e61-4f15-a2de-a58cb08d43ac/content), pdftotext com espaços normalizados, 2026-11-15",
+    "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349 (lido: manuscrito de março de 2023; versão publicada não lida)"
   },
   "camacho2017health": {
     "file": "sources/camacho2017health.txt",
@@ -47,13 +54,6 @@
     "utf8_bytes": 862,
     "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
     "display_label": "Camacho e Mejía 2017, artigo, doi:10.1016/j.jhealeco.2017.04.005"
-  },
-  "cameron2008wild": {
-    "file": "sources/cameron2008wild.txt",
-    "sha256": "f416b27d9a62869440781ab7c8fc9f2290238d3944f6c494a4451f26d7526ced",
-    "utf8_bytes": 746,
-    "provenance": "resumo reconstruído do índice invertido da API do OpenAlex, 2026-11-15",
-    "display_label": "Cameron, Gelbach e Miller 2008, artigo, doi:10.1162/rest.90.3.414"
   },
   "ceara1993lei12228": {
     "file": "sources/ceara1993lei12228.txt",
@@ -75,6 +75,13 @@
     "utf8_bytes": 14862,
     "provenance": "cópia no repositório: docs/legislacao/pl-18-2015.md",
     "display_label": "Ceará, Assembleia Legislativa 2015, projeto de lei, PL 18/2015 (texto da ALECE)"
+  },
+  "ceara2018nascer": {
+    "file": "sources/ceara2018nascer.txt",
+    "sha256": "f9f515f69a3c43cd86aa9e9a67613b98880afa25c20dc73c492cc4ad931bd922",
+    "utf8_bytes": 8915,
+    "provenance": "página hgcc.ce.gov.br (HTML com marcação removida), 2026-11-15",
+    "display_label": "Hospital Geral Dr. César Cals 2018, notícia de 26/03/2018"
   },
   "ceara2019lei16820": {
     "file": "sources/ceara2019lei16820.txt",
@@ -153,6 +160,13 @@
     "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
     "display_label": "Goodman-Bacon 2021, artigo, doi:10.1016/j.jeconom.2021.03.014"
   },
+  "hagemann2025single": {
+    "file": "sources/hagemann2025single.txt",
+    "sha256": "719eb18c6979645a474d8b5f933d983a35c08d66a8e7ee8806a533ad170f5a98",
+    "utf8_bytes": 969,
+    "provenance": "resumo devolvido pela API do Crossref (marcação removida), 2026-11-15",
+    "display_label": "Hagemann 2025, artigo, doi:10.1093/restud/rdaf002"
+  },
   "helfand1995": {
     "file": "sources/helfand1995.txt",
     "sha256": "45dd0e02982d39355cb5d86cdbe44b5456fdfd67c2f0bea6dc9aa6bd1378beea",
@@ -167,12 +181,26 @@
     "provenance": "resposta JSON de apisidra.ibge.gov.br/values/t/1008/n6/in n3 23/v/2020/p/2006/c12596/113450, 2026-11-15",
     "display_label": "IBGE, Censo Agropecuário 2006, tabela SIDRA 1008"
   },
+  "ibge2017censoagro": {
+    "file": "sources/ibge2017censoagro.txt",
+    "sha256": "b2a20d1fe4565b0b0dc54412778d2e9c9f44573ff45405392121f1a68221a4a7",
+    "utf8_bytes": 1471,
+    "provenance": "resposta JSON de apisidra.ibge.gov.br/values/t/6851/n3/23/v/all/p/all, 2026-11-15",
+    "display_label": "IBGE, Censo Agropecuário 2017, tabela SIDRA 6851"
+  },
   "ibgepam": {
     "file": "sources/ibgepam.txt",
     "sha256": "bb636e41d96a69fec3e213e78d29f99f001b9c1057a53f1b444cebbed1311a44",
     "utf8_bytes": 230931,
     "provenance": "resposta JSON de apisidra.ibge.gov.br, tabela 5457, variável 8331, banana (cacho), 2015 a 2018, municípios do Ceará, 2026-11-15; o projeto cita as tabelas 1612 e 1613, que trazem a mesma variável",
     "display_label": "IBGE, Produção Agrícola Municipal, SIDRA (tabela 5457 consultada)"
+  },
+  "jones2020invasive": {
+    "file": "sources/jones2020invasive.txt",
+    "sha256": "b18549c76ef4abe47371a3d6500c38dc8369845b51aaff6ce1450887ce1698a9",
+    "utf8_bytes": 730,
+    "provenance": "resumo reconstruído do índice invertido da API do OpenAlex, 2026-11-15",
+    "display_label": "Jones 2020, artigo, doi:10.3368/le.96.2.149"
   },
   "larsen2017agricultural": {
     "file": "sources/larsen2017agricultural.txt",
@@ -187,6 +215,13 @@
     "utf8_bytes": 745,
     "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
     "display_label": "Lichtenberg, Parker e Zilberman 1988, artigo, doi:10.2307/1241928"
+  },
+  "limoeiro2010lei1511": {
+    "file": "sources/limoeiro2010lei1511.txt",
+    "sha256": "c2a097f997b07b9773202be797ed5147e00a7fda964d5d7f927cef086aa9b76c",
+    "utf8_bytes": 797,
+    "provenance": "transcrição parcial feita por este agente a partir das imagens das páginas 1, 65 e 66 do PDF digitalizado da Câmara Municipal (camaralimoeirodonorte.ce.gov.br/arquivos/581/Leis_1511_2010_0000001.pdf), 2026-11-15; o PDF não tem camada de texto",
+    "display_label": "Limoeiro do Norte 2010, lei municipal, Lei 1.511 de 26/05/2010 (PDF da Câmara Municipal)"
   },
   "mackinnon2018wild": {
     "file": "sources/mackinnon2018wild.txt",
@@ -215,6 +250,13 @@
     "utf8_bytes": 92538,
     "provenance": "texto completo (XML do Europe PMC, PMC11761964, marcação removida), 2026-11-15",
     "display_label": "Reynier e Rubin 2025, artigo, doi:10.1073/pnas.2413013121"
+  },
+  "rigotto2013trends": {
+    "file": "sources/rigotto2013trends.txt",
+    "sha256": "2b40f62f7c946339bb20e23c80f31fa6b7a48ac63774fe71a4c7879a6411f6c6",
+    "utf8_bytes": 1931,
+    "provenance": "resumo devolvido pela API do Crossref (marcação removida), 2026-11-15; o texto completo no SciELO foi lido por trechos da ferramenta de busca",
+    "display_label": "Rigotto et al. 2013, artigo, doi:10.1590/S1415-790X2013000300019"
   },
   "skevas2012": {
     "file": "sources/skevas2012.txt",

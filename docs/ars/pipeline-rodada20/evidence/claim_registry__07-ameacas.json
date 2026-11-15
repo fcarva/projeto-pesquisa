@@ -1,5 +1,26 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "38d35f22350537f3c75a47c45456757e956086556cfbdfedaab7f6b210c4b1b0",
-  "claims": []
+  "draft_raw_sha256": "1d43b85bbcae468606ff4f4e6496bf3af3957dc4a6d55b87378ddab8b65531ac",
+  "claims": [
+    {
+      "claim_id": "H14",
+      "claim_text": "O análogo mais próximo encontra efeito apenas a poucas\ncentenas de metros do bananal.",
+      "draft_span": {
+        "start_byte": 2962,
+        "end_byte": 3049
+      },
+      "claim_kinds": [
+        "quantitative"
+      ],
+      "ref_slugs": [
+        "calzada2023bananas"
+      ],
+      "writer_anchors": [],
+      "paper_section": "7 Ameaças à identificação",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    }
+  ]
 }
