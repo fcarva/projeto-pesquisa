@@ -1,0 +1,210 @@
+% Seção 5 — Metodologia. Forward engineering: parâmetro-alvo -> hipóteses de
+% identificação -> estimação -> inferência. Desenho: docs/ars/20 §3–§4.
+% NENHUM número de estimativa aqui.
+
+\chapter{Metodologia}
+\label{cap:metodologia}
+
+A estratégia segue a ordem parâmetro-alvo, hipóteses de identificação,
+estimação e inferência, e é organizada em três estágios. O primeiro usa dados
+já disponíveis e mede o tratamento pela cultura. O segundo mede o método. O
+terceiro estima o efeito entre os municípios com aplicação aérea medida. A
+passagem de um estágio a outro obedece a uma regra de decisão escrita antes do
+dado (Seção~\ref{sec:regra}).
+
+\section{Parâmetro-alvo}
+
+Seja $A_m \in \{0,1\}$ o indicador, não observado diretamente, de que havia
+aplicação aérea no município $m$ às vésperas da proibição. O parâmetro de
+interesse é o efeito médio da proibição sobre os tratados,
+\begin{equation}
+  ATT = E\left[\,Y_{mt}(1) - Y_{mt}(0) \mid A_m = 1,\ t \text{ pós-ban}\,\right],
+\end{equation}
+em que $Y_{mt}$ é o desfecho médio dos nascidos no município $m$ na coorte $t$,
+e $Y_{mt}(0)$ é o desfecho que se observaria sem a proibição.
+
+O que os dados disponíveis observam é uma \emph{proxy} de $A_m$: a intensidade
+da cultura associada à prática. Classificar municípios pela cultura produz
+falsos positivos (lavoura sem avião), mas, segundo o Censo Agropecuário de
+2006, não produz falsos negativos (não há avião sem lavoura). Nessa
+configuração, e sob tendências paralelas na classificação observada, o
+diferenças-em-diferenças identifica
+\begin{equation}
+  \theta = VPP \times ATT,
+  \label{eq:atenuacao}
+\end{equation}
+em que $VPP$ é a fração dos municípios classificados como tratados em que de
+fato havia aplicação aérea \cite{denteh2022misclassification}. A
+Equação~\ref{eq:atenuacao} dá ao primeiro estágio uma interpretação precisa: a
+forma reduzida preserva o sinal do efeito e o subestima em módulo. Também
+indica onde está o ganho de informação: em elevar e medir o $VPP$, e não em
+aumentar o número de municípios classificados como tratados.
+
+\section{Estágio 1: forma reduzida pela intensidade da cultura}
+
+\textbf{Dose.} A dose $D_m$ é a área plantada média de banana no município,
+segundo a Produção Agrícola Municipal do IBGE, como proporção da área
+municipal. A cultura não foi escolhida \emph{a priori}: resultou de um
+diagnóstico de dispersão entre as culturas candidatas, em que a banana se
+mostrou a de variação mais ampla entre municípios. Usa-se área plantada, e não
+colhida, porque a colheita responde à seca de 2012--2017.
+
+\textbf{Janela da dose.} A intensidade de tratamento deve ser predeterminada,
+isto é, fixada antes que a política pudesse alterá-la. O projeto de lei foi
+apresentado em fevereiro de 2015, e a área plantada a partir desse ano pode já
+responder à expectativa da proibição. A dose principal é, por isso, a média de
+2010 a 2014; a média de 2015 a 2018, mais próxima da exposição vigente às
+vésperas da lei, entra como análise de sensibilidade.
+
+\textbf{Exposição das coortes.} Um nascimento de março de 2019 foi gestado em
+grande parte antes da vigência da lei. Para cada coorte de nascimento,
+calcula-se a fração da gestação posterior a 9 de janeiro de 2019, com janela
+gestacional fixa: a duração observada da gestação é desfecho, e usá-la para
+definir exposição condicionaria em variável afetada pelo tratamento. As
+coortes de transição, com gestação parcialmente exposta, são excluídas da
+comparação principal.
+
+\textbf{Estimador.} Emprega-se o diferenças-em-diferenças com tratamento
+contínuo de \citeonline{callaway2024continuous}. O alvo é o efeito no nível,
+$ATT(d \mid d)$, agregado sobre a distribuição de doses, identificado sob
+\begin{equation}
+  E\left[\Delta Y_{m}(0) \mid D_m = d\right] = E\left[\Delta Y_{m}(0) \mid D_m = 0\right]
+  \quad \text{para todo } d \text{ no suporte,}
+\end{equation}
+em que $\Delta$ denota a variação entre o período anterior e o posterior à
+proibição. A curva dose-resposta é estimada e reportada como diagnóstico, não
+como resultado: ela exige a hipótese forte de tendências paralelas, que os
+dados podem falsificar em cortes de placebo no pré-período, mas não validar.
+
+\textbf{Grupo de comparação.} O grupo de dose nula é pequeno (15 municípios
+sem área de banana) e sua composição desloca o nível estimado. Ele é
+construído de quatro maneiras, todas reportadas: área nula de banana; área
+nula de qualquer cultura candidata à aplicação aérea; ausência de registro de
+aeronave; e baixa aptidão agroclimática para banana, medida pelo índice
+FAO-GAEZ. A aptidão entra como critério de construção do grupo de comparação,
+por ser determinada pelo clima e pelo solo e não por decisões de plantio; seu
+uso como variável instrumental para a dose, na linha de
+\citeonline{reynier2025glyphosate}, fica como extensão declarada.
+
+\textbf{Verificações.} A hipótese de tendências paralelas é examinada por um
+estudo de eventos com \emph{leads} que alcançam 2018, de modo a tornar
+visíveis os marcos de notícia e de certeza. Como um teste de pré-tendência que
+não rejeita pode simplesmente não ter poder \cite{roth2023trending}, reporta-se
+o poder do teste contra tendências de magnitude relevante, e a estimativa é
+acompanhada dos intervalos robustos a violações limitadas da hipótese
+propostos por \citeonline{rambachan2023credible}. A hipótese forte, de que
+depende a curva, é sondada pela inclinação em dose estimada em cortes de
+placebo no pré-período.
+
+\section{Estágio 2: medir o método}
+\label{sec:medicao}
+
+O segundo estágio substitui a \emph{proxy} por medida do método. Cinco fontes
+são mobilizadas, as três primeiras por pedidos de acesso à informação:
+\begin{alineas}
+  \item os relatórios mensais que as empresas de aviação agrícola entregam ao
+    Ministério da Agricultura (Instrução Normativa MAPA nº~2/2008), com
+    município, cultura, área aplicada e produto, mês a mês;
+  \item o receituário agronômico, que registra a modalidade de aplicação
+    (Decreto nº~4.074/2002), sob guarda da agência estadual de defesa
+    agropecuária;
+  \item o cadastro estadual de prestadores de serviço de aplicação (Lei
+    nº~12.228/1993), sob guarda do órgão ambiental estadual;
+  \item os autos da ação civil pública de 2011 sobre a pulverização aérea na
+    Chapada do Apodi, na Justiça Federal;
+  \item o Censo Agropecuário de 2006, já disponível, usado como calibração.
+\end{alineas}
+
+O produto desse estágio é uma classificação $\hat{A}_m$ dos municípios pelo
+método, uma estimativa do $VPP$ da classificação por cultura e, se os
+relatórios mensais existirem para o período, o calendário efetivo das
+aplicações.
+
+\section{Estágio 3: diferença tripla de calendário}
+\label{sec:calendario}
+
+O terceiro estágio compara, dentro de cada município, as coortes cujo primeiro
+trimestre de gestação coincide com a estação de aplicação aérea com as demais,
+antes e depois da proibição, e contrasta essa diferença entre municípios com e
+sem aplicação aérea medida. Seja $P_t \in [0,1]$ a fração do primeiro
+trimestre da coorte $t$ que cai na estação de aplicação, e $Pos_t$ o indicador
+de gestação integralmente posterior à lei. Estima-se
+\begin{equation}
+  Y_{mt} = \alpha_{m,s(t)} + \gamma_t + \lambda\,(\hat{A}_m \times Pos_t)
+         + \beta\,(\hat{A}_m \times P_t \times Pos_t) + \varepsilon_{mt},
+  \label{eq:ddd}
+\end{equation}
+em que $\alpha_{m,s(t)}$ são efeitos fixos de município por mês do ano, que
+absorvem a sazonalidade própria de cada município, e $\gamma_t$ são efeitos
+fixos de coorte. O coeficiente $\beta$ mede quanto o hiato sazonal de peso ao
+nascer se alterou, após a proibição, nos municípios com aplicação aérea, em
+relação aos demais. Sob $H_1$ e $H_3$, espera-se $\beta > 0$.
+
+A hipótese de identificação é única \cite{olden2022triple}: na ausência da
+proibição, o hiato sazonal teria evoluído do mesmo modo nos dois grupos de
+municípios. O desenho dispensa a comparabilidade de nível e de tendência geral
+entre municípios, que é a exigência mais custosa do primeiro estágio, e tolera
+sazonalidade materna estável, absorvida por $\alpha_{m,s(t)}$. O que ele não
+tolera é uma mudança de sazonalidade, contemporânea à lei, que seja diferente
+onde havia avião (Capítulo~\ref{cap:ameacas}). A estação de aplicação é tomada
+dos relatórios mensais, se disponíveis; na falta deles, da estação chuvosa,
+como hipótese agronômica declarada e submetida a sensibilidade.
+
+Como verificação de robustez, os municípios com aplicação aérea medida são
+comparados a um grupo de doadores de outros estados do Nordeste, por controle
+sintético e diferenças-em-diferenças sintético \cite{arkhangelsky2021sdid}.
+
+\section{Regra de decisão}
+\label{sec:regra}
+
+O Quadro~\ref{qua:regra} fixa, antes do dado, o que cada resultado possível do
+segundo estágio aciona.
+
+\begin{quadro}[htb]
+\caption{\label{qua:regra}Regra de decisão entre estágios}
+\centering
+\small
+\begin{tabular}{@{}p{6.3cm}p{8.2cm}@{}}
+\toprule
+O que a medição mostra & O que o ensaio estima \\
+\midrule
+Aplicação aérea documentada em 2015--2018, por município e mês &
+Estágio 3 com municípios e calendário medidos; estágio 1 como forma reduzida. \\
+Aplicação documentada, sem calendário &
+Estágio 3 com municípios medidos e estação chuvosa como hipótese declarada. \\
+Nenhum registro novo &
+Estágio 3 com os municípios do Censo de 2006, em caráter exploratório; estágio 1 como resultado principal. \\
+A prática cessou antes de 2015 &
+Estágio 1 e diagnóstico de mensuração: a lei de 2019 não removeu exposição mensurável nos registros. \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria.}
+\end{quadro}
+
+\section{Inferência e poder}
+
+No primeiro estágio o grupo escasso é o de comparação; no terceiro, o de
+tratados. Em ambos, erros-padrão agrupados por município com aproximação
+assintótica superestimam a precisão. A inferência principal usa os
+procedimentos de \citeonline{conley2011} e \citeonline{ferman2019inference},
+que constroem a distribuição de referência a partir do grupo numeroso e
+admitem heterocedasticidade por tamanho de município, e a inferência conformal
+de \citeonline{chernozhukov2021conformal} para os municípios tratados tomados
+um a um. O \emph{wild cluster bootstrap} e a permutação da dose são reportados
+como complemento.
+
+O poder é tratado como parte do desenho. Dois fatores o limitam e nenhum se
+resolve com mais anos de dados: a fração dos nascimentos de um município
+efetivamente expostos à deriva, que dilui o efeito individual na média
+municipal, e o número de municípios com aplicação aérea. Para cada estágio, o
+efeito mínimo detectável é calculado apenas com dados do pré-período, antes da
+estimação, e comparado às magnitudes da literatura para diferentes frações
+expostas. Esse cálculo decide o que cada estágio pode afirmar: um desenho cujo
+efeito mínimo detectável supere o efeito plausível é reportado como limite, e
+não como teste.
+
+Duas hipóteses são confirmatórias, $H_1$ e $H_2$, com correção de Holm para
+multiplicidade; os demais desfechos são exploratórios e assim rotulados. Estimativa abaixo do efeito mínimo detectável é reportada como intervalo de
+confiança, sem leitura de ausência de efeito. O plano de análise do primeiro
+estágio está registrado e versionado; o do terceiro será registrado antes de
+qualquer cruzamento entre a exposição medida e os desfechos.

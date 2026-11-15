@@ -288,3 +288,11 @@ fronteira:
 	$(PY) scripts/data_prep/02_clean_births.py --fonte ftp --ufs 23 $(VIZINHO)
 	$(MAKE) censo-demografico VIZINHO=$(VIZINHO)
 	$(MAKE) gate-fronteira VIZINHO=$(VIZINHO)
+
+# --- Projeto de pesquisa (abnTeX2, 15 páginas) --------------------------
+# Fonte em paper/projeto/. Motor: pdflatex + bibtex (abntex2cite).
+# Desenho declarado: docs/ars/20-projeto-de-pesquisa-desenho.md
+.PHONY: projeto
+projeto:
+	cd paper/projeto && latexmk -pdf -interaction=nonstopmode -halt-on-error projeto.tex
+	@echo "PDF: paper/projeto/projeto.pdf"

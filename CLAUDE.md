@@ -66,6 +66,9 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 - **ANAC / MAPA / SINDAG** (cadastro aeroagrícola e pistas) — define o `d = 0` que mede o **método**, não a cultura.
 - Documentos legais → `docs/legislacao/`: Lei 16.820/2019 e Lei 12.228/1993 consolidada (**obtidos**); ADI 6137/STF; Lei 19.135/2024 (exceção drones); ADI 7794. **ADI 5553 / ADI 7755** (desoneração tributária de agrotóxicos, rel. Fachin) — o STF decidindo o instrumento-**preço** enquanto já validou o instrumento-**quantidade**; matéria do Ensaio 2. A audiência pública da ADI 5553 é acervo técnico público.
 
+## Projeto de pesquisa (entrega 27/11/2026)
+`paper/projeto/` — projeto de 15 páginas em **abnTeX2** (`make projeto`), só Ensaio 1, **sem número de estimativa**. O desenho declarado é em três estágios (forma reduzida pela cultura → medir o método → diferença tripla de calendário), com regra de decisão: `docs/ars/20-projeto-de-pesquisa-desenho.md`. ⚠️ A dose principal passa a 2010–2014 (pré-notícia) — **desvio da pré-especificação ainda a ratificar** e registrar na §8. `paper/main.tex` (qualificação) não foi alterado.
+
 ## Convenções do repositório
 - Estrutura: `data/{raw,processed,geo}`, `notebooks/`, `scripts/`, `paper/`, `docs/`.
 - Pipeline em scripts numerados: `scripts/data_prep/01_*` a `11_*` → `scripts/build_panel/` → `scripts/estimate/` → `scripts/figures/`. **O `Makefile` é a ordem canônica** — `make simulado` / `make real` / `make varredura` / `make gaez`. ⚠️ Script novo que não entra no Makefile é script que não roda no pipeline.

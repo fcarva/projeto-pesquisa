@@ -1,0 +1,75 @@
+% Seção 6 — Dados. Estado das fontes: CLAUDE.md (tabela de status) e
+% docs/fontes-e-vintages.md. Sem descritivas de desfecho.
+
+\chapter{Dados}
+\label{cap:dados}
+
+A unidade de análise é o município por mês de nascimento, para os 184
+municípios do Ceará, de janeiro de 2015 a 19 de dezembro de 2024. Os desfechos
+vêm de registros administrativos de cobertura universal; o
+Quadro~\ref{qua:fontes} resume as fontes e seu estado.
+
+\begin{quadro}[htb]
+\caption{\label{qua:fontes}Fontes de dados}
+\centering
+\small
+\begin{tabular}{@{}p{3.6cm}p{6.6cm}p{4.2cm}@{}}
+\toprule
+Fonte & Uso & Estado \\
+\midrule
+SINASC (DATASUS) & Peso ao nascer, baixo peso, prematuridade & Adquirida até 2022; a estender a 2024 \\
+SIM (DATASUS) & Óbito fetal & Adquirida até 2022; a estender a 2024 \\
+SINAN (DATASUS) & Notificações de intoxicação por agrotóxico & Adquirida \\
+PAM (IBGE) & Área plantada por cultura: dose & Adquirida \\
+Censo Agropecuário 2006 (IBGE) & Estabelecimentos com aplicação por aeronave & Adquirida \\
+FAO-GAEZ & Aptidão agroclimática: grupo de comparação & Adquirida \\
+População (IBGE) & Denominadores & Adquirida \\
+Leis municipais & Proibições anteriores a 2019 & Levantadas \\
+Relatórios mensais (MAPA) & Aplicação aérea por município e mês & Pedido de acesso a protocolar \\
+Receituário (ADAGRI) & Modalidade de aplicação & Pedido de acesso a protocolar \\
+Cadastro (SEMACE) & Prestadores de aplicação aérea & Pedido de acesso a protocolar \\
+Autos judiciais (JFCE) & Prática na Chapada após 2011 & A consultar \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria.}
+\end{quadro}
+
+\textbf{Desfechos.} Do SINASC obtêm-se o peso médio ao nascer (desfecho
+confirmatório), a proporção de nascidos com menos de 2.500 gramas e a
+proporção de nascidos com menos de 37 semanas de gestação (exploratórios). Do
+SIM obtém-se a taxa de óbito fetal, segundo desfecho confirmatório. O óbito
+fetal tem função dupla: é desfecho de saúde e é teste de seleção. Se a
+proibição reduz perdas fetais, gestações que antes não chegariam ao nascimento
+vivo passam a entrar na amostra de nascidos, possivelmente na cauda de baixo
+peso, e o efeito sobre o peso médio sai atenuado. Do SINAN obtêm-se as
+notificações de intoxicação por agrotóxico agrícola, por circunstância, para o
+canal de substituição; as intoxicações intencionais, que respondem à
+disponibilidade do produto e não ao método de aplicação, servem de placebo.
+
+\textbf{Exposição.} A dose vem da PAM. A classificação pelo método vem do
+Censo Agropecuário e, na medida do retorno dos pedidos de acesso, dos
+registros do Capítulo~\ref{cap:metodologia}. Um levantamento das leis
+municipais dos municípios de dose alta identificou uma única proibição local
+anterior à estadual, em Limoeiro do Norte, revogada em 2010 e, portanto, sem
+efeito sobre a janela de análise.
+
+\textbf{Fontes descartadas.} Três fontes previstas inicialmente foram obtidas,
+inspecionadas e deixadas de fora, por defeitos que produziriam resultado
+espúrio. O monitoramento de agrotóxicos na água (SISAGUA) apresenta quebra de
+registro no Ceará a partir de 2020 e não monitora os princípios ativos
+predominantes na região. Os dados de vento não têm variação espacial de
+direção no estado, o que torna a exposição a favor do vento indistinguível da
+geografia. E o mapeamento de uso da terra por satélite não separa a banana de
+outras culturas perenes. O canal hídrico fica, assim, fora do escopo.
+
+\textbf{Reprodutibilidade e sigilo.} O processamento é feito por rotinas
+numeradas e versionadas, em Python, com a estimação de tratamento contínuo em
+R; a data de extração de cada base é registrada. Os microdados não são
+redistribuídos, e toda análise é feita sobre agregados município por mês.
+Células com poucos eventos não são divulgadas individualmente.
+
+\textbf{Aspectos éticos.} A pesquisa utiliza exclusivamente dados secundários
+de acesso público, sem identificação individual, e informações obtidas por meio
+da Lei de Acesso à Informação. Pesquisas dessa natureza não são submetidas ao
+sistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de
+Saúde.

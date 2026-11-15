@@ -1,0 +1,99 @@
+% =====================================================================
+% PROJETO DE PESQUISA — PPGEco/UFES
+% Proibição da pulverização aérea de agrotóxicos no Ceará (Ensaio 1)
+%
+% Compilar:  make projeto      (na raiz do repositório)
+%       ou:  latexmk -pdf projeto.tex   (dentro de paper/projeto/)
+% Motor: pdflatex + bibtex (abntex2cite). Não usar xelatex/biber.
+%
+% Desenho declarado: docs/ars/20-projeto-de-pesquisa-desenho.md
+% Regra do texto: NENHUM número de estimativa. Só números de desenho
+% (contagens de municípios, janelas) e magnitudes da literatura.
+% Não usar emoji no corpo do texto (quebra o pdflatex).
+% =====================================================================
+\documentclass[12pt,oneside,a4paper,english,brazil]{abntex2}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{indentfirst}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage[alf,abnt-emphasize=bf,abnt-etal-list=0]{abntex2cite}
+
+% --- Dados do trabalho (edite aqui) ----------------------------------
+\titulo{Proibição da pulverização aérea de agrotóxicos no Ceará:
+        efeitos sobre a saúde ao nascer}
+\autor{Felipe Carvalho Souza Santos}
+\orientador{Prof. Dr. Renato Seixas}
+\instituicao{%
+  Universidade Federal do Espírito Santo
+  \par Centro de Ciências Jurídicas e Econômicas
+  \par Programa de Pós-Graduação em Economia}
+\local{Vitória}
+\data{2026}
+\tipotrabalho{Projeto de pesquisa}
+\preambulo{Projeto de pesquisa apresentado ao Programa de Pós-Graduação em
+Economia da Universidade Federal do Espírito Santo, como requisito parcial do
+curso de Mestrado em Economia.}
+
+% --- Ambiente "quadro" (ABNT distingue quadro de tabela) ------------------
+\newcommand{\quadroname}{Quadro}
+\newfloat{quadro}{loq}{\quadroname}
+\counterwithout{quadro}{chapter}
+\counterwithout{equation}{chapter}
+
+% --- Aparência ---------------------------------------------------------
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,
+  pdftitle={Projeto de pesquisa},pdfauthor={Felipe Carvalho Souza Santos}}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.1cm}
+% Projeto curto: capítulos em sequência, sem quebra de página entre eles.
+\renewcommand{\clearforchapter}{}
+\setlength{\beforechapskip}{12pt}
+\setlength{\afterchapskip}{12pt}
+
+\begin{document}
+\selectlanguage{brazil}
+\frenchspacing
+
+% Capa: instituição, autor, título, local e ano (NBR 14724)
+\begin{capa}
+  \center
+  {\large\textsc{Universidade Federal do Espírito Santo}\par
+   \textsc{Centro de Ciências Jurídicas e Econômicas}\par
+   \textsc{Programa de Pós-Graduação em Economia}\par}
+  \vspace*{3cm}
+  {\ABNTEXchapterfont\large\imprimirautor}
+  \vfill
+  {\ABNTEXchapterfont\bfseries\LARGE\imprimirtitulo}
+  \vfill
+  {\large Projeto de pesquisa}
+  \vfill
+  {\large\imprimirlocal\par\imprimirdata}
+  \vspace*{1cm}
+\end{capa}
+\imprimirfolhaderosto
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\clearpage
+
+\textual
+\input{secoes/01-introducao}
+\input{secoes/02-contexto}
+\input{secoes/03-referencial}
+\input{secoes/04-objetivos}
+\input{secoes/05-metodologia}
+\input{secoes/06-dados}
+\input{secoes/07-ameacas}
+\input{secoes/08-cronograma}
+
+\postextual
+\clearpage
+\bibliography{../referencias,referencias-projeto}
+
+\end{document}

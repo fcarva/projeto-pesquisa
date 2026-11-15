@@ -1,0 +1,103 @@
+% Seção 1 — Introdução (fórmula de Head: caso, pergunta, antecedentes,
+% contribuição). Condensada de paper/secoes/01-introducao.tex, com o
+% enquadramento da rodada 20 (docs/ars/20). Não anuncia achado.
+
+\chapter{Introdução}
+\label{cap:introducao}
+
+Em abril de 2010, José Maria Filho, o Zé Maria do Tomé, foi assassinado na
+Chapada do Apodi, no interior do Ceará. Ele denunciava havia anos a
+pulverização aérea de agrotóxicos sobre os perímetros irrigados da região, onde
+aviões sobrevoam plantações de banana e melão vizinhas a casas, escolas e
+açudes de abastecimento. A denúncia não tratava do veneno aplicado na lavoura,
+mas do veneno que não fica na lavoura. Nove anos depois, o Ceará proibiu a
+prática em todo o território, na primeira proibição estadual do gênero no
+Brasil, e deu à lei o nome do homem assassinado (Lei Estadual
+nº~16.820/2019).
+
+A pulverização aérea é um caso de externalidade em que o mecanismo físico é
+visível. Parte da calda liberada pela aeronave não atinge o alvo: é carregada
+pelo vento e se deposita fora da área tratada, fenômeno que a literatura
+técnica chama de deriva. Quem contrata a aplicação paga pelo serviço e pelo
+produto; quem mora a favor do vento arca com o restante. A lei cearense
+responde a esse conflito por proibição, e sobre os efeitos dessa resposta
+praticamente não há evidência causal no país.
+
+Este projeto pergunta: \textbf{qual é o efeito causal da proibição da
+pulverização aérea de agrotóxicos sobre a saúde ao nascer nos municípios
+cearenses onde a prática existia?} A pergunta é de avaliação de política
+pública. O objeto é a retirada de um \emph{método de aplicação}, e não de uma
+substância, e essa distinção organiza o desenho inteiro: o grupo tratado
+relevante é o dos municípios onde havia avião, e não o dos municípios onde
+havia lavoura.
+
+\section{Antecedentes}
+
+A evidência econômica próxima se divide entre o que uma substância faz à saúde
+e o que um método de aplicação faz à saúde. Do lado da substância,
+\citeonline{dias2023down} exploram a expansão da soja transgênica no Brasil,
+combinada à direção do fluxo d'água dentro das bacias, e documentam piora dos
+desfechos ao nascer nas populações a jusante. \citeonline{reynier2025glyphosate}
+replicam a lógica nos Estados Unidos, com aptidão agroclimática como fonte de
+variação, e encontram redução do peso ao nascer e da duração da gestação,
+concentrada na cauda inferior da distribuição de peso esperado.
+\citeonline{larsen2017agricultural} mostram, na Califórnia, que os efeitos
+adversos aparecem apenas entre os expostos ao topo da distribuição de uso de
+agrotóxicos, o que recomenda desconfiar de efeitos médios quando a exposição é
+concentrada.
+
+Do lado do método, os antecedentes diretos são dois.
+\citeonline{camacho2017health} avaliam as consequências sanitárias da aspersão
+aérea de herbicida sobre cultivos ilícitos na Colômbia.
+\citeonline{calzada2023bananas} estudam a fumigação aérea de bananais no
+Equador e relatam déficit de peso ao nascer entre recém-nascidos de mães
+expostas, mais forte quando o primeiro trimestre de gestação coincide com os
+períodos de fumigação intensa. Este último é o análogo mais próximo do caso
+cearense: mesma cultura, mesmo método, mesma classe de produto.
+
+O que nenhum desses trabalhos oferece é a avaliação de uma \textbf{proibição
+de método}. A comparação entre proibir e taxar é antiga na economia ambiental
+\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento
+de moléculas específicas \cite{bocker2020glyphosate}, mas simulação
+\emph{ex ante} não é avaliação \emph{ex post}. Nos estudos de método, a
+pulverização aérea é introduzida ou está em curso; no Ceará ela é retirada, e
+os sinais esperados se invertem.
+
+\section{Justificativa}
+
+A questão tem relevância prática imediata. A lei cearense foi contestada no
+Supremo Tribunal Federal e declarada constitucional, o que assentou a
+competência dos estados para legislar sobre a matéria; em 2024 o próprio Ceará
+flexibilizou a regra para admitir drones, e a nova redação voltou a ser
+questionada na Corte. O debate legislativo e judicial tem se apoiado em
+argumentos de plausibilidade, de um lado sobre o dano à saúde, de outro sobre o
+custo para a produção, porque não há estimativa do que a proibição de fato
+produziu. Uma avaliação que diga se houve ganho em saúde, onde e de que
+tamanho, ou que mostre com rigor por que ele não é mensurável com os registros
+existentes, informa tanto os estados que consideram adotar a medida quanto a
+decisão de mantê-la, relaxá-la ou substituí-la por outro instrumento.
+
+\section{Contribuição}
+
+A contribuição pretendida tem três camadas. A primeira é de \textbf{objeto}: a
+avaliação \emph{ex post} de uma proibição de método de aplicação, instrumento
+que o Supremo Tribunal Federal julgou constitucional em 2023 (ADI~6137) e que,
+por isso, é replicável por outras unidades da federação. A segunda é de
+\textbf{medida}: o projeto trata como problema central, e não como nota de
+rodapé, a distância entre a cultura plantada e o método de aplicação
+efetivamente usado, e propõe medi-la com registros administrativos nunca
+explorados para esse fim. A terceira é de \textbf{identificação}: a lei vale
+para todo o estado desde a mesma data, de modo que não há variação de
+\emph{timing}; o projeto combina um desenho de intensidade de exposição
+\cite{callaway2024continuous} com um desenho de calendário gestacional
+\cite{calzada2023bananas,brainerd2014seasonal} e declara de antemão em que
+condições cada um se sustenta.
+
+Este documento descreve um desenho, não um resultado. O
+Capítulo~\ref{cap:contexto} apresenta a lei e a região; o
+Capítulo~\ref{cap:referencial}, o referencial teórico e empírico; o
+Capítulo~\ref{cap:objetivos}, objetivos e hipóteses; o
+Capítulo~\ref{cap:metodologia}, a estratégia empírica; o
+Capítulo~\ref{cap:dados}, as fontes; o Capítulo~\ref{cap:ameacas}, as ameaças
+à identificação; e o Capítulo~\ref{cap:cronograma}, o cronograma e os
+resultados esperados.
