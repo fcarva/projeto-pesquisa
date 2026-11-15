@@ -75,3 +75,11 @@ entries:
     (Recomendado)". Trabalho prévio: "Retirar tudo que soa a análise feita".'
   prev_hash: 152e6e93736653b128e00c6f2db2378da3b4a5ce547ead8597493b25f08f15d6
   hash: f317ffb42ac762c80bfd79e5f8442b2e769a2c32e414a623a3e85b4e4e7a2865
+- seq: 6
+  kind: progress
+  at: '2026-11-15T21:53:26Z'
+  stage: '2.5'
+  counters:
+    integrity_fix_round: 1
+  prev_hash: f317ffb42ac762c80bfd79e5f8442b2e769a2c32e414a623a3e85b4e4e7a2865
+  hash: 5d6998925c7be8e8c0749d69cbd6fcd72f6eb2d6709ec726e75fe726d4fe0fda
