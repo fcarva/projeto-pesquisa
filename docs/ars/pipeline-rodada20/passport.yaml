@@ -16,3 +16,15 @@ artifact_paths:
   - paper/referencias.bib
 repro_lock: null
 slr_lineage: false
+experiment_intake_declaration:
+  status: no_experiments_declared
+  declared_at: "2026-11-15T21:29:42Z"
+  declared_by: scholar
+  scholar_answer: >-
+    É, Considere que eu rodei um primeiro projeto utilizando o pipeline, mas ainda o projeto eu considero que não, nenhuma estimativa ainda precisa ser consolidada. É um projeto para que eu vá realizar isso, certo? Então, o que eu fiz foi só apenas pegar os dados e tudo mais. [segunda resposta] Vamos começar do zero, sem forçar muito essas primeiras análises, porque ficaram na nuvem. Eu peguei os dados, tem até coisa aqui no meu computador, eu posso mandar a pasta, mas vamos considerar que a gente vai rodar tudo do zero. C:/Users/DELL/Documents/projeto-pesquisa
+# Nota do orquestrador: o pesquisador não respondeu com "sim" ou "não"; a leitura
+# "não" vem de "é um projeto para que eu vá realizar isso" e "vamos considerar
+# que a gente vai rodar tudo do zero". A corrigir se ele discordar.
+# standing_constraints: lista apresentada em 2026-11-15 e NÃO confirmada
+# explicitamente; nada gravado. As restrições seguem valendo pelo que a sessão
+# mostra (15 p. textuais; sem número de estimativa; só Ensaio 1; abnTeX2).
