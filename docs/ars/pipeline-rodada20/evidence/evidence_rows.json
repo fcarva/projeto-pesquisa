@@ -1,0 +1,2894 @@
+{
+  "phases": {
+    "E_claims": {
+      "checked": 51,
+      "verified": 40,
+      "evidence_source_dir": "docs/ars/pipeline-rodada20/evidence/sources",
+      "evidence_rows": [
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F01-0",
+          "claim": {
+            "claim_id": "F01",
+            "text": "Em abril de 2010, José Maria Filho, o Zé Maria do Tomé, foi assassinado na\nChapada do Apodi, no interior do Ceará.",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:8-9",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte secundária externa: G1 (31/10/2024) e Repórter Brasil (02/10/2024), 21/04/2010.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "acc6f6b6099cc973cac1d6592d571489bca92eb953185d31a9355470b6e081da"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F02-0",
+          "claim": {
+            "claim_id": "F02",
+            "text": "Nove anos depois, o Ceará proibiu a\nprática em todo o território, na primeira proibição estadual do gênero no\nBrasil, e deu à lei o nome do homem assassinado (Lei Estadual\nnº~16.820/2019).",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:13-16",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Lei: texto oficial (cópia no repositório). Primazia: fontes secundárias (Agência Pública, Abrasco, G1); ver ADV-E5-1.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "afcff4b9e7f2edffacfa7cf0709bbd9c3ba2bfa5abf73c295f5a39aff537b30b"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C01-1",
+          "claim": {
+            "claim_id": "C01",
+            "text": "\\citeonline{dias2023down} exploram a expansão da soja transgênica no Brasil,\ncombinada à direção do fluxo d'água dentro das bacias, e documentam piora dos\ndesfechos ao nascer nas populações a jusante.",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:38-40",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "dias2023down",
+            "display_label": "Dias, Rocha e Soares 2023, artigo, doi:10.1093/restud/rdad011",
+            "source_content_sha256": "e76bdbcd4ffd99a376e480d283baba844c80545bbb99f4a56b35c339858e1871",
+            "source_content_utf8_bytes": 1011,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só o resumo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "f5c5287544fdfb0ab0cf8438e38c311b7022435a2b85c73b0eda8830d6b22776"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "significant deterioration in birth outcomes for populations downstream",
+            "excerpt_sha256": "d4c17804490dedcc9f64cb4d181a39aea426258aa875086b5c67abea491aa004",
+            "source_span_utf8": {
+              "start": 660,
+              "end": 730
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "1ec67653e6d4bd51014662a7c53b681978d4634048dffb45e92fa672aeecd850"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C02-1",
+          "claim": {
+            "claim_id": "C02",
+            "text": "\\citeonline{reynier2025glyphosate}\nreplicam a lógica nos Estados Unidos, com aptidão agroclimática como fonte de\nvariação, e encontram redução do peso ao nascer e da duração da gestação,\nconcentrada na cauda inferior da distribuição de peso esperado.",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:40-43",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "reynier2025glyphosate",
+            "display_label": "Reynier e Rubin 2025, artigo, doi:10.1073/pnas.2413013121",
+            "source_content_sha256": "4751e876a74260bff60728790f0654662d62604b6c506eb2566a25a1b1178c0e",
+            "source_content_utf8_bytes": 92538,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "Abstract",
+            "value_decoded": "Abstract"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Texto completo (Europe PMC).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "79ff5ac288dce5c64cf39c03f7a5a3ad3840f8df243f1cbc96e2592cceccf15f"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "low expected-weight births experienced the largest reductions",
+            "excerpt_sha256": "bd57f1df6d18fc14cfb246022646718ffd1a88a9baf969fcb9a2168c5e486032",
+            "source_span_utf8": {
+              "start": 2709,
+              "end": 2770
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "397eb2e021c043246db1adcc9e3d08ecc0ca57eb14ff53a84c0f4972a7ab2d8c"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C03-1",
+          "claim": {
+            "claim_id": "C03",
+            "text": "\\citeonline{larsen2017agricultural} mostram, na Califórnia, que os efeitos\nadversos aparecem apenas entre os expostos ao topo da distribuição de uso de\nagrotóxicos",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:44-46",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "larsen2017agricultural",
+            "display_label": "Larsen, Gaines e Deschênes 2017, artigo, doi:10.1038/s41467-017-00349-2",
+            "source_content_sha256": "057151e3c3310bc83efe0c7046c6aaf77bd8a8eceaaa5c47e6145bb4fc0da238",
+            "source_content_utf8_bytes": 1388,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só o resumo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "4f52e064b9c41ab96df47b3dc5a616f902f21d57c03b8fe189d5b36148f2c322"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "but only among the population exposed to very high quantities of pesticides",
+            "excerpt_sha256": "5080aabb856f747ab56b46e622635a45837a47e23bd39782f51c9af8cc531cb9",
+            "source_span_utf8": {
+              "start": 690,
+              "end": 765
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "5e6dd914f147da6e6fd500ed552d80fe2521de0e0880f6cd5fabb3f1b366c7b5"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C04-1",
+          "claim": {
+            "claim_id": "C04",
+            "text": "\\citeonline{camacho2017health} avaliam as consequências sanitárias da aspersão\naérea de herbicida sobre cultivos ilícitos na Colômbia.",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:50-51",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "camacho2017health",
+            "display_label": "Camacho e Mejía 2017, artigo, doi:10.1016/j.jhealeco.2017.04.005",
+            "source_content_sha256": "fb37738c6ac0f82a0acfcde45d05b30c8705b626dd181b859c59e9a419250f7b",
+            "source_content_utf8_bytes": 862,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só o resumo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "423c2ba6193c5701980782ff7f1e6c9660c468dc3ea8e93698b9ce35c1f66d0d"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "aerial spraying of herbicides (glyphosate) on short-term health-related outcomes",
+            "excerpt_sha256": "bc3636d9bd0bb3a2cb9f8b2954bc74c76dab0c2d157a8c3cdab193731c59474f",
+            "source_span_utf8": {
+              "start": 177,
+              "end": 257
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "f749ceb1fd27ce248ec5db2c690d123312e58976d48dcf12c8b8e62199d76763"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C05-1",
+          "claim": {
+            "claim_id": "C05",
+            "text": "\\citeonline{calzada2023bananas} estudam a fumigação aérea de bananais no\nEquador e relatam déficit de peso ao nascer entre recém-nascidos de mães\nexpostas, associado à coincidência entre o início da gestação e os períodos de fumigação\nintensa.",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:52-55",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "calzada2023bananas",
+            "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "O resumo publicado confirma o déficit de peso e o uso da variação sazonal; não fala em início da gestação. Texto completo da versão publicada não lido (assinatura; PDF da UB recusou a conexão).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "c65b5d35a5adef21500a52d9c3419cf661428ed48385338682df1856708d4e12"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C06-1",
+          "claim": {
+            "claim_id": "C06",
+            "text": "Este último é o análogo mais próximo do caso\ncearense: mesma cultura, mesmo método, mesma classe de produto.",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:55-56",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "calzada2023bananas",
+            "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Cultura e método constam do resumo; classe de produto não. Texto completo não lido.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "f416949af1a54cb5e02cddd495c40c41e9778cba717f351e26e74c36747d6c5b"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C07-1",
+          "claim": {
+            "claim_id": "C07",
+            "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:59-61",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "weitzman1974",
+            "display_label": "Weitzman 1974, artigo, doi:10.2307/2296698",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Weitzman (1974) não lido (sem resumo; JSTOR). Os outros três conferem no resumo.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "99ec6e9217c4bec6e6afaca7e69e803c73a6bb3cf9b975ee4708143c77911e21"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C07-2",
+          "claim": {
+            "claim_id": "C07",
+            "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:59-61",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "lichtenberg1988",
+            "display_label": "Lichtenberg, Parker e Zilberman 1988, artigo, doi:10.2307/1241928",
+            "source_content_sha256": "b22553d96c28aeecf8b2ee91f991e8eb518181ebdffdea799434fa50a127c797",
+            "source_content_utf8_bytes": 745,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Weitzman (1974) não lido (sem resumo; JSTOR). Os outros três conferem no resumo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "edebeae6b6efdc8f2161b7c36583683ee1e860a382ec2fe507cacb9b0dfe5ead"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "demonstrates the importance of equity effects",
+            "excerpt_sha256": "9e172109d62826855ffe6f820e5e8a4b252ff781234782909f4788b9e5bc25d9",
+            "source_span_utf8": {
+              "start": 313,
+              "end": 358
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "a5da1dd3b2a75903b082b5793300bd3191ad7b8047e2f4647f22ee3f80617273"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C07-3",
+          "claim": {
+            "claim_id": "C07",
+            "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:59-61",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "helfand1995",
+            "display_label": "Helfand e House 1995, artigo, doi:10.2307/1243825",
+            "source_content_sha256": "45dd0e02982d39355cb5d86cdbe44b5456fdfd67c2f0bea6dc9aa6bd1378beea",
+            "source_content_utf8_bytes": 720,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Weitzman (1974) não lido (sem resumo; JSTOR). Os outros três conferem no resumo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "34e93bb7057dbb50b59f6dd89199892bb3a5cbe6ac75c4a84aa71efadaeb4140"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "to consider empirical costs associated with uniform input taxes and regulations",
+            "excerpt_sha256": "7e64efcbf8b18f6e5063445e4105824f806597d163e26e8476d3d8c1deb0e94f",
+            "source_span_utf8": {
+              "start": 463,
+              "end": 542
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "f817b5886b65bb4460aa9fc2f0e89151b1b10a13a85452636fe660dcd31f0991"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C07-4",
+          "claim": {
+            "claim_id": "C07",
+            "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:59-61",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "bocker2020glyphosate",
+            "display_label": "Böcker et al. 2020, artigo, doi:10.1093/erae/jby050",
+            "source_content_sha256": "30ce3a64e81e5f7b833dfcf37c7d0df9f5ef4e84428c186a15ebeaa4e2f6a22d",
+            "source_content_utf8_bytes": 1112,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Weitzman (1974) não lido (sem resumo; JSTOR). Os outros três conferem no resumo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "2079499e2821d51663c1ed6df61cbd31a4b59ab5c3d21f24f95d7894e01cffec"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "The effects of a glyphosate ban on cultivation of silage maize are simulated",
+            "excerpt_sha256": "ebcf8cee2392dd4115cd15011c3f4459695d277ec2c3ba21af3e9ca196a642ff",
+            "source_span_utf8": {
+              "start": 0,
+              "end": 76
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "84c8d6fbe8334fd52ff98cc06914dacfbd15afbfeb9c9345506a360a4f04e65c"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F03-0",
+          "claim": {
+            "claim_id": "F03",
+            "text": "A lei cearense foi contestada no\nSupremo Tribunal Federal e declarada constitucional, o que assentou a\ncompetência dos estados para legislar sobre a matéria; em 2024 o próprio Ceará\nflexibilizou a regra para admitir drones, e a nova redação voltou a ser\nquestionada na Corte.",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:68-72",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte primária: STF (notícia de 30/05/2023; despacho na ADI 7794) e texto da Lei 19.135.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "e1c1c50622901832caf0181be8ae534f8dd94f0258061d8d45e504e191d2044a"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F04-0",
+          "claim": {
+            "claim_id": "F04",
+            "text": "que o Supremo Tribunal Federal julgou constitucional em 2023 (ADI~6137)",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:84",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte primária: STF, sessão virtual de 19 a 26/05/2023.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "b4755e534b9fc49da53b1fe614a2ef643433e20401fca06725c6c1a3c52902a2"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F05-1",
+          "claim": {
+            "claim_id": "F05",
+            "text": "A Lei Estadual nº~16.820, sancionada em 8 de janeiro de 2019 e vigente desde o\ndia seguinte \\cite{ceara2019lei16820}, acrescentou o art.~28-B à Lei Estadual\nnº~12.228/1993 \\cite{ceara1993lei12228}, a norma cearense sobre agrotóxicos. O caput veda ``a pulverização aérea de agrotóxicos\nna agricultura no Estado do Ceará''; o §~2º estende a vedação à dispersão por\naeronave para controle vetorial.",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:9-13",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "ceara2019lei16820",
+            "display_label": "Ceará 2019, lei estadual, Lei 16.820 de 08/01/2019 (texto da ALECE)",
+            "source_content_sha256": "84f8ebb3483fd84ff19879d31c2b606cb7fa46499ca6e006caec600dc0dde3ee",
+            "source_content_utf8_bytes": 1673,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 1º",
+            "value_decoded": "art. 1º"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Texto oficial (cópias no repositório).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "d1e177d61f4f575f62529e24e7dd6a3e62a55f759baa85e02d2b2ca390429635"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "É vedada a pulverização aérea de agrotóxicos na agricultura no Estado do Ceará.",
+            "excerpt_sha256": "d73a63b55a632c978711506f0b07a207ce6b95c1ef079f19f79eca3fd9ffb199",
+            "source_span_utf8": {
+              "start": 1002,
+              "end": 1087
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "a62a52cbae1d0ad7d626a5344188ed5c78299be54dc1fcd057148cd4fc2f627f"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F05-2",
+          "claim": {
+            "claim_id": "F05",
+            "text": "A Lei Estadual nº~16.820, sancionada em 8 de janeiro de 2019 e vigente desde o\ndia seguinte \\cite{ceara2019lei16820}, acrescentou o art.~28-B à Lei Estadual\nnº~12.228/1993 \\cite{ceara1993lei12228}, a norma cearense sobre agrotóxicos. O caput veda ``a pulverização aérea de agrotóxicos\nna agricultura no Estado do Ceará''; o §~2º estende a vedação à dispersão por\naeronave para controle vetorial.",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:9-13",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "ceara1993lei12228",
+            "display_label": "Ceará 1993, lei estadual consolidada, Lei 12.228 de 09/12/1993 (texto da ALECE)",
+            "source_content_sha256": "34a5ab2bc92a0b7cce46a01947293f4bb5dd1fe26935eb7bad08dda8b52c7f7a",
+            "source_content_utf8_bytes": 24178,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 28-B",
+            "value_decoded": "art. 28-B"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Texto oficial (cópias no repositório).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "bde43b7b5a9655052008ef56d151d25c21633391a4fb0951bcbcde54e65a13bf"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "acrescido pela lei n.° 16.820, de 08.01.19",
+            "excerpt_sha256": "b0b785aaf1f86e327fa308a646624a236f855428d1031c60a8680809acd5fbc1",
+            "source_span_utf8": {
+              "start": 11996,
+              "end": 12039
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "75be709958be6149dafcc39476ae899d9f179cf451647caac61ff83f492d0929"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F06-0",
+          "claim": {
+            "claim_id": "F06",
+            "text": "alcança os 184 municípios na mesma data.",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:16",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte primária: SIDRA devolve 184 municípios para a UF 23.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "c65512d6934a147ea63dfd1fa9298a6dad7ed7ddbcac33e38f026a0a87741a43"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G01-0",
+          "claim": {
+            "claim_id": "G01",
+            "text": "precedida de proposição semelhante em 2011",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:20",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte primária obtida nesta rodada: PL 134/2011 (dep. Heitor Férrer), Sala das Sessões em 31/05/2011, cria art. 28-B com a mesma redação (www2.al.ce.gov.br/legislativo/tramit2011/pl134_11.htm). Sem citação no texto.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "2244dfe0cb81d5155690b3f6f7626a1841c09e6f49ed4dbdd9116e8618b044a0"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F07-0",
+          "claim": {
+            "claim_id": "F07",
+            "text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:39-40",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Apresentação: texto do PL 18/2015. Aprovação em 18/12/2018: fontes secundárias (Brasil de Fato; Estudos Sociedade e Agricultura).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "4c2bbb5516a2f31a2f3f94a37dd5a618defa4e351aabf1ffa86751aa38510789"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F08-1",
+          "claim": {
+            "claim_id": "F08",
+            "text": "Em dezembro de 2024,\na Lei nº~19.135 \\cite{ceara2024lei19135} deu nova redação ao artigo e abriu exceção para aeronaves\nremotamente pilotadas.",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:21-23",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "ceara2024lei19135",
+            "display_label": "Ceará 2024, lei estadual, Lei 19.135 de 19/12/2024 (texto da ALECE)",
+            "source_content_sha256": "6787bc6f7cc6ca7587a9229c6e27079e6d598477b26c94414bdfec6f73d87f3e",
+            "source_content_utf8_bytes": 2371,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 28-B",
+            "value_decoded": "art. 28-B"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Texto oficial na ALECE.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "7c7091a1b67e7b50a573c6a522f87839929424cd827ef94c624ce94cf6fbbb65"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "salvo se realizada por meio de Aeronaves Remotamente Pilotadas",
+            "excerpt_sha256": "85a6fff46b9bd7cc15f33963ef8f333f46eaa25ad039cfb051d90f104863c7ad",
+            "source_span_utf8": {
+              "start": 657,
+              "end": 719
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "55487bc5854086c30853ec1a5e5fdaf14f48c602d22cc198c7f2f675853c0198"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F09-0",
+          "claim": {
+            "claim_id": "F09",
+            "text": "09/12/1993 & Lei Estadual nº 12.228",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:35",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Texto oficial (cópia no repositório).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "d58088c67888406ef2587907c0cf7ff927b88e1cc67b51f97bd5eeef9a542d0d"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F10-0",
+          "claim": {
+            "claim_id": "F10",
+            "text": "20/11/2009 & Limoeiro do Norte proíbe a pulverização aérea por lei municipal (Lei nº 1.478).",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:36",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Número e mês: G1 (31/10/2024). Dia 20: docs/legislacao/README.md, que cita o acervo da Câmara, não acessado.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "7161dc642f97717b2282c10da44c9ac95d7cca24ab238ef8c21e1ce4f3734f4a"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F11-0",
+          "claim": {
+            "claim_id": "F11",
+            "text": "Em maio, a lei municipal é revogada (Lei nº 1.511).",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:37",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fontes secundárias: G1 (31/10/2024); Estudos Sociedade e Agricultura (26/05/2010). Texto da Lei 1.511 não lido.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "ca6663ae4bd3b38013b2c5954f3443fec7155efaa476bea50298ea56e5f4ec5e"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F12-0",
+          "claim": {
+            "claim_id": "F12",
+            "text": "Notícia de proibição da prática na Chapada do Apodi (março); ação civil pública do Ministério Público",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:38",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fontes secundárias: Mapa de Conflitos (Fiocruz); Revista de Direito Sanitário (2015).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "c40d58fe3ab73b349e5fce3706fd92e09f31f5c8859b009f06c3ad3f1ac35f05"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G02-0",
+          "claim": {
+            "claim_id": "G02",
+            "text": "projeto de lei estadual com o mesmo objeto (julho)",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:38",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "MINOR_DISTORTION",
+          "detail": "O PL 134/2011 é de 31/05/2011, não de julho (julho é a data da reportagem). Além do art. 28-B, o PL proíbe onze princípios ativos e altera o cadastro. Fonte primária: página da ALECE.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "415ff54198d4e75e624f2713661f5b5b59ff12455643df4449c02d22d995f517"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C08-1",
+          "claim": {
+            "claim_id": "C08",
+            "text": "No análogo equatoriano, elas\nse intensificam na estação chuvosa, quando a pressão da doença aumenta\n\\cite{calzada2023bananas}",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:55-57",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "calzada2023bananas",
+            "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Não consta do resumo publicado. Texto completo não lido.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "c5c3d47319cd032021c7bcd77a6e54255f517ab4ceb9057a743ae908644c2ad7"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C09-1",
+          "claim": {
+            "claim_id": "C09",
+            "text": "A tabela de análises de água\nreproduzida na justificativa do Projeto de Lei nº~18/2015, atribuída ao Dossiê\nABRASCO \\cite{ceara2015pl18}, registra 23 pontos de coleta na Chapada em 2009: o fungicida\nprocimidona e o inseticida carbaril aparecem em todos, carbofurano em 18,\nfenitrotiona em 16 e glifosato em apenas 4.",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:61-65",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "ceara2015pl18",
+            "display_label": "Ceará, Assembleia Legislativa 2015, projeto de lei, PL 18/2015 (texto da ALECE)",
+            "source_content_sha256": "1f7bbcf63e29a088b0e925fbeb2b6a4eaf3d25b798bfab7c1abadf19bf581abe",
+            "source_content_utf8_bytes": 14862,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "justificativa, Quadro 08",
+            "value_decoded": "justificativa, Quadro 08"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Recontagem linha a linha da tabela na justificativa do PL: 23 linhas; 23, 23, 18, 16 e 4. Dossiê ABRASCO original não consultado.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "be7766417546a692348d161efc76ec582ad4c7cf4fe07880de26a20e12b9b697"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Quadro 08. Resultados das análises laboratoriais para identificação de resíduos de agrotóxicos na Chapada do Apodi, Ceará, 2009.",
+            "excerpt_sha256": "a73b5c7c66dfbe1aa1879535e320ec22f9f5718b0bb61b1511a37f69e4c73948",
+            "source_span_utf8": {
+              "start": 7216,
+              "end": 7350
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "b6edafa3a18ae3aa376bcedb7883ca80c126b5b8e1e83aec851a2f158ea1f804"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F13-1",
+          "claim": {
+            "claim_id": "F13",
+            "text": "No Ceará eram 36 estabelecimentos, em 7 dos 184 municípios\n\\cite{ibge2006censoagro}",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:74-75",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "ibge2006censoagro",
+            "display_label": "IBGE, Censo Agropecuário 2006, tabela SIDRA 1008",
+            "source_content_sha256": "dd7cc3b2282ac0e379ad53e3f2834102c594fb4e21bbc3a679411eb782040386",
+            "source_content_utf8_bytes": 97163,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "tabela 1008, Por aeronave",
+            "value_decoded": "tabela 1008, Por aeronave"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte primária: 7 municípios com valor positivo, soma 36.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "c0f30bf1d5789884a7abb1d2f38a5f52f581330eec9e411908406ab081f70824"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "\"D1N\": \"Limoeiro do Norte - CE\"",
+            "excerpt_sha256": "07d59d01c24a0ebdea9fa7a229b601212cb3a8104708f874d21a745b05fc097f",
+            "source_span_utf8": {
+              "start": 53886,
+              "end": 53917
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "1c9c77aa12a65fc77c599e293ded59b069d337d8dad65fd24905ca0d67bf5985"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G03-0",
+          "claim": {
+            "claim_id": "G03",
+            "text": "a bananicultura está presente na maior parte do estado: a maioria\ndos municípios com a cultura não tinha registro de avião.",
+            "paper_locator": "paper/projeto/secoes/02-contexto.tex:76-77",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fonte primária (PAM/SIDRA, consulta de 2026-11-15): 169 de 184 municípios com área de banana na média 2015-2018; 162 desses 169 sem registro de aeronave no Censo 2006. Sem citação no texto.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "be556a77f549b535d3f2aa0fa58346669b1ad0c16304c1f8bfa186663b922aaf"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C10-1",
+          "claim": {
+            "claim_id": "C10",
+            "text": "\\citeonline{coase1960} supõe direitos bem definidos e custos de\ntransação baixos.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:14-15",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "coase1960",
+            "display_label": "Coase 1960, artigo, doi:10.1086/466560",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Só metadados; texto não lido.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "c2da8202c12d301fdc5f450ed01742b82738b4b5c9320973fe39db74fefc9ce5"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C11-1",
+          "claim": {
+            "claim_id": "C11",
+            "text": "Sob incerteza a respeito\ndos custos de controle, instrumentos de preço e de quantidade não são\nequivalentes em bem-estar esperado, e qual domina depende das inclinações\nrelativas do benefício e do custo marginais \\cite{weitzman1974}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:19-22",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "weitzman1974",
+            "display_label": "Weitzman 1974, artigo, doi:10.2307/2296698",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Só metadados; texto não lido. Fontes secundárias descrevem o resultado da mesma forma.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "4e430cd876cf605b2b210d0f383914d424bf6cb54efd3aa8d08a06880113369f"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C12-1",
+          "claim": {
+            "claim_id": "C12",
+            "text": "A literatura sobre regulação de\nagrotóxicos acrescenta a dimensão distributiva\n\\cite{lichtenberg1988,helfand1995} e a comparação, por simulação, entre cotas e taxas\n\\cite{skevas2012}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:23-26",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "lichtenberg1988",
+            "display_label": "Lichtenberg, Parker e Zilberman 1988, artigo, doi:10.2307/1241928",
+            "source_content_sha256": "b22553d96c28aeecf8b2ee91f991e8eb518181ebdffdea799434fa50a127c797",
+            "source_content_utf8_bytes": 745,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos. A redação corrigida ('por simulação') confere com Skevas et al.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "5f18db502c39cc510ce56867a2608d8a31515f10f9c76c949a37fcf5f42ef8c4"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "demonstrates the importance of equity effects",
+            "excerpt_sha256": "9e172109d62826855ffe6f820e5e8a4b252ff781234782909f4788b9e5bc25d9",
+            "source_span_utf8": {
+              "start": 313,
+              "end": 358
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "7c5d9ecb47efdfeab845914e8b87c810f82a249ad8a2ba9d4e7de04bbfb60900"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C12-2",
+          "claim": {
+            "claim_id": "C12",
+            "text": "A literatura sobre regulação de\nagrotóxicos acrescenta a dimensão distributiva\n\\cite{lichtenberg1988,helfand1995} e a comparação, por simulação, entre cotas e taxas\n\\cite{skevas2012}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:23-26",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "helfand1995",
+            "display_label": "Helfand e House 1995, artigo, doi:10.2307/1243825",
+            "source_content_sha256": "45dd0e02982d39355cb5d86cdbe44b5456fdfd67c2f0bea6dc9aa6bd1378beea",
+            "source_content_utf8_bytes": 720,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos. A redação corrigida ('por simulação') confere com Skevas et al.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "1b4632dfa39d77b6c8e0287eaef1370ea0ae212e392cda2ee2c0690f8ecb93d4"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "farmers have higher profits with regulations",
+            "excerpt_sha256": "9b6a83c9c11cc7ebc8a5372a80ead270d64ddeb6f0b09c0a073ea1982b000202",
+            "source_span_utf8": {
+              "start": 675,
+              "end": 719
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "5979eb2141f450de33c3572900875f76ef2905b85468bc829464bfcf57d6e812"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C12-3",
+          "claim": {
+            "claim_id": "C12",
+            "text": "A literatura sobre regulação de\nagrotóxicos acrescenta a dimensão distributiva\n\\cite{lichtenberg1988,helfand1995} e a comparação, por simulação, entre cotas e taxas\n\\cite{skevas2012}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:23-26",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "skevas2012",
+            "display_label": "Skevas, Stefanou e Lansink 2012, artigo, doi:10.1111/j.1574-0862.2012.00581.x",
+            "source_content_sha256": "2ff8e3de891a42ff6a3b6c62be75af6de0490dd3aef5e1c40ef5cbb6e41cac93",
+            "source_content_utf8_bytes": 1314,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos. A redação corrigida ('por simulação') confere com Skevas et al.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "6567f06ec6ef294783b02f2efd1ace4b480a88c0c2f536dd4429f10638bedbdc"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "A policy simulation model is employed using data from Dutch cash crop producers",
+            "excerpt_sha256": "20448fd7531cfd1988fc9a8e69fbf55d990186b3375d5c488e55bb206dd68c3f",
+            "source_span_utf8": {
+              "start": 511,
+              "end": 590
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "56ba6d111435a83e95d412cb3cc297979e085fb2ef410e9bdb6fe52979d5d44c"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C14-1",
+          "claim": {
+            "claim_id": "C14",
+            "text": "\\citeonline{reynier2025glyphosate} estimam\nreduções médias de peso ao nascer da ordem de 23 a 32 gramas associadas à\ndifusão do glifosato em áreas rurais dos Estados Unidos.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:37-39",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "reynier2025glyphosate",
+            "display_label": "Reynier e Rubin 2025, artigo, doi:10.1073/pnas.2413013121",
+            "source_content_sha256": "4751e876a74260bff60728790f0654662d62604b6c506eb2566a25a1b1178c0e",
+            "source_content_utf8_bytes": 92538,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "Discussion, Broader Considerations",
+            "value_decoded": "Discussion, Broader Considerations"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Texto completo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "60da5cf19b985e8daf7242ac070be6479ef5c9ab40de6f928634d870570dae63"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "reduced average birthweight by 23 to 32 g at the average level of glyphosate exposure",
+            "excerpt_sha256": "42fc59d20eaeb28c613b89016bac7fae1db08969031100def35f9d63c9d85089",
+            "source_span_utf8": {
+              "start": 49213,
+              "end": 49298
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "e1c70adc100108a44550579c737470ec7e9da2e1b286bc795012661f1700baaa"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C15-1",
+          "claim": {
+            "claim_id": "C15",
+            "text": "\\citeonline{calzada2023bananas} relatam déficits maiores, de 80 a 150 gramas,\nentre recém-nascidos de mães com exposição alta à fumigação aérea de bananais\nno Equador.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:40-42",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "calzada2023bananas",
+            "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349",
+            "source_content_sha256": "32f7620d1091d251b34b340e9105d9e8ff24671dbdf965e18f0398409ae95a1d",
+            "source_content_utf8_bytes": 1020,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só o resumo publicado.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "e97a430878aefa4ac7c395936d7bfafe0d19cce2bcbfb75b42a437e8d9aafdb7"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "have a birth weight deficit of between 80 and 150 grams",
+            "excerpt_sha256": "b169acfb80c8c9b177307653cf718f3fe9478833bf7733632bcff33829860a23",
+            "source_span_utf8": {
+              "start": 585,
+              "end": 640
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "6fd9bbc2672339d61d664b5b98d812e0c2922d6a6f73979b4e07db0e7da5d964"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C16-1",
+          "claim": {
+            "claim_id": "C16",
+            "text": "A diferença é coerente com o grau de exposição: médias\npopulacionais em um caso, vizinhança imediata da plantação no outro.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:42-43",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "calzada2023bananas",
+            "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "'Vizinhança imediata' não consta do resumo. Texto completo não lido.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "de041cdfd080ea566389974ca77e17b3d033f3c74ae56c4fa0bef16c9c586f4a"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C17-1",
+          "claim": {
+            "claim_id": "C17",
+            "text": "aparecem no topo da distribuição de exposição \\cite{larsen2017agricultural} e\nna cauda inferior da distribuição de peso esperado\n\\cite{reynier2025glyphosate}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:46-48",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "larsen2017agricultural",
+            "display_label": "Larsen, Gaines e Deschênes 2017, artigo, doi:10.1038/s41467-017-00349-2",
+            "source_content_sha256": "057151e3c3310bc83efe0c7046c6aaf77bd8a8eceaaa5c47e6145bb4fc0da238",
+            "source_content_utf8_bytes": 1388,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Resumo (Larsen) e texto completo (Reynier e Rubin).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "d015dd34a700bf3e215ccee986c8475c646b359a1dfbd13629de00def309eb49"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "but only among the population exposed to very high quantities of pesticides",
+            "excerpt_sha256": "5080aabb856f747ab56b46e622635a45837a47e23bd39782f51c9af8cc531cb9",
+            "source_span_utf8": {
+              "start": 690,
+              "end": 765
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "bbb31e1b1c859cab4516abe5a643cd2591b87d1d07727384964152c8b9a723c1"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C17-2",
+          "claim": {
+            "claim_id": "C17",
+            "text": "aparecem no topo da distribuição de exposição \\cite{larsen2017agricultural} e\nna cauda inferior da distribuição de peso esperado\n\\cite{reynier2025glyphosate}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:46-48",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "reynier2025glyphosate",
+            "display_label": "Reynier e Rubin 2025, artigo, doi:10.1073/pnas.2413013121",
+            "source_content_sha256": "4751e876a74260bff60728790f0654662d62604b6c506eb2566a25a1b1178c0e",
+            "source_content_utf8_bytes": 92538,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "Abstract",
+            "value_decoded": "Abstract"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Resumo (Larsen) e texto completo (Reynier e Rubin).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "7b4ded7e3393321671eeb11f8063e35010dfdcc77deb8346f778d31985127e82"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "low expected-weight births experienced the largest reductions",
+            "excerpt_sha256": "bd57f1df6d18fc14cfb246022646718ffd1a88a9baf969fcb9a2168c5e486032",
+            "source_span_utf8": {
+              "start": 2709,
+              "end": 2770
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "a8f3e2fc272cbf79a1c22df558e4dd6322cee915bf802b39f0d0ac2f1ecb5f19"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C18-1",
+          "claim": {
+            "claim_id": "C18",
+            "text": "\\citeonline{calzada2023bananas} cruzam o início da gestação\ncom os períodos de fumigação intensa, e \\citeonline{brainerd2014seasonal} usam o\nmês da concepção e a estação de aplicação de agroquímicos na Índia.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:53-55",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "calzada2023bananas",
+            "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Calzada et al.: como em C05. Brainerd e Menon: conferido na rodada 1 em trechos devolvidos pela busca; o texto não pôde ser baixado nesta rodada.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "d9f9e53eadd52927b38a462ba156ccad7f6f3b3dbbe02a5483b64de8b14a1559"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C18-2",
+          "claim": {
+            "claim_id": "C18",
+            "text": "\\citeonline{calzada2023bananas} cruzam o início da gestação\ncom os períodos de fumigação intensa, e \\citeonline{brainerd2014seasonal} usam o\nmês da concepção e a estação de aplicação de agroquímicos na Índia.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:53-55",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "brainerd2014seasonal",
+            "display_label": "Brainerd e Menon 2014, artigo, doi:10.1016/j.jdeveco.2013.11.004",
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "texto completo",
+            "value_decoded": "texto completo"
+          },
+          "verdict": "UNVERIFIABLE_ACCESS",
+          "detail": "Calzada et al.: como em C05. Brainerd e Menon: conferido na rodada 1 em trechos devolvidos pela busca; o texto não pôde ser baixado nesta rodada.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "access_failed",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "0c7ee18199064d85f88388656ae587b6369e2848591951eca830b96beac1cd54"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C19-1",
+          "claim": {
+            "claim_id": "C19",
+            "text": "A ameaça\nconhecida a esse tipo de desenho é a composição sazonal das mães: quem concebe\nem cada época do ano difere em características que afetam o desfecho\n\\cite{buckles2013season,currie2013within}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:55-58",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "buckles2013season",
+            "display_label": "Buckles e Hungerman 2013, artigo, doi:10.1162/REST_a_00314",
+            "source_content_sha256": "2992b750a816c99a1eccfc29e4836f9828fd2324ca731a4ebee8f3e23171e024",
+            "source_content_utf8_bytes": 753,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "cce292a6dd1995695f2dc2e2766fc79d7866d0fc9da9b9a802210328a3516ee1"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "winter births are disproportionally realized by teenagers and the unmarried",
+            "excerpt_sha256": "51474a0e032f66a7142b1e2eddc72854762c8edad84b1672c2e1600f55736f98",
+            "source_span_utf8": {
+              "start": 253,
+              "end": 328
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "117861f1f8d8899aaf9476a82b5204d86fc7795280eb2e5be9d6d42179b00e68"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C19-2",
+          "claim": {
+            "claim_id": "C19",
+            "text": "A ameaça\nconhecida a esse tipo de desenho é a composição sazonal das mães: quem concebe\nem cada época do ano difere em características que afetam o desfecho\n\\cite{buckles2013season,currie2013within}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:55-58",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "currie2013within",
+            "display_label": "Currie e Schwandt 2013, artigo, doi:10.1073/pnas.1307582110",
+            "source_content_sha256": "8557a3bc6c9952841e038c9e9b9c9e7fae2dae1b2601d285f4f66de95703e6bd",
+            "source_content_utf8_bytes": 1601,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "89a895975f4b6c5a0a01b379c0d2db18fe09521ffabe428f4f8a2d1bb89c8592"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "mothers with lower socioeconomic status are more likely to give birth in months that are associated with poorer birth outcomes",
+            "excerpt_sha256": "934f708cd49625d16c1bc842f1d90b6c40463c9577966cc784f7063b68101826",
+            "source_span_utf8": {
+              "start": 269,
+              "end": 395
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "ead982fcb741f2ca2a2013bb7ddd53ce3a7cc1ba41f44145a217a80b2b85cd2c"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C20-1",
+          "claim": {
+            "claim_id": "C20",
+            "text": "os estimadores e as decomposições de\ndiferenças-em-diferenças para adoção escalonada\n\\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:62-64",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "callaway2021multiple",
+            "display_label": "Callaway e Sant'Anna 2021, artigo, doi:10.1016/j.jeconom.2020.12.001",
+            "source_content_sha256": "87034f49a38408950102b0fde0bdd868d5d859ebb480c5b20b7320662c293d77",
+            "source_content_utf8_bytes": 52,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "título",
+            "value_decoded": "título"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Resumos de Goodman-Bacon e de de Chaisemartin e D'Haultfoeuille; para Callaway e Sant'Anna, só o título.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "fe001b0d5c015d0dc1bafcb4f396345d1f621e94d9b4eb80e997598a7ac36eb9"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Difference-in-Differences with multiple time periods",
+            "excerpt_sha256": "87034f49a38408950102b0fde0bdd868d5d859ebb480c5b20b7320662c293d77",
+            "source_span_utf8": {
+              "start": 0,
+              "end": 52
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "a0e5d0ff46f4a768db1ef76bc3d6ebc71b3e0ec7f71a020b7cccf6e699c6625d"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C20-2",
+          "claim": {
+            "claim_id": "C20",
+            "text": "os estimadores e as decomposições de\ndiferenças-em-diferenças para adoção escalonada\n\\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:62-64",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "goodmanbacon2021",
+            "display_label": "Goodman-Bacon 2021, artigo, doi:10.1016/j.jeconom.2021.03.014",
+            "source_content_sha256": "5cadb948d6a19ff7ce17941ad2c2f37d32ba3165d9bdc8e9dbb67504d9097b2f",
+            "source_content_utf8_bytes": 726,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Resumos de Goodman-Bacon e de de Chaisemartin e D'Haultfoeuille; para Callaway e Sant'Anna, só o título.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "06220b823c03db9c39b5ca647914afac6c67f9065e028f53abd12cf1ce7e2d9c"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "exploit variation across groups of units that receive treatment at different times",
+            "excerpt_sha256": "8d48f7f210bbf2e47a6539212fd804469e9da991f5bee26f4e7750091599b6b4",
+            "source_span_utf8": {
+              "start": 199,
+              "end": 281
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "3f5dfeefb2b21b3587375c8d6fa1d79fd36ef365c40e7390bc1bcb21ae31849b"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C20-3",
+          "claim": {
+            "claim_id": "C20",
+            "text": "os estimadores e as decomposições de\ndiferenças-em-diferenças para adoção escalonada\n\\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:62-64",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "dechaisemartin2020",
+            "display_label": "de Chaisemartin e D'Haultfoeuille 2020, artigo, doi:10.1257/aer.20181169",
+            "source_content_sha256": "69462b7da7253d9c099e4b3f649d709503fa82477f5ef28f6e972c7906a297b1",
+            "source_content_utf8_bytes": 560,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Resumos de Goodman-Bacon e de de Chaisemartin e D'Haultfoeuille; para Callaway e Sant'Anna, só o título.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "cf888e4bd810c35ee42300940f36a09bb3a381862700d6621922f0c932a7335d"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Linear regressions with period and group fixed effects are widely used to estimate treatment effects",
+            "excerpt_sha256": "a779658bc9729cfb33081b062f18c2afd24835e0f2a6bbe310bb496a004c2e36",
+            "source_span_utf8": {
+              "start": 0,
+              "end": 100
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "596007f624600b35d8b5f46455cb0d013eb703a2115ed1ab2cfb0e91798dd320"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C21-1",
+          "claim": {
+            "claim_id": "C21",
+            "text": "\\citeonline{callaway2024continuous} mostram que o\ndiferenças-em-diferenças com tratamento contínuo identifica parâmetros\ndistintos conforme a hipótese mantida. Sob tendências paralelas usuais,\nidentifica-se o efeito médio de receber a dose $d$ entre os que a receberam,\n$ATT(d\\mid d)$. A curva dose-resposta causal exige uma hipótese mais forte\n(\\emph{strong parallel trends}), que restringe trajetórias sob doses não\nrecebidas e exclui seleção por ganhos.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:69-75",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "callaway2024continuous",
+            "display_label": "Callaway, Goodman-Bacon e Sant'Anna 2024, texto para discussão, doi:10.3386/w32117",
+            "source_content_sha256": "ca39b04e7c919b54ba87d25d4f56a93e4d1a2121f93fb64a952eae634c311ff3",
+            "source_content_utf8_bytes": 178067,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "Introduction",
+            "value_decoded": "Introduction"
+          },
+          "verdict": "VERIFIED",
+          "detail": "PDF do NBER WP 32117.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "6df9c2d55262cfa1a062eaaefc20beddbe2244aaa7a027d14ff4f52660636b6b"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Thus, strong parallel trends restricts treatment effect heterogeneity and justifies comparing dose groups.",
+            "excerpt_sha256": "ced714df300e9f6cccbadf905f2d585239ecbca5f7057a8e4b261d727a9fa606",
+            "source_span_utf8": {
+              "start": 6774,
+              "end": 6880
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "285f8645d819858d090e46ca04817af27bcf5c81d41581826d7796552ddcb0c3"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C22-1",
+          "claim": {
+            "claim_id": "C22",
+            "text": "a diferença tripla\nexige uma única hipótese de tendências paralelas, a da diferença entre os dois\ncontrastes que a compõem \\cite{olden2022triple}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:75-77",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "olden2022triple",
+            "display_label": "Olden e Møen 2022, artigo, doi:10.1093/ectj/utac010",
+            "source_content_sha256": "256177c32574218360043e00e2711eba25a82ae136d5acddab6ecc099074aaef",
+            "source_content_utf8_bytes": 784,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só o resumo.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "6a6d0430f0579e63e2c689ec6317d97210e9631b32bd1606232c7e931e60b6a9"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "This requires only one parallel trend assumption to hold",
+            "excerpt_sha256": "5e145c8168a1d27baf6692c1a72e9f27240c05df005c69607f5daef17fed9a96",
+            "source_span_utf8": {
+              "start": 727,
+              "end": 783
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "b2ff561d0ec9e2f4e012cad20cd4487edc26836be54d0858b1854156e67574d3"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C23-1",
+          "claim": {
+            "claim_id": "C23",
+            "text": "\\citeonline{denteh2022misclassification} mostram que,\nsob tendências paralelas na classificação observada e ausência de falsos\nnegativos, o diferenças-em-diferenças identifica o efeito verdadeiro\nmultiplicado pela fração dos classificados como tratados que de fato o são:\natenuação pura, sem inversão de sinal.",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:80-84",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "denteh2022misclassification",
+            "display_label": "Denteh e Kédagni 2022, preprint, arXiv:2207.11890v3",
+            "source_content_sha256": "5b31c63541dac2991cf0e3af6897af2f2213d8ec544d2a8d373d2f05f1173d84",
+            "source_content_utf8_bytes": 113968,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "Corollary 1",
+            "value_decoded": "Corollary 1"
+          },
+          "verdict": "VERIFIED",
+          "detail": "A entrada agora fixa a versão 3; Corolário 1 lido na v3.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "93cdbed17c4b5fc3074bfac5aca2327349f658961c6908b51c502ec60cc2f339"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Corollary 1. Suppose that Assumption 1 holds, and there are no false negatives",
+            "excerpt_sha256": "d2cda200999c7f42120db7918b4603e231d63f8b183bf9238931d27ea571c496",
+            "source_span_utf8": {
+              "start": 29743,
+              "end": 29821
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "61ed2bbebf69867fed69c33322cfeb297655d95deafb04e0df49325d8484e7c1"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C24-1",
+          "claim": {
+            "claim_id": "C24",
+            "text": "os procedimentos adequados são os de\n\\citeonline{conley2011} e \\citeonline{ferman2019inference}, a inferência\nconformal de \\citeonline{chernozhukov2021conformal} e, com restrições\nconhecidas, o \\emph{wild cluster bootstrap}\n\\cite{cameron2008wild,mackinnon2018wild}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:85-89",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "conley2011",
+            "display_label": "Conley e Taber 2011, artigo, doi:10.1162/rest_a_00049",
+            "source_content_sha256": "1892e258c85d2ef2124934b8eb6bb8625f459a6a2afd8ea2dbe3642838d08b3d",
+            "source_content_utf8_bytes": 699,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos (Conley e Taber e Cameron et al. pelo OpenAlex).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "162d6119ef239b4ab395c02382bc121565589e13ca6271d8a293f84300517795"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "using information from a large sample of nonchanging groups",
+            "excerpt_sha256": "2d56097105c720275cad45f6756884a6e5d7d8a09737fb43fca305f4164700a0",
+            "source_span_utf8": {
+              "start": 328,
+              "end": 387
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "430d915e555b933d9df5a81a7c9ebf38a82b63f6a7ba3f95a569def437b531a0"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C24-2",
+          "claim": {
+            "claim_id": "C24",
+            "text": "os procedimentos adequados são os de\n\\citeonline{conley2011} e \\citeonline{ferman2019inference}, a inferência\nconformal de \\citeonline{chernozhukov2021conformal} e, com restrições\nconhecidas, o \\emph{wild cluster bootstrap}\n\\cite{cameron2008wild,mackinnon2018wild}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:85-89",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "ferman2019inference",
+            "display_label": "Ferman e Pinto 2019, artigo, doi:10.1162/rest_a_00759",
+            "source_content_sha256": "38e642dfe5e3221ecc83a5508767420bc91d4a7e1a25e10bfd0f8aec047c62e5",
+            "source_content_utf8_bytes": 627,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos (Conley e Taber e Cameron et al. pelo OpenAlex).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "2178724c58c17e6ec1ba0ebfca41c65e8bbd8ac9cc488ce8050859a675e3645e"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "heteroskedasticity generated by variation in group sizes can invalidate existing inference methods",
+            "excerpt_sha256": "faec5cb48328bfe3c87898ba8dc0cbd4393492ff4a8aad3a604d903d0de09c45",
+            "source_span_utf8": {
+              "start": 256,
+              "end": 354
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "8eb81d167d81f1b84c849416196b03bb519b3a5b937473d6a18bc4309ae0ce28"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C24-3",
+          "claim": {
+            "claim_id": "C24",
+            "text": "os procedimentos adequados são os de\n\\citeonline{conley2011} e \\citeonline{ferman2019inference}, a inferência\nconformal de \\citeonline{chernozhukov2021conformal} e, com restrições\nconhecidas, o \\emph{wild cluster bootstrap}\n\\cite{cameron2008wild,mackinnon2018wild}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:85-89",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "chernozhukov2021conformal",
+            "display_label": "Chernozhukov, Wüthrich e Zhu 2021, artigo, doi:10.1080/01621459.2021.1920957",
+            "source_content_sha256": "ae2b438f21cae1dc1b341b81f2970a9f487d97730b2e180bbc52f2539d7126e1",
+            "source_content_utf8_bytes": 1089,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos (Conley e Taber e Cameron et al. pelo OpenAlex).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "2056ba74fadc0d033ef8a32828bdd49c53c9531fd8cf18193fcdcee937e8f163"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "We introduce new inference procedures for counterfactual and synthetic control methods for policy evaluation",
+            "excerpt_sha256": "3645823c86309b9144fe567d1ce97801fde78d6aa2b209b9f0c5626e159f82c3",
+            "source_span_utf8": {
+              "start": 9,
+              "end": 117
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "d22b8739b18f0aa991ee131510ec7122c8c498f32ffa3ff783ab32f30c79af33"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C24-4",
+          "claim": {
+            "claim_id": "C24",
+            "text": "os procedimentos adequados são os de\n\\citeonline{conley2011} e \\citeonline{ferman2019inference}, a inferência\nconformal de \\citeonline{chernozhukov2021conformal} e, com restrições\nconhecidas, o \\emph{wild cluster bootstrap}\n\\cite{cameron2008wild,mackinnon2018wild}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:85-89",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "cameron2008wild",
+            "display_label": "Cameron, Gelbach e Miller 2008, artigo, doi:10.1162/rest.90.3.414",
+            "source_content_sha256": "f416b27d9a62869440781ab7c8fc9f2290238d3944f6c494a4451f26d7526ced",
+            "source_content_utf8_bytes": 746,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos (Conley e Taber e Cameron et al. pelo OpenAlex).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "83334035bad740b536800569f0280d498d01367485b9fd053f0308896d2d1c16"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "We investigate inference using cluster bootstrap-t procedures that provide asymptotic refinement",
+            "excerpt_sha256": "ccdd2f948f6795383b804bbd94d37fce857afc5c511bdb1f92678392e357ac90",
+            "source_span_utf8": {
+              "start": 425,
+              "end": 521
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "f81bc45927119658d358d9e9cb76f736872b442201aed165fa32bf0b7cb771fa"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-C24-5",
+          "claim": {
+            "claim_id": "C24",
+            "text": "os procedimentos adequados são os de\n\\citeonline{conley2011} e \\citeonline{ferman2019inference}, a inferência\nconformal de \\citeonline{chernozhukov2021conformal} e, com restrições\nconhecidas, o \\emph{wild cluster bootstrap}\n\\cite{cameron2008wild,mackinnon2018wild}",
+            "paper_locator": "paper/projeto/secoes/03-referencial.tex:85-89",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "mackinnon2018wild",
+            "display_label": "MacKinnon e Webb 2018, artigo, doi:10.1111/ectj.12107",
+            "source_content_sha256": "e12bf629884329441cca086ae590810eec0a14af076e00175b985182dcdc6731",
+            "source_content_utf8_bytes": 801,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "resumo",
+            "value_decoded": "resumo"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Só os resumos (Conley e Taber e Cameron et al. pelo OpenAlex).",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "b30ca42bbe2b3162e0542db46f2e441f55ae319ae849aca2f3b99943381a17a3"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "is known to fail when the number of treated clusters is very small",
+            "excerpt_sha256": "2cb899dbf6fe1936ef7ab2bbda0f886525621e6be5dfc6a2a762ef53fdc0421a",
+            "source_span_utf8": {
+              "start": 152,
+              "end": 218
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "8a14c35d1a93bb3af5269329edf351635f9e0eeab642207c1b7ab61da87a3fac"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F17-0",
+          "claim": {
+            "claim_id": "F17",
+            "text": "a colheita responde à seca de 2012--2017",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:51",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fontes secundárias: Ipea (2020); UOL com dados do Inmet (2018).",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "c59a01e62708391383a0e0ffb30cb0aad8c45def436e5baa11d7d33696e00ba8"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G05-0",
+          "claim": {
+            "claim_id": "G05",
+            "text": "a proibição foi proposta em projetos de lei de\n2011 e de 2015",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:56-57",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fontes primárias: PL 134/2011 (31/05/2011) e PL 18/2015 (24/02/2015), páginas da ALECE.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "06ff988c1d43afdbf141456ed83265379dbc14cead33da14ceb06248d2133c12"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G06-0",
+          "claim": {
+            "claim_id": "G06",
+            "text": "ela não elimina o problema, porque também é posterior à\nprimeira proposição, e reduz o número de municípios sem a cultura",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:59-60",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "MINOR_DISTORTION",
+          "detail": "A redução confere (15 municípios sem área em 2015-2018; 6 em 2010-2014, PAM/SIDRA). A janela 2010-2014 é posterior à primeira proposição (31/05/2011) só em parte: 2010 e os cinco primeiros meses de 2011 a antecedem.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "9f71afa007bf850781c2ecd0963cbac9f39f6949e2a183ece4fee655681edc82"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G07-0",
+          "claim": {
+            "claim_id": "G07",
+            "text": "o estimador centra o nível\ndo efeito na variação desse grupo",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:83-84",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Decorre da expressão de identificação de ATT(d|d) no NBER WP 32117 (variação do desfecho na dose d menos a variação na dose zero). Sem citação na frase.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "cf27f8d8ca64f194b9fa821fce38c6d3c68ab6c310be40d88d21f68567c996b0"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F18-1",
+          "claim": {
+            "claim_id": "F18",
+            "text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com\n    município, cultura, área aplicada e produto, mês a mês",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:111-113",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "mapa2008in2",
+            "display_label": "Brasil, MAPA 2008, instrução normativa, IN 2 de 03/01/2008",
+            "source_content_sha256": "11ece444545077951c9c67c6674bfe4de4e0717bff8dd2ec1375fc39710a9c40",
+            "source_content_utf8_bytes": 39328,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 14",
+            "value_decoded": "art. 14"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Art. 14 e Anexo V. O relatório lista nomes comerciais, sem dose nem quantidade.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "49547597d3d3724a4d368403eeadf4421a3c24912f82f4224b399d9089d11941"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "deverão apresentar o relatório mensal das atividades",
+            "excerpt_sha256": "7b12a709b456b157e34ca59c856a4c67613172c6444a97bfdf54e44b3634ebcb",
+            "source_span_utf8": {
+              "start": 22801,
+              "end": 22855
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "5d3fbea66fa632b20afe31139cad7c2c1850f868daba20f58b0040c2701b2cfd"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F19-1",
+          "claim": {
+            "claim_id": "F19",
+            "text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:114-115",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "brasil2002decreto4074",
+            "display_label": "Brasil 2002, decreto, Decreto 4.074 de 04/01/2002",
+            "source_content_sha256": "eae05f5c9656a5ab3f1147d012a9749ffb3474714e84466e0e677aba012e0170",
+            "source_content_utf8_bytes": 148,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 66, IV, d",
+            "value_decoded": "art. 66, IV, d"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Art. 66, IV, d. A fonte guardada é só a alínea, transcrita do trecho devolvido pela busca.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "107b9c25cbdd9aac9188437097e90295969a7f8592ee1a842685663924f84cbd"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "modalidade de aplicação, com anotação de instruções específicas, quando necessário, e, obrigatoriamente, nos casos de aplicação aérea",
+            "excerpt_sha256": "5f6a95924a08781a841a65965b17f17caabade2d1ba0dc0958433366f3603ce5",
+            "source_span_utf8": {
+              "start": 3,
+              "end": 147
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "fe2404ba2e3e72a4b40fbeaa1e64d268f49d4fa11e02366285d1c388c5daadf9"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F20-1",
+          "claim": {
+            "claim_id": "F20",
+            "text": "o cadastro estadual de prestadores de serviço de aplicação (Lei\n    nº~12.228/1993), sob guarda do órgão ambiental estadual",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:117-118",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "ceara1993lei12228",
+            "display_label": "Ceará 1993, lei estadual consolidada, Lei 12.228 de 09/12/1993 (texto da ALECE)",
+            "source_content_sha256": "34a5ab2bc92a0b7cce46a01947293f4bb5dd1fe26935eb7bad08dda8b52c7f7a",
+            "source_content_utf8_bytes": 24178,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 8º",
+            "value_decoded": "art. 8º"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Art. 8º.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "89d846e5dfb4d4bed9b9173d6ad22158b2017aec9657d80dc8af11e4694ebcb0"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Deverão ser registradas na SEMACE as Empresas Prestadoras de Serviços",
+            "excerpt_sha256": "ab9d5939d332340bca8a1a2a6a694e38ab28c6e3afb4f01c7b94ff576b93bbad",
+            "source_span_utf8": {
+              "start": 4524,
+              "end": 4595
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "7e6361947422c22bfee4d83507711fc4174fb12005b3058961680d54b04d043c"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F21-0",
+          "claim": {
+            "claim_id": "F21",
+            "text": "os autos da ação civil pública de 2011 sobre a pulverização aérea na\n    Chapada do Apodi, na Justiça Federal",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:119-120",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fontes secundárias (Fiocruz; Revista de Direito Sanitário): 15ª Vara Federal, Limoeiro do Norte.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "b1b18bbff37adafea80e5e7ec5f17c1fffa581d1fdeead3fe1ae921a9dc2779c"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F22-0",
+          "claim": {
+            "claim_id": "F22",
+            "text": "O plano de análise de cada\nestágio será escrito e versionado antes da respectiva estimação",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:215-216",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "MINOR_DISTORTION",
+          "detail": "A ordem plano-estimação se sustenta, mas o futuro omite o que o repositório registra: o plano do estágio 1 foi fechado em 21/09/2026 e uma estimação com esta mesma especificação já foi rodada (docs/pre-especificacao.md, seções 0 e 8). Ver IL-MEDIUM-1 da rodada 2.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "6b50cbbf0f9df951bc869ef926f764afe331e49b77046780df669314b1eb54f9"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G08-1",
+          "claim": {
+            "claim_id": "G08",
+            "text": "Como a lei estadual de 1993\nautoriza os municípios a legislar supletivamente",
+            "paper_locator": "paper/projeto/secoes/06-dados.tex:52-53",
+            "selection_tier": "TOP-UP"
+          },
+          "source": {
+            "ref_slug": "ceara1993lei12228",
+            "display_label": "Ceará 1993, lei estadual consolidada, Lei 12.228 de 09/12/1993 (texto da ALECE)",
+            "source_content_sha256": "34a5ab2bc92a0b7cce46a01947293f4bb5dd1fe26935eb7bad08dda8b52c7f7a",
+            "source_content_utf8_bytes": 24178,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 29",
+            "value_decoded": "art. 29"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Art. 29.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "1b587045db438e3fab49abb18f92cea80c62fb7b2f77e497fb09154d773487ca"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Compete aos municípios legislarem supletivamente sobre o uso e o armazenamento dos agrotóxicos",
+            "excerpt_sha256": "ee2deb65704bbbb14e114d57adb86d67058034a46c76a678e4317bb67b1a70c6",
+            "source_span_utf8": {
+              "start": 14885,
+              "end": 14981
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "d959e3ad70d94fef354177e9f21d486fbb0560283d5a20ef0582099b1ac32ed2"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-G09-0",
+          "claim": {
+            "claim_id": "G09",
+            "text": "há registro de uma,\nem Limoeiro do Norte, de 2009, dada como revogada em 2010",
+            "paper_locator": "paper/projeto/secoes/06-dados.tex:54-55",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": null,
+            "display_label": null,
+            "source_content_sha256": null,
+            "source_content_utf8_bytes": null,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "none",
+            "value_encoded": "",
+            "value_decoded": ""
+          },
+          "verdict": "VERIFIED",
+          "detail": "Fontes secundárias, como em F10 e F11.",
+          "content_handling": {
+            "contains_external_text": false,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "not_used",
+            "key_sha256": null
+          },
+          "excerpt": {
+            "state": "anchorless",
+            "text": null,
+            "excerpt_sha256": null,
+            "source_span_utf8": null,
+            "captured_at": null
+          },
+          "row_sha256": "fd65850d5926e66787896b35a1c00f34c0e0d73e003aee6de01a11c83e56cb26"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F24-1",
+          "claim": {
+            "claim_id": "F24",
+            "text": "Pesquisas dessa natureza não são submetidas ao\nsistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de\nSaúde \\cite{cns2016res510}",
+            "paper_locator": "paper/projeto/secoes/06-dados.tex:76-78",
+            "selection_tier": "HIGH-IMPACT"
+          },
+          "source": {
+            "ref_slug": "cns2016res510",
+            "display_label": "Conselho Nacional de Saúde 2016, resolução, Resolução 510 de 07/04/2016",
+            "source_content_sha256": "113739d5b821d8a0edab80ee22d02a2fa7fdedc3fabae5f8d108b2ed20cb604d",
+            "source_content_utf8_bytes": 31760,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 1º, parágrafo único",
+            "value_decoded": "art. 1º, parágrafo único"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Art. 1º, parágrafo único, II e V.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "4cdb56b06f7ae674ef848947b7ca121bef654e467b6846ba56dda55656a0197a"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Não serão registradas nem avaliadas pelo sistema CEP/CONEP",
+            "excerpt_sha256": "5117d1a61df12d031006b644f623768b8500e292cd9d1d2badc7849ba9b08a4d",
+            "source_span_utf8": {
+              "start": 3236,
+              "end": 3296
+            },
+            "captured_at": "2026-11-15T22:01:32Z"
+          },
+          "row_sha256": "ad1eeb7a644217537429623397161c59ce744056b20465be30ab52a163c40d31"
+        }
+      ]
+    }
+  }
+}

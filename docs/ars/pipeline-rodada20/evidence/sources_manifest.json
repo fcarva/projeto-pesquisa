@@ -1,0 +1,212 @@
+{
+  "bocker2020glyphosate": {
+    "file": "sources/bocker2020glyphosate.txt",
+    "sha256": "30ce3a64e81e5f7b833dfcf37c7d0df9f5ef4e84428c186a15ebeaa4e2f6a22d",
+    "utf8_bytes": 1112,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Böcker et al. 2020, artigo, doi:10.1093/erae/jby050"
+  },
+  "brasil2002decreto4074": {
+    "file": "sources/brasil2002decreto4074.txt",
+    "sha256": "eae05f5c9656a5ab3f1147d012a9749ffb3474714e84466e0e677aba012e0170",
+    "utf8_bytes": 148,
+    "provenance": "uma alínea do art. 66, IV, transcrita do trecho devolvido pela ferramenta de busca (planalto.gov.br/ccivil_03/decreto/2002/D4074.htm) na rodada 1; não é o documento integral",
+    "display_label": "Brasil 2002, decreto, Decreto 4.074 de 04/01/2002"
+  },
+  "buckles2013season": {
+    "file": "sources/buckles2013season.txt",
+    "sha256": "2992b750a816c99a1eccfc29e4836f9828fd2324ca731a4ebee8f3e23171e024",
+    "utf8_bytes": 753,
+    "provenance": "resumo reconstruído do índice invertido da API do OpenAlex, 2026-11-15",
+    "display_label": "Buckles e Hungerman 2013, artigo, doi:10.1162/REST_a_00314"
+  },
+  "callaway2021multiple": {
+    "file": "sources/callaway2021multiple.txt",
+    "sha256": "87034f49a38408950102b0fde0bdd868d5d859ebb480c5b20b7320662c293d77",
+    "utf8_bytes": 52,
+    "provenance": "só o título, dos metadados do Crossref; resumo e texto não obtidos",
+    "display_label": "Callaway e Sant'Anna 2021, artigo, doi:10.1016/j.jeconom.2020.12.001"
+  },
+  "callaway2024continuous": {
+    "file": "sources/callaway2024continuous.txt",
+    "sha256": "ca39b04e7c919b54ba87d25d4f56a93e4d1a2121f93fb64a952eae634c311ff3",
+    "utf8_bytes": 178067,
+    "provenance": "NBER Working Paper 32117, PDF convertido com pdftotext, 2026-11-15",
+    "display_label": "Callaway, Goodman-Bacon e Sant'Anna 2024, texto para discussão, doi:10.3386/w32117"
+  },
+  "calzada2023bananas": {
+    "file": "sources/calzada2023bananas.txt",
+    "sha256": "32f7620d1091d251b34b340e9105d9e8ff24671dbdf965e18f0398409ae95a1d",
+    "utf8_bytes": 1020,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Calzada, Gisbert e Moscoso 2023, artigo, doi:10.1086/725349"
+  },
+  "camacho2017health": {
+    "file": "sources/camacho2017health.txt",
+    "sha256": "fb37738c6ac0f82a0acfcde45d05b30c8705b626dd181b859c59e9a419250f7b",
+    "utf8_bytes": 862,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Camacho e Mejía 2017, artigo, doi:10.1016/j.jhealeco.2017.04.005"
+  },
+  "cameron2008wild": {
+    "file": "sources/cameron2008wild.txt",
+    "sha256": "f416b27d9a62869440781ab7c8fc9f2290238d3944f6c494a4451f26d7526ced",
+    "utf8_bytes": 746,
+    "provenance": "resumo reconstruído do índice invertido da API do OpenAlex, 2026-11-15",
+    "display_label": "Cameron, Gelbach e Miller 2008, artigo, doi:10.1162/rest.90.3.414"
+  },
+  "ceara1993lei12228": {
+    "file": "sources/ceara1993lei12228.txt",
+    "sha256": "34a5ab2bc92a0b7cce46a01947293f4bb5dd1fe26935eb7bad08dda8b52c7f7a",
+    "utf8_bytes": 24178,
+    "provenance": "cópia no repositório: docs/legislacao/lei-12228-1993-consolidada.md",
+    "display_label": "Ceará 1993, lei estadual consolidada, Lei 12.228 de 09/12/1993 (texto da ALECE)"
+  },
+  "ceara2015pl18": {
+    "file": "sources/ceara2015pl18.txt",
+    "sha256": "1f7bbcf63e29a088b0e925fbeb2b6a4eaf3d25b798bfab7c1abadf19bf581abe",
+    "utf8_bytes": 14862,
+    "provenance": "cópia no repositório: docs/legislacao/pl-18-2015.md",
+    "display_label": "Ceará, Assembleia Legislativa 2015, projeto de lei, PL 18/2015 (texto da ALECE)"
+  },
+  "ceara2019lei16820": {
+    "file": "sources/ceara2019lei16820.txt",
+    "sha256": "84f8ebb3483fd84ff19879d31c2b606cb7fa46499ca6e006caec600dc0dde3ee",
+    "utf8_bytes": 1673,
+    "provenance": "cópia no repositório: docs/legislacao/lei-16820-2019.md",
+    "display_label": "Ceará 2019, lei estadual, Lei 16.820 de 08/01/2019 (texto da ALECE)"
+  },
+  "ceara2024lei19135": {
+    "file": "sources/ceara2024lei19135.txt",
+    "sha256": "6787bc6f7cc6ca7587a9229c6e27079e6d598477b26c94414bdfec6f73d87f3e",
+    "utf8_bytes": 2371,
+    "provenance": "www2.al.ce.gov.br/legislativo/legislacao5/leis2024/19135.htm, HTML com marcação removida, 2026-11-15",
+    "display_label": "Ceará 2024, lei estadual, Lei 19.135 de 19/12/2024 (texto da ALECE)"
+  },
+  "chernozhukov2021conformal": {
+    "file": "sources/chernozhukov2021conformal.txt",
+    "sha256": "ae2b438f21cae1dc1b341b81f2970a9f487d97730b2e180bbc52f2539d7126e1",
+    "utf8_bytes": 1089,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Chernozhukov, Wüthrich e Zhu 2021, artigo, doi:10.1080/01621459.2021.1920957"
+  },
+  "cns2016res510": {
+    "file": "sources/cns2016res510.txt",
+    "sha256": "113739d5b821d8a0edab80ee22d02a2fa7fdedc3fabae5f8d108b2ed20cb604d",
+    "utf8_bytes": 31760,
+    "provenance": "PDF da página do Conselho Nacional de Saúde (gov.br), convertido com pdftotext, 2026-11-15",
+    "display_label": "Conselho Nacional de Saúde 2016, resolução, Resolução 510 de 07/04/2016"
+  },
+  "conley2011": {
+    "file": "sources/conley2011.txt",
+    "sha256": "1892e258c85d2ef2124934b8eb6bb8625f459a6a2afd8ea2dbe3642838d08b3d",
+    "utf8_bytes": 699,
+    "provenance": "resumo reconstruído do índice invertido da API do OpenAlex, 2026-11-15",
+    "display_label": "Conley e Taber 2011, artigo, doi:10.1162/rest_a_00049"
+  },
+  "currie2013within": {
+    "file": "sources/currie2013within.txt",
+    "sha256": "8557a3bc6c9952841e038c9e9b9c9e7fae2dae1b2601d285f4f66de95703e6bd",
+    "utf8_bytes": 1601,
+    "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
+    "display_label": "Currie e Schwandt 2013, artigo, doi:10.1073/pnas.1307582110"
+  },
+  "dechaisemartin2020": {
+    "file": "sources/dechaisemartin2020.txt",
+    "sha256": "69462b7da7253d9c099e4b3f649d709503fa82477f5ef28f6e972c7906a297b1",
+    "utf8_bytes": 560,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "de Chaisemartin e D'Haultfoeuille 2020, artigo, doi:10.1257/aer.20181169"
+  },
+  "denteh2022misclassification": {
+    "file": "sources/denteh2022misclassification.txt",
+    "sha256": "5b31c63541dac2991cf0e3af6897af2f2213d8ec544d2a8d373d2f05f1173d84",
+    "utf8_bytes": 113968,
+    "provenance": "arXiv:2207.11890v3, PDF convertido com pdftotext -layout, 2026-11-15",
+    "display_label": "Denteh e Kédagni 2022, preprint, arXiv:2207.11890v3"
+  },
+  "dias2023down": {
+    "file": "sources/dias2023down.txt",
+    "sha256": "e76bdbcd4ffd99a376e480d283baba844c80545bbb99f4a56b35c339858e1871",
+    "utf8_bytes": 1011,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Dias, Rocha e Soares 2023, artigo, doi:10.1093/restud/rdad011"
+  },
+  "ferman2019inference": {
+    "file": "sources/ferman2019inference.txt",
+    "sha256": "38e642dfe5e3221ecc83a5508767420bc91d4a7e1a25e10bfd0f8aec047c62e5",
+    "utf8_bytes": 627,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Ferman e Pinto 2019, artigo, doi:10.1162/rest_a_00759"
+  },
+  "goodmanbacon2021": {
+    "file": "sources/goodmanbacon2021.txt",
+    "sha256": "5cadb948d6a19ff7ce17941ad2c2f37d32ba3165d9bdc8e9dbb67504d9097b2f",
+    "utf8_bytes": 726,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Goodman-Bacon 2021, artigo, doi:10.1016/j.jeconom.2021.03.014"
+  },
+  "helfand1995": {
+    "file": "sources/helfand1995.txt",
+    "sha256": "45dd0e02982d39355cb5d86cdbe44b5456fdfd67c2f0bea6dc9aa6bd1378beea",
+    "utf8_bytes": 720,
+    "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
+    "display_label": "Helfand e House 1995, artigo, doi:10.2307/1243825"
+  },
+  "ibge2006censoagro": {
+    "file": "sources/ibge2006censoagro.txt",
+    "sha256": "dd7cc3b2282ac0e379ad53e3f2834102c594fb4e21bbc3a679411eb782040386",
+    "utf8_bytes": 97163,
+    "provenance": "resposta JSON de apisidra.ibge.gov.br/values/t/1008/n6/in n3 23/v/2020/p/2006/c12596/113450, 2026-11-15",
+    "display_label": "IBGE, Censo Agropecuário 2006, tabela SIDRA 1008"
+  },
+  "larsen2017agricultural": {
+    "file": "sources/larsen2017agricultural.txt",
+    "sha256": "057151e3c3310bc83efe0c7046c6aaf77bd8a8eceaaa5c47e6145bb4fc0da238",
+    "utf8_bytes": 1388,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "Larsen, Gaines e Deschênes 2017, artigo, doi:10.1038/s41467-017-00349-2"
+  },
+  "lichtenberg1988": {
+    "file": "sources/lichtenberg1988.txt",
+    "sha256": "b22553d96c28aeecf8b2ee91f991e8eb518181ebdffdea799434fa50a127c797",
+    "utf8_bytes": 745,
+    "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
+    "display_label": "Lichtenberg, Parker e Zilberman 1988, artigo, doi:10.2307/1241928"
+  },
+  "mackinnon2018wild": {
+    "file": "sources/mackinnon2018wild.txt",
+    "sha256": "e12bf629884329441cca086ae590810eec0a14af076e00175b985182dcdc6731",
+    "utf8_bytes": 801,
+    "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
+    "display_label": "MacKinnon e Webb 2018, artigo, doi:10.1111/ectj.12107"
+  },
+  "mapa2008in2": {
+    "file": "sources/mapa2008in2.txt",
+    "sha256": "11ece444545077951c9c67c6674bfe4de4e0717bff8dd2ec1375fc39710a9c40",
+    "utf8_bytes": 39328,
+    "provenance": "normasbrasil.com.br/norma/instrucao-normativa-2-2008_76999.html (reprodução), marcação removida, 2026-11-15; o PDF oficial em gov.br foi lido na rodada 1 pela ferramenta de busca",
+    "display_label": "Brasil, MAPA 2008, instrução normativa, IN 2 de 03/01/2008"
+  },
+  "olden2022triple": {
+    "file": "sources/olden2022triple.txt",
+    "sha256": "256177c32574218360043e00e2711eba25a82ae136d5acddab6ecc099074aaef",
+    "utf8_bytes": 784,
+    "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
+    "display_label": "Olden e Møen 2022, artigo, doi:10.1093/ectj/utac010"
+  },
+  "reynier2025glyphosate": {
+    "file": "sources/reynier2025glyphosate.txt",
+    "sha256": "4751e876a74260bff60728790f0654662d62604b6c506eb2566a25a1b1178c0e",
+    "utf8_bytes": 92538,
+    "provenance": "texto completo (XML do Europe PMC, PMC11761964, marcação removida), 2026-11-15",
+    "display_label": "Reynier e Rubin 2025, artigo, doi:10.1073/pnas.2413013121"
+  },
+  "skevas2012": {
+    "file": "sources/skevas2012.txt",
+    "sha256": "2ff8e3de891a42ff6a3b6c62be75af6de0490dd3aef5e1c40ef5cbb6e41cac93",
+    "utf8_bytes": 1314,
+    "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
+    "display_label": "Skevas, Stefanou e Lansink 2012, artigo, doi:10.1111/j.1574-0862.2012.00581.x"
+  }
+}

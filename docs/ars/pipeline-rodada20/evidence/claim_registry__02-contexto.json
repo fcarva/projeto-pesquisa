@@ -1,0 +1,266 @@
+{
+  "schema_version": "claim-registry/1.0",
+  "draft_raw_sha256": "f7635ac7deb8b871fcc7effab1c5a0e19fbfaac376bbb6ba667ab0d5c393912e",
+  "claims": [
+    {
+      "claim_id": "F05",
+      "claim_text": "A Lei Estadual nº~16.820, sancionada em 8 de janeiro de 2019 e vigente desde o\ndia seguinte \\cite{ceara2019lei16820}, acrescentou o art.~28-B à Lei Estadual\nnº~12.228/1993 \\cite{ceara1993lei12228}, a norma cearense sobre agrotóxicos. O caput veda ``a pulverização aérea de agrotóxicos\nna agricultura no Estado do Ceará''; o §~2º estende a vedação à dispersão por\naeronave para controle vetorial.",
+      "draft_span": {
+        "start_byte": 255,
+        "end_byte": 665
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "ceara2019lei16820",
+        "ceara1993lei12228"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F06",
+      "claim_text": "alcança os 184 municípios na mesma data.",
+      "draft_span": {
+        "start_byte": 900,
+        "end_byte": 942
+      },
+      "claim_kinds": [
+        "quantitative"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "G01",
+      "claim_text": "precedida de proposição semelhante em 2011",
+      "draft_span": {
+        "start_byte": 1148,
+        "end_byte": 1192
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F07",
+      "claim_text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
+      "draft_span": {
+        "start_byte": 2315,
+        "end_byte": 2463
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F08",
+      "claim_text": "Em dezembro de 2024,\na Lei nº~19.135 \\cite{ceara2024lei19135} deu nova redação ao artigo e abriu exceção para aeronaves\nremotamente pilotadas.",
+      "draft_span": {
+        "start_byte": 1312,
+        "end_byte": 1459
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "ceara2024lei19135"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F09",
+      "claim_text": "09/12/1993 & Lei Estadual nº 12.228",
+      "draft_span": {
+        "start_byte": 1804,
+        "end_byte": 1840
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F10",
+      "claim_text": "20/11/2009 & Limoeiro do Norte proíbe a pulverização aérea por lei municipal (Lei nº 1.478).",
+      "draft_span": {
+        "start_byte": 1886,
+        "end_byte": 1983
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F11",
+      "claim_text": "Em maio, a lei municipal é revogada (Lei nº 1.511).",
+      "draft_span": {
+        "start_byte": 2037,
+        "end_byte": 2090
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F12",
+      "claim_text": "Notícia de proibição da prática na Chapada do Apodi (março); ação civil pública do Ministério Público",
+      "draft_span": {
+        "start_byte": 2101,
+        "end_byte": 2212
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "G02",
+      "claim_text": "projeto de lei estadual com o mesmo objeto (julho)",
+      "draft_span": {
+        "start_byte": 2215,
+        "end_byte": 2265
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "C08",
+      "claim_text": "No análogo equatoriano, elas\nse intensificam na estação chuvosa, quando a pressão da doença aumenta\n\\cite{calzada2023bananas}",
+      "draft_span": {
+        "start_byte": 3342,
+        "end_byte": 3472
+      },
+      "claim_kinds": [
+        "trend"
+      ],
+      "ref_slugs": [
+        "calzada2023bananas"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "C09",
+      "claim_text": "A tabela de análises de água\nreproduzida na justificativa do Projeto de Lei nº~18/2015, atribuída ao Dossiê\nABRASCO \\cite{ceara2015pl18}, registra 23 pontos de coleta na Chapada em 2009: o fungicida\nprocimidona e o inseticida carbaril aparecem em todos, carbofurano em 18,\nfenitrotiona em 16 e glifosato em apenas 4.",
+      "draft_span": {
+        "start_byte": 3694,
+        "end_byte": 4015
+      },
+      "claim_kinds": [
+        "quantitative"
+      ],
+      "ref_slugs": [
+        "ceara2015pl18"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F13",
+      "claim_text": "No Ceará eram 36 estabelecimentos, em 7 dos 184 municípios\n\\cite{ibge2006censoagro}",
+      "draft_span": {
+        "start_byte": 4470,
+        "end_byte": 4555
+      },
+      "claim_kinds": [
+        "quantitative"
+      ],
+      "ref_slugs": [
+        "ibge2006censoagro"
+      ],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "G03",
+      "claim_text": "a bananicultura está presente na maior parte do estado: a maioria\ndos municípios com a cultura não tinha registro de avião.",
+      "draft_span": {
+        "start_byte": 4625,
+        "end_byte": 4752
+      },
+      "claim_kinds": [
+        "quantitative"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    }
+  ]
+}

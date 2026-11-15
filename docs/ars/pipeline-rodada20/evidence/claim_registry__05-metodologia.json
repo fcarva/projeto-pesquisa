@@ -1,0 +1,166 @@
+{
+  "schema_version": "claim-registry/1.0",
+  "draft_raw_sha256": "ec4d152335544b4b446711297845dd052f9824ea46355734210264feb240574f",
+  "claims": [
+    {
+      "claim_id": "F17",
+      "claim_text": "a colheita responde à seca de 2012--2017",
+      "draft_span": {
+        "start_byte": 2721,
+        "end_byte": 2762
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "G05",
+      "claim_text": "a proibição foi proposta em projetos de lei de\n2011 e de 2015",
+      "draft_span": {
+        "start_byte": 3032,
+        "end_byte": 3095
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "G06",
+      "claim_text": "ela não elimina o problema, porque também é posterior à\nprimeira proposição, e reduz o número de municípios sem a cultura",
+      "draft_span": {
+        "start_byte": 3244,
+        "end_byte": 3373
+      },
+      "claim_kinds": [
+        "quantitative",
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "G07",
+      "claim_text": "o estimador centra o nível\ndo efeito na variação desse grupo",
+      "draft_span": {
+        "start_byte": 4722,
+        "end_byte": 4785
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "F18",
+      "claim_text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com\n    município, cultura, área aplicada e produto, mês a mês",
+      "draft_span": {
+        "start_byte": 6334,
+        "end_byte": 6525
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "mapa2008in2"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F19",
+      "claim_text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
+      "draft_span": {
+        "start_byte": 6535,
+        "end_byte": 6636
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "brasil2002decreto4074"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F20",
+      "claim_text": "o cadastro estadual de prestadores de serviço de aplicação (Lei\n    nº~12.228/1993), sob guarda do órgão ambiental estadual",
+      "draft_span": {
+        "start_byte": 6707,
+        "end_byte": 6836
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "ceara1993lei12228"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F21",
+      "claim_text": "os autos da ação civil pública de 2011 sobre a pulverização aérea na\n    Chapada do Apodi, na Justiça Federal",
+      "draft_span": {
+        "start_byte": 6846,
+        "end_byte": 6962
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "F22",
+      "claim_text": "O plano de análise de cada\nestágio será escrito e versionado antes da respectiva estimação",
+      "draft_span": {
+        "start_byte": 12040,
+        "end_byte": 12135
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    }
+  ]
+}

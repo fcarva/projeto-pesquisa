@@ -1,0 +1,61 @@
+{
+  "schema_version": "claim-registry/1.0",
+  "draft_raw_sha256": "d6cb31c7483c419fce2bb8c452ea23e50a36e5856b8393b8f90c2e61ae11bbd7",
+  "claims": [
+    {
+      "claim_id": "G08",
+      "claim_text": "Como a lei estadual de 1993\nautoriza os municípios a legislar supletivamente",
+      "draft_span": {
+        "start_byte": 2744,
+        "end_byte": 2821
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "ceara1993lei12228"
+      ],
+      "writer_anchors": [],
+      "paper_section": "6 Dados",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "G09",
+      "claim_text": "há registro de uma,\nem Limoeiro do Norte, de 2009, dada como revogada em 2010",
+      "draft_span": {
+        "start_byte": 2903,
+        "end_byte": 2981
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "6 Dados",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F24",
+      "claim_text": "Pesquisas dessa natureza não são submetidas ao\nsistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de\nSaúde \\cite{cns2016res510}",
+      "draft_span": {
+        "start_byte": 4312,
+        "end_byte": 4470
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "cns2016res510"
+      ],
+      "writer_anchors": [],
+      "paper_section": "6 Dados",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    }
+  ]
+}

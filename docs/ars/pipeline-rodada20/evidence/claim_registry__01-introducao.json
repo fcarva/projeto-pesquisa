@@ -1,0 +1,262 @@
+{
+  "schema_version": "claim-registry/1.0",
+  "draft_raw_sha256": "b5ac6c2939e59739646032841dce024195c13a2f9fae270ac4e76720787ba473",
+  "claims": [
+    {
+      "claim_id": "F01",
+      "claim_text": "Em abril de 2010, José Maria Filho, o Zé Maria do Tomé, foi assassinado na\nChapada do Apodi, no interior do Ceará.",
+      "draft_span": {
+        "start_byte": 262,
+        "end_byte": 380
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "numerical"
+      ]
+    },
+    {
+      "claim_id": "F02",
+      "claim_text": "Nove anos depois, o Ceará proibiu a\nprática em todo o território, na primeira proibição estadual do gênero no\nBrasil, e deu à lei o nome do homem assassinado (Lei Estadual\nnº~16.820/2019).",
+      "draft_span": {
+        "start_byte": 695,
+        "end_byte": 891
+      },
+      "claim_kinds": [
+        "categorical",
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "headline_conclusion"
+      ]
+    },
+    {
+      "claim_id": "C01",
+      "claim_text": "\\citeonline{dias2023down} exploram a expansão da soja transgênica no Brasil,\ncombinada à direção do fluxo d'água dentro das bacias, e documentam piora dos\ndesfechos ao nascer nas populações a jusante.",
+      "draft_span": {
+        "start_byte": 2078,
+        "end_byte": 2286
+      },
+      "claim_kinds": [
+        "causal"
+      ],
+      "ref_slugs": [
+        "dias2023down"
+      ],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "causal"
+      ]
+    },
+    {
+      "claim_id": "C02",
+      "claim_text": "\\citeonline{reynier2025glyphosate}\nreplicam a lógica nos Estados Unidos, com aptidão agroclimática como fonte de\nvariação, e encontram redução do peso ao nascer e da duração da gestação,\nconcentrada na cauda inferior da distribuição de peso esperado.",
+      "draft_span": {
+        "start_byte": 2287,
+        "end_byte": 2550
+      },
+      "claim_kinds": [
+        "causal"
+      ],
+      "ref_slugs": [
+        "reynier2025glyphosate"
+      ],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "headline_conclusion",
+        "causal"
+      ]
+    },
+    {
+      "claim_id": "C03",
+      "claim_text": "\\citeonline{larsen2017agricultural} mostram, na Califórnia, que os efeitos\nadversos aparecem apenas entre os expostos ao topo da distribuição de uso de\nagrotóxicos",
+      "draft_span": {
+        "start_byte": 2551,
+        "end_byte": 2718
+      },
+      "claim_kinds": [
+        "causal"
+      ],
+      "ref_slugs": [
+        "larsen2017agricultural"
+      ],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "causal"
+      ]
+    },
+    {
+      "claim_id": "C04",
+      "claim_text": "\\citeonline{camacho2017health} avaliam as consequências sanitárias da aspersão\naérea de herbicida sobre cultivos ilícitos na Colômbia.",
+      "draft_span": {
+        "start_byte": 2859,
+        "end_byte": 2999
+      },
+      "claim_kinds": [
+        "causal"
+      ],
+      "ref_slugs": [
+        "camacho2017health"
+      ],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "causal"
+      ]
+    },
+    {
+      "claim_id": "C05",
+      "claim_text": "\\citeonline{calzada2023bananas} estudam a fumigação aérea de bananais no\nEquador e relatam déficit de peso ao nascer entre recém-nascidos de mães\nexpostas, associado à coincidência entre o início da gestação e os períodos de fumigação\nintensa.",
+      "draft_span": {
+        "start_byte": 3000,
+        "end_byte": 3257
+      },
+      "claim_kinds": [
+        "causal"
+      ],
+      "ref_slugs": [
+        "calzada2023bananas"
+      ],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "C06",
+      "claim_text": "Este último é o análogo mais próximo do caso\ncearense: mesma cultura, mesmo método, mesma classe de produto.",
+      "draft_span": {
+        "start_byte": 3258,
+        "end_byte": 3371
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [
+        "calzada2023bananas"
+      ],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "C07",
+      "claim_text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
+      "draft_span": {
+        "start_byte": 3468,
+        "end_byte": 3672
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "weitzman1974",
+        "lichtenberg1988",
+        "helfand1995",
+        "bocker2020glyphosate"
+      ],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "TOP-UP"
+    },
+    {
+      "claim_id": "F03",
+      "claim_text": "A lei cearense foi contestada no\nSupremo Tribunal Federal e declarada constitucional, o que assentou a\ncompetência dos estados para legislar sobre a matéria; em 2024 o próprio Ceará\nflexibilizou a regra para admitir drones, e a nova redação voltou a ser\nquestionada na Corte.",
+      "draft_span": {
+        "start_byte": 3957,
+        "end_byte": 4238
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "headline_conclusion"
+      ]
+    },
+    {
+      "claim_id": "F04",
+      "claim_text": "que o Supremo Tribunal Federal julgou constitucional em 2023 (ADI~6137)",
+      "draft_span": {
+        "start_byte": 4955,
+        "end_byte": 5026
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "HIGH-IMPACT",
+      "high_impact_basis": [
+        "headline_conclusion"
+      ]
+    },
+    {
+      "claim_id": "N01",
+      "claim_text": "na primeira proibição estadual do gênero no\nBrasil",
+      "draft_span": {
+        "start_byte": 764,
+        "end_byte": 817
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "NOT-SELECTED"
+    },
+    {
+      "claim_id": "N02",
+      "claim_text": "praticamente não há evidência causal no país",
+      "draft_span": {
+        "start_byte": 1359,
+        "end_byte": 1407
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "NOT-SELECTED"
+    },
+    {
+      "claim_id": "N03",
+      "claim_text": "registros administrativos nunca\nexplorados para esse fim",
+      "draft_span": {
+        "start_byte": 5303,
+        "end_byte": 5359
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "NOT-SELECTED"
+    }
+  ]
+}

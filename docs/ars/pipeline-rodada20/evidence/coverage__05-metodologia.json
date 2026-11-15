@@ -1,0 +1,51 @@
+{
+  "candidate_unregistered_count": 1,
+  "candidates": [
+    {
+      "candidate_id": "CAND-B7712-7755-ee65f1c85022",
+      "candidate_kinds": [
+        "citation_bearing_sentence"
+      ],
+      "coverage_state": "candidate_unregistered",
+      "end_byte": 7755,
+      "line": 136,
+      "matched_claim_ids": [],
+      "sentence_index": 2,
+      "start_byte": 7712,
+      "text": "Seja $P_t \\in [0,1]$ a fração do primeiro",
+      "triggers": [
+        {
+          "coverage_state": "trigger_unregistered",
+          "end_byte": 7731,
+          "kind": "citation_bearing_sentence",
+          "matched_claim_ids": [],
+          "start_byte": 7726,
+          "text": "[0,1]",
+          "trigger_id": "TRIG-B7726-7731-48321ea7d852"
+        }
+      ],
+      "uncovered_trigger_count": 1
+    }
+  ],
+  "draft_raw_sha256": "ec4d152335544b4b446711297845dd052f9824ea46355734210264feb240574f",
+  "mechanical_candidate_scope": [
+    "citation_bearing_sentence",
+    "quantitative_sentence"
+  ],
+  "registered_claims_outside_candidate_classes": [
+    "F17",
+    "F18",
+    "F19",
+    "F20",
+    "F21",
+    "F22",
+    "G05",
+    "G06",
+    "G07"
+  ],
+  "registry_claim_count": 9,
+  "registry_raw_sha256": "ab69d26ac231dabedcb36c0dd13fc04eb2663a82cbfc9556cbbcb71bc7ee6c96",
+  "registry_schema_version": "claim-registry/1.0",
+  "schema_version": "claim-registry-coverage/1.0",
+  "semantic_extraction_coverage": "not_machine_detectable"
+}
