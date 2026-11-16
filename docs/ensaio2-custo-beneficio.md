@@ -41,7 +41,7 @@ custo total, por ano, para os municípios tratados.
 |---|---|---|---|
 | Saúde ao nascer | ATT sobre peso ao nascer (g) e sobre baixo peso (p.p.) × nascimentos nos tratados | valor de um grama a mais ao nascer, ou custo evitado por caso de baixo peso | ⬜ a escolher e verificar: literatura de retornos ao peso ao nascer; custo hospitalar neonatal do SIH |
 | Óbito fetal e infantil | ATT × nascimentos, se houver efeito | valor estatístico da vida usado para o Brasil | Dias, Rocha & Soares (2023) valoram assim a externalidade do glifosato; ⬜ localizar a fonte do VSL que eles usam |
-| Intoxicação aguda | ATT sobre casos notificados (pode ser **negativo**: ver §2.3) | US$ 129–740 de custo hospitalar e US$ 131–358 de dias parados, por caso | Soares & Porto (2012), como citados em Rodrigues (2022, p. 49); ⬜ ler o original e atualizar os valores |
+| Intoxicação aguda | ATT sobre casos notificados (pode ser **negativo**: ver §2.3) | **reestimar com o SIH do Ceará e do RN**: valor médio da internação e dias de permanência nos códigos de intoxicação por agrotóxico, mais a diária rural local | os valores publicados são do Paraná em 1998/99 e servem de método e ordem de grandeza: US$ 787,97 por caso hospitalizado (Soares & Porto 2009, lido); cenários de US$ 260 a US$ 1.098 (Soares & Porto 2012, lido) |
 
 A decomposição de Harrington & Portney (1987), que Rodrigues (2022) usa,
 organiza a conta: disposição a pagar = dano à saúde + gasto preventivo + gasto
@@ -53,16 +53,20 @@ deve dizer que o benefício calculado é um **piso**.
 | componente | quantidade | fonte |
 |---|---|---|
 | Produção perdida | ATT sobre área colhida, produção e valor da banana (PAM) | Ensaio 1 |
-| Custo adicional de controle | diferença de custo entre aplicação aérea e terrestre, por hectare | planilha da Conab (`12_clean_conab_custos.py`): a operação aérea é ~1,5% do custo total da banana; depoimentos de produtores (25 L/ha por avião contra 250–300 L/ha manual) |
+| Custo adicional de controle | diferença de custo entre aplicação aérea e terrestre, por hectare | planilha da Conab (`12_clean_conab_custos.py`): a operação aérea é ~1,5% do custo total da banana; em 2009 o voo custava R$ 135/ha ao produtor parceiro (Marinho et al. 2011, p. 171); depoimentos de produtores (25 L/ha por avião contra 250–300 L/ha manual) |
 | Emprego | ATT sobre vínculos formais na agricultura (RAIS/CAGED) | Ensaio 1. O sinal é ambíguo: a aplicação manual emprega mais gente |
 
 Há duas afirmações em conflito sobre o custo, e o Ensaio 1 arbitra entre elas:
 
 - Os produtores, na ADI 6137 e na imprensa, dizem que sem o avião o controle da
   sigatoka fica "ruim e muito mais caro".
-- Uma nota técnica do Grupo Territórios do Semiárido (UFRN, 2022), citada por
-  Reges (2023, p. 178), afirma que produção e produtividade **aumentaram** nos
-  três anos seguintes. ⬜ Obter e ler.
+- A nota técnica de Cavalcante (2022, UFRN), lida na íntegra, mostra que
+  produção, rendimento e exportação **subiram** depois de 2018. Os dados
+  conferem com a PAM; a comparação parte do fundo de uma seca e não tem grupo
+  de comparação (`leituras-segunda-rodada.md` §5).
+- Há ainda um terceiro caso possível: se os voos já tinham parado em 2012, a
+  lei não custou nada porque não removeu nada. Aí o custo-benefício relevante é
+  o do fim dos voos em 2012, e o da lei é o de impedir a retomada.
 
 Nenhuma das duas tem grupo de comparação. O DiD da PAM entre os dois lados da
 Chapada é a primeira estimativa com contrafactual.
@@ -72,7 +76,8 @@ Chapada é a primeira estimativa com contrafactual.
 Proibir o método não proíbe a molécula. Se o produtor troca o avião pelo
 pulverizador costal, a exposição ambiental cai e a ocupacional pode subir: mais
 calda, mais trabalhadores, e o costal é fator de risco de intoxicação
-documentado (Soares, Freitas & Coutinho 2005, via Rodrigues 2022). O efeito
+plausível, ainda que mal medido (Soares, Freitas & Coutinho 2005 têm 15 casos;
+o argumento de mecanismo está em Valadares et al. 2020). O efeito
 sobre intoxicação no SINAN pode, portanto, ser positivo. Nesse caso entra na
 conta como **custo**, e é o achado mais informativo para a segunda pergunta.
 
@@ -110,7 +115,7 @@ plano anterior, aplicada a números que o desenho de fato produz.
 | fato | fonte | o que diz sobre o instrumento |
 |---|---|---|
 | Já existia zona-tampão: 500 m de povoações e 250 m de mananciais | IN MAPA 2/2008, art. 10 | a alternativa "regular em vez de proibir" foi tentada. A literatura da Chapada descreve descumprimento sistemático (Marinho 2010; parecer do Tramas 2016). A proibição é mais barata de fiscalizar: avião no ar é infração |
-| O instrumento-preço opera com sinal trocado: R$ 9,8 bilhões de desoneração em 2017, R$ 6,2 bilhões de ICMS | Cunha & Soares (2020) | antes de discutir taxa pigouviana, há um subsídio a retirar. É a matéria da ADI 5553 (`docs/legislacao/adi-5553-7755-tributacao.md`) |
+| O instrumento-preço opera com sinal trocado: R$ 9,86 bilhões de desoneração em 2017, R$ 6,22 bilhões de ICMS. **Ceará: R$ 7,6 milhões; RN: R$ 12,5 milhões**, os dois com isenção nas operações internas | Cunha & Soares (2020), Tabs. 2 e 3, lido | antes de discutir taxa pigouviana, há um subsídio a retirar. É a matéria da ADI 5553 (`docs/legislacao/adi-5553-7755-tributacao.md`). Os próprios autores reconhecem que a demanda responde pouco a preço no curto prazo, o que pesa contra a taxa como substituto da proibição |
 | No Nordeste o real marginal de agrotóxico rende R$ 1,35; no Sul, R$ 0,10 | Rodrigues (2022), cap. 3 | uma taxa uniforme custaria produção no Nordeste e quase nada no Sul. Instrumento nacional de preço é mal calibrado para a região do estudo. ⚠️ Média de municípios de sequeiro; não descreve a fruticultura irrigada |
 | Crédito rural aumenta o sobreuso | Rodrigues (2022), cap. 3; Rodrigues, Fortini & Neves (2023) | há um terceiro instrumento, o condicionamento do crédito, que a discussão proibir × taxar ignora |
 | Controle biológico eleva a eficiência no país e não no Nordeste, onde 0,51% dos estabelecimentos adotam | Rodrigues, Fortini & Neves (2023) | a substituição tecnológica "limpa" não está disponível na região no curto prazo; o substituto real do avião é o costal |

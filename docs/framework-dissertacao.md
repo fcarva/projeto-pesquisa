@@ -196,6 +196,12 @@ municípios potiguares da Chapada compartilham com os cearenses o clima, o
 aquífero, as culturas e parte das empresas, e ficaram sob o regime federal
 anterior (IN MAPA 2/2008) durante toda a janela.
 
+Conferido em 2026-11-16 (`docs/leituras-segunda-rodada.md` §2): não há lei
+estadual potiguar de proibição; um projeto apresentado em novembro de 2019 não
+virou lei; nenhum estado vizinho do Ceará mudou de regime até 2024. Há um
+relato de imprensa de aviões operando do lado potiguar até a divisa depois de
+2019, o que reforça a sensibilidade sem os municípios de fronteira imediata.
+
 Quanto avião havia do lado potiguar muda a leitura do contraste, não a sua
 validade. Se pulverizava e continuou, o DiD compara "parou" com "continuou". Se
 quase não pulverizava, compara "parou" com "nunca fez", e o controle informa a
@@ -226,13 +232,30 @@ lei reduziu a área aplicada por avião de X para zero nos municípios tratados,
 o lado potiguar seguiu como estava. Sem eles, o desenho continua válido como
 efeito de estar sob a lei; com eles, ganha a medida do que a lei removeu.
 
+⚠️ **Atualizado em 2026-11-16, depois da segunda rodada de leituras**
+(`docs/leituras-segunda-rodada.md` §3). Três fontes independentes, entre elas
+Raquel Rigotto em outubro de 2016, dizem que a pulverização aérea na Chapada
+**parou por volta de 2012, com a seca**. Se for assim, a exposição não muda em
+2019, e o contraste que os dados contêm está em 2012. O mesmo desenho de
+fronteira serve aos dois casos; o que muda é o início do pré-período:
+
+| cenário | o que a lei fez | o que se estima |
+|---|---|---|
+| **A.** havia voo em 2015–2018 | removeu exposição em curso | o ATT de 2019, como planejado |
+| **B.** o voo parou em 2012 | impediu a retomada quando as chuvas voltaram | **dois contrastes**, com pré-período desde 2005: o de 2012 (fim dos voos no lado cearense, seca comum aos dois lados) e o de 2019 (a lei acrescentou algo?) |
+
+⬜ **Decisão do orientador:** pré-especificar os dois cenários antes de o
+registro do MAPA chegar, para a escolha não ser feita depois de ver resultado.
+
 Enquanto os registros não chegam, o que se sabe é isto:
 
 | evidência | fonte | sentido |
 |---|---|---|
 | Em março de 2011 a Comissão Nacional de Combate à Violência no Campo anunciou a proibição na Chapada; em julho de 2011 MPF, MPT e MPCE pediram a proibição à Justiça Federal | SDH via SINAIT (15/03/2011); MPT-CE (07/07/2011) | a prática pode ter parado. ⬜ desfecho da ação desconhecido |
 | "A partir de 2012 não houve novas aplicações [na comunidade do Tomé] devido à baixa intensidade das chuvas" | moradora, Agência Brasil (16/07/2016) | a seca de 2012–2017 reduziu a sigatoka e, com ela, os voos |
-| "Até 2018 fazia duas aplicações aéreas anuais"; outro produtor, com 300 ha na Chapada, descreve a troca do avião pela aplicação manual depois da lei | produtores, Globo Rural (09/04/2021) | a prática existia até a lei, em intensidade baixa |
+| Produtor com 300 ha na Chapada descreve a troca do avião pela aplicação manual e diz que a pulverização "é necessária apenas quando chove", sem datar o último voo. (O "até 2018 fazia duas aplicações aéreas anuais" da mesma matéria é de um produtor do **Cariri**, não da Chapada: corrigido em 2026-11-16) | Globo Rural (09/04/2021) | compatível com os dois cenários |
+| "Atualmente, a pulverização aérea não tem acontecido na região em função da seca" | Raquel Rigotto, entrevista ao IHU, 06/10/2016 | **a favor do cenário B**, e vem de quem mais estudou a região |
+| Em 2009, contrato de 1.000 ha (820 de duas empresas, 180 de vinte parceiros); primeira aplicação do ano em 637 ha, 29 voos em cinco dias | Marinho, Carneiro & Almeida (2011), p. 171–173, com planilha da empresa | a medida observada da área; os "4 milhões de litros" são teto calculado |
 | Limoeiro, Quixeré e Russas são "os principais em que a pulverização aérea **ocorre** no Ceará" (presente, em junho de 2016) | parecer do Núcleo Tramas/UFC à Assembleia, 17/06/2016, lido na íntegra | a prática existia em 2016, e é localizada nesses três municípios |
 | Dos 43.900 ha de banana do Ceará, cerca de **1.000 ha (2,27%)** "tiveram pulverização aérea entre 2003 e 2015" | nota técnica de F. Zuza de Oliveira (2016), do lado dos produtores, citada no mesmo parecer | a prática existia até 2015, e é **pequena e concentrada** |
 | Uma mãe que trabalhava a ~100 m do campo de pouso presenciou "muitos episódios" entre 2010 e 2014; outra morava a ~50 m de bananal pulverizado por avião em 2014 | Aguiar (2017), p. 108–109 e 119 | a prática sobreviveu a 2011 |
@@ -248,12 +271,13 @@ A linha do tempo completa, com a fonte e o tipo de cada evidência, está em
 `docs/literatura-brasil-agrotoxicos.md` §4.1. A literatura acadêmica documenta
 2000–2010 e se cala sobre 2012–2018.
 
-Leitura provisória: a prática muito provavelmente existia em 2018, mas **em intensidade
-menor que a de 2004–2010**, que é o período documentado pela literatura da
-Chapada (seis a oito aplicações por ano sobre ~2.950 ha, segundo o Dossiê
-Abrasco). Isso não derruba o desenho; reduz o efeito esperado, e entra no
-cálculo de poder. Os trechos de imprensa acima foram lidos pelo índice de
-busca, não na íntegra: ⬜ ler os dois textos.
+Leitura provisória: o peso da evidência passou para o cenário B. A prática
+está documentada com medida até 2009–2010, tem testemunho até 2014, e as duas
+fontes mais próximas do campo (uma moradora e a pesquisadora que coordenou o
+estudo epidemiológico) dizem em 2016 que os voos tinham parado com a seca. A
+aplicação é sazonal, na quadra chuvosa de fevereiro a maio, e não houve quadra
+chuvosa normal entre 2012 e 2017. Isso não derruba o desenho de fronteira;
+desloca o contraste informativo de 2019 para 2012.
 
 O que fecha a questão é o relatório mensal que todo operador aeroagrícola
 entrega ao MAPA (IN 2/2008, Anexo V: município, cultura, área, mês). O pedido
@@ -290,17 +314,27 @@ fosse o mesmo. O análogo é Calzada, Gisbert & Moscoso (2023).
 
 O gargalo é o número de municípios tratados, não o de nascimentos.
 
-- **Antes de estimar:** rodar `make mde-desenhos` (script 13, desenho
+- **Antes de estimar:** rodar `make mde-desenhos` e `make mde-calendario` (script 13, desenho
   `chapada2_vs_ride_rn` e a versão ampla). Ele usa só o pré-período e devolve o
   efeito mínimo detectável. Estender o pré para 2010–2018 reduz o MDE.
 - **Tamanho da exposição:** cerca de 1.000 ha pulverizados (§5.1) em três
   municípios que somavam ~160 mil habitantes (parecer do Tramas). A fração de
   gestantes expostas é pequena, e o cálculo de poder tem de partir daí.
-- **Efeito de referência:** Calzada et al. acham 80–150 g a menos sob exposição
-  alta. Com fração exposta `f` no município, o efeito municipal esperado é
-  `f × 80–150 g`. Com `f` = 10%, são 8–15 g. O MDE diz se isso é detectável;
-  se não for, o resultado se reporta como intervalo, e o texto diz o que o
-  intervalo exclui.
+- **Efeito de referência**, agora pela leitura integral: Calzada et al. acham
+  **−80 g (EP 30,8)** para quem mora a até **150 m** do bananal e atravessa a
+  estação de fumigação intensa (Tab. 3, col. 2). O "150 g" do resumo é soma de
+  dois trimestres, não intervalo. Além de 150 m o efeito some.
+- **Efeito municipal esperado:** com a densidade equatoriana transposta a 1.000
+  ha, a fração exposta fica perto de 1,4%, e o efeito sobre o peso médio
+  municipal, perto de **1 a 2 gramas**; sobre baixo peso, 0,04 p.p. Com três
+  municípios tratados isso não é detectável. A conta e as premissas estão em
+  `docs/leituras-segunda-rodada.md` §4.3; ⬜ substituir a premissa pela medida,
+  cruzando setores censitários de 2022 com a área de banana.
+- **O que fazer com isso.** (i) Concentrar o sinal: diferença tripla com a
+  coorte cujo 1º e 2º trimestre caem na quadra chuvosa (fev–mai), que é quando
+  se pulveriza; `14_mde_calendario.py` já calcula o poder. (ii) Acrescentar
+  desfechos que não são peso médio: duração da gestação, óbito fetal e razão de
+  sexos ao nascer. (iii) Reportar intervalo e dizer o que ele exclui.
 - **Inferência:** com dois a nove tratados, erro-padrão agrupado convencional
   não serve. Usar Conley & Taber (2011) e Ferman & Pinto (2019), mais
   inferência por permutação entre municípios do controle (placebo no espaço),
@@ -324,9 +358,13 @@ Estado de verificação: ✅ conferido em fonte primária ou registro (DOI);
   neoplasia 1,76 vez maior e óbito por neoplasia 1,38 vez maior; **sem
   diferença** em óbito fetal e malformação. É o antecedente direto da
   comparação patronal × familiar, sem identificação causal.
-- 🔎 Rigotto (org.) (2011), *Agrotóxicos, trabalho e saúde*, Edições UFC. O
-  estudo epidemiológico do Baixo Jaguaribe; capítulo sobre os trabalhadores da
-  banana e a pulverização aérea.
+- ◐ Rigotto (org.) (2011), *Agrotóxicos, trabalho e saúde*, Edições UFC,
+  612 p. Lidos o cap. 17 (Teixeira, p. 524–545: a pulverização aérea e a lei
+  municipal) e o cap. 5 (Marinho, Carneiro & Almeida: o contrato de 1.000 ha e
+  o cronograma de voos de 2009).
+- ✅ Cavalcante (2022), nota técnica UFRN/SEMIAR sobre produção e exportação de
+  banana depois da lei. Antes e depois, sem grupo de comparação; os dados
+  conferem com a PAM. Ficha em `docs/leituras-segunda-rodada.md` §5.
 - 🔎 Marinho (2010), dissertação UFC, e Marinho, Carneiro & Almeida (2011):
   volume de calda e ingredientes ativos da pulverização aérea na banana. Citado
   no acórdão da ADI 6137.
@@ -362,15 +400,16 @@ Estado de verificação: ✅ conferido em fonte primária ou registro (DOI);
 **B. Agrotóxico e nascimento, com identificação causal.**
 
 - ✅ Calzada, Gisbert & Moscoso (2023), *JAERE* 10(6), `10.1086/725349`: o
-  análogo (avião, banana, fungicida, peso ao nascer). ⬜ ler na íntegra.
+  análogo (avião, banana, fungicida, peso ao nascer). Lido na íntegra o
+  manuscrito aceito; ficha em `docs/leituras-segunda-rodada.md` §4.
 - ✅ Dias, Rocha & Soares (2023), *REStud* 90(6), `10.1093/restud/rdad011`.
 - ✅ Camacho & Mejía (2017), *J. Health Econ.*; Larsen, Gaines & Deschênes
   (2017), *Nat. Commun.*; Reynier & Rubin (2025), *PNAS*.
 - 🔎 Skidmore, Sims & Gibbs (2023), *PNAS*, `10.1073/pnas.2306003120`: soja e
   câncer infantil no Brasil.
-- ✅ Jones (2020), *Land Economics* 96(2), `10.3368/le.96.2.149`: o único com
-  efeito de **fungicida** separado (+10% → +0,15 p.p. de prematuridade), que é
-  a classe química da banana. ⬜ ler.
+- ◐ Jones (2020), *Land Economics* 96(2), `10.3368/le.96.2.149`: lidos só o
+  resumo e os apêndices. **Não isola fungicida** (mesmo instrumento para
+  inseticida e fungicida). Citar como contexto.
 - **Viçosa (UFV, PPGEA)**, lidos na íntegra: ✅ Rodrigues (2022), tese,
   `10.47328/ufvbbt.2022.752` (intoxicação aguda e produtividade do agrotóxico);
   ✅ Januzzi (2025), dissertação, `10.47328/ufvbbt.2025.749` (nascimentos e

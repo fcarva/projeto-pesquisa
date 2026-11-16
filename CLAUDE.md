@@ -16,11 +16,15 @@ O pesquisador decidiu voltar à pergunta básica, e **`docs/framework-dissertaca
 - **Desenho principal:** DiD **binário** na Chapada do Apodi, lado cearense (tratado) × lado potiguar (controle), estudo de evento com **Callaway & Sant'Anna (2021)**, uma coorte (2019), pré-período a partir de 2010. Robustez: CE inteiro × RN inteiro; diferença tripla; SDID.
 - **Heterogeneidade:** agricultura familiar × não familiar (Censo Agro 2017). A dose (área de banana) e o estimador contínuo CGS (2024) descem para apêndice.
 - **O RN não precisa ter tido avião para ser controle** — precisa de tendência paralela. O "gate G1" não reprova o desenho.
-- **Premissa que decide:** havia aplicação aérea na Chapada em 2015–2018? Evidência mista (framework §5.1); a LAI ao MAPA é o item de maior retorno.
+- **O primeiro estágio é parte do trabalho:** medir, por LAI e registros, quanto avião havia antes da lei. ⚠️ **2026-11-16:** três fontes (entre elas Rigotto, out/2016) dizem que os voos pararam por volta de **2012, com a seca**. Se for assim, o contraste informativo está em 2012, não em 2019, e o pré-período tem de começar em 2005. Dois cenários no framework §5.1; ⬜ pré-especificar os dois. A LAI ao MAPA decide.
+- **Poder:** Calzada et al. lido na íntegra — −80 g (EP 30,8) só para quem mora a ≤ 150 m do bananal; efeito municipal esperado de 1–2 g. Não citar "80–150 g" como intervalo. Usar calendário (quadra chuvosa, fev–mai), óbito fetal, duração da gestação e razão de sexos.
+- **RN é controle, conferido:** sem lei estadual de proibição; PL de 2019 não virou lei.
 - **Mão leve na revisão:** não reformular hipóteses nem abrir rotas novas sem pedido. Ameaça à validade vira linha de tabela e teste de robustez, não mudança de desenho.
 - ⬜ **Pendente do orientador:** o desenho como principal; o Ensaio 2 como custo-benefício em vez de calibração de Weitzman (framework §8).
 
-- **Onde está cada coisa:** Ensaio 1 → `docs/framework-dissertacao.md`; Ensaio 2 → `docs/ensaio2-custo-beneficio.md`; literatura brasileira (Viçosa, Chapada do Apodi) triada pelo desenho → `docs/literatura-brasil-agrotoxicos.md`.
+- **Onde está cada coisa:** Ensaio 1 → `docs/framework-dissertacao.md`; Ensaio 2 → `docs/ensaio2-custo-beneficio.md`; literatura brasileira (Viçosa, Chapada do Apodi) triada pelo desenho → `docs/literatura-brasil-agrotoxicos.md`; segunda rodada (Calzada na íntegra, nota da UFRN, status do RN, linha do tempo corrigida) → `docs/leituras-segunda-rodada.md`.
+- **SIDRA responde na sessão remota** (`apisidra.ibge.gov.br`, medido em 2026-11-16). ⚠️ Não puxar desfecho municipal pós-2019 de tratados × controles antes de a pré-especificação estar registrada.
+- **Tabelas do Censo Agro para familiar × não familiar:** 6851 e 6852 (2017), 2069 (2006, com equipamento de aplicação). ⬜ Conferir nível municipal.
 - **Crossref responde na sessão remota** (medido em 2026-11-16): `api.crossref.org/works/<doi>/transform/application/x-bibtex`. Entrada nova do `.bib` com DOI sai do registro, não da digitação.
 
 As seções abaixo sobre dose, SPT e diluição ficam como registro do caminho e como insumo do apêndice.

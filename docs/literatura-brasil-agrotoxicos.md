@@ -1,5 +1,12 @@
 # A literatura brasileira de agrotóxicos, passada pelo filtro do desenho
 
+> ⚠️ **Três afirmações desta página foram corrigidas pela segunda rodada**
+> (`leituras-segunda-rodada.md` §6): o pulverizador costal não é fator de risco
+> "documentado" (15 casos, +16% bruto); Paumgartten (2020) não foi lido por
+> ninguém do projeto e não sustenta a frase de lacuna; Jones (2020) não separa
+> fungicida de inseticida. E a linha do tempo do §4.1 tem versão corrigida no
+> §3 daquele documento: o produtor que voou "até 2018" é do Cariri.
+
 *2026-11-16. Leitura das três peças de Viçosa (UFV/PPGEA), das suas listas de
 referências, e de três textos sobre a Chapada do Apodi e a legislação. O filtro
 é o desenho do `docs/framework-dissertacao.md`: DiD binário na Chapada do Apodi,
@@ -44,10 +51,11 @@ do `paper/referencias.bib` foram geradas do registro, não digitadas.
    não intencionais foram 24 em 2006 e 54 em 2017. No município, esse desfecho
    não existe. Fica o caso notificado não intencional, com a tentativa de
    suicídio como placebo.
-6. **O pulverizador costal é fator de risco documentado.** Soares, Freitas &
-   Coutinho (2005, via Rodrigues) acham isso em Teresópolis. É o apoio que
-   faltava para a hipótese de substituição do framework (§2): trocar o avião
-   pela aplicação manual pode **elevar** a intoxicação ocupacional.
+6. **O pulverizador costal como fator de risco é hipótese, não achado.**
+   Soares, Freitas & Coutinho (2005), lido depois no original, tem 15 casos e
+   um aumento bruto de 16%, sem intervalo. O que sustenta a hipótese de
+   substituição do framework (§2) é o argumento de mecanismo de Valadares et
+   al. (2020): o risco agudo ocupacional é da aplicação manual.
 7. **No Nordeste, na média, não há sobreuso.** Rodrigues estima que o real
    marginal gasto com agrotóxico rende R$ 1,35 no Nordeste (IC 1,19–1,51),
    contra R$ 0,10 no Sul. Para o Ensaio 2, restringir uso no Nordeste custa

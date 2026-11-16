@@ -278,3 +278,20 @@ dissertação.
 por quem as cita): Rigotto (org.) (2011); Teixeira (2011); Marinho (2010);
 Valadares, Alves & Galiza (2020); Harrington & Portney (1987); nota técnica
 UFRN (2022); nota técnica de Zuza de Oliveira (2016).
+
+### Complemento da mesma data — segunda rodada
+
+`.bib`: 75 → 81. Entram: Soares, Freitas & Coutinho (2005), com o DOI certo
+(`10.1590/S0103-20032005000400004`, conferido no Crossref; o da primeira
+tentativa era de outro artigo do fascículo); Cavalcante (2022), lida na íntegra;
+Rigotto (org.) (2011), com ficha catalográfica lida; os capítulos de Teixeira
+(p. **524–545**) e de Marinho, Carneiro & Almeida (p. 166–214); Valadares,
+Alves & Galiza (2020), lida na íntegra.
+
+⚠️ Os prenomes dos autores do capítulo 5 (Marinho, Carneiro, Almeida) foram
+completados de memória a partir das iniciais que as fontes trazem
+(A. M. C. P.; F. F.; V. E.). ⬜ Conferir no sumário do livro antes de citar.
+
+**Continua fora do `.bib`:** Paumgartten (2020) está nele desde a primeira
+rodada, com metadados conferidos, mas **ninguém leu o artigo**: não usar para
+afirmação de conteúdo. Jones (2020): só resumo e apêndices.
