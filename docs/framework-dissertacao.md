@@ -124,9 +124,11 @@ exposta declarada como hipótese.
 
 ### 4.1 Principal: DiD na Chapada do Apodi, CE × RN
 
-- **Tratados:** municípios cearenses da Chapada do Apodi. Núcleo: Limoeiro do
-  Norte e Quixeré (perímetro irrigado Jaguaribe–Apodi; os dois únicos do grupo
-  antigo com aeronave no Censo 2006, e os dois tocam a divisa). Versão ampla:
+- **Tratados:** municípios cearenses da Chapada do Apodi. Núcleo: **Limoeiro
+  do Norte, Quixeré e Russas**, que o parecer do Núcleo Tramas/UFC (17/06/2016)
+  nomeia como "os principais em que a pulverização aérea ocorre no Ceará", e
+  que são os mesmos três de Rigotto et al. (2013). Limoeiro e Quixeré tocam a
+  divisa e são os dois do grupo antigo com aeronave no Censo 2006. Versão ampla:
   os municípios cearenses da região (a lista da RIDE do PLP 98/07 tem 9
   cearenses que o repositório ainda não obteve; ⬜ fechar).
 - **Controles:** municípios potiguares da Chapada. A delimitação já está no
@@ -207,7 +209,14 @@ até aqui aponta nos dois sentidos:
 | Em março de 2011 a Comissão Nacional de Combate à Violência no Campo anunciou a proibição na Chapada; em julho de 2011 MPF, MPT e MPCE pediram a proibição à Justiça Federal | SDH via SINAIT (15/03/2011); MPT-CE (07/07/2011) | a prática pode ter parado. ⬜ desfecho da ação desconhecido |
 | "A partir de 2012 não houve novas aplicações [na comunidade do Tomé] devido à baixa intensidade das chuvas" | moradora, Agência Brasil (16/07/2016) | a seca de 2012–2017 reduziu a sigatoka e, com ela, os voos |
 | "Até 2018 fazia duas aplicações aéreas anuais"; outro produtor, com 300 ha na Chapada, descreve a troca do avião pela aplicação manual depois da lei | produtores, Globo Rural (09/04/2021) | a prática existia até a lei, em intensidade baixa |
+| Limoeiro, Quixeré e Russas são "os principais em que a pulverização aérea **ocorre** no Ceará" (presente, em junho de 2016) | parecer do Núcleo Tramas/UFC à Assembleia, 17/06/2016, lido na íntegra | a prática existia em 2016, e é localizada nesses três municípios |
+| Dos 43.900 ha de banana do Ceará, cerca de **1.000 ha (2,27%)** "tiveram pulverização aérea entre 2003 e 2015" | nota técnica de F. Zuza de Oliveira (2016), do lado dos produtores, citada no mesmo parecer | a prática existia até 2015, e é **pequena e concentrada** |
 | A lei foi aprovada em 2018 contra uma prática descrita como corrente, e o setor foi ao STF (ADI 6137) para derrubá-la | autos | ninguém litiga por algo que não usa |
+
+O número dos 1.000 ha explica, sozinho, por que a dose estadual falhou: 97,7%
+da banana cearense nunca viu avião, e a área de banana do município não tinha
+como medir o tratamento. E justifica o desenho novo: o tratamento está em três
+municípios, na Chapada.
 
 Leitura: a prática muito provavelmente existia em 2018, mas **em intensidade
 menor que a de 2004–2010**, que é o período documentado pela literatura da
@@ -230,7 +239,7 @@ mesma tendência, não ser afetado pelo tratamento e reagir igual):
 |---|---|---|
 | Tendências não paralelas | CE e RN divergindo por razões alheias à lei | estudo de evento 2010–2018; HonestDiD (`07_honestdid.R`) para dizer quanto de violação o resultado aguenta |
 | Tratamento composto | outra política cearense de 2019 em diante (saúde materna, por exemplo) | diferença tripla (§4.2) |
-| Contaminação do controle (SUTVA) | deriva e água cruzam a divisa; produção pode migrar para o RN | usar município de **residência** da mãe; testar PAM do lado potiguar; excluir municípios colados à divisa como sensibilidade |
+| Contaminação do controle (SUTVA) | deriva e água cruzam a divisa (o parecer do Tramas cita Chaim/Embrapa 2004: deriva de até 32 km; o Aquífero Jandaíra é comum aos dois estados); produção pode migrar para o RN | usar município de **residência** da mãe; testar PAM do lado potiguar; excluir municípios colados à divisa como sensibilidade. O viés vai contra achar efeito |
 | Antecipação | PL apresentado em 02/2015, aprovado em 12/2018 | pré-período começando em 2010; reportar o ATT com e sem 2015–2018 na base |
 | Choque simultâneo | fim da seca (2018) e pandemia (2020–21) | atingem os dois lados da Chapada, que têm o mesmo clima: é o argumento a favor do desenho de fronteira |
 | Drones | Lei 19.135/2024 no CE; uso no RN desde ~2021 | corte em 19/12/2024; sensibilidade com pós até 2021 |
@@ -252,6 +261,9 @@ O gargalo é o número de municípios tratados, não o de nascimentos.
 - **Antes de estimar:** rodar `make mde-desenhos` (script 13, desenho
   `chapada2_vs_ride_rn` e a versão ampla). Ele usa só o pré-período e devolve o
   efeito mínimo detectável. Estender o pré para 2010–2018 reduz o MDE.
+- **Tamanho da exposição:** cerca de 1.000 ha pulverizados (§5.1) em três
+  municípios que somavam ~160 mil habitantes (parecer do Tramas). A fração de
+  gestantes expostas é pequena, e o cálculo de poder tem de partir daí.
 - **Efeito de referência:** Calzada et al. acham 80–150 g a menos sob exposição
   alta. Com fração exposta `f` no município, o efeito municipal esperado é
   `f × 80–150 g`. Com `f` = 10%, são 8–15 g. O MDE diz se isso é detectável;
@@ -293,6 +305,24 @@ Estado de verificação: ✅ conferido em fonte primária ou registro (DOI);
   precoce na comunidade do Tomé.
 - 🔎 Carneiro et al. (org.) (2015), *Dossiê Abrasco*.
 - ✅ Rocha & Rigotto (2017), já no `.bib`.
+- ✅ Diógenes & Rigotto (2016), parecer técnico do Núcleo Tramas/UFC sobre o PL
+  18/2015, 17/06/2016 (Drive, lido na íntegra). Fonte das linhas novas da
+  §5.1; dele saem ainda, a localizar: 🔎 Gama, Oliveira & Cavalcante (2013),
+  *Química Nova* 36(3):462–467 (inventário de agrotóxicos e risco hídrico no
+  Baixo Jaguaribe); 🔎 COGERH (2011), águas subterrâneas da Bacia Potiguar
+  (difenoconazol no Aquífero Jandaíra, Quixeré); 🔎 Ferreira Filho (2013),
+  dissertação UFC (alterações citogenômicas em trabalhadores da banana);
+  ⬜ a nota técnica de Zuza de Oliveira (2016), que é a fonte primária dos
+  1.000 ha.
+- ✅ Aguiar (2017) está no Drive em PDF: sobe de 🔎 para "em mãos, a ler".
+- 🔎 Dissertação sobre a construção do mártir Zé Maria do Tomé, 2010–2023
+  (Drive): contexto para o *background*. ⬜ autoria e instituição.
+- 🔎 Olivete, Thomaz Junior & Barreto (2025), *Caderno Prudentino de Geografia*
+  47(1):226–246: panorama das leis e projetos de proibição no Brasil. Serve
+  para conferir se o RN teve projeto ou restrição própria no período.
+- 🔎 Siqueira et al. (2010), *Bull. Environ. Contam. Toxicol.* 84:647–651,
+  `10.1007/s00128-010-0027-8`: estudo ecológico nacional, uso de agrotóxico e
+  prematuridade, baixo peso e malformação. Antecedente descritivo.
 
 **B. Agrotóxico e nascimento, com identificação causal.**
 
@@ -308,10 +338,11 @@ Estado de verificação: ✅ conferido em fonte primária ou registro (DOI);
   *shift-share*, +1,2 caso de baixo peso por mil nascidos por kg/ha (p < 0,10),
   nulo nos demais. ⚠️ O repositório registrava a dissertação como "nulo em
   todos os desfechos"; a versão de congresso reporta esse efeito marginal.
-  ⬜ Conferir qual é a versão final. 🔎 Tese UFV (2022), *Impactos
-  socioeconômicos dos agrotóxicos no Brasil* (despesa com agrotóxico e
-  intoxicações; produtividade marginal decrescente): ⬜ autoria e referência
-  completa. O que o grupo de Viçosa dá ao projeto: a evidência nacional de
+  ⬜ Conferir qual é a versão final. ✅ Rodrigues, L. C. C. (2022), *Impactos
+  socioeconômicos do uso de agrotóxicos no Brasil*, tese, UFV, orientação de
+  J. G. Féres, `10.47328/ufvbbt.2022.752` (Drive): despesa com agrotóxico e
+  intoxicações; produtividade marginal decrescente. Rodrigues é coorientadora
+  de Januzzi. A dissertação de Januzzi tem DOI `10.47328/ufvbbt.2025.749`. O que o grupo de Viçosa dá ao projeto: a evidência nacional de
   média, contra a qual o caso da Chapada é o estudo de cauda.
 
 **C. Método.**
@@ -326,7 +357,18 @@ Estado de verificação: ✅ conferido em fonte primária ou registro (DOI);
   é o molde de idioma para a seção empírica. DOI transcrito do slide, a
   conferir.
 
-**D. Ensaio 2** (escolha de instrumento): sem mudança na lista. Ver §8.
+- Molde de redação em português, na *RESR* (Drive): 🔎 Lima et al. (2025),
+  `10.1590/1806-9479.2025.287073` (TWFE com tratamento contínuo, Matopiba), e
+  🔎 Daniel et al., soja e finanças municipais com DiD escalonado. Mostram como
+  a revista de economia rural brasileira apresenta um DiD.
+
+**D. Ensaio 2** (custo-benefício e escolha de instrumento). À lista anterior
+somam-se três textos que estão no Drive e servem ao lado do custo:
+✅ Lichtenberg, Parker & Zilberman (1988), já no `.bib`; 🔎 Soares & Porto
+(2009), *Ecological Economics* 68:2721–2728 (custo social da intoxicação aguda,
+Paraná: o molde brasileiro de valoração); 🔎 Cunha & Soares (2020), *Cad. Saúde
+Pública* 36(10), `10.1590/0102-311X00225919` (desoneração fiscal de R$ 9,8
+bilhões em 2017: o instrumento-preço operando ao contrário). Ver §8.
 
 ---
 
