@@ -1,3 +1,7 @@
+> ⚠️ **Superado como plano em 2026-11-16.** O Ensaio 2 passou a ser
+> custo-benefício e escolha de instrumento: ver `docs/ensaio2-custo-beneficio.md`.
+> Este documento fica como registro da rota de inversão de Weitzman.
+
 # Ensaio 2 pela inversão — o que falta, e de onde vem
 
 *Rota escolhida em 2026-09-22, entre as três que a §7.2 do paper expõe. Este

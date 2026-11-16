@@ -61,7 +61,7 @@ No formato de plano de avaliação da disciplina (TIP1, s.14):
 | pergunta | sub-perguntas | metodologia | indicadores | fonte |
 |---|---|---|---|---|
 | O ban melhorou a saúde ao nascer? | Peso médio subiu? Baixo peso e prematuridade caíram? Houve mudança em óbito fetal? | DiD com estudo de evento, Chapada CE × RN | peso ao nascer (g); % < 2.500 g; % < 37 semanas; óbitos fetais por mil | SINASC, SIM |
-| O ban reduziu agravos agudos? | Intoxicações por agrotóxico agrícola caíram? Ou subiram, por substituição para aplicação costal? | idem | notificações e internações por intoxicação | SINAN/IEXO, SIH |
+| O ban reduziu agravos agudos? | Intoxicações **não intencionais** por agrotóxico agrícola caíram? Ou subiram, por substituição para aplicação costal? | idem; tentativa de suicídio como placebo | notificações e internações por intoxicação | SINAN/IEXO, SIH |
 | O ban custou produção? | Área e produção de banana caíram? Emprego agrícola formal mudou? | idem | área colhida, produção e valor (banana, melão); vínculos na agricultura | PAM, RAIS/CAGED |
 | Para quem? | O efeito é maior onde a agricultura é patronal e de exportação? | diferença tripla | os mesmos, por perfil do município | Censo Agro 2017 |
 
@@ -143,6 +143,8 @@ exposta declarada como hipótese.
   (g = 2019), grupo de comparação "nunca tratado", duplamente robusto com
   covariáveis de 2010 (população, urbanização, cobertura de atenção básica).
   Saída: um `ATT(t)` por ano, com os anos pré como teste de tendência.
+  Células ponderadas pelo número de nascimentos: taxa municipal sem peso é
+  dominada por município minúsculo (é um dos problemas de Januzzi 2025).
 - **Especificação de conferência:** o mesmo estudo de evento por TWFE em
   `pyfixest`. Com uma coorte só os dois coincidem; reportar os dois fecha a
   pergunta antes que a banca a faça.
@@ -211,12 +213,18 @@ até aqui aponta nos dois sentidos:
 | "Até 2018 fazia duas aplicações aéreas anuais"; outro produtor, com 300 ha na Chapada, descreve a troca do avião pela aplicação manual depois da lei | produtores, Globo Rural (09/04/2021) | a prática existia até a lei, em intensidade baixa |
 | Limoeiro, Quixeré e Russas são "os principais em que a pulverização aérea **ocorre** no Ceará" (presente, em junho de 2016) | parecer do Núcleo Tramas/UFC à Assembleia, 17/06/2016, lido na íntegra | a prática existia em 2016, e é localizada nesses três municípios |
 | Dos 43.900 ha de banana do Ceará, cerca de **1.000 ha (2,27%)** "tiveram pulverização aérea entre 2003 e 2015" | nota técnica de F. Zuza de Oliveira (2016), do lado dos produtores, citada no mesmo parecer | a prática existia até 2015, e é **pequena e concentrada** |
+| Uma mãe que trabalhava a ~100 m do campo de pouso presenciou "muitos episódios" entre 2010 e 2014; outra morava a ~50 m de bananal pulverizado por avião em 2014 | Aguiar (2017), p. 108–109 e 119 | a prática sobreviveu a 2011 |
+| Em julho de 2017, uma moradora diz que as empresas pulverizavam por avião "até alguns anos atrás" | Aguiar (2017), p. 115 | no entorno dela, tinha parado antes de 2017 |
 | A lei foi aprovada em 2018 contra uma prática descrita como corrente, e o setor foi ao STF (ADI 6137) para derrubá-la | autos | ninguém litiga por algo que não usa |
 
 O número dos 1.000 ha explica, sozinho, por que a dose estadual falhou: 97,7%
 da banana cearense nunca viu avião, e a área de banana do município não tinha
 como medir o tratamento. E justifica o desenho novo: o tratamento está em três
 municípios, na Chapada.
+
+A linha do tempo completa, com a fonte e o tipo de cada evidência, está em
+`docs/literatura-brasil-agrotoxicos.md` §4.1. A literatura acadêmica documenta
+2000–2010 e se cala sobre 2012–2018.
 
 Leitura: a prática muito provavelmente existia em 2018, mas **em intensidade
 menor que a de 2004–2010**, que é o período documentado pela literatura da
@@ -244,6 +252,8 @@ mesma tendência, não ser afetado pelo tratamento e reagir igual):
 | Choque simultâneo | fim da seca (2018) e pandemia (2020–21) | atingem os dois lados da Chapada, que têm o mesmo clima: é o argumento a favor do desenho de fronteira |
 | Drones | Lei 19.135/2024 no CE; uso no RN desde ~2021 | corte em 19/12/2024; sensibilidade com pós até 2021 |
 | Seleção para nascimento vivo | menos óbito fetal → mais nascidos frágeis | óbito fetal (SIM) como desfecho próprio |
+| Regime de notificação | o SINAN mede notificação, e notificar depende de vigilância e hospital (Rodrigues 2022: os municípios que notificam quase triplicam entre 2006 e 2017) | conferir no CNES se unidades de vigilância e hospitais evoluem igual nos dois lados; usar o SIH como segunda medida; não usar óbito por intoxicação, que não tem casos |
+| Controles que respondem ao tratamento | pré-natal e parto hospitalar podem mudar com a lei | covariáveis só de linha de base (2010); das características maternas, gemelaridade e idade |
 
 ### 5.3 Validade externa
 
@@ -314,12 +324,15 @@ Estado de verificação: ✅ conferido em fonte primária ou registro (DOI);
   dissertação UFC (alterações citogenômicas em trabalhadores da banana);
   ⬜ a nota técnica de Zuza de Oliveira (2016), que é a fonte primária dos
   1.000 ha.
-- ✅ Aguiar (2017) está no Drive em PDF: sobe de 🔎 para "em mãos, a ler".
-- 🔎 Dissertação sobre a construção do mártir Zé Maria do Tomé, 2010–2023
-  (Drive): contexto para o *background*. ⬜ autoria e instituição.
+- ◐ Aguiar (2017), lida em boa parte: estudo de casos na comunidade do Tomé,
+  8 famílias; fonte dos testemunhos de 2010–2014 da §5.1.
+- ◐ Reges (2023), tese de doutorado em História, UFC: a construção do mártir
+  Zé Maria do Tomé. Contexto para o *background*; não citar datas e números de
+  lei por ela (tem inconsistências internas).
 - 🔎 Olivete, Thomaz Junior & Barreto (2025), *Caderno Prudentino de Geografia*
-  47(1):226–246: panorama das leis e projetos de proibição no Brasil. Serve
-  para conferir se o RN teve projeto ou restrição própria no período.
+  47(1):226–246, ✅ lido: panorama das leis e projetos de proibição. Não
+  menciona o Rio Grande do Norte. ⬜ Conferir na Assembleia do RN se houve
+  projeto ou restrição no período.
 - 🔎 Siqueira et al. (2010), *Bull. Environ. Contam. Toxicol.* 84:647–651,
   `10.1007/s00128-010-0027-8`: estudo ecológico nacional, uso de agrotóxico e
   prematuridade, baixo peso e malformação. Antecedente descritivo.
@@ -333,17 +346,20 @@ Estado de verificação: ✅ conferido em fonte primária ou registro (DOI);
   (2017), *Nat. Commun.*; Reynier & Rubin (2025), *PNAS*.
 - 🔎 Skidmore, Sims & Gibbs (2023), *PNAS*, `10.1073/pnas.2306003120`: soja e
   câncer infantil no Brasil.
-- **Viçosa (UFV, PPGEA):** ✅ Januzzi (2025), dissertação, orientação de L. C.
-  B. Cardoso. 🔎 Januzzi, Cardoso & Rodrigues (2025), versão ENABER: com índice
-  *shift-share*, +1,2 caso de baixo peso por mil nascidos por kg/ha (p < 0,10),
-  nulo nos demais. ⚠️ O repositório registrava a dissertação como "nulo em
-  todos os desfechos"; a versão de congresso reporta esse efeito marginal.
-  ⬜ Conferir qual é a versão final. ✅ Rodrigues, L. C. C. (2022), *Impactos
-  socioeconômicos do uso de agrotóxicos no Brasil*, tese, UFV, orientação de
-  J. G. Féres, `10.47328/ufvbbt.2022.752` (Drive): despesa com agrotóxico e
-  intoxicações; produtividade marginal decrescente. Rodrigues é coorientadora
-  de Januzzi. A dissertação de Januzzi tem DOI `10.47328/ufvbbt.2025.749`. O que o grupo de Viçosa dá ao projeto: a evidência nacional de
-  média, contra a qual o caso da Chapada é o estudo de cauda.
+- ✅ Jones (2020), *Land Economics* 96(2), `10.3368/le.96.2.149`: o único com
+  efeito de **fungicida** separado (+10% → +0,15 p.p. de prematuridade), que é
+  a classe química da banana. ⬜ ler.
+- **Viçosa (UFV, PPGEA)**, lidos na íntegra: ✅ Rodrigues (2022), tese,
+  `10.47328/ufvbbt.2022.752` (intoxicação aguda e produtividade do agrotóxico);
+  ✅ Januzzi (2025), dissertação, `10.47328/ufvbbt.2025.749` (nascimentos e
+  saúde infantil; **nulo** com efeitos fixos de município e ano, nas duas
+  versões: o "+1,2, p < 0,10" do congresso é a coluna sem efeito de ano);
+  ✅ Rodrigues, Fortini & Neves (2023), `10.1007/s13762-022-04032-y`;
+  🔎 Rodrigues & Féres (2022), *RESR*, `10.1590/1806-9479.2021.244491`. O que o
+  grupo dá ao projeto: a evidência nacional de média, com proxies que não
+  enxergam banana nem método de aplicação, e nenhuma avaliação de política. A
+  leitura completa, com as referências deles triadas pelo desenho, está em
+  **`docs/literatura-brasil-agrotoxicos.md`**.
 
 **C. Método.**
 
@@ -389,6 +405,13 @@ Ensaio 1 binário, o Ensaio 2 fica mais simples e mais defensável:
 
 Weitzman continua como referencial teórico, não como exercício de calibração.
 **Decisão do orientador.**
+
+O plano completo está em **`docs/ensaio2-custo-beneficio.md`**: a estrutura de
+benefícios e custos, os preços disponíveis na literatura brasileira (Soares &
+Porto 2009, 2012), os fatos que informam a escolha de instrumento (a
+desoneração de R$ 9,8 bilhões de Cunha & Soares 2020; a receita marginal de
+R$ 1,35 no Nordeste de Rodrigues 2022) e a tabela do que o ensaio conclui em
+cada cenário de resultado do Ensaio 1, escrita antes de estimar.
 
 ---
 

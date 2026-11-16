@@ -20,6 +20,9 @@ O pesquisador decidiu voltar à pergunta básica, e **`docs/framework-dissertaca
 - **Mão leve na revisão:** não reformular hipóteses nem abrir rotas novas sem pedido. Ameaça à validade vira linha de tabela e teste de robustez, não mudança de desenho.
 - ⬜ **Pendente do orientador:** o desenho como principal; o Ensaio 2 como custo-benefício em vez de calibração de Weitzman (framework §8).
 
+- **Onde está cada coisa:** Ensaio 1 → `docs/framework-dissertacao.md`; Ensaio 2 → `docs/ensaio2-custo-beneficio.md`; literatura brasileira (Viçosa, Chapada do Apodi) triada pelo desenho → `docs/literatura-brasil-agrotoxicos.md`.
+- **Crossref responde na sessão remota** (medido em 2026-11-16): `api.crossref.org/works/<doi>/transform/application/x-bibtex`. Entrada nova do `.bib` com DOI sai do registro, não da digitação.
+
 As seções abaixo sobre dose, SPT e diluição ficam como registro do caminho e como insumo do apêndice.
 
 ## Estratégia de identificação (histórico até 2026-09; ver a reorientação acima)

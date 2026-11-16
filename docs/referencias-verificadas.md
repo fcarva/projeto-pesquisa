@@ -242,3 +242,39 @@ conferência; é fato a declarar no texto.
 **zero fantasmas**: nenhuma `\cite` aponta para entrada inexistente. As sete
 novas nascem órfãs por construção: foram conferidas para poderem ser citadas,
 e citar é decisão do texto, não desta passada.
+
+---
+
+## 10. Rodada de 2026-11-16 — Viçosa, Chapada do Apodi e Ensaio 2
+
+`paper/referencias.bib`: 47 → 75 entradas. Conferência feita **na sessão
+remota**, onde `api.crossref.org` passou a responder.
+
+**Com DOI, entrada gerada do registro do Crossref (21):** Soares & Porto (2009,
+2012); Bucher & Seixas (2026); Ferman & Pinto (2019); Olden & Møen (2022);
+Skidmore, Sims & Gibbs (2023); Gama, Oliveira & Cavalcante (2013); Cunha &
+Soares (2020); Siqueira et al. (2010); Rodrigues, Fortini & Neves (2023);
+Rigotto et al. (2013); Jones (2020); Pignati et al. (2017); Pignati, Oliveira &
+Silva (2014); Borusyak, Hull & Jaravel (2025, *JEP*); Paumgartten (2020);
+Oliveira et al. (2014); Rodrigues & Féres (2022); Maumbe & Swinton (2003);
+Lichtenberg & Zilberman (1986); Regidor et al. (2004).
+
+**Sem registro de periódico, conferidas no próprio documento (7):** Rodrigues
+(2022, tese, DOI da UFV resolve); Januzzi (2025, dissertação, idem); Aguiar
+(2017); Reges (2023); Olivete, Thomaz Junior & Barreto (2025); Diógenes &
+Rigotto (2016, parecer do Tramas); Moraes (2019, Ipea TD 2506).
+
+**Duas tentativas que falharam, e ficaram de fora:**
+- Soares, Freitas & Coutinho (2005), *RESR* 43(4): o DOI que tentei resolveu
+  para **outro artigo** do mesmo fascículo. Não entra até achar o DOI certo.
+- Shakhramanyan, Schneider & McCarl (2013), *Climatic Change*: o Crossref não
+  devolveu o registro nesta sessão.
+
+**Pendência do doc 15 resolvida:** o "Borusyak, Hull & Jaravel (2025)" que
+Januzzi cita é o do *JEP* 39(1):181–204, conferido na lista de referências da
+dissertação.
+
+**Citadas nos documentos e ainda não no `.bib`, de propósito** (conhecidas só
+por quem as cita): Rigotto (org.) (2011); Teixeira (2011); Marinho (2010);
+Valadares, Alves & Galiza (2020); Harrington & Portney (1987); nota técnica
+UFRN (2022); nota técnica de Zuza de Oliveira (2016).
