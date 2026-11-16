@@ -14,8 +14,8 @@ Estado em `passport.yaml`; registro em `stage6/registro_do_processo.md`.
   Apêndices A e D (59 referências) e a pauta `docs/pauta-orientador-2026-11.md`.
 - Em seguida, também na nuvem: reestruturação em forma de projeto de dissertação (capítulos
   renomeados e reordenados; antiga metodologia e ameaças fundidas em "Estratégia empírica";
-  regra de decisão no novo Capítulo 7). Um verificador independente comparou com a etiqueta
-  `projeto-v14-consolidado`: nenhuma afirmação, citação, número ou decisão de método perdida.
+  regra de decisão no novo Capítulo 7). Um verificador independente comparou com o commit
+  `6f4043b` (v14): nenhuma afirmação, citação, número ou decisão de método perdida.
   As correções de prosa que ele sugeriu foram aplicadas e não passaram por nova conferência.
 
 ## Resultado dos portões
