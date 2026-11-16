@@ -9,7 +9,9 @@ Estado em `passport.yaml`; registro em `stage6/registro_do_processo.md`.
   p. 20, Apêndices A a F, 58 referências. Hashes no passport.
 - Compilar: `pdflatex` → `bibtex` → `pdflatex` ×2, em `paper/projeto` (não há `make` nem
   `latexmk` nesta máquina).
-- **Nada foi commitado.** ⚠️ O PDF da Lei 1.511 em `docs/legislacao/` tem 28 MB.
+- Commitado e enviado em `bc65945` (2026-11-16). Ficaram fora do repositório o PDF de 28 MB
+  da Lei 1.511 e os dados. Depois disso, na sessão em nuvem: quatro fatos legais nos
+  Apêndices A e D (59 referências) e a pauta `docs/pauta-orientador-2026-11.md`.
 
 ## Resultado dos portões
 - 2.5: PASS WITH NOTES (3 rodadas). 3: Major Revision (34 itens; painel cego imperfeito).
