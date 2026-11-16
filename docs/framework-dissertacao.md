@@ -188,23 +188,45 @@ A dose antiga (área de banana, PAM 2015–2018) entra aqui, como segunda variá
 de heterogeneidade, com o estimador contínuo de CGS (2024) relegado a apêndice.
 O que já foi estimado não se perde: muda de lugar.
 
-### 4.4 O que o controle potiguar significa
+### 4.4 O Rio Grande do Norte é o grupo de controle
 
-Se o lado potiguar pulverizava por avião e continuou, o DiD compara "parou" com
-"continuou": o contrafactual ideal. Se quase não pulverizava (o que o Censo
-2006 sugere), compara "parou" com "nunca fez", e o controle só informa a
-tendência. Nos dois casos o ATT é identificado sob tendências paralelas. O que
-muda é a plausibilidade delas, e por isso o estudo de evento com nove anos de
-pré-período é a peça central, não acessório.
+O critério é jurídico e não depende de proxy: a proibição da pulverização
+aérea aconteceu no Ceará e **não aconteceu no Rio Grande do Norte**. Os
+municípios potiguares da Chapada compartilham com os cearenses o clima, o
+aquífero, as culturas e parte das empresas, e ficaram sob o regime federal
+anterior (IN MAPA 2/2008) durante toda a janela.
+
+Quanto avião havia do lado potiguar muda a leitura do contraste, não a sua
+validade. Se pulverizava e continuou, o DiD compara "parou" com "continuou". Se
+quase não pulverizava, compara "parou" com "nunca fez", e o controle informa a
+tendência. Nos dois casos o ATT é identificado sob tendências paralelas, que o
+estudo de evento com nove anos de pré-período testa. A LAI ao MAPA responde
+também a isso, porque o relatório mensal é entregue na superintendência de cada
+estado.
 
 ---
 
 ## 5. Validade
 
-### 5.1 A premissa que decide: havia avião em 2015–2018?
+### 5.1 O primeiro estágio: quanto avião havia em 2015–2018
 
-É a única pergunta em aberto que pode esvaziar o projeto, e a evidência reunida
-até aqui aponta nos dois sentidos:
+Medir isso **é parte do trabalho, não um obstáculo a ele**. A literatura
+acadêmica documenta a pulverização aérea na Chapada de 2000 a 2010 e se cala
+depois; o que existe para os anos anteriores à lei são relatos. O projeto
+propõe-se a preencher essa lacuna com registro administrativo, por três vias:
+
+| via | o que mede | estado |
+|---|---|---|
+| LAI ao MAPA: relatórios mensais dos operadores aeroagrícolas (IN 2/2008, Anexo V) | município, cultura, área e mês de cada aplicação aérea, 2008–2018, **nos dois estados** | minuta pronta; ⬜ protocolar |
+| LAI à ADAGRI: receituário agronômico (Decreto 4.074/2002, art. 66) | modalidade de aplicação, obrigatória quando aérea | minuta pronta; ⬜ protocolar |
+| LAI à SEMACE e registros municipais (câmaras, licenças) | cadastro estadual e normas locais | minuta pronta; varredura das câmaras feita |
+
+Com esses registros o Ensaio 1 passa a ter um **primeiro estágio medido**: a
+lei reduziu a área aplicada por avião de X para zero nos municípios tratados, e
+o lado potiguar seguiu como estava. Sem eles, o desenho continua válido como
+efeito de estar sob a lei; com eles, ganha a medida do que a lei removeu.
+
+Enquanto os registros não chegam, o que se sabe é isto:
 
 | evidência | fonte | sentido |
 |---|---|---|
@@ -226,7 +248,7 @@ A linha do tempo completa, com a fonte e o tipo de cada evidência, está em
 `docs/literatura-brasil-agrotoxicos.md` §4.1. A literatura acadêmica documenta
 2000–2010 e se cala sobre 2012–2018.
 
-Leitura: a prática muito provavelmente existia em 2018, mas **em intensidade
+Leitura provisória: a prática muito provavelmente existia em 2018, mas **em intensidade
 menor que a de 2004–2010**, que é o período documentado pela literatura da
 Chapada (seis a oito aplicações por ano sobre ~2.950 ha, segundo o Dossiê
 Abrasco). Isso não derruba o desenho; reduz o efeito esperado, e entra no
