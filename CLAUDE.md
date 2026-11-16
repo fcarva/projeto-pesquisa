@@ -10,7 +10,19 @@ Dissertação de mestrado (PPGEco/UFES) em **dois ensaios** sobre o banimento es
 
 Idioma: **português** na prosa da dissertação; código e comentários podem ser em inglês. Prosa enxuta, lógica de *forward engineering* (parâmetro-alvo → hipóteses de identificação → estimação).
 
-## Estratégia de identificação (forward engineering)
+## ⚠️ Reorientação de 2026-11-16 — ler antes do resto
+O pesquisador decidiu voltar à pergunta básica, e **`docs/framework-dissertacao.md` (versão 2) é o documento que manda**. Onde este arquivo ou `docs/ars/` o contradisserem, vale o framework.
+- **Pergunta:** impacto do ban sobre saúde ao nascer, agravos agudos e produção agrícola. Não é mais a curva dose-resposta.
+- **Desenho principal:** DiD **binário** na Chapada do Apodi, lado cearense (tratado) × lado potiguar (controle), estudo de evento com **Callaway & Sant'Anna (2021)**, uma coorte (2019), pré-período a partir de 2010. Robustez: CE inteiro × RN inteiro; diferença tripla; SDID.
+- **Heterogeneidade:** agricultura familiar × não familiar (Censo Agro 2017). A dose (área de banana) e o estimador contínuo CGS (2024) descem para apêndice.
+- **O RN não precisa ter tido avião para ser controle** — precisa de tendência paralela. O "gate G1" não reprova o desenho.
+- **Premissa que decide:** havia aplicação aérea na Chapada em 2015–2018? Evidência mista (framework §5.1); a LAI ao MAPA é o item de maior retorno.
+- **Mão leve na revisão:** não reformular hipóteses nem abrir rotas novas sem pedido. Ameaça à validade vira linha de tabela e teste de robustez, não mudança de desenho.
+- ⬜ **Pendente do orientador:** o desenho como principal; o Ensaio 2 como custo-benefício em vez de calibração de Weitzman (framework §8).
+
+As seções abaixo sobre dose, SPT e diluição ficam como registro do caminho e como insumo do apêndice.
+
+## Estratégia de identificação (histórico até 2026-09; ver a reorientação acima)
 **Parâmetro-alvo.** ATT dose-resposta: como o efeito do ban varia com a **intensidade pré-ban de exposição** à pulverização aérea entre municípios. O tratamento é **contínuo (dose)**, não binário.
 - ⚠️ **A curva custa mais caro que o nível.** CGS separam dois parâmetros: `ATT(d|d)` (nível) sai sob paralelismo tradicional; a **curva** — `ATE(d)`/`ACR(d)` — exige **strong parallel trends** (Assumption SPT), que exclui *selection-on-gains*. ⚠️ **Corrigido em 2026-09-22:** o placebo pré-tratamento **não isola** o SPT — passar não valida, porque a implicação é comum ao PT e ao SPT —, **mas pode falsificá-lo**, e o CGS §6.3 propõe e roda exatamente essa verificação (rejeitando, na aplicação deles). O teste está em `scripts/estimate/10_spt_pretrend.py`. ⚠️ **E a decisão mudou:** desde 2026-09-22 o resultado principal é o `ATT(d|d)`, não a curva — a derivada agregada não é interpretável (§8 da pré-especificação, linha de 2026-09-22). Ver `docs/ars/03-modelagem-ensaio1.md` e `docs/auditoria-pre-especificacao.md`.
 - **Janela principal:** 2015 → 19/12/2024, cortada na Lei 19.135/2024 (exceção de drones) para preservar a cota zero. O segundo evento também é estadual e simultâneo — não é adoção escalonada.
