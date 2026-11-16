@@ -3,30 +3,34 @@
 
 O cálculo de poder responde a uma pergunta de planejamento: que efeito o desenho
 é capaz de detectar? Compara-se o efeito mínimo detectável com o efeito que a
-literatura autoriza esperar. Os dois números são calculados só com dados do
-pré-período.
+literatura autoriza esperar. O que segue é um cálculo com parâmetros supostos e
+contagens públicas de nascimentos do pré-período; será refeito com os
+microdados antes de qualquer estimação.
 
 \subsection{O efeito que se espera}
 
-O efeito de referência é o de \citet{calzada2023bananas}: redução de 80 gramas
+O efeito de referência é o de \citeonline{calzada2023bananas}: redução de 80 gramas
 no peso ao nascer, com erro-padrão de 31, para filhos de mães que moram a até
 150 metros de bananal fumigado por avião e cuja gestação atravessa a estação de
 fumigação intensa. Além de 150 metros os autores não encontram efeito.
 
 O que a proibição produz na média de um município é esse efeito multiplicado
 pela fração $f$ de nascimentos expostos. No Equador, 1,8\% dos nascimentos
-geocodificados do país estão a até 150 metros de um bananal, em cerca de 186
-mil hectares. Transposta essa densidade aos mil hectares da Chapada, chega-se a
-algo como trinta nascimentos expostos por ano. Limoeiro do Norte e Quixeré
-registraram em média 1.068 nascimentos por ano entre 2010 e 2018; com Russas,
-2.078.\footnote{IBGE, Estatísticas do Registro Civil, tabela SIDRA 2609,
-nascidos vivos por lugar de residência da mãe, média de 2010 a 2018.} A fração
-exposta fica entre 1,4\% e 2,8\%, e possivelmente abaixo disso, porque a costa
-equatoriana é mais povoada em torno das plantações.
+geocodificados do país estão a até 150 metros de um bananal, em mais de 186 mil
+hectares de plantações. Transposta essa densidade aos mil hectares da Chapada,
+chega-se a algo como trinta nascimentos expostos por ano. Limoeiro do Norte e
+Quixeré registraram em média 1.068 nascimentos por ano entre 2010 e 2018; com
+Russas, 2.078.\footnote{IBGE, Estatísticas do Registro Civil, tabela SIDRA
+2609: nascidos vivos registrados no ano, por lugar de residência da mãe, média
+de 2010 a 2018, extraída em 16/11/2026. A mesma tabela dá 8.874 nascimentos
+anuais para os vinte e um municípios de controle. O denominador definitivo será
+o do SINASC.} A fração exposta fica entre 1,4\% e 2,8\%, e possivelmente abaixo
+disso, porque a costa equatoriana é mais povoada em torno das plantações.
 
 \begin{table}[ht]
 \centering\small
-\caption{Efeito esperado sobre o peso médio municipal ao nascer (gramas)}
+\caption{Efeito esperado sobre o peso médio municipal ao nascer (gramas), no
+cenário em que havia aplicação aérea até a lei}
 \label{tab:esperado}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
@@ -40,81 +44,104 @@ $-140$ g (limite do intervalo de 95\%) & $-2{,}0$ & $-3{,}9$ & $-7{,}0$ & $-14{,
 \end{tabular}
 \end{table}
 
-Duas ressalvas, em sentidos opostos. O efeito de referência mede a
-intensificação sazonal da fumigação entre quem já mora ao lado do bananal, e
-uma proibição remove a fumigação toda; o efeito por exposta pode ser maior. E a
-fração exposta é uma transposição, não uma medida; o projeto a substituirá pelo
-cruzamento dos setores censitários de 2022 com a área de banana.
+O caso central é de um a dois gramas. Três ressalvas. A tabela vale para o
+cenário em que o avião voava até a lei; se já não voava, o efeito esperado do
+contraste de 2019 é zero. O efeito de referência é o de gestações que
+atravessam a estação intensa, e a tabela o aplica a todos os nascimentos
+próximos, o que a torna um teto. No sentido oposto, ele mede a intensificação
+sazonal entre quem já mora ao lado do bananal, e uma proibição remove toda a
+fumigação. A fração exposta é uma transposição, não uma medida; pode ser
+substituída pelo cruzamento dos setores censitários com a área de banana.
 
 \subsection{O efeito mínimo detectável}
 
-Para um estimador de diferenças em diferenças sobre médias de grupo, com nível
-de significância $\alpha$ e poder $1-\beta$,
+Considere-se o contraste mais simples: a diferença, entre tratados e controles,
+da variação do peso médio entre todo o pré-período e todo o pós-período. Para
+nível de significância $\alpha$ e poder $1-\beta$,
 \[
 EMD = (z_{1-\alpha/2} + z_{1-\beta}) \times
 \sqrt{\sigma^2\Big(\tfrac{1}{N_{T}^{\text{pré}}} + \tfrac{1}{N_{T}^{\text{pós}}} +
-\tfrac{1}{N_{C}^{\text{pré}}} + \tfrac{1}{N_{C}^{\text{pós}}}\Big) + 2\,\tau^2\Big(\tfrac{1}{J_T}+\tfrac{1}{J_C}\Big)},
+\tfrac{1}{N_{C}^{\text{pré}}} + \tfrac{1}{N_{C}^{\text{pós}}}\Big) + 2\,\tau^2\Big(\tfrac{1}{J_T^{*}}+\tfrac{1}{J_C^{*}}\Big)},
 \]
-em que $\sigma$ é o desvio-padrão individual do peso ao nascer, os $N$ são os
-números de nascimentos de tratados e controles antes e depois, $\tau$ é o
-desvio-padrão dos choques de tendência no nível do município e $J_T$, $J_C$ são
-os números de municípios. O segundo termo é o que a correlação dentro do
-município acrescenta: com poucos municípios tratados, ele não desaparece por
-maior que seja o número de nascimentos.
+em que $\sigma$ é o desvio-padrão individual do peso ao nascer; os $N$ são os
+números de nascimentos; $\tau$ é o desvio-padrão do choque comum aos nascimentos
+de um mesmo município em cada um dos dois blocos de tempo, suposto independente
+entre blocos; e $J^{*}$ é o número efetivo de municípios de cada grupo, igual
+ao inverso da soma dos quadrados dos pesos. O segundo termo é o que a
+correlação dentro do município acrescenta. Com poucos municípios tratados, ele
+não diminui com o número de nascimentos, e a ponderação por nascimentos reduz
+$J_C^{*}$ abaixo de vinte e um, porque um dos controles é uma cidade grande.
 
-A Tabela~\ref{tab:emd} dá o piso do efeito mínimo detectável, isto é, o valor
-com $\tau = 0$, para $\alpha = 5\%$, poder de 80\% e $\sigma = 500$ gramas, com
-nove anos de pré-período e seis de pós, e com os 8.874 nascimentos anuais dos
-vinte e um municípios de controle.
+A Tabela~\ref{tab:emd} dá o valor com $\tau = 0$, para $\alpha = 5\%$, poder de
+80\% e $\sigma = 500$ gramas, com o pré-período de 2010 a 2018 e seis anos de
+pós. É um limite inferior.
 
 \begin{table}[ht]
 \centering\small
-\caption{Piso do efeito mínimo detectável sobre o peso ao nascer}
+\caption{Limite inferior do efeito mínimo detectável sobre o peso ao nascer
+($\tau = 0$)}
 \label{tab:emd}
-\begin{tabular}{@{}lrrr@{}}
+\begin{tabular}{@{}lrrrr@{}}
 \toprule
-Grupo tratado & Municípios & Nascimentos/ano & Piso do EMD (g) \\
+ & & & \multicolumn{2}{c}{Limite inferior do EMD (g)} \\
+\cmidrule(l){4-5}
+Grupo tratado & Municípios & Nascimentos/ano & Pré agrupado & Base de um ano \\
 \midrule
-Limoeiro do Norte e Quixeré & 2 & 1.068 & 23,9 \\
-Com Russas                   & 3 & 2.078 & 18,0 \\
+Limoeiro do Norte e Quixeré & 2 & 1.068 & 23,9 & 49,0 \\
+Com Russas                   & 3 & 2.078 & 18,0 & 36,9 \\
 \bottomrule
-\multicolumn{4}{@{}p{0.8\textwidth}@{}}{\footnotesize Considera só o erro
-amostral. O valor de $\sigma$ é hipótese de planejamento, a substituir pelo
-desvio observado no SINASC.}
+\multicolumn{5}{@{}p{0.92\textwidth}@{}}{\footnotesize Considera só o erro
+amostral. Os valores de $\sigma$ e $\tau$ são hipóteses de planejamento. A
+última coluna compara os seis anos de pós com um único ano de base, que é como
+o estimador proposto constrói cada efeito; por período isolado, o valor é
+maior.}
 \end{tabular}
 \end{table}
 
-O piso é de 18 a 24 gramas. O efeito mínimo detectável verdadeiro é maior,
-porque $\tau$ não é zero: um exercício anterior deste projeto, com municípios
-cearenses, encontrou efeito mínimo detectável de 33 gramas para dezessete
-municípios tratados. O valor para o desenho de fronteira será calculado com o
-painel dos dois estados antes de qualquer estimação.
+Três observações sobre a tabela. O valor de 18 a 24 gramas vale para o contraste
+agrupado; os efeitos por período do estudo de evento, comparados a uma base
+curta, têm efeito mínimo detectável pelo menos duas vezes maior. O valor
+verdadeiro é ainda maior, porque $\tau$ não é zero e há dois ou três municípios
+tratados, muito abaixo do número de conglomerados que a prática de avaliação
+recomenda por grupo. E incluir Russas reduz o efeito mínimo detectável ao custo
+de dobrar os nascimentos sem acrescentar exposição medida: o efeito esperado
+cai pela metade.
+
+Ficam para a fase de pesquisa, com os microdados e só com o pré-período: o
+desvio-padrão observado do peso ao nascer, a estimativa de $\tau$, o efeito
+mínimo detectável do desenho de calendário e o dos desfechos binários e raros
+(baixo peso, óbito fetal, razão de sexos, intoxicação).
 
 \subsection{O que a comparação diz}
 
-O efeito esperado sobre a média municipal, de um a quatro gramas, é cerca de
-uma ordem de grandeza menor que o piso do efeito mínimo detectável. Para que o
-contraste principal detectasse o efeito de referência, cerca de 30\% dos
-nascimentos teriam de ser de mães expostas, o que não é plausível para mil
-hectares.
+O efeito esperado sobre a média municipal é da ordem de dez vezes menor que o
+limite inferior do efeito mínimo detectável. Para que o contraste principal
+detectasse o efeito de referência, cerca de 30\% dos nascimentos teriam de ser
+de mães expostas, o que não é plausível para mil hectares. Nenhuma das
+especificações propostas tem, com as hipóteses atuais, poder para detectar o
+efeito de referência na média municipal.
 
-A conclusão não é abandonar a avaliação. É desenhá-la sabendo disso.
+O projeto mantém a avaliação por quatro razões, que são também o que ela pode
+entregar.
 
 \begin{enumerate}
-\item \textbf{O resultado é o intervalo.} Um intervalo de confiança que inclua
-o zero e exclua, por exemplo, melhoras maiores que 25 gramas informa que a lei
-não produziu ganho grande na média. Não informa que não protegeu quem morava ao
-lado do bananal, e o texto dirá as duas coisas.
-\item \textbf{Concentrar o sinal no tempo.} O desenho de calendário compara
-gestações que atravessam a estação de aplicação com as que não atravessam.
-\item \textbf{Concentrar o sinal no espaço.} A medida da fração exposta por
-setor censitário permite, se os dados o admitirem, definir o grupo tratado por
-proximidade aos bananais.
-\item \textbf{Olhar desfechos que não são o peso médio.} Perda fetal, duração da
-gestação e razão de sexos ao nascer.
-\item \textbf{Medir o primeiro estágio.} Um resultado nulo só se interpreta
-sabendo quanto avião a lei removeu.
+\item \textbf{Um limite para o efeito médio.} Um intervalo de confiança que
+exclua melhoras maiores que algumas dezenas de gramas informa que a lei não
+produziu ganho grande na média dos municípios. Não informa sobre quem morava ao
+lado do bananal.
+\item \textbf{O primeiro estágio.} A medida de quanto avião havia, e de quando
+parou, tem valor por si e condiciona a leitura de qualquer resultado.
+\item \textbf{A fração exposta.} Medi-la permite dizer que efeito por exposta
+seria compatível com o intervalo estimado.
+\item \textbf{Os outros elos da cadeia.} Substituição de tecnologia,
+intoxicações de trabalhadores, produção e emprego são perguntas da avaliação
+com poder próprio, a calcular.
 \end{enumerate}
+
+A referência para julgar o efeito mínimo detectável é o menor efeito que
+justificaria a política. O segundo ensaio o calcula: é o efeito sobre o peso ao
+nascer a partir do qual o benefício supera o custo
+(Seção~\ref{sec:cb}).
 
 A regra de leitura fica fixada: o intervalo de confiança decide. O efeito mínimo
 detectável é instrumento de planejamento e não serve para rebaixar, depois, um
