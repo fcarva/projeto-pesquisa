@@ -347,3 +347,27 @@ entries:
     contínua, Mencionar as proibições municipais".'
   prev_hash: 8277197e3ff355f55035dcd99a678a6784e34d093ac7ef2197e34b3e08cbecee
   hash: 6620d14cf8b1c9c916015d27f77a92d49fe8d2c62b8962a954a4c4affb0892d3
+- seq: 29
+  kind: checkpoint_opened
+  at: '2026-11-16T01:27:23Z'
+  checkpoint_id: pos-pipeline-santanna
+  stage: '6'
+  checkpoint_type: FULL
+  question: 'Auditoria do uso dos trabalhos de Sant''Anna no projeto e seu papel:
+    referência de exposição para diferença em diferenças, ou mudança de estimador.'
+  options:
+  - referência de exposição
+  - trocar o estimador principal
+  - não alterar
+  prev_hash: 6620d14cf8b1c9c916015d27f77a92d49fe8d2c62b8962a954a4c4affb0892d3
+  hash: 3a4fd2021ea9589e38e26e0b315f67a36e69a1eae087634b5b6c49dddddcd1ec
+- seq: 30
+  kind: checkpoint_closed
+  at: '2026-11-16T01:27:23Z'
+  checkpoint_id: pos-pipeline-santanna
+  answer: referência de exposição; o estimador principal não muda
+  user_words: '[pedido, em palavras do pesquisador] "Auditar o uso de sant Anna no
+    trabalho, vamos fazer dele referência para dif in diff como encaixar na dags?".
+    [alcance, por seleção de opção] "Referência de exposição (Recomendado)".'
+  prev_hash: 3a4fd2021ea9589e38e26e0b315f67a36e69a1eae087634b5b6c49dddddcd1ec
+  hash: eff6a40b4c255442dcc7f8011d98cd4cd2e7e895089eb7436ac5e2305ef7a82f
