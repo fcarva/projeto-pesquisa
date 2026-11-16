@@ -100,7 +100,7 @@ Estudo de evento & Um coeficiente de $A_m \times k_t$ por ano, $k \in \{I,H\}$, 
 Perfil saturado & Um indicador para cada valor de $P_t$ no lugar de $I_t$ e $H_t$ & Mesma amostra; sensibilidade ao limiar. \\
 Linear em $P_t$ & $P_t$ no lugar dos indicadores & Mesma amostra; sensibilidade, sob hipótese adicional. \\
 Chuva por grupo & Acrescenta $A_m \times k_t \times C_{m,a}$ & Mesma amostra; sensibilidade. \\
-Duplamente robusto & Estimador de diferença tripla com covariáveis municipais anteriores à lei (chuva média de 2007--2011) & Mesma amostra; sensibilidade, se o número de tratados permitir. \\
+Duplamente robusto & Estimador de diferença tripla com covariáveis municipais anteriores à lei (chuva média de 2007--2011); unidade: município por mês do ano; dois períodos, referência e pós-lei; sem o controle de chuva do ano & Mesma amostra; sensibilidade, se o número de tratados permitir; inferência como no desenho principal. \\
 Efeito por chuva ($H_3$) & Acrescenta $A_m \times H_t \times Pos_t \times C_{m,a}$ e os termos de ordem inferior & Mesma amostra; exploratória. \\
 Terceiro trimestre & Grupos redefinidos pela fração do terceiro trimestre na estação & Mesma amostra; exploratória. \\
 Tratamento falso ($H_4$) & Equação~\ref{eq:ddd} com banana familiar no lugar de $A_m$ & Municípios de banana familiar e sem banana; falsificação. \\
@@ -159,7 +159,7 @@ Cancelados pela diferença &
 Efeitos fixos; a composição materna que varie é examinada à parte. \\
 Outra causa que altere o hiato sazonal só nos tratados, após a lei &
 Tendências paralelas da diferença tripla: é o que a hipótese exclui &
-Estudo de evento; tratamento falso; sensibilidade sem 2020--2021. \\
+Estudo de evento; tratamento falso; sensibilidade sem 2020--2021; duplamente robusto com covariáveis de base. \\
 Projetos de lei de 2011 e 2015 (fora da figura) &
 Ausência de antecipação &
 Referência em sua maior parte anterior aos projetos; sensibilidade com 2008--2010. \\

@@ -63,7 +63,7 @@ municípios com aplicação aérea e os de comparação.
 \node[lat] (out) at (0,-6.8) {Outra causa que altere o hiato sazonal só ali, após a lei};
 \node[lat] (sau) at (5,-6.8) {Saúde fetal};
 \node[lat] (sel) at (10,-6.8) {Seleção: só nascidos vivos são observados};
-\node[box] (ef) at (10,-8.6) {Absorvidos por efeitos fixos: composição materna, sazonalidade, choques município-ano};
+\node[box] (ef) at (10,-8.6) {Absorvidos por efeitos fixos: sazonalidade de base e choques município-ano};
 \node[box, fill=black!10] (peso) at (5,-8.6) {\textbf{Peso ao nascer}};
 \draw[ar] (est.south east) -- (T.north west);
 \draw[ar] (pos) -- (T);
@@ -151,15 +151,16 @@ evoluído do mesmo modo nos dois grupos desde o período de referência
 \cite{olden2022triple}. A hipótese é examinada por um estudo de evento,
 com um coeficiente por ano e 2011 como base, de modo que os anos de 2005 a 2010
 testam a pré-tendência, e por um tratamento falso: comparados aos municípios sem banana, os de banana familiar não
-deveriam reagir à lei.
+deveriam reagir à lei. Como a identificação pode depender de características
+dos municípios, caso em que a regressão de efeitos fixos não é em geral válida
+na diferença tripla, reporta-se, se o número de municípios tratados permitir,
+um estimador duplamente robusto com covariáveis anteriores à lei
+\cite{ortiz2025triple}.
 
 \textbf{Chuva.} A chuva entra de dois modos. Como a precipitação durante a
 gestação afeta o peso ao nascer no semiárido por vias que não passam pelo
 avião \cite{rocha2015water}, a chuva da quadra chuvosa, interagida com os indicadores de exposição, é controle nos dois grupos; a hipótese adicional, declarada, é que esse efeito
-direto seja comum a municípios de lavoura irrigada e de sequeiro, e uma especificação que o deixa diferir é reportada. Como a identificação pode depender de características dos municípios, caso em
-que a regressão de efeitos fixos não é em geral válida na diferença tripla,
-reporta-se também, como sensibilidade, um estimador duplamente robusto com
-covariáveis anteriores à lei \cite{ortiz2025triple}. E, como a doença que motiva o
+direto seja comum a municípios de lavoura irrigada e de sequeiro, e uma especificação que o deixa diferir é reportada. E, como a doença que motiva o
 voo depende de umidade, examina-se, em caráter exploratório, se $\beta$ é maior
 nos anos chuvosos. As especificações estão no Apêndice~\ref{ap:espec}.
 

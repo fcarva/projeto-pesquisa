@@ -257,6 +257,8 @@ pesquisador, sem nova rodada de pareceristas:
    estimador duplamente robusto) e sete menores, corrigidos; uma nota fica
    aberta (`stage4.5_final_integrity_report_v7.md`).
 
-As correções da v7 não foram reverificadas por agente independente, e o
-conteúdo de quatro artigos citados na seção 3.3 foi conferido só por
-metadados. O passport fica como STALE até uma reverificação.
+A pedido do pesquisador, as correções da v7 foram reverificadas por um
+segundo agente independente: PASS WITH NOTES, nenhum achado sério, oito
+menores, corrigidos. O conteúdo de quatro artigos da seção 3.3 foi conferido
+por resumo, não por texto integral. As oito correções finais, de redação e
+metadados, não passaram por terceira verificação.

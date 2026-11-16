@@ -37,3 +37,34 @@ Preexistente, não corrigido: a seção 7 diz "sai atenuado" e o Apêndice B,
 
 Após as correções: compila, zero citação indefinida, 15 páginas textuais.
 As correções não passaram por nova verificação independente.
+
+## Reverificação independente das correções (2026-11-16)
+
+Segundo verificador, sem acesso de escrita e sem ver a rodada anterior.
+**Veredito: PASS WITH NOTES** — 0 SERIOUS, 8 MINOR, 4 notas. Todos os
+"Corrigido" acima foram confirmados no texto; nenhuma correção introduziu erro
+factual; compilação limpa; 15 páginas textuais; nenhum número de estimativa.
+
+Conteúdo da seção 3.3 conferido por resumo (não por texto integral) para
+Baker et al., Callaway e Sant'Anna 2021, Goodman-Bacon 2021 e de Chaisemartin
+e D'Haultfœuille 2020: todas as afirmações sustentadas.
+
+| nº | achado da reverificação | destino |
+|---|---|---|
+| 1 | Condição "se o número de tratados permitir" só no Apêndice C | Corrigido: levada ao corpo |
+| 2 | Mapeamento do duplamente robusto para o desenho de coortes não declarado | Corrigido no Apêndice C: unidade município × mês do ano; dois períodos; sem chuva do ano; inferência do desenho principal |
+| 3 | Frase do duplamente robusto no parágrafo da chuva | Corrigido: movida para o parágrafo do grupo de comparação |
+| 4 | Figura 1 ainda listava composição materna como absorvida | Corrigido no nó da figura |
+| 5 | Seção 7 sem o desfecho composto na lista de testes de seleção | Corrigido |
+| 6 | "atenuado" × "atenuado ou invertido" | Corrigido: seção 7 passa a "atenuado ou, se a seleção for forte, invertido" |
+| 7 | Apêndice E sem linha para o duplamente robusto | Corrigido |
+| 8 | Caixa alta quebrada em nomes acentuados na lista | Corrigido no `.bib` |
+
+Ressalvas que ficam, do verificador: a sensibilidade duplamente robusta não
+responde à ameaça da chuva do ano, e sim a tendências do hiato que variem com
+características de base; com poucos tratados, a sobreposição do escore de
+propensão é frágil; cinco anos de chuva média é climatologia ruidosa (uma
+normal mais longa serviria melhor). Achado 13 da primeira rodada segue aberto.
+
+Estas últimas oito correções são de redação e metadados e não passaram por
+terceira verificação.
