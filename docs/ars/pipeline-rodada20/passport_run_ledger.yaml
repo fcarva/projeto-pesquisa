@@ -281,3 +281,12 @@ entries:
   - pausar
   prev_hash: 4ee0a5a0c24f9358bf417035325f0d6cf9a54d0fe7fc7edf67a8abfb7c611b98
   hash: 1d508aadc64111bedcc1f8092b1c2a56190c11831be19db864fb65532ee6d649
+- seq: 23
+  kind: checkpoint_closed
+  at: '2026-11-16T00:19:31Z'
+  checkpoint_id: stage3prime-decision
+  answer: aplicar os resíduos e seguir ao 4.5; contrafactual mantido como recomendação
+  user_words: '[respostas por seleção de opção] Resíduos: "Corrigir os resíduos e
+    seguir (Recomendado)". Contrafactual: "Manter como recomendação".'
+  prev_hash: 1d508aadc64111bedcc1f8092b1c2a56190c11831be19db864fb65532ee6d649
+  hash: e5d5ae7ff95a2a3bdf1c822083a9d98d63214277658b8ebfe5f6f969e5ca5d12

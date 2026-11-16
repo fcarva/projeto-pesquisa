@@ -52,9 +52,9 @@ Referência em 2007--2011; período de seca em separado; relatórios mensais. \\
 Seca com efeito próprio e fim próximo da lei &
 Confunde a lei com o retorno das chuvas &
 Chuva como controle nos dois grupos; especificação com efeito distinto por grupo; limitação declarada. \\
-Retração da lavoura irrigada e do emprego &
+Possível retração da lavoura irrigada e do emprego &
 Muda renda e composição materna nos tratados &
-Efeitos fixos de município por ano; características maternas como desfecho-placebo. \\
+Efeitos fixos de município por ano; séries de área e emprego; características maternas como placebo. \\
 Diluição dentro do município &
 Efeito individual multiplicado pela fração exposta &
 Poder calculado para uma grade de frações; resultado sem poder lido como limite. \\
@@ -75,7 +75,7 @@ Parâmetro é de intenção de tratar &
 Registros posteriores à lei; notificações de intoxicação. \\
 Antecipação (projetos de lei de 2011 e 2015) &
 Comportamento muda antes da vigência &
-Referência anterior aos projetos; coortes de transição excluídas. \\
+Referência em sua maior parte anterior aos projetos; sensibilidade com 2008--2010. \\
 \bottomrule
 \end{tabular}
 \fonte{Elaboração própria.}
@@ -95,18 +95,47 @@ Análise & Especificação & Amostra e estatuto \\
 \midrule
 Principal ($H_1$) & Equação~\ref{eq:ddd}; coeficiente $\beta$ & Municípios com aplicação aérea e de banana familiar; confirmatória. \\
 Período de seca ($H_2$) & Equação~\ref{eq:ddd}; coeficiente $\beta_S$ & Mesma amostra; descritiva. \\
-Estudo de evento & Um coeficiente de $A_m \times P_t$ por ano, com 2007--2011 como base & Mesma amostra; verificação da hipótese de identificação. \\
-Chuva como controle & Acrescenta $P_t \times C_{m,a}$, com $C_{m,a}$ a chuva da quadra no município e ano & Mesma amostra; parte da especificação principal. \\
+Estudo de evento & Um coeficiente de $A_m \times P_t$ por ano, com 2011 como base & Mesma amostra; verificação da hipótese de identificação. \\
+
 Chuva por grupo & Acrescenta $A_m \times P_t \times C_{m,a}$ & Mesma amostra; sensibilidade. \\
-Efeito por chuva ($H_3$) & Acrescenta $A_m \times P_t \times Pos_t \times C_{m,a}$ & Mesma amostra; exploratória. \\
+Efeito por chuva ($H_3$) & Acrescenta $A_m \times P_t \times Pos_t \times C_{m,a}$ e os termos de ordem inferior & Mesma amostra; exploratória. \\
 Terceiro trimestre & $P_t$ redefinido como fração do terceiro trimestre na estação & Mesma amostra; exploratória. \\
 Tratamento falso ($H_4$) & Equação~\ref{eq:ddd} com banana familiar no lugar de $A_m$ & Municípios de banana familiar e sem banana; falsificação. \\
 Interferência & Equação~\ref{eq:ddd} com indicador de vizinho imediato de município tratado & Vizinhos e demais não tratados; exploratória. \\
 Composição materna & Idade e escolaridade da mãe como desfecho na Equação~\ref{eq:ddd} & Mesma amostra; placebo. \\
+Seleção & Óbito fetal, desfecho composto, nascidos vivos por coorte e razão de sexo como desfecho & Mesma amostra; exploratória. \\
+Substituição ($H_5$) & Notificações de intoxicação ocupacional por agrotóxico agrícola, por município e ano, antes e depois da lei & Tratados e comparação; exploratória. \\
 \bottomrule
 \end{tabular}
 \fonte{Elaboração própria. A quadra chuvosa é tomada, provisoriamente, como
 fevereiro a maio; os meses e a medida de chuva são fixados no plano de
-análise.}
+análise. Todas as regressões são ponderadas pelo número de nascimentos da célula.}
+\end{quadro}
+\clearpage
+\chapter{Cronologia legal}
+\label{ap:cronologia}
+
+\begin{quadro}[htb]
+\caption{\label{qua:cronologia}Cronologia legal do tratamento}
+\centering
+\small
+\begin{tabular}{@{}lp{11.2cm}@{}}
+\toprule
+Data & Evento \\
+\midrule
+09/12/1993 & Lei Estadual nº 12.228: norma-mãe sobre agrotóxicos no Ceará. \\
+20/11/2009 & Limoeiro do Norte proíbe a pulverização aérea por lei municipal (Lei nº 1.478). \\
+2010 & Assassinato de Zé Maria do Tomé (abril). Em maio, a Lei municipal nº 1.511 revoga a proibição e passa a regular a prática. \\
+2011 & Notícia de proibição na Chapada do Apodi (março); projeto de lei estadual com a mesma vedação (PL nº 134, maio); ação civil pública do Ministério Público (julho), de desfecho não localizado. \\
+2012--2017 & Seca no semiárido; relatos de suspensão dos voos na Chapada. \\
+24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\
+03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \cite{ceara2018nascer}. \\
+18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa (marco de certeza). \\
+09/01/2019 & Vigência da Lei nº 16.820 (marco de obrigação). \\
+05/2023 & O Supremo Tribunal Federal julga a lei constitucional (ADI 6137). \\
+19/12/2024 & Lei nº 19.135: exceção para drones. Fim da janela de análise. \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria, a partir dos textos legais e da tramitação legislativa; os eventos de 2011 a 2017 provêm de fontes secundárias.}
 \end{quadro}
 \end{apendicesenv}

@@ -89,21 +89,22 @@ Capítulo~\ref{cap:ameacas}.}
 \end{figure}
 
 Seja $P_t \in [0,1]$ a fração dos dois primeiros trimestres de gestação da
-coorte $t$ que cai na estação de pulverização, $Seca_t$ o indicador das coortes
-gestadas entre 2012 e 2018 e $Pos_t$ o das gestadas integralmente após 9 de
-janeiro de 2019. Estima-se
+coorte $t$ que cai na estação de pulverização, $Seca_t$ o indicador das coortes nascidas de 2013 a 2018, $Pos_t$ o das nascidas
+a partir de 2020 e $C_{m,a}$ a chuva da quadra chuvosa no município e ano.
+Estima-se, com ponderação pelo número de nascimentos,
 \begin{equation}
   Y_{mt} = \alpha_{m,s(t)} + \mu_{m,a(t)} + \gamma_t
+         + \theta\,(P_t \times C_{m,a(t)})
          + \beta_S\,(A_m \times P_t \times Seca_t)
          + \beta\,(A_m \times P_t \times Pos_t) + \varepsilon_{mt},
   \label{eq:ddd}
 \end{equation}
 em que $\alpha_{m,s(t)}$ são efeitos fixos de município por mês do ano,
-$\mu_{m,a(t)}$ de município por ano e $\gamma_t$ de coorte. Os primeiros
+$\mu_{m,a(t)}$ de município por ano de nascimento e $\gamma_t$ de coorte. Os primeiros
 absorvem a sazonalidade de base de cada município; os segundos, os choques
 comuns a todas as coortes de um município num ano, entre eles os programas
-estaduais de saúde materna contemporâneos à lei; os termos de ordem inferior
-são absorvidos por esses efeitos fixos. O coeficiente $\beta$ mede quanto o
+estaduais de saúde materna contemporâneos à lei; as coortes de transição, nascidas em 2012 e em 2019, são excluídas, de modo
+que os termos de ordem inferior são absorvidos por esses efeitos fixos. O coeficiente $\beta$ mede quanto o
 hiato sazonal de peso ao nascer mudou, do período de referência para o
 pós-lei, nos municípios com aplicação aérea em relação aos de comparação; sob
 a hipótese principal, $\beta > 0$. O coeficiente $\beta_S$ mede a mesma
@@ -121,8 +122,11 @@ usá-la para definir a exposição condicionaria em variável afetada pelo
 tratamento.
 
 \textbf{Período de referência.} O período de referência é fixado neste
-projeto: as coortes gestadas de 2007 a 2011, anos para os quais há registro de
-voos e que antecedem a seca. Ele não é escolhido pelos dados.
+projeto: as coortes nascidas de 2007 a 2011, anos em que há relatos de voos na
+Chapada e que antecedem a seca. Ele não é escolhido pelos dados. As coortes de
+2005 e 2006 entram apenas no estudo de evento. Dois limites são conhecidos: os
+registros pedidos começam em 2008, e em 2011 já havia notícia de proibição; uma
+estimativa com a referência restrita a 2008--2010 é reportada.
 
 \textbf{Grupo de comparação.} Os municípios de comparação são os produtores de
 banana em que a cultura é predominantemente familiar, segundo o Censo
@@ -134,9 +138,9 @@ não seria válida: agricultura familiar e empresarial diferem em renda, acesso
 a programas sociais e exposição à aplicação costal. Dentro da diferença
 tripla exige-se menos: que, na ausência da lei, o hiato sazonal tivesse
 evoluído do mesmo modo nos dois grupos desde o período de referência
-\cite{olden2022triple}. A hipótese é examinada por um estudo de evento, com um
-coeficiente por ano no lugar de $\beta_S$ e $\beta$, e por um tratamento
-falso: comparados aos municípios sem banana, os de banana familiar não
+\cite{olden2022triple}. A hipótese é examinada por um estudo de evento,
+com um coeficiente por ano e 2011 como base, de modo que os anos de 2005 a 2010
+testam a pré-tendência, e por um tratamento falso: comparados aos municípios sem banana, os de banana familiar não
 deveriam reagir à lei.
 
 \textbf{Chuva.} A chuva entra de dois modos. Como a precipitação durante a
@@ -232,8 +236,11 @@ resultado.
 O Quadro~\ref{qua:regra} fixa o que cada resultado da medição e do cálculo de
 poder aciona. Nenhum critério usa o desfecho. O efeito plausível é o do
 análogo equatoriano, tomado como teto, multiplicado pela fração de nascimentos
-exposta, para uma grade de frações fixada no plano de análise. A data-limite
-para os registros é o fim do terceiro bimestre.
+exposta, para uma grade de frações fixada no plano de análise; decide o valor
+central da grade. Poder suficiente é condição necessária para o teste, não
+garantia de que o efeito exista nessa magnitude. Contam-se como documentados
+os voos registrados em ao menos um ano do período de referência. A
+data-limite para os registros é o fim do terceiro bimestre.
 
 \begin{quadro}[htb]
 \caption{\label{qua:regra}Regra de decisão}
@@ -247,6 +254,8 @@ Voos documentados por município e mês & Efeito detectável $\leq$ plausível &
 Desenho principal, confirmatório, com municípios e estação medidos. \\
 Voos documentados & Efeito detectável $>$ plausível &
 Medida dos voos e desenho principal reportado como limite, sem teste. \\
+Voos documentados, sem pico sazonal & Qualquer &
+Medida dos voos; o desenho de calendário não se aplica; forma reduzida descritiva. \\
 Registros mostram ausência de voos no período de referência & Qualquer &
 Medida do alcance da lei; forma reduzida estadual descritiva; sem estimativa de efeito da pulverização. \\
 Registros não obtidos até a data-limite & Calculado com a classificação provisória &

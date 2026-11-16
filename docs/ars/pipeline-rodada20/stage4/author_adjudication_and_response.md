@@ -45,7 +45,7 @@ do pesquisador, a ratificar com o orientador.
 | REV-27 | consider | Comparabilidade SINASC/SIM 2005–2024 | atender | 06 (troca de formulário em 2011; residência); Ap. A. |
 | REV-28 | consider | Intoxicações intencionais não são placebo limpo | atender | 06: 'contraste', com ressalva. |
 | REV-29 | consider | Elo com o 2º ensaio promete demais | atender | 03.1 e 08: 'insumo parcial'. |
-| REV-30 | consider | Precedentes de restrição do método | limitação | Não incluídos por espaço; nenhum foi verificado nesta rodada. |
+| REV-30 | consider | Precedentes de restrição do método | recusar | Não incluídos no texto: por espaço, e porque nenhum foi verificado nesta rodada. (Corrigido após a re-revisão: a versão anterior desta linha dizia 'limitação', mas o texto não os menciona.) |
 | REV-31 | must | Doença não nomeada; regime tomado do Equador | atender | 02.2: sigatoka-amarela (pelas reportagens), duas aplicações por ano (relato); 80 g como teto. 'Área livre da negra' NÃO entrou: sem fonte conferida. |
 | REV-32 | should | Onde estão os registros e se sobreviveram | atender | 5.4 e Ap. A: preservação incerta; entrega condicional. |
 | REV-33 | consider | Receituário atribuído a órgão que não o guarda | atender | 5.4 e Ap. A: 'guarda a localizar; registra prescrição'. |
