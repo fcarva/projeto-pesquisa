@@ -1,0 +1,133 @@
+\section{O desenho da política e a sua teoria da mudança}
+\label{sec:desenho}
+
+Avaliar o desenho de uma política é examinar a lógica que liga o problema, a
+ação e o resultado esperado, e explicitar as hipóteses que cada passo dessa
+lógica pressupõe \citep{gertler2016}. A lei cearense não traz essa cadeia
+escrita; ela se reconstrói da justificativa do projeto de lei e do debate que o
+cercou.
+
+\subsection{A hipótese causal}
+
+\emph{Se} a lei proíbe a aplicação por aeronave e a proibição é cumprida,
+\emph{então} cessa a deriva de fungicidas sobre comunidades e mananciais, o que
+reduz a exposição de gestantes e, ao final, melhora os desfechos de nascimento,
+contribuindo para reduzir a externalidade da fruticultura irrigada sobre a
+população do entorno.
+
+\begin{table}[ht]
+\centering\small
+\caption{Cadeia de resultados da proibição, com indicadores, premissas (P) e
+riscos (R)}
+\label{tab:tdm}
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}LLL@{}}
+\toprule
+Elo & Conteúdo & Indicador e fonte & Premissas e riscos \\
+\midrule
+Problema & Deriva de fungicidas aplicados por avião alcança casas, escolas e água & Resíduos em água; relatos de campo & P: a prática existia às vésperas da lei \\
+Atividade & Vedação da aplicação aérea, com multa & Texto legal; autos de infração & P: há fiscalização \\
+Produto & Deixam de ocorrer voos de aplicação & Relatórios mensais ao Ministério da Agricultura & R: descumprimento \\
+Resultado intermediário & Menor exposição ambiental de gestantes & Não observado diretamente & R: substituição por aplicação terrestre, com mais calda e mais aplicadores \\
+Resultado final, saúde & Maior peso ao nascer; menos prematuridade e perda fetal & SINASC, SIM & R: seleção para nascimento vivo \\
+Resultado final, economia & Custo de controle da doença; área e produção & PAM, RAIS & R: migração da produção para o estado vizinho \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Avaliação do desenho}
+
+\paragraph{O problema está bem definido, mas o diagnóstico é anterior.} A
+carência que a lei enfrenta, a exposição involuntária de vizinhos, tem
+população-alvo identificável e base empírica. Essa base, porém, descreve a
+década de 2000. O legislador de 2018 decidiu com o diagnóstico de 2010, e a
+primeira premissa da cadeia, a de que a prática estava em curso, não foi
+verificada no processo legislativo. É a premissa que este projeto mede
+(Seção~\ref{sec:quando}).
+
+\paragraph{O instrumento ataca o método, não a molécula.} A lei proíbe uma forma
+de aplicar. Os mesmos produtos seguem permitidos por via terrestre. A cadeia só
+se completa se a deriva da aplicação terrestre for menor que a do avião, o que
+é plausível, e se a troca não criar outra exposição. Produtores relataram à
+imprensa que o volume de calda passou de 25 para 250 a 300 litros por hectare e
+que a aplicação manual ocupa dezenas de trabalhadores onde havia um piloto. O
+risco é que a exposição ambiental caia e a ocupacional suba. A teoria da mudança
+gera, assim, duas previsões de sinais opostos, sobre nascimentos e sobre
+intoxicações de trabalhadores, e a avaliação testa as duas.
+
+\paragraph{O funil de atrito é estreito.} De cada cem nascimentos nos municípios
+atingidos, poucos são de mães que moravam ao alcance da deriva. O efeito final
+sobre a média municipal é o efeito sobre as expostas multiplicado por essa
+fração. Superestimar a participação leva a amostras pequenas demais para
+detectar o efeito \citep{gertler2016}; a Seção~\ref{sec:poder} faz a conta.
+
+\paragraph{A fiscalização ficou mais simples.} A regra anterior exigia medir
+distâncias e condições de voo. A proibição total dispensa a medição. É o
+argumento mais forte a favor do desenho da lei, e independe do tamanho do
+efeito sobre a saúde.
+
+\paragraph{Não há plano de monitoramento.} A lei não previu indicadores, linha
+de base nem avaliação. Os dados que permitiriam acompanhá-la existem em três
+órgãos e nunca foram cruzados.
+
+\subsection{Seis caminhos entre a lei e o nascimento}
+\label{sec:caminhos}
+
+A Figura~\ref{fig:dag} representa a cadeia como grafo causal. O que uma
+avaliação de impacto estima é o efeito \emph{total} da lei sobre o desfecho, por
+todos os caminhos. Só um deles é a hipótese da política.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=7mm and 13mm,
+  every node/.style={font=\footnotesize},
+  obs/.style={draw, rounded corners=2pt, align=center, inner sep=3pt},
+  lat/.style={draw, dashed, rounded corners=2pt, align=center, inner sep=3pt}]
+  \node[obs] (L) {Lei};
+  \node[obs, right=of L] (A) {Aplicação\\aérea};
+  \node[lat, right=of A] (X) {Exposição\\ambiental};
+  \node[obs, right=of X] (Y) {Desfecho\\ao nascer};
+  \node[obs, below=of A] (T) {Aplicação\\terrestre};
+  \node[lat, below=of X] (O) {Exposição\\ocupacional};
+  \node[obs, above=of A] (P) {Produção\\e emprego};
+  \node[obs, above=of P] (C) {Composição\\das mães};
+  \node[obs, below=of Y] (F) {Perda\\fetal};
+  \node[obs, right=of Y] (G) {Choque\\estadual};
+  \draw[->, very thick] (L) -- (A);
+  \draw[->, very thick] (A) -- (X);
+  \draw[->, very thick] (X) -- (Y);
+  \draw[->] (L) |- (T);
+  \draw[->] (T) -- (X);
+  \draw[->] (T) -- (O);
+  \draw[->] (O) -- (Y);
+  \draw[->] ([xshift=1.5mm]L.north) |- (P);
+  \draw[->] ([xshift=-1.5mm]L.north) |- (C);
+  \draw[->] (P) -| ([xshift=-2mm]Y.north);
+  \draw[->] (C) -| ([xshift=2mm]Y.north);
+  \draw[->] (X) -- (F);
+  \draw[->, dashed] (G) -- (Y);
+\end{tikzpicture}
+\caption{Grafo causal resumido. Em traço grosso, o caminho-alvo. Caixas
+tracejadas: variáveis não observadas. Seta tracejada: ameaça à identificação.}
+\label{fig:dag}
+\end{figure}
+
+\begin{enumerate}
+\item \textbf{O caminho-alvo:} lei, menos avião, menos deriva, melhor
+nascimento.
+\item \textbf{Substituição ambiental:} a aplicação terrestre também expõe os
+vizinhos, em menor grau. O efeito estimado é líquido dela.
+\item \textbf{Substituição ocupacional:} mais trabalhadores aplicam, e pais
+expostos podem afetar a gestação.
+\item \textbf{Renda:} a lei altera custo, produção e emprego, que alteram a
+renda das famílias.
+\item \textbf{Composição:} a lei pode mudar quem mora ou engravida nos
+municípios atingidos.
+\item \textbf{Seleção para nascer vivo:} se a perda fetal cai, nascem fetos
+mais frágeis, e o peso médio dos nascidos vivos fica atenuado.
+\end{enumerate}
+
+Para atribuir o efeito ao primeiro caminho, a avaliação mostra, nesta ordem: que
+o avião de fato deixou de voar (o primeiro estágio); que produção, emprego e
+perfil das mães não se moveram; e o que aconteceu com as intoxicações de
+trabalhadores e com a perda fetal. É a análise de mecanismo que a teoria da
+mudança torna possível.

@@ -1,0 +1,215 @@
+\section{Proposta de avaliação de impacto}
+\label{sec:avaliacao}
+
+\subsection{Parâmetro}
+
+Seja $Y_{it}(1)$ o desfecho do município $i$ no período $t$ sob a lei e
+$Y_{it}(0)$ o desfecho sem ela. Só um dos dois é observado. O parâmetro de
+interesse é o efeito médio sobre os tratados em cada período posterior à lei,
+\[
+ATT(t) = E\big[\,Y_{t}(1) - Y_{t}(0) \,\big|\, G = 2019\,\big], \qquad t \geq 2019,
+\]
+em que $G = 2019$ identifica os municípios cearenses da Chapada. É um efeito de
+intenção de tratar no nível do município: o efeito de estar sob a lei, por
+todos os caminhos da Seção~\ref{sec:caminhos}, e não o efeito de deixar de ser
+pulverizado. A conversão para o efeito sobre a gestante exposta é exercício de
+calibração, com a fração exposta declarada como hipótese.
+
+\subsection{Estratégia de identificação}
+
+O contrafactual é construído com os municípios potiguares da Chapada. A hipótese
+é a de tendências paralelas condicionais: na ausência da lei, o desfecho dos
+municípios cearenses teria evoluído como o dos potiguares de mesmas
+características de linha de base. Um grupo de comparação válido precisa ter a
+mesma tendência, não ser afetado pelo tratamento e reagir a ele da mesma forma
+\citep{gertler2016}. A Tabela~\ref{tab:ameacas} confronta cada ameaça com o que
+o desenho faz.
+
+\begin{table}[ht]
+\centering\small
+\caption{Ameaças à validade interna}
+\label{tab:ameacas}
+\begin{tabularx}{\textwidth}{@{}p{3.1cm}LL@{}}
+\toprule
+Ameaça & O que é aqui & Resposta do desenho \\
+\midrule
+Perfil dos municípios & Municípios de fruticultura têm outro nível de desfecho & Fixo no tempo; sai na diferença. Covariáveis de linha de base \\
+Seca e chuva & A seca de 2012--2017 afeta renda, saúde e a própria pulverização & Mesma chapada e mesmo clima nos dois lados \\
+Choques comuns & Zika (2015--16), pandemia (2020--21) & Saem com o grupo de comparação \\
+Choque estadual & Política cearense de saúde materna próxima de 2019 & \textbf{Não é fechada pela fronteira}: diferença tripla e desenho de calendário \\
+Contaminação do controle & Deriva e aquífero cruzam a divisa & Viés contra achar efeito; sensibilidade sem os municípios colados à divisa \\
+Antecipação & Projeto de lei de 2015, aprovação em 12/2018 & Período de base anterior a 2015 \\
+Mudança no controle & Drones no lado potiguar a partir de cerca de 2021 & Sensibilidade com o pós-período até 2021 \\
+Seleção para nascer vivo & Menos perda fetal altera quem nasce & Óbito fetal, razão de sexos e número de nascimentos como desfechos \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+A fronteira deixa uma única ameaça inteiramente aberta. Todos os tratados estão
+no Ceará, de modo que qualquer mudança estadual simultânea se confunde com a
+lei. As especificações das Seções~\ref{sec:ddd} e \ref{sec:calendario} existem
+para fechá-la.
+
+\subsection{Estimador}
+
+O estimador é o de \citet{callaway2021multiple}. Com uma única coorte tratada,
+ele se reduz a comparações entre o grupo tratado e o grupo nunca tratado,
+período a período, em relação a um período de base, e entrega um $ATT(t)$ para
+cada período. Usa-se a versão duplamente robusta \citep{santanna2020drdid}, que
+combina regressão do desfecho e escore de propensão sobre covariáveis de linha
+de base e é consistente se um dos dois modelos estiver correto. As células são
+ponderadas pelo número de nascimentos. Como conferência, estima-se o mesmo
+estudo de evento por efeitos fixos de município e de período; com uma coorte só,
+os dois devem coincidir.
+
+Três escolhas decorrem do grafo causal. As covariáveis são todas anteriores à
+lei: população e urbanização em 2010 e participação da agricultura não familiar.
+Variáveis que a lei pode alterar, como cobertura de pré-natal e tipo de parto,
+não entram, porque condicionar nelas fecharia parte do efeito. O período de base
+é anterior ao projeto de lei de 2015, para acomodar antecipação. E a janela
+termina em 19 de dezembro de 2024.
+
+\paragraph{Previsão de forma.} A lei entra em vigor em janeiro de 2019. Uma
+criança nascida em fevereiro teve a gestação quase toda sob o regime anterior.
+O efeito deve, portanto, crescer ao longo de 2019 e estabilizar a partir das
+concepções daquele ano. Um efeito que surja inteiro em janeiro, sem rampa, conta
+contra a leitura causal. A previsão fica registrada antes da estimação.
+
+\subsection{Amostra}
+
+\paragraph{Tratados.} Municípios cearenses da Chapada do Apodi. O núcleo são
+Limoeiro do Norte e Quixeré, os dois com aplicação por aeronave medida no Censo
+de 2006 (Tabela~\ref{tab:censo}) e sede do perímetro irrigado. A versão ampla
+acrescenta Russas, citada pela literatura da região e sem registro de aeronave
+em 2006, e os demais municípios cearenses da Chapada.
+
+\paragraph{Controles.} Os vinte e um municípios potiguares da Região Integrada
+de Desenvolvimento da Chapada do Apodi, delimitação externa ao projeto.
+
+\paragraph{Período.} De 2005 a 19 de dezembro de 2024, ou a partir do primeiro
+ano disponível nos dois estados. O pré-período longo serve aos testes de
+tendência e ao cenário em que a variação de exposição está em 2012
+(Seção~\ref{sec:cenarios}).
+
+\paragraph{Unidade.} Município de residência da mãe por trimestre de nascimento.
+As listas de municípios são fixadas antes de se examinar qualquer desfecho
+posterior a 2019 no recorte tratado contra controle.
+
+\subsection{Dados}
+
+\begin{table}[ht]
+\centering\small
+\caption{Variáveis, fontes e situação}
+\label{tab:dados}
+\begin{tabularx}{\textwidth}{@{}p{3.3cm}LLp{2.2cm}@{}}
+\toprule
+Papel & Variável & Fonte & Situação \\
+\midrule
+Desfecho primário & Peso ao nascer (g) & SINASC & CE parcial; RN a baixar \\
+Desfechos secundários & Baixo peso; semanas de gestação; prematuridade & SINASC & idem \\
+Perda fetal & Óbito fetal; razão de sexos; número de nascimentos & SIM; SINASC & idem \\
+Primeiro estágio & Área aplicada por avião, por município e mês & Relatórios mensais ao Ministério da Agricultura & Pedido de acesso a protocolar \\
+Linha de base do método & Estabelecimentos com aplicação por aeronave, por tipo de agricultura & Censo Agropecuário 2006 & Obtido \\
+Substituição & Modalidade de aplicação receitada & Receituário agronômico (ADAGRI) & Pedido a protocolar \\
+Exposição ocupacional & Intoxicação não intencional por agrotóxico agrícola & SINAN; SIH & CE obtido; RN a baixar \\
+Economia & Área, produção e valor da banana; vínculos formais & PAM; RAIS & PAM disponível; RAIS a obter \\
+Composição & Idade, escolaridade e gemelaridade & SINASC & idem ao desfecho \\
+Heterogeneidade & Participação da agricultura não familiar & Censo Agropecuário 2017 & Obtido \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Os microdados de nascimento e de mortalidade são públicos e anonimizados. As
+definições seguem o padrão da literatura: baixo peso abaixo de 2.500 gramas e
+prematuridade abaixo de 37 semanas. A notificação de intoxicação mede também a
+capacidade de notificar, que depende de vigilância e de rede hospitalar
+\citep{rodrigues2022tese}. Por isso o projeto confere a evolução dessa
+capacidade nos dois lados, usa a internação como segunda medida e trata a
+tentativa de suicídio como desfecho placebo.
+
+\subsection{Diferença tripla}
+\label{sec:ddd}
+
+Um choque estadual atinge o Ceará inteiro; a lei só importa onde havia avião.
+Compara-se então a Chapada com o restante de cada estado:
+\[
+DDD = \big[(\text{Chapada} - \text{resto})_{CE}^{\text{pós}-\text{pré}}\big] -
+      \big[(\text{Chapada} - \text{resto})_{RN}^{\text{pós}-\text{pré}}\big].
+\]
+A primeira diferença remove o que é cearense e varia no tempo. A segunda remove
+o que é próprio de municípios de fruticultura irrigada e varia no tempo. O
+restante de cada estado são os municípios sem aplicação por aeronave em 2006. A
+identificação exige uma única hipótese de tendências paralelas, sobre a
+diferença entre os dois contrastes \citep{olden2022triple}.
+
+\subsection{Desenho de calendário}
+\label{sec:calendario}
+
+O avião voava na quadra chuvosa, de fevereiro a maio, e
+\citet{calzada2023bananas} encontram o efeito no primeiro e no segundo trimestre
+de gestação. Dentro de cada município e ano há, portanto, gestações cujo início
+atravessa a estação de aplicação e gestações que não. Compara-se a diferença
+entre esses dois grupos, antes e depois da lei, no lado cearense e no potiguar.
+
+A comparação é entre crianças do mesmo município nascidas no mesmo ano, e por
+isso absorve tudo o que varia por município e ano, o choque estadual inclusive.
+Fica aberta a possibilidade de a sazonalidade dos nascimentos ter mudado em
+2019 de modo diferente no lado cearense. A composição sazonal das mães é ameaça
+conhecida \citep{buckles2013, currie2013}, e o teste de composição se repete
+por estação. É também a especificação em que o sinal esperado é mais
+concentrado.
+
+\subsection{Heterogeneidade}
+
+A lei atinge quem aplicava por avião, e o Censo de 2006 mostra que eram
+sobretudo estabelecimentos não familiares. A previsão é que o efeito se
+concentre onde a agricultura não familiar pesa mais. Testa-se com o corte da
+amostra pela participação da agricultura não familiar e, na diferença tripla,
+com essa participação no lugar da indicadora da Chapada. A medida é municipal e
+não permite afirmações sobre famílias.
+
+\subsection{O que o desenho estima em cada cenário do primeiro estágio}
+\label{sec:cenarios}
+
+Se o avião voava até 2018, a lei removeu uma exposição em curso e o contraste de
+2019 a mede. Se a seca já o havia parado em 2012, a exposição não muda em 2019,
+e o contraste informativo é o de 2012: o lado cearense deixa de pulverizar, e a
+seca atinge os dois lados. A Tabela~\ref{tab:cenarios} registra a regra de
+decisão antes de o registro chegar.
+
+\begin{table}[ht]
+\centering\small
+\caption{Regra de decisão conforme o registro da aplicação aérea}
+\label{tab:cenarios}
+\begin{tabularx}{\textwidth}{@{}LLL@{}}
+\toprule
+O que o registro mostrar & Contraste principal & O que se estima \\
+\midrule
+Voo no lado cearense até 2018 & 2019 & Efeito de a lei remover a exposição \\
+Lado cearense para em 2012; lado potiguar não voava ou segue voando & 2012, com 2019 como teste de que a lei nada acrescentou & Efeito de cessar a exposição; a lei consolidou \\
+Os dois lados param em 2012 & Calendário anterior a 2012, no lado cearense & Efeito da exposição sazonal \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+No segundo cenário a identificação pede uma hipótese adicional, que o texto
+declara: a seca afetou renda e saúde igualmente nos dois lados e só de um lado
+desligou o avião.
+
+\subsection{Inferência}
+
+Com dois a nove municípios tratados, o erro-padrão agrupado convencional não é
+confiável. A inferência usa os métodos de \citet{conley2011} e
+\citet{ferman2019few}, que obtêm a distribuição do estimador a partir dos
+controles, e testes de permutação entre municípios de controle, apresentados
+como permutação. A sensibilidade a violações de tendências paralelas segue
+\citet{rambachan2023credible}. Os desfechos secundários recebem correção para
+comparações múltiplas.
+
+\subsection{Validade externa}
+
+O resultado vale para a proibição de um método de aplicação em fruticultura
+irrigada de exportação, com fungicidas em banana, numa região semiárida. Não se
+transporta para herbicidas em grãos. Interessa, porém, a uma decisão em
+aberto: projetos de proibição tramitam em outros estados, e o Supremo já
+reconheceu a competência estadual para legislar.

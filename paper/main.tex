@@ -1,14 +1,13 @@
 % =====================================================================
-% Ensaio 1 — documento de qualificação
+% Projeto de pesquisa — avaliação da proibição da pulverização aérea
+% de agrotóxicos no Ceará (Lei 16.820/2019).
 %
-% ⚠️ Alvo declarado no roteiro (docs/ars/04-roteiro-qualificacao.md):
-% "documento de projeto defensável. Identificação fechada, dose verificada,
-% descritivas preliminares, ameaças mapeadas. NÃO resultado estimado."
+% Documento de PROJETO: desenho da avaliação, sem resultado estimado.
+% Fonte das decisões: docs/framework-dissertacao.md, docs/dag-identificacao.md,
+% docs/pre-especificacao-v2.md. A versão anterior (desenho de dose) está em
+% paper/arquivo-v1/.
 %
-% Portanto a seção de identificação está COMPLETA sem dado, e as seções de
-% resultado estão ausentes de propósito — não por atraso.
-%
-% Compilar:  latexmk -pdf -interaction=nonstopmode paper/main.tex
+% Compilar:  latexmk -pdf -interaction=nonstopmode -cd paper/main.tex
 % =====================================================================
 \documentclass[12pt,a4paper]{article}
 
@@ -17,34 +16,38 @@
 \usepackage[brazil]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
+\usepackage{tabularx}
 \usepackage{graphicx}
-\usepackage[margin=3cm]{geometry}
-\usepackage[colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
-\usepackage{natbib}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\usepackage[round]{natbib}
 \usepackage{setspace}
+\usepackage{enumitem}
 
 \onehalfspacing
-\graphicspath{{figures/}}
+\setlist{itemsep=2pt,topsep=4pt}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
-\title{Proibição da pulverização aérea de agrotóxicos no Ceará:\\
-       avaliação de impacto sobre desfechos perinatais}
+\title{A proibição da pulverização aérea de agrotóxicos no Ceará:\\
+       projeto de avaliação de impacto sobre a saúde ao nascer}
 \author{Felipe Carvalho Souza Santos\\
-        \small PPGEco/UFES}
-\date{\today}
+        \small Programa de Pós-Graduação em Economia, Universidade Federal do Espírito Santo}
+\date{Novembro de 2026}
 
 \begin{document}
 \maketitle
 
+\input{secoes/00-resumo}
 \input{secoes/01-introducao}
-\input{secoes/02-background}
-\input{secoes/03-teoria}
-\input{secoes/04-identificacao}
-\input{secoes/05-dados}
-\input{secoes/06-diagnostico-poder}
-\input{secoes/07-conclusao}
-% 5. Dados e estatísticas descritivas   <- espera a aquisição
-% 6. Resultados e robustez              <- FORA DO ALVO DA QUALIFICAÇÃO
-% 7. Conclusão
+\input{secoes/02-politica}
+\input{secoes/03-literatura}
+\input{secoes/04-desenho-da-politica}
+\input{secoes/05-avaliacao-de-impacto}
+\input{secoes/06-poder}
+\input{secoes/07-custo-beneficio}
+\input{secoes/08-conclusao}
 
 \bibliographystyle{plainnat}
 \bibliography{referencias}

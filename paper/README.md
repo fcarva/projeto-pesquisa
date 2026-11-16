@@ -1,3 +1,21 @@
+# `paper/` — o projeto de pesquisa
+
+> **Atualizado em 2026-11-16.** O documento em `main.tex` e `secoes/` é o
+> **projeto de avaliação de impacto** no desenho de fronteira (Chapada do
+> Apodi, CE × RN), organizado como avaliação de política pública: problema,
+> política, literatura, teoria da mudança, proposta de avaliação de impacto,
+> poder, custo-benefício e conclusão. Não traz resultado estimado.
+>
+> A versão anterior (desenho de dose, com diagnóstico de poder) está em
+> `arquivo-v1/` e o texto abaixo desta nota refere-se a ela.
+>
+> Compilar: `latexmk -pdf -interaction=nonstopmode -cd paper/main.tex`.
+> Decisões e fontes: `docs/framework-dissertacao.md`,
+> `docs/dag-identificacao.md`, `docs/pre-especificacao-v2.md`,
+> `docs/leituras-segunda-rodada.md`.
+
+---
+
 # `paper/` — o documento da qualificação
 
 ⚠️ **O alvo da qualificação não inclui resultado estimado.** O roteiro

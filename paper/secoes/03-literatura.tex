@@ -1,0 +1,103 @@
+\section{Revisão da literatura}
+\label{sec:literatura}
+
+\subsection{A Chapada do Apodi: o dano documentado}
+
+O conhecimento sobre a Chapada vem da saúde coletiva. O estudo coordenado por
+Raquel Rigotto acompanhou a região entre 2007 e 2010 e reuniu, em livro,
+medições de resíduos na água, inquérito com trabalhadores e a observação direta
+dos voos \citep{rigotto2011livro}. Dele saem os dados de operação usados na
+Seção~\ref{sec:politica} \citep{marinho2011dimensao, teixeira2011rebulico}. Um
+inventário independente dos ingredientes ativos comercializados no Baixo
+Jaguaribe classifica a maioria como de alto ou médio potencial de contaminação
+de águas superficiais \citep{gama2013inventario}.
+
+Dois trabalhos tratam de desfechos de saúde. \citet{rigotto2013trends} comparam
+Limoeiro do Norte, Quixeré e Russas com doze municípios de agricultura familiar
+entre 2000 e 2010: a taxa de internação por neoplasia é 1,76 vez maior e a de
+óbito por neoplasia, 1,38 vez; não há diferença em óbito fetal nem em
+malformação. \citet{aguiar2017} estuda oito famílias da comunidade do Tomé com
+casos de malformação congênita e puberdade precoce, sete delas com nascimento
+ou diagnóstico depois de 2014. São estudos descritivos, sem grupo de comparação
+que sustente inferência causal, e os autores o reconhecem. Fornecem a este
+projeto o problema e a comparação que o motiva, entre a fruticultura patronal e
+a agricultura familiar.
+
+\subsection{Agrotóxicos e saúde no Brasil: proxies de uso}
+
+A referência com identificação causal é \citet{dias2023down}. Os autores
+exploram a liberação da soja transgênica, a aptidão agroclimática dos
+municípios e a direção dos rios, e encontram aumento da mortalidade infantil a
+jusante das áreas que mais expandiram o uso de glifosato. O químico e o canal
+são outros: herbicida em grãos, por água de superfície.
+
+Dois trabalhos do programa de economia aplicada da Universidade Federal de
+Viçosa tentam medir efeitos em escala nacional com dados municipais.
+\citet{rodrigues2022tese} mede a intensidade de uso pela despesa com
+agrotóxicos por hectare, nos Censos Agropecuários de 2006 e 2017, e a relaciona
+às intoxicações notificadas, com a temperatura como instrumento; num segundo
+ensaio, estima o valor do produto marginal do agrotóxico e conclui por uso
+excessivo em quase todo o país, com a exceção do Nordeste. \citet{januzzi2025}
+constrói um índice de exposição a partir da intensidade de uso por cultura em
+Mato Grosso e da área plantada de sete culturas em cada município, e não
+encontra efeito sobre baixo peso, prematuridade ou mortalidade infantil nas
+especificações com efeitos fixos de município e de ano. Um terceiro trabalho do
+grupo estima uma função dose-resposta entre intensidade de uso e intoxicações
+por escore de propensão generalizado \citep{rodrigues2022intoxicacoes}.
+
+Três limites dessa literatura definem o espaço deste projeto. As proxies medem
+quantidade ou gasto, e não método de aplicação. O índice por cultura não inclui
+banana nem melão, e por isso não enxerga a fruticultura irrigada do Nordeste. E
+nenhum dos trabalhos avalia uma política: a variação vem de diferenças de uso
+entre municípios, com as dificuldades de identificação que isso traz. Nas
+bibliografias dos três não há um estudo que aplique diferenças em diferenças a
+agrotóxicos.
+
+O mesmo conjunto de trabalhos traz dois avisos metodológicos. O primeiro é que
+a notificação de intoxicação depende da infraestrutura de vigilância: o número
+de municípios que notificam quase triplica entre 2006 e 2017, e a maior parte
+dos óbitos por agrotóxico é de suicídios \citep{rodrigues2022tese}. O segundo é
+que, na janela de 2019 a 2022, a presença ou ausência do efeito fixo de ano
+decide a significância do resultado de \citet{januzzi2025}. Nesse período, só um
+grupo de comparação contemporâneo separa efeito de choque comum.
+
+\subsection{Evidência com identificação causal em outros países}
+
+\citet{calzada2023bananas} estudam a fumigação aérea de bananais no Equador
+com o endereço da mãe, o perímetro das plantações e o registro dos voos. A
+estratégia é de diferenças em diferenças sazonal: comparam mães que moram perto
+e longe dos bananais, em gestações que atravessam ou não a estação de fumigação
+intensa. Entre as que moram a até 150 metros, a exposição intensa reduz o peso
+ao nascer em 80 gramas (erro-padrão de 31) e eleva a chance de baixo peso; o
+efeito está no primeiro e no segundo trimestre de gestação e desaparece além de
+150 metros. É o análogo deste projeto em cultura, método, classe química e
+desfecho, e a fonte do efeito de referência do cálculo de poder.
+
+\citet{camacho2017health} usam a aspersão aérea de herbicida sobre cultivos
+ilícitos na Colômbia, medida por município e dia, e encontram aumento de
+consultas dermatológicas e respiratórias e de perdas gestacionais. Interessa
+aqui por ter exposição municipal, como a deste projeto, e por mostrar a perda
+gestacional como desfecho sensível. \citet{larsen2017agricultural} encontram
+efeitos sobre nascimentos na Califórnia apenas na cauda superior da
+distribuição de exposição, o que antecipa a dificuldade de detectar efeitos em
+médias.
+
+\subsection{Custo social e instrumentos}
+
+\citet{soares2009socialcost, soares2012impactos} estimam o custo da intoxicação
+aguda no Paraná e o comparam ao benefício produtivo do agrotóxico. Fornecem o
+método de valoração por custo da doença. \citet{cunha2020incentivos} calculam
+em R\$~9,86 bilhões a desoneração fiscal dos agrotóxicos em 2017: no Brasil, o
+instrumento de preço opera como subsídio. A tradição que organiza a escolha
+entre proibir e taxar vem de \citet{weitzman1974} e, para agrotóxicos, de
+\citet{lichtenberg1986damage} e \citet{lichtenberg1988}.
+
+\subsection{Método}
+
+O estimador é o de \citet{callaway2021multiple}, com a versão duplamente
+robusta de \citet{santanna2020drdid}. A leitura dos períodos anteriores ao
+tratamento segue \citet{roth2023trending} e \citet{rambachan2023credible}. A
+diferença tripla segue \citet{olden2022triple}. Para inferência com poucas
+unidades tratadas, \citet{conley2011} e \citet{ferman2019few}. O vocabulário de
+avaliação de políticas (teoria da mudança, validade, poder) é o de
+\citet{gertler2016}.
