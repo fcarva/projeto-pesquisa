@@ -237,6 +237,12 @@ SUFIXO_UF := uf$(word 1,$(UFS_ORDENADAS))-$(word 2,$(UFS_ORDENADAS))
 censo-demografico:
 	$(PY) scripts/data_prep/15_censo_demografico.py --ufs 23 $(VIZINHO) --verificar-dicionario
 
+# Aviao por tipo de agricultura (familiar x nao familiar), Censo Agro 2006 e
+# 2017. Linha de base do primeiro elo do caminho-alvo; nao e desfecho.
+.PHONY: censo-agro-familiar
+censo-agro-familiar:
+	$(PY) scripts/data_prep/18_censo_agro_familiar.py --ufs 23 $(VIZINHO)
+
 equipamento-vizinho:
 	$(PY) scripts/data_prep/13_censo_agro_equipamento.py --uf $(VIZINHO)
 

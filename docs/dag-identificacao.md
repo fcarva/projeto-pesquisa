@@ -13,6 +13,65 @@ plano; aqui está o grafo que o justifica, caminho por caminho.*
 
 ---
 
+## 0. O caminho-alvo (decisão do pesquisador, 2026-11-16)
+
+> **lei → menos avião → menos deriva → melhor nascimento**
+
+É este o caminho que a dissertação ataca. Os outros cinco (§2) são o que
+precisa ser medido ao lado para que o efeito possa ser atribuído a ele. Cada
+elo tem a sua medida:
+
+| elo | pergunta | como se mede | estado |
+|---|---|---|---|
+| lei → menos avião | o avião voava antes e parou com a lei? | relatórios mensais ao MAPA (LAI); linha de base no Censo 2006 | LAI ⬜; linha de base ✅ abaixo |
+| menos avião → menos deriva | quem estava ao alcance da deriva? | não se observa. Aproxima-se por dois lados: **onde** (domicílios a 150 m de bananal) e **quando** (gestação na quadra chuvosa, fev–mai) | setores ✅, cruzamento ⬜; calendário pronto para rodar |
+| menos deriva → melhor nascimento | o desfecho melhorou onde e quando a deriva caiu? | SINASC: peso, duração da gestação, prematuridade; SIM: óbito fetal | CE 2015–22 ✅; RN e demais anos ⬜ |
+
+### A linha de base do primeiro elo, medida
+
+Censo Agropecuário 2006, tabela 2069, por município
+(`scripts/data_prep/18_censo_agro_familiar.py`, `make censo-agro-familiar`;
+extraído da API do IBGE em 2026-11-16). Estabelecimentos que usaram agrotóxico,
+por equipamento e tipo de agricultura.
+
+| município | por aeronave | não familiar | familiar | tração mecânica | costal |
+|---|---|---|---|---|---|
+| **Limoeiro do Norte (CE)** | **18** | 14 | 4 | 56 | 871 |
+| **Quixeré (CE)** | **9** | 8 | 1 | 15 | 506 |
+| Russas (CE) | 0 | 0 | 0 | 18 | 2.020 |
+| Tabuleiro do Norte (CE) | 0 | 0 | 0 | 20 | 1.078 |
+| Jaguaruana (CE) | 1 | 1 | 0 | 9 | 959 |
+| Apodi (RN) | 0 | 0 | 0 | 30 | 1.503 |
+| Baraúna (RN) | 0 | 0 | 0 | 107 | 418 |
+| Mossoró (RN) | 0 | 0 | 0 | 15 | 546 |
+| Felipe Guerra (RN) | 0 | 0 | 0 | 0 | 238 |
+| Gov. Dix-Sept Rosado (RN) | 0 | 0 | 0 | 7 | 441 |
+
+Estado inteiro: Ceará, 36 estabelecimentos em 7 municípios (24 não familiares,
+12 familiares); Rio Grande do Norte, 5 em 2 municípios, nenhum na Chapada.
+Nenhum valor veio inibido.
+
+O que isso diz:
+
+- **O avião era da agricultura não familiar.** Em Limoeiro e Quixeré, 22 dos 27
+  estabelecimentos. Os 5 familiares batem com o que o trabalho de campo
+  descreve: pequenos produtores "parceiros" das empresas, que pagavam o voo por
+  hectare (Marinho et al. 2011, p. 171). A previsão de heterogeneidade do
+  framework tem base medida.
+- **O lado potiguar da Chapada não tinha avião em 2006.** O controle é "nunca
+  fez", pelo menos naquele ano. Em compensação, Baraúna tem 107
+  estabelecimentos com tração mecânica: a fruticultura potiguar pulverizava por
+  terra.
+- **Russas não aparece.** O parecer do Tramas (2016) a põe entre os três
+  municípios onde a pulverização aérea "ocorre"; o Censo de 2006 registra zero.
+  Ou o avião chegou a Russas depois de 2006, ou o parecer generaliza. ⬜ O
+  registro do MAPA resolve; até lá, o núcleo tratado com medida é **Limoeiro do
+  Norte e Quixeré**, e Russas entra na versão ampla.
+- As ressalvas de sempre: 2006, estabelecimentos e não área, declaração do
+  informante.
+
+---
+
 ## 1. O grafo
 
 Renderiza no GitHub. Linha cheia: caminho causal de interesse. Tracejada:
@@ -194,7 +253,7 @@ e o efeito sobre o peso pode ser lido diretamente.
 | elemento | escolha | de onde vem no grafo |
 |---|---|---|
 | unidade | município × ano-mês de nascimento | — |
-| grupo `g` | 2019 para os cearenses da Chapada (Limoeiro do Norte, Quixeré, Russas); nunca tratado para os potiguares | L é função de estado e data |
+| grupo `g` | 2019 para os cearenses da Chapada (núcleo: Limoeiro do Norte e Quixeré; versão ampla com Russas, ver §0); nunca tratado para os potiguares | L é função de estado e data |
 | comparação | "nunca tratados": os municípios potiguares da Chapada | compartilham K, Z e o perfil M |
 | parâmetro | `ATT(2019, t)`, um por período, agregado em estudo de evento | efeito total de L sobre Y |
 | covariáveis | só de linha de base: população e urbanização (Censo 2010), área irrigada, participação da agricultura não familiar | condicionar em M; nada a jusante de L |
@@ -306,7 +365,7 @@ com planilha de voo (Marinho et al. 2011).
 |---|---|---|---|
 | L | estado × data | lei | ✅ |
 | A | área e mês de aplicação aérea, por município | LAI ao MAPA (IN 2/2008, Anexo V) | ⬜ protocolar. **É o primeiro estágio** |
-| A, linha de base | estabelecimentos com aplicação por aeronave, por tipo de agricultura | Censo Agro 2006, tabelas 1008 e **2069** | 1008 ✅; 2069 ⬜ ingestor |
+| A, linha de base | estabelecimentos com aplicação por aeronave, por tipo de agricultura | Censo Agro 2006, tabelas 1008 e **2069** | ✅ script 18 (§0) |
 | T, O | intoxicação não intencional; tentativa de suicídio (placebo) | SINAN/IEXO; SIH | ✅ CE; ⬜ RN |
 | Y | peso, baixo peso, semanas de gestação, prematuridade | SINASC, por mês e município de residência | ✅ CE 2015–22; ⬜ RN e 2005–2014, 2023–24 |
 | F | óbito fetal | SIM/DOFET | ✅ CE; ⬜ RN |
@@ -314,7 +373,7 @@ com planilha de voo (Marinho et al. 2011).
 | P | área, produção e valor da banana; vínculos na agricultura | PAM (SIDRA responde); RAIS | PAM ✅; ⚠️ não olhar o recorte tratado × controle pós-2019 antes da pré-especificação. RAIS ⬜ |
 | C | idade, escolaridade, gemelaridade, estado civil da mãe | SINASC | sai do mesmo arquivo |
 | K | chuva mensal por município | FUNCEME, INMET, ou grade climática | ⬜ |
-| M | população, urbanização (2010); irrigação; agricultura não familiar | Censo 2010; Censo Agro 2006 e 2017 (tabelas 2069, 6851) | ⬜ ingestor |
+| M | população, urbanização (2010); irrigação; agricultura não familiar | Censo 2010; Censo Agro 2006 e 2017 (tabelas 2069, 6851) | agricultura não familiar ✅ script 18; o resto ⬜ |
 | N | unidades de vigilância e hospitais | CNES | ⬜ |
 | D | domicílios a 150 m de bananal | setores censitários 2022 × área de banana | setores ✅; cruzamento ⬜ |
 

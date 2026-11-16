@@ -13,6 +13,7 @@ Idioma: **português** na prosa da dissertação; código e comentários podem s
 ## ⚠️ Reorientação de 2026-11-16 — ler antes do resto
 O pesquisador decidiu voltar à pergunta básica, e **`docs/framework-dissertacao.md` (versão 2) é o documento que manda**. Onde este arquivo ou `docs/ars/` o contradisserem, vale o framework.
 - **Pergunta:** impacto do ban sobre saúde ao nascer, agravos agudos e produção agrícola. Não é mais a curva dose-resposta.
+- **Caminho-alvo (decisão do pesquisador, 2026-11-16):** `lei → menos avião → menos deriva → melhor nascimento`. Os demais caminhos do DAG (substituição, renda, composição, seleção para nascer vivo) medem-se ao lado, para poder atribuir o efeito a este.
 - **Desenho principal:** DiD **binário** na Chapada do Apodi, lado cearense (tratado) × lado potiguar (controle), estudo de evento com **Callaway & Sant'Anna (2021)**, uma coorte (2019), pré-período a partir de 2010. Robustez: CE inteiro × RN inteiro; diferença tripla; SDID.
 - **Heterogeneidade:** agricultura familiar × não familiar (Censo Agro 2017). A dose (área de banana) e o estimador contínuo CGS (2024) descem para apêndice.
 - **O RN não precisa ter tido avião para ser controle** — precisa de tendência paralela. O "gate G1" não reprova o desenho.
@@ -24,7 +25,7 @@ O pesquisador decidiu voltar à pergunta básica, e **`docs/framework-dissertaca
 
 - **Onde está cada coisa:** Ensaio 1 → `docs/framework-dissertacao.md`; Ensaio 2 → `docs/ensaio2-custo-beneficio.md`; literatura brasileira (Viçosa, Chapada do Apodi) triada pelo desenho → `docs/literatura-brasil-agrotoxicos.md`; segunda rodada (Calzada na íntegra, nota da UFRN, status do RN, linha do tempo corrigida) → `docs/leituras-segunda-rodada.md`; **grafo causal e tradução para o estimador → `docs/dag-identificacao.md`**.
 - **SIDRA responde na sessão remota** (`apisidra.ibge.gov.br`, medido em 2026-11-16). ⚠️ Não puxar desfecho municipal pós-2019 de tratados × controles antes de a pré-especificação estar registrada.
-- **Tabelas do Censo Agro para familiar × não familiar:** 6851 e 6852 (2017), 2069 e 2147 (2006, com equipamento de aplicação, inclusive "por aeronave"). ✅ Todas saem por município (N6), conferido nos metadados em 2026-11-16. ⬜ Ingestor.
+- **Tabelas do Censo Agro para familiar × não familiar:** 6851 e 6852 (2017), 2069 e 2147 (2006, com equipamento de aplicação, inclusive "por aeronave"). ✅ Todas saem por município (N6). ✅ Ingestor: `scripts/data_prep/18_censo_agro_familiar.py` (`make censo-agro-familiar`). Limoeiro 18 e Quixeré 9 estabelecimentos com avião em 2006 (22 de 27 não familiares); Chapada potiguar zero; **Russas zero**.
 - **Regras tiradas do DAG:** o ATT é efeito total da lei, não da exposição; covariável só de linha de base (nada a jusante da lei: pré-natal, tipo de parto); a ameaça que a fronteira não fecha é choque estadual (→ diferença tripla ou calendário); nascer vivo é colisor (→ óbito fetal, razão de sexos, número de nascimentos como desfechos).
 - **Crossref responde na sessão remota** (medido em 2026-11-16): `api.crossref.org/works/<doi>/transform/application/x-bibtex`. Entrada nova do `.bib` com DOI sai do registro, não da digitação.
 

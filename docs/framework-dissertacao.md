@@ -128,7 +128,10 @@ exposta declarada como hipótese.
 
 ### 4.1 Principal: DiD na Chapada do Apodi, CE × RN
 
-- **Tratados:** municípios cearenses da Chapada do Apodi. Núcleo: **Limoeiro
+- **Tratados:** municípios cearenses da Chapada do Apodi. ⚠️ Russas tem zero
+  estabelecimentos com avião no Censo de 2006; o núcleo com medida é Limoeiro e
+  Quixeré, e Russas fica na versão ampla até o registro do MAPA dizer
+  (`dag-identificacao.md` §0). Texto anterior: núcleo de **Limoeiro
   do Norte, Quixeré e Russas**, que o parecer do Núcleo Tramas/UFC (17/06/2016)
   nomeia como "os principais em que a pulverização aérea ocorre no Ceará", e
   que são os mesmos três de Rigotto et al. (2013). Limoeiro e Quixeré tocam a
@@ -187,7 +190,10 @@ não familiar domina**.
   **6851** (2017: tipologia × uso de agrotóxico) e **2069** (2006: uso ×
   **tipo de equipamento, com "por aeronave"** × familiar e não familiar). A
   2069 mede diretamente quantos estabelecimentos não familiares usavam avião
-  em cada município, antes da lei, da seca e do PL. ⬜ Escrever o ingestor.
+  em cada município, antes da lei, da seca e do PL. ✅ Ingestor escrito
+  (script 18): em Limoeiro e Quixeré, 22 dos 27 estabelecimentos com avião são
+  não familiares; o lado potiguar da Chapada tem zero; Russas tem zero
+  (`dag-identificacao.md` §0).
 - **Uso:** (i) corte da amostra em dois grupos e ATT em cada um; (ii) a
   diferença tripla de §4.2.
 - **Leitura honesta:** é medida municipal, não individual. Diz que o efeito é
