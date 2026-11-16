@@ -81,7 +81,7 @@ caminho que ameaça a identificação. Em cinza: não observado.
 flowchart LR
     L["L: Lei 16.820<br/>(CE × pós-2019)"]
     A["A: aplicação aérea<br/>(voos, ha, mês)"]
-    T["T: aplicação terrestre<br/>(costal, trator)"]
+    T["T: tecnologia substituta<br/>(costal, trator, drone)"]
     X["X: exposição ambiental<br/>da gestante (ar, água)"]:::latente
     O["O: exposição<br/>ocupacional"]:::latente
     Y["Y: peso, duração da<br/>gestação, prematuridade"]
@@ -180,7 +180,7 @@ dissertação quer contar.
 | # | caminho | o que é | sinal esperado em peso ao nascer | como separar |
 |---|---|---|---|---|
 | 1 | L → A → X → Y | a lei tira o avião, cai a deriva, melhora o nascimento | + | é o alvo. Exige o **primeiro estágio**: L → A medido (LAI ao MAPA) |
-| 2 | L → T → X → Y | o produtor troca avião por aplicação terrestre, que também expõe, menos | − ou nulo | não se separa do 1; o efeito estimado é líquido da substituição. Declarar |
+| 2 | L → T → X → Y | o produtor troca de **tecnologia de aplicação**: do avião para o trator ou o costal, e para o drone onde e quando é permitido. Também expõe, menos | − ou nulo | medir a troca: receituário (ADAGRI), SIPEAGRO, custo da Conab, RAIS. Plano em `pre-especificacao-v2.md` §3. O efeito estimado é líquido da substituição |
 | 3 | L → T → O → Y | mais gente aplicando à mão; pais expostos | − | SINAN não intencional como sinal de O. Se I sobe, este caminho existe |
 | 4 | L → P → R → Y | a lei muda produção e emprego, que mudam renda, que muda nascimento | ± | PAM e RAIS como desfechos. Se P não se move, o caminho está fechado |
 | 5 | L → C → Y | a lei muda quem mora ou engravida ali | ± | características maternas como desfecho (idade, escolaridade, gemelaridade). É o teste de balanceamento de Calzada et al. |
