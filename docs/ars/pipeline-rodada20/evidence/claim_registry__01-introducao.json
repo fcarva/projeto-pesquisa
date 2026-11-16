@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "a2a506b90730fb3942672a9458c742b34ff86e110cbd7ab932e467c8339c588a",
+  "draft_raw_sha256": "ec31cae2966cedd0e590a2df8a4b7a5e645be7f9876003583137fdd63a4158f1",
   "claims": [
     {
       "claim_id": "F01",
@@ -156,10 +156,10 @@
     },
     {
       "claim_id": "C06",
-      "claim_text": "Este último é o análogo mais próximo do caso\ncearense, pela cultura e pelo método, com diferenças que importam: a doença\ncombatida e a frequência das aplicações não são as mesmas",
+      "claim_text": "Este último é o análogo mais próximo do caso\ncearense, pela cultura e pelo método, com diferenças que importam: a doença\ncombatida não é a mesma e, pelo relato disponível, a frequência das aplicações\né menor",
       "draft_span": {
         "start_byte": 3335,
-        "end_byte": 3525
+        "end_byte": 3556
       },
       "claim_kinds": [
         "categorical"
@@ -178,8 +178,8 @@
       "claim_id": "N04",
       "claim_text": "O que nenhum desses trabalhos oferece é a avaliação de uma \\textbf{proibição\nde método}",
       "draft_span": {
-        "start_byte": 3559,
-        "end_byte": 3652
+        "start_byte": 3590,
+        "end_byte": 3683
       },
       "claim_kinds": [
         "categorical"
@@ -196,8 +196,8 @@
       "claim_id": "C07",
       "claim_text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
       "draft_span": {
-        "start_byte": 3654,
-        "end_byte": 3858
+        "start_byte": 3685,
+        "end_byte": 3889
       },
       "claim_kinds": [
         "other_factual"
@@ -216,8 +216,8 @@
       "claim_id": "F03",
       "claim_text": "A lei cearense foi contestada no\nSupremo Tribunal Federal e declarada constitucional, o que assentou a\ncompetência dos estados para legislar sobre a matéria; em 2024 o próprio Ceará\nflexibilizou a regra para admitir drones, e a nova redação voltou a ser\nquestionada na Corte.",
       "draft_span": {
-        "start_byte": 4143,
-        "end_byte": 4424
+        "start_byte": 4174,
+        "end_byte": 4455
       },
       "claim_kinds": [
         "other_factual"
@@ -232,10 +232,10 @@
     },
     {
       "claim_id": "N02",
-      "claim_text": "não há\nestimativa do que a proibição de fato produziu",
+      "claim_text": "não se conhece estimativa causal do que a proibição de fato produziu",
       "draft_span": {
-        "start_byte": 4489,
-        "end_byte": 4546
+        "start_byte": 4520,
+        "end_byte": 4591
       },
       "claim_kinds": [
         "categorical"
@@ -249,8 +249,8 @@
       "claim_id": "F04",
       "claim_text": "que o Supremo Tribunal Federal julgou constitucional em 2023 \\cite{stf2023adi6137}",
       "draft_span": {
-        "start_byte": 5049,
-        "end_byte": 5131
+        "start_byte": 5094,
+        "end_byte": 5176
       },
       "claim_kinds": [
         "other_factual"
@@ -269,8 +269,8 @@
       "claim_id": "C25",
       "claim_text": "o projeto usa um desenho de calendário gestacional\n\\cite{calzada2023bananas,brainerd2014seasonal}",
       "draft_span": {
-        "start_byte": 5571,
-        "end_byte": 5669
+        "start_byte": 5616,
+        "end_byte": 5714
       },
       "claim_kinds": [
         "other_factual"
@@ -290,8 +290,8 @@
       "claim_id": "C26",
       "claim_text": "o confronta com um desenho de intensidade de exposição\n\\cite{callaway2024continuous}",
       "draft_span": {
-        "start_byte": 5787,
-        "end_byte": 5873
+        "start_byte": 5832,
+        "end_byte": 5918
       },
       "claim_kinds": [
         "other_factual"

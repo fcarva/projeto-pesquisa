@@ -27,7 +27,7 @@
       "uncovered_trigger_count": 1
     }
   ],
-  "draft_raw_sha256": "57bf5288817715c06e5b48d6958de3b3c33ee010be69d244c7ac3e1de82a599e",
+  "draft_raw_sha256": "7e0c28bfb8e8c861244d33b24806e67b656a099f8408f6e799d5a5f07ff4e1a6",
   "mechanical_candidate_scope": [
     "citation_bearing_sentence",
     "quantitative_sentence"
@@ -56,7 +56,7 @@
     "H11"
   ],
   "registry_claim_count": 21,
-  "registry_raw_sha256": "5c33a90bb1e8d44b6ea42b56f5440d0cc7e701c82949d8974865670ec4d86ac6",
+  "registry_raw_sha256": "24648564cafb4473aede1be2e13b9987fe89b0c680e3e0bf9c0c7ca9b62a0026",
   "registry_schema_version": "claim-registry/1.0",
   "schema_version": "claim-registry-coverage/1.0",
   "semantic_extraction_coverage": "not_machine_detectable"

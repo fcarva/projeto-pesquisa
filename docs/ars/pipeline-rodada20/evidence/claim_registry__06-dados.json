@@ -1,18 +1,20 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "2e46fc334df4b4c850ef5802c54fdfb82e3fe084f510c3826c07559dbe247d44",
+  "draft_raw_sha256": "7079f06f7646bc3d5a1bf4edf5024b32d4298fe447e4b72d0e814f06824d84c2",
   "claims": [
     {
       "claim_id": "F29",
-      "claim_text": "A série atravessa a troca do\nformulário de nascido vivo, em 2011, que alterou o registro da idade\ngestacional",
+      "claim_text": "A série atravessa a troca do\nformulário de nascido vivo, em 2011 \\cite{brasil2011sinasc}, que alterou o registro da idade\ngestacional",
       "draft_span": {
         "start_byte": 843,
-        "end_byte": 954
+        "end_byte": 978
       },
       "claim_kinds": [
         "other_factual"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "brasil2011sinasc"
+      ],
       "writer_anchors": [],
       "paper_section": "6 Dados",
       "selection_tier": "ALL",
@@ -24,8 +26,8 @@
       "claim_id": "G08",
       "claim_text": "Como a lei estadual de 1993 autoriza os municípios\na legislar supletivamente",
       "draft_span": {
-        "start_byte": 1896,
-        "end_byte": 1973
+        "start_byte": 1920,
+        "end_byte": 1997
       },
       "claim_kinds": [
         "other_factual"
@@ -41,8 +43,8 @@
       "claim_id": "G09",
       "claim_text": "um levantamento preliminar encontrou uma proibição, em Limoeiro\ndo Norte, de 2009, revogada em 2010 por lei que passou a regular a prática\n\\cite{limoeiro2010lei1511}",
       "draft_span": {
-        "start_byte": 2043,
-        "end_byte": 2211
+        "start_byte": 2067,
+        "end_byte": 2235
       },
       "claim_kinds": [
         "other_factual"
@@ -61,8 +63,8 @@
       "claim_id": "G12",
       "claim_text": "Uma\navaliação preliminar do monitoramento da qualidade da água e do mapeamento de\nuso da terra por satélite indicou limitações para esses fins",
       "draft_span": {
-        "start_byte": 2507,
-        "end_byte": 2655
+        "start_byte": 2531,
+        "end_byte": 2679
       },
       "claim_kinds": [
         "other_factual"
@@ -76,8 +78,8 @@
       "claim_id": "F24",
       "claim_text": "pesquisas dessa natureza não são submetidas ao\nsistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de\nSaúde \\cite{cns2016res510}",
       "draft_span": {
-        "start_byte": 3065,
-        "end_byte": 3223
+        "start_byte": 3089,
+        "end_byte": 3247
       },
       "claim_kinds": [
         "other_factual"

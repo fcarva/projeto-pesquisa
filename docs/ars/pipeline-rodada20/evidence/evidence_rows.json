@@ -214,9 +214,9 @@
               "start": 660,
               "end": 730
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "2724d5c898f0da07f8808318ff34554d2a1406e4a05f463f0580791780c7fd14"
+          "row_sha256": "86bb077ede00251fe32d8501239755780df261058947a886109788acc7078143"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -259,9 +259,9 @@
               "start": 2580,
               "end": 2644
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "9a45f68446531927aa074817c1a3df789bd66466400ee76b6142e5f42515b3cb"
+          "row_sha256": "2d88df30f05b2303bf5729f2fc71dacb1ebe7e7e2c2dccf8abc13d1f0e3d4b16"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -304,9 +304,9 @@
               "start": 2709,
               "end": 2770
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "df96c034fc822683339604fe6ef60df187066908b869e8fd1ad94e1f1e82c718"
+          "row_sha256": "712b7cd1c67425138033b9737a765a5af7609aec1df3aea0840aa1896fc61d04"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -349,9 +349,9 @@
               "start": 690,
               "end": 765
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "b5a905bc27fe30a191931cee6f970aac8facd3050a4edf148191917efa5ef566"
+          "row_sha256": "98ea0f2551b4c857cc5f1309710c8264a5491a31b915cdf30e57b607e9adec74"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -394,9 +394,9 @@
               "start": 177,
               "end": 257
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "5e933f1087d8ee95d5ca8b27267fed6ca581166f314a0d3c320b427037b8ca00"
+          "row_sha256": "6406ac3fbc26fd5653972d390adb3e65ebe3a788514c1d994a0a1254d145a14b"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -439,9 +439,9 @@
               "start": 13622,
               "end": 13738
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ae5e95f781e50cb386e6686b1f19c7a56202cc4900e4965e752bac03b784b72d"
+          "row_sha256": "2485c0af9a9b678b370340523c2fda491669072b92401fe9a2d019de8d7ef78e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -449,8 +449,8 @@
           "row_id": "EVR-C06-1",
           "claim": {
             "claim_id": "C06",
-            "text": "Este último é o análogo mais próximo do caso\ncearense, pela cultura e pelo método, com diferenças que importam: a doença\ncombatida e a frequência das aplicações não são as mesmas",
-            "paper_locator": "paper/projeto/secoes/01-introducao.tex:55-57",
+            "text": "Este último é o análogo mais próximo do caso\ncearense, pela cultura e pelo método, com diferenças que importam: a doença\ncombatida não é a mesma e, pelo relato disponível, a frequência das aplicações\né menor",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:55-58",
             "selection_tier": "ALL"
           },
           "source": {
@@ -484,9 +484,9 @@
               "start": 11133,
               "end": 11249
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "5531dd103744003ca234c289df69cf946e00346cdf78c250b18e1ba9939fc499"
+          "row_sha256": "36f71e9a00a42cb481b719b513b45b606fd63bba797e2f1c2f4c087b9c21c4da"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -495,7 +495,7 @@
           "claim": {
             "claim_id": "N04",
             "text": "O que nenhum desses trabalhos oferece é a avaliação de uma \\textbf{proibição\nde método}",
-            "paper_locator": "paper/projeto/secoes/01-introducao.tex:60-61",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:61-62",
             "selection_tier": "ALL"
           },
           "source": {
@@ -528,7 +528,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "f4cd06d6004307cdcae718d3fc79182c284c0ec9461e9184dc76ce7e7a4a2838"
+          "row_sha256": "c1e55b94ef73157e0795f258dac3cc0ad50076dc6de2c69b708d2db6cbf444fd"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -537,7 +537,7 @@
           "claim": {
             "claim_id": "C07",
             "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
-            "paper_locator": "paper/projeto/secoes/01-introducao.tex:61-63",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:62-64",
             "selection_tier": "ALL"
           },
           "source": {
@@ -570,7 +570,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "95b79e0c3e187eec49d70c344e09434f4b172fa60f71ef06a239b34dff70eea1"
+          "row_sha256": "41eb842418e314e07bcfa90e692484897dccc2b9dac385be662787c01e3a57c8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -579,7 +579,7 @@
           "claim": {
             "claim_id": "C07",
             "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
-            "paper_locator": "paper/projeto/secoes/01-introducao.tex:61-63",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:62-64",
             "selection_tier": "ALL"
           },
           "source": {
@@ -613,9 +613,9 @@
               "start": 313,
               "end": 358
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "35df52c5fda0c8662bfa7eb226b44d13af69e99f38e4dd726e860cb9d3063bb4"
+          "row_sha256": "276fb4704a0fb5e4b41cd3d2ed40c16ff5610e01dcf23a10fdcdcbe483133ae9"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -624,7 +624,7 @@
           "claim": {
             "claim_id": "C07",
             "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
-            "paper_locator": "paper/projeto/secoes/01-introducao.tex:61-63",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:62-64",
             "selection_tier": "ALL"
           },
           "source": {
@@ -658,9 +658,9 @@
               "start": 463,
               "end": 542
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "484a3cf2d8041a94a72c0439988c575a9afeca42d721360c00119cadd86ebddc"
+          "row_sha256": "e7d461a2e3d05e4903b554099077db30a54984d84229601ff0af581d7bec7230"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -669,7 +669,7 @@
           "claim": {
             "claim_id": "C07",
             "text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
-            "paper_locator": "paper/projeto/secoes/01-introducao.tex:61-63",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:62-64",
             "selection_tier": "ALL"
           },
           "source": {
@@ -703,9 +703,9 @@
               "start": 0,
               "end": 76
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "767efc33c723856ee71d3371d504c97b31ef57529b3bd8127e02dbc7cd19cd08"
+          "row_sha256": "1ba81e49e96f40658040fa0dae166b7054b1143c954c20950d78743e40287b71"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -714,7 +714,7 @@
           "claim": {
             "claim_id": "F03",
             "text": "A lei cearense foi contestada no\nSupremo Tribunal Federal e declarada constitucional, o que assentou a\ncompetência dos estados para legislar sobre a matéria; em 2024 o próprio Ceará\nflexibilizou a regra para admitir drones, e a nova redação voltou a ser\nquestionada na Corte.",
-            "paper_locator": "paper/projeto/secoes/01-introducao.tex:70-74",
+            "paper_locator": "paper/projeto/secoes/01-introducao.tex:71-75",
             "selection_tier": "ALL"
           },
           "source": {
@@ -747,7 +747,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "90e41bfcdb96e9c3acc91941b8ef07d13478a9e0fad787dc29771a396b09f60a"
+          "row_sha256": "23d0c4ebac40a5638de01065cb2fa39ab72b75ff3ff619b9d3b0c39d76f701d0"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -790,9 +790,9 @@
               "start": 1397,
               "end": 1509
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ee06940e7144763c5d8c521f9a2c350e1f894948f51d20061d089240c162d6b5"
+          "row_sha256": "e35de08d9c8b6f89a3451692a159b140e43906769728a9c81b2895a3cd0c1b84"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -835,9 +835,9 @@
               "start": 556,
               "end": 662
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "41e0c9f66ea3eb215f3dfc208e28f77e654187774cd83795cec8ef9d1768275d"
+          "row_sha256": "7a2700b2714bc0bd2517ae84f2a610558cd28cf53cc3ab697e78687b3fd62a5b"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -880,9 +880,9 @@
               "start": 48899,
               "end": 48972
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ea7759ee4811f453d3c85a3ab5a3ef49e0a4615c9d624b8c77bb3b732c63fb89"
+          "row_sha256": "ee633cda45e999a632916ea14ad6f068f2382d2a0a027b1fc35e9d9af6134fe1"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -925,9 +925,9 @@
               "start": 6774,
               "end": 6880
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "7c2670147153620ae56a7fd841094ee0a31e682ef3c856b4daeefc86296e83e4"
+          "row_sha256": "326d0d29083d160bb20d7d8142bbc48f9cbbd54cd5e25e2db3d23cd87aecc3a6"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -970,9 +970,9 @@
               "start": 1002,
               "end": 1087
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "1c8508fe7003522ab4eeca1b4f630a1bafb176803039e1b89a82e85514c214d1"
+          "row_sha256": "0c157a18235bf07721a3da373a6b7df3c4724baae22a625a0f62dde95fae5e5e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1015,9 +1015,9 @@
               "start": 11996,
               "end": 12039
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "3503d27d4d1e3b7ec66d9ecad43fbcb3253973fc85e5ca04f23e8a4f675b88c6"
+          "row_sha256": "9323f1236b21a6ab467dddaf736dc7de74b2e9dcd18c2a543253075a72f53b3d"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1102,9 +1102,9 @@
               "start": 3544,
               "end": 3631
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ec457f1d2edcb333e1749bee9a2aec12f362cc95649261839ae506211dac23dc"
+          "row_sha256": "468f33882f700fd2e2c5df1cc97c7a38ffc3fe831161b40a8b6399662fae0922"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1189,9 +1189,9 @@
               "start": 657,
               "end": 719
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ed2d2a0b2ba9039840bffb0c63a653d1f8255633edbeb01d858b1725ab11460d"
+          "row_sha256": "59756e08dc007147d481b76c68d9d66396f5e5d9724b51ce61ebba6872d1db83"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1234,9 +1234,9 @@
               "start": 4775,
               "end": 4857
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "c0d4b2c5935fef26474c9a974c24f324e13e58780c36c26a82eeaaf87c2af361"
+          "row_sha256": "b514abd9579516b34e6efdaa5bb887058119383d382101f34052c6f6fc3c9ca8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1279,9 +1279,9 @@
               "start": 2918,
               "end": 3010
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "8bd20ef3d4b63c853a4400a272876255336e4917f6e7b077c2179f3d4725f082"
+          "row_sha256": "4cf752d0d9b36f440c7197f555e576e769704110bebcb3006af20473df2ad33a"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1324,9 +1324,9 @@
               "start": 40683,
               "end": 40738
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "d0f6c922eb4257205a92a7cda073fb48a80938882a09ea2fb146a512dbc7c6b1"
+          "row_sha256": "dce307dfbedaaa1881053dad43b2efc7bfe3fcf3dca864e60cda889d91ba4ae2"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1369,51 +1369,54 @@
               "start": 11133,
               "end": 11249
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "0b769d7693c8af2dc59e4f7240602edab35798fa5b098a9efb03f7464c424d17"
+          "row_sha256": "38290df4997c0c5b71abf21749161dce1da5c6575453e6ff18bc3baf6a579c15"
         },
         {
           "schema_version": "evidence-row/1.0",
           "surface": "phase_e_claim_verification",
-          "row_id": "EVR-H16-0",
+          "row_id": "EVR-H16-1",
           "claim": {
             "claim_id": "H16",
-            "text": "no Ceará, um produtor relata duas\naplicações aéreas por ano",
+            "text": "no Ceará, um produtor do\nCariri relata duas aplicações aéreas por ano \\cite{globorural2021bananais}",
             "paper_locator": "paper/projeto/secoes/02-contexto.tex:37-38",
             "selection_tier": "ALL"
           },
           "source": {
-            "ref_slug": null,
-            "display_label": null,
-            "source_content_sha256": null,
-            "source_content_utf8_bytes": null,
+            "ref_slug": "globorural2021bananais",
+            "display_label": "Globo Rural 2021, reportagem de 09/04/2021",
+            "source_content_sha256": "a7fa9d1e212fcfe1d373abcb764134d2b0295cc95ac595e15ac71e4172a552de",
+            "source_content_utf8_bytes": 10384,
             "source_artifact_sha256": null
           },
           "anchor": {
-            "kind": "none",
-            "value_encoded": "",
-            "value_decoded": ""
+            "kind": "section",
+            "value_encoded": "corpo da reportagem",
+            "value_decoded": "corpo da reportagem"
           },
           "verdict": "VERIFIED",
-          "detail": "O fato confere com a reportagem da Globo Rural (produtor do Cariri: 'até 2018, fazia duas aplicações aéreas anuais'), mas a frase não traz citação: ver IL-MINOR-1.",
+          "detail": "Corrigido na rodada 1 do 4.5: citação e origem do produtor acrescentadas.",
           "content_handling": {
-            "contains_external_text": false,
+            "contains_external_text": true,
             "sharing_scope": "session_only",
             "rights_basis": "not_assessed"
           },
           "cache": {
-            "status": "not_used",
-            "key_sha256": null
+            "status": "miss",
+            "key_sha256": "5191fb70a64c74a2c424bc9fbafcec35a09d76370bc85f5c244fdca7e41c0268"
           },
           "excerpt": {
-            "state": "anchorless",
-            "text": null,
-            "excerpt_sha256": null,
-            "source_span_utf8": null,
-            "captured_at": null
+            "state": "agent_extracted",
+            "text": "Regis conta que, até 2018, fazia duas aplicações aéreas anuais no seu bananal",
+            "excerpt_sha256": "15494378bfe4ecbbbf332597e748dd3a92bb9f1330be7f885f99886c37f4b1f6",
+            "source_span_utf8": {
+              "start": 3290,
+              "end": 3371
+            },
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "272d6e72d3e19cb22e604bcac3483ee5e6c53ee4c598e1c0e5707606b9900524"
+          "row_sha256": "c2d7ae4602b2e42ed39471528e4395ccc0f95fb8956438510cbfe2005fc29ec6"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1456,9 +1459,9 @@
               "start": 7216,
               "end": 7350
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "820c257461ce6158be0d43f776c576073289ea6234abdcc4b8c1efedc29be0d4"
+          "row_sha256": "20b203fd776001b74c8e94644b90790972e1a2c6e04474bbb9e0ceb478f41d6f"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1501,9 +1504,9 @@
               "start": 53886,
               "end": 53917
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "0f50e628bc90194a73aea4bba6667ff2cd26439418cb40b7c53a0d38c9c3d1aa"
+          "row_sha256": "464323aab15a8ce271acb8ad36140df15cd5aba26877d14fce58f23530ff1e9c"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1546,9 +1549,9 @@
               "start": 754,
               "end": 777
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "1967ac0fa80b07f6885b08aec74e59896fb0e0bfdc570f65400d2e11425c64a5"
+          "row_sha256": "67c9f4d7b80d3b99be70168c80dbd4da56329171efc62d4b7ed0859eb3135b6a"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1591,9 +1594,9 @@
               "start": 584,
               "end": 706
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "7a01651598d83da509c61b011da496ab7fbc4d49faba899496b79fe0a4c02700"
+          "row_sha256": "7796415e334214c712683a02bd03f99df1c30c4f554e89fcfc0bcf2ae5c75b6d"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1678,9 +1681,9 @@
               "start": 5897,
               "end": 6039
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "684f0c26777f24361a0c2a385395b057ae9387fee318e36d9d14c1eec32cade3"
+          "row_sha256": "292c2410db7a1fa0e805adcf407eefe1c47c1147c25bfe81bad8757372de04f7"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1723,9 +1726,9 @@
               "start": 3290,
               "end": 3371
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "01e6e01291e092f9bacb6612a999eb7a2f49070481c1c40dd7e29a78668ccd07"
+          "row_sha256": "5a25a1d288cc4c3ca1a70d0e5ffcab702873ee56ca741f54f020adbde5ed127e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1852,9 +1855,9 @@
               "start": 313,
               "end": 358
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "3de315561f44c20326b434caf44e0f65b5a450cd3848bd5fd95a280432a27e0e"
+          "row_sha256": "93ae6c168b0012993b14d16e18128522411a7a206a6c1077bb33e580ccb11302"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1897,9 +1900,9 @@
               "start": 675,
               "end": 719
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "c1ce9062b48f0f9db53ca25fd0f916d14a5ea452bc03a16bfe21574ce245f87a"
+          "row_sha256": "5ec195c5c6aa23288c970a00ec0a26d5b9b5d2c14ef2434f74b7ac000c9a00ac"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1942,9 +1945,9 @@
               "start": 49213,
               "end": 49298
             },
-            "captured_at": "2026-11-16T00:43:58Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "4a8f7304a06a4f2e08205666c837cd70340ee40f41807536706360239d7a11ad"
+          "row_sha256": "1b4ce29f179c95d31fb88259e6f95006fcf03e5fb497260d902e002f468ccdfd"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -1987,9 +1990,9 @@
               "start": 44865,
               "end": 44968
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "307c052cddadcac7b6ce6620a20c6f9c31b5def9c2d1f050ecda292a617d87e0"
+          "row_sha256": "cd9b5dacb07f3390d0b8a685b8516da93dd3e37f39e47e66568198250457976d"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2032,9 +2035,9 @@
               "start": 74772,
               "end": 74914
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "f6806735399e9a4fef1fc5de87c6867e5ccaabaa6ef9274214321b38d48e5c1b"
+          "row_sha256": "9fcd45ca5974377f84e03c9f84aa95355bb26e6191e944ad47619154b90aa403"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2077,9 +2080,9 @@
               "start": 40683,
               "end": 40738
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "da4f91c635fb691f13087602c20a170957e725174310a358dc5ce924d1110211"
+          "row_sha256": "9077a6cd101c0142c04b1ec567d0645c7e3647f7dcd43f4d16387e3211be9305"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2087,7 +2090,7 @@
           "row_id": "EVR-H17-0",
           "claim": {
             "claim_id": "H17",
-            "text": "Como no Ceará as aplicações são\nmenos frequentes, esse valor é tomado como teto.",
+            "text": "Como o único relato disponível para o Ceará indica aplicações menos frequentes\n(Capítulo~\\ref{cap:contexto}), esse valor é tomado como teto.",
             "paper_locator": "paper/projeto/secoes/03-referencial.tex:36-37",
             "selection_tier": "ALL"
           },
@@ -2104,7 +2107,7 @@
             "value_decoded": ""
           },
           "verdict": "VERIFIED",
-          "detail": "A comparação tem apoio (Equador: fumigação o ano todo, no manuscrito; Ceará: duas aplicações por ano), mas o lado cearense vem de um único produtor, em reportagem. A frase o afirma sem ressalva: ver IL-MINOR-2.",
+          "detail": "Corrigido na rodada 1 do 4.5: a frase agora diz que o apoio é um único relato e remete ao capítulo 2.",
           "content_handling": {
             "contains_external_text": false,
             "sharing_scope": "session_only",
@@ -2121,7 +2124,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "f65d5633be34d6b8dbff241848d51f0ebb6db83290c424a9be34c7f76b5abc5f"
+          "row_sha256": "bd6f6db6d0b095590d9a0cdcefe66b5d5d5300a3ec6e405ba0ca3baeec34d8f5"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2164,9 +2167,9 @@
               "start": 20703,
               "end": 20807
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "3e9da299e0a1228288914c4aecc52f584d0bfbff694256013f55382175c018da"
+          "row_sha256": "924fbdbe05853ff293abb8001c771b9fbf253cce09d041a35c191cb7bb18fcff"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2209,9 +2212,9 @@
               "start": 19921,
               "end": 20052
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "42a0aa693cce5bb1fa914b17f7bcf43d5274caf26675f669d0091c46dd6e34f0"
+          "row_sha256": "527a0f8071544b5baa68838dde8cfe7a3298f9a80517f629df6557d593c91192"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2254,9 +2257,9 @@
               "start": 690,
               "end": 765
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ceb50c507f92040b7581ccc780d3f91e32debe14b32fa79d494174c5185e5c39"
+          "row_sha256": "9a9fba257695df1f2eb61e089320bf9688e74d13d6842b33d18187de73aa9ebd"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2299,9 +2302,9 @@
               "start": 2709,
               "end": 2770
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "2f51723c90721d9805c2ebe972adaafeae45d74cf31582747d2fefb9d5d7564a"
+          "row_sha256": "929181ee3dbf3c557b35bb54e244bfff56dbf3138cd2fc82e6be6d2308b28e48"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2344,9 +2347,9 @@
               "start": 426,
               "end": 492
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "f8023d28806d092d4f9ef8af7ea2ee237233dade6e74e202eeb7d932d4757f99"
+          "row_sha256": "d3e611a33e224c3aaecf4935311b010f4d5d9e8bf25af138df48632a927e0635"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2389,9 +2392,9 @@
               "start": 56803,
               "end": 56890
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "733d0727844a16d9b07b55ed6f84b4a02483662ea16c7441ef69175f56f4cb92"
+          "row_sha256": "f1fd89405c726f7b60c4b14a96ca57c28bcbb083757b95f4395856ec6fe04cbb"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2434,9 +2437,9 @@
               "start": 556,
               "end": 662
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "aec6ac81b3937adbfffde8f29f07cb1702658551a9555848c118b7f0391a85e7"
+          "row_sha256": "8facf42eefc7365ca340ec4c77b9b7da628b2140cd1c32f6e3745aa054143e19"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2479,9 +2482,9 @@
               "start": 253,
               "end": 328
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "84b86e0f38f8f12565b586d457b3c894784febb809d6e4911035185db96626a6"
+          "row_sha256": "cd98c9328cc368d064a73443945ae7e26694a211e8edee43d6524925b43b9dbc"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2524,9 +2527,9 @@
               "start": 986,
               "end": 1090
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "24e30314537c4e776c82d519dee9a5554ec82a3fd8f032d22e570336e59bd734"
+          "row_sha256": "42a108512df1b6bd04467f8ec694634c2eef22bbc9ea149fb389dbf2bbb17885"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2569,9 +2572,9 @@
               "start": 435,
               "end": 563
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "c711b1917ee11af0d8004709ef74d4b877c3e077b102ef511cacf48eba856162"
+          "row_sha256": "856fc8ace42eea8822e1237b6db3c86807a12427dbbb836415fac1a916235926"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2614,9 +2617,9 @@
               "start": 0,
               "end": 52
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "adc976c6c80e0ba71fc6001a17211c4e8a87839f89e675112ad918a71b9a3f2a"
+          "row_sha256": "2f388e8ff1b6ba4ebd69ba167cad4093bd5d257656d6cc571cc4342719dced57"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2659,9 +2662,9 @@
               "start": 199,
               "end": 281
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "8ada4b3c9e8899d6352540e6876de273162255fb1419eaf6be7dfc319a3a0dd1"
+          "row_sha256": "e7f8c2bde0642489fe610da46fc59190d333a4fd524ab503a186de129e8522a8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2704,9 +2707,9 @@
               "start": 0,
               "end": 100
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "0d874b758ef821fc15aca95eda7011e1952cdbbc4f86407e82b3d03bcb7092a5"
+          "row_sha256": "4cfd207cf95e83046af6766cc69dbe4093bffa02ec872f1078eb84f646d288e1"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2749,9 +2752,9 @@
               "start": 727,
               "end": 783
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "be65f394baf4a81e11042837da2a1736f05b96a3ad68ca0f443c798503bbdcaf"
+          "row_sha256": "e1e1e0cc90834f14c4539189b3cc318780c363dcf828207a982426257f795bd1"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2794,9 +2797,9 @@
               "start": 6774,
               "end": 6880
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "a3168ab4e2adb738a26b44f6d291d98a172b7a630cf8a0bc9e2f4302c6d9437f"
+          "row_sha256": "281d2f2f8f3ba00913e4145b57dedc29db595c32c468c81052f0faf826a049e8"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2839,9 +2842,9 @@
               "start": 157,
               "end": 233
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "3eff240f7df737525a094f23b546da0b55446ffe3f313e4ce43dfbb141ee3504"
+          "row_sha256": "36325afe08e9ec1d25bd86781d0bbdbeaec1bddc9e57879edcd63f635f6df140"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2884,9 +2887,9 @@
               "start": 256,
               "end": 354
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "f84ad5a3159fffe70e6e23f640f1391e9f51dd2a17ce92fdc6231cc938d90221"
+          "row_sha256": "b4141618384bdf9cfc1e831084e587c9b5475dadcec2f682342c771e8f3db1c4"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2929,9 +2932,9 @@
               "start": 9,
               "end": 117
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "96987af1f96dd919680637189e0cb6b4dfb6426c5badfb922217df085475cd9c"
+          "row_sha256": "857f37ce4fa5c314d19738419291d645aa35b44791d113c41085dc8b2042d175"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2974,9 +2977,9 @@
               "start": 144,
               "end": 190
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "9d132253f93cf4129c546ac2da3c9efd5cb154964aed6041424ef77f40e75b92"
+          "row_sha256": "45cfb9165b5dda986fa7907a177e307de48b69e44564d0b14d34b2eb039a6ad4"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -2984,7 +2987,7 @@
           "row_id": "EVR-F25-0",
           "claim": {
             "claim_id": "F25",
-            "text": "as coortes nascidas de 2007 a 2011, anos em que há relatos de voos na\nChapada e que antecedem a seca",
+            "text": "as coortes nascidas de 2007 a 2011, anos em que há relatos de voos na\nChapada (Seção~\\ref{sec:onde-aviao}) e que antecedem a seca",
             "paper_locator": "paper/projeto/secoes/05-metodologia.tex:125-126",
             "selection_tier": "ALL"
           },
@@ -3018,7 +3021,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "3bd59ee9b52210d92cba35fcf5a26bb1c80fa9e4540d744b27b0f098e5376ecf"
+          "row_sha256": "c34fbaa95e02da401425bb199857ff410a738b00ebb0561b9831b31ae7306413"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3145,9 +3148,9 @@
               "start": 727,
               "end": 783
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "307a25f472b972099e8b2d9b4d8c762535a73aa2c43a325e6bab52466521f8c8"
+          "row_sha256": "49a12d76a4abd1e357062085e9eb9ed6bfeab523c5513207e3e0e605db08c4a5"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3232,9 +3235,9 @@
               "start": 435,
               "end": 563
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ee9505f4f568cabe2501fee18c20c00d5b08bc8790a173fe2a639723e192c802"
+          "row_sha256": "daf1b4abe59927a5ec11dce4de4c49d387f8b364b06277e292a51adb1157b61d"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3277,51 +3280,99 @@
               "start": 22801,
               "end": 22855
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "f611dd4520c2c157c700feba3fb61a4bed52e722cb0cf82584ade34107e92b30"
+          "row_sha256": "ad2287adaac498a7ff044e8f928bfd2883951e150d84440347447b463a5f6320"
         },
         {
           "schema_version": "evidence-row/1.0",
           "surface": "phase_e_claim_verification",
-          "row_id": "EVR-F27-0",
+          "row_id": "EVR-F27-1",
           "claim": {
             "claim_id": "F27",
-            "text": "Os anos posteriores à lei servem para medir o cumprimento\ne, desde 2021, o uso de drones.",
+            "text": "Os anos posteriores à lei servem para medir o cumprimento\ne, desde 2021, o uso de drones \\cite{mapa2021portaria298}",
             "paper_locator": "paper/projeto/secoes/05-metodologia.tex:181-182",
             "selection_tier": "ALL"
           },
           "source": {
-            "ref_slug": null,
-            "display_label": null,
-            "source_content_sha256": null,
-            "source_content_utf8_bytes": null,
+            "ref_slug": "mapa2021portaria298",
+            "display_label": "Brasil, MAPA 2021, portaria, Portaria 298 de 22/09/2021",
+            "source_content_sha256": "88860a60bc900cd19342c46b109cb30dd6c575ccb6ca1e39d3f0befa82ad8449",
+            "source_content_utf8_bytes": 1158,
             "source_artifact_sha256": null
           },
           "anchor": {
-            "kind": "none",
-            "value_encoded": "",
-            "value_decoded": ""
+            "kind": "section",
+            "value_encoded": "art. 19",
+            "value_decoded": "art. 19"
           },
           "verdict": "VERIFIED",
-          "detail": "Fonte primária não citada no projeto: Portaria MAPA 298, de 22/09/2021 (DOU 24/09/2021), arts. 11 e 19, I, em vigor desde 01/10/2021: relatório mensal do operador de aeronave remotamente pilotada, com município, aeronave, área, tipo de atividade e produto (sem cultura).",
+          "detail": "Corrigido na rodada 1 do 4.5: fonte citada. Arts. 11 e 19, I; vigência em 01/10/2021. Lido por trechos da publicação no DOU.",
           "content_handling": {
-            "contains_external_text": false,
+            "contains_external_text": true,
             "sharing_scope": "session_only",
             "rights_basis": "not_assessed"
           },
           "cache": {
-            "status": "not_used",
-            "key_sha256": null
+            "status": "miss",
+            "key_sha256": "0dd3b084ac0a05bd213f672e5451e6eb639ffb1a19f7c3ee9d8b8cf1f6145532"
           },
           "excerpt": {
-            "state": "anchorless",
-            "text": null,
-            "excerpt_sha256": null,
-            "source_span_utf8": null,
-            "captured_at": null
+            "state": "agent_extracted",
+            "text": "I - apresentar relatórios mensais de atividades no SIPEAGRO",
+            "excerpt_sha256": "3572c040af783463f5789da6700d8ff48fbec468f0901b9e919abbb37de3c9fa",
+            "source_span_utf8": {
+              "start": 1026,
+              "end": 1086
+            },
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "655d09bf5b9120908d3e21d6b0b286816a60efefc98ec9b8aebe72d9d5d3f66e"
+          "row_sha256": "6b757f354860d4b2ed1c55d25e05e286e382830add82e0140d45ffa10eddaa8c"
+        },
+        {
+          "schema_version": "evidence-row/1.0",
+          "surface": "phase_e_claim_verification",
+          "row_id": "EVR-F27-2",
+          "claim": {
+            "claim_id": "F27",
+            "text": "Os anos posteriores à lei servem para medir o cumprimento\ne, desde 2021, o uso de drones \\cite{mapa2021portaria298}",
+            "paper_locator": "paper/projeto/secoes/05-metodologia.tex:181-182",
+            "selection_tier": "ALL"
+          },
+          "source": {
+            "ref_slug": "mapa2021portaria298",
+            "display_label": "Brasil, MAPA 2021, portaria, Portaria 298 de 22/09/2021",
+            "source_content_sha256": "88860a60bc900cd19342c46b109cb30dd6c575ccb6ca1e39d3f0befa82ad8449",
+            "source_content_utf8_bytes": 1158,
+            "source_artifact_sha256": null
+          },
+          "anchor": {
+            "kind": "section",
+            "value_encoded": "art. 29",
+            "value_decoded": "art. 29"
+          },
+          "verdict": "VERIFIED",
+          "detail": "Corrigido na rodada 1 do 4.5: fonte citada. Arts. 11 e 19, I; vigência em 01/10/2021. Lido por trechos da publicação no DOU.",
+          "content_handling": {
+            "contains_external_text": true,
+            "sharing_scope": "session_only",
+            "rights_basis": "not_assessed"
+          },
+          "cache": {
+            "status": "miss",
+            "key_sha256": "f8531131c6d0a878a8270c5982624d3abfced04652237952d22ede07459b78a5"
+          },
+          "excerpt": {
+            "state": "agent_extracted",
+            "text": "Esta Portaria entra em vigor em 1º de outubro de 2021.",
+            "excerpt_sha256": "b82e43646b35940db50f90106223d76bf64af178b3a2ea2578eb4a6fe0eb055d",
+            "source_span_utf8": {
+              "start": 1103,
+              "end": 1158
+            },
+            "captured_at": "2026-11-16T00:52:12Z"
+          },
+          "row_sha256": "c33b868b02560be05076840621f1ad9ea6facf7ad2cf21599e37c032d3441c83"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3364,9 +3415,9 @@
               "start": 4524,
               "end": 4595
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "2dc80cb4efbb9f48955ef78f36244d36f6d7ad7582437979ae6269753a9d0f42"
+          "row_sha256": "46e18c5fe9f8bc86622c4d74b144adad8ac091b6c5c170ac43c6966cc45dd62e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3409,9 +3460,9 @@
               "start": 3,
               "end": 147
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "77d73562a5c51d12467392c8613007a02b2aec21ce29aa8cc9babaea45f6d6d8"
+          "row_sha256": "30a5fa8bf792f7ad8ecb934b51d206b095d8f3b5ae68cff9d6eefaeba570b5ab"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3496,9 +3547,9 @@
               "start": 53886,
               "end": 53917
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "a7643454291b61a30900d96f3f20140e4b0621bdf99b3d68d6c06b197fd4e874"
+          "row_sha256": "ca150b6e34ef0f8ab9125a6734db50a7bad3cbd861af0ae0a9c462f107e5d3ad"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3541,9 +3592,9 @@
               "start": 6774,
               "end": 6880
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "7a270369cb20da7039e3bd4bb2f7a029047d527e98f1dc64d6f6b30139e9335a"
+          "row_sha256": "9b34815ed382476513c078121cb1b01c56056b25664d1ba549134e4fe4255c01"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3586,9 +3637,9 @@
               "start": 29743,
               "end": 29821
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "11ac37e6beee0e1df89760ba8549b9a5fdc0b659b05bd73f4d7556d0469310fe"
+          "row_sha256": "eea5af43a0e55b4da42201d7d1d8c372167eca866092dfc540637ede886263e9"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3631,9 +3682,9 @@
               "start": 242,
               "end": 334
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "e2ba1bf185aa0c138c4f3403d98c140562ea3b6b0645ca5cdf639de71188b25f"
+          "row_sha256": "c80d9148d8caf7e55170631a1504a6234211a660a142a0b5ef7641860b1ee512"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3676,9 +3727,9 @@
               "start": 152,
               "end": 218
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "da4da7574bcb165b2d558c75f79cc2f5029de9a07bdc53a267228b4055667a59"
+          "row_sha256": "3a43a74b03f6b1272a55a7ce0321fa80d6569e7d0689625fad28bcb18b0ea5a6"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3721,9 +3772,9 @@
               "start": 256,
               "end": 354
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "444bbd91cf0b38967e890891cd5e89b190cf9209a3344baa58c40ec105a243f9"
+          "row_sha256": "48c3288e49a785a249b411cd0e955600985506a143801418e0bc4765bb919bbf"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3766,9 +3817,9 @@
               "start": 328,
               "end": 387
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "0ed89a63c35cb017596938885e9f487dbcbc10afaf045122fcea198cca3567cb"
+          "row_sha256": "a4b90398396ce9509e0067993c0b7c3581bcf5864ae5620c51c515de87108a10"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3811,9 +3862,9 @@
               "start": 144,
               "end": 190
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "804948e612ebf2f234a1cb97fa42b1015e30d874646a4948774c15f79c27209f"
+          "row_sha256": "e2792359e8ac69573c1538fde502a5e2bf316d514be1ad53f43982f239b7f484"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3856,9 +3907,9 @@
               "start": 32,
               "end": 46
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "2b1a5d0174927facbd226fcb9776415b540957a9792b0aca9ed73addeea6ae02"
+          "row_sha256": "74efc0bd04bc4993750dad9e9f636dde7ec312716e713359fa40e10550258dc1"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3901,9 +3952,9 @@
               "start": 9,
               "end": 117
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "6f894eb0f877d2d4dbe20d2027753d719e80f5816de9d01c49df81bf1a695530"
+          "row_sha256": "bb73d17982e0570320b3b765072bc47f4b9dd89dac8e6e269591444ffc699008"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -3992,44 +4043,47 @@
         {
           "schema_version": "evidence-row/1.0",
           "surface": "phase_e_claim_verification",
-          "row_id": "EVR-F29-0",
+          "row_id": "EVR-F29-1",
           "claim": {
             "claim_id": "F29",
-            "text": "A série atravessa a troca do\nformulário de nascido vivo, em 2011, que alterou o registro da idade\ngestacional",
+            "text": "A série atravessa a troca do\nformulário de nascido vivo, em 2011 \\cite{brasil2011sinasc}, que alterou o registro da idade\ngestacional",
             "paper_locator": "paper/projeto/secoes/06-dados.tex:16-18",
             "selection_tier": "ALL"
           },
           "source": {
-            "ref_slug": null,
-            "display_label": null,
-            "source_content_sha256": null,
-            "source_content_utf8_bytes": null,
+            "ref_slug": "brasil2011sinasc",
+            "display_label": "Brasil, Ministério da Saúde, Consolidação do SINASC 2011 (arquivo de 2013)",
+            "source_content_sha256": "7ef26a60da106c1f180d463af50dcaa0e48aa832c77872e3315ceab65307fb61",
+            "source_content_utf8_bytes": 40062,
             "source_artifact_sha256": null
           },
           "anchor": {
-            "kind": "none",
-            "value_encoded": "",
-            "value_decoded": ""
+            "kind": "section",
+            "value_encoded": "seção sobre idade gestacional",
+            "value_decoded": "seção sobre idade gestacional"
           },
           "verdict": "VERIFIED",
-          "detail": "Fonte primária não citada no projeto: Ministério da Saúde, 'Consolidação do Sistema de Informações sobre Nascidos Vivos - 2011' (tabnet.datasus.gov.br/cgi/sinasc/Consolida_Sinasc_2011.pdf): idade gestacional passa de intervalos a semanas, com a data da última menstruação como padrão; em 2011 os dois formulários conviveram (58% novos).",
+          "detail": "Corrigido na rodada 1 do 4.5: fonte citada; PDF lido.",
           "content_handling": {
-            "contains_external_text": false,
+            "contains_external_text": true,
             "sharing_scope": "session_only",
             "rights_basis": "not_assessed"
           },
           "cache": {
-            "status": "not_used",
-            "key_sha256": null
+            "status": "miss",
+            "key_sha256": "9254c1cda0c879fe612fb3d7c9d3e18ffa1fd87076fdd1ad46ab7d989d35d671"
           },
           "excerpt": {
-            "state": "anchorless",
-            "text": null,
-            "excerpt_sha256": null,
-            "source_span_utf8": null,
-            "captured_at": null
+            "state": "agent_extracted",
+            "text": "a idade gestacional foi um dos campos que teve a forma de captação do dado alterada",
+            "excerpt_sha256": "f79e0a4885dd31109aa575caa2d8652f739d531bdea400f29eebd0389ffb9889",
+            "source_span_utf8": {
+              "start": 27465,
+              "end": 27550
+            },
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "77926a9b3253e00b0715eab574ea44ae76e0c575aecfa6eda96306b583dfc99e"
+          "row_sha256": "51bacfb1a845a28402ad62f873d5ea8f3eb65876c42247fc83aa30b350b97b01"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4072,9 +4126,9 @@
               "start": 14885,
               "end": 14981
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "cd8e04a0c192483b4d497c45c93d18fd5f9387326dcde26d207f47b48e0d63ab"
+          "row_sha256": "d05399caccbc2e21ce9cebc0ab04deea5f13e7663f66b26a82e9f7e66e9495a5"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4117,9 +4171,9 @@
               "start": 154,
               "end": 213
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "7e616db15bfc819d30d29f819b092d08ed52e80075acd02e4bb9d23b0a93a685"
+          "row_sha256": "4d5fd7dbca96d847f18d5129e1be0cd5cc177c20fb9661eeba2ed4806b19e570"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4204,9 +4258,9 @@
               "start": 3236,
               "end": 3296
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "c3e8387b5173b2991a4ef8781d97bb0f8055790532559d1155f928f62beafe98"
+          "row_sha256": "efca6710a51a558ceaa657305e8504c1d0284f62bafc7e092eeddb019685b422"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4249,9 +4303,9 @@
               "start": 1236,
               "end": 1315
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "1738742d6387cc552a30775e460090d7027cd75b2c3be071926357fd9a331615"
+          "row_sha256": "b397fe24028b96aa644de111a65f28ea493cbb08acc8278fb704689e95eab8d3"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4294,9 +4348,9 @@
               "start": 1438,
               "end": 1527
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "076c5420b12774005362becffc922297f5614b69e10ac5328c4cc89bbe2290b7"
+          "row_sha256": "43f8194ab5b1986dda8184e36580e8ff829927d2a710351b8bb4f28f533ab97c"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4339,9 +4393,9 @@
               "start": 435,
               "end": 563
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "67016cd1ed65f33509d7ce67a9688fec2e8dccf6c0d0a6f472c272b4e5619f63"
+          "row_sha256": "92887b8eb132be3cac63085d424456bef9c12ca0053645b1b60b2acce6268c07"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4468,9 +4522,9 @@
               "start": 8576,
               "end": 8702
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "730de4963b3a3ccec3efd9c5c2b3d6f0e99cdf45d4030e37f07d88afe688141f"
+          "row_sha256": "298c42292cc3844b0e42821e2e30dc9a1f3f60f96bda087b59752517d71bb2fe"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4520,7 +4574,7 @@
           "row_id": "EVR-AP2-0",
           "claim": {
             "claim_id": "AP2",
-            "text": "Em papel até 2021; preservação incerta.",
+            "text": "Envio eletrônico só a partir de 2021, segundo o setor; preservação incerta.",
             "paper_locator": "paper/projeto/secoes/apendices.tex:27",
             "selection_tier": "ALL"
           },
@@ -4554,7 +4608,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "98b844cdd71ffe11354713de77c745f052d6c4ac8a5e1c3ae9904668caf96704"
+          "row_sha256": "9ba48a532292801af9fe064664e91c7bbbd038b49e26abc476840fc116f90d64"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4563,7 +4617,7 @@
           "claim": {
             "claim_id": "F09",
             "text": "09/12/1993 & Lei Estadual nº 12.228",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:126",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:127",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4596,7 +4650,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "005fc0880c92ba10dc0e482b774f8cdbe68a891274dfe8dd4a99879816eb0996"
+          "row_sha256": "857313feb11b41e303a067d6b82e54565bb752e464d54bd8eb2697586e011131"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4605,7 +4659,7 @@
           "claim": {
             "claim_id": "F10",
             "text": "20/11/2009 & Limoeiro do Norte proíbe a pulverização aérea por lei municipal (Lei nº 1.478).",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:127",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:128",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4638,7 +4692,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "7f142db58abba1a1cc9f90439a4198eadf6796dec97f07ce1d3e70091193092e"
+          "row_sha256": "9c8d560d41638012a4e5c5724b7a47202bbfb5a21845ed58ffbec9c9de6e5399"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4647,7 +4701,7 @@
           "claim": {
             "claim_id": "F11",
             "text": "Assassinato de Zé Maria do Tomé (abril). Em maio, a Lei municipal nº 1.511 revoga a proibição e passa a regular a prática.",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:128",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:129",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4680,7 +4734,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "b107589d0700cd582afa38f417b007fe0d3bcccd4887ea5f018eafa9ceab2a6d"
+          "row_sha256": "721fd9537e5f988a504df850072def321fed4b82cab26003a35b5de890c0a8db"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4689,7 +4743,7 @@
           "claim": {
             "claim_id": "F14",
             "text": "Notícia de proibição na Chapada do Apodi (março); projeto de lei estadual com a mesma vedação (PL nº 134, maio); ação civil pública do Ministério Público (julho), de desfecho não localizado.",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:129",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:130",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4722,7 +4776,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "33c31172412a917c3e47cc89fc16194637a1d315883f8d0984a5b8ead1254d55"
+          "row_sha256": "4cbc756836abf4e48dfa0a458dc2760d1fdccec7ef475ab12eb816766794b7e1"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4731,7 +4785,7 @@
           "claim": {
             "claim_id": "H13",
             "text": "2012--2017 & Seca no semiárido; relatos de suspensão dos voos na Chapada.",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:130",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:131",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4764,7 +4818,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "5215ada5fe6f29c127ab47d14c3f9461be6e4505d3d941195045cb75b267de2a"
+          "row_sha256": "28fc3f3e90e54e7179c97f61d2327c5895f91439711614a4680896ba5923f59e"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4773,7 +4827,7 @@
           "claim": {
             "claim_id": "F15",
             "text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia).",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:131",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:132",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4806,7 +4860,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "5884e8e790f393225ede4a22505e86e852dd4cba19dab8fe84f84d4bfe58ed03"
+          "row_sha256": "272d876641da5994ffb71d65c0e60281a64544362fb2a780039e014f58900dbb"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4815,7 +4869,7 @@
           "claim": {
             "claim_id": "H01",
             "text": "03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:132",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:133",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4849,9 +4903,9 @@
               "start": 1552,
               "end": 1654
             },
-            "captured_at": "2026-11-16T00:43:59Z"
+            "captured_at": "2026-11-16T00:52:12Z"
           },
-          "row_sha256": "ca8b884a1e41e78cae79c534272272517273577446d40aca28a87ff7821f74e9"
+          "row_sha256": "712767d9891a35fc094e2db684e72cec8a20d03eaf52b878241b043bcbd95bad"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4860,7 +4914,7 @@
           "claim": {
             "claim_id": "F16",
             "text": "18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa (marco de certeza).",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:133",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:134",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4893,7 +4947,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "ae1e1e8f74ba4083c90c477adf3cc2e29bab2cf1a440060f8d6bb5f0287e5318"
+          "row_sha256": "ebd995403d9d80d6965355933a4112442ca8604f88df7521460f46419abd5fc2"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4902,7 +4956,7 @@
           "claim": {
             "claim_id": "F17",
             "text": "09/01/2019 & Vigência da Lei nº 16.820 (marco de obrigação).",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:134",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:135",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4935,7 +4989,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "6f97206a3f94ab503046450c24b7e418b8346c050b2e5f562090b271cf2155e4"
+          "row_sha256": "d22830de95cd4e4b9f361db56446aa63d2000a35e867c1e4c9ffa75e89dc39a9"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4944,7 +4998,7 @@
           "claim": {
             "claim_id": "F32",
             "text": "05/2023 & O Supremo Tribunal Federal julga a lei constitucional (ADI 6137).",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:135",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:136",
             "selection_tier": "ALL"
           },
           "source": {
@@ -4977,7 +5031,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "16650b53dcd0126f71db5802ef9ec0cfa0eff8272de39da21a247b57dfd13af5"
+          "row_sha256": "767c80dd14525f04ae76e93338a9e0b94523abdcbe5a5634818138cd631b9073"
         },
         {
           "schema_version": "evidence-row/1.0",
@@ -4986,7 +5040,7 @@
           "claim": {
             "claim_id": "F33",
             "text": "19/12/2024 & Lei nº 19.135: exceção para drones.",
-            "paper_locator": "paper/projeto/secoes/apendices.tex:136",
+            "paper_locator": "paper/projeto/secoes/apendices.tex:137",
             "selection_tier": "ALL"
           },
           "source": {
@@ -5019,7 +5073,7 @@
             "source_span_utf8": null,
             "captured_at": null
           },
-          "row_sha256": "82bd3b1350dcf10b7bdb3b3f7aa910f58ce8df8780f54bef3a0072d757017eb7"
+          "row_sha256": "c4b3f145a8e4d1726a17e036dba6b02e0acefa2c306d32167f684b8b9dd67e52"
         }
       ]
     }

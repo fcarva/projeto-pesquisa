@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "6b2677c4d13141ae940ad8938d35bba63cfcbfc3740ae8c9f728938a0e02ba47",
+  "draft_raw_sha256": "dc287b7c44048d6cd2291eb8fd5b800b4e9170ebf16ad98a2eb2b287da101855",
   "claims": [
     {
       "claim_id": "F05",
@@ -142,15 +142,17 @@
     },
     {
       "claim_id": "H16",
-      "claim_text": "no Ceará, um produtor relata duas\naplicações aéreas por ano",
+      "claim_text": "no Ceará, um produtor do\nCariri relata duas aplicações aéreas por ano \\cite{globorural2021bananais}",
       "draft_span": {
         "start_byte": 2310,
-        "end_byte": 2373
+        "end_byte": 2413
       },
       "claim_kinds": [
         "quantitative"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "globorural2021bananais"
+      ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
       "selection_tier": "ALL",
@@ -162,8 +164,8 @@
       "claim_id": "C09",
       "claim_text": "A tabela de análises de água\nreproduzida na justificativa do Projeto de Lei nº~18/2015, atribuída ao Dossiê\nABRASCO \\cite{ceara2015pl18}, registra 23 pontos de coleta na Chapada em 2009: o fungicida\nprocimidona e o inseticida carbaril aparecem em todos, carbofurano em 18,\nfenitrotiona em 16 e glifosato em apenas 4.",
       "draft_span": {
-        "start_byte": 2597,
-        "end_byte": 2918
+        "start_byte": 2637,
+        "end_byte": 2958
       },
       "claim_kinds": [
         "quantitative"
@@ -182,8 +184,8 @@
       "claim_id": "F13",
       "claim_text": "Ceará eram 36 estabelecimentos, em 7 dos 184 municípios\n\\cite{ibge2006censoagro}",
       "draft_span": {
-        "start_byte": 3385,
-        "end_byte": 3467
+        "start_byte": 3425,
+        "end_byte": 3507
       },
       "claim_kinds": [
         "quantitative"
@@ -202,8 +204,8 @@
       "claim_id": "G03",
       "claim_text": "a bananicultura está presente na maior parte do estado\n\\cite{ibgepam}: a maioria dos municípios com a cultura não tinha registro de\navião.",
       "draft_span": {
-        "start_byte": 3537,
-        "end_byte": 3679
+        "start_byte": 3577,
+        "end_byte": 3719
       },
       "claim_kinds": [
         "quantitative"
@@ -222,8 +224,8 @@
       "claim_id": "H02",
       "claim_text": "A lei municipal que revogou\na proibição de Limoeiro do Norte, em 2010, passou a regular a prática, com\ndistâncias mínimas de povoações e mananciais \\cite{limoeiro2010lei1511}",
       "draft_span": {
-        "start_byte": 3731,
-        "end_byte": 3912
+        "start_byte": 3771,
+        "end_byte": 3952
       },
       "claim_kinds": [
         "other_factual"
@@ -242,8 +244,8 @@
       "claim_id": "F12",
       "claim_text": "Em\n2011 noticiou-se uma proibição na Chapada e o Ministério Público ajuizou ação\ncivil pública com esse pedido, mas não se localizou instrumento jurídico da\nprimeira nem desfecho da segunda.",
       "draft_span": {
-        "start_byte": 3991,
-        "end_byte": 4190
+        "start_byte": 4031,
+        "end_byte": 4230
       },
       "claim_kinds": [
         "other_factual"
@@ -260,8 +262,8 @@
       "claim_id": "H03",
       "claim_text": "em 2016, uma\nmoradora de comunidade da Chapada relatou que não havia novas aplicações\ndesde 2012, por causa da pouca chuva \\cite{agenciabrasil2016ceara}",
       "draft_span": {
-        "start_byte": 4223,
-        "end_byte": 4378
+        "start_byte": 4263,
+        "end_byte": 4418
       },
       "claim_kinds": [
         "other_factual"
@@ -280,8 +282,8 @@
       "claim_id": "H04",
       "claim_text": "Um produtor do\nCariri, por sua vez, declarou ter feito aplicações aéreas em seu bananal até\n2018 \\cite{globorural2021bananais}",
       "draft_span": {
-        "start_byte": 4456,
-        "end_byte": 4586
+        "start_byte": 4496,
+        "end_byte": 4626
       },
       "claim_kinds": [
         "other_factual"

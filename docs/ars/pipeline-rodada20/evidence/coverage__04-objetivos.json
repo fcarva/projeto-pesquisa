@@ -1,14 +1,14 @@
 {
   "candidate_unregistered_count": 0,
   "candidates": [],
-  "draft_raw_sha256": "3f31a3078a93a71fcf72ad69d3a088be3ac9d57847510f503297e4e9400f91a8",
+  "draft_raw_sha256": "96cda9dd788a5959034845117b95ea1730c5eead08952799a1c759eb8cca2110",
   "mechanical_candidate_scope": [
     "citation_bearing_sentence",
     "quantitative_sentence"
   ],
   "registered_claims_outside_candidate_classes": [],
   "registry_claim_count": 0,
-  "registry_raw_sha256": "a18229106c9b8fc4a9a0ba3c109c88303a8da2d5bfc6dce018a890b9c2f0f029",
+  "registry_raw_sha256": "cc2be7984a7cbb29ee49a68ad2e2a9d557ae816df9ecd12a089b05744aa5eb66",
   "registry_schema_version": "claim-registry/1.0",
   "schema_version": "claim-registry-coverage/1.0",
   "semantic_extraction_coverage": "not_machine_detectable"

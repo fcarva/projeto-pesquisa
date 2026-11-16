@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "45db1db57dcf9b3a3a67ee94763f36e34f2d0e853e1ab965f972b2a2e4e60baa",
+  "draft_raw_sha256": "3155af1aa3e96a4d3aed7e093923253e99dbe82e39a80dc096a2fd95a88b2382",
   "claims": [
     {
       "claim_id": "C10",
@@ -96,10 +96,10 @@
     },
     {
       "claim_id": "H17",
-      "claim_text": "Como no Ceará as aplicações são\nmenos frequentes, esse valor é tomado como teto.",
+      "claim_text": "Como o único relato disponível para o Ceará indica aplicações menos frequentes\n(Capítulo~\\ref{cap:contexto}), esse valor é tomado como teto.",
       "draft_span": {
         "start_byte": 2064,
-        "end_byte": 2149
+        "end_byte": 2211
       },
       "claim_kinds": [
         "other_factual"
@@ -116,8 +116,8 @@
       "claim_id": "H05",
       "claim_text": "\\citeonline{rigotto2013trends} comparam municípios da fruticultura irrigada do\nCeará com municípios de agricultura familiar, em estudo ecológico, e\ndocumentam mais internações por neoplasias nos primeiros, sem diferença\nestatisticamente significante em óbitos fetais, embora com tendência crescente.",
       "draft_span": {
-        "start_byte": 2161,
-        "end_byte": 2469
+        "start_byte": 2223,
+        "end_byte": 2531
       },
       "claim_kinds": [
         "other_factual"
@@ -136,8 +136,8 @@
       "claim_id": "C17",
       "claim_text": "Os efeitos aparecem no topo da distribuição de\nexposição \\cite{larsen2017agricultural} e na cauda inferior da distribuição de\npeso esperado \\cite{reynier2025glyphosate}",
       "draft_span": {
-        "start_byte": 2502,
-        "end_byte": 2676
+        "start_byte": 2564,
+        "end_byte": 2738
       },
       "claim_kinds": [
         "trend"
@@ -157,8 +157,8 @@
       "claim_id": "H06",
       "claim_text": "\\citeonline{jones2020invasive} é dos poucos estudos em que fungicidas têm\npeso na variação explorada",
       "draft_span": {
-        "start_byte": 2678,
-        "end_byte": 2782
+        "start_byte": 2740,
+        "end_byte": 2844
       },
       "claim_kinds": [
         "categorical"
@@ -174,8 +174,8 @@
       "claim_id": "C18",
       "claim_text": "\\citeonline{calzada2023bananas} encontram efeito nos dois\nprimeiros trimestres e estimativa imprecisa no terceiro, com a intensidade da fumigação\nditada pela estação chuvosa, e \\citeonline{brainerd2014seasonal} usam o mês da\nconcepção e a estação de aplicação de agroquímicos na Índia.",
       "draft_span": {
-        "start_byte": 3216,
-        "end_byte": 3514
+        "start_byte": 3278,
+        "end_byte": 3576
       },
       "claim_kinds": [
         "other_factual"
@@ -195,8 +195,8 @@
       "claim_id": "C19",
       "claim_text": "A composição das mães\nvaria com a época da concepção \\cite{buckles2013season}",
       "draft_span": {
-        "start_byte": 3561,
-        "end_byte": 3644
+        "start_byte": 3624,
+        "end_byte": 3707
       },
       "claim_kinds": [
         "other_factual"
@@ -215,8 +215,8 @@
       "claim_id": "C36",
       "claim_text": "a sazonalidade do\npeso ao nascer persiste mesmo entre irmãos \\cite{currie2013within}",
       "draft_span": {
-        "start_byte": 3648,
-        "end_byte": 3733
+        "start_byte": 3711,
+        "end_byte": 3796
       },
       "claim_kinds": [
         "other_factual"
@@ -235,8 +235,8 @@
       "claim_id": "C28",
       "claim_text": "no\nsemiárido brasileiro, a chuva durante a gestação afeta o peso ao nascer por\nvias próprias \\cite{rocha2015water}",
       "draft_span": {
-        "start_byte": 3738,
-        "end_byte": 3856
+        "start_byte": 3801,
+        "end_byte": 3919
       },
       "claim_kinds": [
         "causal"
@@ -255,8 +255,8 @@
       "claim_id": "C20",
       "claim_text": "os estimadores e as\ndecomposições de diferenças-em-diferenças para adoção escalonada\n\\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam",
       "draft_span": {
-        "start_byte": 4043,
-        "end_byte": 4213
+        "start_byte": 4106,
+        "end_byte": 4276
       },
       "claim_kinds": [
         "other_factual"
@@ -274,8 +274,8 @@
       "claim_id": "C22",
       "claim_text": "a diferença tripla exige uma única hipótese\nde tendências paralelas, a da diferença entre os dois contrastes que a compõem\n\\cite{olden2022triple}",
       "draft_span": {
-        "start_byte": 4336,
-        "end_byte": 4487
+        "start_byte": 4399,
+        "end_byte": 4550
       },
       "claim_kinds": [
         "other_factual"
@@ -294,8 +294,8 @@
       "claim_id": "C21",
       "claim_text": "\\citeonline{callaway2024continuous} mostram que o\nefeito no nível da dose recebida sai sob tendências paralelas usuais, ao passo\nque a curva dose-resposta exige hipótese mais forte.",
       "draft_span": {
-        "start_byte": 4565,
-        "end_byte": 4749
+        "start_byte": 4628,
+        "end_byte": 4812
       },
       "claim_kinds": [
         "other_factual"
@@ -314,8 +314,8 @@
       "claim_id": "C24",
       "claim_text": "Quando poucos grupos são tratados, a inferência assintótica usual falha e são\nnecessários procedimentos próprios \\cite{conley2011,ferman2019inference,\nchernozhukov2021conformal,hagemann2025single}",
       "draft_span": {
-        "start_byte": 4751,
-        "end_byte": 4953
+        "start_byte": 4814,
+        "end_byte": 5016
       },
       "claim_kinds": [
         "other_factual"

@@ -1,13 +1,13 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "57bf5288817715c06e5b48d6958de3b3c33ee010be69d244c7ac3e1de82a599e",
+  "draft_raw_sha256": "7e0c28bfb8e8c861244d33b24806e67b656a099f8408f6e799d5a5f07ff4e1a6",
   "claims": [
     {
       "claim_id": "F25",
-      "claim_text": "as coortes nascidas de 2007 a 2011, anos em que há relatos de voos na\nChapada e que antecedem a seca",
+      "claim_text": "as coortes nascidas de 2007 a 2011, anos em que há relatos de voos na\nChapada (Seção~\\ref{sec:onde-aviao}) e que antecedem a seca",
       "draft_span": {
         "start_byte": 7090,
-        "end_byte": 7191
+        "end_byte": 7222
       },
       "claim_kinds": [
         "other_factual"
@@ -24,8 +24,8 @@
       "claim_id": "F26",
       "claim_text": "os\nregistros pedidos começam em 2008, e em 2011 já havia notícia de proibição",
       "draft_span": {
-        "start_byte": 7319,
-        "end_byte": 7401
+        "start_byte": 7350,
+        "end_byte": 7432
       },
       "claim_kinds": [
         "other_factual"
@@ -42,8 +42,8 @@
       "claim_id": "G13",
       "claim_text": "os produtores de\nbanana em que a cultura é predominantemente familiar, segundo o Censo\nAgropecuário de 2017 \\cite{ibge2017censoagro}",
       "draft_span": {
-        "start_byte": 7541,
-        "end_byte": 7675
+        "start_byte": 7572,
+        "end_byte": 7706
       },
       "claim_kinds": [
         "other_factual"
@@ -62,8 +62,8 @@
       "claim_id": "C29",
       "claim_text": "que, na ausência da lei, o hiato sazonal tivesse\nevoluído do mesmo modo nos dois grupos desde o período de referência\n\\cite{olden2022triple}",
       "draft_span": {
-        "start_byte": 8131,
-        "end_byte": 8275
+        "start_byte": 8162,
+        "end_byte": 8306
       },
       "claim_kinds": [
         "other_factual"
@@ -82,8 +82,8 @@
       "claim_id": "H07",
       "claim_text": "no Censo de 2006, que a registra também fora dos polos irrigados",
       "draft_span": {
-        "start_byte": 7798,
-        "end_byte": 7863
+        "start_byte": 7829,
+        "end_byte": 7894
       },
       "claim_kinds": [
         "other_factual"
@@ -100,8 +100,8 @@
       "claim_id": "C30",
       "claim_text": "Como a precipitação durante a\ngestação afeta o peso ao nascer no semiárido por vias que não passam pelo\navião \\cite{rocha2015water}",
       "draft_span": {
-        "start_byte": 8596,
-        "end_byte": 8734
+        "start_byte": 8627,
+        "end_byte": 8765
       },
       "claim_kinds": [
         "causal"
@@ -120,8 +120,8 @@
       "claim_id": "F18",
       "claim_text": "os relatórios mensais que as\nempresas de aviação agrícola entregam ao Ministério da Agricultura\n\\cite{mapa2008in2}, com município, cultura, área e produto",
       "draft_span": {
-        "start_byte": 10408,
-        "end_byte": 10569
+        "start_byte": 10461,
+        "end_byte": 10622
       },
       "claim_kinds": [
         "other_factual"
@@ -138,15 +138,17 @@
     },
     {
       "claim_id": "F27",
-      "claim_text": "Os anos posteriores à lei servem para medir o cumprimento\ne, desde 2021, o uso de drones.",
+      "claim_text": "Os anos posteriores à lei servem para medir o cumprimento\ne, desde 2021, o uso de drones \\cite{mapa2021portaria298}",
       "draft_span": {
-        "start_byte": 10691,
-        "end_byte": 10781
+        "start_byte": 10744,
+        "end_byte": 10860
       },
       "claim_kinds": [
         "other_factual"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "mapa2021portaria298"
+      ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
       "selection_tier": "ALL",
@@ -158,8 +160,8 @@
       "claim_id": "F20",
       "claim_text": "o cadastro estadual de prestadores e\nos autos de infração \\cite{ceara1993lei12228}",
       "draft_span": {
-        "start_byte": 10950,
-        "end_byte": 11034
+        "start_byte": 11030,
+        "end_byte": 11114
       },
       "claim_kinds": [
         "other_factual"
@@ -178,8 +180,8 @@
       "claim_id": "F19",
       "claim_text": "o receituário agronômico\n\\cite{brasil2002decreto4074}, cuja guarda é preciso localizar e que registra\nprescrição, não aplicação",
       "draft_span": {
-        "start_byte": 11036,
-        "end_byte": 11171
+        "start_byte": 11116,
+        "end_byte": 11251
       },
       "claim_kinds": [
         "other_factual"
@@ -198,8 +200,8 @@
       "claim_id": "F21",
       "claim_text": "os autos da ação civil pública de 2011",
       "draft_span": {
-        "start_byte": 11175,
-        "end_byte": 11216
+        "start_byte": 11255,
+        "end_byte": 11296
       },
       "claim_kinds": [
         "other_factual"
@@ -213,8 +215,8 @@
       "claim_id": "F28",
       "claim_text": "O Censo\nAgropecuário de 2006 \\cite{ibge2006censoagro} fornece a classificação\nprovisória; por não distinguir cultura e ser anterior à seca",
       "draft_span": {
-        "start_byte": 11218,
-        "end_byte": 11362
+        "start_byte": 11298,
+        "end_byte": 11442
       },
       "claim_kinds": [
         "other_factual"
@@ -233,8 +235,8 @@
       "claim_id": "C31",
       "claim_text": "um diferenças-em-diferenças com tratamento contínuo\n\\cite{callaway2024continuous}",
       "draft_span": {
-        "start_byte": 12623,
-        "end_byte": 12707
+        "start_byte": 12703,
+        "end_byte": 12787
       },
       "claim_kinds": [
         "other_factual"
@@ -253,8 +255,8 @@
       "claim_id": "C23",
       "claim_text": "em que $VPP$, o valor preditivo positivo, é a fração dos classificados como\ntratados que de fato o eram \\cite{denteh2022misclassification}",
       "draft_span": {
-        "start_byte": 13150,
-        "end_byte": 13291
+        "start_byte": 13230,
+        "end_byte": 13371
       },
       "claim_kinds": [
         "other_factual"
@@ -273,8 +275,8 @@
       "claim_id": "C32",
       "claim_text": "o controle sintético e o\ndiferenças-em-diferenças sintético \\cite{arkhangelsky2021sdid}",
       "draft_span": {
-        "start_byte": 13421,
-        "end_byte": 13512
+        "start_byte": 13501,
+        "end_byte": 13592
       },
       "claim_kinds": [
         "other_factual"
@@ -290,8 +292,8 @@
       "claim_id": "H09",
       "claim_text": "o \\emph{wild cluster bootstrap} isolado não é\ndefensável com tão poucos tratados \\cite{mackinnon2018wild}",
       "draft_span": {
-        "start_byte": 15912,
-        "end_byte": 16021
+        "start_byte": 15992,
+        "end_byte": 16101
       },
       "claim_kinds": [
         "other_factual"
@@ -310,8 +312,8 @@
       "claim_id": "H10",
       "claim_text": "O procedimento\nprincipal é o de \\citeonline{ferman2019inference}, que admite\nheterocedasticidade por tamanho de município",
       "draft_span": {
-        "start_byte": 16023,
-        "end_byte": 16146
+        "start_byte": 16103,
+        "end_byte": 16226
       },
       "claim_kinds": [
         "other_factual"
@@ -330,8 +332,8 @@
       "claim_id": "H11",
       "claim_text": "os de \\citeonline{conley2011},\n\\citeonline{canay2021wild} e \\citeonline{hagemann2025single} são reportados\ncomo sensibilidade",
       "draft_span": {
-        "start_byte": 16148,
-        "end_byte": 16274
+        "start_byte": 16228,
+        "end_byte": 16354
       },
       "claim_kinds": [
         "other_factual"
@@ -349,8 +351,8 @@
       "claim_id": "C33",
       "claim_text": "a inferência conformal de\n\\citeonline{chernozhukov2021conformal} é usada no controle sintético",
       "draft_span": {
-        "start_byte": 16278,
-        "end_byte": 16375
+        "start_byte": 16358,
+        "end_byte": 16455
       },
       "claim_kinds": [
         "other_factual"
@@ -366,8 +368,8 @@
       "claim_id": "F22",
       "claim_text": "Um plano para a forma reduzida estadual foi escrito e\nversionado em setembro de 2026; uma rodada exploratória dessa análise já foi\nexecutada e levou a rever seu alvo, da curva para o nível.",
       "draft_span": {
-        "start_byte": 17145,
-        "end_byte": 17338
+        "start_byte": 17225,
+        "end_byte": 17418
       },
       "claim_kinds": [
         "other_factual"
@@ -384,8 +386,8 @@
       "claim_id": "F23",
       "claim_text": "o desenho de calendário foi\nadotado como principal depois dela, sem que a exposição sazonal tenha sido\ncruzada com os desfechos",
       "draft_span": {
-        "start_byte": 17412,
-        "end_byte": 17542
+        "start_byte": 17492,
+        "end_byte": 17622
       },
       "claim_kinds": [
         "other_factual"

@@ -34,6 +34,13 @@
     "provenance": "uma alínea do art. 66, IV, transcrita do trecho devolvido pela ferramenta de busca (planalto.gov.br/ccivil_03/decreto/2002/D4074.htm) na rodada 1; não é o documento integral",
     "display_label": "Brasil 2002, decreto, Decreto 4.074 de 04/01/2002"
   },
+  "brasil2011sinasc": {
+    "file": "sources/brasil2011sinasc.txt",
+    "sha256": "7ef26a60da106c1f180d463af50dcaa0e48aa832c77872e3315ceab65307fb61",
+    "utf8_bytes": 40062,
+    "provenance": "PDF de tabnet.datasus.gov.br/cgi/sinasc/Consolida_Sinasc_2011.pdf (24 p.; data do arquivo 2013-06-02), pdftotext com espaços normalizados, 2026-11-16",
+    "display_label": "Brasil, Ministério da Saúde, Consolidação do SINASC 2011 (arquivo de 2013)"
+  },
   "buckles2013season": {
     "file": "sources/buckles2013season.txt",
     "sha256": "2992b750a816c99a1eccfc29e4836f9828fd2324ca731a4ebee8f3e23171e024",
@@ -257,6 +264,13 @@
     "utf8_bytes": 39328,
     "provenance": "normasbrasil.com.br/norma/instrucao-normativa-2-2008_76999.html (reprodução), marcação removida, 2026-11-15; o PDF oficial em gov.br foi lido na rodada 1 pela ferramenta de busca",
     "display_label": "Brasil, MAPA 2008, instrução normativa, IN 2 de 03/01/2008"
+  },
+  "mapa2021portaria298": {
+    "file": "sources/mapa2021portaria298.txt",
+    "sha256": "88860a60bc900cd19342c46b109cb30dd6c575ccb6ca1e39d3f0befa82ad8449",
+    "utf8_bytes": 1158,
+    "provenance": "trechos da publicação no DOU (in.gov.br/web/dou/-/portaria-mapa-n-298-de-22-de-setembro-de-2021-347039095) devolvidos pela ferramenta de busca em 2026-11-16; NÃO é o texto integral",
+    "display_label": "Brasil, MAPA 2021, portaria, Portaria 298 de 22/09/2021"
   },
   "olden2022triple": {
     "file": "sources/olden2022triple.txt",
