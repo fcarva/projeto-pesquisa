@@ -1,5 +1,8 @@
 # Continuar na máquina local
 
+> **Fica para a fase de pesquisa.** A prioridade agora é fechar o texto do
+> projeto (`paper/main.tex`). Este roteiro só entra depois disso.
+
 *2026-11-16. A sessão em nuvem escreve código e texto, mas não enxerga os
 microdados: `data/` não é versionado. O que depende de dado roda aí.*
 

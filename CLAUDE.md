@@ -11,6 +11,8 @@ Dissertação de mestrado (PPGEco/UFES) em **dois ensaios** sobre o banimento es
 Idioma: **português** na prosa da dissertação; código e comentários podem ser em inglês. Prosa enxuta, lógica de *forward engineering* (parâmetro-alvo → hipóteses de identificação → estimação).
 
 ## ⚠️ Reorientação de 2026-11-16 — ler antes do resto
+> **Prioridade atual (decisão do pesquisador, 2026-11-16): fechar o PROJETO de pesquisa.** O entregável é o texto em `paper/main.tex`. Não baixar dados, não montar painel, não rodar cálculo de poder com microdado nem qualquer pré-estimação até o projeto estar fechado: isso é trabalho da fase de pesquisa. Scripts de dados já escritos (18, 19) ficam prontos e parados. O que cabe agora: revisar e apertar o texto, conferir referências, alinhar com o orientador.
+
 O pesquisador decidiu voltar à pergunta básica, e **`docs/framework-dissertacao.md` (versão 2) é o documento que manda**. Onde este arquivo ou `docs/ars/` o contradisserem, vale o framework.
 - **Pergunta:** impacto do ban sobre saúde ao nascer, agravos agudos e produção agrícola. Não é mais a curva dose-resposta.
 - **Caminho-alvo (decisão do pesquisador, 2026-11-16):** `lei → menos avião → menos deriva → melhor nascimento`. Os demais caminhos do DAG (substituição, renda, composição, seleção para nascer vivo) medem-se ao lado, para poder atribuir o efeito a este.
