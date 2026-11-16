@@ -237,6 +237,12 @@ SUFIXO_UF := uf$(word 1,$(UFS_ORDENADAS))-$(word 2,$(UFS_ORDENADAS))
 censo-demografico:
 	$(PY) scripts/data_prep/15_censo_demografico.py --ufs 23 $(VIZINHO) --verificar-dicionario
 
+# O que ja foi baixado de SINASC e SIM nesta maquina, e o que falta. Roda so
+# com a biblioteca padrao; grava docs/inventario-local.md (nomes e tamanhos).
+.PHONY: inventario
+inventario:
+	$(PY) scripts/data_prep/19_inventario_local.py --conferir-ftp --salvar
+
 # Aviao por tipo de agricultura (familiar x nao familiar), Censo Agro 2006 e
 # 2017. Linha de base do primeiro elo do caminho-alvo; nao e desfecho.
 .PHONY: censo-agro-familiar
