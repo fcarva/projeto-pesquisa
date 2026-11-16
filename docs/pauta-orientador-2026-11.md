@@ -3,7 +3,7 @@
 Acompanha o projeto *Proibição da pulverização aérea de agrotóxicos no Ceará:
 efeitos sobre o peso ao nascer*, na versão de 16/11/2026: a versão 14 da
 revisão assistida, mais quatro fatos legais acrescentados depois aos Apêndices
-A e D. Substitui a pauta de 10/11, que tratava do desenho anterior.
+A e D e uma reorganização dos capítulos, que não alterou decisão de método. Substitui a pauta de 10/11, que tratava do desenho anterior.
 
 ## 1. O que mudou desde a última conversa
 
@@ -18,7 +18,7 @@ A e D. Substitui a pauta de 10/11, que tratava do desenho anterior.
   ao nascer diretamente.
 - **Uma hipótese confirmatória** (peso ao nascer) e uma **regra de decisão**
   em seis linhas, que diz o que o ensaio entrega conforme a medição dos voos e
-  o poder (Quadro 1 do projeto; critérios no Apêndice F).
+  o poder (Quadro 1, no Capítulo 7 do projeto; critérios no Apêndice F).
 
 ## 2. O que o senhor precisa saber antes de ler
 
@@ -110,5 +110,6 @@ verificação por outro modelo nem por pessoa. Nesta última rodada:
   exploratório (item 13 da seção 3).
 
 Os quatro fatos legais acrescentados depois foram conferidos nas leis, fora
-desse protocolo. O registro completo está em
+desse protocolo. A reorganização dos capítulos foi comparada com a versão 14
+por um verificador, que não encontrou afirmação, citação ou número perdido. O registro completo está em
 `docs/ars/rodada21-local/stage6/registro_do_processo.md`.

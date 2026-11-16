@@ -12,6 +12,11 @@ Estado em `passport.yaml`; registro em `stage6/registro_do_processo.md`.
 - Commitado e enviado em `bc65945` (2026-11-16). Ficaram fora do repositório o PDF de 28 MB
   da Lei 1.511 e os dados. Depois disso, na sessão em nuvem: quatro fatos legais nos
   Apêndices A e D (59 referências) e a pauta `docs/pauta-orientador-2026-11.md`.
+- Em seguida, também na nuvem: reestruturação em forma de projeto de dissertação (capítulos
+  renomeados e reordenados; antiga metodologia e ameaças fundidas em "Estratégia empírica";
+  regra de decisão no novo Capítulo 7). Um verificador independente comparou com a etiqueta
+  `projeto-v14-consolidado`: nenhuma afirmação, citação, número ou decisão de método perdida.
+  As correções de prosa que ele sugeriu foram aplicadas e não passaram por nova conferência.
 
 ## Resultado dos portões
 - 2.5: PASS WITH NOTES (3 rodadas). 3: Major Revision (34 itens; painel cego imperfeito).

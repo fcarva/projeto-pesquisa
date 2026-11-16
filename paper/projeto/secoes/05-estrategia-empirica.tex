@@ -1,6 +1,6 @@
 % Capítulo 5 — Estratégia empírica. Reorganizado em 2026-11-16 (funde a
 % antiga Metodologia e o capítulo de ameaças): parâmetro → identificação →
-% hipóteses e ameaças → mensuração → inferência → análises complementares.
+% hipóteses e ameaças → mensuração → análises complementares → inferência.
 % Nenhuma decisão de método mudou em relação à v14 (etiqueta git
 % projeto-v14-consolidado). A regra de decisão foi para o Capítulo 7; a
 % discussão completa de interferência, para o Apêndice B.
@@ -102,8 +102,8 @@ definir a exposição condicionaria em variável afetada pelo tratamento.
 
 \textbf{Período de referência.} São as coortes nascidas de 2007 a 2011, anos
 em que há relatos de voos na Chapada (Seção~\ref{sec:onde-aviao}) e que
-antecedem a seca. A escolha foi registrada em 15 de novembro de 2026, depois
-da rodada exploratória de setembro e antes da de novembro, que a tomou como
+antecedem a seca. A escolha, registrada em 15 de novembro de 2026, é posterior
+à rodada exploratória de setembro e anterior à de novembro, que a tomou como
 dada (Apêndice~\ref{ap:regra}). As coortes de 2005 e 2006 entram apenas no
 estudo de evento. Três limites são conhecidos: os registros pedidos começam em
 2008; em 2011 houve projeto de lei estadual e ação civil pública pela
@@ -121,18 +121,29 @@ não seria válida: agricultura familiar e empresarial diferem em renda, acesso
 a programas sociais e exposição à aplicação costal. Dentro da diferença tripla
 exige-se menos, como se discute a seguir.
 
+\textbf{Diagnóstico descritivo do pré-período.}\label{sec:diagnostico} Antes
+da análise confirmatória, será descrito o hiato sazonal nos dois grupos no
+período de referência e no período de seca. O diagnóstico responde se a
+exposição à estação aparece nos dados municipais e se a seca a alterou. Ele é
+descritivo: não escolhe o período de referência e não autoriza nem impede a
+análise confirmatória (Seção~\ref{sec:regra}; a razão está no
+Apêndice~\ref{ap:ameacas}). A leitura tem um limite: os dois períodos diferem
+pela própria seca, que altera a sazonalidade do peso ao nascer por outras
+vias, de modo que o fechamento do hiato nas coortes de 2013 a 2018 é
+compatível com a suspensão dos voos, mas não a demonstra.
+
 \section{Hipóteses de identificação e ameaças}
 \label{cap:ameacas}
 
-A hipótese de identificação é que, na ausência da lei, o hiato sazonal teria
+A hipótese central de identificação é que, na ausência da lei, o hiato sazonal teria
 evoluído do mesmo modo nos dois grupos desde o período de referência
 \cite{olden2022triple}. Ela será examinada por um estudo de evento, com um
 coeficiente por ano e 2011 como base, que fora da referência cobre só 2005 e
 2006, com pouco poder, e por um tratamento falso, que compara os municípios de
 banana familiar aos sem banana e examina o grupo de comparação, não o
 contrafactual dos tratados. Os dois são relatados junto a $\beta$, e não como
-portão: um resultado desfavorável não suspende o teste, e $\beta$ é sempre
-lido com intervalo de sensibilidade a desvios das tendências paralelas do
+condição para o teste: um resultado desfavorável não o suspende, e $\beta$ é
+sempre lido com intervalo de sensibilidade a desvios das tendências paralelas do
 tamanho observado antes da lei \cite{rambachan2023credible}. Como a
 identificação pode depender de características dos municípios, reporta-se, se
 o número de tratados permitir, um estimador duplamente robusto com covariáveis
@@ -148,13 +159,13 @@ fato. Ela levou, desde 2014, ao racionamento da irrigação no Baixo Jaguaribe
 e composição das mães, a verificar nas séries de área e de emprego. E ela
 afeta o peso ao nascer diretamente \cite{rocha2015water}, e o seu fim é
 próximo da vigência da lei. O desenho fixa a referência antes da seca e
-reporta o período de seca em separado. A chuva entra de dois modos. Como a
-precipitação durante a gestação afeta o peso ao nascer no semiárido por vias
-que não passam pelo avião, a chuva da quadra chuvosa, interagida com os
-indicadores de exposição, é controle nos dois grupos, sob a hipótese
-adicional, declarada, de que esse efeito direto seja comum a municípios de
-lavoura irrigada e de sequeiro. É ela que separa a lei do retorno das chuvas,
-e não o faz por completo: se a chuva tiver efeito sazonal diferente em
+reporta o período de seca em separado.
+
+A chuva entra de dois modos. Como esse efeito direto não passa pelo avião, a
+chuva da quadra chuvosa, interagida com os indicadores de exposição, é
+controle nos dois grupos, sob a hipótese adicional, declarada, de que ele seja
+comum a municípios de lavoura irrigada e de sequeiro. É esse controle que
+separa a lei do retorno das chuvas, e não o faz por completo: se a chuva tiver efeito sazonal diferente em
 municípios irrigados e de sequeiro, $\beta$ o captura. Por isso a conclusão
 confirmatória exige que a especificação principal e a que deixa o efeito
 diferir por grupo concordem em sinal e em ordem de grandeza
@@ -179,25 +190,13 @@ composto, o número de nascidos vivos por coorte e a razão de sexo ao nascer
 são examinados por isso, com os limites do Apêndice~\ref{ap:ameacas}.
 
 \textbf{Interferência e versões do tratamento.} O desenho supõe que o
-tratamento de um município não altera o desfecho de outro e que o tratamento
-tem uma só versão. Os vizinhos imediatos dos tratados são separados dos
-demais, formando três grupos, e o parâmetro, de intenção de tratar, é a média
-sobre as versões de estar sob a lei: ter parado de voar, ter trocado o avião
-pela aplicação terrestre ou pelo drone, ou não ter cumprido. Onde os voos
-cessaram antes de 2019, a lei não alterou a exposição, e $\beta$ atribuiria a
-ela o que tem outra causa. A discussão completa está no
-Apêndice~\ref{ap:ameacas}.
-
-\textbf{Diagnóstico descritivo do pré-período.}\label{sec:diagnostico} Antes
-da análise confirmatória, será descrito o hiato sazonal nos dois grupos no
-período de referência e no período de seca. O diagnóstico responde se a
-exposição à estação aparece nos dados municipais e se a seca a alterou. Ele é
-descritivo: não escolhe o período de referência e não autoriza nem impede a
-análise confirmatória (Seção~\ref{sec:regra}; a razão está no
-Apêndice~\ref{ap:ameacas}). A leitura tem um limite: os dois períodos diferem
-pela própria seca, que altera a sazonalidade do peso ao nascer por outras
-vias, de modo que o fechamento do hiato nas coortes de 2013 a 2018 é
-compatível com a suspensão dos voos, mas não a demonstra.
+tratamento de um município não altera o desfecho de outro. Como a deriva e o
+aquífero compartilhado atenuariam a estimativa e a migração do serviço aéreo a
+inflaria, os vizinhos imediatos dos tratados são separados dos demais,
+formando três grupos. Estar sob a lei tem versões (ter parado de voar, ter
+trocado o avião pela aplicação terrestre ou pelo drone, não ter cumprido), e o
+parâmetro, de intenção de tratar, é a média sobre elas
+(Apêndice~\ref{ap:interferencia}).
 
 \section{Mensuração da aplicação aérea}
 \label{sec:medicao}
@@ -220,53 +219,6 @@ civil pública de 2011 (Apêndice~\ref{ap:fontes}). O Censo Agropecuário de 200
 distinguir cultura e ser anterior à seca, pode apontar para municípios
 diferentes daqueles em que se voava em 2018.
 
-\section{Inferência e poder estatístico}
-\label{sec:inferencia}
-
-Há poucos municípios tratados, contíguos, e a lei é atribuída no nível do
-estado. Erros-padrão agrupados por município, com aproximação assintótica,
-superestimam a precisão, e o \emph{wild cluster bootstrap} isolado não é
-defensável com tão poucos tratados \cite{mackinnon2018wild}. O procedimento
-principal é o de \citeonline{ferman2019inference}, que admite
-heterocedasticidade por tamanho de município, aplicado à mudança do hiato
-sazonal de cada município, líquida da chuva e dos efeitos fixos
-(Apêndice~\ref{ap:regra}). Ele supõe municípios independentes, e os tratados
-contíguos partilham choques; por isso o procedimento para um único agregado
-tratado \cite{hagemann2025single} é reportado ao lado, e a conclusão
-confirmatória exige que os dois concordem. Os de \citeonline{conley2011} e
-\citeonline{canay2021wild} são sensibilidade, e a inferência conformal de
-\citeonline{chernozhukov2021conformal} é usada no controle sintético.
-
-Dois fatores limitam o poder e nenhum se resolve com mais anos de dados: o
-número de municípios com aplicação aérea e a fração dos nascimentos de cada um
-efetivamente exposta. O efeito mínimo detectável de $\beta$ tem nível de 5\%,
-poder de 80\% e teste unilateral, sob o procedimento principal, e é calculado
-apenas com dados do período de referência e do período de seca
-(Apêndice~\ref{ap:regra}). Este projeto não traz o seu valor, o que é uma
-limitação. A rodada exploratória de novembro, com classificação e estação
-provisórias, indicou efeito detectável acima do plausível na célula que
-decide, isto é, a linha 2 do Quadro~\ref{qua:regra}; a medição dos voos pode
-mudar a classificação e o resultado. O valor pré-especificado é reportado no
-plano de análise ou em adendo datado, antes da análise confirmatória.
-
-\textbf{Rodadas exploratórias e plano de análise.} Duas rodadas exploratórias
-antecedem este documento. Nenhuma estimativa delas é reportada; o
-Apêndice~\ref{ap:regra} lista as variantes estimadas e o que estava fixado
-antes de cada uma. A de setembro de 2026 estimou a forma reduzida estadual,
-sob plano fechado no dia 21. A de novembro estimou o desenho de calendário,
-ainda sem plano, com classificação e estação provisórias e sem a chuva, sobre
-os nascimentos de 2005 a 2024: a exposição sazonal já foi cruzada com o
-desfecho do pós-lei. Daí três compromissos. Municípios tratados e estação são
-fixados pela medição dos voos, e os parâmetros ainda abertos, por critério
-escrito sem uso do desfecho; a ratificação com o orientador não altera o
-período de referência nem o Quadro~\ref{qua:regra}, e os limiares do
-Apêndice~\ref{ap:regra} são provisórios até ela. Se municípios e estação
-medidos coincidirem com variante já estimada, o resultado é rotulado como
-reestimação em dados já examinados, e não como teste confirmatório. E o plano
-de análise e o material das duas rodadas serão depositados em repositório
-público versionado, com data verificável por terceiros, antes da análise
-confirmatória, que é refeita a partir das bases originais.
-
 \section{Análises complementares}
 \label{sec:secundarias}
 
@@ -286,3 +238,52 @@ experimento natural limpo, porque tudo o que é estadual muda junto na divisa e
 as culturas diferem. A comparação entre as análises é descritiva, sem rótulo
 de concordância: cada uma tem estimando próprio, e reporta-se o valor que se
 esperaria de cada uma sob o efeito principal.
+
+\section{Inferência e poder estatístico}
+\label{sec:inferencia}
+
+Há poucos municípios tratados, contíguos, e a lei é atribuída no nível do
+estado. Erros-padrão agrupados por município, com aproximação assintótica,
+superestimam a precisão, e o \emph{wild cluster bootstrap} isolado não é
+defensável com tão poucos tratados \cite{mackinnon2018wild}. O procedimento
+principal será o de \citeonline{ferman2019inference}, que admite
+heterocedasticidade por tamanho de município, aplicado à mudança do hiato
+sazonal de cada município, líquida da chuva e dos efeitos fixos
+(Apêndice~\ref{ap:regra}). Ele supõe municípios independentes, e os tratados
+contíguos partilham choques; por isso o procedimento para um único agregado
+tratado \cite{hagemann2025single} será reportado ao lado, e a conclusão
+confirmatória exigirá que os dois concordem. Os de \citeonline{conley2011} e
+\citeonline{canay2021wild} são sensibilidade, e a inferência conformal de
+\citeonline{chernozhukov2021conformal} é usada no controle sintético.
+
+Dois fatores limitam o poder e nenhum se resolve com mais anos de dados: o
+número de municípios com aplicação aérea e a fração dos nascimentos de cada um
+efetivamente exposta. O efeito mínimo detectável de $\beta$ tem nível de 5\%,
+poder de 80\% e teste unilateral, sob o procedimento principal, e é calculado
+apenas com dados do período de referência e do período de seca
+(Apêndice~\ref{ap:regra}). Este projeto não traz o seu valor, o que é uma
+limitação. A rodada exploratória de novembro, com classificação e estação
+provisórias, indicou efeito mínimo detectável maior que o plausível (80 gramas do
+análogo, com um quarto dos nascimentos exposto; Capítulo~\ref{cap:resultados}),
+caso em que o desenho é reportado como limite, sem teste (linha 2 do
+Quadro~\ref{qua:regra}); a medição dos voos pode mudar a classificação e o
+resultado. O valor pré-especificado é reportado no
+plano de análise ou em adendo datado, antes da análise confirmatória.
+
+\textbf{O que já foi visto e o que fica fixado.} Duas rodadas exploratórias
+antecedem este projeto; nenhuma estimativa delas é reportada, e o
+Apêndice~\ref{ap:regra} lista o que foi estimado e o que estava fixado antes
+de cada uma. A de setembro de 2026 estimou a forma reduzida estadual,
+sob plano fechado no dia 21. A de novembro estimou o desenho de calendário,
+ainda sem plano, com classificação e estação provisórias e sem a chuva, sobre
+os nascimentos de 2005 a 2024: a exposição sazonal já foi cruzada com o
+desfecho do pós-lei. Daí três compromissos. Municípios tratados e estação são
+fixados pela medição dos voos, e os parâmetros ainda abertos, por critério
+escrito sem uso do desfecho; a ratificação com o orientador não altera o
+período de referência nem o Quadro~\ref{qua:regra}, e os limiares do
+Apêndice~\ref{ap:regra} são provisórios até ela. Se municípios e estação
+medidos coincidirem com variante já estimada, o resultado é rotulado como
+reestimação em dados já examinados, e não como teste confirmatório. E o plano
+de análise e o material das duas rodadas serão depositados em repositório
+público versionado, com data verificável por terceiros, antes da análise
+confirmatória, que é refeita a partir das bases originais.
