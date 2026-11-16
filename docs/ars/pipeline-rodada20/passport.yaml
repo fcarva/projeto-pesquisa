@@ -6,7 +6,7 @@ origin_skill: external-draft
 origin_mode: mid-entry
 origin_date: "2026-11-15T21:25:42Z"
 verification_status: STALE
-version_label: "projeto_v6"
+version_label: "projeto_v7"
 content_hash: "sha256:bc4611e7843d87becd596e0c6853bf2fcb5a1e8778ac5edf3d97d27e22516d59"
 ars_plugin_version: "3.24.2"
 artifact_paths:

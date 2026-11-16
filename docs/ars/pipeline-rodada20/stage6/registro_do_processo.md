@@ -242,3 +242,21 @@ equação e a regra de decisão em dois eixos.
 Mérito do desenho; leitura integral da maioria dos artigos (conferidos pelo
 resumo); a versão publicada de Calzada et al.; as normas do PPGEco; qualquer
 conversa com o orientador.
+
+## Adendo de 2026-11-16 — depois do registro
+
+Duas revisões de conteúdo foram feitas depois deste registro, a pedido do
+pesquisador, sem nova rodada de pareceristas:
+
+1. **Exposição em grupos e proibições municipais (v6).** Integridade: FAIL com
+   três achados menores, todos corrigidos depois
+   (`stage4.5_final_integrity_report_v6.md`).
+2. **Sant'Anna como referência de diferença em diferenças e Apêndice E (v7).**
+   Decisão do pesquisador: referência de exposição, sem mudar o estimador
+   principal. Integridade: PASS WITH NOTES, um achado sério (covariável do
+   estimador duplamente robusto) e sete menores, corrigidos; uma nota fica
+   aberta (`stage4.5_final_integrity_report_v7.md`).
+
+As correções da v7 não foram reverificadas por agente independente, e o
+conteúdo de quatro artigos citados na seção 3.3 foi conferido só por
+metadados. O passport fica como STALE até uma reverificação.

@@ -66,7 +66,7 @@ Tratados mal identificados; atenuação &
 Relatórios mensais; exclusão de qualquer município com aeronave do grupo de comparação. \\
 Seleção para o nascimento vivo &
 Efeito sobre o peso médio atenuado ou invertido &
-Óbito fetal e desfecho composto, exploratórios. \\
+Óbito fetal, desfecho composto, nascidos vivos por coorte e razão de sexo, exploratórios. \\
 Interferência entre municípios &
 Sinal indeterminado &
 Três grupos; doadores fora do alcance; registros do estado vizinho. \\
@@ -100,7 +100,7 @@ Estudo de evento & Um coeficiente de $A_m \times k_t$ por ano, $k \in \{I,H\}$, 
 Perfil saturado & Um indicador para cada valor de $P_t$ no lugar de $I_t$ e $H_t$ & Mesma amostra; sensibilidade ao limiar. \\
 Linear em $P_t$ & $P_t$ no lugar dos indicadores & Mesma amostra; sensibilidade, sob hipótese adicional. \\
 Chuva por grupo & Acrescenta $A_m \times k_t \times C_{m,a}$ & Mesma amostra; sensibilidade. \\
-Duplamente robusto & Estimador de diferença tripla com ajuste por covariáveis, com a chuva como covariável & Mesma amostra; sensibilidade. \\
+Duplamente robusto & Estimador de diferença tripla com covariáveis municipais anteriores à lei (chuva média de 2007--2011) & Mesma amostra; sensibilidade, se o número de tratados permitir. \\
 Efeito por chuva ($H_3$) & Acrescenta $A_m \times H_t \times Pos_t \times C_{m,a}$ e os termos de ordem inferior & Mesma amostra; exploratória. \\
 Terceiro trimestre & Grupos redefinidos pela fração do terceiro trimestre na estação & Mesma amostra; exploratória. \\
 Tratamento falso ($H_4$) & Equação~\ref{eq:ddd} com banana familiar no lugar de $A_m$ & Municípios de banana familiar e sem banana; falsificação. \\
@@ -154,27 +154,27 @@ Data & Evento \\
 \toprule
 Elemento do diagrama & Hipótese ou papel & Como o projeto trata \\
 \midrule
-Composição materna, sazonalidade de base, choques município-ano &
-Confundidores cancelados pela diferença &
-Efeitos fixos de município por mês e de município por ano. \\
+Componentes fixos por município-mês e município-ano &
+Cancelados pela diferença &
+Efeitos fixos; a composição materna que varie é examinada à parte. \\
 Outra causa que altere o hiato sazonal só nos tratados, após a lei &
 Tendências paralelas da diferença tripla: é o que a hipótese exclui &
 Estudo de evento; tratamento falso; sensibilidade sem 2020--2021. \\
 Projetos de lei de 2011 e 2015 (fora da figura) &
 Ausência de antecipação &
-Referência em 2007--2011; coortes de transição excluídas. \\
+Referência em sua maior parte anterior aos projetos; sensibilidade com 2008--2010. \\
 Caminhos entre municípios: deriva, aquífero, migração do serviço aéreo (fora da figura) &
 Ausência de interferência &
 Três grupos; doadores fora do alcance. \\
 Chuva do ano &
-Tendências paralelas condicionais a covariável &
-Controle nos dois grupos; estimador duplamente robusto como sensibilidade. \\
+Na regressão, efeito direto comum aos dois grupos &
+Controle nos dois grupos; especificação que o deixa diferir. \\
 Aplicação terrestre substituta &
 Não é ameaça: define o parâmetro como intenção de tratar &
 Notificações de intoxicação; registros posteriores à lei. \\
 Seleção: só nascidos vivos são observados &
 Fora do alcance do método &
-Óbito fetal, nascidos vivos por coorte e razão de sexo, exploratórios. \\
+Óbito fetal, desfecho composto, nascidos vivos por coorte e razão de sexo, exploratórios. \\
 \bottomrule
 \end{tabular}
 \fonte{Elaboração própria. O diagrama diz quais caminhos existem; o
