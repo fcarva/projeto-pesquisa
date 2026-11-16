@@ -25,6 +25,11 @@ três limites que a máquina local não tem:
 | Proibições municipais em outros estados | uma reportagem (Agência Pública, 2019) | conferir ao menos duas das leis citadas |
 | Contagens do Censo Agropecuário 2006 (aeronave por município) | conferidas na nuvem | refazer a partir da tabela SIDRA 1008 |
 
+**Atualização de 2026-11-16:** parte desta tabela já foi rechecada na nuvem.
+Ler `rechecagem-nuvem.md` antes de começar: a Lei 1.511/2010 foi conferida
+na fonte primária, e há um achado que contradiz o texto do projeto sobre a
+frequência de aplicações aéreas (seis a oito por ano na Chapada, não duas).
+
 Regra: o que não abrir fica escrito como "não conferido", com o motivo.
 
 ## Ordem de trabalho
