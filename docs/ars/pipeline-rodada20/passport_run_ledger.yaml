@@ -321,3 +321,29 @@ entries:
   user_words: '[resposta por seleção de opção] "Gerar o registro do processo"'
   prev_hash: be105b11f3af9bd48fbf490843cbde52c96c114ba2db73ba75370e0dedf9b6f1
   hash: ece1c15b1d3712e0f2d062695ebace60c7e87b27ec9b1f30ec52fe84aec3294a
+- seq: 27
+  kind: checkpoint_opened
+  at: '2026-11-16T01:12:03Z'
+  checkpoint_id: pos-pipeline-revisao
+  stage: '6'
+  checkpoint_type: FULL
+  question: 'Pedido de correção de conteúdo após a entrega do registro (o Estágio
+    6 segue em andamento): alcance da revisão do parágrafo sobre política estadual
+    e simultânea.'
+  options:
+  - reescrever o parágrafo
+  - tratar a exposição contínua
+  - mencionar as proibições municipais
+  - tratamento efetivo escalonado
+  prev_hash: ece1c15b1d3712e0f2d062695ebace60c7e87b27ec9b1f30ec52fe84aec3294a
+  hash: 8277197e3ff355f55035dcd99a678a6784e34d093ac7ef2197e34b3e08cbecee
+- seq: 28
+  kind: checkpoint_closed
+  at: '2026-11-16T01:12:03Z'
+  checkpoint_id: pos-pipeline-revisao
+  answer: tratar a exposição contínua; mencionar as proibições municipais
+  user_words: '[pedido, em palavras do pesquisador, após citar o parágrafo] "AVALIAR
+    FORTEMENTE ISSO, REVER ISSO". [alcance, por seleção de opção] "Tratar a exposição
+    contínua, Mencionar as proibições municipais".'
+  prev_hash: 8277197e3ff355f55035dcd99a678a6784e34d093ac7ef2197e34b3e08cbecee
+  hash: 6620d14cf8b1c9c916015d27f77a92d49fe8d2c62b8962a954a4c4affb0892d3

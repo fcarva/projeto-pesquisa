@@ -95,11 +95,13 @@ Análise & Especificação & Amostra e estatuto \\
 \midrule
 Principal ($H_1$) & Equação~\ref{eq:ddd}; coeficiente $\beta$ & Municípios com aplicação aérea e de banana familiar; confirmatória. \\
 Período de seca ($H_2$) & Equação~\ref{eq:ddd}; coeficiente $\beta_S$ & Mesma amostra; descritiva. \\
-Estudo de evento & Um coeficiente de $A_m \times P_t$ por ano, com 2011 como base & Mesma amostra; verificação da hipótese de identificação. \\
+Estudo de evento & Um coeficiente de $A_m \times H_t$ por ano, com 2011 como base & Mesma amostra; verificação da hipótese de identificação. \\
 
-Chuva por grupo & Acrescenta $A_m \times P_t \times C_{m,a}$ & Mesma amostra; sensibilidade. \\
-Efeito por chuva ($H_3$) & Acrescenta $A_m \times P_t \times Pos_t \times C_{m,a}$ e os termos de ordem inferior & Mesma amostra; exploratória. \\
-Terceiro trimestre & $P_t$ redefinido como fração do terceiro trimestre na estação & Mesma amostra; exploratória. \\
+Perfil saturado & Um indicador para cada valor de $P_t$ no lugar de $I_t$ e $H_t$ & Mesma amostra; sensibilidade ao limiar. \\
+Linear em $P_t$ & $P_t$ no lugar dos indicadores & Mesma amostra; sensibilidade, sob hipótese adicional. \\
+Chuva por grupo & Acrescenta $A_m \times k_t \times C_{m,a}$ & Mesma amostra; sensibilidade. \\
+Efeito por chuva ($H_3$) & Acrescenta $A_m \times H_t \times Pos_t \times C_{m,a}$ e os termos de ordem inferior & Mesma amostra; exploratória. \\
+Terceiro trimestre & Grupos redefinidos pela fração do terceiro trimestre na estação & Mesma amostra; exploratória. \\
 Tratamento falso ($H_4$) & Equação~\ref{eq:ddd} com banana familiar no lugar de $A_m$ & Municípios de banana familiar e sem banana; falsificação. \\
 Interferência & Equação~\ref{eq:ddd} com indicador de vizinho imediato de município tratado & Vizinhos e demais não tratados; exploratória. \\
 Sem 2020--2021 & Equação~\ref{eq:ddd} sem as coortes nascidas em 2020 e 2021 & Mesma amostra; sensibilidade. \\

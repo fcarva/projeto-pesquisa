@@ -14,10 +14,10 @@ ao nascer das coortes cujo início de gestação coincide com a estação de
 pulverização, nos municípios cearenses com aplicação aérea documentada no
 período de referência. Com $Y(1)$ e $Y(0)$ os desfechos com e sem a proibição,
 \begin{equation}
-  \tau = E\left[\,Y_{mt}(1) - Y_{mt}(0) \mid A_m = 1,\ P_t,\ t \text{ pós-lei}\,\right],
+  \tau = E\left[\,Y_{mt}(1) - Y_{mt}(0) \mid A_m = 1,\ H_t = 1,\ t \text{ pós-lei}\,\right],
 \end{equation}
 em que $A_m$ indica município com aplicação aérea documentada entre 2007 e
-2011 e $P_t$ mede quanto do início da gestação da coorte $t$ cai na estação.
+2011 e $H_t$ indica coorte com exposição alta à estação no início da gestação.
 Três escolhas dessa definição são deliberadas. O tratamento é a lei, e não o
 voo: o que se estima inclui o descumprimento e a substituição pela aplicação
 terrestre. A referência temporal de $A_m$ é anterior à seca de 2012--2017,
@@ -89,37 +89,50 @@ Capítulo~\ref{cap:ameacas}.}
 \end{figure}
 
 Seja $P_t \in [0,1]$ a fração dos dois primeiros trimestres de gestação da
-coorte $t$ que cai na estação de pulverização, $Seca_t$ o indicador das coortes nascidas de 2013 a 2018, $Pos_t$ o das nascidas
-a partir de 2020 e $C_{m,a}$ a chuva da quadra chuvosa no município e ano.
-Estima-se, com ponderação pelo número de nascimentos,
+coorte $t$ que cai na estação de pulverização. As coortes são classificadas em
+três grupos, fixados neste projeto: exposição alta, $H_t = 1$, se $P_t$ é de
+metade ou mais; intermediária, $I_t = 1$, se $P_t$ é positivo e menor que a
+metade; e nula no início da gestação, a referência, se $P_t = 0$. Sejam ainda
+$Seca_t$ o indicador das coortes nascidas de 2013 a 2018, $Pos_t$ o das
+nascidas a partir de 2020 e $C_{m,a}$ a chuva da quadra chuvosa no município e
+ano. Estima-se, com ponderação pelo número de nascimentos,
 \begin{equation}
-  Y_{mt} = \alpha_{m,s(t)} + \mu_{m,a(t)} + \gamma_t
-         + \theta\,(P_t \times C_{m,a(t)})
-         + \beta_S\,(A_m \times P_t \times Seca_t)
-         + \beta\,(A_m \times P_t \times Pos_t) + \varepsilon_{mt},
-  \label{eq:ddd}
+\begin{split}
+  Y_{mt} ={}& \alpha_{m,s(t)} + \mu_{m,a(t)} + \gamma_t
+   + \sum_{k \in \{I,H\}} \Bigl[\theta_k\,(k_t \times C_{m,a(t)})
+   + \beta^k_S\,(A_m \times k_t \times Seca_t) \\
+  & + \beta^k\,(A_m \times k_t \times Pos_t)\Bigr] + \varepsilon_{mt},
+\end{split}
+\label{eq:ddd}
 \end{equation}
 em que $\alpha_{m,s(t)}$ são efeitos fixos de município por mês do ano,
-$\mu_{m,a(t)}$ de município por ano de nascimento e $\gamma_t$ de coorte. Os primeiros
-absorvem a sazonalidade de base de cada município; os segundos, os choques
-comuns a todas as coortes de um município num ano, entre eles os programas
-estaduais de saúde materna contemporâneos à lei; as coortes de transição, nascidas em 2012 e em 2019, são excluídas, de modo
-que os termos de ordem inferior são absorvidos por esses efeitos fixos. O coeficiente $\beta$ mede quanto o
-hiato sazonal de peso ao nascer mudou, do período de referência para o
-pós-lei, nos municípios com aplicação aérea em relação aos de comparação; sob
-a hipótese principal, $\beta > 0$. O coeficiente $\beta_S$ mede a mesma
-variação no período de seca e é descritivo.
+$\mu_{m,a(t)}$ de município por ano de nascimento e $\gamma_t$ de coorte. Os
+primeiros absorvem a sazonalidade de base de cada município; os segundos, os
+choques comuns a todas as coortes de um município num ano, entre eles os
+programas estaduais de saúde materna contemporâneos à lei; as coortes de
+transição, nascidas em 2012 e em 2019, são excluídas, de modo que os termos de
+ordem inferior são absorvidos por esses efeitos fixos. O coeficiente de
+interesse é $\beta \equiv \beta^H$: quanto a diferença de peso ao nascer entre
+as coortes de exposição alta e as de referência mudou, do período de
+referência para o pós-lei, nos municípios com aplicação aérea em relação aos
+de comparação. Sob a hipótese principal, $\beta > 0$. O coeficiente
+$\beta_S \equiv \beta^H_S$ mede a mesma variação no período de seca e é
+descritivo.
 
-Dois limites dessa especificação são declarados. Com uma estação de quatro
-meses, toda gestação a termo atravessa a estação em algum trimestre: as coortes
-com $P_t = 0$ são as que têm apenas o terceiro trimestre na estação, e $P_t$
-não chega a um. O coeficiente $\beta$ compara, portanto, exposição no início da
+A exposição entra em grupos, e não como variável contínua, por uma razão de
+identificação: numa regressão de efeitos fixos, o coeficiente de uma exposição
+contínua é uma média ponderada dos efeitos em diferentes níveis, e lê-lo como
+efeito por unidade exige hipótese mais forte que a de tendências paralelas
+\cite{callaway2024continuous}. Reportam-se ainda a versão saturada, com um
+coeficiente para cada valor de $P_t$, que mostra a sensibilidade ao limiar, e,
+como sensibilidade, a versão linear em $P_t$. Dois limites são declarados. Com
+uma estação de quatro meses, toda gestação a termo atravessa a estação em
+algum trimestre: as coortes de referência são as que têm apenas o terceiro
+trimestre na estação. O coeficiente compara, portanto, exposição no início da
 gestação com exposição no fim, e subestima o efeito se a exposição tardia
-também causar dano; a hipótese de que ela não causa não é imposta, e o efeito
-é reportado por unidade de $P_t$ e no contraste entre os extremos observados.
-A janela gestacional é fixa: a duração observada da gestação é desfecho, e
-usá-la para definir a exposição condicionaria em variável afetada pelo
-tratamento.
+também causar dano. E a janela gestacional é fixa: a duração observada da
+gestação é desfecho, e usá-la para definir a exposição condicionaria em
+variável afetada pelo tratamento.
 
 \textbf{Período de referência.} O período de referência é fixado neste
 projeto: as coortes nascidas de 2007 a 2011, anos em que há relatos de voos na
@@ -145,8 +158,7 @@ deveriam reagir à lei.
 
 \textbf{Chuva.} A chuva entra de dois modos. Como a precipitação durante a
 gestação afeta o peso ao nascer no semiárido por vias que não passam pelo
-avião \cite{rocha2015water}, a chuva da quadra chuvosa, interagida com $P_t$,
-é controle nos dois grupos; a hipótese adicional, declarada, é que esse efeito
+avião \cite{rocha2015water}, a chuva da quadra chuvosa, interagida com os indicadores de exposição, é controle nos dois grupos; a hipótese adicional, declarada, é que esse efeito
 direto seja comum a municípios de lavoura irrigada e de sequeiro, e uma
 especificação que o deixa diferir é reportada. E, como a doença que motiva o
 voo depende de umidade, examina-se, em caráter exploratório, se $\beta$ é maior
