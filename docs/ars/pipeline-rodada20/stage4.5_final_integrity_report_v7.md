@@ -68,3 +68,10 @@ normal mais longa serviria melhor). Achado 13 da primeira rodada segue aberto.
 
 Estas últimas oito correções são de redação e metadados e não passaram por
 terceira verificação.
+
+## Fechamento do achado 13 (2026-11-16)
+
+A pedido do pesquisador, o Apêndice E ganhou duas linhas: versões do
+tratamento (a hipótese de versão única não se sustenta; o parâmetro é a média
+sobre as versões) e emprego e renda da fruticultura. A redação segue a seção
+5.5 e o Apêndice B. Não passou por verificação independente.
