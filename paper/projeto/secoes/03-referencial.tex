@@ -62,20 +62,28 @@ primeira ordem neste projeto.
 
 \section{Avaliação de uma política estadual e simultânea}
 
-Como a lei vale para todo o estado desde a mesma data, os estimadores e as
-decomposições de diferenças-em-diferenças para adoção escalonada
-\cite{callaway2021multiple,goodmanbacon2021,dechaisemartin2020} não se aplicam:
-dentro do Ceará, não há variação de \emph{timing}. Há registro de proibições e
+O projeto toma como arcabouço a organização de \citeonline{baker2026practitioner}
+para desenhos de diferenças-em-diferenças, e três resultados dessa literatura
+ordenam as escolhas. Primeiro, a lei vale para todo o estado desde a mesma
+data: dentro do Ceará não há variação na data de adoção nem grupo nunca
+tratado, de modo que os estimadores e as decomposições que exploram essa
+variação \cite{callaway2021multiple,goodmanbacon2021} não têm aqui o que
+explorar. O arcabouço de efeitos por grupo e período de
+\citeonline{callaway2021multiple} vale, com uma única data de adoção, nas
+comparações com municípios de outros estados. Há registro de proibições e
 restrições municipais em outros estados \cite{lavor2019antes}; se as datas de
 adoção diferirem, um desenho de adoção escalonada entre municípios brasileiros
 é extensão possível, fora do escopo deste projeto, e essas leis não foram
-conferidas. Restam a variação de \emph{calendário} entre
-coortes de nascimento, para a qual a diferença tripla exige uma única hipótese
-de tendências paralelas, a da diferença entre os dois contrastes que a compõem
-\cite{olden2022triple}, e a variação de \emph{intensidade} prévia entre
-municípios, para a qual \citeonline{callaway2024continuous} mostram que o
-efeito no nível da dose recebida sai sob tendências paralelas usuais, ao passo
-que a curva dose-resposta exige hipótese mais forte.
+conferidas. Segundo, regressões de efeitos fixos misturam efeitos heterogêneos
+\cite{dechaisemartin2020}; com exposição contínua, o efeito no nível da dose
+recebida sai sob tendências paralelas usuais, ao passo que a curva
+dose-resposta exige hipótese mais forte \cite{callaway2024continuous}.
+Terceiro, a diferença tripla exige uma única hipótese de tendências paralelas,
+a da diferença entre os dois contrastes que a compõem \cite{olden2022triple};
+mas, quando a identificação depende de covariáveis, a regressão de efeitos
+fixos e a diferença entre dois diferenças-em-diferenças deixam, em geral, de
+ser válidas, e são necessários estimadores próprios
+\cite{ortiz2025triple,santanna2020drdid}.
 
 Quando poucos grupos são tratados, a inferência assintótica usual falha e são
 necessários procedimentos próprios \cite{conley2011,ferman2019inference,

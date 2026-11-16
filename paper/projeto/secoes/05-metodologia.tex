@@ -31,18 +31,17 @@ A cadeia que liga a lei ao desfecho tem elos que podem falhar separadamente: a
 lei precisa ter sido cumprida; precisava haver voos a suspender ou a impedir
 de voltar; a ausência de voos precisa reduzir a exposição das gestantes, e não
 apenas trocá-la pela da aplicação terrestre; e a menor exposição precisa
-alterar o desfecho. A cada elo a população tratada encolhe, até as gestantes
-que moravam junto a um bananal pulverizado. Um efeito nulo no desfecho final
-não distingue falha de implementação de falha do mecanismo, e por isso o
-desenho mede os elos intermediários.
+alterar o desfecho. Um efeito nulo no desfecho final não distingue falha de implementação de
+falha do mecanismo, e por isso o desenho mede os elos intermediários.
 
 \section{Desenho principal: diferença tripla de calendário}
 \label{sec:calendario}
 
-A Figura~\ref{fig:dag} resume as hipóteses causais. Compara-se, dentro de cada
-município, as coortes de exposição alta à estação de pulverização no início da
-gestação com as expostas apenas no fim; compara-se essa diferença, o hiato sazonal, entre o período de
-referência e os períodos seguintes; e contrasta-se essa variação entre os
+A Figura~\ref{fig:dag} resume as hipóteses causais, e o
+Apêndice~\ref{ap:dag} liga cada elemento dela à hipótese de identificação
+correspondente. Dentro de cada município, comparam-se as coortes de
+exposição alta à estação no início da gestação com as expostas apenas no fim;
+essa diferença, o hiato sazonal, é comparada entre períodos e entre os
 municípios com aplicação aérea e os de comparação.
 
 \begin{figure}[htb]
@@ -119,13 +118,11 @@ de comparação. Sob a hipótese principal, $\beta > 0$. O coeficiente
 $\beta_S \equiv \beta^H_S$ mede a mesma variação no período de seca e é
 descritivo.
 
-A exposição entra em grupos, e não como variável contínua, por uma razão de
-identificação: numa regressão de efeitos fixos, o coeficiente de uma exposição
-contínua é uma média ponderada dos efeitos em diferentes níveis, e lê-lo como
-efeito por unidade exige hipótese mais forte que a de tendências paralelas
-\cite{callaway2024continuous}. Reportam-se ainda a versão saturada, com um
-coeficiente para cada valor de $P_t$, que mostra a sensibilidade ao limiar, e,
-como sensibilidade, a versão linear em $P_t$. Dois limites são declarados. Com
+A exposição entra em grupos, e não como variável contínua, porque o
+coeficiente de uma exposição contínua mistura efeitos de níveis diferentes, e
+lê-lo como efeito por unidade exige hipótese mais forte que a de tendências
+paralelas \cite{callaway2024continuous}. Reportam-se a versão saturada, com um
+coeficiente para cada valor de $P_t$, e a versão linear, como sensibilidade. Dois limites são declarados. Com
 uma estação de quatro meses, toda gestação a termo atravessa a estação em
 algum trimestre: as coortes de referência são as que têm apenas o terceiro
 trimestre na estação. O coeficiente compara, portanto, exposição no início da
@@ -159,8 +156,10 @@ deveriam reagir à lei.
 \textbf{Chuva.} A chuva entra de dois modos. Como a precipitação durante a
 gestação afeta o peso ao nascer no semiárido por vias que não passam pelo
 avião \cite{rocha2015water}, a chuva da quadra chuvosa, interagida com os indicadores de exposição, é controle nos dois grupos; a hipótese adicional, declarada, é que esse efeito
-direto seja comum a municípios de lavoura irrigada e de sequeiro, e uma
-especificação que o deixa diferir é reportada. E, como a doença que motiva o
+direto seja comum a municípios de lavoura irrigada e de sequeiro, e uma especificação que o deixa diferir é reportada. Como a chuva é
+covariável de que a identificação pode depender, caso em que a regressão de
+efeitos fixos não é em geral válida na diferença tripla, reporta-se também,
+como sensibilidade, um estimador duplamente robusto \cite{ortiz2025triple}. E, como a doença que motiva o
 voo depende de umidade, examina-se, em caráter exploratório, se $\beta$ é maior
 nos anos chuvosos. As especificações estão no Apêndice~\ref{ap:espec}.
 
@@ -210,12 +209,10 @@ que melhorariam os vizinhos e atenuariam a estimativa; a migração do serviço
 aéreo para áreas sem proibição, que os pioraria e a inflaria; e a mobilidade
 das mães. Como a deriva opera em escala de centenas de metros, a interferência
 entre municípios por essa via deve ser pequena, mas os vizinhos imediatos dos
-tratados são separados dos demais, formando três grupos. Quanto às versões,
-estar sob a lei significa coisas diferentes: ter voado e parado; ter trocado o
-avião pela aplicação terrestre; ter passado ao drone; não ter cumprido; ou não
-voar desde antes, por causa da seca. O parâmetro, por ser de intenção de
-tratar, é a média sobre essas versões, e os registros posteriores à lei
-permitem documentar a composição.
+tratados são separados dos demais, formando três grupos. Quanto às versões, estar sob a lei significa coisas diferentes: ter parado
+de voar; ter trocado o avião pela aplicação terrestre ou pelo drone; não ter
+cumprido; ou não voar desde antes, por causa da seca. O parâmetro, de intenção
+de tratar, é a média sobre essas versões.
 
 \section{Análises secundárias e triangulação}
 

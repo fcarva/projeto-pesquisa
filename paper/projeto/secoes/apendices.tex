@@ -100,6 +100,7 @@ Estudo de evento & Um coeficiente de $A_m \times k_t$ por ano, $k \in \{I,H\}$, 
 Perfil saturado & Um indicador para cada valor de $P_t$ no lugar de $I_t$ e $H_t$ & Mesma amostra; sensibilidade ao limiar. \\
 Linear em $P_t$ & $P_t$ no lugar dos indicadores & Mesma amostra; sensibilidade, sob hipótese adicional. \\
 Chuva por grupo & Acrescenta $A_m \times k_t \times C_{m,a}$ & Mesma amostra; sensibilidade. \\
+Duplamente robusto & Estimador de diferença tripla com ajuste por covariáveis, com a chuva como covariável & Mesma amostra; sensibilidade. \\
 Efeito por chuva ($H_3$) & Acrescenta $A_m \times H_t \times Pos_t \times C_{m,a}$ e os termos de ordem inferior & Mesma amostra; exploratória. \\
 Terceiro trimestre & Grupos redefinidos pela fração do terceiro trimestre na estação & Mesma amostra; exploratória. \\
 Tratamento falso ($H_4$) & Equação~\ref{eq:ddd} com banana familiar no lugar de $A_m$ & Municípios de banana familiar e sem banana; falsificação. \\
@@ -140,5 +141,44 @@ Data & Evento \\
 \bottomrule
 \end{tabular}
 \fonte{Elaboração própria, a partir dos textos legais e da tramitação legislativa; os eventos de 2011 a 2017 provêm de fontes secundárias.}
+\end{quadro}
+\clearpage
+\chapter{Do diagrama causal às hipóteses de identificação}
+\label{ap:dag}
+
+\begin{quadro}[htb]
+\caption{\label{qua:dag}Elementos da Figura~\ref{fig:dag} e hipóteses correspondentes}
+\centering
+\footnotesize
+\begin{tabular}{@{}p{4.4cm}p{4.6cm}p{5.5cm}@{}}
+\toprule
+Elemento do diagrama & Hipótese ou papel & Como o projeto trata \\
+\midrule
+Composição materna, sazonalidade de base, choques município-ano &
+Confundidores cancelados pela diferença &
+Efeitos fixos de município por mês e de município por ano. \\
+Outra causa que altere o hiato sazonal só nos tratados, após a lei &
+Tendências paralelas da diferença tripla: é o que a hipótese exclui &
+Estudo de evento; tratamento falso; sensibilidade sem 2020--2021. \\
+Projetos de lei de 2011 e 2015 (fora da figura) &
+Ausência de antecipação &
+Referência em 2007--2011; coortes de transição excluídas. \\
+Caminhos entre municípios: deriva, aquífero, migração do serviço aéreo (fora da figura) &
+Ausência de interferência &
+Três grupos; doadores fora do alcance. \\
+Chuva do ano &
+Tendências paralelas condicionais a covariável &
+Controle nos dois grupos; estimador duplamente robusto como sensibilidade. \\
+Aplicação terrestre substituta &
+Não é ameaça: define o parâmetro como intenção de tratar &
+Notificações de intoxicação; registros posteriores à lei. \\
+Seleção: só nascidos vivos são observados &
+Fora do alcance do método &
+Óbito fetal, nascidos vivos por coorte e razão de sexo, exploratórios. \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria. O diagrama diz quais caminhos existem; o
+diferenças-em-diferenças não os fecha por controle, e sim os cancela por
+diferença, sob as hipóteses da coluna central.}
 \end{quadro}
 \end{apendicesenv}
