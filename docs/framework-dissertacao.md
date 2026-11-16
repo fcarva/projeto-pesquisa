@@ -106,6 +106,10 @@ essa fração. O funil entra direto no cálculo de poder (§6).
 
 ## 3. Parâmetro
 
+> O grafo causal que sustenta as seções 3 a 5, com os seis caminhos entre a lei
+> e o desfecho, o colisor do nascimento vivo e a tradução para o estimador,
+> está em **`docs/dag-identificacao.md`**.
+
 Na notação da disciplina (MRP): `Y_i(1)` é o desfecho com o ban, `Y_i(0)` sem
 ele. O parâmetro é o **efeito médio sobre os tratados** (EMPT/ATT),
 
@@ -158,8 +162,11 @@ A fronteira entre linguagens continua sendo arquivo: Python monta o painel,
    (167), mesmo estimador. Muito mais poder, efeito muito mais diluído: serve
    para mostrar que o resultado da Chapada não é artefato de meia dúzia de
    municípios, e para os desfechos econômicos agregados.
-2. **Diferença tripla.** CE × pós-2019 × município de fruticultura patronal
-   (§4.3). Remove qualquer choque de 2019 que tenha atingido o Ceará inteiro
+2. **Diferença tripla.** (Chapada − resto do estado) no CE contra o mesmo no
+   RN: é o que fecha choques estaduais, a única ameaça que o desenho de
+   fronteira deixa aberta (`dag-identificacao.md` §5.2). O "resto" são os
+   municípios sem aplicação por aeronave em 2006. Variante: CE × pós-2019 ×
+   município de fruticultura patronal (§4.3). Remove qualquer choque de 2019 que tenha atingido o Ceará inteiro
    (política estadual de saúde, por exemplo) e não só a fruticultura. Exige
    uma única tendência paralela, a da diferença entre os dois DiDs (Olden &
    Møen 2022).
@@ -174,10 +181,13 @@ patronal de exportação. A agricultura familiar da mesma região usa agrotóxic
 mas não avião. Daí a previsão: **o efeito deve se concentrar onde a agricultura
 não familiar domina**.
 
-- **Medida:** participação da agricultura não familiar na área (ou no valor da
-  produção) do município, Censo Agropecuário **2017**, que classifica os
-  estabelecimentos pela Lei 11.326. É anterior à lei e não responde a ela.
-  ⬜ Conferir o número da tabela SIDRA antes de escrever o ingestor.
+- **Medida:** participação da agricultura não familiar no município, pelo
+  Censo Agropecuário, que classifica os estabelecimentos pela Lei 11.326.
+  Tabelas conferidas na API do IBGE em 2026-11-16, todas com nível municipal:
+  **6851** (2017: tipologia × uso de agrotóxico) e **2069** (2006: uso ×
+  **tipo de equipamento, com "por aeronave"** × familiar e não familiar). A
+  2069 mede diretamente quantos estabelecimentos não familiares usavam avião
+  em cada município, antes da lei, da seca e do PL. ⬜ Escrever o ingestor.
 - **Uso:** (i) corte da amostra em dois grupos e ATT em cada um; (ii) a
   diferença tripla de §4.2.
 - **Leitura honesta:** é medida municipal, não individual. Diz que o efeito é

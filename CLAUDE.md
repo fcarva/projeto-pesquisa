@@ -22,9 +22,10 @@ O pesquisador decidiu voltar à pergunta básica, e **`docs/framework-dissertaca
 - **Mão leve na revisão:** não reformular hipóteses nem abrir rotas novas sem pedido. Ameaça à validade vira linha de tabela e teste de robustez, não mudança de desenho.
 - ⬜ **Pendente do orientador:** o desenho como principal; o Ensaio 2 como custo-benefício em vez de calibração de Weitzman (framework §8).
 
-- **Onde está cada coisa:** Ensaio 1 → `docs/framework-dissertacao.md`; Ensaio 2 → `docs/ensaio2-custo-beneficio.md`; literatura brasileira (Viçosa, Chapada do Apodi) triada pelo desenho → `docs/literatura-brasil-agrotoxicos.md`; segunda rodada (Calzada na íntegra, nota da UFRN, status do RN, linha do tempo corrigida) → `docs/leituras-segunda-rodada.md`.
+- **Onde está cada coisa:** Ensaio 1 → `docs/framework-dissertacao.md`; Ensaio 2 → `docs/ensaio2-custo-beneficio.md`; literatura brasileira (Viçosa, Chapada do Apodi) triada pelo desenho → `docs/literatura-brasil-agrotoxicos.md`; segunda rodada (Calzada na íntegra, nota da UFRN, status do RN, linha do tempo corrigida) → `docs/leituras-segunda-rodada.md`; **grafo causal e tradução para o estimador → `docs/dag-identificacao.md`**.
 - **SIDRA responde na sessão remota** (`apisidra.ibge.gov.br`, medido em 2026-11-16). ⚠️ Não puxar desfecho municipal pós-2019 de tratados × controles antes de a pré-especificação estar registrada.
-- **Tabelas do Censo Agro para familiar × não familiar:** 6851 e 6852 (2017), 2069 (2006, com equipamento de aplicação). ⬜ Conferir nível municipal.
+- **Tabelas do Censo Agro para familiar × não familiar:** 6851 e 6852 (2017), 2069 e 2147 (2006, com equipamento de aplicação, inclusive "por aeronave"). ✅ Todas saem por município (N6), conferido nos metadados em 2026-11-16. ⬜ Ingestor.
+- **Regras tiradas do DAG:** o ATT é efeito total da lei, não da exposição; covariável só de linha de base (nada a jusante da lei: pré-natal, tipo de parto); a ameaça que a fronteira não fecha é choque estadual (→ diferença tripla ou calendário); nascer vivo é colisor (→ óbito fetal, razão de sexos, número de nascimentos como desfechos).
 - **Crossref responde na sessão remota** (medido em 2026-11-16): `api.crossref.org/works/<doi>/transform/application/x-bibtex`. Entrada nova do `.bib` com DOI sai do registro, não da digitação.
 
 As seções abaixo sobre dose, SPT e diluição ficam como registro do caminho e como insumo do apêndice.
