@@ -50,9 +50,9 @@
   },
   "callaway2021multiple": {
     "file": "sources/callaway2021multiple.txt",
-    "sha256": "87034f49a38408950102b0fde0bdd868d5d859ebb480c5b20b7320662c293d77",
-    "utf8_bytes": 52,
-    "provenance": "só o título, dos metadados do Crossref; resumo e texto não obtidos",
+    "sha256": "80e35d80019e72dcd0ac2f94d30e4b1d6d301584fa11d9809c983275ed3024aa",
+    "utf8_bytes": 1297,
+    "provenance": "resumo da versão publicada, página do RePEc/IDEAS (ideas.repec.org/a/eee/econom/v225y2021i2p200-230.html), 2026-11-16",
     "display_label": "Callaway e Sant'Anna 2021, artigo, doi:10.1016/j.jeconom.2020.12.001"
   },
   "callaway2024continuous": {
@@ -236,6 +236,13 @@
     "utf8_bytes": 1388,
     "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
     "display_label": "Larsen, Gaines e Deschênes 2017, artigo, doi:10.1038/s41467-017-00349-2"
+  },
+  "lavor2019antes": {
+    "file": "sources/lavor2019antes.txt",
+    "sha256": "93ba0cca73eab4389b5184929e5ddd4ffc43fe0d0ab2ee346f1c31cf3451dee9",
+    "utf8_bytes": 24362,
+    "provenance": "página da Agência Pública (HTML com marcação removida), baixada em 2026-11-15; o mapa interativo da reportagem não é texto e não foi lido",
+    "display_label": "Lavor 2019, reportagem, Agência Pública/Repórter Brasil, 15/02/2019"
   },
   "lichtenberg1988": {
     "file": "sources/lichtenberg1988.txt",

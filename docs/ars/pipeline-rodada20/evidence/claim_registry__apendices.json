@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "8ccaccc60b7a6d30917d4eebb227e6d6b9ee2830686986c4da985c44b62dd4d4",
+  "draft_raw_sha256": "753c0dba1bc6b01dcd81d2a18b43a09d830230c42fbf3379b90167cfa3aa8553",
   "claims": [
     {
       "claim_id": "AP1",
@@ -39,8 +39,8 @@
       "claim_id": "F09",
       "claim_text": "09/12/1993 & Lei Estadual nº 12.228",
       "draft_span": {
-        "start_byte": 6696,
-        "end_byte": 6732
+        "start_byte": 6934,
+        "end_byte": 6970
       },
       "claim_kinds": [
         "other_factual"
@@ -57,8 +57,8 @@
       "claim_id": "F10",
       "claim_text": "20/11/2009 & Limoeiro do Norte proíbe a pulverização aérea por lei municipal (Lei nº 1.478).",
       "draft_span": {
-        "start_byte": 6778,
-        "end_byte": 6875
+        "start_byte": 7016,
+        "end_byte": 7113
       },
       "claim_kinds": [
         "other_factual"
@@ -75,8 +75,8 @@
       "claim_id": "F11",
       "claim_text": "Assassinato de Zé Maria do Tomé (abril). Em maio, a Lei municipal nº 1.511 revoga a proibição e passa a regular a prática.",
       "draft_span": {
-        "start_byte": 6886,
-        "end_byte": 7014
+        "start_byte": 7124,
+        "end_byte": 7252
       },
       "claim_kinds": [
         "other_factual"
@@ -93,8 +93,8 @@
       "claim_id": "F14",
       "claim_text": "Notícia de proibição na Chapada do Apodi (março); projeto de lei estadual com a mesma vedação (PL nº 134, maio); ação civil pública do Ministério Público (julho), de desfecho não localizado.",
       "draft_span": {
-        "start_byte": 7025,
-        "end_byte": 7228
+        "start_byte": 7263,
+        "end_byte": 7466
       },
       "claim_kinds": [
         "other_factual"
@@ -111,8 +111,8 @@
       "claim_id": "H13",
       "claim_text": "2012--2017 & Seca no semiárido; relatos de suspensão dos voos na Chapada.",
       "draft_span": {
-        "start_byte": 7232,
-        "end_byte": 7307
+        "start_byte": 7470,
+        "end_byte": 7545
       },
       "claim_kinds": [
         "other_factual"
@@ -126,8 +126,8 @@
       "claim_id": "F15",
       "claim_text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia).",
       "draft_span": {
-        "start_byte": 7311,
-        "end_byte": 7389
+        "start_byte": 7549,
+        "end_byte": 7627
       },
       "claim_kinds": [
         "other_factual"
@@ -144,8 +144,8 @@
       "claim_id": "H01",
       "claim_text": "03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}",
       "draft_span": {
-        "start_byte": 7393,
-        "end_byte": 7497
+        "start_byte": 7631,
+        "end_byte": 7735
       },
       "claim_kinds": [
         "other_factual"
@@ -164,8 +164,8 @@
       "claim_id": "F16",
       "claim_text": "18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa (marco de certeza).",
       "draft_span": {
-        "start_byte": 7502,
-        "end_byte": 7588
+        "start_byte": 7740,
+        "end_byte": 7826
       },
       "claim_kinds": [
         "other_factual"
@@ -182,8 +182,8 @@
       "claim_id": "F17",
       "claim_text": "09/01/2019 & Vigência da Lei nº 16.820 (marco de obrigação).",
       "draft_span": {
-        "start_byte": 7592,
-        "end_byte": 7656
+        "start_byte": 7830,
+        "end_byte": 7894
       },
       "claim_kinds": [
         "other_factual"
@@ -200,8 +200,8 @@
       "claim_id": "F32",
       "claim_text": "05/2023 & O Supremo Tribunal Federal julga a lei constitucional (ADI 6137).",
       "draft_span": {
-        "start_byte": 7660,
-        "end_byte": 7735
+        "start_byte": 7898,
+        "end_byte": 7973
       },
       "claim_kinds": [
         "other_factual"
@@ -218,8 +218,8 @@
       "claim_id": "F33",
       "claim_text": "19/12/2024 & Lei nº 19.135: exceção para drones.",
       "draft_span": {
-        "start_byte": 7739,
-        "end_byte": 7790
+        "start_byte": 7977,
+        "end_byte": 8028
       },
       "claim_kinds": [
         "other_factual"

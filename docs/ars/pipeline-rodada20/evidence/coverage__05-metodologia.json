@@ -2,32 +2,32 @@
   "candidate_unregistered_count": 1,
   "candidates": [
     {
-      "candidate_id": "CAND-B4819-4897-a7d3692fa1f5",
+      "candidate_id": "CAND-B4828-4906-a7d3692fa1f5",
       "candidate_kinds": [
         "citation_bearing_sentence"
       ],
       "coverage_state": "candidate_unregistered",
-      "end_byte": 4897,
+      "end_byte": 4906,
       "line": 91,
       "matched_claim_ids": [],
       "sentence_index": 1,
-      "start_byte": 4819,
+      "start_byte": 4828,
       "text": "Seja $P_t \\in [0,1]$ a fração dos dois primeiros trimestres de gestação da",
       "triggers": [
         {
           "coverage_state": "trigger_unregistered",
-          "end_byte": 4838,
+          "end_byte": 4847,
           "kind": "citation_bearing_sentence",
           "matched_claim_ids": [],
-          "start_byte": 4833,
+          "start_byte": 4842,
           "text": "[0,1]",
-          "trigger_id": "TRIG-B4833-4838-48321ea7d852"
+          "trigger_id": "TRIG-B4842-4847-48321ea7d852"
         }
       ],
       "uncovered_trigger_count": 1
     }
   ],
-  "draft_raw_sha256": "7e0c28bfb8e8c861244d33b24806e67b656a099f8408f6e799d5a5f07ff4e1a6",
+  "draft_raw_sha256": "852aad937bcf806160b1c897c4f99243367d6a80f779b4da0b0413b45f7e649f",
   "mechanical_candidate_scope": [
     "citation_bearing_sentence",
     "quantitative_sentence"
@@ -39,6 +39,7 @@
     "C31",
     "C32",
     "C33",
+    "C38",
     "F18",
     "F19",
     "F20",
@@ -55,8 +56,8 @@
     "H10",
     "H11"
   ],
-  "registry_claim_count": 21,
-  "registry_raw_sha256": "24648564cafb4473aede1be2e13b9987fe89b0c680e3e0bf9c0c7ca9b62a0026",
+  "registry_claim_count": 22,
+  "registry_raw_sha256": "0fadb1dde9ca64715114db155c1fae3b68b22ac702e66245f06b8de8e1d844a1",
   "registry_schema_version": "claim-registry/1.0",
   "schema_version": "claim-registry-coverage/1.0",
   "semantic_extraction_coverage": "not_machine_detectable"

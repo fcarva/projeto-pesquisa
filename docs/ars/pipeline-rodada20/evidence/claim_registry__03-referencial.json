@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "3155af1aa3e96a4d3aed7e093923253e99dbe82e39a80dc096a2fd95a88b2382",
+  "draft_raw_sha256": "9833fa204770aabe6bbbc2d499ad965d066955e1f255c738fa9c75bc64de63ac",
   "claims": [
     {
       "claim_id": "C10",
@@ -268,14 +268,34 @@
       ],
       "writer_anchors": [],
       "paper_section": "3 Referencial teórico e empírico",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "C37",
+      "claim_text": "Há registro de proibições e\nrestrições municipais em outros estados, em datas diferentes\n\\cite{lavor2019antes}",
+      "draft_span": {
+        "start_byte": 4334,
+        "end_byte": 4449
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "lavor2019antes"
+      ],
+      "writer_anchors": [],
+      "paper_section": "3 Referencial teórico e empírico",
       "selection_tier": "ALL"
     },
     {
       "claim_id": "C22",
       "claim_text": "a diferença tripla exige uma única hipótese\nde tendências paralelas, a da diferença entre os dois contrastes que a compõem\n\\cite{olden2022triple}",
       "draft_span": {
-        "start_byte": 4399,
-        "end_byte": 4550
+        "start_byte": 4688,
+        "end_byte": 4839
       },
       "claim_kinds": [
         "other_factual"
@@ -294,8 +314,8 @@
       "claim_id": "C21",
       "claim_text": "\\citeonline{callaway2024continuous} mostram que o\nefeito no nível da dose recebida sai sob tendências paralelas usuais, ao passo\nque a curva dose-resposta exige hipótese mais forte.",
       "draft_span": {
-        "start_byte": 4628,
-        "end_byte": 4812
+        "start_byte": 4917,
+        "end_byte": 5101
       },
       "claim_kinds": [
         "other_factual"
@@ -314,8 +334,8 @@
       "claim_id": "C24",
       "claim_text": "Quando poucos grupos são tratados, a inferência assintótica usual falha e são\nnecessários procedimentos próprios \\cite{conley2011,ferman2019inference,\nchernozhukov2021conformal,hagemann2025single}",
       "draft_span": {
-        "start_byte": 4814,
-        "end_byte": 5016
+        "start_byte": 5103,
+        "end_byte": 5305
       },
       "claim_kinds": [
         "other_factual"
