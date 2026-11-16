@@ -1,6 +1,7 @@
-% Seção 1 — Introdução (fórmula de Head: caso, pergunta, antecedentes,
-% contribuição). Condensada de paper/secoes/01-introducao.tex, com o
-% enquadramento da rodada 20 (docs/ars/20). Não anuncia achado.
+% Capítulo 1 — Introdução. Reescrita em 2026-11-16 pela fórmula de Head (via
+% Bellemare, Doing Economics, cap. 2; docs/framework-dissertacao.md §3.1):
+% gancho no mundo real, pergunta como primeira frase, antecedentes como
+% história, contribuição, organização. Promete só o que o corpo entrega.
 
 \chapter{Introdução}
 \label{cap:introducao}
@@ -11,8 +12,8 @@ pulverização aérea de agrotóxicos sobre os perímetros irrigados da região,
 aviões sobrevoavam plantações de banana e melão vizinhas a casas, escolas e
 açudes de abastecimento. A denúncia não tratava do veneno aplicado na lavoura,
 mas do veneno que não fica na lavoura. Nove anos depois, o Ceará proibiu a
-prática em todo o território e deu à lei o nome do homem assassinado (Lei Estadual
-nº~16.820/2019).
+prática em todo o território e deu à lei o nome do homem assassinado (Lei
+Estadual nº~16.820/2019).
 
 A pulverização aérea é um caso de externalidade em que o mecanismo físico é
 visível. Parte da calda liberada pela aeronave não atinge o alvo: é carregada
@@ -22,20 +23,20 @@ produto; quem mora a favor do vento arca com o restante. A lei cearense
 responde a esse conflito por proibição, e não se localizou, na literatura
 consultada, avaliação causal dos efeitos dessa resposta.
 
-Este projeto pergunta: \textbf{qual é o efeito causal da proibição da
-pulverização aérea de agrotóxicos sobre o peso ao nascer nos municípios
-cearenses com aplicação aérea documentada entre 2007 e 2011?} Mais
-precisamente, o efeito sobre as coortes cujo início de gestação cairia na
-estação de pulverização, em relação às expostas a ela apenas no fim da
-gestação. A estação de pulverização são os meses em que os voos se
-concentram, provisoriamente a quadra chuvosa, de fevereiro a maio; o período
-de referência, as coortes nascidas de 2007 a 2011. A pergunta é de avaliação
-de política pública. O objeto é a retirada de um \emph{método de aplicação}, e não de uma
+\textbf{Qual é o efeito causal da proibição da pulverização aérea de
+agrotóxicos sobre o peso ao nascer nos municípios cearenses onde havia
+aplicação aérea?} É a pergunta deste projeto, e ela é de avaliação de política
+pública. O objeto é a retirada de um \emph{método de aplicação}, e não de uma
 substância, e essa distinção organiza o desenho inteiro: o grupo tratado
 relevante é o dos municípios onde havia avião, e não o dos municípios onde
-havia lavoura.
+havia lavoura. A pergunta será respondida para os municípios com aplicação
+aérea documentada entre 2007 e 2011, comparando as coortes cujo início de
+gestação cairia na estação de pulverização com as expostas a ela apenas no fim
+da gestação. A estação de pulverização são os meses em que os voos se
+concentram, provisoriamente a quadra chuvosa, de fevereiro a maio; o período
+de referência, as coortes nascidas de 2007 a 2011.
 
-\section{Antecedentes}
+\section{Antecedentes na literatura}
 
 A evidência econômica próxima se divide entre o que uma substância faz à saúde
 e o que um método de aplicação faz à saúde. Do lado da substância,
@@ -51,18 +52,16 @@ aérea de herbicida sobre cultivos ilícitos na Colômbia.
 \citeonline{calzada2023bananas} estudam a fumigação aérea de bananais no
 Equador e encontram déficit de peso ao nascer entre filhos de mães que moravam
 junto às plantações e foram expostas, na gestação, aos períodos de fumigação
-intensa. Este último é o análogo mais próximo do caso
-cearense, pela cultura e pelo método, com diferenças que importam: a doença
-combatida não é a mesma e, pelos relatos disponíveis, a frequência das aplicações
-é menor
+intensa. Este último é o análogo mais próximo do caso cearense, pela cultura e
+pelo método, com diferenças que importam: a doença combatida não é a mesma e,
+pelos relatos disponíveis, a frequência das aplicações é menor
 (Capítulo~\ref{cap:contexto}).
 
 Entre os trabalhos localizados, nenhum avalia uma \textbf{proibição de
 método}. Há simulações do banimento de moléculas específicas
 \cite{bocker2020glyphosate}, mas simulação \emph{ex ante} não é avaliação
-\emph{ex post}. Nos estudos de método, a
-pulverização aérea é introduzida ou está em curso; no Ceará ela é retirada, e
-os sinais esperados se invertem.
+\emph{ex post}. Nos estudos de método, a pulverização aérea é introduzida ou
+está em curso; no Ceará ela é retirada, e os sinais esperados se invertem.
 
 \section{Justificativa}
 
@@ -71,30 +70,39 @@ Supremo Tribunal Federal, que julgou constitucional a vedação em 2023
 \cite{stf2023adi6137}, o que assentou a competência dos estados para legislar
 sobre a matéria e torna a medida replicável; em 2024 o próprio Ceará
 flexibilizou a regra para admitir drones, e a nova redação voltou a ser
-questionada na Corte \cite{stf2025adi7794}. O debate tem se apoiado em argumentos de plausibilidade, porque não se localizou estimativa causal do que a proibição de fato produziu. Uma avaliação que diga se houve ganho em peso ao nascer, ou que
-mostre com rigor por que ele não é mensurável com os registros existentes,
-informa os estados que consideram adotar a medida e a decisão de mantê-la,
-relaxá-la ou substituí-la. O alcance é limitado: o ensaio informa um desfecho,
-por uma via, em nível municipal, e não mede os demais danos atribuídos à
-pulverização.
+questionada na Corte \cite{stf2025adi7794}. O debate tem se apoiado em
+argumentos de plausibilidade, porque não se localizou estimativa causal do que
+a proibição de fato produziu. Uma avaliação que diga se houve ganho em peso ao
+nascer, ou que mostre com rigor por que ele não é mensurável com os registros
+existentes, informa os estados que consideram adotar a medida e a decisão de
+mantê-la, relaxá-la ou substituí-la. O alcance é limitado: o ensaio informa um
+desfecho, por uma via, em nível municipal, e não mede os demais danos
+atribuídos à pulverização.
 
-\section{Contribuição}
+\section{Contribuição e organização do projeto}
 
 A contribuição pretendida tem três camadas. A primeira é de \textbf{objeto}: a
-avaliação \emph{ex post} de uma proibição de método de aplicação. A segunda é de
-\textbf{medida}: o projeto trata como problema central a distância entre a
+avaliação \emph{ex post} de uma proibição de método de aplicação. A segunda é
+de \textbf{medida}: o projeto trata como problema central a distância entre a
 cultura plantada e o método de aplicação efetivamente usado, e propõe medi-la
-com registros administrativos; ela depende de os registros serem obtidos. A terceira é de \textbf{identificação}: como a lei vale
-para todo o estado desde a mesma data, o projeto usa um desenho de calendário gestacional
+com registros administrativos; ela depende de os registros serem obtidos. A
+terceira é de \textbf{identificação}: como a lei vale para todo o estado desde
+a mesma data, o projeto usa um desenho de calendário gestacional
 \cite{calzada2023bananas,brainerd2014seasonal}, com os municípios de banana
 familiar como grupo de comparação e um período de referência fixado de
 antemão, e o confronta com um desenho de intensidade de exposição
 \cite{callaway2024continuous}; o teste depende de haver voos documentados e
 poder. Em todos os cenários previstos, inclusive o de o teste não se realizar,
-o projeto diz o que entrega (Seção~\ref{sec:regra}).
+o projeto diz o que entrega (Capítulo~\ref{cap:resultados}).
 
 Este documento é o projeto do primeiro ensaio da dissertação; o segundo, sobre
 a escolha do instrumento, é apenas mencionado e terá projeto próprio.
-Descreve-se um desenho, não um resultado, mas duas rodadas exploratórias já
-cruzaram a exposição com o desfecho do pós-lei
-(Seção~\ref{sec:inferencia}).
+Descreve-se um plano de trabalho, não um resultado, embora duas rodadas
+exploratórias já tenham cruzado a exposição com o desfecho do pós-lei
+(Seção~\ref{sec:inferencia}). O Capítulo~\ref{cap:contexto} apresenta a lei e
+a região; o Capítulo~\ref{cap:referencial}, a literatura; o
+Capítulo~\ref{cap:objetivos}, os objetivos e as hipóteses; o
+Capítulo~\ref{cap:metodologia}, a estratégia empírica; o
+Capítulo~\ref{cap:dados}, os dados; e os
+Capítulos~\ref{cap:resultados} e~\ref{cap:cronograma}, os resultados esperados
+e o cronograma.
