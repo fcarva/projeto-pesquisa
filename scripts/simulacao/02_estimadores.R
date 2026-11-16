@@ -21,18 +21,20 @@ setFixest_notes(FALSE)
 
 estimar <- function(d, n_perm = 499L) {
   # --- especificação do projeto, agrupada ---
-  f <- Y ~ H:C + I:C + A:H:Seca + A:I:Seca + A:H:Pos + A:I:Pos |
-    m^mes + m^ano + t
+  d$HC <- d$H * d$C; d$IC <- d$I * d$C
+  d$AHSeca <- d$A * d$H * d$Seca; d$AISeca <- d$A * d$I * d$Seca
+  d$AHPos <- d$A * d$H * d$Pos; d$AIPos <- d$A * d$I * d$Pos
+  f <- Y ~ HC + IC + AHSeca + AISeca + AHPos + AIPos | m^mes + m^ano + t
   aj <- feols(f, data = d, weights = ~n, cluster = ~m)
-  b <- coef(aj)[["A:H:Pos"]]
-  ep <- se(aj)[["A:H:Pos"]]
+  b <- coef(aj)[["AHPos"]]
+  ep <- se(aj)[["AHPos"]]
   G <- length(unique(d$m))
   p_cluster <- 2 * pt(-abs(b / ep), df = G - 1)
 
   # --- dois passos: um coeficiente H x Pos por município ---
   # Um município de referência é absorvido pelo efeito fixo de coorte; a
   # diferença de médias entre grupos não depende de qual.
-  f2 <- Y ~ H:C + I:C + i(m, H_Pos) + i(m, I_Pos) + i(m, H_Seca) + i(m, I_Seca) |
+  f2 <- Y ~ HC + IC + i(m, H_Pos) + i(m, I_Pos) + i(m, H_Seca) + i(m, I_Seca) |
     m^mes + m^ano + t
   d$H_Pos <- d$H * d$Pos; d$I_Pos <- d$I * d$Pos
   d$H_Seca <- d$H * d$Seca; d$I_Seca <- d$I * d$Seca

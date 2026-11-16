@@ -289,6 +289,15 @@ fronteira:
 	$(MAKE) censo-demografico VIZINHO=$(VIZINHO)
 	$(MAKE) gate-fronteira VIZINHO=$(VIZINHO)
 
+# --- Provas do desenho principal, SÓ com dado simulado --------------------
+# Gerador e bateria são travados; o laço autônomo edita só 02_estimadores.R
+# (docs/ars/rodada21-local/laco-autonomo.md). ⚠️ Parâmetros hipotéticos: os
+# números não são estimativa e não entram no projeto. ~8 s por repetição.
+REPS ?= 200
+.PHONY: provas
+provas:
+	Rscript scripts/simulacao/03_bateria.R $(REPS)
+
 # --- Projeto de pesquisa (abnTeX2, 15 páginas) --------------------------
 # Fonte em paper/projeto/. Motor: pdflatex + bibtex (abntex2cite).
 # Desenho declarado: docs/ars/20-projeto-de-pesquisa-desenho.md

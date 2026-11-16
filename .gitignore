@@ -60,3 +60,6 @@ paper/projeto/*.idx
 paper/projeto/*.loq
 .gstack/
 docs/ars/pipeline-rodada20/evidence/sources/
+
+# Saídas das provas com dado simulado
+output/simulacao/
