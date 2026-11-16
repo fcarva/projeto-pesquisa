@@ -265,3 +265,19 @@ entries:
     19, 42; limitação declarada REV-40, 55-57).'
   prev_hash: b6d8e8ef3a9b73a56d6adfb1f0050a7e4d072698bb202d1a3294593270f2063d
   hash: 4ee0a5a0c24f9358bf417035325f0d6cf9a54d0fe7fc7edf67a8abfb7c611b98
+- seq: 22
+  kind: checkpoint_opened
+  at: '2026-11-16T00:16:44Z'
+  checkpoint_id: stage3prime-decision
+  stage: 3'
+  checkpoint_type: MANDATORY
+  question: 'Re-revisão (modo legado, [LEGACY-NO-CONTRACT]): Minor Revision. must_fix
+    7 atendidos, 8 parciais, 0 não atendidos; 2 achados novos menores (NEW-1 período
+    de referência mal definido; NEW-2 Pereira e Cuellar não sustenta retração da lavoura).
+    Aplicar os resíduos antes do Estágio 4.5, ou seguir direto?'
+  options:
+  - aplicar os resíduos e seguir ao 4.5
+  - seguir ao 4.5 como está
+  - pausar
+  prev_hash: 4ee0a5a0c24f9358bf417035325f0d6cf9a54d0fe7fc7edf67a8abfb7c611b98
+  hash: 1d508aadc64111bedcc1f8092b1c2a56190c11831be19db864fb65532ee6d649
