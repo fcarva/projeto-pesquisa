@@ -290,3 +290,26 @@ entries:
     seguir (Recomendado)". Contrafactual: "Manter como recomendação".'
   prev_hash: 1d508aadc64111bedcc1f8092b1c2a56190c11831be19db864fb65532ee6d649
   hash: e5d5ae7ff95a2a3bdf1c822083a9d98d63214277658b8ebfe5f6f969e5ca5d12
+- seq: 24
+  kind: progress
+  at: '2026-11-16T00:54:39Z'
+  stage: '4.5'
+  counters:
+    integrity_fix_round: 2
+  prev_hash: e5d5ae7ff95a2a3bdf1c822083a9d98d63214277658b8ebfe5f6f969e5ca5d12
+  hash: a3180f46b31cc3c2f47d163a8b3ff279dec3d70721e7a7c3c725a8e714fee0c3
+- seq: 25
+  kind: checkpoint_opened
+  at: '2026-11-16T00:54:39Z'
+  checkpoint_id: stage5-entry
+  stage: '5'
+  checkpoint_type: MANDATORY
+  question: 'Estágio 4.5: PASS WITH NOTES, zero issues abertas. Portão de entrada
+    do Estágio 5: confirmar a finalização em abnTeX2 (make projeto; o formatador do
+    plugin não suporta ABNT) e dizer se quer o Estágio 6 (registro do processo).'
+  options:
+  - finalizar em abnTeX2
+  - finalizar e gerar o registro do processo
+  - pausar
+  prev_hash: a3180f46b31cc3c2f47d163a8b3ff279dec3d70721e7a7c3c725a8e714fee0c3
+  hash: be105b11f3af9bd48fbf490843cbde52c96c114ba2db73ba75370e0dedf9b6f1
