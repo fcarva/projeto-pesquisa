@@ -1,7 +1,7 @@
 {
   "candidate_unregistered_count": 0,
   "candidates": [],
-  "draft_raw_sha256": "7609ce97e8a77a08d4ad3357ebd38e832eff21aa6b94274ca1e10125780078fc",
+  "draft_raw_sha256": "6b2677c4d13141ae940ad8938d35bba63cfcbfc3740ae8c9f728938a0e02ba47",
   "mechanical_candidate_scope": [
     "citation_bearing_sentence",
     "quantitative_sentence"
@@ -13,22 +13,18 @@
     "F06",
     "F07",
     "F08",
-    "F09",
-    "F10",
-    "F11",
     "F12",
     "F13",
     "G01",
-    "G02",
     "G03",
-    "H01",
     "H02",
     "H03",
     "H04",
-    "H13"
+    "H15",
+    "H16"
   ],
-  "registry_claim_count": 19,
-  "registry_raw_sha256": "24a392f98bd23e976aef83c5e6a4330d8f4231e59d18ee1417e60044265ce396",
+  "registry_claim_count": 15,
+  "registry_raw_sha256": "85c42ae63d300dad2ca03f792737eb1ad948bdf2140bbb83de07c0031ab02a6b",
   "registry_schema_version": "claim-registry/1.0",
   "schema_version": "claim-registry-coverage/1.0",
   "semantic_extraction_coverage": "not_machine_detectable"

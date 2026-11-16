@@ -6,12 +6,26 @@
     "provenance": "página da Agência Brasil (HTML com marcação removida), 2026-11-15",
     "display_label": "Agência Brasil 2016, notícia de 16/07/2016"
   },
+  "arkhangelsky2021sdid": {
+    "file": "sources/arkhangelsky2021sdid.txt",
+    "sha256": "a909f55d0e8b3a31803e7b97be952c0e278c8575ce8349e224482e042c1d78a3",
+    "utf8_bytes": 698,
+    "provenance": "resumo reconstruído do índice invertido da API do OpenAlex, 2026-11-16",
+    "display_label": "Arkhangelsky et al. 2021, artigo, doi:10.1257/aer.20190159"
+  },
   "bocker2020glyphosate": {
     "file": "sources/bocker2020glyphosate.txt",
     "sha256": "30ce3a64e81e5f7b833dfcf37c7d0df9f5ef4e84428c186a15ebeaa4e2f6a22d",
     "utf8_bytes": 1112,
     "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
     "display_label": "Böcker et al. 2020, artigo, doi:10.1093/erae/jby050"
+  },
+  "brainerd2014seasonal": {
+    "file": "sources/brainerd2014seasonal.txt",
+    "sha256": "ada4051b70ad442c4c5ea82c5cc420bd09beb248d11aea47d71c60f6c536adac",
+    "utf8_bytes": 1002,
+    "provenance": "resumo da versão publicada, página do RePEc/IDEAS (ideas.repec.org/a/eee/deveco/v107y2014icp49-64.html), 2026-11-16",
+    "display_label": "Brainerd e Menon 2014, artigo, doi:10.1016/j.jdeveco.2013.11.004"
   },
   "brasil2002decreto4074": {
     "file": "sources/brasil2002decreto4074.txt",
@@ -54,6 +68,13 @@
     "utf8_bytes": 862,
     "provenance": "resumo devolvido pela API do Semantic Scholar (campo abstract), 2026-11-15",
     "display_label": "Camacho e Mejía 2017, artigo, doi:10.1016/j.jhealeco.2017.04.005"
+  },
+  "canay2021wild": {
+    "file": "sources/canay2021wild.txt",
+    "sha256": "58c1fc6dc558650e5eca41e495750686b1ff7bc2bc9d0f29348fbbd7d47e650e",
+    "utf8_bytes": 742,
+    "provenance": "resumo devolvido pela API do Crossref (marcação removida), 2026-11-15",
+    "display_label": "Canay, Santos e Shaikh 2021, artigo, doi:10.1162/rest_a_00887"
   },
   "ceara1993lei12228": {
     "file": "sources/ceara1993lei12228.txt",
@@ -244,6 +265,13 @@
     "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
     "display_label": "Olden e Møen 2022, artigo, doi:10.1093/ectj/utac010"
   },
+  "pereira2015conflitos": {
+    "file": "sources/pereira2015conflitos.txt",
+    "sha256": "d9947fb89e1725e3d01471648016a40f616cfc0e1566d9fac3f0e0b335d9a9ad",
+    "utf8_bytes": 2200,
+    "provenance": "resumo (API do OpenAlex) e cinco trechos do texto no SciELO devolvidos pela ferramenta de busca em 2026-11-16; NÃO é o texto integral",
+    "display_label": "Pereira e Cuellar 2015, artigo, doi:10.1590/S0103-40142015000200008"
+  },
   "reynier2025glyphosate": {
     "file": "sources/reynier2025glyphosate.txt",
     "sha256": "4751e876a74260bff60728790f0654662d62604b6c506eb2566a25a1b1178c0e",
@@ -253,17 +281,17 @@
   },
   "rigotto2013trends": {
     "file": "sources/rigotto2013trends.txt",
-    "sha256": "2b40f62f7c946339bb20e23c80f31fa6b7a48ac63774fe71a4c7879a6411f6c6",
-    "utf8_bytes": 1931,
-    "provenance": "resumo devolvido pela API do Crossref (marcação removida), 2026-11-15; o texto completo no SciELO foi lido por trechos da ferramenta de busca",
+    "sha256": "ab503dbe1934cd76bf326fe2a02e2fca08afc763b99b7866a9fcdfb0352a858c",
+    "utf8_bytes": 41835,
+    "provenance": "texto completo em inglês, PDF (pdfs.semanticscholar.org/2bda/1387db272c5578e0ee5391f2117a3823ed45.pdf), pdftotext com espaços e hifenização de fim de linha normalizados, 2026-11-16",
     "display_label": "Rigotto et al. 2013, artigo, doi:10.1590/S1415-790X2013000300019"
   },
-  "skevas2012": {
-    "file": "sources/skevas2012.txt",
-    "sha256": "2ff8e3de891a42ff6a3b6c62be75af6de0490dd3aef5e1c40ef5cbb6e41cac93",
-    "utf8_bytes": 1314,
-    "provenance": "resumo devolvido pela API do Crossref (campo abstract, marcação JATS removida), 2026-11-15",
-    "display_label": "Skevas, Stefanou e Lansink 2012, artigo, doi:10.1111/j.1574-0862.2012.00581.x"
+  "rocha2015water": {
+    "file": "sources/rocha2015water.txt",
+    "sha256": "44596932b26108780b635aab049be230d92207094ac4f75e4fdadea70bca686a",
+    "utf8_bytes": 1137,
+    "provenance": "resumo da versão publicada (JDE 112:72-91), página do RePEc/IDEAS (ideas.repec.org/a/eee/deveco/v112y2015icp72-91.html), 2026-11-16",
+    "display_label": "Rocha e Soares 2015, artigo, doi:10.1016/j.jdeveco.2014.10.003"
   },
   "stf2023adi6137": {
     "file": "sources/stf2023adi6137.txt",

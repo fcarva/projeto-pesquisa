@@ -1,0 +1,44 @@
+{
+  "candidate_unregistered_count": 1,
+  "candidates": [
+    {
+      "candidate_id": "CAND-B4060-4095-b54a401a7e5f",
+      "candidate_kinds": [
+        "citation_bearing_sentence"
+      ],
+      "coverage_state": "candidate_unregistered",
+      "end_byte": 4095,
+      "line": 101,
+      "matched_claim_ids": [],
+      "sentence_index": 1,
+      "start_byte": 4060,
+      "text": "\\pdfbookmark[0]{\\contentsname}{toc}",
+      "triggers": [
+        {
+          "coverage_state": "trigger_unregistered",
+          "end_byte": 4075,
+          "kind": "citation_bearing_sentence",
+          "matched_claim_ids": [],
+          "start_byte": 4072,
+          "text": "[0]",
+          "trigger_id": "TRIG-B4072-4075-67b34bc6a058"
+        }
+      ],
+      "uncovered_trigger_count": 1
+    }
+  ],
+  "draft_raw_sha256": "70e943e8239dd34937a0cebd8dca697c37e0fba8198638af29198aff5089faa9",
+  "mechanical_candidate_scope": [
+    "citation_bearing_sentence",
+    "quantitative_sentence"
+  ],
+  "registered_claims_outside_candidate_classes": [
+    "R01",
+    "R02"
+  ],
+  "registry_claim_count": 2,
+  "registry_raw_sha256": "217384861e46c3440016498283f1e95fdd618269be7046846d381cdea2541a5b",
+  "registry_schema_version": "claim-registry/1.0",
+  "schema_version": "claim-registry-coverage/1.0",
+  "semantic_extraction_coverage": "not_machine_detectable"
+}

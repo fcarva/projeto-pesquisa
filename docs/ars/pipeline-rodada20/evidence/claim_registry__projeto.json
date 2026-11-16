@@ -1,0 +1,42 @@
+{
+  "schema_version": "claim-registry/1.0",
+  "draft_raw_sha256": "70e943e8239dd34937a0cebd8dca697c37e0fba8198638af29198aff5089faa9",
+  "claims": [
+    {
+      "claim_id": "R01",
+      "claim_text": "Em 2019, o Ceará proibiu a pulverização aérea de agrotóxicos em todo o seu\nterritório.",
+      "draft_span": {
+        "start_byte": 3091,
+        "end_byte": 3183
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "Resumo",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "headline_conclusion"
+      ]
+    },
+    {
+      "claim_id": "R02",
+      "claim_text": "antes da seca de 2012--2017, que pode ter suspendido os voos e que\nafeta o peso ao nascer por vias próprias",
+      "draft_span": {
+        "start_byte": 3578,
+        "end_byte": 3686
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "Resumo",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "headline_conclusion"
+      ]
+    }
+  ]
+}

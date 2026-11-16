@@ -1,13 +1,31 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "6c4a07a4632742c8f663555bbe424f05967a8908acaf71ad5b9888f416b82613",
+  "draft_raw_sha256": "2e46fc334df4b4c850ef5802c54fdfb82e3fe084f510c3826c07559dbe247d44",
   "claims": [
     {
-      "claim_id": "G08",
-      "claim_text": "Como a lei estadual de 1993\nautoriza os municípios a legislar supletivamente",
+      "claim_id": "F29",
+      "claim_text": "A série atravessa a troca do\nformulário de nascido vivo, em 2011, que alterou o registro da idade\ngestacional",
       "draft_span": {
-        "start_byte": 3193,
-        "end_byte": 3270
+        "start_byte": 843,
+        "end_byte": 954
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "6 Dados",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "G08",
+      "claim_text": "Como a lei estadual de 1993 autoriza os municípios\na legislar supletivamente",
+      "draft_span": {
+        "start_byte": 1896,
+        "end_byte": 1973
       },
       "claim_kinds": [
         "other_factual"
@@ -17,14 +35,14 @@
       ],
       "writer_anchors": [],
       "paper_section": "6 Dados",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "ALL"
     },
     {
       "claim_id": "G09",
-      "claim_text": "um levantamento\npreliminar encontrou uma, em Limoeiro do Norte, de 2009, revogada em 2010\n\\cite{limoeiro2010lei1511}",
+      "claim_text": "um levantamento preliminar encontrou uma proibição, em Limoeiro\ndo Norte, de 2009, revogada em 2010 por lei que passou a regular a prática\n\\cite{limoeiro2010lei1511}",
       "draft_span": {
-        "start_byte": 3352,
-        "end_byte": 3468
+        "start_byte": 2043,
+        "end_byte": 2211
       },
       "claim_kinds": [
         "other_factual"
@@ -34,17 +52,17 @@
       ],
       "writer_anchors": [],
       "paper_section": "6 Dados",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
       "claim_id": "G12",
-      "claim_text": "Uma avaliação preliminar do monitoramento da qualidade da água e do mapeamento\nde uso da terra por satélite indicou limitações para esses fins",
+      "claim_text": "Uma\navaliação preliminar do monitoramento da qualidade da água e do mapeamento de\nuso da terra por satélite indicou limitações para esses fins",
       "draft_span": {
-        "start_byte": 3764,
-        "end_byte": 3912
+        "start_byte": 2507,
+        "end_byte": 2655
       },
       "claim_kinds": [
         "other_factual"
@@ -52,14 +70,14 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "6 Dados",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "ALL"
     },
     {
       "claim_id": "F24",
-      "claim_text": "Pesquisas dessa natureza não são submetidas ao\nsistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de\nSaúde \\cite{cns2016res510}",
+      "claim_text": "pesquisas dessa natureza não são submetidas ao\nsistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de\nSaúde \\cite{cns2016res510}",
       "draft_span": {
-        "start_byte": 4403,
-        "end_byte": 4561
+        "start_byte": 3065,
+        "end_byte": 3223
       },
       "claim_kinds": [
         "other_factual"
@@ -69,7 +87,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "6 Dados",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]

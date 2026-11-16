@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "051aac1ad4381d7eca6d3a82b2d606e061fc6b11da7fb789f121d4cde4630c5e",
+  "draft_raw_sha256": "a2a506b90730fb3942672a9458c742b34ff86e110cbd7ab932e467c8339c588a",
   "claims": [
     {
       "claim_id": "F01",
@@ -15,36 +15,50 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
     },
     {
       "claim_id": "F02",
-      "claim_text": "Nove anos depois, o Ceará proibiu a\nprática em todo o território, na primeira proibição estadual do gênero no\nBrasil, e deu à lei o nome do homem assassinado (Lei Estadual\nnº~16.820/2019).",
+      "claim_text": "Nove anos depois, o Ceará proibiu a\nprática em todo o território e deu à lei o nome do homem assassinado (Lei Estadual\nnº~16.820/2019).",
       "draft_span": {
         "start_byte": 695,
-        "end_byte": 891
+        "end_byte": 835
       },
       "claim_kinds": [
-        "categorical",
         "other_factual"
       ],
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "headline_conclusion"
       ]
     },
     {
+      "claim_id": "N01",
+      "claim_text": "não se localizou, na literatura\nconsultada, avaliação causal dos efeitos dessa resposta",
+      "draft_span": {
+        "start_byte": 1271,
+        "end_byte": 1361
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "ALL"
+    },
+    {
       "claim_id": "C01",
       "claim_text": "\\citeonline{dias2023down} exploram a expansão da soja transgênica no Brasil,\ncombinada à direção do fluxo d'água dentro das bacias, e documentam piora dos\ndesfechos ao nascer nas populações a jusante.",
       "draft_span": {
-        "start_byte": 2078,
-        "end_byte": 2286
+        "start_byte": 2149,
+        "end_byte": 2357
       },
       "claim_kinds": [
         "causal"
@@ -54,17 +68,17 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "causal"
       ]
     },
     {
       "claim_id": "C02",
-      "claim_text": "\\citeonline{reynier2025glyphosate}\nreplicam a lógica nos Estados Unidos, com aptidão agroclimática como fonte de\nvariação, e encontram redução do peso ao nascer e da duração da gestação,\nconcentrada na cauda inferior da distribuição de peso esperado.",
+      "claim_text": "\\citeonline{reynier2025glyphosate}\nestudam a difusão do glifosato nos Estados Unidos, com aptidão agroclimática\ncomo fonte de variação, e encontram redução do peso ao nascer e da duração da gestação,\nconcentrada na cauda inferior da distribuição de peso esperado.",
       "draft_span": {
-        "start_byte": 2287,
-        "end_byte": 2550
+        "start_byte": 2358,
+        "end_byte": 2634
       },
       "claim_kinds": [
         "causal"
@@ -74,7 +88,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "headline_conclusion",
         "causal"
@@ -84,8 +98,8 @@
       "claim_id": "C03",
       "claim_text": "\\citeonline{larsen2017agricultural} mostram, na Califórnia, que os efeitos\nadversos aparecem apenas entre os expostos ao topo da distribuição de uso de\nagrotóxicos",
       "draft_span": {
-        "start_byte": 2551,
-        "end_byte": 2718
+        "start_byte": 2635,
+        "end_byte": 2802
       },
       "claim_kinds": [
         "causal"
@@ -95,7 +109,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "causal"
       ]
@@ -104,8 +118,8 @@
       "claim_id": "C04",
       "claim_text": "\\citeonline{camacho2017health} avaliam as consequências sanitárias da aspersão\naérea de herbicida sobre cultivos ilícitos na Colômbia.",
       "draft_span": {
-        "start_byte": 2859,
-        "end_byte": 2999
+        "start_byte": 2943,
+        "end_byte": 3083
       },
       "claim_kinds": [
         "causal"
@@ -115,7 +129,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "causal"
       ]
@@ -124,8 +138,8 @@
       "claim_id": "C05",
       "claim_text": "\\citeonline{calzada2023bananas} estudam a fumigação aérea de bananais no\nEquador e encontram déficit de peso ao nascer entre filhos de mães que moravam\njunto às plantações e foram expostas, na gestação, aos períodos de fumigação\nintensa.",
       "draft_span": {
-        "start_byte": 3000,
-        "end_byte": 3250
+        "start_byte": 3084,
+        "end_byte": 3334
       },
       "claim_kinds": [
         "causal"
@@ -135,17 +149,17 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
       "claim_id": "C06",
-      "claim_text": "Este último é o análogo mais próximo do caso\ncearense: mesma cultura, mesmo método, mesma classe de produto.",
+      "claim_text": "Este último é o análogo mais próximo do caso\ncearense, pela cultura e pelo método, com diferenças que importam: a doença\ncombatida e a frequência das aplicações não são as mesmas",
       "draft_span": {
-        "start_byte": 3251,
-        "end_byte": 3364
+        "start_byte": 3335,
+        "end_byte": 3525
       },
       "claim_kinds": [
         "categorical"
@@ -155,14 +169,35 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "N04",
+      "claim_text": "O que nenhum desses trabalhos oferece é a avaliação de uma \\textbf{proibição\nde método}",
+      "draft_span": {
+        "start_byte": 3559,
+        "end_byte": 3652
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "headline_conclusion"
+      ]
     },
     {
       "claim_id": "C07",
       "claim_text": "A comparação entre proibir e taxar é antiga na economia ambiental\n\\cite{weitzman1974,lichtenberg1988,helfand1995}, e há simulações do banimento\nde moléculas específicas \\cite{bocker2020glyphosate}",
       "draft_span": {
-        "start_byte": 3461,
-        "end_byte": 3665
+        "start_byte": 3654,
+        "end_byte": 3858
       },
       "claim_kinds": [
         "other_factual"
@@ -175,14 +210,14 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "ALL"
     },
     {
       "claim_id": "F03",
       "claim_text": "A lei cearense foi contestada no\nSupremo Tribunal Federal e declarada constitucional, o que assentou a\ncompetência dos estados para legislar sobre a matéria; em 2024 o próprio Ceará\nflexibilizou a regra para admitir drones, e a nova redação voltou a ser\nquestionada na Corte.",
       "draft_span": {
-        "start_byte": 3950,
-        "end_byte": 4231
+        "start_byte": 4143,
+        "end_byte": 4424
       },
       "claim_kinds": [
         "other_factual"
@@ -190,17 +225,32 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "headline_conclusion"
       ]
     },
     {
+      "claim_id": "N02",
+      "claim_text": "não há\nestimativa do que a proibição de fato produziu",
+      "draft_span": {
+        "start_byte": 4489,
+        "end_byte": 4546
+      },
+      "claim_kinds": [
+        "categorical"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "1 Introdução",
+      "selection_tier": "ALL"
+    },
+    {
       "claim_id": "F04",
       "claim_text": "que o Supremo Tribunal Federal julgou constitucional em 2023 \\cite{stf2023adi6137}",
       "draft_span": {
-        "start_byte": 4848,
-        "end_byte": 4930
+        "start_byte": 5049,
+        "end_byte": 5131
       },
       "claim_kinds": [
         "other_factual"
@@ -210,55 +260,51 @@
       ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "headline_conclusion"
       ]
     },
     {
-      "claim_id": "N01",
-      "claim_text": "na primeira proibição estadual do gênero no\nBrasil",
+      "claim_id": "C25",
+      "claim_text": "o projeto usa um desenho de calendário gestacional\n\\cite{calzada2023bananas,brainerd2014seasonal}",
       "draft_span": {
-        "start_byte": 764,
-        "end_byte": 817
+        "start_byte": 5571,
+        "end_byte": 5669
       },
       "claim_kinds": [
-        "categorical"
+        "other_factual"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "calzada2023bananas",
+        "brainerd2014seasonal"
+      ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "NOT-SELECTED"
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
     },
     {
-      "claim_id": "N02",
-      "claim_text": "praticamente não há evidência causal no país",
+      "claim_id": "C26",
+      "claim_text": "o confronta com um desenho de intensidade de exposição\n\\cite{callaway2024continuous}",
       "draft_span": {
-        "start_byte": 1359,
-        "end_byte": 1407
+        "start_byte": 5787,
+        "end_byte": 5873
       },
       "claim_kinds": [
-        "categorical"
+        "other_factual"
       ],
-      "ref_slugs": [],
+      "ref_slugs": [
+        "callaway2024continuous"
+      ],
       "writer_anchors": [],
       "paper_section": "1 Introdução",
-      "selection_tier": "NOT-SELECTED"
-    },
-    {
-      "claim_id": "N03",
-      "claim_text": "registros administrativos nunca\nexplorados para esse fim",
-      "draft_span": {
-        "start_byte": 5207,
-        "end_byte": 5263
-      },
-      "claim_kinds": [
-        "categorical"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "1 Introdução",
-      "selection_tier": "NOT-SELECTED"
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
     }
   ]
 }

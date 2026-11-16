@@ -1,33 +1,13 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "8472c7b10c9d8361499b6b95b522cdbdd8d4dd2d933f09d2ce55ec7cb6a332c2",
+  "draft_raw_sha256": "57bf5288817715c06e5b48d6958de3b3c33ee010be69d244c7ac3e1de82a599e",
   "claims": [
     {
-      "claim_id": "H08",
-      "claim_text": "O terceiro trimestre, para o qual o análogo\nequatoriano encontra estimativa sem significância estatística, serve de\ncontraste de efeito menor.",
+      "claim_id": "F25",
+      "claim_text": "as coortes nascidas de 2007 a 2011, anos em que há relatos de voos na\nChapada e que antecedem a seca",
       "draft_span": {
-        "start_byte": 5735,
-        "end_byte": 5880
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [
-        "calzada2023bananas"
-      ],
-      "writer_anchors": [],
-      "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "methods_critical"
-      ]
-    },
-    {
-      "claim_id": "H07",
-      "claim_text": "no Censo de 2006, que registra\naplicação aérea também fora dos polos irrigados",
-      "draft_span": {
-        "start_byte": 6248,
-        "end_byte": 6330
+        "start_byte": 7090,
+        "end_byte": 7191
       },
       "claim_kinds": [
         "other_factual"
@@ -35,17 +15,113 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
-      "claim_id": "F18",
-      "claim_text": "os relatórios mensais que as empresas de aviação agrícola entregam ao\n    Ministério da Agricultura \\cite{mapa2008in2}, com município, cultura, área\n    e produto",
+      "claim_id": "F26",
+      "claim_text": "os\nregistros pedidos começam em 2008, e em 2011 já havia notícia de proibição",
       "draft_span": {
-        "start_byte": 8729,
-        "end_byte": 8898
+        "start_byte": 7319,
+        "end_byte": 7401
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "G13",
+      "claim_text": "os produtores de\nbanana em que a cultura é predominantemente familiar, segundo o Censo\nAgropecuário de 2017 \\cite{ibge2017censoagro}",
+      "draft_span": {
+        "start_byte": 7541,
+        "end_byte": 7675
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "ibge2017censoagro"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "C29",
+      "claim_text": "que, na ausência da lei, o hiato sazonal tivesse\nevoluído do mesmo modo nos dois grupos desde o período de referência\n\\cite{olden2022triple}",
+      "draft_span": {
+        "start_byte": 8131,
+        "end_byte": 8275
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "olden2022triple"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "H07",
+      "claim_text": "no Censo de 2006, que a registra também fora dos polos irrigados",
+      "draft_span": {
+        "start_byte": 7798,
+        "end_byte": 7863
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "C30",
+      "claim_text": "Como a precipitação durante a\ngestação afeta o peso ao nascer no semiárido por vias que não passam pelo\navião \\cite{rocha2015water}",
+      "draft_span": {
+        "start_byte": 8596,
+        "end_byte": 8734
+      },
+      "claim_kinds": [
+        "causal"
+      ],
+      "ref_slugs": [
+        "rocha2015water"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "causal"
+      ]
+    },
+    {
+      "claim_id": "F18",
+      "claim_text": "os relatórios mensais que as\nempresas de aviação agrícola entregam ao Ministério da Agricultura\n\\cite{mapa2008in2}, com município, cultura, área e produto",
+      "draft_span": {
+        "start_byte": 10408,
+        "end_byte": 10569
       },
       "claim_kinds": [
         "other_factual"
@@ -55,37 +131,35 @@
       ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
-      "claim_id": "F19",
-      "claim_text": "o receituário agronômico, que registra a modalidade de aplicação\n    \\cite{brasil2002decreto4074}",
+      "claim_id": "F27",
+      "claim_text": "Os anos posteriores à lei servem para medir o cumprimento\ne, desde 2021, o uso de drones.",
       "draft_span": {
-        "start_byte": 9020,
-        "end_byte": 9121
+        "start_byte": 10691,
+        "end_byte": 10781
       },
       "claim_kinds": [
         "other_factual"
       ],
-      "ref_slugs": [
-        "brasil2002decreto4074"
-      ],
+      "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
       "claim_id": "F20",
-      "claim_text": "o cadastro estadual de prestadores de serviço de aplicação e os autos\n    de infração posteriores à lei \\cite{ceara1993lei12228}",
+      "claim_text": "o cadastro estadual de prestadores e\nos autos de infração \\cite{ceara1993lei12228}",
       "draft_span": {
-        "start_byte": 9131,
-        "end_byte": 9265
+        "start_byte": 10950,
+        "end_byte": 11034
       },
       "claim_kinds": [
         "other_factual"
@@ -95,17 +169,37 @@
       ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F19",
+      "claim_text": "o receituário agronômico\n\\cite{brasil2002decreto4074}, cuja guarda é preciso localizar e que registra\nprescrição, não aplicação",
+      "draft_span": {
+        "start_byte": 11036,
+        "end_byte": 11171
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "brasil2002decreto4074"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
       "claim_id": "F21",
-      "claim_text": "os autos da ação civil pública de 2011, na Justiça Federal",
+      "claim_text": "os autos da ação civil pública de 2011",
       "draft_span": {
-        "start_byte": 9275,
-        "end_byte": 9337
+        "start_byte": 11175,
+        "end_byte": 11216
       },
       "claim_kinds": [
         "other_factual"
@@ -113,14 +207,54 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "ALL"
+    },
+    {
+      "claim_id": "F28",
+      "claim_text": "O Censo\nAgropecuário de 2006 \\cite{ibge2006censoagro} fornece a classificação\nprovisória; por não distinguir cultura e ser anterior à seca",
+      "draft_span": {
+        "start_byte": 11218,
+        "end_byte": 11362
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "ibge2006censoagro"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "C31",
+      "claim_text": "um diferenças-em-diferenças com tratamento contínuo\n\\cite{callaway2024continuous}",
+      "draft_span": {
+        "start_byte": 12623,
+        "end_byte": 12707
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "callaway2024continuous"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
     },
     {
       "claim_id": "C23",
-      "claim_text": "em que $VPP$ é a fração dos classificados como tratados que de fato o eram\n\\cite{denteh2022misclassification}: o sinal é preservado e a magnitude,\natenuada.",
+      "claim_text": "em que $VPP$, o valor preditivo positivo, é a fração dos classificados como\ntratados que de fato o eram \\cite{denteh2022misclassification}",
       "draft_span": {
-        "start_byte": 11274,
-        "end_byte": 11434
+        "start_byte": 13150,
+        "end_byte": 13291
       },
       "claim_kinds": [
         "other_factual"
@@ -130,17 +264,34 @@
       ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
-      "claim_id": "H09",
-      "claim_text": "o \\emph{wild cluster bootstrap} isolado não é defensável com tão\npoucos tratados \\cite{mackinnon2018wild}",
+      "claim_id": "C32",
+      "claim_text": "o controle sintético e o\ndiferenças-em-diferenças sintético \\cite{arkhangelsky2021sdid}",
       "draft_span": {
-        "start_byte": 13160,
-        "end_byte": 13269
+        "start_byte": 13421,
+        "end_byte": 13512
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "arkhangelsky2021sdid"
+      ],
+      "writer_anchors": [],
+      "paper_section": "5 Metodologia",
+      "selection_tier": "ALL"
+    },
+    {
+      "claim_id": "H09",
+      "claim_text": "o \\emph{wild cluster bootstrap} isolado não é\ndefensável com tão poucos tratados \\cite{mackinnon2018wild}",
+      "draft_span": {
+        "start_byte": 15912,
+        "end_byte": 16021
       },
       "claim_kinds": [
         "other_factual"
@@ -150,75 +301,73 @@
       ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
       "claim_id": "H10",
-      "claim_text": "procedimentos de \\citeonline{conley2011} e de \\citeonline{ferman2019inference},\neste último com heterocedasticidade por tamanho de município",
+      "claim_text": "O procedimento\nprincipal é o de \\citeonline{ferman2019inference}, que admite\nheterocedasticidade por tamanho de município",
       "draft_span": {
-        "start_byte": 13302,
-        "end_byte": 13444
+        "start_byte": 16023,
+        "end_byte": 16146
       },
       "claim_kinds": [
         "other_factual"
       ],
       "ref_slugs": [
-        "conley2011",
         "ferman2019inference"
       ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
       "claim_id": "H11",
-      "claim_text": "para o caso-limite, o\nprocedimento de \\citeonline{hagemann2025single}",
+      "claim_text": "os de \\citeonline{conley2011},\n\\citeonline{canay2021wild} e \\citeonline{hagemann2025single} são reportados\ncomo sensibilidade",
       "draft_span": {
-        "start_byte": 13515,
-        "end_byte": 13584
+        "start_byte": 16148,
+        "end_byte": 16274
       },
       "claim_kinds": [
         "other_factual"
       ],
       "ref_slugs": [
+        "conley2011",
+        "canay2021wild",
         "hagemann2025single"
       ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "ALL"
     },
     {
-      "claim_id": "H12",
-      "claim_text": "na diferença tripla, em que a\nvariação é interna ao município, aplica-se também \\citeonline{canay2021wild}",
+      "claim_id": "C33",
+      "claim_text": "a inferência conformal de\n\\citeonline{chernozhukov2021conformal} é usada no controle sintético",
       "draft_span": {
-        "start_byte": 13586,
-        "end_byte": 13698
+        "start_byte": 16278,
+        "end_byte": 16375
       },
       "claim_kinds": [
         "other_factual"
       ],
       "ref_slugs": [
-        "canay2021wild"
+        "chernozhukov2021conformal"
       ],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "methods_critical"
-      ]
+      "selection_tier": "ALL"
     },
     {
       "claim_id": "F22",
-      "claim_text": "Um plano para a forma reduzida estadual foi escrito\ne versionado em setembro de 2026; uma rodada exploratória dessa análise já foi\nexecutada e levou a rever seu alvo, da curva para o nível.",
+      "claim_text": "Um plano para a forma reduzida estadual foi escrito e\nversionado em setembro de 2026; uma rodada exploratória dessa análise já foi\nexecutada e levou a rever seu alvo, da curva para o nível.",
       "draft_span": {
-        "start_byte": 14521,
-        "end_byte": 14714
+        "start_byte": 17145,
+        "end_byte": 17338
       },
       "claim_kinds": [
         "other_factual"
@@ -226,17 +375,17 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
     },
     {
       "claim_id": "F23",
-      "claim_text": "o\ndesenho de calendário foi adotado como principal depois dela, sem que a\nexposição sazonal tenha sido cruzada com os desfechos",
+      "claim_text": "o desenho de calendário foi\nadotado como principal depois dela, sem que a exposição sazonal tenha sido\ncruzada com os desfechos",
       "draft_span": {
-        "start_byte": 14788,
-        "end_byte": 14918
+        "start_byte": 17412,
+        "end_byte": 17542
       },
       "claim_kinds": [
         "other_factual"
@@ -244,7 +393,7 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "5 Metodologia",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]

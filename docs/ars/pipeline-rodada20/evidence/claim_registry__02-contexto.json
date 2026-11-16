@@ -1,6 +1,6 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "7609ce97e8a77a08d4ad3357ebd38e832eff21aa6b94274ca1e10125780078fc",
+  "draft_raw_sha256": "6b2677c4d13141ae940ad8938d35bba63cfcbfc3740ae8c9f728938a0e02ba47",
   "claims": [
     {
       "claim_id": "F05",
@@ -18,7 +18,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
@@ -36,7 +36,7 @@
       "ref_slugs": [],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
@@ -45,8 +45,8 @@
       "claim_id": "G01",
       "claim_text": "precedida de proposição semelhante em 2011 \\cite{ceara2011pl134}",
       "draft_span": {
-        "start_byte": 1148,
-        "end_byte": 1214
+        "start_byte": 1150,
+        "end_byte": 1216
       },
       "claim_kinds": [
         "other_factual"
@@ -56,17 +56,35 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F07",
+      "claim_text": "a \\emph{certeza} (aprovação unânime, em dezembro de\n2018)",
+      "draft_span": {
+        "start_byte": 1219,
+        "end_byte": 1279
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "numerical"
       ]
     },
     {
       "claim_id": "F08",
       "claim_text": "Em dezembro de 2024,\na Lei nº~19.135 \\cite{ceara2024lei19135} deu nova redação ao artigo e abriu exceção para aeronaves\nremotamente pilotadas.",
       "draft_span": {
-        "start_byte": 1334,
-        "end_byte": 1481
+        "start_byte": 1336,
+        "end_byte": 1483
       },
       "claim_kinds": [
         "other_factual"
@@ -76,160 +94,38 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
     },
     {
-      "claim_id": "F09",
-      "claim_text": "09/12/1993 & Lei Estadual nº 12.228",
+      "claim_id": "H15",
+      "claim_text": "as reportagens sobre o caso cearense nomeiam a\nsigatoka-amarela \\cite{agenciabrasil2016ceara,globorural2021bananais}",
       "draft_span": {
-        "start_byte": 1826,
-        "end_byte": 1862
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "numerical"
-      ]
-    },
-    {
-      "claim_id": "F10",
-      "claim_text": "20/11/2009 & Limoeiro do Norte proíbe a pulverização aérea por lei municipal (Lei nº 1.478).",
-      "draft_span": {
-        "start_byte": 1908,
-        "end_byte": 2005
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "numerical"
-      ]
-    },
-    {
-      "claim_id": "F11",
-      "claim_text": "Em maio, a Lei municipal nº 1.511 revoga a proibição e passa a regular a prática.",
-      "draft_span": {
-        "start_byte": 2059,
-        "end_byte": 2144
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "numerical"
-      ]
-    },
-    {
-      "claim_id": "F12",
-      "claim_text": "Notícia de proibição na Chapada do Apodi (março); projeto de lei estadual com a mesma vedação (PL nº 134, maio); ação civil pública do Ministério Público (julho), de desfecho não localizado",
-      "draft_span": {
-        "start_byte": 2155,
-        "end_byte": 2357
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "numerical"
-      ]
-    },
-    {
-      "claim_id": "G02",
-      "claim_text": "projeto de lei estadual com a mesma vedação (PL nº 134, maio)",
-      "draft_span": {
-        "start_byte": 2209,
-        "end_byte": 2273
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "numerical"
-      ]
-    },
-    {
-      "claim_id": "H13",
-      "claim_text": "2012--2017 & Seca no semiárido; relatos de suspensão dos voos na Chapada.",
-      "draft_span": {
-        "start_byte": 2362,
-        "end_byte": 2437
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "TOP-UP"
-    },
-    {
-      "claim_id": "H01",
-      "claim_text": "03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}",
-      "draft_span": {
-        "start_byte": 2523,
-        "end_byte": 2627
+        "start_byte": 2067,
+        "end_byte": 2183
       },
       "claim_kinds": [
         "other_factual"
       ],
       "ref_slugs": [
-        "ceara2018nascer"
+        "agenciabrasil2016ceara",
+        "globorural2021bananais"
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
-        "numerical"
-      ]
-    },
-    {
-      "claim_id": "F07",
-      "claim_text": "24/02/2015 & Apresentação do Projeto de Lei nº 18/2015 (marco de notícia). \\\\\n03/2018 & O estado lança programa de redução da mortalidade materna e neonatal \\cite{ceara2018nascer}. \\\\\n18/12/2018 & Aprovação por unanimidade na Assembleia Legislativa",
-      "draft_span": {
-        "start_byte": 2441,
-        "end_byte": 2698
-      },
-      "claim_kinds": [
-        "other_factual"
-      ],
-      "ref_slugs": [],
-      "writer_anchors": [],
-      "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
-      "high_impact_basis": [
-        "numerical"
+        "methods_critical"
       ]
     },
     {
       "claim_id": "C08",
-      "claim_text": "No análogo equatoriano, as aplicações se\nintensificam na estação chuvosa \\cite{calzada2023bananas}",
+      "claim_text": "No\nanálogo equatoriano, a fumigação ocorre o ano inteiro e se intensifica na\nestação chuvosa \\cite{calzada2023bananas}",
       "draft_span": {
-        "start_byte": 3546,
-        "end_byte": 3649
+        "start_byte": 2185,
+        "end_byte": 2308
       },
       "claim_kinds": [
         "trend"
@@ -239,14 +135,35 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "TOP-UP"
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "H16",
+      "claim_text": "no Ceará, um produtor relata duas\naplicações aéreas por ano",
+      "draft_span": {
+        "start_byte": 2310,
+        "end_byte": 2373
+      },
+      "claim_kinds": [
+        "quantitative"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "numerical"
+      ]
     },
     {
       "claim_id": "C09",
       "claim_text": "A tabela de análises de água\nreproduzida na justificativa do Projeto de Lei nº~18/2015, atribuída ao Dossiê\nABRASCO \\cite{ceara2015pl18}, registra 23 pontos de coleta na Chapada em 2009: o fungicida\nprocimidona e o inseticida carbaril aparecem em todos, carbofurano em 18,\nfenitrotiona em 16 e glifosato em apenas 4.",
       "draft_span": {
-        "start_byte": 3873,
-        "end_byte": 4194
+        "start_byte": 2597,
+        "end_byte": 2918
       },
       "claim_kinds": [
         "quantitative"
@@ -256,7 +173,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
@@ -265,8 +182,8 @@
       "claim_id": "F13",
       "claim_text": "Ceará eram 36 estabelecimentos, em 7 dos 184 municípios\n\\cite{ibge2006censoagro}",
       "draft_span": {
-        "start_byte": 4661,
-        "end_byte": 4743
+        "start_byte": 3385,
+        "end_byte": 3467
       },
       "claim_kinds": [
         "quantitative"
@@ -276,7 +193,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
@@ -285,8 +202,8 @@
       "claim_id": "G03",
       "claim_text": "a bananicultura está presente na maior parte do estado\n\\cite{ibgepam}: a maioria dos municípios com a cultura não tinha registro de\navião.",
       "draft_span": {
-        "start_byte": 4813,
-        "end_byte": 4955
+        "start_byte": 3537,
+        "end_byte": 3679
       },
       "claim_kinds": [
         "quantitative"
@@ -296,7 +213,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
@@ -305,8 +222,8 @@
       "claim_id": "H02",
       "claim_text": "A lei municipal que revogou\na proibição de Limoeiro do Norte, em 2010, passou a regular a prática, com\ndistâncias mínimas de povoações e mananciais \\cite{limoeiro2010lei1511}",
       "draft_span": {
-        "start_byte": 5007,
-        "end_byte": 5188
+        "start_byte": 3731,
+        "end_byte": 3912
       },
       "claim_kinds": [
         "other_factual"
@@ -316,7 +233,25 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F12",
+      "claim_text": "Em\n2011 noticiou-se uma proibição na Chapada e o Ministério Público ajuizou ação\ncivil pública com esse pedido, mas não se localizou instrumento jurídico da\nprimeira nem desfecho da segunda.",
+      "draft_span": {
+        "start_byte": 3991,
+        "end_byte": 4190
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "2 Contexto institucional",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
@@ -325,8 +260,8 @@
       "claim_id": "H03",
       "claim_text": "em 2016, uma\nmoradora de comunidade da Chapada relatou que não havia novas aplicações\ndesde 2012, por causa da pouca chuva \\cite{agenciabrasil2016ceara}",
       "draft_span": {
-        "start_byte": 5499,
-        "end_byte": 5654
+        "start_byte": 4223,
+        "end_byte": 4378
       },
       "claim_kinds": [
         "other_factual"
@@ -336,7 +271,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]
@@ -345,8 +280,8 @@
       "claim_id": "H04",
       "claim_text": "Um produtor do\nCariri, por sua vez, declarou ter feito aplicações aéreas em seu bananal até\n2018 \\cite{globorural2021bananais}",
       "draft_span": {
-        "start_byte": 5732,
-        "end_byte": 5862
+        "start_byte": 4456,
+        "end_byte": 4586
       },
       "claim_kinds": [
         "other_factual"
@@ -356,7 +291,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "2 Contexto institucional",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "methods_critical"
       ]

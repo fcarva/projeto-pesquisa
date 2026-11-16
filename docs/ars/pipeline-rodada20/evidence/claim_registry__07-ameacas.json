@@ -1,13 +1,86 @@
 {
   "schema_version": "claim-registry/1.0",
-  "draft_raw_sha256": "4cbdb68425f18fe1a01bcf365d9401d24888bd526a9e933a0a0f3c53b385a168",
+  "draft_raw_sha256": "86932f850395ed19b985690aa8d90d83dff47fd957da2137fc7622223c6783b7",
   "claims": [
     {
-      "claim_id": "H14",
-      "claim_text": "O análogo mais próximo encontra efeito apenas a até 150 metros\ndo bananal.",
+      "claim_id": "C34",
+      "claim_text": "Ela também restringiu a água disponível para a irrigação no Baixo Jaguaribe\n\\cite{pereira2015conflitos}",
       "draft_span": {
-        "start_byte": 2942,
-        "end_byte": 3019
+        "start_byte": 534,
+        "end_byte": 642
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [
+        "pereira2015conflitos"
+      ],
+      "writer_anchors": [],
+      "paper_section": "7 Ameaças à identificação",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "C35",
+      "claim_text": "E ela afeta o peso\nao nascer diretamente \\cite{rocha2015water}",
+      "draft_span": {
+        "start_byte": 793,
+        "end_byte": 855
+      },
+      "claim_kinds": [
+        "causal"
+      ],
+      "ref_slugs": [
+        "rocha2015water"
+      ],
+      "writer_anchors": [],
+      "paper_section": "7 Ameaças à identificação",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "causal"
+      ]
+    },
+    {
+      "claim_id": "F31",
+      "claim_text": "o fim da seca é\npróximo da vigência da lei",
+      "draft_span": {
+        "start_byte": 870,
+        "end_byte": 915
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "7 Ameaças à identificação",
+      "selection_tier": "ALL",
+      "high_impact_basis": [
+        "methods_critical"
+      ]
+    },
+    {
+      "claim_id": "F30",
+      "claim_text": "As fontes da suspensão dos voos são de imprensa e de parte\ninteressada",
+      "draft_span": {
+        "start_byte": 1213,
+        "end_byte": 1285
+      },
+      "claim_kinds": [
+        "other_factual"
+      ],
+      "ref_slugs": [],
+      "writer_anchors": [],
+      "paper_section": "7 Ameaças à identificação",
+      "selection_tier": "ALL"
+    },
+    {
+      "claim_id": "H14",
+      "claim_text": "O análogo mais próximo estima o efeito para mães que\nmoravam a até 150 metros do bananal.",
+      "draft_span": {
+        "start_byte": 1353,
+        "end_byte": 1446
       },
       "claim_kinds": [
         "quantitative"
@@ -17,7 +90,7 @@
       ],
       "writer_anchors": [],
       "paper_section": "7 Ameaças à identificação",
-      "selection_tier": "HIGH-IMPACT",
+      "selection_tier": "ALL",
       "high_impact_basis": [
         "numerical"
       ]
