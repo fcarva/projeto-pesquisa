@@ -305,3 +305,19 @@ provas:
 projeto:
 	cd paper/projeto && latexmk -pdf -interaction=nonstopmode -halt-on-error projeto.tex
 	@echo "PDF: paper/projeto/projeto.pdf"
+
+# --- Rodada 21 (local): exploratório sobre dado real ---------------------
+# ⚠️ EXPLORATÓRIO. Autorizado pelo pesquisador em 2026-11-15; nenhum número
+# daqui entra em paper/projeto/. DADOS aponta para a cópia local com data/.
+# Registro: docs/ars/rodada21-local/mapa-de-lacunas-e-exploratorio.md
+DADOS21 ?= projeto-pesquisa/data/processed/rodada21
+RAW21 ?= projeto-pesquisa/data/raw/sinasc
+.PHONY: exploratorio-calendario
+exploratorio-calendario:
+	$(PY) scripts/data_prep/02_clean_births.py --fonte ftp --anos $$(seq 2005 2024) --raw-dir $(RAW21) --out-dir $(DADOS21)
+	$(PY) scripts/data_prep/13_censo_agro_equipamento.py --out-dir $(DADOS21)
+	$(PY) scripts/exploratorio/20_censo2017_banana_familiar.py --out-dir $(DADOS21)
+	$(PY) scripts/exploratorio/21_calendario_exploratorio.py --dados $(DADOS21)
+	$(PY) scripts/data_prep/02_clean_births.py --fonte ftp --ufs 23 24 --anos $$(seq 2005 2024) --raw-dir $(RAW21) --out-dir $(DADOS21)
+	$(PY) scripts/exploratorio/20_censo2017_banana_familiar.py --uf 24 --out-dir $(DADOS21)_rn
+	$(PY) scripts/exploratorio/22_fronteira_rn_exploratorio.py --dados $(DADOS21) --dados-rn $(DADOS21)_rn

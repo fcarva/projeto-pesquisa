@@ -8,18 +8,17 @@
 \section{A deriva como externalidade negativa}
 
 O agrotóxico que deriva sobre o vizinho é um caso clássico de externalidade
-negativa: o produtor que contrata a aplicação aérea internaliza o custo do
-serviço e do produto, mas não o custo em saúde suportado por quem mora a favor
-do vento. A solução negociada de \citeonline{coase1960} supõe custos de
+negativa (Capítulo~\ref{cap:introducao}). A solução negociada de \citeonline{coase1960} supõe custos de
 transação baixos; aqui a população atingida é difusa e o dano é
 probabilístico e de difícil atribuição, o que justifica a intervenção
 regulatória. Qual instrumento usar, se proibição, taxa ou regulação de
 desempenho, depende das inclinações relativas do benefício e do custo
 marginais \cite{weitzman1974} e tem dimensão distributiva
 \cite{lichtenberg1988,helfand1995}. Essa escolha é objeto de um
-segundo ensaio da dissertação. O que este projeto fornece a ela é
-um insumo parcial: uma estimativa, em intenção de tratar, do efeito da
-proibição sobre o peso ao nascer.
+segundo ensaio da dissertação, que este documento não cobre. O que este
+projeto fornece a ela é um insumo parcial: uma estimativa, em intenção de
+tratar, do efeito da proibição sobre o peso ao nascer ou, nos cenários sem
+estimativa, a medida do alcance da lei e o efeito mínimo detectável.
 
 \section{Agrotóxicos e saúde ao nascer}
 
@@ -30,14 +29,17 @@ A primeira é a ordem de grandeza e a sua dependência da proximidade.
 \citeonline{reynier2025glyphosate} estimam reduções médias de peso ao nascer da
 ordem de 23 a 32 gramas associadas à difusão do glifosato em áreas rurais dos
 Estados Unidos. \citeonline{calzada2023bananas} encontram déficit de cerca de
-80 gramas para mães que moravam a até 150 metros do perímetro de um bananal e
-tiveram três meses ou mais de fumigação intensiva na gestação, em comparação
-com a fumigação habitual; a estimativa varia com o limiar de intensidade, e os autores não
-detectam gradiente de distância entre 150 e 2.500 metros. Como o único relato disponível para o Ceará indica aplicações menos frequentes
-(Capítulo~\ref{cap:contexto}), esse valor é tomado como teto. No Brasil,
-\citeonline{rigotto2013trends} comparam municípios da fruticultura irrigada do
-Ceará com municípios de agricultura familiar, em estudo ecológico, e
-documentam mais internações por neoplasias nos primeiros, sem diferença
+80 gramas na especificação principal (Tabela~3, coluna~2, da versão de
+trabalho de 2023, não conferida contra a publicada), e de até 150 conforme a exposição, para mães que moravam a até 150
+metros do perímetro de um bananal e tiveram três meses ou mais de fumigação
+intensiva na gestação, em comparação com a fumigação habitual; além de 150
+metros, não observam diferença entre os gestados dentro e fora desses períodos.
+O valor serve de referência, e não de limite: a fumigação equatoriana, de vinte
+ou mais ciclos por ano, é mais frequente que a dos relatos cearenses
+(Capítulo~\ref{cap:contexto}), mas a intensidade não foi convertida, e o
+contraste da lei, entre voo e ausência de voo, não é o do artigo. No Ceará,
+\citeonline{rigotto2013trends} comparam, em estudo ecológico, municípios da
+fruticultura irrigada e de agricultura familiar, sem diferença
 estatisticamente significante em óbitos fetais, embora com tendência crescente.
 
 A segunda é a concentração. Os efeitos aparecem no topo da distribuição de
@@ -53,7 +55,9 @@ identificado pelo cruzamento entre o período sensível da gestação e a estaç
 de aplicação: \citeonline{calzada2023bananas} encontram efeito nos dois
 primeiros trimestres e estimativa imprecisa no terceiro, com a intensidade da fumigação
 ditada pela estação chuvosa, e \citeonline{brainerd2014seasonal} usam o mês da
-concepção e a estação de aplicação de agroquímicos na Índia. Três ameaças a esse desenho são conhecidas. A composição das mães
+concepção e a estação de aplicação de agroquímicos na Índia. A janela dos dois
+primeiros trimestres vem, portanto, de um único estudo, e não de mecanismo
+estabelecido para os produtos em questão. Três ameaças a esse desenho são conhecidas. A composição das mães
 varia com a época da concepção \cite{buckles2013season}, e a sazonalidade do
 peso ao nascer persiste mesmo entre irmãos \cite{currie2013within}. E, no
 semiárido brasileiro, a chuva durante a gestação afeta o peso ao nascer por
@@ -68,13 +72,9 @@ ordenam as escolhas. Primeiro, a lei vale para todo o estado desde a mesma
 data: dentro do Ceará não há variação na data de adoção nem grupo nunca
 tratado, de modo que os estimadores e as decomposições que exploram essa
 variação \cite{callaway2021multiple,goodmanbacon2021} não têm aqui o que
-explorar. O arcabouço de efeitos por grupo e período de
-\citeonline{callaway2021multiple} vale, com uma única data de adoção, nas
-comparações com municípios de outros estados. Há registro de proibições e
-restrições municipais em outros estados \cite{lavor2019antes}; se as datas de
-adoção diferirem, um desenho de adoção escalonada entre municípios brasileiros
-é extensão possível, fora do escopo deste projeto, e essas leis não foram
-conferidas. Segundo, regressões de efeitos fixos misturam efeitos heterogêneos
+explorar. Há proibições municipais em outros estados \cite{lavor2019antes}, e
+um desenho de adoção escalonada entre municípios é extensão possível, fora do
+escopo deste projeto. Segundo, regressões de efeitos fixos misturam efeitos heterogêneos
 \cite{dechaisemartin2020}; com exposição contínua, o efeito no nível da dose
 recebida sai sob tendências paralelas usuais, ao passo que a curva
 dose-resposta exige hipótese mais forte \cite{callaway2024continuous}.
@@ -84,7 +84,3 @@ mas, quando a identificação depende de covariáveis, a regressão de efeitos
 fixos e a diferença entre dois diferenças-em-diferenças deixam, em geral, de
 ser válidas, e são necessários estimadores próprios
 \cite{ortiz2025triple}.
-
-Quando poucos grupos são tratados, a inferência assintótica usual falha e são
-necessários procedimentos próprios \cite{conley2011,ferman2019inference,
-chernozhukov2021conformal,hagemann2025single}.

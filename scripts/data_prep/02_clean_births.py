@@ -271,7 +271,9 @@ def filtra_ufs(df: pd.DataFrame, ufs=UFS_PADRAO) -> pd.DataFrame:
     cod = df["CODMUNRES"].astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
     cod = cod.str.zfill(6)
     saida = df.copy()
-    saida["cod_ibge6"] = cod
+    # ⚠️ O SINASC de 2005 traz CODMUNRES com 7 dígitos (com verificador); os
+    # demais anos, 6. Sem truncar, o mesmo município vira dois (368 em vez de 184).
+    saida["cod_ibge6"] = cod.str[:6]
     dentro = cod.str.startswith(tuple(ufs)).fillna(False)
     desconhecidos = {f"{uf}0000" for uf in ufs}
     return saida[dentro & ~cod.isin(desconhecidos)].copy()
@@ -570,7 +572,10 @@ def baixa_sinasc_ftp(anos=ANOS_PADRAO, ufs=UFS_PADRAO, destino=RAW_DIR,
     with FTP(FTP_DATASUS, timeout=timeout) as ftp:
         ftp.login()
         ftp.cwd(FTP_SINASC_DIR)
-        disponiveis = set(ftp.nlst())
+        # ⚠️ O FTP mistura caixa na extensão: 2005–2006 e 2010–2012 são `.DBC`,
+        # os demais `.dbc` (conferido em 2026-11-15). Casar exato fazia a janela
+        # 2005–2024 falhar como "ano ausente". O cache local fica sempre `.dbc`.
+        disponiveis = {n.lower(): n for n in ftp.nlst()}
         for sigla in siglas:
             for ano in anos:
                 nome = f"DN{sigla}{ano}.dbc"
@@ -578,12 +583,12 @@ def baixa_sinasc_ftp(anos=ANOS_PADRAO, ufs=UFS_PADRAO, destino=RAW_DIR,
                 if alvo.exists() and alvo.stat().st_size > 0:
                     caminhos.append(alvo)
                     continue
-                if nome not in disponiveis:
+                if nome.lower() not in disponiveis:
                     faltando.append(nome)
                     continue
                 parte = alvo.with_suffix(".parte")
                 with open(parte, "wb") as fh:
-                    ftp.retrbinary(f"RETR {nome}", fh.write)
+                    ftp.retrbinary(f"RETR {disponiveis[nome.lower()]}", fh.write)
                 parte.replace(alvo)
                 print(f"[ok] {nome} ({alvo.stat().st_size / 1e6:.1f} MB)")
                 caminhos.append(alvo)

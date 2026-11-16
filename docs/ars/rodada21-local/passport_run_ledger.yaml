@@ -1,0 +1,385 @@
+ledger: ars-run-ledger/1.0
+created_at: '2026-11-16T01:58:57Z'
+entries:
+- seq: 1
+  kind: initial_instructions
+  at: '2026-11-16T01:58:57Z'
+  user_words: '[mensagem 1, colada: passagem de bastão docs/ars/rodada21-local/LEIA-PRIMEIRO.md,
+    com o pedido] Leia CLAUDE.md e docs/ars/rodada21-local/LEIA-PRIMEIRO.md. Faça
+    a conferência do bastão da rodada 20 e me pergunte o que ela deixou em aberto.
+    Depois rode o pipeline do Academic Research Skills em modo completo sobre paper/projeto/,
+    entrando no Estágio 2.5, com a lista de rechecagem do arquivo como mínimo. Siga
+    o protocolo do plugin à risca: ledger, passport e ponto de decisão a cada estágio.
+    Não rode nada sobre dados reais.
+
+
+    [mensagem 2] Vamos buscar melhorias agora com os arquivos locais, como base explonátórias,
+    fazer todos os modos, usar a pasta projeto-pesquisa para rodar coisas que não
+    eram rodadas no cloud, fazer full mode, continuar auditoria localemente'
+  prev_hash: null
+  hash: 0b157dc627ce45686b2a5ed31cd77b704e2b679e0e856ae8619ed9c82e1427a6
+- seq: 2
+  kind: checkpoint_opened
+  at: '2026-11-16T01:59:09Z'
+  checkpoint_type: MANDATORY
+  stage: '2.5'
+  checkpoint_id: entry-2.5
+  options:
+  - responder
+  - pausar
+  question: 'Entrada pelo Estágio 2.5 (rodada 21): (1) reconhecimento do Estágio 6
+    da rodada 20; (2) intake de experimentos (#925), em palavras próprias; (3) lista
+    de restrições permanentes (#927), confirmar ou editar — inclui o conflito entre
+    "Não rode nada sobre dados reais" (msg 1) e "usar a pasta projeto-pesquisa para
+    rodar coisas... como base exploratórias" (msg 2); (4) orçamento.'
+  prev_hash: 0b157dc627ce45686b2a5ed31cd77b704e2b679e0e856ae8619ed9c82e1427a6
+  hash: 3fea929a082dbe9c5266b503659a3a06bd48bef5f3e4bf83ac050de42c023dac
+- seq: 3
+  kind: partial_answer
+  at: '2026-11-16T02:17:07Z'
+  answer: Estimativas novas sobre dados reais autorizadas (exploratórias); pasta local
+    fica como fonte; estimativas de setembro não contam. Intake sim/não, painel cego
+    e teto de 80 g seguem sem resposta.
+  user_words: Vamos continuar explorando as lacunas que não conseguimos suprir, as
+    estimativas passadas não contam, vamos rodar novas com dados reais, e mapear o
+    que falta, fica como fonte, segue
+  checkpoint_id: entry-2.5
+  item_id: dados-reais-e-pasta
+  prev_hash: 3fea929a082dbe9c5266b503659a3a06bd48bef5f3e4bf83ac050de42c023dac
+  hash: e1d8c74bd29284ed899a88781d1ffea7eff8577bbe5bd7118b345d8b2757c239
+- seq: 4
+  kind: checkpoint_closed
+  at: '2026-11-16T02:54:45Z'
+  answer: 'Intake: não reporta. Restrições: confirmadas as cinco. Teto de 80 g e divulgação
+    da rodada exploratória: decide depois (pendências abertas).'
+  user_words: '[respostas por seleção de opção] Intake: "Não reporta". Restrições:
+    "Confirmo as cinco". Teto 80 g: "Decido depois". Divulgação: "Decido depois".
+    [antes, em palavras próprias] "Vamos voltar para a linha e objetivo aqui, rodar
+    o que for necessário para avançar"'
+  checkpoint_id: entry-2.5
+  prev_hash: e1d8c74bd29284ed899a88781d1ffea7eff8577bbe5bd7118b345d8b2757c239
+  hash: ccbc607b38a9a22eb30c3642a26577beaa8b6b7a74e6d2958836e703d8a61116
+- seq: 5
+  kind: checkpoint_opened
+  at: '2026-11-16T03:17:16Z'
+  checkpoint_type: MANDATORY
+  stage: '2.5'
+  checkpoint_id: stage2.5-round1
+  options:
+  - confirmar os flags e revisar
+  - override com justificativa
+  - pausar
+  question: 'Integridade 2.5 = FAIL (2 SERIOUS, 1 MEDIUM, 9 MINOR; 51/51 referências
+    existem). Modos 3 e 6 SUSPECTED (bloqueio), Modo 7 INSUFFICIENT EVIDENCE. Decisões:
+    (a) como o texto trata a rodada exploratória de 15/11 e o plano "antes do contato
+    com o pós-lei"; (b) teto de 80 g e "único relato"; (c) Modos 3 e 6: confirmar
+    e revisar, ou anular com justificativa.'
+  prev_hash: ccbc607b38a9a22eb30c3642a26577beaa8b6b7a74e6d2958836e703d8a61116
+  hash: 131d9c417cd63bb0abe73410bd706591df4a0852b005e57cec6f36ac39afd5f4
+- seq: 6
+  kind: checkpoint_closed
+  at: '2026-11-16T03:26:25Z'
+  answer: 'confirmar os flags e revisar: aplicadas as opções recomendadas A1, B1,
+    C1 e D, por delegação do pesquisador'
+  user_words: Aplique alterações que julgar melhorar o trabalho
+  checkpoint_id: stage2.5-round1
+  prev_hash: 131d9c417cd63bb0abe73410bd706591df4a0852b005e57cec6f36ac39afd5f4
+  hash: 283e5142bb2da9eaa09cc1a2340df36becc7607d8bb8e06d850339f0278b64a8
+- seq: 7
+  kind: progress
+  at: '2026-11-16T03:31:05Z'
+  counters:
+    integrity_fix_round: 1
+  stage: '2.5'
+  prev_hash: 283e5142bb2da9eaa09cc1a2340df36becc7607d8bb8e06d850339f0278b64a8
+  hash: f4eb369314d2222a3fa4ecfd0d82450175244e352ead1da0e72d99fe5cc99247
+- seq: 8
+  kind: progress
+  at: '2026-11-16T03:50:09Z'
+  counters:
+    integrity_fix_round: 2
+  stage: '2.5'
+  prev_hash: f4eb369314d2222a3fa4ecfd0d82450175244e352ead1da0e72d99fe5cc99247
+  hash: 5f4e651793c40aa0bd2e66873e854f4907388023462417c28207d82a9cf27687
+- seq: 9
+  kind: checkpoint_opened
+  at: '2026-11-16T04:00:13Z'
+  checkpoint_type: MANDATORY
+  stage: '2.5'
+  checkpoint_id: stage2.5-exit
+  options:
+  - override com justificativa
+  - confirmar e voltar ao Estágio 2
+  - revisar a passagem e repetir
+  - pausar
+  question: 'Integridade 2.5, terceira verificação: PASS WITH NOTES (0 SERIOUS, 0
+    MEDIUM, 8 MINOR). Checklist bloqueia: Modos 3 e 6 SUSPECTED só pela regra formal
+    (declaração "Não reporta" x texto que divulga duas rodadas exploratórias). Decisão
+    do pesquisador: afastar com justificativa própria, confirmar e voltar ao Estágio
+    2, ou revisar a passagem.'
+  prev_hash: 5f4e651793c40aa0bd2e66873e854f4907388023462417c28207d82a9cf27687
+  hash: eaf95f5be534e66d8f24ec3a777e037f917f356d0a35338efb5d058558e0ea39
+- seq: 10
+  kind: checkpoint_closed
+  at: '2026-11-16T04:02:13Z'
+  answer: override com justificativa (Modos 3 e 6); painel cego no Estágio 3; pendências
+    menores ficam para o Estágio 4
+  user_words: 'Painel cego e continue. [justificativa, por seleção de opção] "Projeto,
+    não resultado": É um projeto de pesquisa: descreve o que será feito. As duas rodadas
+    exploratórias estão declaradas no texto, sem número, e serão refeitas a partir
+    das bases originais.'
+  checkpoint_id: stage2.5-exit
+  prev_hash: eaf95f5be534e66d8f24ec3a777e037f917f356d0a35338efb5d058558e0ea39
+  hash: 7feadd2965376e7b32d5f0fd63b1bcab2c44635d9f3d0e30fe7c23c849a69a17
+- seq: 11
+  kind: checkpoint_opened
+  at: '2026-11-16T04:05:09Z'
+  checkpoint_type: MANDATORY
+  stage: '3'
+  checkpoint_id: stage3-cards
+  options:
+  - aceitar o conjunto
+  - editar cartões
+  - pausar
+  question: 'Confirmação dos Reviewer Configuration Cards (Fase 0, painel cego, projeto_v10):
+    aceitar o conjunto dos 4 cartões como está, ou editar, antes de despachar a Fase
+    1.'
+  prev_hash: 7feadd2965376e7b32d5f0fd63b1bcab2c44635d9f3d0e30fe7c23c849a69a17
+  hash: 23a44cb5cb395a1c77c501c1ebbfc7d5f6d4e5f06aa045bb9d5d1c2adf889ee8
+- seq: 12
+  kind: checkpoint_closed
+  at: '2026-11-16T04:09:55Z'
+  answer: aceitar o conjunto
+  user_words: Aceito os cartões
+  checkpoint_id: stage3-cards
+  prev_hash: 23a44cb5cb395a1c77c501c1ebbfc7d5f6d4e5f06aa045bb9d5d1c2adf889ee8
+  hash: c031c838d5d30d49ed818199100a23d0f2cdc8b99fe15dd3ca5014f9c6f4c249
+- seq: 13
+  kind: checkpoint_opened
+  at: '2026-11-16T04:34:26Z'
+  checkpoint_type: MANDATORY
+  stage: '3'
+  checkpoint_id: stage3-decision
+  options:
+  - triagem recomendada pelo orquestrador, com ajustes do autor
+  - coaching socrático
+  - triagem item a item
+  - pausar
+  question: 'Estágio 3 concluído: editorial_decision=major_revision (D1, D3 e D6 em
+    block reparável; C1 do Devil''s Advocate validado no núcleo). Roteiro com 34 itens
+    (9 must_fix, 20 should_fix, 5 consider). Triagem do autor, estratégia de revisão
+    e conflito com o teto de 15 páginas.'
+  prev_hash: c031c838d5d30d49ed818199100a23d0f2cdc8b99fe15dd3ca5014f9c6f4c249
+  hash: 979bb54b159b786983e88b19c4739825b7e7e73a1abeb9421bedfd2dc1b6a6d3
+- seq: 14
+  kind: checkpoint_closed
+  at: '2026-11-16T04:36:35Z'
+  answer: triagem recomendada pelo orquestrador; revisar e seguir até o fim
+  user_words: Vamos ao último estagio. [por seleção de opção] "Revisar e seguir até
+    o fim". As quatro perguntas de fato (REV-06 prazo; REV-33 número; REV-32 volta
+    dos voos; REV-07 depósito) ficaram sem resposta.
+  checkpoint_id: stage3-decision
+  prev_hash: 979bb54b159b786983e88b19c4739825b7e7e73a1abeb9421bedfd2dc1b6a6d3
+  hash: 2aafba78570ee3443d1a83d55f5847296aaf008387b7519c368fca2e1e5bacb7
+- seq: 15
+  kind: checkpoint_opened
+  at: '2026-11-16T05:02:35Z'
+  checkpoint_type: FULL
+  stage: '4'
+  checkpoint_id: stage4-exit
+  options:
+  - ratificar e seguir ao 3' em modo legado
+  - ratificar e seguir ao 3' sob contrato
+  - ajustar antes de seguir
+  - pausar
+  question: 'Estágio 4 concluído (projeto_v11): 34 itens, 21 atendidos, 10 em parte,
+    3 limitação declarada; 15 páginas textuais. Ratificar as decisões provisórias
+    (REV-06, 33, 32, 07, 12) e as escolhas novas do revisor na regra de decisão; decidir
+    o modo da re-revisão (contrato ou legado).'
+  prev_hash: 2aafba78570ee3443d1a83d55f5847296aaf008387b7519c368fca2e1e5bacb7
+  hash: fa4ad89efc707c541c061e2a4b3bcb0f0401b712479d0005f574cd889703026d
+- seq: 16
+  kind: checkpoint_closed
+  at: '2026-11-16T05:06:34Z'
+  answer: pausar
+  user_words: Vamos finalizar por hoje para concluir mais tarde
+  checkpoint_id: stage4-exit
+  prev_hash: fa4ad89efc707c541c061e2a4b3bcb0f0401b712479d0005f574cd889703026d
+  hash: 22c79141b303b4a248e2cf8f13af8b230d03ac4b7b2ba5212d0859d97f76cb82
+- seq: 17
+  kind: checkpoint_opened
+  at: '2026-11-16T05:08:53Z'
+  checkpoint_type: FULL
+  stage: '4'
+  checkpoint_id: stage4-exit-retomada
+  options:
+  - seguir até o fim com as recomendações
+  - ajustar antes
+  - pausar
+  question: 'Retomada: ratificar as decisões provisórias do Estágio 4 e as escolhas
+    novas na regra de decisão; modo da re-revisão; seguir até o fim.'
+  prev_hash: 22c79141b303b4a248e2cf8f13af8b230d03ac4b7b2ba5212d0859d97f76cb82
+  hash: 88246b8c27ad70eb3d960da901b9f98427f33fcf30761db68436900d8c2dd24e
+- seq: 18
+  kind: checkpoint_closed
+  at: '2026-11-16T05:08:53Z'
+  answer: 'seguir até o fim com as recomendações: decisões provisórias mantidas por
+    delegação (não ratificadas item a item); re-revisão em modo legado'
+  user_words: Rode tudo então até terminal o objetivo
+  checkpoint_id: stage4-exit-retomada
+  prev_hash: 88246b8c27ad70eb3d960da901b9f98427f33fcf30761db68436900d8c2dd24e
+  hash: 9f1b2d9e4478e715a0d4c88bfa5efed6aa1ba50d03cba797bece88f2c978f6bb
+- seq: 19
+  kind: checkpoint_opened
+  at: '2026-11-16T05:18:00Z'
+  checkpoint_type: MANDATORY
+  stage: 3'
+  checkpoint_id: stage3prime-decision
+  options:
+  - aplicar os resíduos e seguir ao 4.5
+  - seguir ao 4.5 como está
+  - pausar
+  question: 'Re-revisão (modo legado, [LEGACY-NO-CONTRACT]): Minor Revision. 34 itens:
+    18 atendidos, 15 parciais, 0 não atendidos, 1 recusado com motivo (REV-33); must_fix
+    6 atendidos e 3 parciais; REV-32 (C1) atendido. 15 achados novos (1 major: célula
+    do portão de poder fixada com o efeito detectável exploratório à vista). 18 resíduos
+    RES-01 a RES-18. Aplicar os resíduos antes do Estágio 4.5?'
+  prev_hash: 9f1b2d9e4478e715a0d4c88bfa5efed6aa1ba50d03cba797bece88f2c978f6bb
+  hash: 266dc4a489e3a3bb26133b96a263a9fa4a25bd2916abcc96261dbaa74c4416df
+- seq: 20
+  kind: checkpoint_closed
+  at: '2026-11-16T05:18:00Z'
+  answer: aplicar os resíduos e seguir ao 4.5 (sob a instrução permanente de seguir
+    até o fim; não houve resposta específica a este ponto)
+  user_words: Rode tudo então até terminal o objetivo
+  checkpoint_id: stage3prime-decision
+  prev_hash: 266dc4a489e3a3bb26133b96a263a9fa4a25bd2916abcc96261dbaa74c4416df
+  hash: cf8066574ad9156aa383d64664a994b11a3db99fad63d0eec41986568263f24f
+- seq: 21
+  kind: progress
+  at: '2026-11-16T05:22:35Z'
+  counters:
+    revision_round: 2
+  stage: 4'
+  prev_hash: cf8066574ad9156aa383d64664a994b11a3db99fad63d0eec41986568263f24f
+  hash: 4cfc73b620b7f7570891681720a84eef2f3fd8f900188b6ea9a3a859e4c29ea9
+- seq: 22
+  kind: progress
+  at: '2026-11-16T05:45:36Z'
+  counters:
+    integrity_fix_round: 1
+  stage: '4.5'
+  prev_hash: 4cfc73b620b7f7570891681720a84eef2f3fd8f900188b6ea9a3a859e4c29ea9
+  hash: 2850cabc339bc06c4bf1ca54577e6397a33ab826b484b2668321bc3bfb8b7460
+- seq: 23
+  kind: checkpoint_opened
+  at: '2026-11-16T05:53:03Z'
+  checkpoint_type: MANDATORY
+  stage: '4.5'
+  checkpoint_id: stage4.5-failure-modes
+  options:
+  - manter e justificar
+  - retirar a frase
+  - pausar
+  question: 'Integridade 4.5 rodada 1: FAIL (0 SERIOUS, 1 MEDIUM, 11 MINOR, corrigidos
+    em seguida). Checklist bloqueia: Modo 1 INSUFFICIENT EVIDENCE, Modos 3 e 6 SUSPECTED;
+    C4/D7 condição 4 (declaração "Não reporta" x texto que relata o sentido de um
+    resultado exploratório). Manter a divulgação e justificar, retirar a frase, ou
+    pausar.'
+  prev_hash: 2850cabc339bc06c4bf1ca54577e6397a33ab826b484b2668321bc3bfb8b7460
+  hash: 63323e118322f07d2d8376d33249c6c9f7f79dd3ffa134b5fd772e3eef808b2a
+- seq: 24
+  kind: checkpoint_closed
+  at: '2026-11-16T05:53:04Z'
+  answer: 'override com justificativa (Modos 1, 3 e 6; C4/D7 condição 4): manter a
+    divulgação'
+  user_words: '[por seleção de opção] "Manter e justificar (Recomendado)": É um projeto
+    de pesquisa. O texto declara as rodadas exploratórias e o sentido do resultado
+    do portão de poder, sem valor, para não dizer menos do que se sabe. Nada disso
+    é teste confirmatório, e a análise será refeita a partir das bases originais.'
+  checkpoint_id: stage4.5-failure-modes
+  prev_hash: 63323e118322f07d2d8376d33249c6c9f7f79dd3ffa134b5fd772e3eef808b2a
+  hash: d4dcc4aa4dc13370edec661a764837efe9b6e30af2f9ecda67992afa9ea4b8d3
+- seq: 25
+  kind: progress
+  at: '2026-11-16T05:54:31Z'
+  counters:
+    integrity_fix_round: 2
+  stage: '4.5'
+  prev_hash: d4dcc4aa4dc13370edec661a764837efe9b6e30af2f9ecda67992afa9ea4b8d3
+  hash: 2b13cbf4a10b4126faafc4958301edc8ee430144533704c65b48624b055b9a6c
+- seq: 26
+  kind: checkpoint_opened
+  at: '2026-11-16T13:18:14Z'
+  checkpoint_type: MANDATORY
+  stage: '4.5'
+  checkpoint_id: stage4.5-exit
+  options:
+  - seguir com a frase
+  - mudar a declaração para experiments_declared
+  - retirar a frase
+  - pausar
+  question: 'Integridade 4.5, três rodadas esgotadas: texto com zero achados (0 SERIOUS,
+    0 MEDIUM, 0 MINOR); Modos 3 e 6 afastados com justificativa (seq 24); resta FAIL
+    formal de C4/D7 condição 4 (declaração "Não reporta" x frase que relata o sentido
+    de um resultado exploratório). Decisão registrada do pesquisador sobre o item
+    não resolvido.'
+  prev_hash: 2b13cbf4a10b4126faafc4958301edc8ee430144533704c65b48624b055b9a6c
+  hash: 0f65ab46336474f97edcecff3f7aeb08e8a216d86da777867a7a976a4d0222d5
+- seq: 27
+  kind: checkpoint_closed
+  at: '2026-11-16T13:18:14Z'
+  answer: 'seguir com a frase: item formal não resolvido aceito pelo pesquisador ao
+    fim do laço de três rodadas'
+  user_words: '[por seleção de opção] "Seguir com a frase (Recomendado)": Confirmo,
+    ao fim das três rodadas, a decisão de manter a divulgação: o projeto diz o que
+    se sabe, sem valor, e nada é confirmatório.'
+  checkpoint_id: stage4.5-exit
+  prev_hash: 0f65ab46336474f97edcecff3f7aeb08e8a216d86da777867a7a976a4d0222d5
+  hash: b3aa9965142bf8916c1903ff3f3b6af0fbcb93ec894b80d7e59a56bea279d831
+- seq: 28
+  kind: checkpoint_opened
+  at: '2026-11-16T13:18:15Z'
+  checkpoint_type: MANDATORY
+  stage: '5'
+  checkpoint_id: stage5-entry
+  options:
+  - finalizar em abnTeX2 e gerar o registro do processo
+  - finalizar sem registro
+  - pausar
+  question: 'Portão de entrada do Estágio 5: finalização em abnTeX2 (pdflatex + bibtex;
+    o formatador do plugin não suporta ABNT) e Estágio 6 (registro do processo).'
+  prev_hash: b3aa9965142bf8916c1903ff3f3b6af0fbcb93ec894b80d7e59a56bea279d831
+  hash: ae061613f24e0f16286963997f5b96ac894637bd56f592c7fe20d916b06b67b7
+- seq: 29
+  kind: checkpoint_closed
+  at: '2026-11-16T13:18:15Z'
+  answer: finalizar em abnTeX2 e gerar o registro do processo (sob a instrução permanente
+    de seguir até o fim; formato fixado desde a rodada 20)
+  user_words: Rode tudo então até terminal o objetivo
+  checkpoint_id: stage5-entry
+  prev_hash: ae061613f24e0f16286963997f5b96ac894637bd56f592c7fe20d916b06b67b7
+  hash: e594e23c1ac6deb7bdb449558dac0a7e2b92060dce1d4c68dca7ddf621e948a6
+- seq: 30
+  kind: progress
+  at: '2026-11-16T13:18:55Z'
+  counters:
+    finalized: 1
+  stage: '5'
+  prev_hash: e594e23c1ac6deb7bdb449558dac0a7e2b92060dce1d4c68dca7ddf621e948a6
+  hash: 79735987add9c06f15461e3d5a90ebf1d2e5b5c9cbede589cdc3d77c354900d3
+- seq: 31
+  kind: checkpoint_opened
+  at: '2026-11-16T13:26:48Z'
+  checkpoint_type: FULL
+  stage: '6'
+  checkpoint_id: stage6-terminal
+  options:
+  - confirmo / concluir
+  - corrigir o registro
+  - pausar
+  question: 'Estágio 6: registro do processo entregue (stage6/registro_do_processo.md).
+    Reconhecimento terminal do pesquisador para marcar o pipeline como concluído;
+    ou pedido de correção do registro.'
+  prev_hash: 79735987add9c06f15461e3d5a90ebf1d2e5b5c9cbede589cdc3d77c354900d3
+  hash: 942ab9e733185768a7ad0001f64f41b988a4b82a848ed38c799d9b40c5bd04dd

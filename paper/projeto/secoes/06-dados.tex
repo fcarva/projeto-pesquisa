@@ -7,38 +7,43 @@
 A unidade de análise é o município por mês de nascimento. O painel principal
 cobre os municípios cearenses com aplicação aérea e os de comparação, de 2005
 a 19 de dezembro de 2024; os 184 municípios do estado entram na forma reduzida,
-e municípios de estados vizinhos, no controle sintético e na fronteira. O
-Apêndice~\ref{ap:fontes} lista as fontes, o uso de cada uma e as condições de
-acesso.
+e municípios de estados vizinhos, no controle sintético e na fronteira
+(fontes no Apêndice~\ref{ap:fontes}).
 
 \textbf{Desfechos.} Do SINASC obtêm-se o peso médio ao nascer, desfecho
 confirmatório, e a proporção de nascidos com menos de 2.500 gramas e com menos
-de 37 semanas de gestação, exploratórios. A série atravessa a troca do
-formulário de nascido vivo, em 2011 \cite{brasil2011sinasc}, que alterou o registro da idade
-gestacional; o peso ao nascer não foi afetado do mesmo modo, e a
-prematuridade é analisada com essa ressalva. Usa-se o município de residência
-da mãe. Do SIM obtém-se o óbito fetal, exploratório, e constrói-se um desfecho
-composto, a proporção de gestações registradas que terminam em nascido vivo
-com 2.500 gramas ou mais. Do SINAN obtêm-se as notificações de intoxicação por
-agrotóxico agrícola, por circunstância, para o canal de substituição, e as de
-arboviroses, como controle. As intoxicações intencionais são examinadas como
-contraste, com a ressalva de que a troca do avião pelo pulverizador costal
-pode alterar a disponibilidade doméstica do produto.
+de 37 semanas de gestação, exploratórios (siglas no
+Apêndice~\ref{ap:fontes}). A média é o desfecho confirmatório porque é nela
+que o análogo mede o efeito e porque proporções de eventos raros são menos
+precisas em células municipais pequenas; o baixo peso indica, sem teste, se o
+efeito se concentra na cauda inferior. A série atravessa a troca do formulário de nascido vivo, em 2011
+\cite{brasil2011sinasc}, que alterou o registro da idade gestacional; o peso ao
+nascer não foi afetado do mesmo modo, e a prematuridade é analisada com essa
+ressalva. Usa-se o município de residência da mãe. Do SIM obtém-se o óbito
+fetal, exploratório, e constrói-se um desfecho composto, a proporção de
+gestações registradas que terminam em nascido vivo com 2.500 gramas ou mais.
+Do SINAN obtêm-se as notificações de intoxicação por agrotóxico
+agrícola, por circunstância, para o canal de substituição
+(Apêndice~\ref{ap:espec}), e as de arboviroses, para verificar se essa fonte
+de sazonalidade do peso difere entre os grupos.
 
 \textbf{Exposição.} A classificação pelo método vem dos registros da
 Seção~\ref{sec:medicao} e, provisoriamente, do Censo Agropecuário de 2006; o
 grupo de comparação, do Censo Agropecuário de 2017; a chuva, das séries de
 precipitação por município. Como a lei estadual de 1993 autoriza os municípios
 a legislar supletivamente, regras locais anteriores a 2019 alteram o período
-de comparação; um levantamento preliminar encontrou uma proibição, em Limoeiro
-do Norte, de 2009, revogada em 2010 por lei que passou a regular a prática
+de comparação; um levantamento preliminar encontrou uma proibição em Limoeiro
+do Norte, de 20 de novembro de 2009 \cite{limoeiro2009lei1478}, revogada em 26
+de maio de 2010 por lei que passou a regular a prática
 \cite{limoeiro2010lei1511}. O levantamento será refeito, com conferência de
 vigência.
 
 \textbf{Escopo.} O canal hídrico, que exigiria medições de agrotóxicos na
 água de consumo com localização dos pontos de coleta, não integra a análise
-confirmatória, e a exposição não é medida no nível da residência. Uma avaliação preliminar do monitoramento da água e do mapeamento de uso da
-terra por satélite indicou limitações; ela será refeita antes de qualquer uso.
+confirmatória, e a exposição não é medida no nível da residência. O §~2º do
+art.~28-B alcança a dispersão aérea contra vetores; não se verificou se ela
+ocorreu no Ceará antes de 2019, e, se ocorreu, há municípios tratados que a
+classificação não vê.
 
 \textbf{Reprodutibilidade e sigilo.} O processamento será feito por rotinas
 versionadas, com data de extração registrada; microdados não são
@@ -48,6 +53,8 @@ redistribuídos, e células com poucos eventos não são divulgadas.
 e sem identificação individual; pesquisas dessa natureza não são submetidas ao
 sistema CEP/CONEP, nos termos da Resolução nº~510/2016 do Conselho Nacional de
 Saúde \cite{cns2016res510}. Os registros obtidos pela Lei de Acesso à
-Informação identificam empresas e responsáveis técnicos; eles serão usados
-apenas para classificar municípios e meses, e nenhum resultado será divulgado
-com identificação de empresa ou pessoa.
+Informação identificam empresas e responsáveis técnicos; serão usados apenas
+para classificar municípios e meses, e nenhum resultado será divulgado com
+identificação de empresa ou pessoa. Como os operadores são poucos, a medida
+municipal e mensal pode identificá-los: agregação, limiar de supressão e
+guarda dos documentos são fixados no plano de análise, antes do recebimento.

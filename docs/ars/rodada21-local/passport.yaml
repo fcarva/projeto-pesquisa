@@ -1,0 +1,105 @@
+# Material Passport (Schema 9) — rodada ARS 21, local (máquina do pesquisador)
+# Entrada no meio do pipeline (Mid-Entry), pelo Estágio 2.5, sobre projeto_v7.
+# Rodada anterior: docs/ars/pipeline-rodada20/ (Estágio 6 sem reconhecimento terminal).
+# Reestruturado em 2026-11-16 para voltar a ser YAML válido (as palavras registradas
+# do pesquisador não foram alteradas). O registro com encadeamento de hash é o ledger.
+origin_skill: external-draft
+origin_mode: mid-entry
+origin_date: "2026-11-15T00:00:00Z"
+ars_plugin_version: "3.24.2"
+version_label: "projeto_v14"
+# Hash: sha256 sobre, para cada arquivo em ordem (projeto.tex; secoes/* ordenado;
+# referencias-projeto.bib; ../referencias.bib), o caminho relativo + "\n" + bytes.
+content_hash: "sha256:c5f1c6c754ffa72ca0a0641f1abff92962763caa3b226127f7e56ef1b90d89ec"
+git_commit_base: "fd711f3137a5996dcd983875e234200f354853bf"
+artifact_paths:
+  - paper/projeto/projeto.tex
+  - paper/projeto/secoes/
+  - paper/projeto/referencias-projeto.bib
+  - paper/referencias.bib
+repro_lock: null
+slr_lineage: false
+experiment_intake_declaration:
+  status: no_experiments_declared
+  declared_at: "2026-11-15T00:00:00Z"
+  declared_by: scholar
+  scholar_answer: "Não reporta"
+# Resposta por seleção de opção. O texto declara, sem valor, duas rodadas exploratórias
+# (setembro e novembro de 2026) e o sentido do resultado do portão de poder.
+standing_constraints:
+  - words: "só o Ensaio 1"
+    kind: scope
+    applies_to_stages: ["2.5", "3", "4", "3'", "4'", "4.5", "5"]
+    confirmed_at: "2026-11-15T00:00:00Z"
+  - words: "até 15 páginas textuais"
+    kind: other
+    applies_to_stages: ["2.5", "4", "4'", "4.5", "5"]
+    confirmed_at: "2026-11-15T00:00:00Z"
+  - words: "nenhum número de estimativa no texto do projeto"
+    kind: prohibition
+    applies_to_stages: ["2.5", "3", "4", "3'", "4'", "4.5", "5"]
+    confirmed_at: "2026-11-15T00:00:00Z"
+  - words: "identificação e estimador principal só mudam por decisão sua"
+    kind: prohibition
+    applies_to_stages: ["3", "4", "3'", "4'"]
+    confirmed_at: "2026-11-15T00:00:00Z"
+  - words: "nunca commitar data/ nem inventar referência"
+    kind: prohibition
+    applies_to_stages: ["2.5", "3", "4", "3'", "4'", "4.5", "5", "6"]
+    confirmed_at: "2026-11-15T00:00:00Z"
+open_decisions:
+  - "reconhecimento terminal do Estágio 6 desta rodada (e o da rodada 20, nunca dado)"
+  - "decisões provisórias dos Estágios 4 e 4' mantidas por delegação, não ratificadas item a item (stage4/response_to_reviewers.md; stage6/registro_do_processo.md)"
+  - "C4/D7 condição 4: FAIL formal nas três rodadas do 4.5, aceito pelo pesquisador (ledger seq 27)"
+  - "Modo 7 (enquadramento): INSUFFICIENT EVIDENCE; grupo tratado provisório (7 municípios ou só a Chapada) e RN como segunda comparação seguem sem decisão"
+  - "ADV-E6-1: divulgação qualitativa do resultado exploratório sem disposição registrada do autor além do seq 24 e 27"
+  - "fatos que só o pesquisador tem: data de defesa e prazo do programa; descrição da rodada de setembro; depósito público do plano"
+  - "commit: nada da rodada 21 está no git"
+closed_by_delegation:
+  - "teto de 80 g: última palavra do pesquisador foi 'Decido depois' (seq 4); fechado pela IA sob 'Aplique alterações que julgar melhorar o trabalho' (referência, não teto; 80 g na célula que decide)"
+  - "divulgação das rodadas exploratórias: idem; declaradas no texto (05-metodologia e Apêndice F)"
+closed_decisions:
+  - "painel cego: sim"
+local_environment:
+  latex: "MiKTeX pdflatex+bibtex (latexmk indisponível: sem Perl); 40 p., 15 textuais (p. 5–19)"
+  r: "R 4.6.1 em C:/Program Files/R (fora do PATH)"
+  data_copy: "projeto-pesquisa/ (clone aninhado, ramo claude/exciting-noether-17cl74, com data/ local; não rastreado)"
+version_history:
+  - {label: projeto_v7, hash: "sha256:e0b4fcc8438e73893f13110210bead3a04e3afb9d72635f6302fd9197b9368be", note: "entrada"}
+  - {label: projeto_v8, hash: "sha256:b242f6ac95bd1a5d07abddb92ffb601024a6a448ae2284de7b9a500bdf1e5c11", note: "correção 1 do 2.5"}
+  - {label: projeto_v9, hash: "sha256:899a55d9eae4664bcc785fb702123639ec473ad124a16850bfcd2a2f33c0924e", note: "correção 2 do 2.5"}
+  - {label: projeto_v10, hash: "sha256:be639811800b916b40d291a0481f2637fe2d6a594b4d2b779946c7cefe017cef", note: "três correções de uma linha após a rodada 3 do 2.5; objeto do painel"}
+  - {label: projeto_v11, hash: "sha256:5ab1f54860fa5c08d56b86bc3794d79407524b694821a22991285047bbf876b9", note: "revisão do Estágio 4"}
+  - {label: projeto_v12, hash: "sha256:17fe9df9d4263e96ae2b90c633bfc21229716e5375dbe15fab75009d1f95fcf0", note: "Estágio 4' (resíduos da re-revisão)"}
+  - {label: projeto_v13, hash: "sha256:c9ee01329cd1ac18eba17bc7f3c8e6047c3794e4074ced10df9b3a7e1fe1c465", note: "correção 1 do 4.5"}
+  - {label: projeto_v14, hash: "sha256:c5f1c6c754ffa72ca0a0641f1abff92962763caa3b226127f7e56ef1b90d89ec", note: "correção 2 do 4.5; objeto da rodada 3 do 4.5"}
+integrity_stage_2_5:
+  round1: {verdict: FAIL, report: stage2.5_integrity_report.md, serious: 2, medium: 1, minor: 9}
+  round2: {verdict: FAIL, report: stage2.5_integrity_report_round2.md, serious: 0, medium: 2, minor: 6}
+  round3: {verdict: PASS_WITH_NOTES, report: stage2.5_integrity_report_round3.md, serious: 0, medium: 0, minor: 8, object: projeto_v9}
+  failure_modes: {m3: SUSPECTED_formal, m6: SUSPECTED_formal, m7: INSUFFICIENT_EVIDENCE, blocked: true}
+  failure_mode_overrides:
+    - modes: [3, 6]
+      stage: "2.5"
+      decided_by: scholar
+      scholar_words: "Projeto, nao resultado (selecao de opcao): E um projeto de pesquisa: descreve o que sera feito. As duas rodadas exploratorias estao declaradas no texto, sem numero, e serao refeitas a partir das bases originais."
+      note: "A regra volta a disparar no 4.5; a justificativa tera de ser registrada de novo."
+stage3_panel: {blind: true, scholar_words: "Painel cego e continue"}
+stage3: {decision: major_revision, object: projeto_v10, report: stage3/editorial_decision.md, roadmap_items: 34, must_fix: 9, should_fix: 20, consider: 5, da_critical: "C1=VALIDATED (nucleo)", conformance: "5/5 PHASE-CONFORMANCE PASS; PANEL-SYNTHESIS PASS", blind: "instruido; CLAUDE.md injetado pela plataforma em todos os assentos; 1 possivel vazamento em comentario de methodology (dois a sete municipios), fora do roteiro"}
+stage4: {response: stage4/response_to_reviewers.md, notes: stage4/revision_notes.md, patch_protocol: "nao executado (edicao direta dos .tex)"}
+stage3prime: {decision: minor_revision, mode: "LEGACY-NO-CONTRACT", report: stage3prime/re_review_report.md, addressed: 18, partial: 15, not_addressed: 0, declined: 1, new_findings: 15, residuals: 18}
+stage4prime: {response: stage4/response_to_residuals.md}
+integrity_stage_4_5:
+  round1: {verdict: FAIL, report: stage4.5_final_integrity_report.md, object: projeto_v12, serious: 0, medium: 1, minor: 11, modes_blocking: [1, 3, 6]}
+  round2: {verdict: FAIL, report: stage4.5_final_integrity_report_round2.md, object: projeto_v13, serious: 0, medium: 0, minor: 3, round1_findings_resolved: "12/12", mode1: CLEAR, modes_3_6: "SUSPECTED so pela regra formal"}
+  round3: {verdict: FAIL_FORMAL, report: stage4.5_final_integrity_report_round3.md, object: projeto_v14, serious: 0, medium: 0, minor: 0, cause: "C4/D7 condicao 4 (declaracao 'Nao reporta' x texto que relata o sentido de um resultado exploratorio)", modes: "1 CLEAR; 3 e 6 OVERRIDDEN; 7 INSUFFICIENT_EVIDENCE (aviso)"}
+  failure_mode_overrides:
+    - modes: [1, 3, 6]
+      stage: "4.5"
+      decided_by: scholar
+      ledger_seq: 24
+      scholar_words: "Manter e justificar (selecao de opcao): E um projeto de pesquisa. O texto declara as rodadas exploratorias e o sentido do resultado do portao de poder, sem valor, para nao dizer menos do que se sabe. Nada disso e teste confirmatorio, e a analise sera refeita a partir das bases originais."
+      note: "Dada entre as rodadas 1 e 2 do 4.5, antes da lista final; o trecho divulgado nao mudou depois."
+integrity_stage_4_5_exit: {decided_by: scholar, ledger_seq: 27, scholar_words: "Seguir com a frase (Recomendado) (selecao de opcao): Confirmo, ao fim das tres rodadas, a decisao de manter a divulgacao: o projeto diz o que se sabe, sem valor, e nada e confirmatorio.", unresolved_formal_item: "C4/D7 condicao 4"}
+stage5: {format: "abnTeX2 (pdflatex + bibtex)", pdf: paper/projeto/projeto.pdf, pdf_sha256: "0ceccc0873fa96c2a257d01ea0f465ddab0fa15635fe2088283bc99594326d93", pages_total: 40, pages_textual: 15, references_start_page: 20, advisories: "#660 e #672 nao executados (sem snapshot de frases; sem artefato de pre-registro)"}
+stage6: {record: stage6/registro_do_processo.md, collaboration_score: 50, observer_zone: "Zona 2, intermediaria", terminal_acknowledgement: pending, language_question: "nao feita; so portugues, so Markdown"}

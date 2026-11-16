@@ -1,0 +1,1882 @@
+{
+  "_unbound_notice": {
+    "status": "UNBOUND — not yet a valid revision-roadmap/1.0 artifact",
+    "missing": [
+      "base_draft_sha256",
+      "block_manifest_sha256",
+      "items[].proposed_targets"
+    ],
+    "reason": "No anchorized base draft or block manifest was supplied to the synthesizer (manuscript.txt is a LaTeX concatenation without block markers). Block-ID assignment and hashes belong to scripts/ars_anchorize_draft.py, run by the dispatching layer; the synthesizer never computes them.",
+    "to_bind": "Run ars_anchorize_draft.py on the base draft chosen for Stage 4, fill the two hashes, fill proposed_targets per item from target_section, delete this notice and the _synth_notes key, then validate with scripts/revision_roadmap.py.",
+    "manuscript_txt_sha256_as_read": "c0200ab9dc9344c5497bce1147c9c9b1fdde7230c47ef713100bd13fa353fb80"
+  },
+  "_synth_notes": {
+    "seat_map": {
+      "EIC": "eic",
+      "R1": "methodology",
+      "R2": "domain",
+      "R3": "perspective",
+      "DA": "da"
+    },
+    "da_ordinal_map": {
+      "C1": 1,
+      "M1": 2,
+      "M2": 3,
+      "M3": 4,
+      "M4": 5,
+      "m1": 6,
+      "m2": 7,
+      "m3": 8,
+      "m4": 9,
+      "m5": 10
+    },
+    "editorial_ordinals": "Minor Issues list of each seat, numbered as the position after that seat's last W finding",
+    "consensus_enum_gap": "The schema enum has no value for corroborated (2/4) or single-reviewer (1/4) findings; SINGLE-VERIFIER is used as the nearest closed value and the exact count is in each description.",
+    "transport_refs": {
+      "REV-01": "R1",
+      "REV-02": "S1",
+      "REV-03": "R2",
+      "REV-04": "R3",
+      "REV-05": "R4",
+      "REV-06": "R5",
+      "REV-07": "R6",
+      "REV-08": "S2",
+      "REV-09": "S3",
+      "REV-10": "R7",
+      "REV-11": "R8",
+      "REV-12": "S4",
+      "REV-13": "S5",
+      "REV-14": "S6",
+      "REV-15": "S7",
+      "REV-16": "S8",
+      "REV-17": "S9",
+      "REV-18": "S10",
+      "REV-19": "S11",
+      "REV-20": "S12",
+      "REV-21": "S13",
+      "REV-22": "S14",
+      "REV-23": "S15",
+      "REV-24": "S16",
+      "REV-25": "S17",
+      "REV-26": "S18",
+      "REV-27": "S19",
+      "REV-28": "S20",
+      "REV-29": "S21",
+      "REV-30": "S22",
+      "REV-31": "S23",
+      "REV-32": "R9",
+      "REV-33": "S24",
+      "REV-34": "S25"
+    },
+    "requires_new_data_or_analysis": [
+      "REV-33"
+    ],
+    "da_critical_adjudications": {
+      "C1": "VALIDATED"
+    }
+  },
+  "schema_version": "revision-roadmap/1.0",
+  "revision_round": 1,
+  "base_draft_sha256": null,
+  "block_manifest_sha256": null,
+  "items": [
+    {
+      "id": "REV-01",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 1,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Suficiência como ensaio de dissertação nas linhas 2 a 5 da regra [achado de um assento (1/4)]",
+      "reviewer": "eic W1",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-01"
+      ],
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "absence",
+        "locator": "secoes/08-cronograma.tex (Resultados esperados) e secoes/05-metodologia.tex (Seção sec:regra)",
+        "absence_scope": "argumento de que a entrega das linhas 2 a 5 do Quadro de regra de decisão basta como ensaio de dissertação de mestrado",
+        "check_performed": "resumo, Cap. 1 (Contribuição), Cap. 4, Cap. 5 (sec:regra), Cap. 8 e os quatro apêndices"
+      },
+      "confidence": 4,
+      "competence_basis": "competência central: exigência de bancas de mestrado em economia",
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 8, parágrafo Resultados esperados"
+      },
+      "consequence_if_unaddressed": {
+        "code": "acceptance_criterion_unmet",
+        "target": {
+          "kind": "section",
+          "locator": "Cap. 8 — Resultados esperados; Quadro qua:regra"
+        }
+      },
+      "target_section": "Cap. 8 (Resultados esperados); Quadro qua:regra (Cap. 5)",
+      "suggested_action": "Acrescentar, linha a linha do Quadro de regra de decisão, o produto mínimo e a razão pela qual ele basta como ensaio; se alguma linha não basta sozinha, dizê-lo e indicar o que a completa; na linha 5, dizer o que vai além do que as rodadas exploratórias já produziram.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Para cada uma das linhas 2 a 5 do Quadro de regra de decisão, o texto nomeia o produto mínimo e dá ao menos uma razão de suficiência, ou declara que a linha não basta sozinha e diz o que a completa; para a linha 5, diz o que excede as rodadas exploratórias já feitas.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-02",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 2,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 10,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 11,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Coerência do contrato de entrega entre resumo, Cap. 1, Cap. 8 e a linha 5 [achado de um assento (1/4)]",
+      "reviewer": "eic W2; eic W10; eic W11",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-02"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/08-cronograma.tex, parágrafo Resultados esperados",
+        "quote": "Nos demais cenários, o ensaio se entrega como medida do alcance da lei e diagnóstico de poder."
+      },
+      "confidence": 5,
+      "competence_basis": "conferência direta entre dois trechos",
+      "corroborating_sources": [
+        {
+          "reviewer": "eic W10",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/01-introducao.tex, Contribuição",
+            "quote": "Em todos os cenários previstos, inclusive o de não haver efeito detectável, o projeto diz o que entrega"
+          },
+          "confidence": 4,
+          "competence_basis": "competência central"
+        },
+        {
+          "reviewer": "eic W11",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, primeira seção",
+            "quote": "município com aplicação aérea documentada entre 2007 e 2011"
+          },
+          "confidence": 4,
+          "competence_basis": "conferência direta entre trechos"
+        }
+      ],
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 8 (frase final de Resultados esperados); resumo; Cap. 1 (Contribuição); linha 5 do Quadro qua:regra"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "section",
+          "locator": "Cap. 8 e Quadro qua:regra, linha 5"
+        }
+      },
+      "target_section": "Resumo; Cap. 1 (Contribuição); Cap. 8; Quadro qua:regra, linha 5",
+      "suggested_action": "Reescrever a frase final de Resultados esperados para remeter ao Quadro linha a linha (na linha 5 não há medida dos voos); dizer de que depende cada camada de contribuição e distinguir efeito não detectável de teste não realizado; dizer, na linha 5, que a população é a dos municípios com aeronave no Censo de 2006 e que o parâmetro do Cap. 5 não é o alvo nesse cenário.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A frase final de Resultados esperados não atribui medida do alcance da lei à linha 5; resumo e Cap. 1 distinguem teste não realizado de efeito não detectável; a linha 5 nomeia a população a que responde.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-03",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 3,
+          "subclaim_ordinal": 1
+        },
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 2,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 1,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 3,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Portão de poder: efeito plausível, grade de frações e efeito mínimo detectável [CONSENSUS-3 em SC-03a (eic, methodology, domain; perspective em silêncio); SC-03b corroborado 2/4; SC-03c 1/4; DA M2 soma-se]",
+      "reviewer": "eic W3 (parte 1); methodology W2; domain W1; da M2",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-03a",
+        "SC-03b",
+        "SC-03c"
+      ],
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Seção sec:regra",
+        "quote": "para uma grade de frações fixada no plano de análise; decide o valor central da grade"
+      },
+      "confidence": 4,
+      "competence_basis": "competência central; o assento não avaliou se o cálculo de poder em si está bem especificado",
+      "corroborating_sources": [
+        {
+          "reviewer": "methodology W2",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, Regra de decisão",
+            "quote": "fixada no plano de análise; decide o valor central da grade"
+          },
+          "confidence": 4,
+          "competence_basis": "núcleo de competência: cálculo de poder em desenhos observacionais"
+        },
+        {
+          "reviewer": "domain W1",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, seção Regra de decisão",
+            "quote": "O efeito plausível é o da especificação principal do análogo equatoriano, cerca de 80 gramas, multiplicado pela fração de nascimentos exposta"
+          },
+          "confidence": 4,
+          "competence_basis": "área central: transferência de magnitudes entre estudos de exposição"
+        },
+        {
+          "reviewer": "da M2",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/03-referencial.tex, seção Agrotóxicos e saúde ao nascer, e secoes/05-metodologia.tex, seção Regra de decisão",
+            "quote": "mas a intensidade não foi convertida, e o contraste da lei, entre voo e ausência de voo, não é o do artigo"
+          },
+          "confidence": 4,
+          "competence_basis": "coerência entre capítulos 3 e 5"
+        }
+      ],
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, Seção sec:regra e parágrafo de poder da seção de inferência"
+      },
+      "consequence_if_unaddressed": {
+        "code": "method_reproducibility_unresolved",
+        "target": {
+          "kind": "section",
+          "locator": "Cap. 5, Seção sec:regra"
+        }
+      },
+      "target_section": "Cap. 5, Seção sec:regra (Regra de decisão) e seção Inferência, poder e plano de análise; Cap. 3 (magnitudes do análogo)",
+      "suggested_action": "Fixar no projeto, por regra que não use o desfecho: (a) a grade de frações expostas e o valor que decide, com fonte ou justificativa; (b) a faixa de magnitude individual tomada como efeito plausível, levando à regra as ressalvas que o Cap. 3 já lista (contraste intensivo contra habitual, frequência de ciclos, contraste início contra fim da gestação, intenção de tratar), e o que decide quando os cenários de magnitude discordam; (c) a definição do efeito mínimo detectável: nível, poder alvo, lateralidade e procedimento de inferência sob o qual é calculado.",
+      "consensus_level": "CONSENSUS-3",
+      "verification_criteria": "O texto do projeto traz a grade e o valor decisório com justificativa independente do desfecho; a regra usa faixa de magnitude, ou justifica o valor único de 80 gramas diante das ressalvas do Cap. 3; o efeito mínimo detectável tem nível, poder, lateralidade e procedimento declarados.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-04",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 3,
+          "subclaim_ordinal": 2
+        },
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 7,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 6,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 1,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Regra de decisão: casos sem linha e critérios não definidos [CONSENSUS-3 em SC-04a (eic, methodology, perspective; domain em silêncio); SC-04b, SC-04c e SC-04e corroborados 2/4; SC-04d 1/4]",
+      "reviewer": "eic W3 (parte 2); eic W7; methodology W6; perspective W1",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-04a",
+        "SC-04b",
+        "SC-04c",
+        "SC-04d",
+        "SC-04e"
+      ],
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Seção sec:regra",
+        "quote": "para uma grade de frações fixada no plano de análise; decide o valor central da grade"
+      },
+      "confidence": 4,
+      "competence_basis": "competência central (eic W3); o assento não avaliou o cálculo de poder",
+      "corroborating_sources": [
+        {
+          "reviewer": "eic W7",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/08-cronograma.tex, parágrafo Cronograma",
+            "quote": "e o que for medido depois entra por adendo datado"
+          },
+          "confidence": 4,
+          "competence_basis": "competência central: exequibilidade de cronogramas"
+        },
+        {
+          "reviewer": "methodology W6",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "table",
+            "locator": "Quadro qua:regra (Regra de decisão) — linhas Voos documentados, sem pico sazonal e Registros não obtidos até a data-limite"
+          },
+          "confidence": 4,
+          "competence_basis": "núcleo de competência: regras de decisão pré-especificadas"
+        },
+        {
+          "reviewer": "perspective W1",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, Quadro Regra de decisão e parágrafo anterior",
+            "quote": "Registros mostram ausência de voos no período de referência"
+          },
+          "confidence": 4,
+          "competence_basis": "prática de fiscalização e de uso de arquivo administrativo como fonte; texto da norma não conferido pelo assento"
+        }
+      ],
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, Seção sec:regra e Quadro qua:regra; Cap. 8, parágrafo Cronograma"
+      },
+      "consequence_if_unaddressed": {
+        "code": "acceptance_criterion_unmet",
+        "target": {
+          "kind": "table",
+          "locator": "Quadro qua:regra"
+        }
+      },
+      "target_section": "Cap. 5, Seção sec:regra e Quadro qua:regra; Seção sec:medicao; Cap. 8 (Cronograma)",
+      "suggested_action": "Acrescentar linha ou regra de enquadramento para registros parciais, com critério de completude por operador e por ano, e para registros que chegam depois da data-limite, com o estatuto da análise nesse caso; definir pico sazonal por critério numérico sobre os relatórios; escrever a regra de classificação de A_m (cultura, área mínima, número de anos, e a conciliação entre registros que começam em 2008 e o parâmetro de 2007 a 2011); reservar a expressão ausência de voos para série comprovadamente completa e declarar a validação cruzada mínima com regra de discordância.",
+      "consensus_level": "CONSENSUS-3",
+      "verification_criteria": "O Quadro ou regra anexa atribui linha e entrega a registros parciais e a registros tardios; pico sazonal e série completa têm critério verificável nos relatórios, fixado antes de abri-los; a regra de classificação de A_m está escrita; ausência de voos não é usada para série incompleta.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-05",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 4,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 3,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "O parâmetro, a pergunta e o objetivo não nomeiam o contraste que o coeficiente identifica [corroborado 2/4 (eic, methodology); domain W1(c) e da M2 apoiam o fato de base]",
+      "reviewer": "eic W4; methodology W3",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-05"
+      ],
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Seção sec:calendario",
+        "quote": "O coeficiente compara, portanto, exposição no início da gestação com exposição no fim"
+      },
+      "confidence": 3,
+      "competence_basis": "campo adjacente: leitura de coerência, sem descer à derivação (eic W4)",
+      "corroborating_sources": [
+        {
+          "reviewer": "methodology W3",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "equation",
+            "locator": "primeira equação de secoes/05-metodologia.tex (definição de τ) — condicionamento em A_m = 1, H_t = 1 e pós-lei, sem o contraste com as coortes de referência"
+          },
+          "confidence": 5,
+          "competence_basis": "núcleo de competência: correspondência entre estimando e estimador em diferença tripla"
+        }
+      ],
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, primeira seção (definição de τ); Cap. 1 (pergunta); Cap. 4 (objetivo geral); resumo"
+      },
+      "consequence_if_unaddressed": {
+        "code": "claim_scope_unsupported",
+        "target": {
+          "kind": "claim",
+          "locator": "efeito em nível sobre as coortes de exposição alta (τ, pergunta e objetivo geral)"
+        }
+      },
+      "target_section": "Cap. 5, Parâmetro-alvo e cadeia causal (equação de τ); Cap. 1 (pergunta); Cap. 4 (objetivo geral); resumo; título (opcional)",
+      "suggested_action": "Redefinir o estimando como o contraste entre exposição no início e exposição apenas no fim da gestação, ou manter o efeito em nível e declarar a hipótese adicional que o liga ao coeficiente; enunciar como hipótese mantida, não testável, o sinal do efeito da exposição tardia; alinhar pergunta, objetivo geral, resumo e regra de poder a essa definição; trocar onde a prática existia pela formulação datada do Cap. 5.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A definição formal do parâmetro, a pergunta do Cap. 1, o objetivo geral e H1 nomeiam a mesma população e o mesmo contraste; a hipótese sobre a exposição tardia que liga o contraste ao efeito em nível está enunciada como mantida; onde a prática existia não aparece sem data.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-06",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 5,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Escopo do documento: segundo ensaio e prazo da dissertação [achado de um assento (1/4)]",
+      "reviewer": "eic W5",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-06"
+      ],
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/03-referencial.tex, primeira seção",
+        "quote": "Essa escolha é objeto de um segundo ensaio da dissertação."
+      },
+      "confidence": 4,
+      "competence_basis": "competência central; o assento desconhece o regimento do programa",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "preâmbulo; Cap. 1; Cap. 3, primeira seção; nota do Quadro qua:cronograma"
+      },
+      "consequence_if_unaddressed": {
+        "code": "editorial_conformance_unmet",
+        "target": {
+          "kind": "manuscript",
+          "locator": "escopo declarado do documento"
+        }
+      },
+      "target_section": "Preâmbulo; Cap. 1; Cap. 3 (primeira seção); Cap. 8 (Quadro qua:cronograma)",
+      "suggested_action": "Declarar o escopo do documento. Como ele cobre só o primeiro ensaio, dizê-lo no preâmbulo e na introdução, indicar onde o segundo será apresentado, dizer em uma frase o que o segundo recebe do primeiro nos cenários sem estimativa de efeito, e situar o cronograma em relação ao prazo do curso.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto diz se é o projeto da dissertação ou só do primeiro ensaio; sendo só do primeiro, preâmbulo e introdução o dizem e indicam onde o segundo será apresentado; o cronograma situa o prazo do curso ou declara que cobre apenas o primeiro ensaio.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-07",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 6,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 9,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 1,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 12,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 9,
+          "subclaim_ordinal": 1
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 2,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "O estatuto confirmatório depois das rodadas exploratórias declaradas [SPLIT de severidade, arbitrado: methodology Major (gatilho do bloqueio em D1), eic e perspective Minor; domain em silêncio; da M1 Major]",
+      "reviewer": "eic W6; eic W9; methodology W1; methodology W12; perspective W9 (parte 1); da M1",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-07a",
+        "SC-07b",
+        "SC-07c"
+      ],
+      "severity": "major",
+      "severity_source": "achado condutor: methodology W1; a primeira origem na ordem de assentos (eic W6) é Minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Inferência, poder e plano de análise",
+        "quote": "a exposição sazonal já foi cruzada com o desfecho do pós-lei"
+      },
+      "confidence": 5,
+      "competence_basis": "núcleo de competência: planos de análise pré-especificados (methodology W1, achado condutor)",
+      "corroborating_sources": [
+        {
+          "reviewer": "eic W6",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "table",
+            "locator": "Quadro qua:cronograma (secoes/08-cronograma.tex) — linha Redação do ensaio e qualificação nos bimestres 4 e 5, depois da linha Desenho principal nos bimestres 3 e 4"
+          },
+          "confidence": 3,
+          "competence_basis": "depende do calendário do programa, que o texto não informa"
+        },
+        {
+          "reviewer": "eic W9",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, seção de inferência",
+            "quote": "Duas rodadas exploratórias antecedem o plano, e nenhuma é reportada aqui."
+          },
+          "confidence": 4,
+          "competence_basis": "competência central"
+        },
+        {
+          "reviewer": "methodology W12",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, Período de referência",
+            "quote": "Ele não é escolhido pelos dados"
+          },
+          "confidence": 5,
+          "competence_basis": "leitura direta do texto"
+        },
+        {
+          "reviewer": "perspective W9",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex",
+            "quote": "Os planos são versionados em repositório, sem pré-registro público"
+          },
+          "confidence": 3,
+          "competence_basis": "comunicação de evidência em vigilância; convenções de registro da economia fora do campo do assento"
+        },
+        {
+          "reviewer": "da M1",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, seções Desenho principal e Inferência, poder e plano de análise",
+            "quote": "Ele não é escolhido pelos dados."
+          },
+          "confidence": 4,
+          "competence_basis": "as duas frases estão no mesmo capítulo; o assento não sabe o que a rodada mostrou"
+        }
+      ],
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, seção Inferência, poder e plano de análise, e parágrafo Período de referência; uma linha no Cap. 1"
+      },
+      "consequence_if_unaddressed": {
+        "code": "acceptance_criterion_unmet",
+        "target": {
+          "kind": "claim",
+          "locator": "estatuto confirmatório de H1"
+        }
+      },
+      "target_section": "Cap. 5, Inferência, poder e plano de análise (último parágrafo) e Período de referência; Seção sec:regra; Cap. 1; Cap. 8 (Cronograma)",
+      "suggested_action": "Trocar as afirmações de independência (Ele não é escolhido pelos dados; Nenhum critério usa o desfecho do pós-lei) por descrição verificável: o que foi decidido, quando, com que informação à vista, e quais escolhas (período de referência, limiar de exposição alta, exclusão de 2012 e 2019, início do pós-lei, conceito do grupo de comparação) antecederam a rodada de novembro; listar as variantes estimadas nas duas rodadas e, não sendo mostradas as estimativas, dizê-lo e depositar o material com data verificável por terceiro; comprometer o depósito datado do plano antes da estimação confirmatória; fechar por regra que não use o desfecho os parâmetros ainda abertos ou dizer quais já foram variados; pré-especificar como o resultado é rotulado se a classificação medida coincidir com a provisória; dar à informação subseção própria e uma linha no Cap. 1.",
+      "consensus_level": "SPLIT",
+      "verification_criteria": "O texto lista as variantes já estimadas e separa as escolhas anteriores e posteriores à rodada de novembro; as afirmações de independência em relação aos dados foram trocadas por descrição datada; há compromisso de depósito do plano e do material exploratório com data verificável por terceiro antes da estimação confirmatória; o texto diz como o resultado é rotulado se a classificação medida coincidir com a provisória.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-08",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "finding",
+          "ordinal": 8,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Conceitos centrais usados antes de definidos; siglas não expandidas [achado de um assento (1/4); é o gatilho do aviso em D5]",
+      "reviewer": "eic W8",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-08"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/apendices.tex, nota do Quadro qua:espec",
+        "quote": "A quadra chuvosa é tomada, provisoriamente, como fevereiro a maio"
+      },
+      "confidence": 4,
+      "competence_basis": "competência central",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "fim do Cap. 1 ou início do Cap. 4"
+      },
+      "consequence_if_unaddressed": {
+        "code": "reader_traceability_reduced",
+        "target": {
+          "kind": "manuscript",
+          "locator": "definições de estação de pulverização, período de referência e forma reduzida estadual"
+        }
+      },
+      "target_section": "Cap. 1 ou Cap. 4; resumo; primeira ocorrência de cada sigla",
+      "suggested_action": "Um parágrafo de definições (estação provisória, período de referência, coortes, grupos) e expansão das siglas na primeira ocorrência.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Estação de pulverização, período de referência e forma reduzida estadual estão definidos no corpo antes do uso ou em parágrafo único; as siglas de bases e ATT estão expandidas na primeira ocorrência.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-09",
+      "source_refs": [
+        {
+          "seat": "EIC",
+          "channel": "editorial",
+          "ordinal": 12,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R1",
+          "channel": "editorial",
+          "ordinal": 13,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R2",
+          "channel": "editorial",
+          "ordinal": 9,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R3",
+          "channel": "editorial",
+          "ordinal": 11,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Listas de Minor Issues dos quatro pareceres com lista [não se aplica (itens de forma)]",
+      "reviewer": "eic Minor Issues; methodology Minor Issues; domain Minor Issues; perspective Minor Issues",
+      "obligation_class": "consider",
+      "source_kind": "editorial",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "pontos de forma listados na seção Minor Issues de eic, methodology, domain e perspective"
+      },
+      "consequence_if_unaddressed": {
+        "code": "reader_traceability_reduced",
+        "target": {
+          "kind": "manuscript",
+          "locator": "pontos de forma"
+        }
+      },
+      "target_section": "Vários (ver seção Minor Issues de cada parecer)",
+      "suggested_action": "Percorrer as quatro listas de Minor Issues e decidir item a item; entre eles: duração da janela gestacional fixa, mês truncado de dezembro de 2024, data de calendário da data-limite, papel das notificações de arboviroses, linha em branco no Quadro de especificações.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Sem critério de aceitação próprio: itens de forma, a critério do autor.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-10",
+      "source_refs": [
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 4,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Inferência principal: estatística da interação tripla e contiguidade dos tratados [achado de um assento (1/4)]",
+      "reviewer": "methodology W4",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-10"
+      ],
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Inferência, poder e plano de análise",
+        "quote": "Há poucos municípios tratados, contíguos"
+      },
+      "confidence": 4,
+      "competence_basis": "núcleo de competência: inferência com poucos grupos tratados; o assento não releu os artigos citados",
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, seção Inferência, poder e plano de análise, primeiro parágrafo"
+      },
+      "consequence_if_unaddressed": {
+        "code": "method_reproducibility_unresolved",
+        "target": {
+          "kind": "section",
+          "locator": "Cap. 5, Inferência, poder e plano de análise"
+        }
+      },
+      "target_section": "Cap. 5, Inferência, poder e plano de análise",
+      "suggested_action": "Descrever a estatística por município à qual o procedimento principal se aplica no teste do coeficiente da interação tripla e como ele trata choques comuns a tratados contíguos; pré-especificar a leitura da conclusão confirmatória se o procedimento principal e a análise de agregado único divergirem; dizer sob qual procedimento o efeito mínimo detectável é calculado. Promover a análise de agregado único a co-principal, usar blocos regionais ou permutação são opções do assento, não exigência.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto descreve a estatística por município usada no procedimento principal para o coeficiente da interação tripla, diz como trata a contiguidade dos tratados e pré-especifica a leitura em caso de divergência entre o procedimento principal e o de agregado único.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-11",
+      "source_refs": [
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 5,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 4,
+          "subclaim_ordinal": 1
+        }
+      ],
+      "description": "Separação entre a lei e o retorno das chuvas: qual especificação decide [achado de um assento entre os quatro (methodology), com da M3 no mesmo ponto]",
+      "reviewer": "methodology W5; da M3 (parte 1)",
+      "obligation_class": "must_fix",
+      "sub_claim_ids": [
+        "SC-11"
+      ],
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/07-ameacas.tex, A seca",
+        "quote": "tiver efeito sazonal diferente em municípios irrigados e de sequeiro"
+      },
+      "confidence": 4,
+      "competence_basis": "núcleo de competência: identificação em diferença tripla com confundidor variante no tempo; hidrologia do semiárido fora do assento",
+      "corroborating_sources": [
+        {
+          "reviewer": "da M3",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/07-ameacas.tex, parágrafo A seca, e secoes/05-metodologia.tex, seção Regra de decisão",
+            "quote": "mas não separa por completo a lei do retorno das chuvas"
+          },
+          "confidence": 4,
+          "competence_basis": "leitura do quadro de decisão contra o capítulo de ameaças"
+        }
+      ],
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, parágrafo Chuva e Seção sec:regra; Cap. 7, parágrafo A seca"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "leitura de β como efeito da lei e não do retorno das chuvas"
+        }
+      },
+      "target_section": "Cap. 5 (parágrafo Chuva; Seção sec:regra); Cap. 7 (A seca); Apêndice de especificações (linha Chuva por grupo)",
+      "suggested_action": "Pré-especificar qual especificação sustenta a conclusão quando a principal (efeito da chuva comum aos grupos) e a de chuva por grupo divergirem, tornando principal a de chuva por grupo ou exigindo concordância em sinal e ordem de grandeza, e declarar o estatuto do resultado nesse caso; dizer o que se conclui se a chuva do pós-lei e a da referência não forem comparáveis. Volume de reservatório, forma não linear e placebo em irrigados sem aeronave são opções do assento.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto diz qual das duas especificações de chuva decide a conclusão confirmatória, ou exige a concordância das duas, e declara o estatuto do resultado quando elas divergem.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-12",
+      "source_refs": [
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 7,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 4,
+          "subclaim_ordinal": 2
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 6,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 10,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Alcance e consequência dos diagnósticos de identificação [1/4 (methodology) mais da M3, m1, m5; remédio em disputa entre methodology e da (ver Points of Disagreement)]",
+      "reviewer": "methodology W7; da M3 (parte 2); da m1; da m5",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-12"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Grupo de comparação",
+        "quote": "testam a pré-tendência"
+      },
+      "confidence": 4,
+      "competence_basis": "núcleo de competência: diagnósticos de tendências paralelas",
+      "corroborating_sources": [
+        {
+          "reviewer": "da M3",
+          "severity": "major",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, seção Regra de decisão",
+            "quote": "Nenhum critério usa o desfecho do pós-lei."
+          },
+          "confidence": 4,
+          "competence_basis": "leitura do quadro de decisão contra o capítulo de ameaças"
+        },
+        {
+          "reviewer": "da m1",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, Período de referência",
+            "quote": "em 2011 já havia notícia de proibição"
+          },
+          "confidence": 4,
+          "competence_basis": "leitura direta da especificação",
+          "severity_source": "achado menor narrativo do assento da; âncora tipada montada pela síntese a partir do trecho que o achado cita"
+        },
+        {
+          "reviewer": "da m5",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "table",
+            "locator": "Quadro qua:espec — linha Tratamento falso (H4)"
+          },
+          "confidence": 4,
+          "competence_basis": "leitura direta",
+          "severity_source": "achado menor narrativo do assento da; âncora tipada montada pela síntese a partir do objeto que o achado nomeia"
+        }
+      ],
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 5, parágrafo Grupo de comparação e Seção sec:diagnostico"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "section",
+          "locator": "Cap. 5, Grupo de comparação"
+        }
+      },
+      "target_section": "Cap. 5 (Grupo de comparação; Seção sec:diagnostico; Seção sec:regra); Apêndice de especificações",
+      "suggested_action": "Reformular testam como examinam e dizer o alcance (com 2011 como base, o exame fora da referência cobre 2005 e 2006); dizer o que o tratamento falso mostra e o que não mostra; pré-especificar como um estudo de evento ou tratamento falso desfavorável entra no relato (intervalo de sensibilidade junto ao coeficiente) ou na regra (mudança de estatuto). A forma é escolha do autor; uma das duas deve estar escrita.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto não chama o estudo de evento de teste sem a ressalva de poder e alcance, e pré-especifica como um diagnóstico desfavorável entra no relato ou na regra.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-13",
+      "source_refs": [
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 8,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Definições que faltam para a equação principal ser única [achado de um assento (1/4)]",
+      "reviewer": "methodology W8",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-13"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "equation",
+        "locator": "Eq. eq:ddd (secoes/05-metodologia.tex) — termos k_t × C_{m,a(t)} e a definição de P_t que os alimenta"
+      },
+      "confidence": 4,
+      "competence_basis": "núcleo de competência: especificação de efeitos fixos; a conta dos meses é do assento",
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, Seção sec:calendario, ou Apêndice de especificações"
+      },
+      "consequence_if_unaddressed": {
+        "code": "method_reproducibility_unresolved",
+        "target": {
+          "kind": "section",
+          "locator": "Eq. eq:ddd e definição de P_t"
+        }
+      },
+      "target_section": "Cap. 5, Seção sec:calendario; Apêndice de especificações (pode ir em apêndice)",
+      "suggested_action": "Dar a fórmula de P_t com a duração da janela e uma tabela mês de nascimento por grupo sob a estação provisória; indexar a chuva pela quadra a que a coorte foi exposta; declarar que a estação é única ou reescrever a equação com os termos adicionais; dizer onde ficam os vizinhos imediatos e o mês truncado de dezembro de 2024.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "P_t tem fórmula e duração de janela declaradas, a chuva tem ano de indexação declarado, e a estação é declarada única ou a equação traz os termos adicionais.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-14",
+      "source_refs": [
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 9,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 7,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Critério de concordância entre análises [1/4 (methodology) mais da m2]",
+      "reviewer": "methodology W9; da m2",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-14"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Análises secundárias e triangulação",
+        "quote": "sinais coincidem e os intervalos se sobrepõem"
+      },
+      "confidence": 4,
+      "competence_basis": "núcleo de competência: triangulação de estimadores",
+      "corroborating_sources": [
+        {
+          "reviewer": "da m2",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/05-metodologia.tex, Análises secundárias e triangulação",
+            "quote": "os sinais coincidem e os intervalos se sobrepõem"
+          },
+          "confidence": 4,
+          "competence_basis": "leitura direta",
+          "severity_source": "achado menor narrativo do assento da"
+        }
+      ],
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 5, última frase da seção Análises secundárias e triangulação"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "concordância entre a análise principal e as secundárias"
+        }
+      },
+      "target_section": "Cap. 5, Análises secundárias e triangulação",
+      "suggested_action": "Tratar a comparação como descritiva, sem rótulo de concordância, dizendo o valor esperado de cada análise secundária sob o efeito principal; ou adotar critério de equivalência com margem declarada.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto não declara concordância por simples coincidência de sinal e sobreposição de intervalos.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-15",
+      "source_refs": [
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 10,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Sensibilidade duplamente robusta: hipótese e critério de acionamento [achado de um assento (1/4)]",
+      "reviewer": "methodology W10",
+      "obligation_class": "consider",
+      "sub_claim_ids": [
+        "SC-15"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "table",
+        "locator": "Quadro qua:espec (Especificações do desenho de calendário) — linha Duplamente robusto"
+      },
+      "confidence": 3,
+      "competence_basis": "campo adjacente: o assento conhece o resultado citado em linhas gerais, não o releu",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Quadro qua:espec, linha Duplamente robusto; Cap. 5, Grupo de comparação"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "table",
+          "locator": "Quadro qua:espec, linha Duplamente robusto"
+        }
+      },
+      "target_section": "Apêndice de especificações; Cap. 5 (Grupo de comparação)",
+      "suggested_action": "Fixar o número mínimo de tratados que aciona o estimador, declarar a hipótese condicional de cada versão e dizer por que a ressalva citada no Cap. 3 não atinge a especificação principal, ou em que medida atinge.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Sem critério de aceitação próprio (consider).",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-16",
+      "source_refs": [
+        {
+          "seat": "R1",
+          "channel": "finding",
+          "ordinal": 11,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Ponderação por nascimentos e definição do estimando [achado de um assento (1/4)]",
+      "reviewer": "methodology W11",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-16"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, Desenho principal",
+        "quote": "Estima-se, com ponderação pelo número de nascimentos"
+      },
+      "confidence": 4,
+      "competence_basis": "núcleo de competência: agregação e ponderação em painéis municipais",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 5, definição do parâmetro; Apêndice de especificações"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "média por nascimento ou por município no parâmetro"
+        }
+      },
+      "target_section": "Cap. 5 (parâmetro; Desenho principal); Apêndice de especificações",
+      "suggested_action": "Declarar o estimando como média por nascimento; prever no quadro de especificações a versão sem pesos e a exclusão de um tratado por vez; usar pesos do período de referência.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A definição do parâmetro diz se a média é por nascimento ou por município.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-17",
+      "source_refs": [
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 2,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Alegação de lacuna: alcance da busca não descrito [achado de um assento (1/4)]",
+      "reviewer": "domain W2",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-17"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/01-introducao.tex",
+        "quote": "não se localizou, na literatura consultada, avaliação causal dos efeitos dessa resposta"
+      },
+      "confidence": 3,
+      "competence_basis": "o assento conhece a literatura econômica próxima; não atesta a inexistência de avaliação anterior",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 1, segundo parágrafo e Antecedentes"
+      },
+      "consequence_if_unaddressed": {
+        "code": "claim_scope_unsupported",
+        "target": {
+          "kind": "claim",
+          "locator": "ineditismo da avaliação de uma proibição de método"
+        }
+      },
+      "target_section": "Cap. 1 (abertura; Antecedentes; Justificativa)",
+      "suggested_action": "Acrescentar uma frase com o protocolo e a data da busca e uniformizar as formulações mais fortes (O que nenhum desses trabalhos oferece; não se conhece estimativa causal) com a forma cautelosa. O parágrafo sobre precedentes regulatórios em outros países é opcional, e as pistas do assento são declaradas não conferidas [FIELD-NORM UNVERIFIED].",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto descreve o alcance da busca que sustenta a lacuna (bases, termos, data) e não usa forma absoluta sem essa base.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-18",
+      "source_refs": [
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 3,
+          "subclaim_ordinal": 0
+        },
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 4,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "O perfil químico vem de análises de água, não do que o avião aplicava [corroborado 2/4 (domain, perspective)]",
+      "reviewer": "domain W3; perspective W4",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-18"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/02-contexto.tex",
+        "quote": "registra 23 pontos de coleta na Chapada em 2009"
+      },
+      "confidence": 3,
+      "competence_basis": "a leitura do que uma amostra de água identifica é segura; a observação agronômica é de memória do assento",
+      "corroborating_sources": [
+        {
+          "reviewer": "perspective W4",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/02-contexto.tex",
+            "quote": "procimidona e o inseticida carbaril aparecem em todos, carbofurano em 18"
+          },
+          "confidence": 3,
+          "competence_basis": "campo adjacente (agronomia); toxicologia ambiental no campo do assento"
+        }
+      ],
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 2, segundo parágrafo da seção A Chapada do Apodi, a cultura e o químico"
+      },
+      "consequence_if_unaddressed": {
+        "code": "claim_scope_unsupported",
+        "target": {
+          "kind": "claim",
+          "locator": "identificação do produto aplicado por aeronave a partir de análises de água"
+        }
+      },
+      "target_section": "Cap. 2, seção A Chapada do Apodi, a cultura e o químico",
+      "suggested_action": "Redigir a tabela como evidência de contaminação da água na região, e não da calda aérea; citar a fonte primária com página; remeter a identificação do produto aéreo ao campo produto dos relatórios mensais.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto não infere o produto aplicado por avião a partir das análises de água e cita a tabela na fonte primária ou declara que a cita de segunda mão.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-19",
+      "source_refs": [
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 4,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Janela dos dois primeiros trimestres ancorada em um único estudo [achado de um assento (1/4); perspective (Detailed Comments, foco 4) pede a mesma frase sem mudança de estatuto]",
+      "reviewer": "domain W4",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-19"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/03-referencial.tex",
+        "quote": "encontram efeito nos dois primeiros trimestres e estimativa imprecisa no terceiro"
+      },
+      "confidence": 3,
+      "competence_basis": "domínio próximo; a caracterização do terceiro trimestre no artigo de origem é a do manuscrito",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 3, terceira regularidade; Cap. 5, limites declarados da Seção sec:calendario"
+      },
+      "consequence_if_unaddressed": {
+        "code": "evidence_gap_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "terceiro trimestre como referência de menor sensibilidade"
+        }
+      },
+      "target_section": "Cap. 3 (terceira regularidade); Cap. 5 (Seção sec:calendario)",
+      "suggested_action": "Dizer que a janela vem do análogo e não de mecanismo estabelecido para os produtos em questão; reportar do artigo de origem as estimativas por trimestre com intervalo (número da literatura, não estimativa própria), ou declarar que não se encontrou referência sobre período sensível.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A justificativa da referência (terceiro trimestre) declara a sua base e o seu limite.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-20",
+      "source_refs": [
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 5,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Peso médio como desfecho confirmatório sem justificativa [achado de um assento (1/4)]",
+      "reviewer": "domain W5",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-20"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "absence",
+        "locator": "secoes/06-dados.tex, parágrafo Desfechos",
+        "absence_scope": "justificativa da escolha do peso médio como desfecho confirmatório diante da concentração na cauda destacada no Capítulo 3",
+        "check_performed": "Cap. 3 (segunda regularidade), Cap. 4, Cap. 5 (inferência, poder e plano de análise), Cap. 6 e Cap. 7"
+      },
+      "confidence": 4,
+      "competence_basis": "ponto de coerência entre a literatura citada e a escolha de desfecho",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 6, parágrafo Desfechos"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "escolha do peso médio como desfecho confirmatório"
+        }
+      },
+      "target_section": "Cap. 6, parágrafo Desfechos",
+      "suggested_action": "Duas frases que justifiquem a média como desfecho confirmatório e digam como a concentração na cauda será lida nos exploratórios. O desfecho de cauda construído no nível individual é opção do assento.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O Cap. 6 justifica a escolha do peso médio diante da concentração na cauda que o Cap. 3 destaca.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-21",
+      "source_refs": [
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 6,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Escala da deriva afirmada sem fonte [achado de um assento (1/4); [FIELD-NORM UNVERIFIED] transportado do parecer]",
+      "reviewer": "domain W6",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-21"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "absence",
+        "locator": "secoes/01-introducao.tex e secoes/05-metodologia.tex (seção Interferência e versões do tratamento)",
+        "absence_scope": "referência técnica sobre distância e determinantes da deriva em aplicação aérea",
+        "check_performed": "Cap. 1, Cap. 2, Cap. 3, Cap. 5 e a lista de referências"
+      },
+      "confidence": 3,
+      "competence_basis": "área adjacente (agronomia de aplicação)",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 5, seção Interferência e versões do tratamento; Cap. 1, segundo parágrafo"
+      },
+      "consequence_if_unaddressed": {
+        "code": "evidence_gap_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "a deriva opera em escala de centenas de metros"
+        }
+      },
+      "target_section": "Cap. 1; Cap. 5 (Interferência e versões do tratamento)",
+      "suggested_action": "Citar fonte técnica ou regulatória para a escala da deriva, ou enfraquecer a frase.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A afirmação sobre a escala da deriva tem fonte ou foi enfraquecida.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-22",
+      "source_refs": [
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 7,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Magnitudes do análogo citadas sem localizador [achado de um assento (1/4)]",
+      "reviewer": "domain W7",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-22"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/03-referencial.tex",
+        "quote": "80 gramas na especificação principal, e de até 150 conforme a exposição"
+      },
+      "confidence": 4,
+      "competence_basis": "prática de citação de magnitudes; o assento não teve acesso à fonte",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 3, primeira regularidade"
+      },
+      "consequence_if_unaddressed": {
+        "code": "reader_traceability_reduced",
+        "target": {
+          "kind": "claim",
+          "locator": "magnitudes de 80 e 150 gramas e de 23 a 32 gramas"
+        }
+      },
+      "target_section": "Cap. 3 (primeira regularidade)",
+      "suggested_action": "Indicar tabela e coluna da versão publicada para cada número do análogo equatoriano e para a faixa de 23 a 32 gramas.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Cada magnitude importada traz localizador (tabela e coluna ou página) da versão publicada.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-23",
+      "source_refs": [
+        {
+          "seat": "R2",
+          "channel": "finding",
+          "ordinal": 8,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Documentação prévia da exposição à deriva afirmada sem citação [achado de um assento (1/4)]",
+      "reviewer": "domain W8",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-23"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/02-contexto.tex",
+        "quote": "onde a exposição da população à deriva foi documentada antes da proibição"
+      },
+      "confidence": 4,
+      "competence_basis": "verificação direta no texto",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 2, primeiro parágrafo da seção A Chapada do Apodi; Cap. 1, primeiro parágrafo"
+      },
+      "consequence_if_unaddressed": {
+        "code": "evidence_gap_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "exposição da população à deriva documentada antes da proibição"
+        }
+      },
+      "target_section": "Cap. 2; Cap. 1 (abertura)",
+      "suggested_action": "Citar a fonte com página e dizer o que foi documentado (resíduo em água, relato de moradores, medição de deposição, biomonitoramento).",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A afirmação tem fonte com localizador e diz a natureza da documentação.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-24",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 2,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Proibição municipal de Limoeiro do Norte dentro do período de referência [achado de um assento (1/4)]",
+      "reviewer": "perspective W2",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-24"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/06-dados.tex",
+        "quote": "um levantamento preliminar encontrou uma proibição, em Limoeiro do Norte, de 2009, revogada em 2010"
+      },
+      "confidence": 4,
+      "competence_basis": "leitura da cadeia de datas do próprio manuscrito",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 5, parágrafo Período de referência"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "section",
+          "locator": "Cap. 5, Período de referência"
+        }
+      },
+      "target_section": "Cap. 5 (Período de referência); Cap. 6 (Exposição)",
+      "suggested_action": "Dizer no Cap. 5 como entram as coortes com início de gestação na estação de 2010 naquele município (excluídas, ou mantidas com sensibilidade) e prever o uso dos relatórios de 2009 e 2010, se vierem, como verificação do cumprimento da lei municipal.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O Cap. 5 diz como as coortes afetadas pela proibição municipal de 2009 a 2010 entram na referência.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-25",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 3,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Notificações de intoxicação medem também o esforço de notificar [achado de um assento (1/4)]",
+      "reviewer": "perspective W3",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-25"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/apendices.tex, Quadro Especificações do desenho de calendário, linha Substituição",
+        "quote": "Notificações de intoxicação ocupacional por agrotóxico agrícola, por município e ano, antes e depois da lei"
+      },
+      "confidence": 4,
+      "competence_basis": "uso rotineiro do sistema de notificação; a data da mudança de norma não foi conferida pelo assento",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Apêndice de fontes, linha SINAN; Apêndice de especificações, linha Substituição"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "table",
+          "locator": "Quadro qua:espec, linha Substituição (H5)"
+        }
+      },
+      "target_section": "Apêndice de fontes (linha SINAN); Apêndice de especificações (linha Substituição); Cap. 5 (cadeia causal)",
+      "suggested_action": "Declarar a limitação (subnotificação e dependência do esforço local) no quadro de fontes e na linha da especificação, e dizer quais elos da cadeia ficam sem medida. Internações e receituário pós-lei como indicadores paralelos são opção do assento.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A linha do SINAN e a da Substituição trazem a ressalva de que a contagem depende do esforço de notificação.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-26",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 5,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "A exposição pode não acompanhar o mês do voo (água armazenada, resíduo doméstico) [achado de um assento (1/4); apoia-se em conhecimento externo declarado e não conferido]",
+      "reviewer": "perspective W5",
+      "obligation_class": "consider",
+      "sub_claim_ids": [
+        "SC-26"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/06-dados.tex",
+        "quote": "O canal hídrico, que exigiria medições de agrotóxicos na água de consumo com localização dos pontos de coleta, não integra a análise confirmatória"
+      },
+      "confidence": 3,
+      "competence_basis": "vigilância da qualidade da água para consumo; magnitude desconhecida para a região",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 5, limites declarados da Seção sec:calendario"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "a exposição gestacional concentra-se nos meses de aplicação"
+        }
+      },
+      "target_section": "Cap. 5 (Seção sec:calendario, limites declarados)",
+      "suggested_action": "Acrescentar a defasagem da exposição por água armazenada e resíduo doméstico à lista de limites do contraste, com o sinal do viés (atenuação).",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Sem critério de aceitação próprio (consider).",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-27",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 6,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Desfecho composto: regra de alocação do óbito fetal à coorte [achado de um assento (1/4)]",
+      "reviewer": "perspective W6",
+      "obligation_class": "consider",
+      "sub_claim_ids": [
+        "SC-27"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/06-dados.tex",
+        "quote": "a proporção de gestações registradas que terminam em nascido vivo com 2.500 gramas ou mais"
+      },
+      "confidence": 4,
+      "competence_basis": "epidemiologia perinatal com SIM e SINASC",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 6, parágrafo Desfechos"
+      },
+      "consequence_if_unaddressed": {
+        "code": "method_reproducibility_unresolved",
+        "target": {
+          "kind": "claim",
+          "locator": "alocação do óbito fetal à coorte no desfecho composto"
+        }
+      },
+      "target_section": "Cap. 6 (Desfechos)",
+      "suggested_action": "Declarar a regra de alocação do óbito fetal à coorte (pela idade gestacional registrada quando houver, com sensibilidade para os registros sem o campo).",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Sem critério de aceitação próprio (consider).",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-28",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 7,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "O § 2º (controle vetorial por aeronave) aparece no contexto e some do desenho [achado de um assento (1/4)]",
+      "reviewer": "perspective W7",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-28"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "absence",
+        "locator": "secoes/05-metodologia.tex e secoes/06-dados.tex",
+        "absence_scope": "delimitação do alcance do § 2º do art. 28-B (controle vetorial por aeronave) no escopo ou nas versões do tratamento",
+        "check_performed": "Cap. 2, Cap. 5, Cap. 6 (parágrafo Escopo), Cap. 7 e os apêndices de fontes, ameaças, especificações, cronologia e diagrama"
+      },
+      "confidence": 3,
+      "competence_basis": "a pergunta é do campo do assento; a resposta factual não foi verificada",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 6, parágrafo Escopo"
+      },
+      "consequence_if_unaddressed": {
+        "code": "claim_scope_unsupported",
+        "target": {
+          "kind": "claim",
+          "locator": "definição de município tratado diante do § 2º do art. 28-B"
+        }
+      },
+      "target_section": "Cap. 6 (Escopo)",
+      "suggested_action": "Uma frase no parágrafo de escopo, com a fonte consultada, dizendo se houve ou não dispersão aérea para controle de vetores no Ceará antes de 2019, e o papel exato das notificações de arboviroses na análise.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O parágrafo de escopo delimita o alcance do § 2º e diz o papel das notificações de arboviroses.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-29",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 8,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Sigilo: identificação indireta de operador pela medida municipal e mensal [achado de um assento (1/4)]",
+      "reviewer": "perspective W8",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-29"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/06-dados.tex",
+        "quote": "nenhum resultado será divulgado com identificação de empresa ou pessoa"
+      },
+      "confidence": 4,
+      "competence_basis": "prática de pesquisa com registros de fiscalização; o assento declara não ser jurista",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 6, parágrafos Reprodutibilidade e sigilo e Aspectos éticos"
+      },
+      "consequence_if_unaddressed": {
+        "code": "reporting_requirement_unmet",
+        "target": {
+          "kind": "section",
+          "locator": "Cap. 6, Aspectos éticos"
+        }
+      },
+      "target_section": "Cap. 6 (Reprodutibilidade e sigilo; Aspectos éticos); Cap. 8 (entrega iii)",
+      "suggested_action": "Fixar limiar de supressão e nível de agregação em que a medida de voos será divulgada; descrever guarda, acesso e descarte dos documentos recebidos; dizer se o enquadramento ético foi conferido também para os registros identificados.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O Cap. 6 diz em que agregação a medida de voos é divulgada e como os documentos identificados são guardados.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-30",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 9,
+          "subclaim_ordinal": 2
+        },
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 8,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Alcance do que o ensaio informa à decisão pública [1/4 (perspective) mais da m3]",
+      "reviewer": "perspective W9 (parte 2); da m3",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-30"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex",
+        "quote": "Os planos são versionados em repositório, sem pré-registro público"
+      },
+      "confidence": 3,
+      "competence_basis": "comunicação de evidência em vigilância",
+      "corroborating_sources": [
+        {
+          "reviewer": "da m3",
+          "severity": "minor",
+          "evidence_anchor": {
+            "anchor_type": "text",
+            "locator": "secoes/01-introducao.tex, Justificativa",
+            "quote": "a decisão de mantê-la, relaxá-la ou substituí-la"
+          },
+          "confidence": 4,
+          "competence_basis": "leitura direta",
+          "severity_source": "achado menor narrativo do assento da"
+        }
+      ],
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 1, Justificativa"
+      },
+      "consequence_if_unaddressed": {
+        "code": "claim_scope_unsupported",
+        "target": {
+          "kind": "claim",
+          "locator": "o resultado informa a decisão de manter, relaxar ou substituir a lei"
+        }
+      },
+      "target_section": "Cap. 1 (Justificativa); Cap. 5 (Seção sec:regra)",
+      "suggested_action": "Acrescentar à Justificativa uma frase de alcance: o ensaio informa um desfecho, por uma via, em nível municipal, e não mede os demais danos alegados.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A Justificativa delimita o que um resultado sobre o peso ao nascer permite e não permite dizer sobre a política.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-31",
+      "source_refs": [
+        {
+          "seat": "R3",
+          "channel": "finding",
+          "ordinal": 10,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Fontes primárias disponíveis substituídas por secundárias; lei de 2009 sem referência [achado de um assento (1/4)]",
+      "reviewer": "perspective W10",
+      "obligation_class": "should_fix",
+      "sub_claim_ids": [
+        "SC-31"
+      ],
+      "severity": "minor",
+      "evidence_anchor": {
+        "anchor_type": "absence",
+        "locator": "lista de referências (projeto.bbl)",
+        "absence_scope": "entrada para a Lei municipal nº 1.478/2009 de Limoeiro do Norte",
+        "check_performed": "todas as entradas da lista e as citações do Cap. 2, do Cap. 6 e do Apêndice de cronologia"
+      },
+      "confidence": 4,
+      "competence_basis": "conferência direta da lista de referências do manuscrito",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "lista de referências; Apêndice de cronologia"
+      },
+      "consequence_if_unaddressed": {
+        "code": "reader_traceability_reduced",
+        "target": {
+          "kind": "manuscript",
+          "locator": "lista de referências e Quadro qua:cronologia"
+        }
+      },
+      "target_section": "Lista de referências; Apêndice de cronologia; Cap. 2",
+      "suggested_action": "Incluir a lei municipal de 2009 na lista; citar a tramitação oficial para a votação de 2018; apoiar a datação da seca nas séries de precipitação; localizar e registrar o número da ação de 2011.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "A lei municipal de 2009 tem entrada na lista de referências e os eventos apoiados em reportagem trazem a fonte primária quando ela existe.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-32",
+      "source_refs": [
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 1,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "DA C1: a premissa de que os voos voltariam depois da seca [DA-CRITICAL, VALIDATED no núcleo; nenhum dos quatro assentos levantou a premissa como tal; methodology W5 e eic W4 tocam o mesmo fato]",
+      "reviewer": "da C1",
+      "obligation_class": "must_fix",
+      "severity": "critical",
+      "evidence_anchor": {
+        "anchor_type": "text",
+        "locator": "secoes/05-metodologia.tex, seções Interferência e versões do tratamento e Regra de decisão",
+        "quote": "ou não voar desde antes, por causa da seca. O parâmetro, de intenção de tratar, é a média sobre essas versões."
+      },
+      "confidence": 4,
+      "competence_basis": "leitura direta da equação, do quadro de decisão e das ameaças declaradas",
+      "cost_scope": {
+        "kind": "section",
+        "locator": "Cap. 5, seções Parâmetro-alvo, Interferência e versões do tratamento e sec:regra; Apêndice do diagrama"
+      },
+      "consequence_if_unaddressed": {
+        "code": "claim_scope_unsupported",
+        "target": {
+          "kind": "claim",
+          "locator": "β como efeito da lei de 2019 quando os voos cessaram antes dela"
+        }
+      },
+      "target_section": "Cap. 5 (Parâmetro-alvo; Interferência e versões do tratamento; Seção sec:regra e Quadro qua:regra); Apêndice Do diagrama causal às hipóteses; Cap. 7 (A seca)",
+      "suggested_action": "Declarar como hipótese de identificação que, sem a lei, os voos voltariam ao padrão da referência depois da seca, e dizer que evidência a sustentaria (os relatórios pedidos de 2008 a 2024 do Ceará e do Rio Grande do Norte, a que o texto hoje dá papel de cumprimento e de interferência); rever a afirmação de que não voar desde antes é uma versão do tratamento absorvida pela intenção de tratar; acrescentar à regra de decisão o caso voo na referência, nenhum voo nos anos chuvosos imediatamente anteriores à lei, com entrega própria.",
+      "consensus_level": "DA-CRITICAL",
+      "verification_criteria": "A premissa de retorno dos voos consta entre as hipóteses de identificação com a evidência que a sustentaria; a regra de decisão tem linha ou enquadramento para cessação anterior à lei, com entrega declarada; o texto diz que, nesse caso, um coeficiente positivo não distingue o efeito da lei do fim da prática por outra causa.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-33",
+      "source_refs": [
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 5,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "DA M4: a viabilidade do ramo confirmatório não tem número [só o assento da; nenhum dos quatro pediu o número (os quatro dizem que o reparo dispensa dado ou análise nova)]",
+      "reviewer": "da M4",
+      "obligation_class": "should_fix",
+      "severity": "major",
+      "evidence_anchor": {
+        "anchor_type": "absence",
+        "locator": "secoes/05-metodologia.tex, seção Inferência, poder e plano de análise",
+        "absence_scope": "valor numérico do efeito mínimo detectável com dados anteriores à lei e a grade de frações expostas",
+        "check_performed": "resumo, capítulos 1 a 8, quadro de decisão e apêndices"
+      },
+      "confidence": 3,
+      "competence_basis": "a ausência é verificável; o juízo sobre qual ramo é provável é inferência do assento a partir das premissas do texto",
+      "cost_scope": {
+        "kind": "re_analysis",
+        "locator": "efeito mínimo detectável com dados anteriores à lei (Cap. 5, parágrafo de poder)"
+      },
+      "consequence_if_unaddressed": {
+        "code": "evidence_gap_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "viabilidade do ramo confirmatório da regra de decisão"
+        }
+      },
+      "target_section": "Cap. 5, Inferência, poder e plano de análise",
+      "suggested_action": "Reportar o efeito mínimo detectável calculado só com dados anteriores à lei, ao lado da grade de frações expostas. A parte da grade já está em REV-03.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "O texto traz o efeito mínimo detectável calculado com dados anteriores à lei, ou o autor registra na triagem por que o número não entra neste documento.",
+      "proposed_targets": []
+    },
+    {
+      "id": "REV-34",
+      "source_refs": [
+        {
+          "seat": "DA",
+          "channel": "finding",
+          "ordinal": 9,
+          "subclaim_ordinal": 0
+        }
+      ],
+      "description": "Equação da atenuação apresentada e declarada inaplicável [só o assento da]",
+      "reviewer": "da m4",
+      "obligation_class": "consider",
+      "severity": "minor",
+      "severity_source": "achado menor narrativo do assento da; âncora tipada montada pela síntese a partir do objeto que o achado nomeia",
+      "evidence_anchor": {
+        "anchor_type": "equation",
+        "locator": "Eq. eq:atenuacao (secoes/05-metodologia.tex, Análises secundárias e triangulação)"
+      },
+      "confidence": 3,
+      "competence_basis": "o assento não conferiu o resultado citado",
+      "cost_scope": {
+        "kind": "sentence",
+        "locator": "Cap. 5, Análises secundárias e triangulação, Eq. eq:atenuacao"
+      },
+      "consequence_if_unaddressed": {
+        "code": "interpretive_ambiguity_remains",
+        "target": {
+          "kind": "claim",
+          "locator": "papel da equação θ = VPP × ATT no argumento"
+        }
+      },
+      "target_section": "Cap. 5, Análises secundárias e triangulação",
+      "suggested_action": "Dar função à equação no argumento ou retirá-la.",
+      "consensus_level": "SINGLE-VERIFIER",
+      "verification_criteria": "Sem critério de aceitação próprio (consider).",
+      "proposed_targets": []
+    }
+  ],
+  "total_items": 34,
+  "obligation_counts": {
+    "must_fix": 9,
+    "should_fix": 20,
+    "consider": 5
+  },
+  "editorial_decision": "Major Revision",
+  "consensus_summary": "Decisão mecânica do contrato reviewer/reviewer_full/v2: F2 disparou (D1, D3 e D6 em block, todos repairable), logo major_revision. Dois pontos atingem consenso de três dos quatro assentos sem o DA: o portão de poder da regra de decisão (REV-03) e os casos sem linha na regra (REV-04). O CRITICAL do Devil's Advocate (C1, REV-32) foi validado no núcleo. Todos os nove itens must_fix se reparam por reescrita e por compromissos de pré-especificação, sem dado novo.",
+  "dissenting_opinions": [
+    "Recomendação geral: eic e methodology sinalizam Major Revision; domain e perspective sinalizam Minor Revision. A decisão vem do motor do contrato, não de média.",
+    "Gravidade das rodadas exploratórias (REV-07): methodology trata como Major e gatilho do bloqueio em D1; eic e perspective tratam os aspectos que levantam como Minor, e eic conta a franqueza como ponto forte (S3).",
+    "Diagnósticos de identificação (REV-12): da M3 pede consequência declarada na regra; methodology W7 pede relato conjunto e desaconselha o portão.",
+    "Direção do viés do efeito plausível (REV-03): domain W1 diz que as ressalvas puxam em sentidos opostos e que o texto não diz qual domina; da M2 diz que tudo empurra para baixo; methodology W2 lista só descontos.",
+    "Número do efeito mínimo detectável (REV-33): da M4 pede o valor calculado já no projeto; eic, methodology, domain e perspective declaram que o reparo dispensa dado ou análise nova."
+  ]
+}
