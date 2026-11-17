@@ -1,0 +1,152 @@
+\chapter{Plano de análise}
+\label{ap:plano}
+
+Este apêndice detalha cinco pontos que o corpo do projeto apenas enuncia. Nada
+aqui é resultado: são regras e estruturas a fixar antes do contato com os dados
+posteriores a 2019.
+
+\section{Registros da aplicação aérea: cobertura e classificação}
+
+\textbf{Função de cada fonte.} Os relatórios mensais de operadores ao
+Ministério da Agricultura informam a aplicação declarada pelo operador. O
+receituário agronômico informa a modalidade prescrita e não comprova, sozinho, a
+aplicação realizada. Autos e licenças do órgão ambiental estadual informam
+fiscalização. O Censo Agropecuário de 2006 serve à caracterização histórica e
+não classifica município e mês de 2010 a 2018.
+
+\textbf{Etapa de viabilidade.} Antes de qualquer regra de decisão, verifica-se o
+que cada órgão entregou: período coberto, operadores e municípios presentes,
+meses sem documento, e se a ausência de documento é declarada pelo órgão como
+ausência de atividade ou como falta de arquivo.
+
+\textbf{Classificação.} Cada município e mês recebe uma de três categorias:
+\emph{voo}, quando há aplicação aérea registrada em ao menos uma fonte;
+\emph{sem voo}, apenas quando a ausência é sustentada por cobertura suficiente,
+isto é, a fonte cobre o período e os operadores que atuavam na região e não
+registra aplicação; e \emph{sem registro}, em todos os demais casos. Lacuna não
+é zero. Aplicação intermitente é descrita como tal, pela proporção de meses da
+estação de aplicação com voo em cada ano, e não reduzida a uma data de
+cessação. Divergência entre fontes é reportada, e não resolvida em favor de uma
+delas.
+
+\textbf{Regra.} ``Cessação anterior sem retomada'' exige a categoria \emph{sem
+voo} em todas as estações de aplicação de um ano em diante até 2018. Os
+critérios de cobertura suficiente são fixados depois da etapa de viabilidade e
+antes da leitura do conteúdo dos registros por município.
+
+\textbf{Estudo complementar.} Se a cessação anterior for documentada, um estudo
+da interrupção teria objeto distinto, a interrupção e não a lei, e
+identificação própria: partilhar o clima não garante que a seca tenha afetado
+de modo igual a produção, o emprego e a renda dos dois lados, que são caminhos
+concorrentes da Figura~\ref{fig:dag}. Esse estudo não substitui a avaliação da
+Lei nº~16.820/2019.
+
+\section{Grupo de comparação}
+
+A delimitação proposta para a Região Integrada de Desenvolvimento é ponto de
+partida, por ser uma lista externa ao pesquisador. A lista final de controles é
+justificada por critérios territoriais e produtivos, fixados antes dos
+desfechos: pertencer à mesma chapada ou ao seu entorno imediato; e
+características de linha de base (população, urbanização, estrutura agrária,
+presença de fruticultura irrigada, rede de saúde). Reporta-se a tabela de
+equilíbrio de linha de base entre tratados e controles e uma versão do
+contraste restrita aos municípios potiguares com fruticultura irrigada, mais
+expostos aos mesmos choques econômicos e fitossanitários do setor. Quando os
+registros permitirem, as localidades são classificadas pelo grau de exposição
+documentado, e não só pelo estado.
+
+\section{Inferência: o que será verificado}
+
+A unidade é o município. Mais nascimentos tornam mais precisa a média
+municipal, e não acrescentam realizações independentes de choques municipais ou
+estaduais. Se o erro tem um componente comum aos municípios de cada estado,
+$u_{it} = a_{s(i),t} + e_{it}$, o contraste entre Ceará e Rio Grande do Norte
+carrega a diferença entre os componentes estaduais, e placebos formados só entre
+municípios potiguares a cancelam.
+
+Três objetos são tratados em separado: os $ATT(t)$ trimestrais, o efeito
+agregado do pós-período e, se usadas, as bandas simultâneas. Cada procedimento
+candidato é examinado para o mesmo parâmetro da Seção~\ref{sec:avaliacao}, com a
+mesma ponderação por nascimentos e a mesma estrutura temporal, quanto a: como os
+controles representam a distribuição dos choques dos tratados; que diferenças
+de variância admite; como trata dependência serial e entre municípios; e se é
+compatível com a versão duplamente robusta e com covariáveis.
+
+Os exercícios no pré-período atribuem intervenções fictícias preservando as
+trajetórias municipais, o porte dos municípios e uma dependência territorial
+plausível, sem permutar observações isoladas. São diagnóstico de calibração, e
+não validação das hipóteses: bom desempenho entre controles potiguares não
+elimina a possibilidade de um choque diferencial entre os estados. Se essa
+fonte de incerteza não puder ser representada pelos dados de controle, os
+intervalos são apresentados como condicionais a uma restrição explícita sobre
+ela, ou acompanhados de sensibilidade a cenários de choque estadual. A mesma
+estrutura serve para simular o poder dos parâmetros efetivamente estimados.
+
+\section{Cenários de exposição e efeito mínimo detectável}
+
+O efeito municipal hipotético é o produto da fração de nascimentos expostos pelo
+efeito por nascimento exposto, que por sua vez depende da intensidade e da
+duração da exposição. Mudar essas hipóteses altera o efeito do cenário, e não o
+efeito mínimo detectável, que depende apenas dos tamanhos amostrais e dos
+parâmetros de variância. A Tabela~\ref{tab:cenarios} compara os efeitos de
+cenário com os mesmos limites da Tabela~\ref{tab:emd}.
+
+\begin{table}[ht]
+\centering\small
+\caption{Efeito municipal hipotético sobre o peso ao nascer, por cenário (gramas)}
+\label{tab:cenarios}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{Efeito por nascimento exposto} \\
+\cmidrule(l){2-4}
+Fração de nascimentos expostos & 40 g & 80 g & 160 g \\
+\midrule
+0,8\% & 0,3 & 0,6 & 1,2 \\
+1,4\% & 0,6 & 1,2 & 2,3 \\
+2,8\% & 1,1 & 2,2 & 4,5 \\
+5\%   & 2,0 & 4,0 & 8,0 \\
+10\%  & 4,0 & 8,0 & 16,0 \\
+25\%  & 10,0 & 20,0 & 40,0 \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria. O valor de 80 gramas é o de
+\citeonline{calzada2023bananas}; 40 e 160 gramas são hipóteses, a metade e o
+dobro. As frações de 0,8\% a 2,8\% vêm da Seção~\ref{sec:poder}; as demais são
+hipóteses. Limites inferiores do efeito mínimo detectável, inalterados: 23,9 e
+18,0 gramas (nove anos de base) e 49,0 e 36,9 gramas (um ano de base).}
+\end{table}
+
+Com 80 gramas por nascimento exposto, o efeito de cenário só alcança o menor
+limite, de 18,0 gramas, se a fração exposta passar de 22\%. A grade não fixa um
+teto para o efeito total da lei: o estudo equatoriano não distingue gradientes
+além de 150 metros naquele contexto, o que não determina o alcance da deriva
+para outras substâncias e condições, e a razão entre nascimentos expostos e área
+plantada no Equador não determina a da Chapada. A fração exposta local é objeto
+de medida.
+
+\section{Estrutura do custo-benefício parcial}
+
+\textbf{Perspectiva, contrafactual e horizonte.} A análise é feita da
+perspectiva social, contra a situação sem a lei, no horizonte do pós-período
+observado.
+
+\textbf{Benefícios diretamente valoráveis.} Intoxicações e internações evitadas,
+valoradas pelo custo da doença. Cada episódio é contado uma vez: a internação
+que decorre de uma intoxicação notificada não se soma a ela.
+
+\textbf{Peso ao nascer.} Um ganho em gramas só tem valor monetário por meio de
+uma função em três elos: da variação do peso para a frequência de consequências
+clínicas (baixo peso, prematuridade, internação neonatal); dessas consequências
+para custos de tratamento e perdas futuras; e desses custos para valores
+evitados. Cada elo exige parâmetros externos, com fonte e incerteza declaradas.
+Sem essa calibração não há limiar em gramas calculável, e a pergunta invertida
+não é apresentada.
+
+\textbf{Custos.} O custo real é a diferença de custo entre as tecnologias de
+aplicação. Variações de produção bruta e de emprego não equivalem a perda de
+excedente social: são reportadas à parte, como efeitos distributivos e
+ocupacionais, e não se somam ao custo de substituição, para não contar duas
+vezes o mesmo ajuste.
+
+\textbf{Incerteza.} Os intervalos do primeiro ensaio são propagados aos
+resultados, e cada parâmetro de cenário é apresentado com a sua faixa.
