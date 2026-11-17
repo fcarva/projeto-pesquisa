@@ -1,0 +1,98 @@
+\chapter{Contexto: a lei e a Chapada do Apodi}
+\label{sec:politica}
+
+A Lei Estadual nº~16.820, de 8 de janeiro de 2019, acrescentou o art.~28-B à lei
+cearense de agrotóxicos (Lei nº~12.228/1993) e vedou a pulverização aérea de
+agrotóxicos na agricultura em todo o estado. Entrou em vigor na publicação, em 9
+de janeiro. O projeto que a originou foi apresentado em fevereiro de 2015 e
+aprovado em dezembro de 2018. Em maio de 2023 o Supremo Tribunal Federal julgou
+a lei constitucional (ADI 6137), e em 19 de dezembro de 2024 a Lei nº~19.135
+abriu exceção para a aplicação por drones. A lei é estadual e simultânea: não
+há adoção escalonada, e a variação que identifica o efeito vem da fronteira com
+um estado que não proibiu. O Rio Grande do Norte permaneceu sob o regime
+federal; não se localizou lei estadual potiguar de proibição.
+
+A Chapada do Apodi é um planalto na divisa entre os dois estados. Do lado
+cearense, o Perímetro Irrigado Jaguaribe--Apodi, em Limoeiro do Norte e
+Quixeré, concentrou a partir dos anos 2000 a fruticultura de exportação. O
+avião servia à banana, contra a sigatoka, com aplicações na quadra chuvosa. A
+calda era de cerca de 25 litros por hectare, e os produtos eram fungicidas,
+entre eles difenoconazol, propiconazol e tebuconazol
+\cite[p.~526]{teixeira2011rebulico}. O químico, portanto, não é o glifosato
+que domina a literatura econômica. Sobre a escala, o trabalho de campo de 2009
+observou um contrato de 1.000 hectares, dos quais 820 de duas empresas e 180 de
+vinte pequenos produtores parceiros \cite[p.~171]{marinho2011dimensao}.
+
+O Censo Agropecuário de 2006 dá a linha de base por município
+(Tabela~\ref{tab:censo}). Dos 36 estabelecimentos cearenses que declararam
+aplicação por aeronave, 27 estavam em Limoeiro do Norte e Quixeré, a maioria
+não familiares. O avião não aparece no lado potiguar da Chapada.
+
+\begin{table}[ht]
+\centering\small
+\caption{Estabelecimentos que usaram agrotóxico, por equipamento de aplicação,
+2006}
+\label{tab:censo}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{Por aeronave} & Tração & \\
+\cmidrule(lr){2-4}
+Município & Total & Não familiar & Familiar & mecânica & Costal \\
+\midrule
+Limoeiro do Norte (CE) & 18 & 14 & 4 & 56 & 871 \\
+Quixeré (CE)           &  9 &  8 & 1 & 15 & 506 \\
+Jaguaruana (CE)        &  1 &  1 & 0 &  9 & 959 \\
+Russas (CE)            &  0 &  0 & 0 & 18 & 2.020 \\
+Apodi (RN)             &  0 &  0 & 0 & 30 & 1.503 \\
+Baraúna (RN)           &  0 &  0 & 0 & 107 & 418 \\
+Mossoró (RN)           &  0 &  0 & 0 & 15 & 546 \\
+\midrule
+Ceará, total           & 36 & 24 & 12 & & \\
+Rio Grande do Norte, total & 5 & 0 & 5 & & \\
+\bottomrule
+\end{tabular}
+\fonte{IBGE, Censo Agropecuário 2006, tabela SIDRA 2069, extraída em 16/11/2026. Um estabelecimento pode declarar mais de um equipamento. O Censo de 2017 não repetiu a pergunta.}
+\end{table}
+
+\section{O que não se sabe sobre os anos anteriores à lei}
+\label{sec:quando}
+
+A pulverização aérea na Chapada está documentada com medida até 2010
+(Figura~\ref{fig:linha}). Para os anos seguintes há relatos, que não concordam
+entre si. Uma entrevistada de \citeonline[p.~115]{aguiar2017} referiu-se à
+prática, em 2017, como coisa de alguns anos antes, e a região atravessou uma
+seca de 2012 a 2017. Em sentido contrário, outras entrevistadas do mesmo estudo
+relatam episódios até 2014, e o parecer técnico entregue à Assembleia em 2016
+afirma, no presente, que a pulverização aérea ocorre em Limoeiro do Norte,
+Quixeré e Russas \cite{tramas2016parecer}.
+
+\begin{figure}[ht]
+\centering
+\caption{Linha do tempo da pulverização aérea na Chapada do Apodi cearense}
+\label{fig:linha}
+\begin{tikzpicture}[x=0.56cm, y=1cm, >=Stealth, every node/.style={font=\footnotesize}]
+  % eixo: 2000 = 0 ... 2025 = 25
+  \fill[gray!45] (0,0) rectangle (12,0.5);
+  \fill[gray!18] (12,0) rectangle (19,0.5);
+  \fill[white]   (19,0) rectangle (25,0.5);
+  \draw (0,0) rectangle (25,0.5);
+  \draw (12,0) -- (12,0.5); \draw (19,0) -- (19,0.5);
+  \node at (6,0.25) {aplicação aérea documentada};
+  \node at (15.5,0.25) {seca; registros a obter};
+  \node at (22,0.25) {proibição};
+  \foreach \a/\x in {2000/0,2005/5,2010/10,2015/15,2020/20,2025/25}
+    {\draw (\x,0) -- (\x,-0.12); \node[below] at (\x,-0.12) {\a};}
+  \draw[->] (9.9,1.25) -- (9.9,0.55);   \node[above, align=center] at (9.9,1.25) {lei municipal\\(2009--2010)};
+  \draw[->] (15.15,1.25) -- (15.15,0.55); \node[above, align=center] at (15.15,1.25) {projeto de lei\\(2015)};
+  \draw[->] (19.02,1.25) -- (19.02,0.55); \node[above, align=center] at (19.3,1.25) {Lei 16.820\\(2019)};
+  \draw[->] (24.97,1.25) -- (24.97,0.55); \node[above, align=center] at (24.2,1.25) {drones\\(12/2024)};
+\end{tikzpicture}
+\fonte{Elaboração própria, com base nas fontes citadas nesta seção.}
+\end{figure}
+
+Medir o que havia é parte do projeto. A norma federal prevê relatório mensal
+dos operadores aeroagrícolas ao Ministério da Agricultura \cite{olivete2025}, e
+o receituário agronômico registra a modalidade de aplicação. O projeto solicita
+esses registros pela Lei de Acesso à Informação. Se mostrarem que o avião já
+não voava desde 2012, o contraste informativo deixa de ser o de 2019 e passa a
+ser o de 2012 (Seção~\ref{sec:robustez}).

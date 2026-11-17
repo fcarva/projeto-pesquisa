@@ -53,4 +53,5 @@ renv/staging/
 *.toc
 paper/*.log
 paper/main.pdf
+paper/*.zip
 .gstack/
