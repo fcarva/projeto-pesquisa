@@ -45,3 +45,15 @@ Alvarez e Ferman, de que a versão duplamente robusta perde essa propriedade com
 poucos tratados, o que toca a especificação fixada; (iii) citar ou não as
 referências novas (só entram depois de registro + conteúdo no padrão do
 projeto).
+
+---
+
+## Comentários do pesquisador no PDF (2026-11-17)
+
+| Comentário | O que mudou | Local |
+|---|---|---|
+| Resumo: retirar a frase sobre o tamanho do efeito e os 150 m | Frase retirada; ficou "delimita, com o cálculo de poder, o que o desenho é capaz de detectar" | `00-resumo.tex` |
+| Gancho fraco: explicitar a Chapada, a fruticultura de exportação, a pulverização, a morte do agricultor | Dois parágrafos novos: lugar e prática (perímetro irrigado, voos programados, relato de 2007, água contaminada); assassinato de Zé Maria e a lei | `01-introducao.tex`, abertura |
+| Parágrafo da proibição fraco: usar as referências do repositório | Trajetória da lei com fonte: projeto de 2015 e sua justificativa, unanimidade em 2018, STF em 2023, drones em 2024, previsão de perda da empresa | `01-introducao.tex`, 3º parágrafo; `02-contexto.tex` enxugado |
+
+Referência nova: Projeto de Lei nº 18/2015 (texto oficial, lido na íntegra).

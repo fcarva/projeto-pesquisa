@@ -8,7 +8,7 @@ reescrito ou sai.
 
 A conferência foi feita sobre a versão longa (`paper/arquivo-v2-longo/`, 32
 chaves); nenhuma foi reprovada no registro. A versão final (`paper/secoes/`)
-cita **22 chaves**, todas abaixo. `paper/referencias.bib` contém só essas.
+cita **23 chaves**, todas abaixo. `paper/referencias.bib` contém só essas.
 
 ## Referências citadas na versão final
 
@@ -24,6 +24,7 @@ cita **22 chaves**, todas abaixo. `paper/referencias.bib` contém só essas.
 | ferman2019few | Crossref | resumo oficial | passa | — |
 | januzzi2025 | folha de rosto e Crossref | texto integral | passa | as duas frases que a dissertação não sustenta estavam só na versão longa e não entraram |
 | marinho2011dimensao | sumário e abertura do capítulo | texto integral (p. 169–174) | passa, com reescrita | o cronograma de 5 dias e 29 voos era **programado**, não realizado; o contrato foi informado por técnico e planilha, não "observado"; nomes dos autores como impressos |
+| ceara2015pl18 (Projeto de Lei 18/2015) | página oficial da Assembleia (cópia de 23/08/2026 em `docs/legislacao/pl-18-2015.md`) | texto integral | passa | entrou em 2026-11-17: sustenta a data do projeto, a justificativa (precaução e prevenção) e as 24 amostras de água de 2009 com três a dez ingredientes ativos, que o projeto reproduz do dossiê da ABRASCO |
 | nogueira2016 (Agência Brasil) | página da agência (cópia de 16/11/2026) | texto integral | passa | entrou para sustentar o relato de que não houve aplicações a partir de 2012; substitui "seca de 2012 a 2017", que não tinha fonte citável |
 | olden2022triple | Crossref | resumo oficial | passa | — |
 | olivete2025 | cabeçalho do artigo (sem DOI) | texto integral, trechos | passa | sustenta o relatório mensal, a unanimidade do STF (p. 235), as distâncias mínimas e o Ceará como único estado com lei de proibição no levantamento |
@@ -69,3 +70,8 @@ rigotto2011livro, roth2023trending, soares2012impactos. Todas passaram no
 registro; as correções de conteúdo e de `.bib` pendentes para elas (Gertler:
 título, edição e editora; Gama: região e "utilizados"; Lichtenberg 1988: efeitos
 distributivos) valem se voltarem ao texto.
+
+## Acréscimos de 2026-11-17 (comentários do pesquisador no PDF)
+
+- Gancho e parágrafo da proibição reescritos só com fatos já conferidos: Marinho et al. (p. 169, 171–174), Teixeira (p. 535), Agência Brasil (relato de 2007, citação de Raquel Rigotto) e o PL 18/2015. A regra para drones (2 m da copa, 30 m de escolas e hospitais) vem do texto da Lei 19.135/2024.
+- A ADI 7794 não foi mencionada: a petição não foi obtida.
