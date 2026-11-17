@@ -11,11 +11,14 @@
 %
 % Compilar:  latexmk -pdf -interaction=nonstopmode -cd paper/main.tex
 % =====================================================================
-\documentclass[12pt,a4paper,oneside,english,brazil]{abntex2}
+\documentclass[12pt,a4paper,oneside,english,brazil,
+  chapter=TITLE,section=TITLE,        % seções primária e secundária em caixa alta
+  sumario=abnt-6027-2012]{abntex2}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{mathptmx}                 % Times
+\usepackage{helvet}                   % Arial/Helvetica 12: preferência do guia da UFES
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{amsmath,amssymb}
 \usepackage{indentfirst}
 \usepackage{booktabs}
@@ -24,6 +27,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
 \usepackage{enumitem}
+\usepackage{etoolbox}
 \usepackage[alf,abnt-emphasize=bf,abnt-etal-list=3]{abntex2cite}
 
 \setlist{itemsep=2pt,topsep=4pt}
@@ -40,7 +44,7 @@
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
 % --- Dados do trabalho -------------------------------------------------
-\titulo{A proibição da pulverização aérea de agrotóxicos no Ceará:\\
+\titulo{A proibição da pulverização aérea\\ de agrotóxicos no Ceará:\\
         avaliação de impacto sobre a saúde ao nascer}
 \autor{Felipe Carvalho Souza Santos}
 \local{Vitória}
@@ -51,14 +55,46 @@
   \par Centro de Ciências Jurídicas e Econômicas
   \par Programa de Pós-Graduação em Economia}
 \tipotrabalho{Projeto de pesquisa}
-\preambulo{Projeto de pesquisa apresentado ao Programa de Pós-Graduação em
-Economia da Universidade Federal do Espírito Santo, como requisito parcial para
-a obtenção do título de Mestre em Economia.}
+\preambulo{Projeto de pesquisa apresentado ao Curso de Mestrado em Economia do
+Programa de Pós-Graduação em Economia da Universidade Federal do Espírito
+Santo, como requisito parcial para avaliação.\par\vspace{\onelineskip}
+Linha de pesquisa: Métodos e Modelos Matemáticos, Econométricos e
+Estatísticos.}
 
 % --- Tipografia e numeração -------------------------------------------
-\renewcommand{\ABNTEXchapterfont}{\rmfamily\bfseries}
+% Guia SIB/UFES (2015, p. 29): primária em caixa alta e negrito; secundária em
+% caixa alta sem negrito; terciária em caixa baixa e negrito; mesma fonte e
+% mesmo corpo do texto.
+\renewcommand{\ABNTEXchapterfont}{\sffamily\bfseries}
+\renewcommand{\ABNTEXchapterfontsize}{\normalsize}
+\renewcommand{\ABNTEXsectionfont}{\sffamily\mdseries}
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsectionfont}{\sffamily\bfseries}
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
 \setsecnumdepth{subsection}     % numera até a seção terciária
 \settocdepth{subsection}        % e o sumário vai até ela
+
+% Sumário com o mesmo destaque do texto: secundária em caixa alta, sem negrito.
+% (aplicado imediatamente antes do \tableofcontents, no corpo do documento)
+
+% --- Folha de rosto: orientador dentro da nota (guia SIB/UFES, p. 70-71) --
+\renewcommand{\folhaderostocontent}{%
+  \begin{center}
+    {\ABNTEXchapterfont\large\MakeUppercase{\imprimirautor}\par}
+    \vspace*{\fill}\vspace*{\fill}
+    {\ABNTEXchapterfont\bfseries\Large\imprimirtitulo\par}
+    \vspace*{\fill}
+    \hspace{.45\textwidth}
+    \begin{minipage}{.5\textwidth}
+      \SingleSpacing
+      \imprimirpreambulo\par\vspace{\onelineskip}
+      Orientador: \imprimirorientador
+    \end{minipage}\par
+    \vspace*{\fill}\vspace*{\fill}
+    {\large\imprimirlocal}\par
+    {\large\imprimirdata}
+    \vspace*{1cm}
+  \end{center}}
 
 % --- Capa com a instituição no alto (NBR 14724) ------------------------
 \renewcommand{\imprimircapa}{%
@@ -70,9 +106,9 @@ a obtenção do título de Mestre em Economia.}
     \vspace*{2.5cm}
     {\ABNTEXchapterfont\large\MakeUppercase{\imprimirautor}\par}
     \vfill
-    {\ABNTEXchapterfont\bfseries\Large\imprimirtitulo}
+    {\ABNTEXchapterfont\bfseries\Large\imprimirtitulo\par}
     \vfill
-    {\large\imprimirlocal}\par
+    {\large\MakeUppercase{\imprimirlocal}}\par
     {\large\imprimirdata}
     \vspace*{1cm}
   \end{capa}}
@@ -97,7 +133,17 @@ a obtenção do título de Mestre em Economia.}
 \input{secoes/00-resumo}
 
 \pdfbookmark[0]{\contentsname}{toc}
+\renewcommand*{\cftsectionfont}{\mdseries}
+\renewcommand*{\cftsectionpagefont}{\mdseries}
+% secundária em caixa alta no sumário: a entrada é convertida ao ser lida
+\begingroup
+\let\ABNTEXoldcontentsline\contentsline
+\renewcommand{\contentsline}[4]{%
+  \ifstrequal{#1}{section}%
+    {\ABNTEXoldcontentsline{#1}{\MakeTextUppercase{#2}}{#3}{#4}}%
+    {\ABNTEXoldcontentsline{#1}{#2}{#3}{#4}}}
 \tableofcontents*
+\endgroup
 \cleardoublepage
 
 \textual
@@ -105,8 +151,8 @@ a obtenção do título de Mestre em Economia.}
 \input{secoes/02-contexto}
 \input{secoes/03-referencial}
 \input{secoes/04-metodologia}
-\input{secoes/05-cronograma}
-\input{secoes/06-consideracoes-finais}
+\input{secoes/05-resultados-esperados}
+\input{secoes/06-cronograma}
 
 \postextual
 \bibliography{referencias}
