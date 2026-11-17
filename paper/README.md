@@ -9,6 +9,11 @@
 > A versão anterior (desenho de dose, com diagnóstico de poder) está em
 > `arquivo-v1/` e o texto abaixo desta nota refere-se a ela.
 >
+> Formato: classe abnTeX2 (NBR 15287, projeto de pesquisa), com capa, folha de
+> rosto, resumo e abstract, listas, sumário, cronograma e apêndice. A introdução
+> segue a fórmula de Head, via Bellemare: gancho, pergunta, antecedentes,
+> contribuição em três frentes, roteiro.
+>
 > Compilar: `latexmk -pdf -interaction=nonstopmode -cd paper/main.tex`.
 > Decisões e fontes: `docs/framework-dissertacao.md`,
 > `docs/dag-identificacao.md`, `docs/pre-especificacao-v2.md`,

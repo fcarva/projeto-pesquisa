@@ -1,4 +1,4 @@
-\section{Proposta de avaliação de impacto}
+\chapter{Proposta de avaliação de impacto}
 \label{sec:avaliacao}
 
 A Tabela~\ref{tab:plano} resume o plano de avaliação.
@@ -17,9 +17,10 @@ A lei custou produção? & Área, produção e valor da banana; emprego formal &
 Para quem? & O efeito é maior onde a agricultura é não familiar? & Diferença tripla & Censo Agropecuário \\
 \bottomrule
 \end{tabularx}
+\fonte{Elaboração própria.}
 \end{table}
 
-\subsection{Parâmetro}
+\section{Parâmetro}
 
 Seja $Y_{it}(1)$ o desfecho do município $i$ no período $t$ sob a lei e
 $Y_{it}(0)$ o desfecho sem ela. Só um dos dois é observado. O parâmetro de
@@ -33,7 +34,7 @@ todos os caminhos da Seção~\ref{sec:caminhos}, e não o efeito de deixar de se
 pulverizado. A conversão para o efeito sobre a gestante exposta é exercício de
 calibração, com a fração exposta declarada como hipótese.
 
-\subsection{Estratégia de identificação}
+\section{Estratégia de identificação}
 
 O contrafactual é construído com os municípios potiguares da Chapada. Um grupo
 de comparação válido precisa ter a mesma tendência, não ser afetado pelo
@@ -73,6 +74,7 @@ Seleção para nascer vivo & Menos perda fetal altera quem nasce & Óbito fetal,
 Registro & Mudanças no formulário do SINASC; cobertura diferente por estado & Efeitos de período; conferência da cobertura nos dois estados \\
 \bottomrule
 \end{tabularx}
+\fonte{Elaboração própria.}
 \end{table}
 
 A fronteira deixa uma ameaça inteiramente aberta. Todos os tratados estão
@@ -81,7 +83,7 @@ lei. A própria lei tem um segundo componente estadual: veda também a dispersã
 aérea para controle de vetores em todo o Ceará. As especificações das Seções~\ref{sec:ddd} e \ref{sec:calendario} existem
 para fechá-la.
 
-\subsection{Estimador}
+\section{Estimador}
 
 O estimador é o de \citeonline{callaway2021multiple}. Com uma única coorte tratada,
 ele se reduz a comparações entre o grupo tratado e o grupo nunca tratado,
@@ -109,9 +111,9 @@ O efeito deve, portanto, crescer ao longo de 2019 e estabilizar a partir das
 concepções daquele ano, com perfil sazonal se a aplicação era sazonal. Um
 efeito que surja inteiro em janeiro, sem rampa, conta contra a leitura causal.
 A previsão fica registrada antes da estimação; dado o poder do desenho
-(Seção~\ref{sec:poder}), serve como verificação descritiva, não como teste.
+(Capítulo~\ref{sec:poder}), serve como verificação descritiva, não como teste.
 
-\subsection{Amostra}
+\section{Amostra}
 
 \paragraph{Tratados.} Municípios cearenses da Chapada do Apodi. O núcleo são
 Limoeiro do Norte e Quixeré, os dois com aplicação por aeronave medida no Censo
@@ -137,7 +139,7 @@ dos municípios é intencional. As listas de municípios são fixadas antes de s
 examinar qualquer desfecho posterior a 2019 no recorte tratado contra
 controle.
 
-\subsection{Dados}
+\section{Dados}
 
 \begin{table}[ht]
 \centering\small
@@ -159,6 +161,7 @@ Composição & Idade, escolaridade e gemelaridade & SINASC & CE parcial; RN a ba
 Heterogeneidade & Participação da agricultura não familiar & Censo Agropecuário 2017 & Obtido \\
 \bottomrule
 \end{tabularx}
+\fonte{Elaboração própria.}
 \end{table}
 
 Os microdados de nascimento e de mortalidade são públicos e anonimizados. As
@@ -169,7 +172,7 @@ capacidade de notificar, que depende de vigilância e de rede hospitalar
 capacidade nos dois lados, usa a internação como segunda medida e trata a
 tentativa de suicídio como desfecho placebo.
 
-\subsection{Diferença tripla}
+\section{Diferença tripla}
 \label{sec:ddd}
 
 Um choque estadual atinge o Ceará inteiro; a lei só importa onde havia avião.
@@ -186,7 +189,7 @@ grupos. A identificação exige uma única hipótese de tendências paralelas, s
 a diferença entre os dois contrastes \cite{olden2022triple}: um choque
 estadual precisa atingir a Chapada e o restante do estado por igual.
 
-\subsection{Desenho de calendário}
+\section{Desenho de calendário}
 \label{sec:calendario}
 
 O avião voava na quadra chuvosa, de fevereiro a maio, e
@@ -205,7 +208,7 @@ currie2013}, e o teste de composição se repete por estação. O ganho desse
 desenho é de identificação; ele não aumenta o efeito esperado, e o seu poder
 será calculado à parte.
 
-\subsection{Heterogeneidade}
+\section{Heterogeneidade}
 
 A lei atinge quem aplicava por avião, e o Censo de 2006 mostra que eram
 sobretudo estabelecimentos não familiares. A previsão é que o efeito se
@@ -214,7 +217,7 @@ amostra pela participação da agricultura não familiar e, na diferença tripla
 com essa participação no lugar da indicadora da Chapada. A medida é municipal e
 não permite afirmações sobre famílias.
 
-\subsection{O que o desenho estima em cada cenário do primeiro estágio}
+\section{O que o desenho estima em cada cenário do primeiro estágio}
 \label{sec:cenarios}
 
 Se o avião voava até 2018, a lei removeu uma exposição em curso e o contraste de
@@ -236,6 +239,7 @@ Lado cearense para em 2012; lado potiguar não voava ou segue voando & 2012, com
 Os dois lados param em 2012 & Calendário anterior a 2012, no lado cearense & Efeito da exposição sazonal \\
 \bottomrule
 \end{tabularx}
+\fonte{Elaboração própria.}
 \end{table}
 
 No segundo cenário a identificação pede uma hipótese adicional e forte: a seca
@@ -247,7 +251,7 @@ a hipótese de que a sazonalidade do peso ao nascer, sem o avião, seria a
 observada em municípios vizinhos. Estimador, data de corte e poder de cada
 cenário serão especificados antes de o registro ser aberto.
 
-\subsection{Inferência}
+\section{Inferência}
 
 Com dois a nove municípios tratados, o erro-padrão agrupado convencional não é
 confiável. A inferência usa os métodos de \citeonline{conley2011} e
@@ -258,7 +262,7 @@ métodos têm baixo poder. A sensibilidade a violações de tendências paralela
 segue \citeonline{rambachan2023credible}. Os desfechos secundários recebem a
 correção de Holm para comparações múltiplas.
 
-\subsection{Validade externa}
+\section{Validade externa}
 
 O resultado vale para a proibição de um método de aplicação em fruticultura
 irrigada de exportação, com fungicidas em banana, numa região semiárida. Não se

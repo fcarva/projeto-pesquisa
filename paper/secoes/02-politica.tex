@@ -1,7 +1,7 @@
-\section{A política}
+\chapter{A política}
 \label{sec:politica}
 
-\subsection{A lei e a sua cronologia}
+\section{A lei e a sua cronologia}
 
 A Lei Estadual nº~16.820, de 8 de janeiro de 2019, acrescentou o art.~28-B à
 lei cearense de agrotóxicos (Lei nº~12.228/1993) e vedou a pulverização aérea de
@@ -27,7 +27,34 @@ Data & Fato \\
 19/12/2024 & A Lei 19.135 abre exceção para a aplicação por drones. \\
 \bottomrule
 \end{tabularx}
+\fonte{Elaboração própria.}
 \end{table}
+
+A Figura~\ref{fig:linha} situa os três regimes que a avaliação distingue.
+
+\begin{figure}[ht]
+\centering
+\caption{Linha do tempo da pulverização aérea na Chapada do Apodi cearense}
+\label{fig:linha}
+\begin{tikzpicture}[x=0.56cm, y=1cm, >=Stealth, every node/.style={font=\footnotesize}]
+  % eixo: 2000 = 0 ... 2025 = 25
+  \fill[gray!45] (0,0) rectangle (12,0.5);
+  \fill[gray!18] (12,0) rectangle (19,0.5);
+  \fill[white]   (19,0) rectangle (25,0.5);
+  \draw (0,0) rectangle (25,0.5);
+  \draw (12,0) -- (12,0.5); \draw (19,0) -- (19,0.5);
+  \node at (6,0.25) {aplicação aérea documentada};
+  \node at (15.5,0.25) {seca; registros a obter};
+  \node at (22,0.25) {proibição};
+  \foreach \a/\x in {2000/0,2005/5,2010/10,2015/15,2020/20,2025/25}
+    {\draw (\x,0) -- (\x,-0.12); \node[below] at (\x,-0.12) {\a};}
+  \draw[->] (9.9,1.25) -- (9.9,0.55);   \node[above, align=center] at (9.9,1.25) {lei municipal\\(2009--2010)};
+  \draw[->] (15.15,1.25) -- (15.15,0.55); \node[above, align=center] at (15.15,1.25) {projeto de lei\\(2015)};
+  \draw[->] (19.02,1.25) -- (19.02,0.55); \node[above, align=center] at (19.3,1.25) {Lei 16.820\\(2019)};
+  \draw[->] (24.97,1.25) -- (24.97,0.55); \node[above, align=center] at (24.2,1.25) {drones\\(12/2024)};
+\end{tikzpicture}
+\fonte{Elaboração própria, com base na Tabela~\ref{tab:cronologia} e nas fontes da Seção~\ref{sec:quando}.}
+\end{figure}
 
 Três traços da cronologia importam para a avaliação. A lei é estadual e
 simultânea: não há adoção escalonada entre municípios, e a variação que
@@ -47,7 +74,7 @@ houve um anúncio federal de proibição na região e uma ação civil pública 
 Ministério Público pedindo a suspensão dos voos; o desfecho de ambos ainda será
 apurado.
 
-\subsection{A Chapada do Apodi e a prática que a lei proibiu}
+\section{A Chapada do Apodi e a prática que a lei proibiu}
 
 A Chapada do Apodi é um planalto calcário na divisa entre o Ceará e o Rio
 Grande do Norte. Do lado cearense, o Perímetro Irrigado Jaguaribe--Apodi, nos
@@ -104,14 +131,11 @@ Mossoró (RN)           &  0 &  0 & 0 & 15 & 546 \\
 Ceará, total           & 36 & 24 & 12 & & \\
 Rio Grande do Norte, total & 5 & 0 & 5 & & \\
 \bottomrule
-\multicolumn{6}{@{}p{0.95\textwidth}@{}}{\footnotesize Fonte: IBGE, Censo
-Agropecuário 2006, tabela SIDRA 2069, extraída em 16/11/2026. Um
-estabelecimento pode declarar mais de um equipamento. O Censo de 2017 não
-repetiu a pergunta.}
 \end{tabular}
+\fonte{IBGE, Censo Agropecuário 2006, tabela SIDRA 2069, extraída em 16/11/2026. Um estabelecimento pode declarar mais de um equipamento. O Censo de 2017 não repetiu a pergunta.}
 \end{table}
 
-\subsection{O que não se sabe sobre os anos anteriores à lei}
+\section{O que não se sabe sobre os anos anteriores à lei}
 \label{sec:quando}
 
 A pulverização aérea na Chapada está documentada com medida até 2010. Para os
@@ -141,7 +165,7 @@ registro será conferido no texto das normas. O projeto os solicita pela Lei de
 Acesso à Informação. A Seção~\ref{sec:cenarios}
 diz o que o desenho estima em cada resposta possível.
 
-\subsection{Fiscalização e o regime no estado vizinho}
+\section{Fiscalização e o regime no estado vizinho}
 
 A norma federal (Instrução Normativa nº~2/2008, art.~10) já impunha distâncias
 mínimas à aplicação aérea: 500 metros de povoações e 250 metros de mananciais. A literatura da Chapada descreve o

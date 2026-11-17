@@ -1,17 +1,21 @@
-\section{Introdução}
+\chapter{Introdução}
 \label{sec:introducao}
+
+% Fórmula de Head, via Bellemare: gancho, pergunta, antecedentes,
+% contribuição, roteiro. Os elementos que a NBR 15287 pede a um projeto
+% (objetivos, hipóteses, justificativa) vêm em seções próprias, depois.
 
 Em fevereiro de 2009, uma empresa de aviação agrícola foi contratada para
 pulverizar mil hectares de bananais na Chapada do Apodi, no Ceará. A primeira
 aplicação daquele ano tomou cinco dias e vinte e nove voos, com o avião
-decolando pela manhã e no fim da tarde do campo de pouso da Chapada \cite[p.~171--173]{marinho2011dimensao}. Moradores
-descreviam galinhas mortas no quintal e roupas no varal com cheiro de
-veneno.\footnote{Relato da pesquisadora Raquel Rigotto e de uma moradora da
-comunidade do Tomé à Agência Brasil, 16 de julho de 2016.} No
-ano seguinte, o líder comunitário que fotografava os voos, José Maria Filho, o
-Zé Maria do Tomé, foi assassinado. Em janeiro de 2019, a lei estadual que leva o
-seu nome proibiu a pulverização aérea de agrotóxicos em todo o Ceará, e o
-estado se tornou o primeiro do país a fazê-lo.
+decolando pela manhã e no fim da tarde do campo de pouso da Chapada
+\cite[p.~171--173]{marinho2011dimensao}. Moradores descreviam galinhas mortas no
+quintal e roupas no varal com cheiro de veneno.\footnote{Relato da pesquisadora
+Raquel Rigotto e de uma moradora da comunidade do Tomé à Agência Brasil, 16 de
+julho de 2016.} No ano seguinte, o líder comunitário que fotografava os voos,
+José Maria Filho, o Zé Maria do Tomé, foi assassinado. Em janeiro de 2019, a lei
+estadual que leva o seu nome proibiu a pulverização aérea de agrotóxicos em
+todo o Ceará, e o estado se tornou o primeiro do país a fazê-lo.
 
 A proibição é uma política pública com objetivo declarado de saúde, e não foi
 avaliada. Sabe-se que foi aprovada, que o Supremo Tribunal Federal a julgou
@@ -21,49 +25,139 @@ bananais, nem o que custou à produção. Os dois lados do debate oferecem núme
 sem grupo de comparação: produtores falam em queda de produção, defensores da
 lei mostram que a produção estadual de banana subiu.
 
-\paragraph{Pergunta.} A proibição da pulverização aérea de agrotóxicos no Ceará
-melhorou a saúde ao nascer nos municípios da Chapada do Apodi, e a que custo
-para a produção agrícola?
+\section{Pergunta de pesquisa}
 
-\paragraph{O que se sabe.} A literatura sobre a Chapada documenta o dano há
-quinze anos, sem identificação causal: resíduos de fungicidas em águas
-subterrâneas \cite{tramas2016parecer}, taxas de internação e morte por
-neoplasia mais altas que em municípios de agricultura familiar
-\cite{rigotto2013trends}, e casos de malformação
-congênita em uma comunidade de dois mil e quinhentos habitantes
-\cite{aguiar2017}. A economia brasileira de agrotóxicos tem um estudo de
-referência com identificação crível, sobre glifosato em soja e mortalidade
-infantil \cite{dias2023down}, e duas tentativas recentes de medir efeitos em
-escala nacional com proxies municipais de uso \cite{rodrigues2022tese,
-januzzi2025}. Essas proxies não distinguem método de aplicação e não enxergam a
-fruticultura irrigada; a segunda não encontra efeito sobre nascimentos. O
-análogo internacional mais próximo é o estudo de \citeonline{calzada2023bananas}
-sobre a fumigação aérea de bananais no Equador, que encontra déficit de peso ao
-nascer entre filhos de mães que moram a até 150 metros das plantações.
+A proibição da pulverização aérea de agrotóxicos no Ceará melhorou a saúde ao
+nascer nos municípios da Chapada do Apodi, e a que custo para a produção
+agrícola?
 
-\paragraph{Contribuição.} O projeto oferece três coisas a essa literatura. A
-primeira é a avaliação de uma \emph{política}: uma mudança datada no método de
-aplicação, e não uma variação de uso inferida de área plantada. A segunda é um
-grupo de comparação natural: a Chapada do Apodi atravessa a divisa com o Rio
-Grande do Norte, que não proibiu. A terceira é a medida do que a lei removeu.
-A norma federal obriga os operadores aeroagrícolas a entregar relatórios
-mensais ao Ministério da Agricultura, e o receituário agronômico deve registrar
-a modalidade de aplicação. Não se localizou trabalho que tenha usado esses
-registros; o projeto os solicita pela Lei de Acesso à Informação.
+\section{Antecedentes}
 
-\paragraph{O que o projeto não promete.} A exposição era localizada, em torno de
-mil hectares, e os dados de nascimento são municipais. O cálculo de poder da
-Seção~\ref{sec:poder} mostra que o efeito esperado sobre o peso médio municipal
-é de um a dois gramas no caso central, muito abaixo do que o desenho principal
-detecta. O plano responde a esse limite de três modos: um desenho de calendário,
-que compara gestações que atravessam ou não a estação de pulverização;
-desfechos de perda fetal; e a regra, fixada antes de estimar, de que o
-resultado é o intervalo de confiança e o que ele exclui.
+Três conjuntos de trabalhos estão mais próximos desta pergunta.
 
-\paragraph{Organização.} A Seção~\ref{sec:politica} caracteriza a política. A
-Seção~\ref{sec:literatura} revê a literatura. A Seção~\ref{sec:desenho} avalia o
-desenho da política por sua teoria da mudança. A Seção~\ref{sec:avaliacao}
-propõe a avaliação de impacto: parâmetro, grafo causal, estimador, amostra e
-dados. A Seção~\ref{sec:poder} traz o cálculo de poder. A
-Seção~\ref{sec:cb} esboça o segundo ensaio, de custo-benefício e escolha de
-instrumento. A Seção~\ref{sec:conclusao} conclui com limitações, etapas e declarações.
+O primeiro documenta o dano na própria Chapada, sem identificação causal.
+Resíduos de fungicidas foram medidos em águas subterrâneas
+\cite{tramas2016parecer}. \citeonline{rigotto2013trends} encontram taxas de
+internação e de morte por neoplasia mais altas nos municípios da fruticultura
+do que em municípios de agricultura familiar. \citeonline{aguiar2017} descreve
+casos de malformação congênita em uma comunidade de dois mil e quinhentos
+habitantes.
+
+O segundo é a economia brasileira dos agrotóxicos. \citeonline{dias2023down}
+mostram, com identificação crível, que a expansão do glifosato na soja elevou a
+mortalidade infantil a jusante das áreas de uso. \citeonline{rodrigues2022tese}
+e \citeonline{januzzi2025} tentam medir efeitos em escala nacional com proxies
+municipais de uso; essas proxies não distinguem o método de aplicação e não
+enxergam a fruticultura irrigada, e a segunda autora não encontra efeito sobre
+nascimentos.
+
+O terceiro é o análogo internacional. \citeonline{calzada2023bananas} estudam a
+fumigação aérea de bananais no Equador e encontram déficit de peso ao nascer
+entre filhos de mães que moram a até 150 metros das plantações.
+\citeonline{camacho2017health} encontram aumento de perdas gestacionais com a
+aspersão aérea de herbicida na Colômbia.
+
+Nenhum desses trabalhos avalia uma política que tenha retirado a aplicação
+aérea.
+
+\section{Contribuição}
+
+O projeto contribui em três frentes.
+
+\begin{enumerate}
+\item \textbf{Identificação.} A variação vem de uma lei com data e fronteira, e
+não de diferenças de uso inferidas de área plantada. A Chapada do Apodi
+atravessa a divisa com o Rio Grande do Norte, que não proibiu, o que fornece um
+grupo de comparação com o mesmo clima e o mesmo aquífero.
+\item \textbf{Objeto e dados.} Avalia-se a proibição de um \emph{método} de
+aplicação, em fruticultura irrigada, com fungicidas: um caso que a literatura
+brasileira, centrada em herbicida e grãos, não cobre. E o projeto reúne, por
+pedidos de acesso à informação, os registros administrativos da aplicação aérea
+nos anos anteriores à lei.
+\item \textbf{Mecanismo.} A teoria da mudança da lei é testada elo a elo: se os
+voos cessaram, o que os substituiu, o que aconteceu com as intoxicações de
+trabalhadores, com a produção e com a perda fetal. O efeito sobre o nascimento
+só é atribuído à redução da deriva depois de examinados os caminhos
+concorrentes.
+\end{enumerate}
+
+O projeto também delimita o que não promete. A exposição era localizada, em
+torno de mil hectares, e os dados de nascimento são municipais. O cálculo de
+poder do Capítulo~\ref{sec:poder} mostra que o efeito esperado sobre o peso
+médio municipal é de um a dois gramas no caso central, muito abaixo do que o
+desenho principal detecta. O plano responde a esse limite com um desenho de
+calendário, com desfechos de perda fetal e com a regra, fixada antes de
+estimar, de que o resultado é o intervalo de confiança e o que ele exclui.
+
+\section{Objetivos}
+
+\subsection{Objetivo geral}
+
+Avaliar o impacto da proibição da pulverização aérea de agrotóxicos no Ceará
+(Lei nº~16.820/2019) sobre a saúde ao nascer nos municípios da Chapada do
+Apodi.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}[label=\alph*)]
+\item caracterizar a política e reconstruir a sua teoria da mudança;
+\item medir, com registros administrativos, a extensão da aplicação aérea nos
+anos anteriores à lei;
+\item estimar o efeito da lei sobre o peso ao nascer, a duração da gestação e a
+perda fetal, comparando os dois lados da Chapada;
+\item verificar os caminhos concorrentes: substituição de tecnologia de
+aplicação, intoxicações de trabalhadores, produção e emprego;
+\item examinar se o efeito difere entre municípios de agricultura familiar e não
+familiar;
+\item comparar benefícios e custos da proibição e discutir a escolha do
+instrumento.
+\end{enumerate}
+
+\section{Hipóteses}
+
+\begin{description}
+\item[H1] A proibição melhorou os desfechos de nascimento nos municípios
+cearenses da Chapada, em relação aos potiguares.
+\item[H2] O efeito, se existir, concentra-se nas gestações que atravessam a
+estação de aplicação e nos municípios em que a agricultura não familiar aplicava
+por aeronave.
+\item[H3] A substituição do avião pela aplicação terrestre não reduziu, e pode
+ter elevado, as intoxicações de trabalhadores.
+\item[H4] O custo da proibição em área e produção de banana foi pequeno.
+\end{description}
+
+As hipóteses H1 e H2 só se testam com sentido se a aplicação aérea estava em
+curso quando a lei entrou em vigor. Essa premissa é objeto de medida, e não de
+suposição (Seção~\ref{sec:quando}).
+
+\section{Justificativa}
+
+A avaliação se justifica pelos critérios usuais para decidir quando avaliar uma
+política \cite{gertler2016}. A política é inovadora: o Ceará foi o primeiro
+estado a proibir. É replicável: o Supremo Tribunal Federal reconheceu a
+competência estadual para legislar sobre a matéria. Não foi testada: os números
+em circulação não têm grupo de comparação. E o próprio legislador a reviu em
+2024, ao admitir drones, sem evidência sobre o que os cinco anos anteriores
+produziram.
+
+Há também uma razão de método. A evidência brasileira sobre agrotóxicos e
+saúde apoia-se em medidas indiretas de uso. Uma lei que retira um método de
+aplicação, numa região onde o dano foi descrito por quinze anos, com um vizinho
+que não a adotou, é uma oportunidade rara de observar o efeito de uma mudança
+datada.
+
+O projeto é viável. Os dados de nascimento, mortalidade, intoxicação e produção
+são públicos, e os registros da aplicação aérea são solicitáveis pela Lei de
+Acesso à Informação.
+
+\section{Organização do trabalho}
+
+O Capítulo~\ref{sec:politica} apresenta o contexto institucional: a lei, a
+Chapada e a prática proibida. O Capítulo~\ref{sec:literatura} revê a
+literatura. O Capítulo~\ref{sec:desenho} reconstrói a teoria da mudança da
+política e avalia o seu desenho. O Capítulo~\ref{sec:avaliacao} traz a
+estratégia empírica: parâmetro, identificação, estimador, amostra e dados. O
+Capítulo~\ref{sec:poder} traz o cálculo de poder. O Capítulo~\ref{sec:cb}
+esboça o segundo ensaio, de custo-benefício e escolha de instrumento. O
+Capítulo~\ref{sec:cronograma} apresenta o cronograma e os recursos, e o
+Capítulo~\ref{sec:conclusao}, as considerações finais.

@@ -1,4 +1,4 @@
-\section{O desenho da política e a sua teoria da mudança}
+\chapter{O desenho da política e a sua teoria da mudança}
 \label{sec:desenho}
 
 Avaliar o desenho de uma política é examinar a lógica que liga o problema, a
@@ -7,13 +7,32 @@ lógica pressupõe \cite{gertler2016}. A lei cearense não traz essa cadeia
 escrita; ela se reconstrói da justificativa do projeto de lei e do debate que o
 cercou.
 
-\subsection{A hipótese causal}
+\section{A hipótese causal}
 
 \emph{Se} a lei proíbe a aplicação por aeronave e a proibição é cumprida,
 \emph{então} cessa a deriva de fungicidas sobre comunidades e mananciais, o que
 reduz a exposição de gestantes e, ao final, melhora os desfechos de nascimento,
 contribuindo para reduzir a externalidade da fruticultura irrigada sobre a
 população do entorno.
+
+A Figura~\ref{fig:cadeia} resume a cadeia, e a Tabela~\ref{tab:tdm} a detalha.
+
+\begin{figure}[ht]
+\centering
+\caption{Cadeia de resultados da proibição}
+\label{fig:cadeia}
+\begin{tikzpicture}[>=Stealth, node distance=5mm,
+  cx/.style={draw, rounded corners=2pt, align=center, font=\footnotesize,
+             text width=2.25cm, minimum height=1.25cm, inner sep=2pt}]
+  \node[cx] (p) {Problema\\deriva sobre casas e água};
+  \node[cx, right=of p] (a) {Atividade\\lei veda a aplicação aérea};
+  \node[cx, right=of a] (o) {Produto\\cessam os voos};
+  \node[cx, right=of o] (i) {Resultado intermediário\\menor exposição};
+  \node[cx, right=of i] (r) {Resultado final\\melhor nascimento};
+  \draw[->] (p) -- (a); \draw[->] (a) -- (o); \draw[->] (o) -- (i); \draw[->] (i) -- (r);
+\end{tikzpicture}
+\fonte{Elaboração própria.}
+\end{figure}
 
 \begin{table}[ht]
 \centering\small
@@ -32,9 +51,10 @@ Resultado final, saúde & Maior peso ao nascer; menos prematuridade e perda feta
 Resultado final, economia & Custo de controle da doença; área e produção & PAM, RAIS & R: migração da produção para o estado vizinho \\
 \bottomrule
 \end{tabularx}
+\fonte{Elaboração própria.}
 \end{table}
 
-\subsection{Avaliação do desenho}
+\section{Avaliação do desenho}
 
 \paragraph{O problema está bem definido, mas o diagnóstico é anterior.} A
 carência que a lei enfrenta, a exposição involuntária de vizinhos, tem
@@ -62,7 +82,7 @@ entrou em vigor; a proibição foi cumprida; a mãe morava ao alcance da deriva,
 que a literatura situa em até 150 metros; e a gestação atravessou a estação de
 aplicação. Cada etapa reduz a parcela dos nascimentos que a política pode
 alcançar, e o efeito sobre a média municipal é o efeito sobre as expostas
-multiplicado por essa parcela. A Seção~\ref{sec:poder} faz a conta.
+multiplicado por essa parcela. A Capítulo~\ref{sec:poder} faz a conta.
 
 \paragraph{A fiscalização ficou mais simples.} A regra anterior exigia medir
 distâncias e condições de voo. A proibição total dispensa a medição. Essa
@@ -77,7 +97,7 @@ separar as duas. Se os voos não cessaram, a política falhou na implementação
 Se cessaram e a saúde ao nascer não mudou, falhou a teoria, ou o funil é
 estreito demais para que o efeito apareça na média.
 
-\subsection{Seis caminhos entre a lei e o nascimento}
+\section{Seis caminhos entre a lei e o nascimento}
 \label{sec:caminhos}
 
 A Figura~\ref{fig:dag} representa a cadeia como grafo causal. O que uma
@@ -86,6 +106,8 @@ todos os caminhos. Só um deles é a hipótese da política.
 
 \begin{figure}[ht]
 \centering
+\caption{Grafo causal resumido}
+\label{fig:dag}
 \begin{tikzpicture}[>=Stealth, node distance=7mm and 13mm,
   every node/.style={font=\footnotesize},
   obs/.style={draw, rounded corners=2pt, align=center, inner sep=3pt},
@@ -114,9 +136,7 @@ todos os caminhos. Só um deles é a hipótese da política.
   \draw[->] (X) -- (F);
   \draw[->, dashed] (G) -- (Y);
 \end{tikzpicture}
-\caption{Grafo causal resumido. Em traço grosso, o caminho-alvo. Caixas
-tracejadas: variáveis não observadas. Seta tracejada: ameaça à identificação.}
-\label{fig:dag}
+\fonte{Elaboração própria. Em traço grosso, o caminho-alvo. Caixas tracejadas: variáveis não observadas. Seta tracejada: ameaça à identificação.}
 \end{figure}
 
 \begin{enumerate}
