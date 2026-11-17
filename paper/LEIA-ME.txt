@@ -4,7 +4,7 @@ avaliação de impacto sobre a saúde ao nascer
 
 CONTEÚDO
   main.tex          preâmbulo (classe abnTeX2), capa, folha de rosto, ordem dos capítulos
-  secoes/           um arquivo por capítulo (00-resumo ... 06-cronograma, A-declaracoes)
+  secoes/           um arquivo por capítulo (00-resumo ... 06-cronograma, A-declaracoes, B-plano-de-analise)
   referencias.bib   só as referências citadas, todas conferidas
 
 COMO COMPILAR

@@ -20,7 +20,9 @@ meses sem documento, e se a ausência de documento é declarada pelo órgão com
 ausência de atividade ou como falta de arquivo.
 
 \textbf{Classificação.} Cada município e mês recebe uma de três categorias:
-\emph{voo}, quando há aplicação aérea registrada em ao menos uma fonte;
+\emph{voo}, quando há aplicação aérea declarada por operador ou constatada em
+fiscalização (prescrição aérea sem confirmação é registrada à parte, como
+indício);
 \emph{sem voo}, apenas quando a ausência é sustentada por cobertura suficiente,
 isto é, a fonte cobre o período e os operadores que atuavam na região e não
 registra aplicação; e \emph{sem registro}, em todos os demais casos. Lacuna não
@@ -50,10 +52,10 @@ desfechos: pertencer à mesma chapada ou ao seu entorno imediato; e
 características de linha de base (população, urbanização, estrutura agrária,
 presença de fruticultura irrigada, rede de saúde). Reporta-se a tabela de
 equilíbrio de linha de base entre tratados e controles e uma versão do
-contraste restrita aos municípios potiguares com fruticultura irrigada, mais
-expostos aos mesmos choques econômicos e fitossanitários do setor. Quando os
+contraste restrita aos municípios potiguares com fruticultura irrigada, presumivelmente mais expostos aos mesmos choques econômicos e fitossanitários do setor. Quando os
 registros permitirem, as localidades são classificadas pelo grau de exposição
-documentado, e não só pelo estado.
+documentado, para descrição e heterogeneidade, sem alterar a definição de
+tratados e controles.
 
 \section{Inferência: o que será verificado}
 
@@ -61,12 +63,14 @@ A unidade é o município. Mais nascimentos tornam mais precisa a média
 municipal, e não acrescentam realizações independentes de choques municipais ou
 estaduais. Se o erro tem um componente comum aos municípios de cada estado,
 $u_{it} = a_{s(i),t} + e_{it}$, o contraste entre Ceará e Rio Grande do Norte
-carrega a diferença entre os componentes estaduais, e placebos formados só entre
-municípios potiguares a cancelam.
+carrega a diferença entre os componentes estaduais; placebos formados só entre
+municípios potiguares cancelam o componente potiguar e não reproduzem essa
+diferença.
 
 Três objetos são tratados em separado: os $ATT(t)$ trimestrais, o efeito
 agregado do pós-período e, se usadas, as bandas simultâneas. Cada procedimento
-candidato é examinado para o mesmo parâmetro da Seção~\ref{sec:avaliacao}, com a
+candidato é examinado para o mesmo parâmetro das Seções~\ref{sec:parametro}
+e~\ref{sec:estimador}, com a
 mesma ponderação por nascimentos e a mesma estrutura temporal, quanto a: como os
 controles representam a distribuição dos choques dos tratados; que diferenças
 de variância admite; como trata dependência serial e entre municípios; e se é
@@ -101,8 +105,8 @@ cenário com os mesmos limites da Tabela~\ref{tab:emd}.
 \cmidrule(l){2-4}
 Fração de nascimentos expostos & 40 g & 80 g & 160 g \\
 \midrule
-0,8\% & 0,3 & 0,6 & 1,2 \\
-1,4\% & 0,6 & 1,2 & 2,3 \\
+0,8\% & 0,3 & 0,6 & 1,3 \\
+1,4\% & 0,6 & 1,1 & 2,2 \\
 2,8\% & 1,1 & 2,2 & 4,5 \\
 5\%   & 2,0 & 4,0 & 8,0 \\
 10\%  & 4,0 & 8,0 & 16,0 \\
@@ -111,13 +115,13 @@ Fração de nascimentos expostos & 40 g & 80 g & 160 g \\
 \end{tabular}
 \fonte{Elaboração própria. O valor de 80 gramas é o de
 \citeonline{calzada2023bananas}; 40 e 160 gramas são hipóteses, a metade e o
-dobro. As frações de 0,8\% a 2,8\% vêm da Seção~\ref{sec:poder}; as demais são
-hipóteses. Limites inferiores do efeito mínimo detectável, inalterados: 23,9 e
+dobro. As frações de 1,4\% e 2,8\% vêm da Seção~\ref{sec:poder}; 0,8\%
+corresponde a dezesseis nascimentos expostos em 2.078; as demais são hipóteses. Limites inferiores do efeito mínimo detectável, inalterados: 23,9 e
 18,0 gramas (nove anos de base) e 49,0 e 36,9 gramas (um ano de base).}
 \end{table}
 
 Com 80 gramas por nascimento exposto, o efeito de cenário só alcança o menor
-limite, de 18,0 gramas, se a fração exposta passar de 22\%. A grade não fixa um
+limite, de 18,0 gramas, se a fração exposta chegar a 22,5\%. A grade não fixa um
 teto para o efeito total da lei: o estudo equatoriano não distingue gradientes
 além de 150 metros naquele contexto, o que não determina o alcance da deriva
 para outras substâncias e condições, e a razão entre nascimentos expostos e área
@@ -130,8 +134,9 @@ de medida.
 perspectiva social, contra a situação sem a lei, no horizonte do pós-período
 observado.
 
-\textbf{Benefícios diretamente valoráveis.} Intoxicações e internações evitadas,
-valoradas pelo custo da doença. Cada episódio é contado uma vez: a internação
+\textbf{Saúde, desfechos diretamente valoráveis.} Variação em intoxicações e
+internações, com o sinal estimado (benefício ou custo), valorada pelo custo da
+doença. Cada episódio é contado uma vez: a internação
 que decorre de uma intoxicação notificada não se soma a ela.
 
 \textbf{Peso ao nascer.} Um ganho em gramas só tem valor monetário por meio de

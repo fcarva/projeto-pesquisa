@@ -2,6 +2,7 @@
 \label{sec:avaliacao}
 
 \section{Parâmetro e identificação}
+\label{sec:parametro}
 
 Seja $Y_{it}(1)$ o desfecho do município $i$ no trimestre $t$ sob a lei e
 $Y_{it}(0)$ o desfecho sem ela. O parâmetro é o efeito médio sobre os tratados,
@@ -32,7 +33,7 @@ simultânea se confunde com a lei.
 \toprule
 Ameaça & O que é aqui & Resposta do desenho \\
 \midrule
-Seca e choques comuns & Seca dos anos 2010; zika; pandemia & Mesma chapada e mesmo clima nos dois lados \\
+Seca e choques comuns & Seca dos anos 2010; zika; pandemia & Mesmo clima; simetria examinada nas tendências anteriores a 2019 \\
 Choque estadual & Política cearense de saúde próxima de 2019 & Diferença tripla; desenho de calendário \\
 Contaminação do controle & Deriva e aquífero cruzam a divisa & Direção do viés não garantida; sensibilidade sem os municípios da divisa \\
 Antecipação & Projeto de lei de 2015 & Sensibilidade com o período de base em 2014 \\
@@ -44,6 +45,7 @@ Seleção para nascer vivo & Menos perda fetal altera quem nasce & Óbito fetal,
 \end{table}
 
 \section{Estimador}
+\label{sec:estimador}
 
 O estimador é o de \citeonline{callaway2021multiple}, com uma única coorte
 tratada (2019) e os municípios potiguares como grupo nunca tratado. Ele entrega
@@ -64,18 +66,7 @@ registrada antes da estimação.
 
 \section{Amostra e dados}
 
-Os tratados são os municípios cearenses da Chapada: no núcleo, Limoeiro do Norte
-e Quixeré, que concentravam a aplicação por aeronave em 2006; na versão ampla,
-também Russas. Os controles são municípios potiguares da mesma chapada: parte-se
-dos vinte e um da delimitação proposta para a Região Integrada de
-Desenvolvimento da Chapada do Apodi, e a lista final segue critérios
-territoriais e produtivos fixados antes (Apêndice~\ref{ap:plano}), com
-sensibilidade restrita aos de fruticultura irrigada. O período principal vai de 2010 a 19 de dezembro de 2024. A unidade é o
-município de residência da mãe por trimestre. Não há amostragem: usa-se o
-universo dos nascimentos registrados, e as listas de municípios são fixadas
-antes de se examinar qualquer desfecho posterior a 2019.
-
-\begin{table}[ht]
+\begin{table}[!htb]
 \centering\small
 \caption{Variáveis e fontes}
 \label{tab:dados}
@@ -96,14 +87,26 @@ Heterogeneidade & Aeronave por tipo de agricultura; agricultura não familiar & 
 \fonte{Elaboração própria.}
 \end{table}
 
+Os tratados são os municípios cearenses da Chapada: no núcleo, Limoeiro do Norte
+e Quixeré, que concentravam a aplicação por aeronave em 2006; na versão ampla,
+também Russas. Os controles são municípios potiguares da mesma chapada: parte-se
+dos vinte e um da delimitação proposta para a Região Integrada de
+Desenvolvimento da Chapada do Apodi, e a lista final segue critérios
+territoriais e produtivos fixados antes (Apêndice~\ref{ap:plano}), com
+sensibilidade restrita aos de fruticultura irrigada. O período principal vai de 2010 a 19 de dezembro de 2024. A unidade é o
+município de residência da mãe por trimestre. Não há amostragem: usa-se o
+universo dos nascimentos registrados, e as listas de municípios são fixadas
+antes de se examinar qualquer desfecho posterior a 2019.
+
+
 \section{Robustez e mecanismos}
 \label{sec:robustez}
 
-\textbf{Diferença tripla.} Um choque estadual atinge o Ceará inteiro, e a lei só
-importa onde havia avião. Compara-se a Chapada com o restante de cada estado, e
+\textbf{Diferença tripla.} Um choque estadual atinge o Ceará inteiro, e o
+caminho-alvo só opera onde havia avião. Compara-se a Chapada com o restante de cada estado, e
 a diferença cearense com a potiguar. O restante do Ceará não é de todo isento:
 9 dos 36 estabelecimentos com aeronave em 2006 estavam fora de Limoeiro do Norte
-e Quixeré, o que atenua o contraste, e um choque próprio da fruticultura
+e Quixeré, o que pode enviesar o contraste, em direção não garantida, e um choque próprio da fruticultura
 irrigada não é absorvido por ele. A identificação exige uma hipótese de
 tendências paralelas sobre a diferença entre os dois contrastes
 \cite{olden2022triple}.
@@ -114,7 +117,7 @@ trimestre de gestação. Compara-se, dentro de cada município, a coorte de
 concepção cuja gestação inicial atravessa a estação de aplicação com as demais,
 antes e depois da lei, nos dois lados. A comparação absorve o que varia por
 município e ano, e exige que a diferença sazonal entre os dois lados fosse
-estável na ausência da lei. O desenho não aumenta o efeito esperado.
+estável na ausência da lei. O desenho não aumenta o efeito do cenário de referência.
 
 \textbf{Heterogeneidade.} O Censo de 2006 mostra que o avião era sobretudo de
 estabelecimentos não familiares. Testa-se se o efeito é maior onde a agricultura
@@ -132,8 +135,8 @@ da lei, haja ou não voo até 2018. Se os registros, com cobertura suficiente, d
 retomada, não haverá aplicação aérea em curso para a lei interromper em 2019.
 A avaliação da lei será mantida; a interrupção anterior poderá motivar estudo
 complementar, com identificação própria.
-Os critérios de cobertura e a regra de classificação são fixados antes de os
-registros serem abertos (Apêndice~\ref{ap:plano}).
+Os critérios de cobertura e a regra de classificação são fixados antes da
+leitura do conteúdo dos registros por município (Apêndice~\ref{ap:plano}).
 
 \section{Poder estatístico}
 \label{sec:poder}
@@ -149,8 +152,7 @@ planejamento, são perto de trinta nascimentos expostos por mil hectares e por
 ano; só com os geolocalizados, cerca de dezesseis. Para os mil hectares da
 Chapada toma-se o valor mais alto: trinta nascimentos expostos por ano, de 1.068 em Limoeiro do Norte e
 Quixeré, ou de 2.078 com Russas.\footnote{IBGE, Estatísticas do Registro Civil,
-tabela SIDRA 2609, média de 2010 a 2018; os vinte e um municípios de controle
-somam 8.874 nascimentos por ano.} A fração exposta fica entre 1,4\% e 2,8\%, e,
+tabela SIDRA 2609, média de 2010 a 2018; os vinte e um municípios da lista de partida dos controles somam 8.874 nascimentos por ano.} A fração exposta fica entre 1,4\% e 2,8\%, e,
 neste cenário de referência, o efeito na média fica entre um e dois gramas. Não
 é um teto para o efeito total da lei: outras distâncias, substâncias e durações
 de exposição dão outros cenários (Apêndice~\ref{ap:plano}).
@@ -191,7 +193,7 @@ pós-período; $\sigma$ e $\tau$ são hipóteses de planejamento.}
 O efeito do cenário de referência é de dez a trinta vezes menor que o limite
 inferior do efeito mínimo detectável, e nenhuma das especificações tem poder
 para detectá-lo na média municipal. A avaliação entrega, ainda assim, um limite para o efeito
-médio, a medida de quanto avião a lei removeu, a fração da população ao alcance
+médio, a medida de quanto avião havia antes da lei, a fração da população ao alcance
 da deriva e o comportamento dos demais elos da cadeia. O cálculo será refeito
 com os microdados do pré-período, por simulação que preserve o porte dos
 municípios e os choques comuns, para os parâmetros efetivamente estimados. O intervalo de confiança decide: o efeito
@@ -211,18 +213,18 @@ dos choques; a sensibilidade a tendências paralelas seguirá
 \citeonline{rambachan2023credible}. Os desfechos secundários recebem correção
 para comparações múltiplas.
 
-\section{Segundo ensaio: custo-benefício e escolha do instrumento}
+\section[Segundo ensaio: custo-benefício e instrumento]{Segundo ensaio: custo-benefício e escolha do instrumento}
 \label{sec:cb}
 
 O segundo ensaio usa os resultados do primeiro para duas perguntas. A primeira é
 uma avaliação parcial de custo-benefício, da perspectiva social, contra o
-contrafactual sem a lei e no horizonte do pós-período. Os benefícios são os
-desfechos diretamente valoráveis, intoxicações e internações, contados sem
-duplicar o mesmo episódio e valorados pelo custo da doença, na linha de
+contrafactual sem a lei e no horizonte do pós-período. O lado da saúde são os desfechos diretamente valoráveis, a variação em
+intoxicações e internações, contados sem duplicar o mesmo episódio, com o sinal estimado (benefício ou
+custo), e valorados pelo custo da doença, na linha de
 \citeonline{soares2009socialcost}. O custo real é o da substituição da
 tecnologia de aplicação; variações de produção e de emprego são reportadas como
-efeitos distributivos e não se somam a ele. O limiar em gramas será apresentado
-apenas em cenários que explicitem a relação entre mudança no peso,
+efeitos distributivos e não se somam a ele. O ganho de peso que igualaria benefícios e custos (limiar em gramas) será
+apresentado apenas em cenários que explicitem a relação entre mudança no peso,
 consequências clínicas e custos evitados; sem essa calibração, a avaliação
 ficará restrita aos desfechos diretamente valoráveis
 (Apêndice~\ref{ap:plano}). A segunda é a escolha do
