@@ -68,7 +68,7 @@ do desfecho principal (§3).
 | 5 | Unidade de tempo do estudo de evento | trimestre de nascimento (o mês é ralo com dois municípios); a rampa de 2019 se lê em trimestres | pesquisador |
 | 6 | Covariáveis de linha de base | população e urbanização (Censo 2010); participação da agricultura não familiar (Censo Agro 2017) | pesquisador |
 | 7 | Desfechos secundários e correção | baixo peso, duração da gestação, prematuridade, óbito fetal, razão de sexos, número de nascimentos; Holm | pesquisador |
-| 8 | Os dois cenários do primeiro estágio | se o registro do MAPA mostrar que o avião parou em 2012, o contraste principal passa a ser o de 2012 (`dag-identificacao.md` §5.4). Registrar **agora** a regra de decisão | orientador |
+| 8 | Os dois cenários do primeiro estágio | ⚠️ **Revisto em 2026-11-17 (decisão do pesquisador, após o parecer do refine.ink):** 2019 é a única avaliação da lei e estima o efeito total municipal, haja ou não voo até 2018. Se os registros, com cobertura suficiente, documentarem cessação anterior sem retomada, não havia aplicação aérea em curso para a lei interromper; a interrupção anterior pode motivar **estudo complementar, com identificação própria**, que não substitui a avaliação da lei. Critérios de cobertura e classificação voo / sem voo / sem registro: Apêndice B.1 do projeto. (Redação anterior: "o contraste principal passa a ser o de 2012".) | orientador |
 | 9 | Robustez | diferença tripla dentro de cada estado; calendário (quadra chuvosa); SDID | orientador |
 | 10 | Inferência | permutação entre municípios de controle; Conley & Taber; Ferman & Pinto | pesquisador |
 
