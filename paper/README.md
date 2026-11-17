@@ -1,23 +1,29 @@
 # `paper/` — o projeto de pesquisa
 
-> **Atualizado em 2026-11-16.** O documento em `main.tex` e `secoes/` é o
-> **projeto de avaliação de impacto** no desenho de fronteira (Chapada do
-> Apodi, CE × RN), organizado como avaliação de política pública: problema,
-> política, literatura, teoria da mudança, proposta de avaliação de impacto,
-> poder, custo-benefício e conclusão. Não traz resultado estimado.
+> **Atualizado em 2026-11-17.** `main.tex` e `secoes/` são o **projeto de
+> mestrado** (PPGEco/UFES, linha Métodos e Modelos Matemáticos, Econométricos e
+> Estatísticos): avaliação de impacto no desenho de fronteira (Chapada do Apodi,
+> CE × RN). Não traz resultado estimado.
 >
-> A versão anterior (desenho de dose, com diagnóstico de poder) está em
-> `arquivo-v1/` e o texto abaixo desta nota refere-se a ela.
->
-> Formato: classe abnTeX2 (NBR 15287, projeto de pesquisa), com capa, folha de
-> rosto, resumo e abstract, listas, sumário, cronograma e apêndice. A introdução
-> segue a fórmula de Head, via Bellemare: gancho, pergunta, antecedentes,
-> contribuição em três frentes, roteiro.
+> - **Extensão:** 15 páginas da Introdução ao Cronograma, que é o limite
+>   combinado. Capa, folha de rosto, resumo (só em português), sumário,
+>   referências e apêndice ficam fora da conta. Qualquer acréscimo exige corte.
+> - **Formato:** classe abnTeX2, NBR 15287 e guia de normalização do SIB/UFES
+>   (edição de 2015, conferida contra as orientações atuais da biblioteca):
+>   Arial/Helvetica 12, espaço 1,5, primária em caixa alta e negrito, secundária
+>   em caixa alta, orientador na nota da folha de rosto. Citações saem
+>   "(SOBRENOME, ano)"; a NBR 10520:2023 pede "(Sobrenome, ano)" e o abntex2cite
+>   não tem a opção. ⬜ Confirmar com o orientador.
+> - **Referências:** `referencias.bib` tem só as 22 citadas, todas conferidas em
+>   registro e conteúdo (`docs/verificacao-referencias-projeto.md`). A base de
+>   leituras completa está em `arquivo-v2-longo/referencias-completo.bib`.
+>   Referência nova só entra depois da mesma conferência.
+> - **Pacote:** `projeto-latex.zip` (derivado, fora do git) leva `main.tex`,
+>   `secoes/`, `referencias.bib` e `LEIA-ME.txt`; testado em pasta limpa.
+> - **Versões anteriores:** `arquivo-v2-longo/` (43 páginas, mesmo desenho) e
+>   `arquivo-v1/` (desenho de dose). O texto abaixo desta nota refere-se à v1.
 >
 > Compilar: `latexmk -pdf -interaction=nonstopmode -cd paper/main.tex`.
-> Decisões e fontes: `docs/framework-dissertacao.md`,
-> `docs/dag-identificacao.md`, `docs/pre-especificacao-v2.md`,
-> `docs/leituras-segunda-rodada.md`.
 
 ---
 

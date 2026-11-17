@@ -278,7 +278,7 @@ os trechos de resultados; o restante foi varrido por palavra-chave.
 Estudo de casos múltiplos na comunidade do Tomé (≈ 2.500 habitantes), campo em
 julho de 2017: 8 famílias, 11 crianças, 5 famílias com malformações e 3 com
 puberdade precoce. Sete das oito famílias tiveram o nascimento ou o diagnóstico
-depois de 2014. Sem grupo de comparação; a autora conclui por "fortes
+depois de 2014 [⚠️ corrigido em 2026-11-17: as crianças nasceram entre 2012 e 2015 (ago/2012, fev/2013, ago/2013, out/2014, nov/2014, jan/2015, set/2015); a família 7 teve gestações em 2000–2006]. Sem grupo de comparação; a autora conclui por "fortes
 evidências" por triangulação.
 
 *Pelo filtro.* É a razão de existir do projeto, e não é evidência causal. Dois

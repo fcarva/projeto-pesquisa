@@ -75,3 +75,18 @@ que foi aplicado e o que ficou aberto.
 - Rigotto et al. (2013): "doze municípios" de comparação (vem do parecer).
 - Número e desfecho do projeto de lei potiguar de 2019.
 - Fonte de financiamento, nas declarações.
+
+---
+
+## Fechamento de 2026-11-17 (versão de 15 páginas)
+
+- Texto condensado de 43 para 22 páginas (15 de texto); versão longa em
+  `paper/arquivo-v2-longo/`.
+- Normalização UFES aplicada (capa, folha de rosto, sumário, referências).
+- Verificação de referências, registro + conteúdo: `docs/verificacao-referencias-projeto.md`.
+- Revisão final independente: 19 achados, todos tratados menos o financiamento
+  (depende do autor). Principais: período de base contraditório na tabela de
+  ameaças; coluna da tabela de poder que não correspondia ao estimador; "dez
+  vezes menor" → "dez a trinta"; contagem de tratados; faixa da linha do tempo.
+- Abertos: caixa das citações (NBR 10520:2023); lei distrital de 1993; fonte
+  citável para os 21 municípios potiguares; financiamento.

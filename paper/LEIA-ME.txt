@@ -1,0 +1,36 @@
+PROJETO DE PESQUISA — pacote LaTeX
+A proibição da pulverização aérea de agrotóxicos no Ceará:
+avaliação de impacto sobre a saúde ao nascer
+
+CONTEÚDO
+  main.tex          preâmbulo (classe abnTeX2), capa, folha de rosto, ordem dos capítulos
+  secoes/           um arquivo por capítulo (00-resumo ... 06-cronograma, A-declaracoes)
+  referencias.bib   só as referências citadas, todas conferidas
+
+COMO COMPILAR
+  Overleaf: Novo projeto > Enviar projeto > escolher este .zip.
+            Compilador: pdfLaTeX. Documento principal: main.tex.
+  Local:    latexmk -pdf main.tex
+            (ou: pdflatex main; bibtex main; pdflatex main; pdflatex main)
+  Requer o pacote abntex2 (já vem no Overleaf, no TeX Live e no MiKTeX).
+
+ONDE EDITAR
+  Título, autor, orientador, cidade, ano e a nota da folha de rosto:
+      bloco "Dados do trabalho" em main.tex.
+  Texto: arquivos em secoes/.
+  Fonte: Arial/Helvetica 12 (pacote helvet). Para Times, apague as duas
+      linhas do helvet em main.tex.
+  Referência nova: acrescente a entrada em referencias.bib e cite com
+      \cite{chave} -> (AUTOR, ano)   ou   \citeonline{chave} -> Autor (ano).
+
+FORMATO
+  ABNT NBR 15287 (projeto de pesquisa) e guia de normalização do Sistema de
+  Bibliotecas da UFES: margens 3/3/2/2 cm, espaço 1,5, seção primária em
+  caixa alta e negrito, secundária em caixa alta, terciária em negrito.
+  Limite combinado: 15 páginas da Introdução ao Cronograma.
+
+PENDENTE DE DECISÃO DO AUTOR
+  - Financiamento: completar em secoes/A-declaracoes.tex.
+  - Citações saem como (SOBRENOME, ano), padrão do manual UFES de 2015.
+    A NBR 10520:2023 usa (Sobrenome, ano); o abntex2cite ainda não tem essa
+    opção. Confirmar com o orientador qual exigir.
