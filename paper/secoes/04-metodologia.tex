@@ -3,12 +3,14 @@
 
 \section{Parâmetro e identificação}
 
-Seja $Y_{it}(1)$ o desfecho do município $i$ no período $t$ sob a lei e
+Seja $Y_{it}(1)$ o desfecho do município $i$ no trimestre $t$ sob a lei e
 $Y_{it}(0)$ o desfecho sem ela. O parâmetro é o efeito médio sobre os tratados,
 \[
 ATT(t) = E\big[\,Y_{t}(1) - Y_{t}(0) \,\big|\, G = 2019\,\big], \qquad t \geq 2019,
 \]
-em que $G = 2019$ identifica os municípios cearenses da Chapada. É o efeito de
+em que $G = 2019$ identifica os municípios cearenses da Chapada, tratados a
+partir do primeiro trimestre de 2019, e a média é ponderada pelo número de
+nascimentos. É o efeito de
 estar sob a lei, por todos os caminhos da Figura~\ref{fig:dag}, no nível do
 município, e não o efeito de deixar de ser pulverizado.
 
@@ -33,7 +35,7 @@ Ameaça & O que é aqui & Resposta do desenho \\
 Seca e choques comuns & Seca de 2012--2017; zika; pandemia & Mesma chapada e mesmo clima nos dois lados \\
 Choque estadual & Política cearense de saúde próxima de 2019 & Diferença tripla; desenho de calendário \\
 Contaminação do controle & Deriva e aquífero cruzam a divisa & Viés contra achar efeito; sensibilidade sem os municípios da divisa \\
-Antecipação & Projeto de lei de 2015 & Período de base anterior a 2015 \\
+Antecipação & Projeto de lei de 2015 & Sensibilidade com o período de base em 2014 \\
 Mudança no controle & Drones no lado potiguar & Sensibilidade com o pós-período encurtado \\
 Seleção para nascer vivo & Menos perda fetal altera quem nasce & Óbito fetal, razão de sexos e número de nascimentos como desfechos \\
 \bottomrule
@@ -49,7 +51,7 @@ um $ATT(t)$ por período, e os períodos anteriores à lei servem de teste de
 tendência. Usa-se a versão duplamente robusta de \citeonline{santanna2020drdid},
 com covariáveis de linha de base (população e urbanização em 2010, participação
 da agricultura não familiar em 2017) e células ponderadas pelo número de
-nascimentos. Com dois ou três municípios tratados o ajuste por covariáveis tem
+nascimentos. Com dois municípios tratados no núcleo, e três com Russas, o ajuste por covariáveis tem
 pouco suporte, e por isso reporta-se também a versão sem covariáveis. Variáveis
 que a lei pode alterar, como pré-natal e tipo de parto, não entram.
 
@@ -61,8 +63,8 @@ registrada antes da estimação.
 \section{Amostra e dados}
 
 Os tratados são os municípios cearenses da Chapada: no núcleo, Limoeiro do Norte
-e Quixeré, os dois com aplicação por aeronave medida em 2006; na versão ampla,
-também Russas e os demais. Os controles são os vinte e um municípios potiguares
+e Quixeré, que concentravam a aplicação por aeronave em 2006; na versão ampla,
+também Russas. Os controles são os vinte e um municípios potiguares
 da delimitação proposta para a Região Integrada de Desenvolvimento da Chapada do
 Apodi. O período principal vai de 2010 a 19 de dezembro de 2024. A unidade é o
 município de residência da mãe por trimestre. Não há amostragem: usa-se o
@@ -95,7 +97,9 @@ Heterogeneidade & Aeronave por tipo de agricultura; agricultura não familiar & 
 
 \textbf{Diferença tripla.} Um choque estadual atinge o Ceará inteiro, e a lei só
 importa onde havia avião. Compara-se a Chapada com o restante de cada estado, e
-a diferença cearense com a potiguar. A identificação exige uma hipótese de
+a diferença cearense com a potiguar. O restante do Ceará não é de todo isento:
+9 dos 36 estabelecimentos com aeronave em 2006 estavam fora de Limoeiro do Norte
+e Quixeré, o que atenua o contraste. A identificação exige uma hipótese de
 tendências paralelas sobre a diferença entre os dois contrastes
 \cite{olden2022triple}.
 
@@ -119,7 +123,8 @@ produção e emprego; a composição, pelas características maternas.
 \textbf{Cenários do primeiro estágio.} Se os registros mostrarem voo até 2018, o
 contraste de 2019 mede o efeito de a lei remover a exposição. Se mostrarem que
 o lado cearense parou em 2012, com a seca, o contraste informativo é o de 2012,
-sob a hipótese adicional de que a seca afetou os dois lados por igual; o de 2019
+sob a hipótese adicional de que a seca afetou os dois lados por igual, e o
+pré-período recua a 2005; o de 2019
 passa a testar se a lei acrescentou algo. A regra é fixada antes de os registros
 serem abertos.
 
@@ -131,12 +136,14 @@ no peso ao nascer para filhos de mães que moram a até 150 metros de bananal
 fumigado. O efeito sobre a média municipal é esse valor multiplicado pela
 fração de nascimentos expostos. No Equador, 1,8\% dos nascimentos
 geocodificados estão a até 150 metros de um bananal, em mais de 186 mil hectares
-de plantações. Transposta essa densidade aos mil hectares da Chapada, chega-se a
-cerca de trinta nascimentos expostos por ano, de 1.068 em Limoeiro do Norte e
+de plantações. Essa densidade, de cerca de 0,03 nascimento exposto por hectare
+e por ano, transposta aos mil hectares da Chapada, dá cerca de trinta
+nascimentos expostos por ano, de 1.068 em Limoeiro do Norte e
 Quixeré, ou de 2.078 com Russas.\footnote{IBGE, Estatísticas do Registro Civil,
 tabela SIDRA 2609, média de 2010 a 2018; os vinte e um municípios de controle
 somam 8.874 nascimentos por ano.} A fração exposta fica entre 1,4\% e 2,8\%, e o
-efeito esperado na média, entre um e dois gramas.
+efeito esperado na média, no máximo entre um e dois gramas, pois o valor de
+referência é o da exposição intensa.
 
 Para o contraste entre a variação de tratados e de controles do pré-período ao
 pós-período,
@@ -149,7 +156,9 @@ em que $\sigma$ é o desvio-padrão individual do peso ao nascer, os $N$ são
 números de nascimentos, $\tau$ é o desvio-padrão dos choques comuns aos
 nascimentos de um município e $J$ é o número efetivo de municípios. A
 Tabela~\ref{tab:emd} dá o valor com $\tau = 0$, que é um limite inferior, para
-$\alpha = 5\%$, poder de 80\% e $\sigma = 500$ gramas.
+$\alpha = 5\%$, poder de 80\% e $\sigma = 500$ gramas. A coluna de base de
+um ano corresponde ao $ATT(t)$ de um período; a do pré-período agrupado, a um
+contraste agregado entre antes e depois.
 
 \begin{table}[ht]
 \centering\small
@@ -158,7 +167,7 @@ $\alpha = 5\%$, poder de 80\% e $\sigma = 500$ gramas.
 \label{tab:emd}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
-Grupo tratado & Nascimentos/ano & Pré agrupado (2010--2018) & Base de um ano \\
+Grupo tratado & Nasc./ano & Pré 2010--2018 & Base de um ano \\
 \midrule
 Limoeiro do Norte e Quixeré & 1.068 & 23,9 & 49,0 \\
 Com Russas                   & 2.078 & 18,0 & 36,9 \\
@@ -168,7 +177,7 @@ Com Russas                   & 2.078 & 18,0 & 36,9 \\
 pós-período; $\sigma$ e $\tau$ são hipóteses de planejamento.}
 \end{table}
 
-O efeito esperado é cerca de dez vezes menor que o limite inferior do efeito
+O efeito esperado é de dez a trinta vezes menor que o limite inferior do efeito
 mínimo detectável, e nenhuma das especificações tem poder para detectá-lo na
 média municipal. A avaliação entrega, ainda assim, um limite para o efeito
 médio, a medida de quanto avião a lei removeu, a fração da população ao alcance
