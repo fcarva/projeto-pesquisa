@@ -20,6 +20,9 @@
 >   Referência nova só entra depois da mesma conferência.
 > - **Pacote:** `projeto-latex.zip` (derivado, fora do git) leva `main.tex`,
 >   `secoes/`, `referencias.bib` e `LEIA-ME.txt`; testado em pasta limpa.
+> - **Parecer do refine.ink (2026-11-17):** respondido; tabela em
+>   `docs/revisao/resposta-refine-2026-11-17.md`. O detalhe novo está no
+>   Apêndice B (`secoes/B-plano-de-analise.tex`), fora das 15 páginas.
 > - **Versões anteriores:** `arquivo-v2-longo/` (43 páginas, mesmo desenho) e
 >   `arquivo-v1/` (desenho de dose). O texto abaixo desta nota refere-se à v1.
 >
