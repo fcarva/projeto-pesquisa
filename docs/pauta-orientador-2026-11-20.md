@@ -1,6 +1,6 @@
 # Pauta para o orientador — projeto de 20/11/2026
 
-Texto: `paper/main.pdf` (29 p.; 14 da Introdução ao Cronograma).
+Texto: `paper/main.pdf` (30 p.; 14 da Introdução ao Cronograma).
 
 1. **H4.** Passou de "o custo foi pequeno" para "a retirada do avião impôs custo de ajuste; área e
    produção de banana do grupo tratado caíram em relação ao controle". É a direção certa?
@@ -16,3 +16,8 @@ Texto: `paper/main.pdf` (29 p.; 14 da Introdução ao Cronograma).
 7. **Datas.** Qualificação no 1º semestre de 2027; defesa até 2027/4.
 8. **Forma.** Caixa das citações (NBR 10520:2023 × abntex2cite); financiamento; versão da ferramenta de
    IA na declaração (Portaria UFES 310/2026, art. 19).
+9. **Desfecho primário.** O peso ao nascer municipal fica como primário, lido como limite superior (o
+   desenho não detecta o efeito de referência). Manter, ou dar o primeiro plano ao primeiro estágio, às
+   intoxicações e ao ajuste produtivo?
+10. **Jaguaruana.** Um estabelecimento com aeronave em 2006: ficou fora do núcleo e da versão ampla, em
+    sensibilidade entre os tratados. De acordo?

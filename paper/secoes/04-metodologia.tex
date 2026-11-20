@@ -53,11 +53,12 @@ Seleção para nascer vivo & Menos perda fetal altera quem nasce & Óbito fetal,
 O estimador é o de diferenças em diferenças com estudo de evento: um $ATT(t)$
 por trimestre, em que os períodos anteriores à lei servem de teste de
 tendência. A lei tem uma única data para todo o grupo tratado, de modo que não
-há adoção escalonada a corrigir; a implementação de
-\citeonline{callaway2021multiple} é usada porque, com uma coorte e um grupo
-nunca tratado, entrega exatamente essa sequência de comparações de dois
-períodos e dois grupos, com período de base explícito e sem os pesos de uma
-regressão de efeitos fixos. Este contraste é o que sustenta a conclusão
+há adoção escalonada a corrigir. Com uma coorte e um grupo nunca tratado, o
+estudo de evento por efeitos fixos de município e de período estima o mesmo
+parâmetro, e os dois são reportados. A implementação de
+\citeonline{callaway2021multiple} é usada pelo que acrescenta: a versão
+duplamente robusta com covariáveis e a ponderação por nascimentos. Este
+contraste é o que sustenta a conclusão
 causal; os da Seção~\ref{sec:robustez} são secundários e não substituem o seu
 intervalo.
 Usa-se a versão duplamente robusta de \citeonline{santanna2020drdid},
@@ -98,7 +99,9 @@ Segundo evento & Operadores e aplicações por drone & Registros do Ministério 
 
 Os tratados são os municípios cearenses da Chapada: no núcleo, Limoeiro do Norte
 e Quixeré, que concentravam a aplicação por aeronave em 2006; na versão ampla,
-também Russas. Os controles são municípios potiguares da mesma chapada: parte-se
+também Russas. Jaguaruana, com um estabelecimento com aeronave em 2006, está
+sob a lei e não pode ser controle: fica fora das duas versões e entra numa
+sensibilidade que a inclui entre os tratados. Os controles são municípios potiguares da mesma chapada: parte-se
 dos vinte e um da delimitação proposta para a Região Integrada de
 Desenvolvimento da Chapada do Apodi, e a lista final segue critérios
 territoriais e produtivos fixados antes (Apêndice~\ref{ap:plano}), com
@@ -130,10 +133,10 @@ escolas e hospitais. É uma mudança estadual, simultânea e de sinal
 contrário ao da proibição, e por isso não entra na janela principal. O mesmo
 contraste é estendido ao período posterior, com os anos de proibição integral
 como base, para estimar o efeito da mudança de regime. A análise é
-condicional: depende de a adoção de drones ser medida nos dois lados da
-divisa, de dados consolidados de nascimento a partir de 2025 e de um
-pós-período ainda curto; e o tratamento deixa de ser absorvente, de modo que
-a hipótese de tendências paralelas passa a referir-se ao regime de proibição.
+condicional à medida da adoção de drones nos dois lados da divisa e a dados
+consolidados de nascimento a partir de 2025, que dificilmente estarão
+disponíveis no prazo desta dissertação: o mais provável é que ela fique
+descritiva (Apêndice~\ref{ap:plano}).
 
 \textbf{Diferença tripla.} Um choque estadual atinge o Ceará inteiro, e o
 caminho-alvo só opera onde havia avião. Compara-se a Chapada com o restante de cada estado, e
@@ -165,8 +168,10 @@ decomposição do efeito.
 \textbf{Primeiro estágio.} O contraste de 2019 estima o efeito total municipal
 da lei, haja ou não voo até 2018. Se os registros, com cobertura suficiente, documentarem cessação anterior sem
 retomada, não haverá aplicação aérea em curso para a lei interromper em 2019.
-A avaliação da lei será mantida; a interrupção anterior poderá motivar estudo
-complementar, com identificação própria.
+Nesse caso o $ATT$ de 2019 passa a ser lido como o efeito de impedir a
+retomada da prática, e não de interrompê-la, e H1 e H2 só se sustentam na
+medida em que a retomada fosse provável sem a lei. A avaliação da lei será mantida; a interrupção anterior
+poderá motivar estudo complementar, com identificação própria.
 Os critérios de cobertura e a regra de classificação são fixados antes da
 leitura do conteúdo dos registros por município (Apêndice~\ref{ap:plano}).
 
@@ -201,7 +206,8 @@ ficará restrita aos desfechos diretamente valoráveis
 instrumento, entre proibir, taxar e delimitar zonas de exclusão, organizada por
 \citeonline{weitzman1974}: a quantidade é preferível ao preço quando a curva
 de dano marginal é mais inclinada que a de custo marginal de reduzir a
-atividade, e o custo de ajuste da hipótese H4 informa o segundo termo. A comparação é condicional a hipóteses sobre
+atividade. O arcabouço organiza a discussão e não é calibrado: a proibição
+revela um ponto, o custo de eliminar o método, e não a inclinação da curva. A comparação é condicional a hipóteses sobre
 fiscalização, substituição tecnológica e dano marginal: o efeito estimado da
 lei não identifica o desempenho que os outros instrumentos teriam. Dois fatos brasileiros entram na discussão: a norma
 federal já previa distâncias mínimas para a aplicação aérea
