@@ -31,6 +31,8 @@ FORMATO
 
 PENDENTE DE DECISÃO DO AUTOR
   - Financiamento: completar em secoes/A-declaracoes.tex.
+  - Versão da ferramenta de IA: completar em secoes/A-declaracoes.tex
+    (Portaria Normativa UFES nº 310/2026, art. 19, § 1º).
   - Citações saem como (SOBRENOME, ano), padrão do manual UFES de 2015.
     A NBR 10520:2023 usa (Sobrenome, ano); o abntex2cite ainda não tem essa
     opção. Confirmar com o orientador qual exigir.

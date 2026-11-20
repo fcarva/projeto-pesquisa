@@ -9,21 +9,23 @@ $Y_{it}(0)$ o desfecho sem ela. O parâmetro é o efeito médio sobre os tratado
 \[
 ATT(t) = E\big[\,Y_{t}(1) - Y_{t}(0) \,\big|\, G = 2019\,\big], \qquad t \geq 2019,
 \]
-em que $G = 2019$ identifica os municípios cearenses da Chapada, tratados a
-partir do primeiro trimestre de 2019, e a média é ponderada pelo número de
+em que $G = 2019$ identifica o grupo tratado, os municípios cearenses da
+Chapada, sob a proibição a partir do primeiro trimestre de 2019, e a média é ponderada pelo número de
 nascimentos. É o efeito de
 estar sob a lei, por todos os caminhos da Figura~\ref{fig:dag}, no nível do
 município, e não o efeito de deixar de ser pulverizado.
 
-O contrafactual é construído com os municípios potiguares da Chapada, e a
+O contrafactual é construído com o grupo de controle, os municípios potiguares
+da Chapada, e a
 identificação apoia-se em quatro hipóteses: (i) tendências paralelas, isto é,
 sem a lei o desfecho dos municípios cearenses teria evoluído como o dos
 potiguares; (ii) ausência de antecipação antes do período de base; (iii)
 sobreposição, a examinar numa tabela de equilíbrio de linha de base; e (iv) o
 grupo de comparação não é afetado pela lei. A Tabela~\ref{tab:ameacas}
-confronta as ameaças com o que o desenho faz. A fronteira deixa uma delas
-aberta: todos os tratados estão no Ceará, de modo que uma mudança estadual
-simultânea se confunde com a lei.
+confronta as ameaças com o que o desenho faz. O contraste entre os dois lados
+da Chapada deixa uma delas aberta: todos os tratados estão no Ceará, de modo
+que uma mudança estadual simultânea se confunde com a lei. É para ela que serve
+o segundo contraste, dentro do Ceará (Seção~\ref{sec:robustez}).
 
 \begin{table}[ht]
 \centering\small
@@ -31,13 +33,14 @@ simultânea se confunde com a lei.
 \label{tab:ameacas}
 \begin{tabularx}{\textwidth}{@{}p{3.2cm}LL@{}}
 \toprule
-Ameaça & O que é aqui & Resposta do desenho \\
+Ameaça & Como aparece no caso & Resposta do desenho \\
 \midrule
 Seca e choques comuns & Seca dos anos 2010; zika; pandemia & Mesmo clima; simetria examinada nas tendências anteriores a 2019 \\
-Choque estadual & Política cearense de saúde próxima de 2019 & Diferença tripla; desenho de calendário \\
+Choque estadual & Política cearense de saúde próxima de 2019 & Segundo contraste, com municípios cearenses de agricultura familiar; diferença tripla; calendário \\
 Contaminação do controle & Deriva e aquífero cruzam a divisa & Direção do viés não garantida; sensibilidade sem os municípios da divisa \\
 Antecipação & Projeto de lei de 2015 & Sensibilidade com o período de base em 2014 \\
 Mudança no controle & Eventual adoção de drones no lado potiguar & Sensibilidade com o pós-período encurtado \\
+Mudança de regime & Exceção cearense para drones em 12/2024 & Janela principal encerrada em 19/12/2024; segundo evento analisado à parte \\
 Seleção para nascer vivo & Menos perda fetal altera quem nasce & Óbito fetal, razão de sexos e número de nascimentos como desfechos \\
 \bottomrule
 \end{tabularx}
@@ -47,11 +50,16 @@ Seleção para nascer vivo & Menos perda fetal altera quem nasce & Óbito fetal,
 \section{Estimador}
 \label{sec:estimador}
 
-O estimador é o de \citeonline{callaway2021multiple}, com uma única coorte
-tratada (2019) e os municípios potiguares como grupo nunca tratado. Ele entrega
-um $ATT(t)$ por período, e os períodos anteriores à lei servem de teste de
-tendência. Este contraste de fronteira é o que sustenta a conclusão causal; os
-da Seção~\ref{sec:robustez} são secundários e não substituem o seu intervalo.
+O estimador é o de diferenças em diferenças com estudo de evento: um $ATT(t)$
+por trimestre, em que os períodos anteriores à lei servem de teste de
+tendência. A lei tem uma única data para todo o grupo tratado, de modo que não
+há adoção escalonada a corrigir; a implementação de
+\citeonline{callaway2021multiple} é usada porque, com uma coorte e um grupo
+nunca tratado, entrega exatamente essa sequência de comparações de dois
+períodos e dois grupos, com período de base explícito e sem os pesos de uma
+regressão de efeitos fixos. Este contraste é o que sustenta a conclusão
+causal; os da Seção~\ref{sec:robustez} são secundários e não substituem o seu
+intervalo.
 Usa-se a versão duplamente robusta de \citeonline{santanna2020drdid},
 com covariáveis de linha de base (população e urbanização em 2010, participação
 da agricultura não familiar em 2017) e células ponderadas pelo número de
@@ -81,7 +89,8 @@ Primeiro estágio & Área aplicada por avião, por município e mês & Relatóri
 Substituição & Modalidade de aplicação receitada & Receituário agronômico (acesso à informação) \\
 Exposição ocupacional & Intoxicação não intencional por agrotóxico & SINAN; SIH \\
 Economia & Área, produção e valor da banana; emprego formal & PAM; RAIS \\
-Heterogeneidade & Aeronave por tipo de agricultura; agricultura não familiar & Censo Agropecuário 2006 e 2017 \\
+Heterogeneidade e segundo contraste & Aeronave por tipo de agricultura; agricultura não familiar & Censo Agropecuário 2006 e 2017 \\
+Segundo evento & Operadores e aplicações por drone & Registros do Ministério da Agricultura \\
 \bottomrule
 \end{tabularx}
 \fonte{Elaboração própria.}
@@ -93,7 +102,7 @@ também Russas. Os controles são municípios potiguares da mesma chapada: parte
 dos vinte e um da delimitação proposta para a Região Integrada de
 Desenvolvimento da Chapada do Apodi, e a lista final segue critérios
 territoriais e produtivos fixados antes (Apêndice~\ref{ap:plano}), com
-sensibilidade restrita aos de fruticultura irrigada. O período principal vai de 2010 a 19 de dezembro de 2024. A unidade é o
+sensibilidade restrita aos de fruticultura irrigada. O período principal vai de 2010 a 19 de dezembro de 2024, véspera da exceção para drones. A unidade é o
 município de residência da mãe por trimestre. Não há amostragem: usa-se o
 universo dos nascimentos registrados, e as listas de municípios são fixadas
 antes de se examinar qualquer desfecho posterior a 2019.
@@ -101,6 +110,30 @@ antes de se examinar qualquer desfecho posterior a 2019.
 
 \section{Robustez e mecanismos}
 \label{sec:robustez}
+
+\textbf{Segundo contraste: agricultura familiar.} O avião era da agricultura
+não familiar (Tabela~\ref{tab:censo}), e municípios cearenses de agricultura
+familiar, sem aplicação por aeronave na linha de base, estão sob a mesma lei e
+os mesmos choques estaduais sem ter o que a lei retirar. Comparam-se os
+municípios cearenses da Chapada com esse grupo, que repete a comparação de
+\citeonline{rigotto2013trends}. A lista é fixada por regra anterior aos
+desfechos (Apêndice~\ref{ap:plano}). O contraste absorve o choque estadual que
+a comparação com o lado potiguar deixa aberto, e paga com a distância
+produtiva: sequeiro e irrigado diferem em nível, e a hipótese é só de
+tendência. A leitura é conjunta: efeito no contraste principal e ausência dele
+entre a agricultura familiar e o lado potiguar é o padrão compatível com H1 e
+H2.
+
+\textbf{Segundo evento: drones.} A Lei nº~19.135 reabre, em dezembro de 2024,
+a aplicação aérea por drone, a até dois metros da copa e a trinta metros de
+escolas e hospitais. É uma mudança estadual, simultânea e de sinal
+contrário ao da proibição, e por isso não entra na janela principal. O mesmo
+contraste é estendido ao período posterior, com os anos de proibição integral
+como base, para estimar o efeito da mudança de regime. A análise é
+condicional: depende de a adoção de drones ser medida nos dois lados da
+divisa, de dados consolidados de nascimento a partir de 2025 e de um
+pós-período ainda curto; e o tratamento deixa de ser absorvente, de modo que
+a hipótese de tendências paralelas passa a referir-se ao regime de proibição.
 
 \textbf{Diferença tripla.} Um choque estadual atinge o Ceará inteiro, e o
 caminho-alvo só opera onde havia avião. Compara-se a Chapada com o restante de cada estado, e
@@ -117,11 +150,10 @@ trimestre de gestação. Compara-se, dentro de cada município, a coorte de
 concepção cuja gestação inicial atravessa a estação de aplicação com as demais,
 antes e depois da lei, nos dois lados. A comparação absorve o que varia por
 município e ano, e exige que a diferença sazonal entre os dois lados fosse
-estável na ausência da lei. O desenho não aumenta o efeito do cenário de referência.
+estável na ausência da lei. 
 
-\textbf{Heterogeneidade.} O Censo de 2006 mostra que o avião era sobretudo de
-estabelecimentos não familiares. Testa-se se o efeito é maior onde a agricultura
-não familiar pesa mais.
+\textbf{Heterogeneidade.} Dentro de cada contraste, testa-se se o efeito é
+maior onde a agricultura não familiar pesa mais.
 
 \textbf{Mecanismos.} A substituição de tecnologia mede-se pelo receituário e
 pelos registros de operadores; a exposição ocupacional, pelas intoxicações não
@@ -137,68 +169,6 @@ A avaliação da lei será mantida; a interrupção anterior poderá motivar est
 complementar, com identificação própria.
 Os critérios de cobertura e a regra de classificação são fixados antes da
 leitura do conteúdo dos registros por município (Apêndice~\ref{ap:plano}).
-
-\section{Poder estatístico}
-\label{sec:poder}
-
-O efeito de referência é o de \citeonline{calzada2023bananas}: 80 gramas a menos
-no peso ao nascer para filhos de mães que moram a até 150 metros de bananal
-fumigado. O efeito sobre a média municipal é esse valor multiplicado pela
-fração de nascimentos expostos. No Equador, 8.865 dos 495.887 nascimentos
-geolocalizados de 2015 a 2017 foram classificados como expostos (1,8\%, cálculo
-próprio com os números do artigo e do seu documento de trabalho), em mais de 186 mil hectares de plantações.
-Supondo a mesma proporção em cerca de 300 mil nascimentos anuais, hipótese de
-planejamento, são perto de trinta nascimentos expostos por mil hectares e por
-ano; só com os geolocalizados, cerca de dezesseis. Para os mil hectares da
-Chapada toma-se o valor mais alto: trinta nascimentos expostos por ano, de 1.068 em Limoeiro do Norte e
-Quixeré, ou de 2.078 com Russas.\footnote{IBGE, Estatísticas do Registro Civil,
-tabela SIDRA 2609, média de 2010 a 2018; os vinte e um municípios da lista de partida dos controles somam 8.874 nascimentos por ano.} A fração exposta fica entre 1,4\% e 2,8\%, e,
-neste cenário de referência, o efeito na média fica entre um e dois gramas. Não
-é um teto para o efeito total da lei: outras distâncias, substâncias e durações
-de exposição dão outros cenários (Apêndice~\ref{ap:plano}).
-
-Para o contraste entre a variação de tratados e de controles do pré-período ao
-pós-período,
-\[
-EMD = (z_{1-\alpha/2} + z_{1-\beta})
-\sqrt{\sigma^2\Big(\tfrac{1}{N_{T}^{\text{pré}}} + \tfrac{1}{N_{T}^{\text{pós}}} +
-\tfrac{1}{N_{C}^{\text{pré}}} + \tfrac{1}{N_{C}^{\text{pós}}}\Big) + 2\,\tau^2\Big(\tfrac{1}{J_T}+\tfrac{1}{J_C}\Big)},
-\]
-em que $\sigma$ é o desvio-padrão individual do peso ao nascer, os $N$ são
-números de nascimentos, $\tau$ é o desvio-padrão dos choques comuns aos
-nascimentos de um município e $J$ é o número efetivo de municípios. A
-Tabela~\ref{tab:emd} dá o valor com $\tau = 0$, que é um limite inferior, para
-$\alpha = 5\%$, poder de 80\% e $\sigma = 500$ gramas. As duas colunas
-referem-se a contrastes agregados: nove anos ou um ano de base contra seis anos
-posteriores. Não representam o EMD de um ATT trimestral, cujo poder será
-avaliado separadamente.
-
-\begin{table}[ht]
-\centering\small
-\caption{Limite inferior do efeito mínimo detectável sobre o peso ao nascer
-(gramas)}
-\label{tab:emd}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-Grupo tratado & Nasc./ano & Pré 2010--2018 & Base de um ano \\
-\midrule
-Limoeiro do Norte e Quixeré & 1.068 & 23,9 & 49,0 \\
-Com Russas                   & 2.078 & 18,0 & 36,9 \\
-\bottomrule
-\end{tabular}
-\fonte{Elaboração própria. Considera só o erro amostral, com seis anos de
-pós-período; $\sigma$ e $\tau$ são hipóteses de planejamento.}
-\end{table}
-
-O efeito do cenário de referência é de dez a trinta vezes menor que o limite
-inferior do efeito mínimo detectável, e nenhuma das especificações tem poder
-para detectá-lo na média municipal. A avaliação entrega, ainda assim, um limite para o efeito
-médio, a medida de quanto avião havia antes da lei, a fração da população ao alcance
-da deriva e o comportamento dos demais elos da cadeia. O cálculo será refeito
-com os microdados do pré-período, por simulação que preserve o porte dos
-municípios e os choques comuns, para os parâmetros efetivamente estimados. O intervalo de confiança decide: o efeito
-mínimo detectável é instrumento de planejamento e não rebaixa nem promove,
-depois, um resultado.
 
 \section{Inferência}
 
@@ -229,9 +199,15 @@ consequências clínicas e custos evitados; sem essa calibração, a avaliação
 ficará restrita aos desfechos diretamente valoráveis
 (Apêndice~\ref{ap:plano}). A segunda é a escolha do
 instrumento, entre proibir, taxar e delimitar zonas de exclusão, organizada por
-\citeonline{weitzman1974}. A comparação é condicional a hipóteses sobre
+\citeonline{weitzman1974}: a quantidade é preferível ao preço quando a curva
+de dano marginal é mais inclinada que a de custo marginal de reduzir a
+atividade, e o custo de ajuste da hipótese H4 informa o segundo termo. A comparação é condicional a hipóteses sobre
 fiscalização, substituição tecnológica e dano marginal: o efeito estimado da
 lei não identifica o desempenho que os outros instrumentos teriam. Dois fatos brasileiros entram na discussão: a norma
 federal já previa distâncias mínimas para a aplicação aérea
-\cite{olivete2025}, e o instrumento de
-preço opera hoje como subsídio \cite{cunha2020incentivos}.
+\cite{mapa2008in2}, e o instrumento de
+preço opera hoje como subsídio \cite{cunha2020incentivos}. O imposto a
+comparar é o diferenciado pelo risco do produto, como recomenda a experiência
+europeia \cite{finger2017taxation} e como propunham os votos vencidos no
+Supremo que graduavam o benefício fiscal pela toxicidade
+\cite{stf2025adi5553}.

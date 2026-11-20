@@ -75,3 +75,24 @@ distributivos) valem se voltarem ao texto.
 
 - Gancho e parágrafo da proibição reescritos só com fatos já conferidos: Marinho et al. (p. 169, 171–174), Teixeira (p. 535), Agência Brasil (relato de 2007, citação de Raquel Rigotto) e o PL 18/2015. A regra para drones (2 m da copa, 30 m de escolas e hospitais) vem do texto da Lei 19.135/2024.
 - A ADI 7794 não foi mencionada: a petição não foi obtida.
+
+## Acrescentadas em 2026-11-20 (revisão pelos comentários do autor)
+
+A versão de 20/11 cita **34 chaves**: as 23 acima e as 11 abaixo.
+
+| chave | registro | conteúdo conferido por | o que sustenta no texto |
+|---|---|---|---|
+| seixas2022gm | Crossref (10.3389/fbioe.2022.977793) | resumo do artigo (PubMed e página da revista) | −22% de inseticidas no algodão resistente a insetos; +55,8% de herbicidas na soja tolerante; aumento do impacto ambiental por substituição fraca |
+| finger2017taxation | Crossref (10.1016/j.ecolecon.2016.12.001) | conclusões na página da revista | impostos diferenciados pelo risco do produto |
+| bocker2016taxes | Crossref (10.3390/su8040378) | resumo oficial | França, Dinamarca, Noruega e Suécia; efeito limitado salvo alíquota alta; diferenciados superiores |
+| reynier2025glyphosate | Crossref (10.1073/pnas.2413013121) | texto integral (leitura registrada em `docs/ars/13`) | −23 a −32 g; gestação mais curta |
+| larsen2017agricultural | Crossref (10.1038/s41467-017-00349-2) | resumo oficial (registro em `docs/referencias-verificadas.md`) | 5% a 9% de aumento em desfechos adversos só no topo da exposição |
+| cunningham2021mixtape | Crossref (10.2307/j.ctv1c29t27; ISBN 9780300251685) | ⚠️ leitura registrada no ramo `vibrant-hopper` (doc 22 §4), 1ª edição | mostrar o efeito da política sobre o tratamento antes do desfecho; conhecimento institucional no desenho |
+| stf2023adi6137 | notícia oficial do STF, 30/05/2023 | texto integral da notícia e ementa na pesquisa de jurisprudência | unanimidade; competência estadual para norma mais protetiva; restrição razoável e proporcional; prevenção e precaução |
+| stf2025adi5553 | notícia oficial do STF, 18/12/2025 | texto integral da notícia e decisão no andamento do processo | improcedência por maioria; votos vencidos (procedência; procedência parcial com gradação por toxicidade) |
+| mapa2008in2 | texto no portal do Ministério | art. 10, inciso I, alíneas a e b | 500 m de povoações e mananciais de captação; 250 m de mananciais e moradias isoladas |
+| alrn2019pl | notícia da Assembleia Legislativa do RN, 01/11/2019 | texto integral da notícia | projeto de proibição apresentado em 2019 (o texto **não** afirma o desfecho) |
+| ufes2026ia | PDF da portaria no sítio da STI/UFES | art. 19 e parágrafos | declaração de uso de IA em apêndice |
+
+Não entraram, por falta de conteúdo conferido: Böcker et al. (2020), Bucher & Seixas (2026), Terra de
+Direitos (2022). A transcrição automática da sessão do STF de 05/11/2025 não é citada.

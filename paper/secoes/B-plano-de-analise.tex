@@ -1,7 +1,7 @@
 \chapter{Plano de análise}
 \label{ap:plano}
 
-Este apêndice detalha cinco pontos que o corpo do projeto apenas enuncia. Nada
+Este apêndice detalha sete pontos que o corpo do projeto apenas enuncia. Nada
 aqui é resultado: são regras e estruturas a fixar antes do contato com os dados
 posteriores a 2019.
 
@@ -57,6 +57,28 @@ registros permitirem, as localidades são classificadas pelo grau de exposição
 documentado, para descrição e heterogeneidade, sem alterar a definição de
 tratados e controles.
 
+\textbf{Segundo contraste.} Os municípios cearenses de agricultura familiar
+são escolhidos por regra, antes de qualquer desfecho posterior a 2019: nenhum
+estabelecimento com aplicação por aeronave no Censo Agropecuário de 2006;
+participação da agricultura familiar na área, em 2017, acima de um limiar
+fixado na pré-especificação; localização no semiárido cearense, fora da
+Chapada; e porte populacional na faixa dos tratados. A regra parte da
+comparação de \citeonline{rigotto2013trends}. A tabela de equilíbrio é
+reportada para os três grupos, e o contraste entre os municípios de
+agricultura familiar e os potiguares, que não deve mostrar efeito, é
+reportado como verificação.
+
+\section{Segundo evento: a exceção para drones}
+
+A extensão ao período posterior a 19 de dezembro de 2024 só é estimada se três
+condições forem atendidas: registros que meçam operadores e aplicações por
+drone nos dois lados da divisa; nascimentos consolidados de ao menos dois anos
+posteriores; e ausência de mudança potiguar na regra da aplicação aérea no
+mesmo período. O parâmetro é o efeito de passar da proibição integral à
+proibição com exceção, com base nos anos de 2019 a 2024, e não se soma ao
+efeito da proibição. Não atendidas as condições, a análise é descrita e não
+estimada.
+
 \section{Inferência: o que será verificado}
 
 A unidade é o município. Mais nascimentos tornam mais precisa a média
@@ -85,6 +107,68 @@ fonte de incerteza não puder ser representada pelos dados de controle, os
 intervalos são apresentados como condicionais a uma restrição explícita sobre
 ela, ou acompanhados de sensibilidade a cenários de choque estadual. A mesma
 estrutura serve para simular o poder dos parâmetros efetivamente estimados.
+
+\section{Poder estatístico: cenário de referência}
+\label{sec:poder}
+
+O efeito de referência é o de \citeonline{calzada2023bananas}: 80 gramas a menos
+no peso ao nascer para filhos de mães que moram a até 150 metros de bananal
+fumigado. O efeito sobre a média municipal é esse valor multiplicado pela
+fração de nascimentos expostos. No Equador, 8.865 dos 495.887 nascimentos
+geolocalizados de 2015 a 2017 foram classificados como expostos (1,8\%, cálculo
+próprio com os números do artigo e do seu documento de trabalho), em mais de 186 mil hectares de plantações.
+Supondo a mesma proporção em cerca de 300 mil nascimentos anuais, hipótese de
+planejamento, são perto de trinta nascimentos expostos por mil hectares e por
+ano; só com os geolocalizados, cerca de dezesseis. Para os mil hectares da
+Chapada toma-se o valor mais alto: trinta nascimentos expostos por ano, de 1.068 em Limoeiro do Norte e
+Quixeré, ou de 2.078 com Russas.\footnote{IBGE, Estatísticas do Registro Civil,
+tabela SIDRA 2609, média de 2010 a 2018; os vinte e um municípios da lista de partida dos controles somam 8.874 nascimentos por ano.} A fração exposta fica entre 1,4\% e 2,8\%, e,
+neste cenário de referência, o efeito na média fica entre um e dois gramas. Não
+é um teto para o efeito total da lei: outras distâncias, substâncias e durações
+de exposição dão outros cenários (Apêndice~\ref{ap:plano}).
+
+Para o contraste entre a variação de tratados e de controles do pré-período ao
+pós-período,
+\[
+EMD = (z_{1-\alpha/2} + z_{1-\beta})
+\sqrt{\sigma^2\Big(\tfrac{1}{N_{T}^{\text{pré}}} + \tfrac{1}{N_{T}^{\text{pós}}} +
+\tfrac{1}{N_{C}^{\text{pré}}} + \tfrac{1}{N_{C}^{\text{pós}}}\Big) + 2\,\tau^2\Big(\tfrac{1}{J_T}+\tfrac{1}{J_C}\Big)},
+\]
+em que $\sigma$ é o desvio-padrão individual do peso ao nascer, os $N$ são
+números de nascimentos, $\tau$ é o desvio-padrão dos choques comuns aos
+nascimentos de um município e $J$ é o número efetivo de municípios. A
+Tabela~\ref{tab:emd} dá o valor com $\tau = 0$, que é um limite inferior, para
+$\alpha = 5\%$, poder de 80\% e $\sigma = 500$ gramas. As duas colunas
+referem-se a contrastes agregados: nove anos ou um ano de base contra seis anos
+posteriores. Não representam o EMD de um ATT trimestral, cujo poder será
+avaliado separadamente.
+
+\begin{table}[ht]
+\centering\small
+\caption{Limite inferior do efeito mínimo detectável sobre o peso ao nascer
+(gramas)}
+\label{tab:emd}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Grupo tratado & Nasc./ano & Pré 2010--2018 & Base de um ano \\
+\midrule
+Limoeiro do Norte e Quixeré & 1.068 & 23,9 & 49,0 \\
+Com Russas                   & 2.078 & 18,0 & 36,9 \\
+\bottomrule
+\end{tabular}
+\fonte{Elaboração própria. Considera só o erro amostral, com seis anos de
+pós-período; $\sigma$ e $\tau$ são hipóteses de planejamento.}
+\end{table}
+
+O efeito do cenário de referência é de dez a trinta vezes menor que o limite
+inferior do efeito mínimo detectável, e nenhuma das especificações tem poder
+para detectá-lo na média municipal. A avaliação entrega, ainda assim, um limite para o efeito
+médio, a medida de quanto avião havia antes da lei, a fração da população ao alcance
+da deriva e o comportamento dos demais elos da cadeia. O cálculo será refeito
+com os microdados do pré-período, por simulação que preserve o porte dos
+municípios e os choques comuns, para os parâmetros efetivamente estimados. O intervalo de confiança decide: o efeito
+mínimo detectável é instrumento de planejamento e não rebaixa nem promove,
+depois, um resultado.
 
 \section{Cenários de exposição e efeito mínimo detectável}
 

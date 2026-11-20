@@ -1,6 +1,9 @@
 # `paper/` — o projeto de pesquisa
 
-> **Atualizado em 2026-11-17.** `main.tex` e `secoes/` são o **projeto de
+> **Atualizado em 2026-11-20** (revisão pelos comentários do autor:
+> `docs/revisao/resposta-comentarios-autor-2026-11-20.md`; está em **14 páginas**
+> da Introdução ao Cronograma, com 34 referências; poder estatístico no
+> Apêndice B.5; segundo contraste e segundo evento na §4.4). `main.tex` e `secoes/` são o **projeto de
 > mestrado** (PPGEco/UFES, linha Métodos e Modelos Matemáticos, Econométricos e
 > Estatísticos): avaliação de impacto no desenho de fronteira (Chapada do Apodi,
 > CE × RN). Não traz resultado estimado.
@@ -14,7 +17,7 @@
 >   em caixa alta, orientador na nota da folha de rosto. Citações saem
 >   "(SOBRENOME, ano)"; a NBR 10520:2023 pede "(Sobrenome, ano)" e o abntex2cite
 >   não tem a opção. ⬜ Confirmar com o orientador.
-> - **Referências:** `referencias.bib` tem só as 22 citadas, todas conferidas em
+> - **Referências:** `referencias.bib` tem só as 34 citadas, todas conferidas em
 >   registro e conteúdo (`docs/verificacao-referencias-projeto.md`). A base de
 >   leituras completa está em `arquivo-v2-longo/referencias-completo.bib`.
 >   Referência nova só entra depois da mesma conferência.
