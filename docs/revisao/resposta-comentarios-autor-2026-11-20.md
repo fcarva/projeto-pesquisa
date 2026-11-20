@@ -34,9 +34,9 @@ indefinida, zero *overfull*.
 
 | # | p. | comentário (resumo) | o que foi feito | estado |
 |---|---|---|---|---|
-| 1 | 2 | título com cara de *working paper* | "Proibir o avião: a vedação da pulverização aérea de agrotóxicos no Ceará e os desfechos perinatais" | atendido; alternativas na pauta |
+| 1 | 2 | título com cara de *working paper* | título **mantido** ("A proibição da pulverização aérea de agrotóxicos no Ceará: avaliação de impacto sobre a saúde ao nascer"), por decisão do autor: é o firmado com o orientador. Só o título conserva "saúde ao nascer"; o corpo usa "desfechos perinatais" | não aplicado, por decisão do autor |
 | 2 | 3 | só bananais? prefiro fruticultura de exportação | "polo de fruticultura irrigada de exportação em que a banana era pulverizada por avião" | atendido em parte (as fontes só documentam banana) |
-| 3 | 3 | por que não impactos perinatais? | "desfechos perinatais" em título, resumo, pergunta, objetivos, H1, palavras-chave | atendido |
+| 3 | 3 | por que não impactos perinatais? | "desfechos perinatais" em resumo, pergunta, objetivos, H1, palavras-chave | atendido |
 | 4 | 3 | adjetivar só quando necessário ("na fronteira") | "diferenças em diferenças", sem adjetivo | atendido |
 | 5 | 3 | economia agrícola mais funda no segundo ensaio | resumo: o avião como tecnologia de produção, ajuste dos produtores, comparação de instrumentos | atendido |
 | 6 | 5 | gancho não é AER | abre pela externalidade de uma técnica (ganho do produtor, deriva para o vizinho); saem galinhas, varal e contagem de voos | atendido |
@@ -79,7 +79,7 @@ que se faz se os voos tiverem cessado antes (está na §4.4).
 
 ## Abertos
 
-- H4 (redação do autor); título; versão do modelo de IA e financiamento no Apêndice A.
+- H4 (redação do autor); versão do modelo de IA e financiamento no Apêndice A.
 - Referências que **não** entraram por falta de conteúdo conferido: Böcker et al. (2020, proibição do
   glifosato — o Crossref não tem resumo); Bucher & Seixas (2026); Terra de Direitos (2022); fonte de
   geologia da Chapada; estimador para tratamento não absorvente (drones).
